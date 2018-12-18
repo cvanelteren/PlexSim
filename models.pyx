@@ -351,6 +351,7 @@ cdef class Model: # see pxd
             self._states   [:] = value
         elif isinstance(value, np.ndarray) or isinstance(value, list):
             assert len(value) == self.nNodes
+            value = np.asarray(value) # enforce
             self._newstates = value
             self._states    = value
     # TODOL move this back ^
