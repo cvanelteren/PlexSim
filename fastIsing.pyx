@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # cython: infer_types=True
 # distutils: language=c++
 # -*- coding: utf-8 -*-

@@ -10,6 +10,7 @@ import copy
 cimport cython
 from cython.parallel cimport parallel, prange
 from cython.operator cimport dereference, preincrement
+from libc.stdlib cimport malloc, free
 # from libc.stdlib cimport rand
 from libc.string cimport strcmp
 from libc.stdio cimport printf
@@ -55,9 +56,12 @@ cdef class Model: # see pxd
         cdef timespec ts
         clock_gettime(CLOCK_REALTIME, &ts)
         cdef unsigned int seed = ts.tv_sec
+        # define rng sampler
         self.dist = uniform_real_distribution[double](0.0,1.0)
         self.seed = seed
         self.gen  = mt19937(self.seed)
+
+        # create adj list
         self.construct(graph, agentStates)
         self.nudgeType  = copy.copy(nudgeType)
         self.updateType = updateType
@@ -212,25 +216,25 @@ cdef class Model: # see pxd
         if self._updateType == 'single':
             sampleSize = 1
         # elif self._updateType == 'serial':
-        #     return self._nodeids
+        #     return self._nodeids[None, :]
         else:
             sampleSize = self._nNodes
-
         cdef:
             # TODO replace this with a nogil version
-            long [:, ::1] samples # = np.ndarray((nSamples, sampleSize), dtype = int)
-            long sample
+            # long _samples[nSamples][sampleSize]
+            long [:, ::1] samples
+            # long sample
             long start
             long i, j, k
             long samplei
             int correcter = nSamples * sampleSize
+        # replace with nogil variant
         with gil:
             samples = np.ndarray((nSamples, sampleSize), dtype = int)
-        # TODO: single updates of size one won't get shuffled
         for samplei in range(nSamples):
             # shuffle if the current tracker is larger than the array
-            start = (samplei * sampleSize) % self._nNodes
-            if start + sampleSize >= self._nNodes or correcter == 1:
+            start  = (samplei * sampleSize) % self._nNodes
+            if self._updateType != 'serial' and (start + sampleSize >= self._nNodes or correcter == 1):
                 for i in range(self._nNodes):
                     # shuffle the array without replacement
                     j                = lround(self.rand() * (self._nNodes - 1))
@@ -239,10 +243,9 @@ cdef class Model: # see pxd
                     self._nodeids[i] = k
                     # enforce atleast one shuffle in single updates; otherwise same picked
                     if correcter == 1 : break
-            # assign the samples
+            # assign the samples; will be sorted in case of serial
             for j in range(sampleSize):
-                samples[samplei, j] = self._nodeids[start + j]
-                # samples[samplei] = nodeIDs[start : start + sampleSize]
+                samples[samplei, j]    = self._nodeids[start + j]
         return samples
 
     cpdef void reset(self):
@@ -346,8 +349,8 @@ cdef class Model: # see pxd
         if isinstance(value, int):
             self._newstates[:] = value
             self._states   [:] = value
-        elif isinstance(value, np.ndarray):
-            assert value.size == self.nNodes
+        elif isinstance(value, np.ndarray) or isinstance(value, list):
+            assert len(value) == self.nNodes
             self._newstates = value
             self._states    = value
     # TODOL move this back ^
