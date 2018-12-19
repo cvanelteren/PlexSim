@@ -311,9 +311,10 @@ cdef class Model: # see pxd
     # TODO: reset all after new?
     @nudges.setter
     def nudges(self, vals):
+        """
+        Set nudge value based on dict using the node labels
+        """
         self._nudges[:] =  0
-        # if isinstance(vals, np.ndarray):
-            # self._nudges = vals.copy()
         if isinstance(vals, dict):
             for k, v in vals.items():
                 idx = self.mapping[k]

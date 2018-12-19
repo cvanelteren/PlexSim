@@ -3,7 +3,7 @@ cimport numpy as np
 from libcpp.vector cimport vector
 from libcpp.map cimport map
 from libcpp.unordered_map cimport unordered_map
-
+import cython
 cdef extern from "<random>" namespace "std" nogil:
     cdef cppclass mt19937:
         mt19937() # we need to define this constructor to stack allocate classes in Cython
@@ -53,7 +53,7 @@ cdef class Model:
     cpdef long[::1] updateState(self, long[::1] nodesToUpdate)
     cdef long[::1]  _updateState(self, long[::1] nodesToUpdate) nogil
     # cdef long[::1]  _updateState(self, long[::1] nodesToUpdate)
-
+    
     cdef  long[:, ::1] sampleNodes(self, long Samples) nogil
     # cdef  long[:, ::1] sampleNodes(self, long Samples)
 

@@ -29,6 +29,8 @@ from libcpp.vector cimport vector
 from cython.operator cimport dereference, preincrement
 from libc.stdio cimport printf
 
+# from libc.math cimport max, min
+
 # use external exp
 cdef extern from "vfastexp.h":
     double exp_approx "EXP" (double) nogil
@@ -132,12 +134,13 @@ cdef class Ising(Model):
             long length            = self._adj[node].neighbors.size()
             long neighbor, i
             double weight
-            double energy          = 0
+            double energy          = -self._H [node] * states[node]
         for i in range(length):
             neighbor = self._adj[node].neighbors[i]
             weight   = self._adj[node].weights[i]
             energy  -= states[node] * states[neighbor] * weight
-        energy -= self._nudges[node] * states[node]  + self._H [node] * states[node]
+        # energy -= self._nudges[node] * states[node]
+        energy *= (1 + self._nudges[node])
         return energy
 
     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
@@ -168,7 +171,9 @@ cdef class Ising(Model):
             node      = nodesToUpdate[n]
             energy    = self.energy(node, self._states)
             # p = 1 / ( 1. + exp_approx(-self.beta * 2. * energy) )
-            p = 1 / ( 1. + exp(-self.beta * 2. * energy))
+            p  = 1 / ( 1. + exp(-self.beta * 2. * energy))
+            # p  = p  +  self._nudges[node]
+            # p += self._nudges[node]
             if self.rand() < p:
                 self._newstates[node] = -self._states[node]
         # uggly
