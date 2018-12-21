@@ -67,7 +67,9 @@ cdef class Ising(Model):
         self.magSideOptions   = {'': 0, 'neg': -1, 'pos': 1}
         self.magSide          = magSide
 
-
+    @property
+    def H(self): return self._H
+    
     @cython.boundscheck(False)
     @cython.wraparound(False)
     @cython.nonecheck(False)
@@ -139,8 +141,8 @@ cdef class Ising(Model):
             neighbor = self._adj[node].neighbors[i]
             weight   = self._adj[node].weights[i]
             energy  -= states[node] * states[neighbor] * weight
-        energy += self._nudges[node] # * states[node]
-        # energy *= (1 + self._nudges[node])
+        # energy -= self._nudges[node] # * states[node]
+        energy = energy * (1 + self._nudges[node])
         return energy
 
     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
