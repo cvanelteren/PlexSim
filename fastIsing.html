@@ -1544,12 +1544,11 @@ __pyx_t_11 = ((struct __pyx_vtabstruct_6Models_9fastIsing_Ising *)__pyx_v_self-&
     __pyx_t_7 = __pyx_v_neighbor;
     __pyx_v_energy = (__pyx_v_energy - (((*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_states.data) + __pyx_t_6)) ))) * (*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_states.data) + __pyx_t_7)) )))) * __pyx_v_weight));
   }
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">144</span>:         <span class="n">energy</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nudges</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">*</span> <span class="n">states</span><span class="p">[</span><span class="n">node</span><span class="p">]</span></pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">144</span>:         <span class="c"># energy -= self._nudges[node] * states[node]</span></pre>
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">145</span>:         <span class="n">energy</span> <span class="o">*=</span> <span class="p">(</span><span class="mf">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nudges</span><span class="p">[</span><span class="n">node</span><span class="p">])</span></pre>
 <pre class='cython code score-0 '>  __pyx_t_8 = __pyx_v_node;
-  __pyx_t_9 = __pyx_v_node;
-  __pyx_v_energy = (__pyx_v_energy - ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self-&gt;__pyx_base._nudges.data) + __pyx_t_8)) ))) * (*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_states.data) + __pyx_t_9)) )))));
-</pre><pre class="cython line score-0">&#xA0;<span class="">145</span>:         <span class="c"># energy *= (1 + self._nudges[node])</span></pre>
-<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">146</span>:         <span class="k">return</span> <span class="n">energy</span></pre>
+  __pyx_v_energy = (__pyx_v_energy * (1.0 + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self-&gt;__pyx_base._nudges.data) + __pyx_t_8)) )))));
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">146</span>:         <span class="k">return</span> <span class="n">energy</span></pre>
 <pre class='cython code score-0 '>  __pyx_r = __pyx_v_energy;
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">147</span>: </pre>

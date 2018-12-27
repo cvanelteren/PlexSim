@@ -4251,7 +4251,6 @@ static double __pyx_f_6Models_9fastIsing_5Ising_energy(struct __pyx_obj_6Models_
   Py_ssize_t __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
-  Py_ssize_t __pyx_t_9;
 
   /* "Models/fastIsing.pyx":136
  *         """
@@ -4299,7 +4298,7 @@ static double __pyx_f_6Models_9fastIsing_5Ising_energy(struct __pyx_obj_6Models_
  *             neighbor = self._adj[node].neighbors[i]
  *             weight   = self._adj[node].weights[i]             # <<<<<<<<<<<<<<
  *             energy  -= states[node] * states[neighbor] * weight
- *         energy -= self._nudges[node] * states[node]
+ *         # energy -= self._nudges[node] * states[node]
  */
     __pyx_v_weight = ((__pyx_v_self->__pyx_base._adj[__pyx_v_node]).weights[__pyx_v_i]);
 
@@ -4307,28 +4306,27 @@ static double __pyx_f_6Models_9fastIsing_5Ising_energy(struct __pyx_obj_6Models_
  *             neighbor = self._adj[node].neighbors[i]
  *             weight   = self._adj[node].weights[i]
  *             energy  -= states[node] * states[neighbor] * weight             # <<<<<<<<<<<<<<
- *         energy -= self._nudges[node] * states[node]
- *         # energy *= (1 + self._nudges[node])
+ *         # energy -= self._nudges[node] * states[node]
+ *         energy *= (1 + self._nudges[node])
  */
     __pyx_t_6 = __pyx_v_node;
     __pyx_t_7 = __pyx_v_neighbor;
     __pyx_v_energy = (__pyx_v_energy - (((*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_states.data) + __pyx_t_6)) ))) * (*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_states.data) + __pyx_t_7)) )))) * __pyx_v_weight));
   }
 
-  /* "Models/fastIsing.pyx":144
- *             weight   = self._adj[node].weights[i]
+  /* "Models/fastIsing.pyx":145
  *             energy  -= states[node] * states[neighbor] * weight
- *         energy -= self._nudges[node] * states[node]             # <<<<<<<<<<<<<<
- *         # energy *= (1 + self._nudges[node])
+ *         # energy -= self._nudges[node] * states[node]
+ *         energy *= (1 + self._nudges[node])             # <<<<<<<<<<<<<<
  *         return energy
+ * 
  */
   __pyx_t_8 = __pyx_v_node;
-  __pyx_t_9 = __pyx_v_node;
-  __pyx_v_energy = (__pyx_v_energy - ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base._nudges.data) + __pyx_t_8)) ))) * (*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_states.data) + __pyx_t_9)) )))));
+  __pyx_v_energy = (__pyx_v_energy * (1.0 + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base._nudges.data) + __pyx_t_8)) )))));
 
   /* "Models/fastIsing.pyx":146
- *         energy -= self._nudges[node] * states[node]
- *         # energy *= (1 + self._nudges[node])
+ *         # energy -= self._nudges[node] * states[node]
+ *         energy *= (1 + self._nudges[node])
  *         return energy             # <<<<<<<<<<<<<<
  * 
  *     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
