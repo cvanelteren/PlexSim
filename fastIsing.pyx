@@ -227,12 +227,17 @@ cdef class Ising(Model):
         """
         cdef double tcopy   = self.t # store current temp
         cdef results = np.zeros((2, temps.shape[0]))
-        self.reset()
-        for idx, t in enumerate(temps):
+        print("Computing mag per t")
+        for idx, t in enumerate(tqdm(temps)):
+            self.reset()
             self.t          = t
-            jdx             = self.magSideOptions[self.magSide]
-            self.states     = jdx if jdx else 1 # rest to ones; only interested in how mag is kept
-            # self.burnin(burninSamples)
+            # jdx             = self.magSideOptions[self.magSide]
+            # if jdx:
+                # self.states = jdx
+            # else:
+                # self.reset()
+            # self.states     = jdx if jdx else self.reset() # rest to ones; only interested in how mag is kept
+            self.burnin(burninSamples)
             tmp             = self.simulate(n)
             results[0, idx] = abs(tmp.mean())
             results[1, idx] = ((tmp**2).mean() - tmp.mean()**2) * self.beta
