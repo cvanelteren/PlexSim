@@ -227,14 +227,13 @@ cdef class Model: # see pxd
             long start
             long i, j, k
             long samplei
-            int correcter = nSamples * sampleSize
         # replace with nogil variant
         with gil:
             samples = np.ndarray((nSamples, sampleSize), dtype = int)
         for samplei in range(nSamples):
             # shuffle if the current tracker is larger than the array
             start  = (samplei * sampleSize) % self._nNodes
-            if self._updateType != 'serial' and (start + sampleSize >= self._nNodes or correcter == 1):
+            if self._updateType != 'serial' and (start + sampleSize >= self._nNodes or sampleSize == 1):
                 for i in range(self._nNodes):
                     # shuffle the array without replacement
                     j                = lround(self.rand() * (self._nNodes - 1))
@@ -242,7 +241,7 @@ cdef class Model: # see pxd
                     self._nodeids[j] = self._nodeids[i]
                     self._nodeids[i] = k
                     # enforce atleast one shuffle in single updates; otherwise same picked
-                    if correcter == 1 : break
+                    if sampleSize == 1 : break
             # assign the samples; will be sorted in case of serial
             for j in range(sampleSize):
                 samples[samplei, j]    = self._nodeids[start + j]
