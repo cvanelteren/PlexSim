@@ -231,11 +231,11 @@ cdef class Ising(Model):
         for idx, t in enumerate(tqdm(temps)):
             self.reset()
             self.t          = t
-            # jdx             = self.magSideOptions[self.magSide]
-            # if jdx:
-                # self.states = jdx
-            # else:
-                # self.reset()
+            jdx             = self.magSideOptions[self.magSide]
+            if jdx:
+                self.states = jdx
+            else:
+                self.reset()
             # self.states     = jdx if jdx else self.reset() # rest to ones; only interested in how mag is kept
             self.burnin(burninSamples)
             tmp             = self.simulate(n)
