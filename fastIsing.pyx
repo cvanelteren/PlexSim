@@ -295,7 +295,11 @@ cdef class Ising(Model):
         self._t   = value
         self.beta = 1 / value if value != 0 else np.inf
 
-cpdef Ising rebuild(object graph, double t, list agentStates, str updateType, str nudgeType, str magSide, \
+cpdef Ising rebuild(object graph, double t, \
+                    list agentStates, \
+                    str updateType, \
+                    str nudgeType, \
+                    str magSide, \
               np.ndarray nudges):
     cdef Ising tmp = copy.deepcopy(Ising(graph, t, agentStates, nudgeType, updateType, magSide))
     tmp.nudges = nudges.copy()
