@@ -15,7 +15,7 @@ cdef class Ising(Model):
         long _magSide   # which side to sample on
         # np.ndarray _H # external magnetic field
         double[::1]  _H # external magnetic field
-        double beta
+        double _beta
 
     # computes the energy
     cdef double energy(self, \

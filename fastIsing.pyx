@@ -29,6 +29,7 @@ from libcpp.vector cimport vector
 from cython.operator cimport dereference, preincrement
 from libc.stdio cimport printf
 
+
 # from libc.math cimport max, min
 
 # use external exp
@@ -62,7 +63,7 @@ cdef class Ising(Model):
         self.nudges           = np.asarray(self.nudges.base).copy()
         # specific model parameters
         self._H               = H
-        self.beta             = np.inf if temperature == 0 else 1 / temperature
+        # self._beta             = np.inf if temperature == 0 else 1 / temperature
         self.t                = temperature
         self.magSideOptions   = {'': 0, 'neg': -1, 'pos': 1}
         self.magSide          = magSide
@@ -93,6 +94,7 @@ cdef class Ising(Model):
             np.ndarray x # for regression
             long[::1] states
             long[:, ::1] r
+            # vector[int][1] r = 0
 
         # print('Starting burnin')
         while True:
@@ -173,7 +175,7 @@ cdef class Ising(Model):
             node      = nodesToUpdate[n]
             energy    = self.energy(node, self._states)
             # p = 1 / ( 1. + exp_approx(-self.beta * 2. * energy) )
-            p  = 1 / ( 1. + exp(-self.beta * 2. * energy))
+            p  = 1 / ( 1. + exp(-self._beta * 2. * energy))
             # p  = p  +  self._nudges[node]
             # p += self._nudges[node]
             if self.rand() < p:
@@ -207,7 +209,7 @@ cdef class Ising(Model):
         probs = np.zeros(self.nNodes)
         for node in self.nodeIDs:
             en = self.energy(node, self.states[node])
-            probs[node] = exp(-self.beta * en)
+            probs[node] = exp(-self._beta * en)
         return probs / np.nansum(probs)
 
     cpdef  np.ndarray matchMagnetization(self,\
@@ -225,26 +227,41 @@ cdef class Ising(Model):
               :mag:  the magnetization for t in temps
               :sus:  the magnetic susceptibility
         """
-        cdef double tcopy   = self.t # store current temp
-        cdef results = np.zeros((2, temps.shape[0]))
+        cdef:
+            double tcopy   = self.t # store current temp
+            np.ndarray results = np.zeros((2, temps.shape[0]))
+            int N = len(temps)
+            int i
+            double t
+            # Ising m
+            int threads = mp.cpu_count()
         print("Computing mag per t")
-        for idx, t in enumerate(tqdm(temps)):
-            self.reset()
-            self.t          = t
-            jdx             = self.magSideOptions[self.magSide]
+        pbar = tqdm(total = N)
+        # for i in prange(N, nogil = True, num_threads = threads, \
+                        # schedule = 'static'):
+            # with gil:
+        for i in range(N):
+            m = copy.deepcopy(self)
+            # m = self
+            t = temps[i]
+            m.reset()
+            m.t          = t
+            jdx          = m.magSideOptions[m.magSide]
             if jdx:
-                self.states = jdx
+                m.states = jdx
             else:
-                self.reset()
+                m.reset()
             # self.states     = jdx if jdx else self.reset() # rest to ones; only interested in how mag is kept
-            self.burnin(burninSamples)
-            tmp             = self.simulate(n)
-            results[0, idx] = abs(tmp.mean())
-            results[1, idx] = ((tmp**2).mean() - tmp.mean()**2) * self.beta
+            m.burnin(burninSamples)
+            tmp             = m.simulate(n)
+            results[0, i] = abs(tmp.mean())
+            results[1, i] = ((tmp**2).mean() - tmp.mean()**2) * m.beta
+            pbar.update(1)
         # print(results[0])
         self.t = tcopy # reset temp
         return results
     def __deepcopy__(self, memo):
+        print('deepcopy')
         tmp = Ising(
                     graph       = copy.deepcopy(self.graph), \
                     temperature = self.t,\
@@ -285,6 +302,13 @@ cdef class Ising(Model):
 
     @property
     def H(self): return self._H
+
+    @property
+    def beta(self): return self._beta
+
+    @beta.setter
+    def beta(self, value):
+        self._beta = value
 
     @property
     def t(self):

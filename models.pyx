@@ -204,7 +204,7 @@ cdef class Model: # see pxd
     @cython.cdivision(True)
     @cython.initializedcheck(False)
     @cython.overflowcheck(False)
-    cdef long [:, ::1] sampleNodes(self, long  nSamples) nogil:
+    cdef long[:, ::1] sampleNodes(self, long  nSamples) nogil:
     # cdef long [:, ::1] sampleNodes(self, long  nSamples):
         """
         Shuffles nodeids only when the current sample is larger
@@ -227,9 +227,13 @@ cdef class Model: # see pxd
             long start
             long i, j, k
             long samplei
+
+            # vector[vector[int][sampleSize]] samples
+
         # replace with nogil variant
         with gil:
             samples = np.ndarray((nSamples, sampleSize), dtype = int)
+
         for samplei in range(nSamples):
             # shuffle if the current tracker is larger than the array
             start  = (samplei * sampleSize) % self._nNodes
@@ -244,7 +248,7 @@ cdef class Model: # see pxd
                     if sampleSize == 1 : break
             # assign the samples; will be sorted in case of serial
             for j in range(sampleSize):
-                samples[samplei, j]    = self._nodeids[start + j]
+                samples[samplei][j]    = self._nodeids[start + j]
         return samples
 
     cpdef void reset(self):
@@ -267,11 +271,13 @@ cdef class Model: # see pxd
     cpdef np.ndarray simulate(self, long long int  samples):
         cdef:
             long[:, ::1] results = np.zeros((samples, self._nNodes), int)
+            int sampleSize = 1 if self._updateType == 'single' else self._nNodes
             long[:, ::1] r = self.sampleNodes(samples)
+            # vector[vector[int][sampleSize]] r = self.sampleNodes(samples)
             int i
         for i in range(samples):
             results[i] = self.updateState(r[i])
-        return results.base # convert back to normal arraay
+        return results.base # convert back to normal array
 
     # TODO: make class pickable
     # hence the wrappers
