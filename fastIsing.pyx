@@ -241,8 +241,8 @@ cdef class Ising(Model):
                         # schedule = 'static'):
             # with gil:
         for i in range(N):
-            m = copy.deepcopy(self)
-            # m = self
+            # m = copy.deepcopy(self)
+            m = self # TODO: replace with parallel
             t = temps[i]
             m.reset()
             m.t          = t
@@ -261,7 +261,7 @@ cdef class Ising(Model):
         self.t = tcopy # reset temp
         return results
     def __deepcopy__(self, memo):
-        print('deepcopy')
+        # print('deepcopy')
         tmp = Ising(
                     graph       = copy.deepcopy(self.graph), \
                     temperature = self.t,\
