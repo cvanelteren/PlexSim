@@ -19,7 +19,7 @@ from tqdm import tqdm
 # ___CythonImports___
 cimport cython
 from cython cimport numeric
-from cython.parallel cimport prange, parallel
+from cython.parallel cimport prange, parallel, threadid
 
 cimport numpy as np # overwrite some c  backend from above
 
@@ -33,9 +33,48 @@ from libc.stdio cimport printf
 # from libc.math cimport max, min
 
 # use external exp
+from cpython cimport PyObject, Py_XINCREF, Py_XDECREF
 cdef extern from "vfastexp.h":
     double exp_approx "EXP" (double) nogil
 
+
+    cdef extern from *:
+        """
+        #include <Python.h>
+        #include <mutex>
+
+        std::mutex ref_mutex;
+
+        class PyObjectHolder{
+        public:
+            PyObject *ptr;
+            PyObjectHolder():ptr(nullptr){}
+            PyObjectHolder(PyObject *o):ptr(o){
+                std::lock_guard<std::mutex> guard(ref_mutex);
+                Py_XINCREF(ptr);
+            }
+            //rule of 3
+            ~PyObjectHolder(){
+                std::lock_guard<std::mutex> guard(ref_mutex);
+                Py_XDECREF(ptr);
+            }
+            PyObjectHolder(const PyObjectHolder &h):
+                PyObjectHolder(h.ptr){}
+            PyObjectHolder& operator=(const PyObjectHolder &other){
+                {
+                    std::lock_guard<std::mutex> guard(ref_mutex);
+                    Py_XDECREF(ptr);
+                    ptr=other.ptr;
+                    Py_XINCREF(ptr);
+                }
+                return *this;
+
+            }
+        };
+        """
+        cdef cppclass PyObjectHolder:
+            PyObject *ptr
+            PyObjectHolder(PyObject *o) nogil
 cdef class Ising(Model):
     # def __cinit__(self, *args, **kwargs):
     #     print('cinit fastIsing')
@@ -235,28 +274,42 @@ cdef class Ising(Model):
             double t
             # Ising m
             int threads = mp.cpu_count()
+            vector[PyObjectHolder] tmpHolder
+            cdef Ising tmp
         print("Computing mag per t")
         pbar = tqdm(total = N)
         # for i in prange(N, nogil = True, num_threads = threads, \
                         # schedule = 'static'):
             # with gil:
-        for i in range(N):
+        cdef PyObject *ptr
+        cdef int tid
+        for i in range(threads):
+            tmp = copy.deepcopy(self)
+            # tmp.reset()
+            # tmp.burnin(burninSamples)
+            # tmp.seed += sample # enforce different seeds
+            # modelsPy.append(tmp)
+            tmpHolder.push_back(PyObjectHolder(<PyObject *> tmp))
+
+        for i in prange(N, nogil = True, schedule = 'static',\
+                        num_threads = threads):
             # m = copy.deepcopy(self)
-            m = self # TODO: replace with parallel
-            t = temps[i]
-            m.reset()
-            m.t          = t
-            jdx          = m.magSideOptions[m.magSide]
-            if jdx:
-                m.states = jdx
-            else:
-                m.reset()
+            tid = threadid()
+            ptr = tmpHolder[tid].ptr
+            with gil:
+                t = temps[i]
+                (<Ising> ptr).t  = t
+                jdx          = (<Ising> ptr).magSideOptions[(<Ising> ptr).magSide]
+                if jdx:
+                    (<Ising> ptr).states = jdx
+                else:
+                    (<Ising> ptr).reset()
             # self.states     = jdx if jdx else self.reset() # rest to ones; only interested in how mag is kept
-            m.burnin(burninSamples)
-            tmp             = m.simulate(n)
-            results[0, i] = abs(tmp.mean())
-            results[1, i] = ((tmp**2).mean() - tmp.mean()**2) * m.beta
-            pbar.update(1)
+                (<Ising> ptr).burnin(burninSamples)
+                tmp             = (<Ising> ptr).simulate(n)
+                results[0, i] = abs(tmp.mean())
+                results[1, i] = ((tmp**2).mean() - tmp.mean()**2) * (<Ising> ptr).beta
+                pbar.update(1)
         # print(results[0])
         self.t = tcopy # reset temp
         return results
