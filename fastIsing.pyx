@@ -1,7 +1,7 @@
 # cython: infer_types=True
 # distutils: language=c++
-# -*- coding: utf-8 -*-
 # __author__ = 'Casper van Elteren'
+
 """
 Created on Tue Feb  6 09:36:17 2018
 
@@ -10,6 +10,7 @@ Created on Tue Feb  6 09:36:17 2018
 from Models.models cimport Model
 # from models cimport Model
 import numpy  as np
+cimport numpy as np
 
 from scipy.stats import linregress
 import networkx as nx, multiprocessing as mp, \
@@ -21,7 +22,6 @@ cimport cython
 from cython cimport numeric
 from cython.parallel cimport prange, parallel, threadid
 
-cimport numpy as np # overwrite some c  backend from above
 
 from libc.math cimport exp
 from libcpp.map cimport map
@@ -33,48 +33,48 @@ from libc.stdio cimport printf
 # from libc.math cimport max, min
 
 # use external exp
-from cpython cimport PyObject, Py_XINCREF, Py_XDECREF
 cdef extern from "vfastexp.h":
     double exp_approx "EXP" (double) nogil
 
 
-    cdef extern from *:
-        """
-        #include <Python.h>
-        #include <mutex>
+from cpython cimport PyObject, Py_XINCREF, Py_XDECREF
+cdef extern from *:
+    """
+    #include <Python.h>
+    #include <mutex>
 
-        std::mutex ref_mutex;
+    std::mutex ref_mutex;
 
-        class PyObjectHolder{
-        public:
-            PyObject *ptr;
-            PyObjectHolder():ptr(nullptr){}
-            PyObjectHolder(PyObject *o):ptr(o){
-                std::lock_guard<std::mutex> guard(ref_mutex);
-                Py_XINCREF(ptr);
-            }
-            //rule of 3
-            ~PyObjectHolder(){
+    class PyObjectHolder{
+    public:
+        PyObject *ptr;
+        PyObjectHolder():ptr(nullptr){}
+        PyObjectHolder(PyObject *o):ptr(o){
+            std::lock_guard<std::mutex> guard(ref_mutex);
+            Py_XINCREF(ptr);
+        }
+        //rule of 3
+        ~PyObjectHolder(){
+            std::lock_guard<std::mutex> guard(ref_mutex);
+            Py_XDECREF(ptr);
+        }
+        PyObjectHolder(const PyObjectHolder &h):
+            PyObjectHolder(h.ptr){}
+        PyObjectHolder& operator=(const PyObjectHolder &other){
+            {
                 std::lock_guard<std::mutex> guard(ref_mutex);
                 Py_XDECREF(ptr);
+                ptr=other.ptr;
+                Py_XINCREF(ptr);
             }
-            PyObjectHolder(const PyObjectHolder &h):
-                PyObjectHolder(h.ptr){}
-            PyObjectHolder& operator=(const PyObjectHolder &other){
-                {
-                    std::lock_guard<std::mutex> guard(ref_mutex);
-                    Py_XDECREF(ptr);
-                    ptr=other.ptr;
-                    Py_XINCREF(ptr);
-                }
-                return *this;
+            return *this;
 
-            }
-        };
-        """
-        cdef cppclass PyObjectHolder:
-            PyObject *ptr
-            PyObjectHolder(PyObject *o) nogil
+        }
+    };
+    """
+    cdef cppclass PyObjectHolder:
+        PyObject *ptr
+        PyObjectHolder(PyObject *o) nogil
 cdef class Ising(Model):
     # def __cinit__(self, *args, **kwargs):
     #     print('cinit fastIsing')
@@ -276,6 +276,7 @@ cdef class Ising(Model):
             int threads = mp.cpu_count()
             vector[PyObjectHolder] tmpHolder
             cdef Ising tmp
+            cdef np.ndarray magres
         print("Computing mag per t")
         pbar = tqdm(total = N)
         # for i in prange(N, nogil = True, num_threads = threads, \
@@ -295,20 +296,20 @@ cdef class Ising(Model):
                         num_threads = threads):
             # m = copy.deepcopy(self)
             tid = threadid()
-            ptr = tmpHolder[tid].ptr
             with gil:
+                tmp = <Ising> tmpHolder[tid].ptr
                 t = temps[i]
-                (<Ising> ptr).t  = t
-                jdx          = (<Ising> ptr).magSideOptions[(<Ising> ptr).magSide]
+                tmp.t  = t
+                jdx          = tmp.magSideOptions[tmp.magSide]
                 if jdx:
-                    (<Ising> ptr).states = jdx
+                    tmp.states = jdx
                 else:
-                    (<Ising> ptr).reset()
+                    tmp.reset()
             # self.states     = jdx if jdx else self.reset() # rest to ones; only interested in how mag is kept
-                (<Ising> ptr).burnin(burninSamples)
-                tmp             = (<Ising> ptr).simulate(n)
-                results[0, i] = abs(tmp.mean())
-                results[1, i] = ((tmp**2).mean() - tmp.mean()**2) * (<Ising> ptr).beta
+                tmp.burnin(burninSamples)
+                magres        = tmp.simulate(n)
+                results[0, i] = abs(magres.mean())
+                results[1, i] = ((magres**2).mean() - magres.mean()**2) * tmp.beta
                 pbar.update(1)
         # print(results[0])
         self.t = tcopy # reset temp

@@ -671,41 +671,41 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include <unordered_map>
 #include <random>
 #include <math.h>
+#include "vfastexp.h"
 #include "pythread.h"
 
-        #include <Python.h>
-        #include <mutex>
+    #include <Python.h>
+    #include <mutex>
 
-        std::mutex ref_mutex;
+    std::mutex ref_mutex;
 
-        class PyObjectHolder{
-        public:
-            PyObject *ptr;
-            PyObjectHolder():ptr(nullptr){}
-            PyObjectHolder(PyObject *o):ptr(o){
-                std::lock_guard<std::mutex> guard(ref_mutex);
-                Py_XINCREF(ptr);
-            }
-            //rule of 3
-            ~PyObjectHolder(){
+    class PyObjectHolder{
+    public:
+        PyObject *ptr;
+        PyObjectHolder():ptr(nullptr){}
+        PyObjectHolder(PyObject *o):ptr(o){
+            std::lock_guard<std::mutex> guard(ref_mutex);
+            Py_XINCREF(ptr);
+        }
+        //rule of 3
+        ~PyObjectHolder(){
+            std::lock_guard<std::mutex> guard(ref_mutex);
+            Py_XDECREF(ptr);
+        }
+        PyObjectHolder(const PyObjectHolder &h):
+            PyObjectHolder(h.ptr){}
+        PyObjectHolder& operator=(const PyObjectHolder &other){
+            {
                 std::lock_guard<std::mutex> guard(ref_mutex);
                 Py_XDECREF(ptr);
+                ptr=other.ptr;
+                Py_XINCREF(ptr);
             }
-            PyObjectHolder(const PyObjectHolder &h):
-                PyObjectHolder(h.ptr){}
-            PyObjectHolder& operator=(const PyObjectHolder &other){
-                {
-                    std::lock_guard<std::mutex> guard(ref_mutex);
-                    Py_XDECREF(ptr);
-                    ptr=other.ptr;
-                    Py_XINCREF(ptr);
-                }
-                return *this;
+            return *this;
 
-            }
-        };
-        
-#include "vfastexp.h"
+        }
+    };
+    
 #include <stdlib.h>
 #include "pystate.h"
 #ifdef _OPENMP
@@ -1335,7 +1335,7 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 struct __pyx_t_6Models_6models_Connection;
 
-/* "Models/models.pxd":17
+/* "Models/models.pxd":19
  *         T operator()(mt19937 gen) # ignore the possibility of using other classes for "gen"
  * 
  * cdef struct Connection:             # <<<<<<<<<<<<<<
@@ -1389,7 +1389,7 @@ struct __pyx_opt_args_6Models_9fastIsing_5Ising_matchMagnetization {
   int burninSamples;
 };
 
-/* "Models/models.pxd":21
+/* "Models/models.pxd":23
  *     vector[double] weights
  * 
  * cdef class Model:             # <<<<<<<<<<<<<<
@@ -1509,7 +1509,7 @@ struct __pyx_memoryviewslice_obj {
 
 
 
-/* "Models/models.pxd":21
+/* "Models/models.pxd":23
  *     vector[double] weights
  * 
  * cdef class Model:             # <<<<<<<<<<<<<<
@@ -1530,8 +1530,8 @@ static struct __pyx_vtabstruct_6Models_6models_Model *__pyx_vtabptr_6Models_6mod
 
 
 /* "Models/fastIsing.pyx":78
- *             PyObject *ptr
- *             PyObjectHolder(PyObject *o) nogil
+ *         PyObject *ptr
+ *         PyObjectHolder(PyObject *o) nogil
  * cdef class Ising(Model):             # <<<<<<<<<<<<<<
  *     # def __cinit__(self, *args, **kwargs):
  *     #     print('cinit fastIsing')
@@ -3643,7 +3643,7 @@ static int __pyx_pf_6Models_9fastIsing_5Ising___init__(struct __pyx_obj_6Models_
   return __pyx_r;
 }
 
-/* "Models/fastIsing.pyx":357
+/* "Models/fastIsing.pyx":358
  * 
  *     @property
  *     def H(self): return self._H             # <<<<<<<<<<<<<<
@@ -3670,8 +3670,8 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_1H___get__(struct __pyx_obj_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_self->_H.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 357, __pyx_L1_error)}
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->_H, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 357, __pyx_L1_error)
+  if (unlikely(!__pyx_v_self->_H.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 358, __pyx_L1_error)}
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->_H, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 358, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5241,8 +5241,8 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_matchMagnetization(struc
   int __pyx_v_threads;
   std::vector<PyObjectHolder>  __pyx_v_tmpHolder;
   struct __pyx_obj_6Models_9fastIsing_Ising *__pyx_v_tmp = 0;
+  PyArrayObject *__pyx_v_magres = 0;
   PyObject *__pyx_v_pbar = NULL;
-  PyObject *__pyx_v_ptr;
   int __pyx_v_tid;
   PyObject *__pyx_v_jdx = NULL;
   PyArrayObject *__pyx_r = NULL;
@@ -5461,40 +5461,40 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_matchMagnetization(struc
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_threads = __pyx_t_7;
 
-  /* "Models/fastIsing.pyx":279
- *             vector[PyObjectHolder] tmpHolder
+  /* "Models/fastIsing.pyx":280
  *             cdef Ising tmp
+ *             cdef np.ndarray magres
  *         print("Computing mag per t")             # <<<<<<<<<<<<<<
  *         pbar = tqdm(total = N)
  *         # for i in prange(N, nogil = True, num_threads = threads, \
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 280, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "Models/fastIsing.pyx":280
- *             cdef Ising tmp
+  /* "Models/fastIsing.pyx":281
+ *             cdef np.ndarray magres
  *         print("Computing mag per t")
  *         pbar = tqdm(total = N)             # <<<<<<<<<<<<<<
  *         # for i in prange(N, nogil = True, num_threads = threads, \
  *                         # schedule = 'static'):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_tqdm); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 280, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_tqdm); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 280, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_N); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 280, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_N); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_total, __pyx_t_5) < 0) __PYX_ERR(0, 280, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_total, __pyx_t_5) < 0) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 280, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __pyx_v_pbar = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "Models/fastIsing.pyx":286
+  /* "Models/fastIsing.pyx":287
  *         cdef PyObject *ptr
  *         cdef int tid
  *         for i in range(threads):             # <<<<<<<<<<<<<<
@@ -5506,16 +5506,16 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_matchMagnetization(struc
   for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
     __pyx_v_i = __pyx_t_12;
 
-    /* "Models/fastIsing.pyx":287
+    /* "Models/fastIsing.pyx":288
  *         cdef int tid
  *         for i in range(threads):
  *             tmp = copy.deepcopy(self)             # <<<<<<<<<<<<<<
  *             # tmp.reset()
  *             # tmp.burnin(burninSamples)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_copy); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 287, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_copy); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 288, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_deepcopy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 287, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_deepcopy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 288, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __pyx_t_8 = NULL;
@@ -5530,14 +5530,14 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_matchMagnetization(struc
     }
     __pyx_t_5 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_8, ((PyObject *)__pyx_v_self)) : __Pyx_PyObject_CallOneArg(__pyx_t_1, ((PyObject *)__pyx_v_self));
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 287, __pyx_L1_error)
+    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 288, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_6Models_9fastIsing_Ising))))) __PYX_ERR(0, 287, __pyx_L1_error)
+    if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_6Models_9fastIsing_Ising))))) __PYX_ERR(0, 288, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_tmp, ((struct __pyx_obj_6Models_9fastIsing_Ising *)__pyx_t_5));
     __pyx_t_5 = 0;
 
-    /* "Models/fastIsing.pyx":292
+    /* "Models/fastIsing.pyx":293
  *             # tmp.seed += sample # enforce different seeds
  *             # modelsPy.append(tmp)
  *             tmpHolder.push_back(PyObjectHolder(<PyObject *> tmp))             # <<<<<<<<<<<<<<
@@ -5548,11 +5548,11 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_matchMagnetization(struc
       __pyx_v_tmpHolder.push_back(PyObjectHolder(((PyObject *)__pyx_v_tmp)));
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 292, __pyx_L1_error)
+      __PYX_ERR(0, 293, __pyx_L1_error)
     }
   }
 
-  /* "Models/fastIsing.pyx":294
+  /* "Models/fastIsing.pyx":295
  *             tmpHolder.push_back(PyObjectHolder(<PyObject *> tmp))
  * 
  *         for i in prange(N, nogil = True, schedule = 'static',\             # <<<<<<<<<<<<<<
@@ -5570,9 +5570,8 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_matchMagnetization(struc
         if (1 == 0) abort();
         {
             int __pyx_parallel_temp0 = ((int)0xbad0bad0);
-            PyObject * __pyx_parallel_temp1 = ((PyObject *)1);
-            double __pyx_parallel_temp2 = ((double)__PYX_NAN());
-            int __pyx_parallel_temp3 = ((int)0xbad0bad0);
+            double __pyx_parallel_temp1 = ((double)__PYX_NAN());
+            int __pyx_parallel_temp2 = ((int)0xbad0bad0);
             const char *__pyx_parallel_filename = NULL; int __pyx_parallel_lineno = 0, __pyx_parallel_clineno = 0;
             PyObject *__pyx_parallel_exc_type = NULL, *__pyx_parallel_exc_value = NULL, *__pyx_parallel_exc_tb = NULL;
             int __pyx_parallel_why;
@@ -5597,23 +5596,22 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_matchMagnetization(struc
                     Py_BEGIN_ALLOW_THREADS
                     #endif /* _OPENMP */
                     #ifdef _OPENMP
-                    #pragma omp for firstprivate(__pyx_v_i) lastprivate(__pyx_v_i) lastprivate(__pyx_v_ptr) lastprivate(__pyx_v_t) lastprivate(__pyx_v_tid) schedule(static)
+                    #pragma omp for firstprivate(__pyx_v_i) lastprivate(__pyx_v_i) lastprivate(__pyx_v_t) lastprivate(__pyx_v_tid) schedule(static)
                     #endif /* _OPENMP */
                     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_12; __pyx_t_11++){
                         if (__pyx_parallel_why < 2)
                         {
                             __pyx_v_i = (int)(0 + 1 * __pyx_t_11);
                             /* Initialize private variables to invalid values */
-                            __pyx_v_ptr = ((PyObject *)1);
                             __pyx_v_t = ((double)__PYX_NAN());
                             __pyx_v_tid = ((int)0xbad0bad0);
 
-                            /* "Models/fastIsing.pyx":297
+                            /* "Models/fastIsing.pyx":298
  *                         num_threads = threads):
  *             # m = copy.deepcopy(self)
  *             tid = threadid()             # <<<<<<<<<<<<<<
- *             ptr = tmpHolder[tid].ptr
  *             with gil:
+ *                 tmp = <Ising> tmpHolder[tid].ptr
  */
                             #ifdef _OPENMP
                             __pyx_t_13 = omp_get_thread_num();
@@ -5622,22 +5620,12 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_matchMagnetization(struc
                             #endif
                             __pyx_v_tid = __pyx_t_13;
 
-                            /* "Models/fastIsing.pyx":298
+                            /* "Models/fastIsing.pyx":299
  *             # m = copy.deepcopy(self)
  *             tid = threadid()
- *             ptr = tmpHolder[tid].ptr             # <<<<<<<<<<<<<<
- *             with gil:
- *                 t = temps[i]
- */
-                            __pyx_t_14 = (__pyx_v_tmpHolder[__pyx_v_tid]).ptr;
-                            __pyx_v_ptr = __pyx_t_14;
-
-                            /* "Models/fastIsing.pyx":299
- *             tid = threadid()
- *             ptr = tmpHolder[tid].ptr
  *             with gil:             # <<<<<<<<<<<<<<
+ *                 tmp = <Ising> tmpHolder[tid].ptr
  *                 t = temps[i]
- *                 (<Ising> ptr).t  = t
  */
                             {
                                 #ifdef WITH_THREAD
@@ -5646,123 +5634,135 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_matchMagnetization(struc
                                 /*try:*/ {
 
                                   /* "Models/fastIsing.pyx":300
- *             ptr = tmpHolder[tid].ptr
+ *             tid = threadid()
  *             with gil:
- *                 t = temps[i]             # <<<<<<<<<<<<<<
- *                 (<Ising> ptr).t  = t
- *                 jdx          = (<Ising> ptr).magSideOptions[(<Ising> ptr).magSide]
+ *                 tmp = <Ising> tmpHolder[tid].ptr             # <<<<<<<<<<<<<<
+ *                 t = temps[i]
+ *                 tmp.t  = t
  */
-                                  __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_temps), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 300, __pyx_L15_error)
-                                  __Pyx_GOTREF(__pyx_t_5);
-                                  __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 300, __pyx_L15_error)
-                                  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-                                  __pyx_v_t = __pyx_t_9;
+                                  __pyx_t_14 = (__pyx_v_tmpHolder[__pyx_v_tid]).ptr;
+                                  __pyx_t_5 = ((PyObject *)__pyx_t_14);
+                                  __Pyx_INCREF(__pyx_t_5);
+                                  __Pyx_XDECREF_SET(__pyx_v_tmp, ((struct __pyx_obj_6Models_9fastIsing_Ising *)__pyx_t_5));
+                                  __pyx_t_5 = 0;
 
                                   /* "Models/fastIsing.pyx":301
  *             with gil:
- *                 t = temps[i]
- *                 (<Ising> ptr).t  = t             # <<<<<<<<<<<<<<
- *                 jdx          = (<Ising> ptr).magSideOptions[(<Ising> ptr).magSide]
- *                 if jdx:
+ *                 tmp = <Ising> tmpHolder[tid].ptr
+ *                 t = temps[i]             # <<<<<<<<<<<<<<
+ *                 tmp.t  = t
+ *                 jdx          = tmp.magSideOptions[tmp.magSide]
  */
-                                  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_t); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 301, __pyx_L15_error)
+                                  __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_temps), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 301, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_5);
-                                  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_ptr), __pyx_n_s_t, __pyx_t_5) < 0) __PYX_ERR(0, 301, __pyx_L15_error)
+                                  __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 301, __pyx_L15_error)
                                   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+                                  __pyx_v_t = __pyx_t_9;
 
                                   /* "Models/fastIsing.pyx":302
+ *                 tmp = <Ising> tmpHolder[tid].ptr
  *                 t = temps[i]
- *                 (<Ising> ptr).t  = t
- *                 jdx          = (<Ising> ptr).magSideOptions[(<Ising> ptr).magSide]             # <<<<<<<<<<<<<<
+ *                 tmp.t  = t             # <<<<<<<<<<<<<<
+ *                 jdx          = tmp.magSideOptions[tmp.magSide]
  *                 if jdx:
- *                     (<Ising> ptr).states = jdx
  */
-                                  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_ptr), __pyx_n_s_magSideOptions); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 302, __pyx_L15_error)
+                                  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_t); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 302, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_5);
-                                  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_ptr), __pyx_n_s_magSide); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 302, __pyx_L15_error)
+                                  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_tmp), __pyx_n_s_t, __pyx_t_5) < 0) __PYX_ERR(0, 302, __pyx_L15_error)
+                                  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+                                  /* "Models/fastIsing.pyx":303
+ *                 t = temps[i]
+ *                 tmp.t  = t
+ *                 jdx          = tmp.magSideOptions[tmp.magSide]             # <<<<<<<<<<<<<<
+ *                 if jdx:
+ *                     tmp.states = jdx
+ */
+                                  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_tmp), __pyx_n_s_magSideOptions); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 303, __pyx_L15_error)
+                                  __Pyx_GOTREF(__pyx_t_5);
+                                  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_tmp), __pyx_n_s_magSide); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 303, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_1);
-                                  __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 302, __pyx_L15_error)
+                                  __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 303, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_8);
                                   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
                                   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
                                   __Pyx_XDECREF_SET(__pyx_v_jdx, __pyx_t_8);
                                   __pyx_t_8 = 0;
 
-                                  /* "Models/fastIsing.pyx":303
- *                 (<Ising> ptr).t  = t
- *                 jdx          = (<Ising> ptr).magSideOptions[(<Ising> ptr).magSide]
+                                  /* "Models/fastIsing.pyx":304
+ *                 tmp.t  = t
+ *                 jdx          = tmp.magSideOptions[tmp.magSide]
  *                 if jdx:             # <<<<<<<<<<<<<<
- *                     (<Ising> ptr).states = jdx
+ *                     tmp.states = jdx
  *                 else:
  */
-                                  __pyx_t_15 = __Pyx_PyObject_IsTrue(__pyx_v_jdx); if (unlikely(__pyx_t_15 < 0)) __PYX_ERR(0, 303, __pyx_L15_error)
+                                  __pyx_t_15 = __Pyx_PyObject_IsTrue(__pyx_v_jdx); if (unlikely(__pyx_t_15 < 0)) __PYX_ERR(0, 304, __pyx_L15_error)
                                   if (__pyx_t_15) {
 
-                                    /* "Models/fastIsing.pyx":304
- *                 jdx          = (<Ising> ptr).magSideOptions[(<Ising> ptr).magSide]
+                                    /* "Models/fastIsing.pyx":305
+ *                 jdx          = tmp.magSideOptions[tmp.magSide]
  *                 if jdx:
- *                     (<Ising> ptr).states = jdx             # <<<<<<<<<<<<<<
+ *                     tmp.states = jdx             # <<<<<<<<<<<<<<
  *                 else:
- *                     (<Ising> ptr).reset()
+ *                     tmp.reset()
  */
-                                    if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_ptr), __pyx_n_s_states, __pyx_v_jdx) < 0) __PYX_ERR(0, 304, __pyx_L15_error)
+                                    if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_tmp), __pyx_n_s_states, __pyx_v_jdx) < 0) __PYX_ERR(0, 305, __pyx_L15_error)
 
-                                    /* "Models/fastIsing.pyx":303
- *                 (<Ising> ptr).t  = t
- *                 jdx          = (<Ising> ptr).magSideOptions[(<Ising> ptr).magSide]
+                                    /* "Models/fastIsing.pyx":304
+ *                 tmp.t  = t
+ *                 jdx          = tmp.magSideOptions[tmp.magSide]
  *                 if jdx:             # <<<<<<<<<<<<<<
- *                     (<Ising> ptr).states = jdx
+ *                     tmp.states = jdx
  *                 else:
  */
                                     goto __pyx_L17;
                                   }
 
-                                  /* "Models/fastIsing.pyx":306
- *                     (<Ising> ptr).states = jdx
+                                  /* "Models/fastIsing.pyx":307
+ *                     tmp.states = jdx
  *                 else:
- *                     (<Ising> ptr).reset()             # <<<<<<<<<<<<<<
+ *                     tmp.reset()             # <<<<<<<<<<<<<<
  *             # self.states     = jdx if jdx else self.reset() # rest to ones; only interested in how mag is kept
- *                 (<Ising> ptr).burnin(burninSamples)
+ *                 tmp.burnin(burninSamples)
  */
                                   /*else*/ {
-                                    ((struct __pyx_vtabstruct_6Models_9fastIsing_Ising *)((struct __pyx_obj_6Models_9fastIsing_Ising *)__pyx_v_ptr)->__pyx_base.__pyx_vtab)->__pyx_base.reset(((struct __pyx_obj_6Models_6models_Model *)((struct __pyx_obj_6Models_9fastIsing_Ising *)__pyx_v_ptr)), 0);
+                                    ((struct __pyx_vtabstruct_6Models_9fastIsing_Ising *)__pyx_v_tmp->__pyx_base.__pyx_vtab)->__pyx_base.reset(((struct __pyx_obj_6Models_6models_Model *)__pyx_v_tmp), 0);
                                   }
                                   __pyx_L17:;
 
-                                  /* "Models/fastIsing.pyx":308
- *                     (<Ising> ptr).reset()
+                                  /* "Models/fastIsing.pyx":309
+ *                     tmp.reset()
  *             # self.states     = jdx if jdx else self.reset() # rest to ones; only interested in how mag is kept
- *                 (<Ising> ptr).burnin(burninSamples)             # <<<<<<<<<<<<<<
- *                 tmp             = (<Ising> ptr).simulate(n)
- *                 results[0, i] = abs(tmp.mean())
+ *                 tmp.burnin(burninSamples)             # <<<<<<<<<<<<<<
+ *                 magres        = tmp.simulate(n)
+ *                 results[0, i] = abs(magres.mean())
  */
                                   __pyx_t_16.__pyx_n = 1;
                                   __pyx_t_16.samples = __pyx_v_burninSamples;
-                                  __pyx_t_8 = ((PyObject *)((struct __pyx_vtabstruct_6Models_9fastIsing_Ising *)((struct __pyx_obj_6Models_9fastIsing_Ising *)__pyx_v_ptr)->__pyx_base.__pyx_vtab)->burnin(((struct __pyx_obj_6Models_9fastIsing_Ising *)__pyx_v_ptr), 0, &__pyx_t_16)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 308, __pyx_L15_error)
+                                  __pyx_t_8 = ((PyObject *)((struct __pyx_vtabstruct_6Models_9fastIsing_Ising *)__pyx_v_tmp->__pyx_base.__pyx_vtab)->burnin(__pyx_v_tmp, 0, &__pyx_t_16)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 309, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_8);
                                   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-                                  /* "Models/fastIsing.pyx":309
+                                  /* "Models/fastIsing.pyx":310
  *             # self.states     = jdx if jdx else self.reset() # rest to ones; only interested in how mag is kept
- *                 (<Ising> ptr).burnin(burninSamples)
- *                 tmp             = (<Ising> ptr).simulate(n)             # <<<<<<<<<<<<<<
- *                 results[0, i] = abs(tmp.mean())
- *                 results[1, i] = ((tmp**2).mean() - tmp.mean()**2) * (<Ising> ptr).beta
+ *                 tmp.burnin(burninSamples)
+ *                 magres        = tmp.simulate(n)             # <<<<<<<<<<<<<<
+ *                 results[0, i] = abs(magres.mean())
+ *                 results[1, i] = ((magres**2).mean() - magres.mean()**2) * tmp.beta
  */
-                                  __pyx_t_8 = ((PyObject *)((struct __pyx_vtabstruct_6Models_9fastIsing_Ising *)((struct __pyx_obj_6Models_9fastIsing_Ising *)__pyx_v_ptr)->__pyx_base.__pyx_vtab)->__pyx_base.simulate(((struct __pyx_obj_6Models_6models_Model *)((struct __pyx_obj_6Models_9fastIsing_Ising *)__pyx_v_ptr)), __pyx_v_n, 0)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 309, __pyx_L15_error)
+                                  __pyx_t_8 = ((PyObject *)((struct __pyx_vtabstruct_6Models_9fastIsing_Ising *)__pyx_v_tmp->__pyx_base.__pyx_vtab)->__pyx_base.simulate(((struct __pyx_obj_6Models_6models_Model *)__pyx_v_tmp), __pyx_v_n, 0)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 310, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_8);
-                                  if (!(likely(((__pyx_t_8) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_8, __pyx_ptype_6Models_9fastIsing_Ising))))) __PYX_ERR(0, 309, __pyx_L15_error)
-                                  __Pyx_XDECREF_SET(__pyx_v_tmp, ((struct __pyx_obj_6Models_9fastIsing_Ising *)__pyx_t_8));
+                                  __Pyx_XDECREF_SET(__pyx_v_magres, ((PyArrayObject *)__pyx_t_8));
                                   __pyx_t_8 = 0;
 
-                                  /* "Models/fastIsing.pyx":310
- *                 (<Ising> ptr).burnin(burninSamples)
- *                 tmp             = (<Ising> ptr).simulate(n)
- *                 results[0, i] = abs(tmp.mean())             # <<<<<<<<<<<<<<
- *                 results[1, i] = ((tmp**2).mean() - tmp.mean()**2) * (<Ising> ptr).beta
+                                  /* "Models/fastIsing.pyx":311
+ *                 tmp.burnin(burninSamples)
+ *                 magres        = tmp.simulate(n)
+ *                 results[0, i] = abs(magres.mean())             # <<<<<<<<<<<<<<
+ *                 results[1, i] = ((magres**2).mean() - magres.mean()**2) * tmp.beta
  *                 pbar.update(1)
  */
-                                  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_tmp), __pyx_n_s_mean); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 310, __pyx_L15_error)
+                                  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_magres), __pyx_n_s_mean); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 311, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_1);
                                   __pyx_t_5 = NULL;
                                   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -5776,15 +5776,15 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_matchMagnetization(struc
                                   }
                                   __pyx_t_8 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
                                   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-                                  if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 310, __pyx_L15_error)
+                                  if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 311, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_8);
                                   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-                                  __pyx_t_1 = __Pyx_PyNumber_Absolute(__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 310, __pyx_L15_error)
+                                  __pyx_t_1 = __Pyx_PyNumber_Absolute(__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 311, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_1);
                                   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-                                  __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 310, __pyx_L15_error)
+                                  __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 311, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_8);
-                                  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 310, __pyx_L15_error)
+                                  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 311, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_5);
                                   __Pyx_INCREF(__pyx_int_0);
                                   __Pyx_GIVEREF(__pyx_int_0);
@@ -5792,20 +5792,20 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_matchMagnetization(struc
                                   __Pyx_GIVEREF(__pyx_t_8);
                                   PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_8);
                                   __pyx_t_8 = 0;
-                                  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_results), __pyx_t_5, __pyx_t_1) < 0)) __PYX_ERR(0, 310, __pyx_L15_error)
+                                  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_results), __pyx_t_5, __pyx_t_1) < 0)) __PYX_ERR(0, 311, __pyx_L15_error)
                                   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
                                   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-                                  /* "Models/fastIsing.pyx":311
- *                 tmp             = (<Ising> ptr).simulate(n)
- *                 results[0, i] = abs(tmp.mean())
- *                 results[1, i] = ((tmp**2).mean() - tmp.mean()**2) * (<Ising> ptr).beta             # <<<<<<<<<<<<<<
+                                  /* "Models/fastIsing.pyx":312
+ *                 magres        = tmp.simulate(n)
+ *                 results[0, i] = abs(magres.mean())
+ *                 results[1, i] = ((magres**2).mean() - magres.mean()**2) * tmp.beta             # <<<<<<<<<<<<<<
  *                 pbar.update(1)
  *         # print(results[0])
  */
-                                  __pyx_t_5 = PyNumber_Power(((PyObject *)__pyx_v_tmp), __pyx_int_2, Py_None); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 311, __pyx_L15_error)
+                                  __pyx_t_5 = PyNumber_Power(((PyObject *)__pyx_v_magres), __pyx_int_2, Py_None); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 312, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_5);
-                                  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_mean); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 311, __pyx_L15_error)
+                                  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_mean); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 312, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_8);
                                   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
                                   __pyx_t_5 = NULL;
@@ -5820,10 +5820,10 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_matchMagnetization(struc
                                   }
                                   __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_8);
                                   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-                                  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 311, __pyx_L15_error)
+                                  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 312, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_1);
                                   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-                                  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_tmp), __pyx_n_s_mean); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 311, __pyx_L15_error)
+                                  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_magres), __pyx_n_s_mean); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 312, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_5);
                                   __pyx_t_2 = NULL;
                                   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -5837,25 +5837,25 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_matchMagnetization(struc
                                   }
                                   __pyx_t_8 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
                                   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-                                  if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 311, __pyx_L15_error)
+                                  if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 312, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_8);
                                   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-                                  __pyx_t_5 = PyNumber_Power(__pyx_t_8, __pyx_int_2, Py_None); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 311, __pyx_L15_error)
+                                  __pyx_t_5 = PyNumber_Power(__pyx_t_8, __pyx_int_2, Py_None); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 312, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_5);
                                   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-                                  __pyx_t_8 = PyNumber_Subtract(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 311, __pyx_L15_error)
+                                  __pyx_t_8 = PyNumber_Subtract(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 312, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_8);
                                   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
                                   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-                                  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_ptr), __pyx_n_s_beta); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 311, __pyx_L15_error)
+                                  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_tmp), __pyx_n_s_beta); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 312, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_5);
-                                  __pyx_t_1 = PyNumber_Multiply(__pyx_t_8, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 311, __pyx_L15_error)
+                                  __pyx_t_1 = PyNumber_Multiply(__pyx_t_8, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 312, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_1);
                                   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
                                   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-                                  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 311, __pyx_L15_error)
+                                  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 312, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_5);
-                                  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 311, __pyx_L15_error)
+                                  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 312, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_8);
                                   __Pyx_INCREF(__pyx_int_1);
                                   __Pyx_GIVEREF(__pyx_int_1);
@@ -5863,18 +5863,18 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_matchMagnetization(struc
                                   __Pyx_GIVEREF(__pyx_t_5);
                                   PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_t_5);
                                   __pyx_t_5 = 0;
-                                  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_results), __pyx_t_8, __pyx_t_1) < 0)) __PYX_ERR(0, 311, __pyx_L15_error)
+                                  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_results), __pyx_t_8, __pyx_t_1) < 0)) __PYX_ERR(0, 312, __pyx_L15_error)
                                   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
                                   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-                                  /* "Models/fastIsing.pyx":312
- *                 results[0, i] = abs(tmp.mean())
- *                 results[1, i] = ((tmp**2).mean() - tmp.mean()**2) * (<Ising> ptr).beta
+                                  /* "Models/fastIsing.pyx":313
+ *                 results[0, i] = abs(magres.mean())
+ *                 results[1, i] = ((magres**2).mean() - magres.mean()**2) * tmp.beta
  *                 pbar.update(1)             # <<<<<<<<<<<<<<
  *         # print(results[0])
  *         self.t = tcopy # reset temp
  */
-                                  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_pbar, __pyx_n_s_update); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 312, __pyx_L15_error)
+                                  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_pbar, __pyx_n_s_update); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 313, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_8);
                                   __pyx_t_5 = NULL;
                                   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
@@ -5888,18 +5888,18 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_matchMagnetization(struc
                                   }
                                   __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_5, __pyx_int_1) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_int_1);
                                   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-                                  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 312, __pyx_L15_error)
+                                  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 313, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_1);
                                   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
                                   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
                                 }
 
                                 /* "Models/fastIsing.pyx":299
+ *             # m = copy.deepcopy(self)
  *             tid = threadid()
- *             ptr = tmpHolder[tid].ptr
  *             with gil:             # <<<<<<<<<<<<<<
+ *                 tmp = <Ising> tmpHolder[tid].ptr
  *                 t = temps[i]
- *                 (<Ising> ptr).t  = t
  */
                                 /*finally:*/ {
                                   /*normal exit:*/{
@@ -5943,9 +5943,8 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_matchMagnetization(struc
                             #endif /* _OPENMP */
                             {
                                 __pyx_parallel_temp0 = __pyx_v_i;
-                                __pyx_parallel_temp1 = __pyx_v_ptr;
-                                __pyx_parallel_temp2 = __pyx_v_t;
-                                __pyx_parallel_temp3 = __pyx_v_tid;
+                                __pyx_parallel_temp1 = __pyx_v_t;
+                                __pyx_parallel_temp2 = __pyx_v_tid;
                             }
                             __pyx_L19:;
                             #ifdef _OPENMP
@@ -5984,9 +5983,8 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_matchMagnetization(struc
             }
             if (__pyx_parallel_why) {
               __pyx_v_i = __pyx_parallel_temp0;
-              __pyx_v_ptr = __pyx_parallel_temp1;
-              __pyx_v_t = __pyx_parallel_temp2;
-              __pyx_v_tid = __pyx_parallel_temp3;
+              __pyx_v_t = __pyx_parallel_temp1;
+              __pyx_v_tid = __pyx_parallel_temp2;
               switch (__pyx_parallel_why) {
                     case 4:
                 {
@@ -6012,7 +6010,7 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_matchMagnetization(struc
         #endif
       }
 
-      /* "Models/fastIsing.pyx":294
+      /* "Models/fastIsing.pyx":295
  *             tmpHolder.push_back(PyObjectHolder(<PyObject *> tmp))
  * 
  *         for i in prange(N, nogil = True, schedule = 'static',\             # <<<<<<<<<<<<<<
@@ -6038,19 +6036,19 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_matchMagnetization(struc
       }
   }
 
-  /* "Models/fastIsing.pyx":314
+  /* "Models/fastIsing.pyx":315
  *                 pbar.update(1)
  *         # print(results[0])
  *         self.t = tcopy # reset temp             # <<<<<<<<<<<<<<
  *         return results
  *     def __deepcopy__(self, memo):
  */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_tcopy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 314, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_tcopy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_t, __pyx_t_1) < 0) __PYX_ERR(0, 314, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_t, __pyx_t_1) < 0) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "Models/fastIsing.pyx":315
+  /* "Models/fastIsing.pyx":316
  *         # print(results[0])
  *         self.t = tcopy # reset temp
  *         return results             # <<<<<<<<<<<<<<
@@ -6084,6 +6082,7 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_matchMagnetization(struc
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_results);
   __Pyx_XDECREF((PyObject *)__pyx_v_tmp);
+  __Pyx_XDECREF((PyObject *)__pyx_v_magres);
   __Pyx_XDECREF(__pyx_v_pbar);
   __Pyx_XDECREF(__pyx_v_jdx);
   __Pyx_XGIVEREF((PyObject *)__pyx_r);
@@ -6213,7 +6212,7 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_8matchMagnetization(struct _
   return __pyx_r;
 }
 
-/* "Models/fastIsing.pyx":316
+/* "Models/fastIsing.pyx":317
  *         self.t = tcopy # reset temp
  *         return results
  *     def __deepcopy__(self, memo):             # <<<<<<<<<<<<<<
@@ -6245,21 +6244,21 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_10__deepcopy__(struct __pyx_
   PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("__deepcopy__", 0);
 
-  /* "Models/fastIsing.pyx":319
+  /* "Models/fastIsing.pyx":320
  *         # print('deepcopy')
  *         tmp = Ising(
  *                     graph       = copy.deepcopy(self.graph), \             # <<<<<<<<<<<<<<
  *                     temperature = self.t,\
  *                     agentStates = list(self.agentStates.base),\
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 319, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 320, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 319, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 320, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_deepcopy); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 319, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_deepcopy); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 320, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_graph); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 319, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_graph); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 320, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -6274,93 +6273,93 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_10__deepcopy__(struct __pyx_
   __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 319, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 320, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_graph, __pyx_t_2) < 0) __PYX_ERR(0, 319, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_graph, __pyx_t_2) < 0) __PYX_ERR(0, 320, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "Models/fastIsing.pyx":320
+  /* "Models/fastIsing.pyx":321
  *         tmp = Ising(
  *                     graph       = copy.deepcopy(self.graph), \
  *                     temperature = self.t,\             # <<<<<<<<<<<<<<
  *                     agentStates = list(self.agentStates.base),\
  *                     updateType  = self.updateType,\
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 320, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 321, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_temperature, __pyx_t_2) < 0) __PYX_ERR(0, 319, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_temperature, __pyx_t_2) < 0) __PYX_ERR(0, 320, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "Models/fastIsing.pyx":321
+  /* "Models/fastIsing.pyx":322
  *                     graph       = copy.deepcopy(self.graph), \
  *                     temperature = self.t,\
  *                     agentStates = list(self.agentStates.base),\             # <<<<<<<<<<<<<<
  *                     updateType  = self.updateType,\
  *                     nudgeType   = self.nudgeType,\
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.agentStates.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 321, __pyx_L1_error)}
-  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.agentStates, 1, (PyObject *(*)(char *)) __pyx_memview_get_long, (int (*)(char *, PyObject *)) __pyx_memview_set_long, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 321, __pyx_L1_error)
+  if (unlikely(!__pyx_v_self->__pyx_base.agentStates.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 322, __pyx_L1_error)}
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.agentStates, 1, (PyObject *(*)(char *)) __pyx_memview_get_long, (int (*)(char *, PyObject *)) __pyx_memview_set_long, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 322, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_base); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 321, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_base); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 322, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PySequence_List(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 321, __pyx_L1_error)
+  __pyx_t_2 = PySequence_List(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 322, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_agentStates, __pyx_t_2) < 0) __PYX_ERR(0, 319, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_agentStates, __pyx_t_2) < 0) __PYX_ERR(0, 320, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "Models/fastIsing.pyx":322
+  /* "Models/fastIsing.pyx":323
  *                     temperature = self.t,\
  *                     agentStates = list(self.agentStates.base),\
  *                     updateType  = self.updateType,\             # <<<<<<<<<<<<<<
  *                     nudgeType   = self.nudgeType,\
  *                     magSide     = self.magSide)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_updateType); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 322, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_updateType); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 323, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_updateType, __pyx_t_2) < 0) __PYX_ERR(0, 319, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_updateType, __pyx_t_2) < 0) __PYX_ERR(0, 320, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "Models/fastIsing.pyx":323
+  /* "Models/fastIsing.pyx":324
  *                     agentStates = list(self.agentStates.base),\
  *                     updateType  = self.updateType,\
  *                     nudgeType   = self.nudgeType,\             # <<<<<<<<<<<<<<
  *                     magSide     = self.magSide)
  *         # tmp.states = self.states
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_nudgeType); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 323, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_nudgeType); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 324, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_nudgeType, __pyx_t_2) < 0) __PYX_ERR(0, 319, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_nudgeType, __pyx_t_2) < 0) __PYX_ERR(0, 320, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "Models/fastIsing.pyx":324
+  /* "Models/fastIsing.pyx":325
  *                     updateType  = self.updateType,\
  *                     nudgeType   = self.nudgeType,\
  *                     magSide     = self.magSide)             # <<<<<<<<<<<<<<
  *         # tmp.states = self.states
  *         return tmp
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_magSide); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 324, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_magSide); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 325, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_magSide, __pyx_t_2) < 0) __PYX_ERR(0, 319, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_magSide, __pyx_t_2) < 0) __PYX_ERR(0, 320, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "Models/fastIsing.pyx":318
+  /* "Models/fastIsing.pyx":319
  *     def __deepcopy__(self, memo):
  *         # print('deepcopy')
  *         tmp = Ising(             # <<<<<<<<<<<<<<
  *                     graph       = copy.deepcopy(self.graph), \
  *                     temperature = self.t,\
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_6Models_9fastIsing_Ising), __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 318, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_6Models_9fastIsing_Ising), __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 319, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_tmp = ((struct __pyx_obj_6Models_9fastIsing_Ising *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "Models/fastIsing.pyx":326
+  /* "Models/fastIsing.pyx":327
  *                     magSide     = self.magSide)
  *         # tmp.states = self.states
  *         return tmp             # <<<<<<<<<<<<<<
@@ -6372,7 +6371,7 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_10__deepcopy__(struct __pyx_
   __pyx_r = ((PyObject *)__pyx_v_tmp);
   goto __pyx_L0;
 
-  /* "Models/fastIsing.pyx":316
+  /* "Models/fastIsing.pyx":317
  *         self.t = tcopy # reset temp
  *         return results
  *     def __deepcopy__(self, memo):             # <<<<<<<<<<<<<<
@@ -6396,7 +6395,7 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_10__deepcopy__(struct __pyx_
   return __pyx_r;
 }
 
-/* "Models/fastIsing.pyx":328
+/* "Models/fastIsing.pyx":329
  *         return tmp
  * 
  *     def __reduce__(self):             # <<<<<<<<<<<<<<
@@ -6431,7 +6430,7 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_12__reduce__(struct __pyx_ob
   PyObject *__pyx_t_9 = NULL;
   __Pyx_RefNannySetupContext("__reduce__", 0);
 
-  /* "Models/fastIsing.pyx":329
+  /* "Models/fastIsing.pyx":330
  * 
  *     def __reduce__(self):
  *         return (rebuild, (self.graph, \             # <<<<<<<<<<<<<<
@@ -6439,35 +6438,35 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_12__reduce__(struct __pyx_ob
  *                           list(self.agentStates.base.copy()),\
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_rebuild); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 329, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_rebuild); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 330, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_graph); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 329, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_graph); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 330, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "Models/fastIsing.pyx":330
+  /* "Models/fastIsing.pyx":331
  *     def __reduce__(self):
  *         return (rebuild, (self.graph, \
  *                           self.t,\             # <<<<<<<<<<<<<<
  *                           list(self.agentStates.base.copy()),\
  *                           self.updateType,\
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_t); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 330, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_t); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 331, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "Models/fastIsing.pyx":331
+  /* "Models/fastIsing.pyx":332
  *         return (rebuild, (self.graph, \
  *                           self.t,\
  *                           list(self.agentStates.base.copy()),\             # <<<<<<<<<<<<<<
  *                           self.updateType,\
  *                           self.nudgeType,\
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.agentStates.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 331, __pyx_L1_error)}
-  __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.agentStates, 1, (PyObject *(*)(char *)) __pyx_memview_get_long, (int (*)(char *, PyObject *)) __pyx_memview_set_long, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 331, __pyx_L1_error)
+  if (unlikely(!__pyx_v_self->__pyx_base.agentStates.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 332, __pyx_L1_error)}
+  __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.agentStates, 1, (PyObject *(*)(char *)) __pyx_memview_get_long, (int (*)(char *, PyObject *)) __pyx_memview_set_long, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 332, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_base); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 331, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_base); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 332, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_copy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 331, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_copy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 332, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = NULL;
@@ -6482,56 +6481,56 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_12__reduce__(struct __pyx_ob
   }
   __pyx_t_4 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 331, __pyx_L1_error)
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 332, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PySequence_List(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 331, __pyx_L1_error)
+  __pyx_t_5 = PySequence_List(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 332, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "Models/fastIsing.pyx":332
+  /* "Models/fastIsing.pyx":333
  *                           self.t,\
  *                           list(self.agentStates.base.copy()),\
  *                           self.updateType,\             # <<<<<<<<<<<<<<
  *                           self.nudgeType,\
  *                           self.magSide, self.nudges.base))
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_updateType); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 332, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_updateType); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 333, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
-  /* "Models/fastIsing.pyx":333
+  /* "Models/fastIsing.pyx":334
  *                           list(self.agentStates.base.copy()),\
  *                           self.updateType,\
  *                           self.nudgeType,\             # <<<<<<<<<<<<<<
  *                           self.magSide, self.nudges.base))
  *     # property states:
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_nudgeType); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 333, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_nudgeType); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 334, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
 
-  /* "Models/fastIsing.pyx":334
+  /* "Models/fastIsing.pyx":335
  *                           self.updateType,\
  *                           self.nudgeType,\
  *                           self.magSide, self.nudges.base))             # <<<<<<<<<<<<<<
  *     # property states:
  *     #     def __get__(self):
  */
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_magSide); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 334, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_magSide); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 335, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_nudges); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 334, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_nudges); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 335, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_base); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 334, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_base); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 335, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "Models/fastIsing.pyx":329
+  /* "Models/fastIsing.pyx":330
  * 
  *     def __reduce__(self):
  *         return (rebuild, (self.graph, \             # <<<<<<<<<<<<<<
  *                           self.t,\
  *                           list(self.agentStates.base.copy()),\
  */
-  __pyx_t_8 = PyTuple_New(7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 329, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 330, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_2);
@@ -6554,7 +6553,7 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_12__reduce__(struct __pyx_ob
   __pyx_t_6 = 0;
   __pyx_t_7 = 0;
   __pyx_t_9 = 0;
-  __pyx_t_9 = PyTuple_New(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 329, __pyx_L1_error)
+  __pyx_t_9 = PyTuple_New(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 330, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_1);
@@ -6566,7 +6565,7 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_12__reduce__(struct __pyx_ob
   __pyx_t_9 = 0;
   goto __pyx_L0;
 
-  /* "Models/fastIsing.pyx":328
+  /* "Models/fastIsing.pyx":329
  *         return tmp
  * 
  *     def __reduce__(self):             # <<<<<<<<<<<<<<
@@ -6593,7 +6592,7 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_12__reduce__(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "Models/fastIsing.pyx":343
+/* "Models/fastIsing.pyx":344
  *     # PROPERTIES
  *     @property
  *     def magSide(self):             # <<<<<<<<<<<<<<
@@ -6629,7 +6628,7 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_7magSide___get__(struct __py
   int __pyx_t_8;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "Models/fastIsing.pyx":344
+  /* "Models/fastIsing.pyx":345
  *     @property
  *     def magSide(self):
  *         for k, v in self.magSideOptions.items():             # <<<<<<<<<<<<<<
@@ -6637,13 +6636,13 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_7magSide___get__(struct __py
  *                 return k
  */
   __pyx_t_2 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_magSideOptions); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 344, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_magSideOptions); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 345, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (unlikely(__pyx_t_5 == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "items");
-    __PYX_ERR(0, 344, __pyx_L1_error)
+    __PYX_ERR(0, 345, __pyx_L1_error)
   }
-  __pyx_t_6 = __Pyx_dict_iterator(__pyx_t_5, 0, __pyx_n_s_items, (&__pyx_t_3), (&__pyx_t_4)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 344, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_dict_iterator(__pyx_t_5, 0, __pyx_n_s_items, (&__pyx_t_3), (&__pyx_t_4)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 345, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_XDECREF(__pyx_t_1);
@@ -6652,7 +6651,7 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_7magSide___get__(struct __py
   while (1) {
     __pyx_t_7 = __Pyx_dict_iter_next(__pyx_t_1, __pyx_t_3, &__pyx_t_2, &__pyx_t_6, &__pyx_t_5, NULL, __pyx_t_4);
     if (unlikely(__pyx_t_7 == 0)) break;
-    if (unlikely(__pyx_t_7 == -1)) __PYX_ERR(0, 344, __pyx_L1_error)
+    if (unlikely(__pyx_t_7 == -1)) __PYX_ERR(0, 345, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_XDECREF_SET(__pyx_v_k, __pyx_t_6);
@@ -6660,22 +6659,22 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_7magSide___get__(struct __py
     __Pyx_XDECREF_SET(__pyx_v_v, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "Models/fastIsing.pyx":345
+    /* "Models/fastIsing.pyx":346
  *     def magSide(self):
  *         for k, v in self.magSideOptions.items():
  *             if v == self._magSide:             # <<<<<<<<<<<<<<
  *                 return k
  *     @magSide.setter
  */
-    __pyx_t_5 = __Pyx_PyInt_From_long(__pyx_v_self->_magSide); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 345, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_From_long(__pyx_v_self->_magSide); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 346, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyObject_RichCompare(__pyx_v_v, __pyx_t_5, Py_EQ); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 345, __pyx_L1_error)
+    __pyx_t_6 = PyObject_RichCompare(__pyx_v_v, __pyx_t_5, Py_EQ); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 346, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 345, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 346, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (__pyx_t_8) {
 
-      /* "Models/fastIsing.pyx":346
+      /* "Models/fastIsing.pyx":347
  *         for k, v in self.magSideOptions.items():
  *             if v == self._magSide:
  *                 return k             # <<<<<<<<<<<<<<
@@ -6688,7 +6687,7 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_7magSide___get__(struct __py
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       goto __pyx_L0;
 
-      /* "Models/fastIsing.pyx":345
+      /* "Models/fastIsing.pyx":346
  *     def magSide(self):
  *         for k, v in self.magSideOptions.items():
  *             if v == self._magSide:             # <<<<<<<<<<<<<<
@@ -6699,7 +6698,7 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_7magSide___get__(struct __py
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "Models/fastIsing.pyx":343
+  /* "Models/fastIsing.pyx":344
  *     # PROPERTIES
  *     @property
  *     def magSide(self):             # <<<<<<<<<<<<<<
@@ -6724,7 +6723,7 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_7magSide___get__(struct __py
   return __pyx_r;
 }
 
-/* "Models/fastIsing.pyx":348
+/* "Models/fastIsing.pyx":349
  *                 return k
  *     @magSide.setter
  *     def magSide(self, value):             # <<<<<<<<<<<<<<
@@ -6760,29 +6759,29 @@ static int __pyx_pf_6Models_9fastIsing_5Ising_7magSide_2__set__(struct __pyx_obj
   long __pyx_t_9;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "Models/fastIsing.pyx":349
+  /* "Models/fastIsing.pyx":350
  *     @magSide.setter
  *     def magSide(self, value):
  *         idx = self.magSideOptions.get(value,\             # <<<<<<<<<<<<<<
  *               f'Option not recognized. Options {self.magSideOptions.keys()}')
  *         if isinstance(idx, int):
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_magSideOptions); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 349, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_magSideOptions); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 350, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_get); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 349, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_get); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 350, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "Models/fastIsing.pyx":350
+  /* "Models/fastIsing.pyx":351
  *     def magSide(self, value):
  *         idx = self.magSideOptions.get(value,\
  *               f'Option not recognized. Options {self.magSideOptions.keys()}')             # <<<<<<<<<<<<<<
  *         if isinstance(idx, int):
  *             self._magSide = idx
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_magSideOptions); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 350, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_magSideOptions); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 351, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_keys); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 350, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_keys); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 351, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -6797,13 +6796,13 @@ static int __pyx_pf_6Models_9fastIsing_5Ising_7magSide_2__set__(struct __pyx_obj
   }
   __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 350, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 351, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_t_2, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 350, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_t_2, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 351, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyUnicode_Concat(__pyx_kp_u_Option_not_recognized_Options, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 350, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyUnicode_Concat(__pyx_kp_u_Option_not_recognized_Options, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 351, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -6821,7 +6820,7 @@ static int __pyx_pf_6Models_9fastIsing_5Ising_7magSide_2__set__(struct __pyx_obj
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_v_value, __pyx_t_2};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 349, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 350, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -6830,14 +6829,14 @@ static int __pyx_pf_6Models_9fastIsing_5Ising_7magSide_2__set__(struct __pyx_obj
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_v_value, __pyx_t_2};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 349, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 350, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   } else
   #endif
   {
-    __pyx_t_4 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 349, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 350, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     if (__pyx_t_5) {
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -6848,7 +6847,7 @@ static int __pyx_pf_6Models_9fastIsing_5Ising_7magSide_2__set__(struct __pyx_obj
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_6, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 349, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 350, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
@@ -6856,7 +6855,7 @@ static int __pyx_pf_6Models_9fastIsing_5Ising_7magSide_2__set__(struct __pyx_obj
   __pyx_v_idx = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "Models/fastIsing.pyx":351
+  /* "Models/fastIsing.pyx":352
  *         idx = self.magSideOptions.get(value,\
  *               f'Option not recognized. Options {self.magSideOptions.keys()}')
  *         if isinstance(idx, int):             # <<<<<<<<<<<<<<
@@ -6867,17 +6866,17 @@ static int __pyx_pf_6Models_9fastIsing_5Ising_7magSide_2__set__(struct __pyx_obj
   __pyx_t_8 = (__pyx_t_7 != 0);
   if (__pyx_t_8) {
 
-    /* "Models/fastIsing.pyx":352
+    /* "Models/fastIsing.pyx":353
  *               f'Option not recognized. Options {self.magSideOptions.keys()}')
  *         if isinstance(idx, int):
  *             self._magSide = idx             # <<<<<<<<<<<<<<
  *         else:
  *             print(idx)
  */
-    __pyx_t_9 = __Pyx_PyInt_As_long(__pyx_v_idx); if (unlikely((__pyx_t_9 == (long)-1) && PyErr_Occurred())) __PYX_ERR(0, 352, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyInt_As_long(__pyx_v_idx); if (unlikely((__pyx_t_9 == (long)-1) && PyErr_Occurred())) __PYX_ERR(0, 353, __pyx_L1_error)
     __pyx_v_self->_magSide = __pyx_t_9;
 
-    /* "Models/fastIsing.pyx":351
+    /* "Models/fastIsing.pyx":352
  *         idx = self.magSideOptions.get(value,\
  *               f'Option not recognized. Options {self.magSideOptions.keys()}')
  *         if isinstance(idx, int):             # <<<<<<<<<<<<<<
@@ -6887,7 +6886,7 @@ static int __pyx_pf_6Models_9fastIsing_5Ising_7magSide_2__set__(struct __pyx_obj
     goto __pyx_L3;
   }
 
-  /* "Models/fastIsing.pyx":354
+  /* "Models/fastIsing.pyx":355
  *             self._magSide = idx
  *         else:
  *             print(idx)             # <<<<<<<<<<<<<<
@@ -6895,13 +6894,13 @@ static int __pyx_pf_6Models_9fastIsing_5Ising_7magSide_2__set__(struct __pyx_obj
  *     @property
  */
   /*else*/ {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_v_idx); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 354, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_v_idx); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 355, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
   __pyx_L3:;
 
-  /* "Models/fastIsing.pyx":348
+  /* "Models/fastIsing.pyx":349
  *                 return k
  *     @magSide.setter
  *     def magSide(self, value):             # <<<<<<<<<<<<<<
@@ -6926,7 +6925,7 @@ static int __pyx_pf_6Models_9fastIsing_5Ising_7magSide_2__set__(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "Models/fastIsing.pyx":360
+/* "Models/fastIsing.pyx":361
  * 
  *     @property
  *     def beta(self): return self._beta             # <<<<<<<<<<<<<<
@@ -6953,7 +6952,7 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_4beta___get__(struct __pyx_o
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_beta); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 360, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_beta); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 361, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6970,7 +6969,7 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_4beta___get__(struct __pyx_o
   return __pyx_r;
 }
 
-/* "Models/fastIsing.pyx":363
+/* "Models/fastIsing.pyx":364
  * 
  *     @beta.setter
  *     def beta(self, value):             # <<<<<<<<<<<<<<
@@ -6997,17 +6996,17 @@ static int __pyx_pf_6Models_9fastIsing_5Ising_4beta_2__set__(struct __pyx_obj_6M
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "Models/fastIsing.pyx":364
+  /* "Models/fastIsing.pyx":365
  *     @beta.setter
  *     def beta(self, value):
  *         self._beta = value             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 364, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 365, __pyx_L1_error)
   __pyx_v_self->_beta = __pyx_t_1;
 
-  /* "Models/fastIsing.pyx":363
+  /* "Models/fastIsing.pyx":364
  * 
  *     @beta.setter
  *     def beta(self, value):             # <<<<<<<<<<<<<<
@@ -7026,7 +7025,7 @@ static int __pyx_pf_6Models_9fastIsing_5Ising_4beta_2__set__(struct __pyx_obj_6M
   return __pyx_r;
 }
 
-/* "Models/fastIsing.pyx":367
+/* "Models/fastIsing.pyx":368
  * 
  *     @property
  *     def t(self):             # <<<<<<<<<<<<<<
@@ -7053,7 +7052,7 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_1t___get__(struct __pyx_obj_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "Models/fastIsing.pyx":368
+  /* "Models/fastIsing.pyx":369
  *     @property
  *     def t(self):
  *         return self._t             # <<<<<<<<<<<<<<
@@ -7061,13 +7060,13 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_1t___get__(struct __pyx_obj_
  *     @t.setter
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 368, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 369, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "Models/fastIsing.pyx":367
+  /* "Models/fastIsing.pyx":368
  * 
  *     @property
  *     def t(self):             # <<<<<<<<<<<<<<
@@ -7086,7 +7085,7 @@ static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_1t___get__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "Models/fastIsing.pyx":371
+/* "Models/fastIsing.pyx":372
  * 
  *     @t.setter
  *     def t(self, value):             # <<<<<<<<<<<<<<
@@ -7116,44 +7115,44 @@ static int __pyx_pf_6Models_9fastIsing_5Ising_1t_2__set__(struct __pyx_obj_6Mode
   PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "Models/fastIsing.pyx":372
+  /* "Models/fastIsing.pyx":373
  *     @t.setter
  *     def t(self, value):
  *         self._t   = value             # <<<<<<<<<<<<<<
  *         self.beta = 1 / value if value != 0 else np.inf
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_t_2, __pyx_v_value) < 0) __PYX_ERR(0, 372, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_t_2, __pyx_v_value) < 0) __PYX_ERR(0, 373, __pyx_L1_error)
 
-  /* "Models/fastIsing.pyx":373
+  /* "Models/fastIsing.pyx":374
  *     def t(self, value):
  *         self._t   = value
  *         self.beta = 1 / value if value != 0 else np.inf             # <<<<<<<<<<<<<<
  * 
  * cpdef Ising rebuild(object graph, double t, \
  */
-  __pyx_t_2 = __Pyx_PyInt_NeObjC(__pyx_v_value, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 373, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_NeObjC(__pyx_v_value, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 374, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 373, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 374, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_3) {
-    __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_int_1, __pyx_v_value); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 373, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_int_1, __pyx_v_value); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 374, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_1 = __pyx_t_2;
     __pyx_t_2 = 0;
   } else {
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 373, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 374, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_inf); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 373, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_inf); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 374, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_1 = __pyx_t_4;
     __pyx_t_4 = 0;
   }
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_beta, __pyx_t_1) < 0) __PYX_ERR(0, 373, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_beta, __pyx_t_1) < 0) __PYX_ERR(0, 374, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "Models/fastIsing.pyx":371
+  /* "Models/fastIsing.pyx":372
  * 
  *     @t.setter
  *     def t(self, value):             # <<<<<<<<<<<<<<
@@ -7175,7 +7174,7 @@ static int __pyx_pf_6Models_9fastIsing_5Ising_1t_2__set__(struct __pyx_obj_6Mode
   return __pyx_r;
 }
 
-/* "Models/fastIsing.pyx":375
+/* "Models/fastIsing.pyx":376
  *         self.beta = 1 / value if value != 0 else np.inf
  * 
  * cpdef Ising rebuild(object graph, double t, \             # <<<<<<<<<<<<<<
@@ -7194,21 +7193,21 @@ static struct __pyx_obj_6Models_9fastIsing_Ising *__pyx_f_6Models_9fastIsing_reb
   PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannySetupContext("rebuild", 0);
 
-  /* "Models/fastIsing.pyx":381
+  /* "Models/fastIsing.pyx":382
  *                     str magSide, \
  *               np.ndarray nudges):
  *     cdef Ising tmp = copy.deepcopy(Ising(graph, t, agentStates, nudgeType, updateType, magSide))             # <<<<<<<<<<<<<<
  *     tmp.nudges = nudges.copy()
  *     return tmp
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_copy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 381, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_copy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_deepcopy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 381, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_deepcopy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 381, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = PyTuple_New(6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 381, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_INCREF(__pyx_v_graph);
   __Pyx_GIVEREF(__pyx_v_graph);
@@ -7228,7 +7227,7 @@ static struct __pyx_obj_6Models_9fastIsing_Ising *__pyx_f_6Models_9fastIsing_reb
   __Pyx_GIVEREF(__pyx_v_magSide);
   PyTuple_SET_ITEM(__pyx_t_4, 5, __pyx_v_magSide);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_6Models_9fastIsing_Ising), __pyx_t_4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 381, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_6Models_9fastIsing_Ising), __pyx_t_4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -7244,20 +7243,20 @@ static struct __pyx_obj_6Models_9fastIsing_Ising *__pyx_f_6Models_9fastIsing_reb
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 381, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6Models_9fastIsing_Ising))))) __PYX_ERR(0, 381, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6Models_9fastIsing_Ising))))) __PYX_ERR(0, 382, __pyx_L1_error)
   __pyx_v_tmp = ((struct __pyx_obj_6Models_9fastIsing_Ising *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "Models/fastIsing.pyx":382
+  /* "Models/fastIsing.pyx":383
  *               np.ndarray nudges):
  *     cdef Ising tmp = copy.deepcopy(Ising(graph, t, agentStates, nudgeType, updateType, magSide))
  *     tmp.nudges = nudges.copy()             # <<<<<<<<<<<<<<
  *     return tmp
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_nudges), __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 382, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_nudges), __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 383, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -7271,13 +7270,13 @@ static struct __pyx_obj_6Models_9fastIsing_Ising *__pyx_f_6Models_9fastIsing_reb
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 382, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 383, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_tmp), __pyx_n_s_nudges, __pyx_t_1) < 0) __PYX_ERR(0, 382, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_tmp), __pyx_n_s_nudges, __pyx_t_1) < 0) __PYX_ERR(0, 383, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "Models/fastIsing.pyx":383
+  /* "Models/fastIsing.pyx":384
  *     cdef Ising tmp = copy.deepcopy(Ising(graph, t, agentStates, nudgeType, updateType, magSide))
  *     tmp.nudges = nudges.copy()
  *     return tmp             # <<<<<<<<<<<<<<
@@ -7287,7 +7286,7 @@ static struct __pyx_obj_6Models_9fastIsing_Ising *__pyx_f_6Models_9fastIsing_reb
   __pyx_r = __pyx_v_tmp;
   goto __pyx_L0;
 
-  /* "Models/fastIsing.pyx":375
+  /* "Models/fastIsing.pyx":376
  *         self.beta = 1 / value if value != 0 else np.inf
  * 
  * cpdef Ising rebuild(object graph, double t, \             # <<<<<<<<<<<<<<
@@ -7356,41 +7355,41 @@ static PyObject *__pyx_pw_6Models_9fastIsing_1rebuild(PyObject *__pyx_self, PyOb
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_t)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("rebuild", 1, 7, 7, 1); __PYX_ERR(0, 375, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("rebuild", 1, 7, 7, 1); __PYX_ERR(0, 376, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_agentStates)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("rebuild", 1, 7, 7, 2); __PYX_ERR(0, 375, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("rebuild", 1, 7, 7, 2); __PYX_ERR(0, 376, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_updateType)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("rebuild", 1, 7, 7, 3); __PYX_ERR(0, 375, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("rebuild", 1, 7, 7, 3); __PYX_ERR(0, 376, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_nudgeType)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("rebuild", 1, 7, 7, 4); __PYX_ERR(0, 375, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("rebuild", 1, 7, 7, 4); __PYX_ERR(0, 376, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_magSide)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("rebuild", 1, 7, 7, 5); __PYX_ERR(0, 375, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("rebuild", 1, 7, 7, 5); __PYX_ERR(0, 376, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
         if (likely((values[6] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_nudges)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("rebuild", 1, 7, 7, 6); __PYX_ERR(0, 375, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("rebuild", 1, 7, 7, 6); __PYX_ERR(0, 376, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "rebuild") < 0)) __PYX_ERR(0, 375, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "rebuild") < 0)) __PYX_ERR(0, 376, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 7) {
       goto __pyx_L5_argtuple_error;
@@ -7404,7 +7403,7 @@ static PyObject *__pyx_pw_6Models_9fastIsing_1rebuild(PyObject *__pyx_self, PyOb
       values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
     }
     __pyx_v_graph = values[0];
-    __pyx_v_t = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_t == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 375, __pyx_L3_error)
+    __pyx_v_t = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_t == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 376, __pyx_L3_error)
     __pyx_v_agentStates = ((PyObject*)values[2]);
     __pyx_v_updateType = ((PyObject*)values[3]);
     __pyx_v_nudgeType = ((PyObject*)values[4]);
@@ -7413,17 +7412,17 @@ static PyObject *__pyx_pw_6Models_9fastIsing_1rebuild(PyObject *__pyx_self, PyOb
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("rebuild", 1, 7, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 375, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("rebuild", 1, 7, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 376, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("Models.fastIsing.rebuild", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_agentStates), (&PyList_Type), 1, "agentStates", 1))) __PYX_ERR(0, 376, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_updateType), (&PyUnicode_Type), 1, "updateType", 1))) __PYX_ERR(0, 377, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_nudgeType), (&PyUnicode_Type), 1, "nudgeType", 1))) __PYX_ERR(0, 378, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_magSide), (&PyUnicode_Type), 1, "magSide", 1))) __PYX_ERR(0, 379, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_nudges), __pyx_ptype_5numpy_ndarray, 1, "nudges", 0))) __PYX_ERR(0, 380, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_agentStates), (&PyList_Type), 1, "agentStates", 1))) __PYX_ERR(0, 377, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_updateType), (&PyUnicode_Type), 1, "updateType", 1))) __PYX_ERR(0, 378, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_nudgeType), (&PyUnicode_Type), 1, "nudgeType", 1))) __PYX_ERR(0, 379, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_magSide), (&PyUnicode_Type), 1, "magSide", 1))) __PYX_ERR(0, 380, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_nudges), __pyx_ptype_5numpy_ndarray, 1, "nudges", 0))) __PYX_ERR(0, 381, __pyx_L1_error)
   __pyx_r = __pyx_pf_6Models_9fastIsing_rebuild(__pyx_self, __pyx_v_graph, __pyx_v_t, __pyx_v_agentStates, __pyx_v_updateType, __pyx_v_nudgeType, __pyx_v_magSide, __pyx_v_nudges);
 
   /* function exit code */
@@ -7441,7 +7440,7 @@ static PyObject *__pyx_pf_6Models_9fastIsing_rebuild(CYTHON_UNUSED PyObject *__p
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("rebuild", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = ((PyObject *)__pyx_f_6Models_9fastIsing_rebuild(__pyx_v_graph, __pyx_v_t, __pyx_v_agentStates, __pyx_v_updateType, __pyx_v_nudgeType, __pyx_v_magSide, __pyx_v_nudges, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 375, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_f_6Models_9fastIsing_rebuild(__pyx_v_graph, __pyx_v_t, __pyx_v_agentStates, __pyx_v_updateType, __pyx_v_nudgeType, __pyx_v_magSide, __pyx_v_nudges, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 376, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -23706,7 +23705,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 90, __pyx_L1_error)
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 181, __pyx_L1_error)
-  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 279, __pyx_L1_error)
+  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 280, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 272, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(1, 856, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(1, 1038, __pyx_L1_error)
@@ -23736,14 +23735,14 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
-  /* "Models/fastIsing.pyx":279
- *             vector[PyObjectHolder] tmpHolder
+  /* "Models/fastIsing.pyx":280
  *             cdef Ising tmp
+ *             cdef np.ndarray magres
  *         print("Computing mag per t")             # <<<<<<<<<<<<<<
  *         pbar = tqdm(total = N)
  *         # for i in prange(N, nogil = True, num_threads = threads, \
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_Computing_mag_per_t); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_Computing_mag_per_t); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 280, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
@@ -24509,93 +24508,93 @@ if (!__Pyx_RefNanny) {
  * from Models.models cimport Model
  * # from models cimport Model
  * import numpy  as np             # <<<<<<<<<<<<<<
+ * cimport numpy as np
  * 
- * from scipy.stats import linregress
  */
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "Models/fastIsing.pyx":14
- * import numpy  as np
+  /* "Models/fastIsing.pyx":15
+ * cimport numpy as np
  * 
  * from scipy.stats import linregress             # <<<<<<<<<<<<<<
  * import networkx as nx, multiprocessing as mp, \
  *                 scipy,  functools, copy, time
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_linregress);
   __Pyx_GIVEREF(__pyx_n_s_linregress);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_linregress);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_scipy_stats, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_scipy_stats, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_linregress); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_linregress); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_linregress, __pyx_t_1) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_linregress, __pyx_t_1) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "Models/fastIsing.pyx":15
+  /* "Models/fastIsing.pyx":16
  * 
  * from scipy.stats import linregress
  * import networkx as nx, multiprocessing as mp, \             # <<<<<<<<<<<<<<
  *                 scipy,  functools, copy, time
  * from tqdm import tqdm
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_networkx, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_networkx, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_nx, __pyx_t_2) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_nx, __pyx_t_2) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_multiprocessing, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_multiprocessing, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_mp, __pyx_t_2) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_mp, __pyx_t_2) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "Models/fastIsing.pyx":16
+  /* "Models/fastIsing.pyx":17
  * from scipy.stats import linregress
  * import networkx as nx, multiprocessing as mp, \
  *                 scipy,  functools, copy, time             # <<<<<<<<<<<<<<
  * from tqdm import tqdm
  * 
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_scipy, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_scipy, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_scipy, __pyx_t_2) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_scipy, __pyx_t_2) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_functools, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_functools, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_functools, __pyx_t_2) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_functools, __pyx_t_2) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_copy, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_copy, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_copy, __pyx_t_2) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_copy, __pyx_t_2) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_time, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_time, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_time, __pyx_t_2) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_time, __pyx_t_2) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "Models/fastIsing.pyx":17
+  /* "Models/fastIsing.pyx":18
  * import networkx as nx, multiprocessing as mp, \
  *                 scipy,  functools, copy, time
  * from tqdm import tqdm             # <<<<<<<<<<<<<<
  * 
  * # ___CythonImports___
  */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_tqdm);
   __Pyx_GIVEREF(__pyx_n_s_tqdm);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_tqdm);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_tqdm, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_tqdm, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_tqdm); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_tqdm); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_tqdm, __pyx_t_2) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_tqdm, __pyx_t_2) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -24721,7 +24720,7 @@ if (!__Pyx_RefNanny) {
   /* "Models/fastIsing.pyx":1
  * # cython: infer_types=True             # <<<<<<<<<<<<<<
  * # distutils: language=c++
- * # -*- coding: utf-8 -*-
+ * # __author__ = 'Casper van Elteren'
  */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);

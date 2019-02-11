@@ -1,5 +1,7 @@
 # cython: infer_types=True
 # distutils: language=c++
+# __author__ = 'Casper van Elteren'
+
 
 import numpy as np
 cimport numpy as np
@@ -18,9 +20,9 @@ from libcpp.vector cimport vector
 from libcpp.map cimport map
 from libcpp.unordered_map cimport unordered_map
 from libc.math cimport lround
-cdef extern from "limits.h":
-    int INT_MAX
-    int RAND_MAX
+# cdef extern from "limits.h":
+#     int INT_MAX
+#     int RAND_MAX
 
 
 # SEED SETUP

@@ -1,3 +1,5 @@
+# cython: infer_types=True
+# distutils: language=c++
 # __author__ = 'Casper van Elteren'
 cimport numpy as np
 from libcpp.vector cimport vector
