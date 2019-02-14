@@ -291,26 +291,34 @@ cdef class Ising(Model):
             # tmp.seed += sample # enforce different seeds
             # modelsPy.append(tmp)
             tmpHolder.push_back(PyObjectHolder(<PyObject *> tmp))
+        for i, t in enumerate(temps):
+            self.t = t
+            self.states = 1
+            self.burnin(burninSamples)
+            magres  = self.simulate(n)
+            results[0, i] = abs(magres.mean())
+            results[1, i] = ((magres**2).mean() - magres.mean()**2) * tmp.beta
+            pbar.update(1)
 
-        for i in prange(N, nogil = True, schedule = 'static',\
-                        num_threads = threads):
-            # m = copy.deepcopy(self)
-            tid = threadid()
-            with gil:
-                tmp = <Ising> tmpHolder[tid].ptr
-                t = temps[i]
-                tmp.t  = t
-                jdx          = tmp.magSideOptions[tmp.magSide]
-                if jdx:
-                    tmp.states = jdx
-                else:
-                    tmp.reset()
-            # self.states     = jdx if jdx else self.reset() # rest to ones; only interested in how mag is kept
-                tmp.burnin(burninSamples)
-                magres        = tmp.simulate(n)
-                results[0, i] = abs(magres.mean())
-                results[1, i] = ((magres**2).mean() - magres.mean()**2) * tmp.beta
-                pbar.update(1)
+        # for i in prange(N, nogil = True, schedule = 'static',\
+        #                 num_threads = threads):
+        #     # m = copy.deepcopy(self)
+        #     tid = threadid()
+        #     with gil:
+        #         tmp = <Ising> tmpHolder[tid].ptr
+        #         t = temps[i]
+        #         tmp.t  = t
+        #         jdx          = tmp.magSideOptions[tmp.magSide]
+        #         if jdx:
+        #             tmp.states = jdx
+        #         else:
+        #             tmp.states = 1
+        #     # self.states     = jdx if jdx else self.reset() # rest to ones; only interested in how mag is kept
+        #         tmp.burnin(burninSamples)
+        #         magres        = tmp.simulate(n)
+        #         results[0, i] = abs(magres.mean())
+        #         results[1, i] = ((magres**2).mean() - magres.mean()**2) * tmp.beta
+        #         pbar.update(1)
         # print(results[0])
         self.t = tcopy # reset temp
         return results
