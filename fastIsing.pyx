@@ -275,56 +275,56 @@ cdef class Ising(Model):
             # Ising m
             int threads = mp.cpu_count()
             vector[PyObjectHolder] tmpHolder
-            cdef Ising tmp
-            cdef np.ndarray magres
+            Ising tmp
+            np.ndarray magres
+            list modelsPy = []
         print("Computing mag per t")
         pbar = tqdm(total = N)
         # for i in prange(N, nogil = True, num_threads = threads, \
                         # schedule = 'static'):
             # with gil:
-        cdef PyObject *ptr
+        cdef PyObject *tmptr
         cdef int tid
         for i in range(threads):
             tmp = copy.deepcopy(self)
             # tmp.reset()
             # tmp.burnin(burninSamples)
             # tmp.seed += sample # enforce different seeds
-            # modelsPy.append(tmp)
+            modelsPy.append(tmp)
             tmpHolder.push_back(PyObjectHolder(<PyObject *> tmp))
-        for i, t in enumerate(temps):
-            self.t = t
-            # self.reset()
-            jdx    = tmp.magSideOptions[tmp.magSide]
-            if abs(jdx): # sanity
-                tmp.states = jdx
-            else:
-                tmp.states = 1
-            self.burnin(burninSamples)
-            magres  = self.simulate(n)
-            results[0, i] = abs(magres.mean())
-            results[1, i] = ((magres**2).mean() - magres.mean()**2) * tmp.beta
-            pbar.update(1)
+        # for i, t in enumerate(temps):
+        #     self.t = t
+        #     # self.reset()
+        #     jdx    = tmp.magSideOptions[tmp.magSide]
+        #     if abs(jdx): # sanity
+        #         tmp.states = jdx
+        #     else:
+        #         tmp.states = 1
+        #     self.burnin(burninSamples)
+        #     magres  = self.simulate(n)
+        #     results[0, i] = abs(magres.mean())
+        #     results[1, i] = ((magres**2).mean() - magres.mean()**2) * tmp.beta
+        #     pbar.update(1)
 
-        # for i in prange(N, nogil = True, schedule = 'static',\
-        #                 num_threads = threads):
-        #     # m = copy.deepcopy(self)
-        #     with gil:
-        #         tid = threadid()
-        #         tmp = <Ising> tmpHolder[tid].ptr
-        #         t   = temps[i]
-        #
-        #         tmp.t  = t
-        #         jdx    = tmp.magSideOptions[tmp.magSide]
-        #         if jdx:
-        #             tmp.states = jdx
-        #         else:
-        #             tmp.states = 1
-        #     # self.states     = jdx if jdx else self.reset() # rest to ones; only interested in how mag is kept
-        #         tmp.burnin(burninSamples)
-        #         magres        = tmp.simulate(n)
-        #         results[0, i] = abs(magres.mean())
-                # results[1, i] = ((magres**2).mean() - magres.mean()**2) * tmp.beta
-                # pbar.update(1)
+        for i in prange(N, nogil = True, schedule = 'static',\
+                        num_threads = threads):
+            # m = copy.deepcopy(self)
+            tid = threadid()
+            tmptr = tmpHolder[tid].ptr
+            with gil:
+                t                  = temps[i]
+                (<Ising> tmptr).t  = t
+                jdx    = (<Ising> tmptr).magSideOptions[tmp.magSide]
+                if jdx:
+                    (<Ising> tmptr).states = jdx
+                else:
+                    (<Ising> tmptr).states = 1
+            # self.states     = jdx if jdx else self.reset() # rest to ones; only interested in how mag is kept
+                (<Ising> tmptr).burnin(burninSamples)
+                magres        = (<Ising> tmptr).simulate(n)
+                results[0, i] = abs(magres.mean())
+                results[1, i] = ((magres**2).mean() - magres.mean()**2) * (<Ising> tmptr).beta
+                pbar.update(1)
         # print(results[0])
         self.t = tcopy # reset temp
         return results
