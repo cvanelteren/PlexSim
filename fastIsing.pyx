@@ -254,7 +254,7 @@ cdef class Ising(Model):
     cpdef  np.ndarray matchMagnetization(self,\
                               np.ndarray temps  = np.logspace(-3, 2, 20),\
                           int n             = int(1e3),\
-                          int burninSamples = 100):
+                          int burninSamples = 0):
         """
         Computes the magnetization as a function of temperatures
         Input:
