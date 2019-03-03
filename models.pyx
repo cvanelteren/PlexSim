@@ -88,82 +88,113 @@ cdef class Model: # see pxd
         cdef:
             dict mapping = {} # made nodelabe to internal
             dict rmapping= {} # reverse
-            str delim = '\t'
+            # str delim = '\t'
             np.ndarray states = np.zeros(graph.number_of_nodes(), int, 'C')
-            int counter
+            int counter = 0
             # double[::1] nudges = np.zeros(graph.number_of_nodes(), dtype = float)
             np.ndarray nudges = np.zeros(graph.number_of_nodes(), dtype = float)
             unordered_map[long, Connection] adj # see .pxd
 
 
-        from ast import literal_eval
-        connecting = graph.neighbors if isinstance(graph, nx.Graph) else nx.predecessors
+        # from ast import literal_eval
+        # connecting = graph.neighbors if isinstance(graph, nx.Graph) else nx.predecessors
 
         # cdef dict _neighbors = {}
         # cdef dict _weights   = {}
         # generate adjlist
-        for line in nx.generate_multiline_adjlist(graph, delim):
-            add = False # tmp for not overwriting doubles
-            # input validation
-            lineData = []
-            # if second is not dict then it must be source
-            for prop in line.split(delim):
-                try:
-                    i = literal_eval(prop) # throws error if only string
-                    lineData.append(i)
-                except:
-                    lineData.append(prop) # for strings
-            node, info = lineData
-            # check properties, assign defaults
-            if 'state' not in graph.node[node]:
-                idx = np.random.choice(agentStates)
-                # print(idx, agentStates)
-                graph.node[node]['state'] = idx
-            if 'nudge' not in graph.node[node]:
-                graph.node[node]['nudge'] =  DEFAULTNUDGE
+        nodelink = nx.node_link_data(graph)
+        for node in nodelink['nodes']:
+            id  = node.get('id')
+            if id not in mapping:
+                mapping[id]       = counter
+                rmapping[counter] = id
+                counter += 1
+            nodeid = mapping[id]
+            states[nodeid] = <long>   node.get('state', np.random.choice(agentStates))
+            nudges[nodeid] = <double> node.get('nudge', DEFAULTNUDGE)
 
-            # if not dict then it is a source
-            if isinstance(info, dict) is False:
-                # add node to seen
-                if node not in mapping:
-                    # append to stack
-                    counter             = len(mapping)
-                    mapping[node]       = counter
-                    rmapping[counter]   = node
-
-                # set source
-                source   = node
-                sourceID = mapping[node]
-
-                states[sourceID] = <long> graph.node[node]['state']
-                nudges[sourceID] = <double> graph.node[node]['nudge']
-            # check neighbors
+        reverse  = nodelink.get('directed')
+        for link in nodelink['links']:
+            source = mapping[link.get('source')]
+            target = mapping[link.get('target')]
+            weight = link.get('weight', DEFAULTWEIGHT)
+            if reverse:
+                source, target = target, source
+                # tmp    = source
+                # source = target
+                # target = tmp
+                adj[source].neighbors.push_back(target)
+                adj[source].weights.push_back(weight)
             else:
-                if 'weight' not in info:
-                    graph[source][node]['weight'] = DEFAULTWEIGHT
-                if node not in mapping:
-                    counter           = len(mapping)
-                    mapping[node]     = counter
-                    rmapping[counter] = node
+                adj[source].neighbors.push_back(target)
+                adj[target].neighbors.push_back(source)
 
-                # check if it has a reverse edge
-                if graph.has_edge(node, source):
-                    sincID = mapping[node]
-                    weight = graph[node][source]['weight']
-                    # check if t he node is already in stack
-                    if sourceID in set(adj[sincID]) :
-                        add = True
-                    # not found so we should add
-                    else:
-                        add = True
-                # add source > node
-                sincID = <long> mapping[node]
-                adj[sourceID].neighbors.push_back(<long> mapping[node])
-                adj[sourceID].weights.push_back(<double> graph[source][node]['weight'])
-                # add reverse
-                if add:
-                    adj[sincID].neighbors.push_back( <long> sourceID)
-                    adj[sincID].weights.push_back( <double> graph[node][source]['weight'])
+                adj[source].weights.push_back(weight)
+                adj[target].weights.push_back(weight)
+
+
+        # for line in nx.generate_multiline_adjlist(graph, delim):
+        #     add = False # tmp for not overwriting doubles
+        #     # input validation
+        #     lineData = []
+        #     # if second is not dict then it must be source
+        #     for prop in line.split(delim):
+        #         try:
+        #             i = literal_eval(prop) # throws error if only string
+        #             lineData.append(i)
+        #         except:
+        #             lineData.append(prop) # for strings
+        #     node, info = lineData
+        #     # check properties, assign defaults
+        #     if 'state' not in graph.node[node]:
+        #         idx = np.random.choice(agentStates)
+        #         # print(idx, agentStates)
+        #         graph.node[node]['state'] = idx
+        #     if 'nudge' not in graph.node[node]:
+        #         graph.node[node]['nudge'] =  DEFAULTNUDGE
+        #
+        #     # if not dict then it is a source
+        #     if isinstance(info, dict) is False:
+        #         # add node to seen
+        #         if node not in mapping:
+        #             # append to stack
+        #             counter             = len(mapping)
+        #             mapping[node]       = counter
+        #             rmapping[counter]   = node
+        #
+        #         # set source
+        #         source   = node
+        #         sourceID = mapping[node]
+        #
+        #         states[sourceID] = <long> graph.node[node]['state']
+        #         nudges[sourceID] = <double> graph.node[node]['nudge']
+        #     # check neighbors
+        #     else:
+        #         if 'weight' not in info:
+        #             graph[source][node]['weight'] = DEFAULTWEIGHT
+        #         if node not in mapping:
+        #             counter           = len(mapping)
+        #             mapping[node]     = counter
+        #             rmapping[counter] = node
+        #
+        #         # check if it has a reverse edge
+        #         if graph.has_edge(node, source):
+        #             sincID = mapping[node]
+        #             weight = graph[node][source]['weight']
+        #             # check if t he node is already in stack
+        #             if sourceID in set(adj[sincID]) :
+        #                 add = True
+        #             # not found so we should add
+        #             else:
+        #                 add = True
+        #         # add source > node
+        #         sincID = <long> mapping[node]
+        #         adj[sourceID].neighbors.push_back(<long> mapping[node])
+        #         adj[sourceID].weights.push_back(<double> graph[source][node]['weight'])
+        #         # add reverse
+        #         if add:
+        #             adj[sincID].neighbors.push_back( <long> sourceID)
+        #             adj[sincID].weights.push_back( <double> graph[node][source]['weight'])
 
         # public and python accessible
         self.graph       = graph
