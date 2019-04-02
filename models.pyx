@@ -303,8 +303,9 @@ cdef class Model: # see pxd
             long[:, ::1] r = self.sampleNodes(samples)
             # vector[vector[int][sampleSize]] r = self.sampleNodes(samples)
             int i
-        for i in range(samples):
-            results[i] = self.updateState(r[i])
+        results[0] = self._states
+        for i in range(samples - 1):
+            results[i + 1] = self.updateState(r[i])
         return results.base # convert back to normal array
 
     # TODO: make class pickable
