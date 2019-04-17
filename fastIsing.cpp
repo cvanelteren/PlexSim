@@ -4716,18 +4716,18 @@ static __Pyx_memviewslice __pyx_f_6Models_9fastIsing_5Ising__updateState(struct 
  *             node      = nodesToUpdate[n]
  *             energy    = self.energy(node, self._states)             # <<<<<<<<<<<<<<
  *             # p = 1 / ( 1. + exp_approx(-self.beta * 2. * energy) )
- *             p  = 1 / ( 1. + exp(-self._beta * 2. * energy))
+ *             p  = 1 / ( 1. + exp( self._beta * 2. * energy))
  */
     __pyx_v_energy = ((struct __pyx_vtabstruct_6Models_9fastIsing_Ising *)__pyx_v_self->__pyx_base.__pyx_vtab)->energy(__pyx_v_self, __pyx_v_node, __pyx_v_self->__pyx_base._states);
 
     /* "Models/fastIsing.pyx":217
  *             energy    = self.energy(node, self._states)
  *             # p = 1 / ( 1. + exp_approx(-self.beta * 2. * energy) )
- *             p  = 1 / ( 1. + exp(-self._beta * 2. * energy))             # <<<<<<<<<<<<<<
+ *             p  = 1 / ( 1. + exp( self._beta * 2. * energy))             # <<<<<<<<<<<<<<
  *             # p  = p  +  self._nudges[node]
  *             # p += self._nudges[node]
  */
-    __pyx_v_p = (1.0 / (1. + exp((((-__pyx_v_self->_beta) * 2.) * __pyx_v_energy))));
+    __pyx_v_p = (1.0 / (1. + exp(((__pyx_v_self->_beta * 2.) * __pyx_v_energy))));
 
     /* "Models/fastIsing.pyx":220
  *             # p  = p  +  self._nudges[node]
