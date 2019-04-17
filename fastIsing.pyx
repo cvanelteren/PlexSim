@@ -214,7 +214,7 @@ cdef class Ising(Model):
             node      = nodesToUpdate[n]
             energy    = self.energy(node, self._states)
             # p = 1 / ( 1. + exp_approx(-self.beta * 2. * energy) )
-            p  = 1 / ( 1. + exp(-self._beta * 2. * energy))
+            p  = 1 / ( 1. + exp( self._beta * 2. * energy))
             # p  = p  +  self._nudges[node]
             # p += self._nudges[node]
             if self.rand() < p:
