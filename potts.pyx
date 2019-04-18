@@ -1,3 +1,4 @@
+# cython: infer_types=True
 # distutils: language=c++
 from Models.models cimport Model
 from libcpp.vector cimport vector
@@ -10,7 +11,7 @@ from libc.math cimport exp
 
 cdef class Potts(Model):
     def __init__(self, \
-                graph,\
+                 graph,\
                  temperature = 1,\
                  agentStates = [-1 ,1, 0],\
                  nudgeType   = 'constant',\
@@ -33,9 +34,6 @@ cdef class Potts(Model):
         self._H               = H
         # self._beta             = np.inf if temperature == 0 else 1 / temperature
         self.t                  = temperature
-
-    cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
-        return self._updateState(nodesToUpdate)
 
     @property
     def magSide(self):
@@ -69,22 +67,28 @@ cdef class Potts(Model):
         self._t   = value
         self.beta = 1 / value if value != 0 else np.inf
 
+    cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
+        return self._updateState(nodesToUpdate)
 
-    cdef double[::1] energy(self, int node, long[::1] states) nogil:
+    cdef vector[double] energy(self, int node, long[::1] states) nogil:
         cdef:
             long neighbors = self._adj[node].neighbors.size()
             long neighbor, neighboridx
             double weight
             long possibleState
             vector[double] energy
+        # fill buffer
+        # TODO: change this to more efficient buffer
+        for possibleState in range(self._nStates):
+            energy.push_back(1)
         # count the neighbors in the different possible states
         for neighboridx in range(neighbors):
-            neighbor  =  self._adj[node].neighbors[neighboridx]
+            neighbor   = self._adj[node].neighbors[neighboridx]
             weight     = self._adj[node].weights[neighboridx]
             for possibleState in range(self._nStates):
                 # assume the node is in some state
                 if states[neighbor] == self.agentStates[possibleState]:
-                    energy[possibleState]  *= exp(-self._beta * weight)
+                    energy[possibleState] *= exp(- self._beta * weight)
         return energy
     cdef long[::1] _updateState(self, long[::1] nodesToUpdate) nogil:
 
@@ -95,26 +99,26 @@ cdef class Potts(Model):
 
         cdef:
             int nodes = nodesToUpdate.shape[0]
-            long node
-            double[::1] probs
+            long node, nodeidx
+            vector[double] probs
             int agentState
             double previous = 0, randomNumber, Z
-        for node in range(nodes):
-            node = nodesToUpdate[node]
+        for nodeidx in range(nodes):
+            node = nodesToUpdate[nodeidx]
             probs = self.energy(node, self._states)
             Z       = 0
             for agentState in range(self._nStates):
                 Z += probs[agentState]
-
-            randomNumber = self.rand()
+            # with gil: print(Z, probs)
+            randomNumber  = self.rand()
             previous      = 0
-
             # check all possible agent states
             for agentState in range(self._nStates):
                 # update probability to cumulative
                 probs[agentState] = probs[agentState] /  Z + previous
                 # check whether to swap state,  at most check all states
-                if probs[agentState] <= randomNumber:
+                # with gil: print('>', randomNumber, probs)
+                if previous < randomNumber <= probs[agentState]:
                     self._newstates[node] = self.agentStates[agentState]
                     break
                 previous += probs[agentState]

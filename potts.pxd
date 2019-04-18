@@ -1,5 +1,7 @@
+# cython: infer_types=True
+# distutils: language=c++
 from Models.models cimport Model
-from libcpp.vector import vector
+from libcpp.vector cimport vector
 cimport numpy as np
 
 cdef class Potts(Model):
@@ -7,7 +9,7 @@ cdef class Potts(Model):
         double[::1] _H
         double _beta
 
-    cdef double[::1] energy(self,\
+    cdef vector[double] energy(self,\
                                                 int node,\
                                                 long[::1] states) nogil
     # overload the parent functions

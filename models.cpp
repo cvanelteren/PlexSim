@@ -3619,7 +3619,7 @@ static void __pyx_f_6Models_6models_5Model_construct(struct __pyx_obj_6Models_6m
  *             for nodeidx, node in enumerate(nodelink['nodes']):
  *                 id                = node.get('id')             # <<<<<<<<<<<<<<
  *                 if type(id) is not str and type(id) is not tuple:
- *                     print(type(id))
+ *                     # print(type(id))
  */
       __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_node, __pyx_n_s_get); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 105, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
@@ -3645,7 +3645,7 @@ static void __pyx_f_6Models_6models_5Model_construct(struct __pyx_obj_6Models_6m
  *             for nodeidx, node in enumerate(nodelink['nodes']):
  *                 id                = node.get('id')
  *                 if type(id) is not str and type(id) is not tuple:             # <<<<<<<<<<<<<<
- *                     print(type(id))
+ *                     # print(type(id))
  *                     id = float(id)
  */
       __pyx_t_10 = (((PyObject *)Py_TYPE(__pyx_v_id)) != ((PyObject *)(&PyUnicode_Type)));
@@ -3661,20 +3661,9 @@ static void __pyx_f_6Models_6models_5Model_construct(struct __pyx_obj_6Models_6m
       __pyx_L7_bool_binop_done:;
       if (__pyx_t_7) {
 
-        /* "Models/models.pyx":107
- *                 id                = node.get('id')
- *                 if type(id) is not str and type(id) is not tuple:
- *                     print(type(id))             # <<<<<<<<<<<<<<
- *                     id = float(id)
- * 
- */
-        __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, ((PyObject *)Py_TYPE(__pyx_v_id))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 107, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
         /* "Models/models.pyx":108
  *                 if type(id) is not str and type(id) is not tuple:
- *                     print(type(id))
+ *                     # print(type(id))
  *                     id = float(id)             # <<<<<<<<<<<<<<
  * 
  *                 mapping[id]       = nodeidx
@@ -3688,7 +3677,7 @@ static void __pyx_f_6Models_6models_5Model_construct(struct __pyx_obj_6Models_6m
  *             for nodeidx, node in enumerate(nodelink['nodes']):
  *                 id                = node.get('id')
  *                 if type(id) is not str and type(id) is not tuple:             # <<<<<<<<<<<<<<
- *                     print(type(id))
+ *                     # print(type(id))
  *                     id = float(id)
  */
       }
@@ -24793,7 +24782,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 104, __pyx_L1_error)
-  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 107, __pyx_L1_error)
+  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 134, __pyx_L1_error)
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 270, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(2, 272, __pyx_L1_error)
