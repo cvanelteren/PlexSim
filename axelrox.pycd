@@ -1,0 +1,14 @@
+from Models.models import Model
+
+cdef class Axelrod(Model):
+    def __init__(self, **kwargs):
+        super(self, Axelrod).__init__(**kwargs)
+
+    cpdef long[::1] _updateState(self, long[::1]):
+        return self.states
+
+    cdef long[::1] _updateState(self, long[::1] state):
+        """
+        Axelrod model discrete state update
+        """
+        return self.states

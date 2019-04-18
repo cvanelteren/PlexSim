@@ -100,12 +100,13 @@ cdef class Model: # see pxd
         if getattr(graph, '__version__', __VERSION__ ) > 1.0:
             # generate graph in json format
             nodelink = nx.node_link_data(graph)
-            
+
             for nodeidx, node in enumerate(nodelink['nodes']):
                 id                = node.get('id')
-                if type(id) is not str:
+                if type(id) is not str and type(id) is not tuple:
+                    # print(type(id))
                     id = float(id)
-                    
+
                 mapping[id]       = nodeidx
                 rmapping[nodeidx] = id
                 states[nodeidx]   = <long>   node.get('state', np.random.choice(agentStates))
