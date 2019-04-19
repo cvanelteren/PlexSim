@@ -91,6 +91,9 @@ cdef class Potts(Model):
 
         cdef int testState = <int> (self.rand() * self._nStates)
         testState = self.agentStates[testState]
+
+        energy[0] = self._H[node]
+        energy[1] = self._H[node] 
         energy[2] = testState
         energy[3] = states[node]
         for neighboridx in range(neighbors):

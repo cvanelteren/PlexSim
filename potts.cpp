@@ -4181,9 +4181,11 @@ static std::vector<double>  __pyx_f_6Models_5potts_5Potts_energy(struct __pyx_ob
   Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
   Py_ssize_t __pyx_t_7;
-  int __pyx_t_8;
-  std::vector<double> ::size_type __pyx_t_9;
-  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  int __pyx_t_10;
+  std::vector<double> ::size_type __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
 
   /* "Models/potts.pyx":80
  *     cdef vector[double] energy(self, int node, long[::1] states) nogil:
@@ -4232,7 +4234,7 @@ static std::vector<double>  __pyx_f_6Models_5potts_5Potts_energy(struct __pyx_ob
  * 
  *         cdef int testState = <int> (self.rand() * self._nStates)             # <<<<<<<<<<<<<<
  *         testState = self.agentStates[testState]
- *         energy[2] = testState
+ * 
  */
   __pyx_v_testState = ((int)(((struct __pyx_vtabstruct_6Models_5potts_Potts *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.rand(((struct __pyx_obj_6Models_6models_Model *)__pyx_v_self)) * __pyx_v_self->__pyx_base._nStates));
 
@@ -4240,32 +4242,52 @@ static std::vector<double>  __pyx_f_6Models_5potts_5Potts_energy(struct __pyx_ob
  * 
  *         cdef int testState = <int> (self.rand() * self._nStates)
  *         testState = self.agentStates[testState]             # <<<<<<<<<<<<<<
- *         energy[2] = testState
- *         energy[3] = states[node]
+ * 
+ *         energy[0] = self._H[node]
  */
   __pyx_t_4 = __pyx_v_testState;
   __pyx_v_testState = (*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_self->__pyx_base.agentStates.data) + __pyx_t_4)) )));
 
-  /* "Models/potts.pyx":94
- *         cdef int testState = <int> (self.rand() * self._nStates)
+  /* "Models/potts.pyx":95
  *         testState = self.agentStates[testState]
+ * 
+ *         energy[0] = self._H[node]             # <<<<<<<<<<<<<<
+ *         energy[1] = self._H[node]
+ *         energy[2] = testState
+ */
+  __pyx_t_5 = __pyx_v_node;
+  (__pyx_v_energy[0]) = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->_H.data) + __pyx_t_5)) )));
+
+  /* "Models/potts.pyx":96
+ * 
+ *         energy[0] = self._H[node]
+ *         energy[1] = self._H[node]             # <<<<<<<<<<<<<<
+ *         energy[2] = testState
+ *         energy[3] = states[node]
+ */
+  __pyx_t_6 = __pyx_v_node;
+  (__pyx_v_energy[1]) = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->_H.data) + __pyx_t_6)) )));
+
+  /* "Models/potts.pyx":97
+ *         energy[0] = self._H[node]
+ *         energy[1] = self._H[node]
  *         energy[2] = testState             # <<<<<<<<<<<<<<
  *         energy[3] = states[node]
  *         for neighboridx in range(neighbors):
  */
   (__pyx_v_energy[2]) = __pyx_v_testState;
 
-  /* "Models/potts.pyx":95
- *         testState = self.agentStates[testState]
+  /* "Models/potts.pyx":98
+ *         energy[1] = self._H[node]
  *         energy[2] = testState
  *         energy[3] = states[node]             # <<<<<<<<<<<<<<
  *         for neighboridx in range(neighbors):
  *             neighbor   = self._adj[node].neighbors[neighboridx]
  */
-  __pyx_t_5 = __pyx_v_node;
-  (__pyx_v_energy[3]) = (*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_states.data) + __pyx_t_5)) )));
+  __pyx_t_7 = __pyx_v_node;
+  (__pyx_v_energy[3]) = (*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_states.data) + __pyx_t_7)) )));
 
-  /* "Models/potts.pyx":96
+  /* "Models/potts.pyx":99
  *         energy[2] = testState
  *         energy[3] = states[node]
  *         for neighboridx in range(neighbors):             # <<<<<<<<<<<<<<
@@ -4277,7 +4299,7 @@ static std::vector<double>  __pyx_f_6Models_5potts_5Potts_energy(struct __pyx_ob
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_neighboridx = __pyx_t_3;
 
-    /* "Models/potts.pyx":97
+    /* "Models/potts.pyx":100
  *         energy[3] = states[node]
  *         for neighboridx in range(neighbors):
  *             neighbor   = self._adj[node].neighbors[neighboridx]             # <<<<<<<<<<<<<<
@@ -4286,7 +4308,7 @@ static std::vector<double>  __pyx_f_6Models_5potts_5Potts_energy(struct __pyx_ob
  */
     __pyx_v_neighbor = ((__pyx_v_self->__pyx_base._adj[__pyx_v_node]).neighbors[__pyx_v_neighboridx]);
 
-    /* "Models/potts.pyx":98
+    /* "Models/potts.pyx":101
  *         for neighboridx in range(neighbors):
  *             neighbor   = self._adj[node].neighbors[neighboridx]
  *             weight     = self._adj[node].weights[neighboridx]             # <<<<<<<<<<<<<<
@@ -4295,29 +4317,29 @@ static std::vector<double>  __pyx_f_6Models_5potts_5Potts_energy(struct __pyx_ob
  */
     __pyx_v_weight = ((__pyx_v_self->__pyx_base._adj[__pyx_v_node]).weights[__pyx_v_neighboridx]);
 
-    /* "Models/potts.pyx":99
+    /* "Models/potts.pyx":102
  *             neighbor   = self._adj[node].neighbors[neighboridx]
  *             weight     = self._adj[node].weights[neighboridx]
  *             if states[neighbor] == states[node]:             # <<<<<<<<<<<<<<
  *                 energy[0] -= weight
  *             if states[neighbor] == testState:
  */
-    __pyx_t_6 = __pyx_v_neighbor;
-    __pyx_t_7 = __pyx_v_node;
-    __pyx_t_8 = (((*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_states.data) + __pyx_t_6)) ))) == (*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_states.data) + __pyx_t_7)) )))) != 0);
-    if (__pyx_t_8) {
+    __pyx_t_8 = __pyx_v_neighbor;
+    __pyx_t_9 = __pyx_v_node;
+    __pyx_t_10 = (((*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_states.data) + __pyx_t_8)) ))) == (*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_states.data) + __pyx_t_9)) )))) != 0);
+    if (__pyx_t_10) {
 
-      /* "Models/potts.pyx":100
+      /* "Models/potts.pyx":103
  *             weight     = self._adj[node].weights[neighboridx]
  *             if states[neighbor] == states[node]:
  *                 energy[0] -= weight             # <<<<<<<<<<<<<<
  *             if states[neighbor] == testState:
  *                 energy[1] -= weight
  */
-      __pyx_t_9 = 0;
-      (__pyx_v_energy[__pyx_t_9]) = ((__pyx_v_energy[__pyx_t_9]) - __pyx_v_weight);
+      __pyx_t_11 = 0;
+      (__pyx_v_energy[__pyx_t_11]) = ((__pyx_v_energy[__pyx_t_11]) - __pyx_v_weight);
 
-      /* "Models/potts.pyx":99
+      /* "Models/potts.pyx":102
  *             neighbor   = self._adj[node].neighbors[neighboridx]
  *             weight     = self._adj[node].weights[neighboridx]
  *             if states[neighbor] == states[node]:             # <<<<<<<<<<<<<<
@@ -4326,28 +4348,28 @@ static std::vector<double>  __pyx_f_6Models_5potts_5Potts_energy(struct __pyx_ob
  */
     }
 
-    /* "Models/potts.pyx":101
+    /* "Models/potts.pyx":104
  *             if states[neighbor] == states[node]:
  *                 energy[0] -= weight
  *             if states[neighbor] == testState:             # <<<<<<<<<<<<<<
  *                 energy[1] -= weight
  *             # for possibleState in range(self._nStates):
  */
-    __pyx_t_10 = __pyx_v_neighbor;
-    __pyx_t_8 = (((*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_states.data) + __pyx_t_10)) ))) == __pyx_v_testState) != 0);
-    if (__pyx_t_8) {
+    __pyx_t_12 = __pyx_v_neighbor;
+    __pyx_t_10 = (((*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_states.data) + __pyx_t_12)) ))) == __pyx_v_testState) != 0);
+    if (__pyx_t_10) {
 
-      /* "Models/potts.pyx":102
+      /* "Models/potts.pyx":105
  *                 energy[0] -= weight
  *             if states[neighbor] == testState:
  *                 energy[1] -= weight             # <<<<<<<<<<<<<<
  *             # for possibleState in range(self._nStates):
  *                 # assume the node is in some state
  */
-      __pyx_t_9 = 1;
-      (__pyx_v_energy[__pyx_t_9]) = ((__pyx_v_energy[__pyx_t_9]) - __pyx_v_weight);
+      __pyx_t_11 = 1;
+      (__pyx_v_energy[__pyx_t_11]) = ((__pyx_v_energy[__pyx_t_11]) - __pyx_v_weight);
 
-      /* "Models/potts.pyx":101
+      /* "Models/potts.pyx":104
  *             if states[neighbor] == states[node]:
  *                 energy[0] -= weight
  *             if states[neighbor] == testState:             # <<<<<<<<<<<<<<
@@ -4357,7 +4379,7 @@ static std::vector<double>  __pyx_f_6Models_5potts_5Potts_energy(struct __pyx_ob
     }
   }
 
-  /* "Models/potts.pyx":110
+  /* "Models/potts.pyx":113
  *                 #     energy[self._nStates + 1] *= exp(- self._beta * weight)
  *         # with gil: print(energy)
  *         return energy             # <<<<<<<<<<<<<<
@@ -4383,7 +4405,7 @@ static std::vector<double>  __pyx_f_6Models_5potts_5Potts_energy(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "Models/potts.pyx":117
+/* "Models/potts.pyx":120
  *     @cython.initializedcheck(False)
  *     @cython.overflowcheck(False)
  *     cdef long[::1] _updateState(self, long[::1] nodesToUpdate) nogil:             # <<<<<<<<<<<<<<
@@ -4409,7 +4431,7 @@ static __Pyx_memviewslice __pyx_f_6Models_5potts_5Potts__updateState(struct __py
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
 
-  /* "Models/potts.pyx":125
+  /* "Models/potts.pyx":128
  * 
  *         cdef:
  *             int nodes = nodesToUpdate.shape[0]             # <<<<<<<<<<<<<<
@@ -4418,7 +4440,7 @@ static __Pyx_memviewslice __pyx_f_6Models_5potts_5Potts__updateState(struct __py
  */
   __pyx_v_nodes = (__pyx_v_nodesToUpdate.shape[0]);
 
-  /* "Models/potts.pyx":129
+  /* "Models/potts.pyx":132
  *             vector[double] probs
  *             int agentState
  *             double previous = 0, randomNumber, Z             # <<<<<<<<<<<<<<
@@ -4427,7 +4449,7 @@ static __Pyx_memviewslice __pyx_f_6Models_5potts_5Potts__updateState(struct __py
  */
   __pyx_v_previous = 0.0;
 
-  /* "Models/potts.pyx":130
+  /* "Models/potts.pyx":133
  *             int agentState
  *             double previous = 0, randomNumber, Z
  *         for nodeidx in range(nodes):             # <<<<<<<<<<<<<<
@@ -4439,7 +4461,7 @@ static __Pyx_memviewslice __pyx_f_6Models_5potts_5Potts__updateState(struct __py
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_nodeidx = __pyx_t_3;
 
-    /* "Models/potts.pyx":131
+    /* "Models/potts.pyx":134
  *             double previous = 0, randomNumber, Z
  *         for nodeidx in range(nodes):
  *             node = nodesToUpdate[nodeidx]             # <<<<<<<<<<<<<<
@@ -4449,7 +4471,7 @@ static __Pyx_memviewslice __pyx_f_6Models_5potts_5Potts__updateState(struct __py
     __pyx_t_4 = __pyx_v_nodeidx;
     __pyx_v_node = (*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_nodesToUpdate.data) + __pyx_t_4)) )));
 
-    /* "Models/potts.pyx":132
+    /* "Models/potts.pyx":135
  *         for nodeidx in range(nodes):
  *             node = nodesToUpdate[nodeidx]
  *             probs = self.energy(node, self._states)             # <<<<<<<<<<<<<<
@@ -4458,7 +4480,7 @@ static __Pyx_memviewslice __pyx_f_6Models_5potts_5Potts__updateState(struct __py
  */
     __pyx_v_probs = ((struct __pyx_vtabstruct_6Models_5potts_Potts *)__pyx_v_self->__pyx_base.__pyx_vtab)->energy(__pyx_v_self, __pyx_v_node, __pyx_v_self->__pyx_base._states);
 
-    /* "Models/potts.pyx":133
+    /* "Models/potts.pyx":136
  *             node = nodesToUpdate[nodeidx]
  *             probs = self.energy(node, self._states)
  *             Z       = 0             # <<<<<<<<<<<<<<
@@ -4467,7 +4489,7 @@ static __Pyx_memviewslice __pyx_f_6Models_5potts_5Potts__updateState(struct __py
  */
     __pyx_v_Z = 0.0;
 
-    /* "Models/potts.pyx":138
+    /* "Models/potts.pyx":141
  *                 # probs[agentState] /= probs[self._nStates + 1]
  *             # with gil: print(Z, probs)
  *             randomNumber  = self.rand()             # <<<<<<<<<<<<<<
@@ -4476,7 +4498,7 @@ static __Pyx_memviewslice __pyx_f_6Models_5potts_5Potts__updateState(struct __py
  */
     __pyx_v_randomNumber = ((struct __pyx_vtabstruct_6Models_5potts_Potts *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.rand(((struct __pyx_obj_6Models_6models_Model *)__pyx_v_self));
 
-    /* "Models/potts.pyx":141
+    /* "Models/potts.pyx":144
  *             # with gil:
  *                 # print(probs)
  *             if randomNumber < exp(- self._beta * (probs[1] - probs[0])):             # <<<<<<<<<<<<<<
@@ -4486,7 +4508,7 @@ static __Pyx_memviewslice __pyx_f_6Models_5potts_5Potts__updateState(struct __py
     __pyx_t_5 = ((__pyx_v_randomNumber < exp(((-__pyx_v_self->_beta) * ((__pyx_v_probs[1]) - (__pyx_v_probs[0]))))) != 0);
     if (__pyx_t_5) {
 
-      /* "Models/potts.pyx":142
+      /* "Models/potts.pyx":145
  *                 # print(probs)
  *             if randomNumber < exp(- self._beta * (probs[1] - probs[0])):
  *                 self._newstates[node] = <int> probs[2]             # <<<<<<<<<<<<<<
@@ -4496,7 +4518,7 @@ static __Pyx_memviewslice __pyx_f_6Models_5potts_5Potts__updateState(struct __py
       __pyx_t_6 = __pyx_v_node;
       *((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_self->__pyx_base._newstates.data) + __pyx_t_6)) )) = ((int)(__pyx_v_probs[2]));
 
-      /* "Models/potts.pyx":141
+      /* "Models/potts.pyx":144
  *             # with gil:
  *                 # print(probs)
  *             if randomNumber < exp(- self._beta * (probs[1] - probs[0])):             # <<<<<<<<<<<<<<
@@ -4505,7 +4527,7 @@ static __Pyx_memviewslice __pyx_f_6Models_5potts_5Potts__updateState(struct __py
  */
     }
 
-    /* "Models/potts.pyx":144
+    /* "Models/potts.pyx":147
  *                 self._newstates[node] = <int> probs[2]
  * 
  *             previous      = 0             # <<<<<<<<<<<<<<
@@ -4515,7 +4537,7 @@ static __Pyx_memviewslice __pyx_f_6Models_5potts_5Potts__updateState(struct __py
     __pyx_v_previous = 0.0;
   }
 
-  /* "Models/potts.pyx":157
+  /* "Models/potts.pyx":160
  *                 # previous += probs[agentState]
  *         # repopulate buffer
  *         for node in range(self._nNodes):             # <<<<<<<<<<<<<<
@@ -4527,7 +4549,7 @@ static __Pyx_memviewslice __pyx_f_6Models_5potts_5Potts__updateState(struct __py
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_node = __pyx_t_3;
 
-    /* "Models/potts.pyx":158
+    /* "Models/potts.pyx":161
  *         # repopulate buffer
  *         for node in range(self._nNodes):
  *             self._states[node] = self._newstates[node]             # <<<<<<<<<<<<<<
@@ -4538,7 +4560,7 @@ static __Pyx_memviewslice __pyx_f_6Models_5potts_5Potts__updateState(struct __py
     *((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_self->__pyx_base._states.data) + __pyx_t_8)) )) = (*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_self->__pyx_base._newstates.data) + __pyx_t_7)) )));
   }
 
-  /* "Models/potts.pyx":159
+  /* "Models/potts.pyx":162
  *         for node in range(self._nNodes):
  *             self._states[node] = self._newstates[node]
  *         return self._states             # <<<<<<<<<<<<<<
@@ -4547,7 +4569,7 @@ static __Pyx_memviewslice __pyx_f_6Models_5potts_5Potts__updateState(struct __py
   __pyx_r = __pyx_v_self->__pyx_base._states;
   goto __pyx_L0;
 
-  /* "Models/potts.pyx":117
+  /* "Models/potts.pyx":120
  *     @cython.initializedcheck(False)
  *     @cython.overflowcheck(False)
  *     cdef long[::1] _updateState(self, long[::1] nodesToUpdate) nogil:             # <<<<<<<<<<<<<<
