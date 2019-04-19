@@ -8,7 +8,7 @@ import numpy  as np
 cimport numpy as np
 
 from libc.math cimport exp
-
+cimport cython
 cdef class Potts(Model):
     def __init__(self, \
                  graph,\
@@ -69,7 +69,12 @@ cdef class Potts(Model):
 
     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
         return self._updateState(nodesToUpdate)
-
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    @cython.nonecheck(False)
+    @cython.cdivision(True)
+    @cython.initializedcheck(False)
+    @cython.overflowcheck(False)
     cdef vector[double] energy(self, int node, long[::1] states) nogil:
         cdef:
             long neighbors = self._adj[node].neighbors.size()
@@ -79,17 +84,36 @@ cdef class Potts(Model):
             vector[double] energy
         # fill buffer
         # TODO: change this to more efficient buffer
-        for possibleState in range(self._nStates):
-            energy.push_back(1)
+        for possibleState in range(self._nStates + 1):
+            energy.push_back(0)
         # count the neighbors in the different possible states
+
+
+        cdef int testState = <int> (self.rand() * self._nStates)
+        testState = self.agentStates[testState]
+        energy[2] = testState
+        energy[3] = states[node]
         for neighboridx in range(neighbors):
             neighbor   = self._adj[node].neighbors[neighboridx]
             weight     = self._adj[node].weights[neighboridx]
-            for possibleState in range(self._nStates):
+            if states[neighbor] == states[node]:
+                energy[0] -= weight
+            if states[neighbor] == testState:
+                energy[1] -= weight
+            # for possibleState in range(self._nStates):
                 # assume the node is in some state
-                if states[neighbor] == self.agentStates[possibleState]:
-                    energy[possibleState] *= exp(- self._beta * weight)
+                # if states[neighbor] == self.agentStates[possibleState]:
+                #     energy[possibleState] *= exp(- self._beta * weight)
+                # if states[neighbor] == states[node]:
+                #     energy[self._nStates + 1] *= exp(- self._beta * weight)
+        # with gil: print(energy)
         return energy
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    @cython.nonecheck(False)
+    @cython.cdivision(True)
+    @cython.initializedcheck(False)
+    @cython.overflowcheck(False)
     cdef long[::1] _updateState(self, long[::1] nodesToUpdate) nogil:
 
         """
@@ -107,21 +131,28 @@ cdef class Potts(Model):
             node = nodesToUpdate[nodeidx]
             probs = self.energy(node, self._states)
             Z       = 0
-            for agentState in range(self._nStates):
-                Z += probs[agentState]
+            # for agentState in range(self._nStates):
+                # Z += probs[agentState]
+                # probs[agentState] /= probs[self._nStates + 1]
             # with gil: print(Z, probs)
             randomNumber  = self.rand()
+            # with gil:
+                # print(probs)
+            if randomNumber < exp(- self._beta * (probs[1] - probs[0])):
+                self._newstates[node] = <int> probs[2]
+
             previous      = 0
             # check all possible agent states
-            for agentState in range(self._nStates):
-                # update probability to cumulative
-                probs[agentState] = probs[agentState] /  Z + previous
-                # check whether to swap state,  at most check all states
-                # with gil: print('>', randomNumber, probs)
-                if previous < randomNumber <= probs[agentState]:
-                    self._newstates[node] = self.agentStates[agentState]
-                    break
-                previous += probs[agentState]
+            # for agentState in range(self._nStates):
+            #     # update probability to cumulative
+            #     probs[agentState] = probs[agentState] /  Z + previous
+            #     # probs[agentState] = probs[agentState] + previous
+            #     # check whether to swap state,  at most check all states
+            #     # with gil: print('>', randomNumber, probs, previous)
+            #     if previous < randomNumber <= probs[agentState]:
+            #         self._newstates[node] = self.agentStates[agentState]
+            #         break
+                # previous += probs[agentState]
         # repopulate buffer
         for node in range(self._nNodes):
             self._states[node] = self._newstates[node]
