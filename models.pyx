@@ -212,7 +212,9 @@ cdef class Model: # see pxd
         #private
         # note nodeids will be shuffled and cannot be trusted for mapping
         # use mapping to get the correct state for the nodes
+
         _nodeids        = np.arange(graph.number_of_nodes(), dtype = long)
+        np.random.shuffle(_nodeids) # prevent initial scan-lines in grid
         self._nodeids   = _nodeids.copy()
         self._states    = states.copy()
         self._newstates = states.copy()

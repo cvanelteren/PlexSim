@@ -69,6 +69,18 @@ cdef class Potts(Model):
 
     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
         return self._updateState(nodesToUpdate)
+
+    cpdef vector[double] siteEnergy(self, long[::1] states):
+        cdef:
+            vector[double] siteEnergy
+            int node
+            double Z
+        for node in range(self._nNodes):
+            Z = self._adj[node].neighbors.size()
+            siteEnergy.push_back(self.energy(node, states)[0] / Z)
+        return siteEnergy
+
+
     @cython.boundscheck(False)
     @cython.wraparound(False)
     @cython.nonecheck(False)
@@ -84,18 +96,21 @@ cdef class Potts(Model):
             vector[double] energy
         # fill buffer
         # TODO: change this to more efficient buffer
-        for possibleState in range(self._nStates + 1):
+        # keep track of:
+        #   - energy of current state
+        #   - energy of possible state
+        #   - the possible state
+        for possibleState in range(3):
             energy.push_back(0)
         # count the neighbors in the different possible states
 
-
+        # draw random new state
         cdef int testState = <int> (self.rand() * self._nStates)
         testState = self.agentStates[testState]
 
         energy[0] = self._H[node]
-        energy[1] = self._H[node] 
-        energy[2] = testState
-        energy[3] = states[node]
+        energy[1] = self._H[node]
+        energy[2] = testState # keep track of possible new state
         for neighboridx in range(neighbors):
             neighbor   = self._adj[node].neighbors[neighboridx]
             weight     = self._adj[node].weights[neighboridx]
@@ -103,12 +118,6 @@ cdef class Potts(Model):
                 energy[0] -= weight
             if states[neighbor] == testState:
                 energy[1] -= weight
-            # for possibleState in range(self._nStates):
-                # assume the node is in some state
-                # if states[neighbor] == self.agentStates[possibleState]:
-                #     energy[possibleState] *= exp(- self._beta * weight)
-                # if states[neighbor] == states[node]:
-                #     energy[self._nStates + 1] *= exp(- self._beta * weight)
         # with gil: print(energy)
         return energy
     @cython.boundscheck(False)
@@ -129,33 +138,15 @@ cdef class Potts(Model):
             long node, nodeidx
             vector[double] probs
             int agentState
-            double previous = 0, randomNumber, Z
+            double randomNumber
         for nodeidx in range(nodes):
-            node = nodesToUpdate[nodeidx]
-            probs = self.energy(node, self._states)
-            Z       = 0
-            # for agentState in range(self._nStates):
-                # Z += probs[agentState]
-                # probs[agentState] /= probs[self._nStates + 1]
-            # with gil: print(Z, probs)
-            randomNumber  = self.rand()
+            node         = nodesToUpdate[nodeidx]
+            probs        = self.energy(node, self._states)
+            randomNumber = self.rand()
             # with gil:
                 # print(probs)
-            if randomNumber < exp(- self._beta * (probs[1] - probs[0])):
+            if randomNumber <= exp(- self._beta * (probs[1] - probs[0])):
                 self._newstates[node] = <int> probs[2]
-
-            previous      = 0
-            # check all possible agent states
-            # for agentState in range(self._nStates):
-            #     # update probability to cumulative
-            #     probs[agentState] = probs[agentState] /  Z + previous
-            #     # probs[agentState] = probs[agentState] + previous
-            #     # check whether to swap state,  at most check all states
-            #     # with gil: print('>', randomNumber, probs, previous)
-            #     if previous < randomNumber <= probs[agentState]:
-            #         self._newstates[node] = self.agentStates[agentState]
-            #         break
-                # previous += probs[agentState]
         # repopulate buffer
         for node in range(self._nNodes):
             self._states[node] = self._newstates[node]
