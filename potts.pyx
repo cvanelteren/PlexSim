@@ -4,11 +4,55 @@ from Models.models cimport Model
 from libcpp.vector cimport vector
 
 # from models cimport Model
+import copy
+from tqdm import tqdm
+import multiprocessing as mp
 import numpy  as np
 cimport numpy as np
 
 from libc.math cimport exp
 cimport cython
+from cython.parallel cimport prange, threadid
+
+
+from cpython cimport PyObject, Py_XINCREF, Py_XDECREF
+cdef extern from *:
+    """
+    #include <Python.h>
+    #include <mutex>
+
+    std::mutex ref_mutex;
+
+    class PyObjectHolder{
+    public:
+        PyObject *ptr;
+        PyObjectHolder():ptr(nullptr){}
+        PyObjectHolder(PyObject *o):ptr(o){
+            std::lock_guard<std::mutex> guard(ref_mutex);
+            Py_XINCREF(ptr);
+        }
+        //rule of 3
+        ~PyObjectHolder(){
+            std::lock_guard<std::mutex> guard(ref_mutex);
+            Py_XDECREF(ptr);
+        }
+        PyObjectHolder(const PyObjectHolder &h):
+            PyObjectHolder(h.ptr){}
+        PyObjectHolder& operator=(const PyObjectHolder &other){
+            {
+                std::lock_guard<std::mutex> guard(ref_mutex);
+                Py_XDECREF(ptr);
+                ptr=other.ptr;
+                Py_XINCREF(ptr);
+            }
+            return *this;
+
+        }
+    };
+    """
+    cdef cppclass PyObjectHolder:
+        PyObject *ptr
+        PyObjectHolder(PyObject *o) nogil
 cdef class Potts(Model):
     def __init__(self, \
                  graph,\
@@ -70,6 +114,13 @@ cdef class Potts(Model):
     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
         return self._updateState(nodesToUpdate)
 
+
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    @cython.nonecheck(False)
+    @cython.cdivision(True)
+    @cython.initializedcheck(False)
+    @cython.overflowcheck(False)
     cpdef vector[double] siteEnergy(self, long[::1] states):
         cdef:
             vector[double] siteEnergy
@@ -77,7 +128,7 @@ cdef class Potts(Model):
             double Z
         for node in range(self._nNodes):
             Z = self._adj[node].neighbors.size()
-            siteEnergy.push_back(self.energy(node, states)[0] / Z)
+            siteEnergy.push_back(-self.energy(node, states)[0] / Z)
         return siteEnergy
 
 
@@ -151,3 +202,111 @@ cdef class Potts(Model):
         for node in range(self._nNodes):
             self._states[node] = self._newstates[node]
         return self._states
+
+    cpdef  np.ndarray matchMagnetization(self,\
+                              np.ndarray temps  = np.logspace(-3, 2, 20),\
+                              int n             = int(1e3),\
+                              int burninSamples = 0):
+            """
+            Computes the magnetization as a function of temperatures
+            Input:
+                  :temps: a range of temperatures
+                  :n:     number of samples to simulate for
+                  :burninSamples: number of samples to throw away before sampling
+            Returns:
+                  :temps: the temperature range as input
+                  :mag:  the magnetization for t in temps
+                  :sus:  the magnetic susceptibility
+            """
+            cdef:
+                double tcopy   = self.t # store current temp
+                np.ndarray results = np.zeros((2, temps.shape[0]))
+                np.ndarray res, resi
+                int N = len(temps)
+                int i, j
+                double t, avg, sus
+                # Ising m
+                int threads = mp.cpu_count()
+                vector[PyObjectHolder] tmpHolder
+                Potts tmp
+                np.ndarray magres
+                list modelsPy = []
+
+
+            print("Computing mag per t")
+            pbar = tqdm(total = N)
+            # for i in prange(N, nogil = True, num_threads = threads, \
+                            # schedule = 'static'):
+                # with gil:
+            cdef PyObject *tmptr
+            cdef int tid
+            for i in range(threads):
+                tmp = copy.deepcopy(self)
+                # tmp.reset()
+                # tmp.burnin(burninSamples)
+                # tmp.seed += sample # enforce different seeds
+                modelsPy.append(tmp)
+                tmpHolder.push_back(PyObjectHolder(<PyObject *> tmp))
+
+
+            for i in prange(N, nogil = True, schedule = 'static',\
+                            num_threads = threads):
+                # m = copy.deepcopy(self)
+                tid = threadid()
+                tmptr = tmpHolder[tid].ptr
+                avg = 0
+                sus = 0
+                with gil:
+                    t                  = temps[i]
+                    (<Potts> tmptr).t  = t
+                # self.states     = jdx if jdx else self.reset() # rest to ones; only interested in how mag is kept
+                    # (<Potts> tmptr).burnin(burninSamples)
+                    # (<Potts> tmptr).reset
+                    res        = (<Potts> tmptr).simulate(n)
+
+                    results[0, i] = np.array([self.siteEnergy(resi) for resi in res]).mean()
+                    # results[0, i] = np.array([(self.siteEnergy(resi)**2).mean(0) - results[0, i]**2)  * (<Potts> tmptr)._beta \
+                                              # for resi in res].mean()
+                    # for j in range(n):
+                        # resi = np.array(self.siteEnergy(res[j]))
+                        # avg = avg + resi.mean()
+                        # sus = sus + (resi**2).mean()
+
+                    # avg           = avg / n
+                    # sus           = (sus/N - avg) * (<Potts> tmptr)._beta
+                    # results[0, i] = avg
+                    # results[1, i] = sus
+                    pbar.update(1)
+            # print(results[0])
+            self.t = tcopy # reset temp
+            return results
+    def __deepcopy__(self, memo):
+        # print('deepcopy')
+        tmp = Potts(
+                    graph       = copy.deepcopy(self.graph), \
+                    temperature = self.t,\
+                    agentStates = list(self.agentStates.base),\
+                    updateType  = self.updateType,\
+                    nudgeType   = self.nudgeType,\
+                    )
+        # tmp.states = self.states
+        return tmp
+
+    def __reduce__(self):
+        return (rebuild, (self.graph, \
+                          self.t,\
+                          list(self.agentStates.base.copy()),\
+                          self.updateType,\
+                          self.nudgeType,\
+                          self.nudges.base))
+
+
+
+cpdef Potts rebuild(object graph, double t, \
+                  list agentStates, \
+                  str updateType, \
+                  str nudgeType, \
+                  np.ndarray nudges):
+  cdef Potts tmp = copy.deepcopy(Potts(graph, t, agentStates, nudgeType, updateType))
+  tmp.nudges = nudges.copy()
+  return tmp

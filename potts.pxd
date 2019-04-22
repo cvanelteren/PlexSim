@@ -2,6 +2,8 @@
 # distutils: language=c++
 from Models.models cimport Model
 from libcpp.vector cimport vector
+
+import numpy as np
 cimport numpy as np
 
 cdef class Potts(Model):
@@ -18,4 +20,9 @@ cdef class Potts(Model):
     cdef long[::1] _updateState(self, long[::1] nodesToUpdate) nogil
 
 
+
+    cpdef  np.ndarray matchMagnetization(self,\
+                              np.ndarray temps  = *,\
+                              int n             = *,\
+                              int burninSamples = *)
     cpdef vector[double] siteEnergy(self, long[::1] states)
