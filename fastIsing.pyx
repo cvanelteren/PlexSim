@@ -177,11 +177,16 @@ cdef class Ising(Model):
             long length            = self._adj[node].neighbors.size()
             long neighbor, i
             double weight
+            double delta = 1
             double energy          = -self._H [node] * states[node]
+
+        # TODO: add memory part
         for i in range(length):
             neighbor = self._adj[node].neighbors[i]
             weight   = self._adj[node].weights[i]
             energy  -= states[node] * states[neighbor] * weight
+
+
         energy -= self._nudges[node] * states[node]
         # energy *= (1 + self._nudges[node])
         return energy

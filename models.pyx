@@ -42,10 +42,10 @@ cdef class Model: # see pxd
 
     def __init__(self,\
                  object graph, \
-                 list  agentStates = [-1, 1], \
+                 list  agentStates = [0, 1], \
                  str  updateType   = 'single',\
                  str  nudgeType    = 'constant',\
-                 ):
+                 int memorySize   = 0):
         '''
         General class for the models
         It defines the expected methods for the model; this can be expanded
@@ -68,8 +68,11 @@ cdef class Model: # see pxd
         self.construct(graph, agentStates)
         self.nudgeType  = copy.copy(nudgeType)
         self.updateType = updateType
-        # self.sampler    = Sampler(42, 0., 1.)
 
+        self._memory        = np.ones((memorySize, self._nNodes), dtype = long)   # note keep the memory first not in state space, i.e start without any form memory
+        # self._memory        = np.random.choice(self.agentStates, size = (memorySize, self._nNodes))
+
+        self.memorySize   = memorySize
 
 
     cpdef void construct(self, object graph, list agentStates):
@@ -318,6 +321,9 @@ cdef class Model: # see pxd
     # TODO: make class pickable
     # hence the wrappers
     @property
+    def memorySize(self): return self._memorySize
+
+    @property
     def agentStates(self): return self._agentStates # warning has no setter!
     @property
     def adj(self)       : return self._adj
@@ -341,6 +347,9 @@ cdef class Model: # see pxd
     def nodeids(self)   : return self._nodeids
     @property
     def seed(self)      : return self._seed
+    @ memorySize.setter
+    def memorySize(self, value):
+        self._memorySize = value
 
     @seed.setter
     def seed(self, value):
@@ -371,7 +380,7 @@ cdef class Model: # see pxd
             - sync  : synchronous; update independently from t > t + 1
             - async : asynchronous; update n Nodes but with mutation possible
             - single: update 1 node random
-            - serial: like like scan
+            - serial: like crt scan
         """
         assert value in 'sync async single serial'
         self._updateType = value

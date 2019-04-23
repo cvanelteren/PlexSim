@@ -35,6 +35,9 @@ cdef class Model:
         long[::1]  _nodeids
         long[::1]  _agentStates
 
+        long[:, ::1] _memory # for memory dynamics
+
+        int _memorySize
         mt19937 gen
         unsigned long _seed
         uniform_real_distribution[double] dist

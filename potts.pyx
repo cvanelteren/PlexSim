@@ -1,4 +1,3 @@
-# cython: infer_types=True
 # distutils: language=c++
 from Models.models cimport Model
 from libcpp.vector cimport vector
@@ -60,12 +59,14 @@ cdef class Potts(Model):
                  agentStates = [-1 ,1, 0],\
                  nudgeType   = 'constant',\
                  updateType  = 'async', \
-                 ):
+                 memorySize = 0):
+
         super(Potts, self).__init__(\
                   graph           = graph, \
                   agentStates  = agentStates, \
                   updateType  = updateType, \
-                  nudgeType   = nudgeType)
+                  nudgeType   = nudgeType, \
+                  memorySize = memorySize)
 
 
         cdef np.ndarray H  = np.zeros(self.graph.number_of_nodes(), float)
@@ -74,10 +75,13 @@ cdef class Potts(Model):
         # for some reason deepcopy works with this enabled...
         self.states           = np.asarray(self.states.base).copy()
         self.nudges         = np.asarray(self.nudges.base).copy()
+
         # specific model parameters
         self._H               = H
         # self._beta             = np.inf if temperature == 0 else 1 / temperature
         self.t                  = temperature
+
+        # self._memory = np.ones((self.memorySize, self.nNodes), dtype = long)
 
     @property
     def magSide(self):
@@ -142,7 +146,7 @@ cdef class Potts(Model):
         cdef:
             long neighbors = self._adj[node].neighbors.size()
             long neighbor, neighboridx
-            double weight
+            double weight, delta = 1 # TODO: remove delta
             long possibleState
             vector[double] energy
         # fill buffer
@@ -169,6 +173,19 @@ cdef class Potts(Model):
                 energy[0] -= weight
             if states[neighbor] == testState:
                 energy[1] -= weight
+
+        # add information of memory
+        cdef int memTime
+        # for memTime in range(self._memorySize):
+            # check for current state
+            # if self._memory[memTime][node] == states[node]:
+                # pass
+                # with gil:
+                    # print(self._memory.base)
+                # energy[0] -= <double> self._memory[memTime][node] # * exp(- <double> memTime)
+            # check for proposal state
+            # if self._memory[memTime][node] == testState:
+                # energy[1] -= self._memory[memTime][node] # * exp(- <double> memTime)
         # with gil: print(energy)
         return energy
     @cython.boundscheck(False)
@@ -198,9 +215,18 @@ cdef class Potts(Model):
                 # print(probs)
             if randomNumber <= exp(- self._beta * (probs[1] - probs[0])):
                 self._newstates[node] = <int> probs[2]
-        # repopulate buffer
-        for node in range(self._nNodes):
-            self._states[node] = self._newstates[node]
+
+        # fill memory  by shifting all rows down by 1
+        cdef int memTime
+        # repopulate buffer\
+        for node in range(self._memory.shape[0]):
+            self._states[node]         = self._newstates[node]
+                # with gil:
+            # print(' >>>>>>', self._memory.base)
+            self._memory[0, node] = 1 # self._newstates[node]
+                # for memTime in range(self._memorySize - 2):
+                    # memTime = self._memorySize - memTime
+                    # self._memory[memTime + 1, node] = self._memory[memTime, node]
         return self._states
 
     cpdef  np.ndarray matchMagnetization(self,\

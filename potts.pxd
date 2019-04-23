@@ -10,7 +10,6 @@ cdef class Potts(Model):
     cdef:
         double[::1] _H
         double _beta
-
     cdef vector[double] energy(self,\
                                                 int node,\
                                                 long[::1] states) nogil
