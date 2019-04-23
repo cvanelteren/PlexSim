@@ -128,7 +128,7 @@ cdef class Potts(Model):
             double Z
         for node in range(self._nNodes):
             Z = self._adj[node].neighbors.size()
-            siteEnergy.push_back(-self.energy(node, states)[0] / Z)
+            siteEnergy.push_back((-self.energy(node, states)[0]  * self._nStates / Z - 1) / (self._nStates - 1))
         return siteEnergy
 
 
@@ -263,8 +263,8 @@ cdef class Potts(Model):
                     # (<Potts> tmptr).burnin(burninSamples)
                     # (<Potts> tmptr).reset
                     res        = (<Potts> tmptr).simulate(n)
-
-                    results[0, i] = np.array([self.siteEnergy(resi) for resi in res]).mean()
+                    # results[0, i] = np.array(self.siteEnergy(res[n-1])).sum()
+                    results[0, i] = np.array([self.siteEnergy(resi) for resi in res]).sum()
                     # results[0, i] = np.array([(self.siteEnergy(resi)**2).mean(0) - results[0, i]**2)  * (<Potts> tmptr)._beta \
                                               # for resi in res].mean()
                     # for j in range(n):
@@ -272,7 +272,7 @@ cdef class Potts(Model):
                         # avg = avg + resi.mean()
                         # sus = sus + (resi**2).mean()
 
-                    # avg           = avg / n
+                    # avg           = avg / nmean
                     # sus           = (sus/N - avg) * (<Potts> tmptr)._beta
                     # results[0, i] = avg
                     # results[1, i] = sus
