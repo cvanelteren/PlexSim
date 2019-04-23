@@ -1353,7 +1353,7 @@ struct __pyx_obj_6Models_6models_Model {
   __Pyx_memviewslice _states;
   __Pyx_memviewslice _newstates;
   __Pyx_memviewslice _nodeids;
-  __Pyx_memviewslice agentStates;
+  __Pyx_memviewslice _agentStates;
   std::mt19937 gen;
   unsigned long _seed;
   std::uniform_real_distribution<double>  dist;
@@ -4586,7 +4586,7 @@ static std::vector<double>  __pyx_f_6Models_5potts_5Potts_energy(struct __pyx_ob
  * 
  *         # draw random new state
  *         cdef int testState = <int> (self.rand() * self._nStates)             # <<<<<<<<<<<<<<
- *         testState = self.agentStates[testState]
+ *         testState = self._agentStates[testState]
  * 
  */
   __pyx_v_testState = ((int)(((struct __pyx_vtabstruct_6Models_5potts_Potts *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.rand(((struct __pyx_obj_6Models_6models_Model *)__pyx_v_self)) * __pyx_v_self->__pyx_base._nStates));
@@ -4594,15 +4594,15 @@ static std::vector<double>  __pyx_f_6Models_5potts_5Potts_energy(struct __pyx_ob
   /* "Models/potts.pyx":160
  *         # draw random new state
  *         cdef int testState = <int> (self.rand() * self._nStates)
- *         testState = self.agentStates[testState]             # <<<<<<<<<<<<<<
+ *         testState = self._agentStates[testState]             # <<<<<<<<<<<<<<
  * 
  *         energy[0] = self._H[node]
  */
   __pyx_t_2 = __pyx_v_testState;
-  __pyx_v_testState = (*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_self->__pyx_base.agentStates.data) + __pyx_t_2)) )));
+  __pyx_v_testState = (*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_self->__pyx_base._agentStates.data) + __pyx_t_2)) )));
 
   /* "Models/potts.pyx":162
- *         testState = self.agentStates[testState]
+ *         testState = self._agentStates[testState]
  * 
  *         energy[0] = self._H[node]             # <<<<<<<<<<<<<<
  *         energy[1] = self._H[node]
@@ -5977,8 +5977,7 @@ static PyObject *__pyx_pf_6Models_5potts_5Potts_8__deepcopy__(struct __pyx_obj_6
  *                     updateType  = self.updateType,\
  *                     nudgeType   = self.nudgeType,\
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.agentStates.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 288, __pyx_L1_error)}
-  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.agentStates, 1, (PyObject *(*)(char *)) __pyx_memview_get_long, (int (*)(char *, PyObject *)) __pyx_memview_set_long, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 288, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_agentStates); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 288, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_base); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 288, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
@@ -6126,8 +6125,7 @@ static PyObject *__pyx_pf_6Models_5potts_5Potts_10__reduce__(struct __pyx_obj_6M
  *                           self.updateType,\
  *                           self.nudgeType,\
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.agentStates.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 298, __pyx_L1_error)}
-  __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.agentStates, 1, (PyObject *(*)(char *)) __pyx_memview_get_long, (int (*)(char *, PyObject *)) __pyx_memview_set_long, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 298, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_agentStates); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 298, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_base); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 298, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);

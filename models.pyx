@@ -202,7 +202,7 @@ cdef class Model: # see pxd
         self.rmapping    = rmapping
         self._adj        = adj
 
-        self.agentStates = np.asarray(agentStates, dtype = int).copy()
+        self._agentStates = np.asarray(agentStates, dtype = int).copy()
         # print(states, agentStates)
 
         self._nudges     = nudges.copy()
@@ -317,6 +317,8 @@ cdef class Model: # see pxd
 
     # TODO: make class pickable
     # hence the wrappers
+    @property
+    def agentStates(self): return self._agentStates # warning has no setter!
     @property
     def adj(self)       : return self._adj
     @property

@@ -33,7 +33,7 @@ cdef class Model:
         long[::1] _newstates # alias
 
         long[::1]  _nodeids
-        long[::1]  agentStates
+        long[::1]  _agentStates
 
         mt19937 gen
         unsigned long _seed

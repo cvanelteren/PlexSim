@@ -157,7 +157,7 @@ cdef class Potts(Model):
 
         # draw random new state
         cdef int testState = <int> (self.rand() * self._nStates)
-        testState = self.agentStates[testState]
+        testState = self._agentStates[testState]
 
         energy[0] = self._H[node]
         energy[1] = self._H[node]
