@@ -10,6 +10,7 @@ import numpy  as np
 cimport numpy as np
 
 from libc.math cimport exp
+from libc.math cimport log
 cimport cython
 from cython.parallel cimport prange, threadid
 
@@ -59,30 +60,35 @@ cdef class Potts(Model):
                  agentStates = [-1 ,1, 0],\
                  nudgeType   = 'constant',\
                  updateType  = 'async', \
-                 memorySize = 0):
+                 memorySize  = 0, \
+                 delta       = 1):
 
         super(Potts, self).__init__(\
-                  graph           = graph, \
-                  agentStates  = agentStates, \
+                  graph       = graph, \
+                  agentStates = agentStates, \
                   updateType  = updateType, \
                   nudgeType   = nudgeType, \
-                  memorySize = memorySize)
+                  memorySize  = memorySize)
 
 
         cdef np.ndarray H  = np.zeros(self.graph.number_of_nodes(), float)
         for node, nodeID in self.mapping.items():
             H[nodeID] = graph.nodes()[node].get('H', 0)
         # for some reason deepcopy works with this enabled...
-        self.states           = np.asarray(self.states.base).copy()
-        self.nudges         = np.asarray(self.nudges.base).copy()
+        self.states = np.asarray(self.states.base).copy()
+        self.nudges = np.asarray(self.nudges.base).copy()
 
         # specific model parameters
-        self._H               = H
-        # self._beta             = np.inf if temperature == 0 else 1 / temperature
-        self.t                  = temperature
+        self._H      = H
+        # self._beta = np.inf if temperature == 0 else 1 / temperature
+        self.t       = temperature
+
+        self._delta  = delta
 
         # self._memory = np.ones((self.memorySize, self.nNodes), dtype = long)
 
+    @property
+    def delta(self): return self._delta
     @property
     def magSide(self):
         for k, v in self.magSideOptions.items():
@@ -146,7 +152,7 @@ cdef class Potts(Model):
         cdef:
             long neighbors = self._adj[node].neighbors.size()
             long neighbor, neighboridx
-            double weight, delta = 1 # TODO: remove delta
+            double weight # TODO: remove delta
             long possibleState
             vector[double] energy
         # fill buffer
@@ -176,16 +182,13 @@ cdef class Potts(Model):
 
         # add information of memory
         cdef int memTime
-        # for memTime in range(self._memorySize):
+        for memTime in range(1, self._memorySize):
             # check for current state
-            # if self._memory[memTime][node] == states[node]:
-                # pass
-                # with gil:
-                    # print(self._memory.base)
-                # energy[0] -= <double> self._memory[memTime][node] # * exp(- <double> memTime)
-            # check for proposal state
-            # if self._memory[memTime][node] == testState:
-                # energy[1] -= self._memory[memTime][node] # * exp(- <double> memTime)
+            if self._memory[memTime][node] == states[node]:
+                energy[0] -= <double>  exp(-memTime * self._delta) * self._delta
+            if self._memory[memTime][node] == testState:
+                energy[1] -= <double> exp(-memTime *  self._delta) * self._delta
+
         # with gil: print(energy)
         return energy
     @cython.boundscheck(False)
@@ -219,14 +222,20 @@ cdef class Potts(Model):
         # fill memory  by shifting all rows down by 1
         cdef int memTime
         # repopulate buffer\
-        for node in range(self._memory.shape[0]):
-            self._states[node]         = self._newstates[node]
-                # with gil:
-            # print(' >>>>>>', self._memory.base)
-            self._memory[0, node] = 1 # self._newstates[node]
-                # for memTime in range(self._memorySize - 2):
-                    # memTime = self._memorySize - memTime
-                    # self._memory[memTime + 1, node] = self._memory[memTime, node]
+        # with gil:
+            # print('>', self.memory.base)
+        for node in range(self._nNodes):
+            self._states[node]    = self._newstates[node]
+            # with gil:
+                # print(self.memorySize)
+            if self._memorySize:
+                if self._memorySize > 2:
+                    for memTime in range(self._memorySize - 2, 0, -1):
+                        # with gil: print(memTime)
+                        self._memory[memTime + 1, node] = self._memory[memTime, node]
+                self._memory[0, node] = self._states[node]
+        # with gil:
+            # print('<', self.memory.base)
         return self._states
 
     cpdef  np.ndarray matchMagnetization(self,\
@@ -314,6 +323,8 @@ cdef class Potts(Model):
                     agentStates = list(self.agentStates.base),\
                     updateType  = self.updateType,\
                     nudgeType   = self.nudgeType,\
+                    memorySize  = self.memorySize,\
+                    delta       = self.delta, \
                     )
         # tmp.states = self.states
         return tmp
@@ -324,7 +335,9 @@ cdef class Potts(Model):
                           list(self.agentStates.base.copy()),\
                           self.updateType,\
                           self.nudgeType,\
-                          self.nudges.base))
+                          self.nudges.base,
+                          self.memorySize,\
+                          self.delta))
 
 
 
@@ -332,7 +345,9 @@ cpdef Potts rebuild(object graph, double t, \
                   list agentStates, \
                   str updateType, \
                   str nudgeType, \
-                  np.ndarray nudges):
-  cdef Potts tmp = copy.deepcopy(Potts(graph, t, agentStates, nudgeType, updateType))
+                  np.ndarray nudges,\
+                  int memorySize, \
+                  int delta):
+  cdef Potts tmp = copy.deepcopy(Potts(graph, t, agentStates, nudgeType, updateType, memorySize, delta))
   tmp.nudges = nudges.copy()
   return tmp

@@ -68,9 +68,8 @@ cdef class Model: # see pxd
         self.construct(graph, agentStates)
         self.nudgeType  = copy.copy(nudgeType)
         self.updateType = updateType
-
-        self._memory        = np.ones((memorySize, self._nNodes), dtype = long)   # note keep the memory first not in state space, i.e start without any form memory
-        # self._memory        = np.random.choice(self.agentStates, size = (memorySize, self._nNodes))
+        # self.memory = np.ones((memorySize, self._nNodes), dtype = long) * np.NaN   # note keep the memory first not in state space, i.e start without any form memory
+        self._memory        = np.random.choice(self.agentStates, size = (memorySize, self._nNodes))
 
         self.memorySize   = memorySize
 
@@ -322,6 +321,16 @@ cdef class Model: # see pxd
     # hence the wrappers
     @property
     def memorySize(self): return self._memorySize
+    @memorySize.setter
+    def memorySize(self, value):
+        self._memorySize = value
+
+    @property
+    def memory(self): return self._memory
+    @memory.setter
+    def memory(self, value):
+        if isinstance(value, np.ndarray):
+            self._memory = value
 
     @property
     def agentStates(self): return self._agentStates # warning has no setter!
