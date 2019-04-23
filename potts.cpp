@@ -2630,7 +2630,6 @@ static const char __pyx_k_get[] = "get";
 static const char __pyx_k_inf[] = "inf";
 static const char __pyx_k_new[] = "__new__";
 static const char __pyx_k_obj[] = "obj";
-static const char __pyx_k_sum[] = "sum";
 static const char __pyx_k_t_2[] = "_t";
 static const char __pyx_k_base[] = "base";
 static const char __pyx_k_beta[] = "beta";
@@ -2639,6 +2638,7 @@ static const char __pyx_k_dict[] = "__dict__";
 static const char __pyx_k_init[] = "__init__";
 static const char __pyx_k_keys[] = "keys";
 static const char __pyx_k_main[] = "__main__";
+static const char __pyx_k_mean[] = "mean";
 static const char __pyx_k_mode[] = "mode";
 static const char __pyx_k_name[] = "name";
 static const char __pyx_k_ndim[] = "ndim";
@@ -2838,6 +2838,7 @@ static PyObject *__pyx_n_s_magSideOptions;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_mapping;
 static PyObject *__pyx_n_s_matchMagnetization;
+static PyObject *__pyx_n_s_mean;
 static PyObject *__pyx_n_s_memview;
 static PyObject *__pyx_n_s_mode;
 static PyObject *__pyx_n_s_mp;
@@ -2889,7 +2890,6 @@ static PyObject *__pyx_kp_s_strided_and_direct_or_indirect;
 static PyObject *__pyx_kp_s_strided_and_indirect;
 static PyObject *__pyx_kp_s_stringsource;
 static PyObject *__pyx_n_s_struct;
-static PyObject *__pyx_n_s_sum;
 static PyObject *__pyx_n_s_super;
 static PyObject *__pyx_n_s_t;
 static PyObject *__pyx_n_s_t_2;
@@ -5404,7 +5404,7 @@ static PyArrayObject *__pyx_f_6Models_5potts_5Potts_matchMagnetization(struct __
  *                     # (<Potts> tmptr).reset
  *                     res        = (<Potts> tmptr).simulate(n)             # <<<<<<<<<<<<<<
  *                     # results[0, i] = np.array(self.siteEnergy(res[n-1])).sum()
- *                     results[0, i] = np.array([self.siteEnergy(resi) for resi in res]).sum()
+ *                     results[0, i] = np.array([self.siteEnergy(resi) for resi in res]).mean()
  */
                                   __pyx_t_5 = ((PyObject *)((struct __pyx_vtabstruct_6Models_5potts_Potts *)((struct __pyx_obj_6Models_5potts_Potts *)__pyx_v_tmptr)->__pyx_base.__pyx_vtab)->__pyx_base.simulate(((struct __pyx_obj_6Models_6models_Model *)((struct __pyx_obj_6Models_5potts_Potts *)__pyx_v_tmptr)), __pyx_v_n, 0)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 265, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_5);
@@ -5414,7 +5414,7 @@ static PyArrayObject *__pyx_f_6Models_5potts_5Potts_matchMagnetization(struct __
                                   /* "Models/potts.pyx":267
  *                     res        = (<Potts> tmptr).simulate(n)
  *                     # results[0, i] = np.array(self.siteEnergy(res[n-1])).sum()
- *                     results[0, i] = np.array([self.siteEnergy(resi) for resi in res]).sum()             # <<<<<<<<<<<<<<
+ *                     results[0, i] = np.array([self.siteEnergy(resi) for resi in res]).mean()             # <<<<<<<<<<<<<<
  *                     # results[0, i] = np.array([(self.siteEnergy(resi)**2).mean(0) - results[0, i]**2)  * (<Potts> tmptr)._beta \
  *                                               # for resi in res].mean()
  */
@@ -5501,7 +5501,7 @@ static PyArrayObject *__pyx_f_6Models_5potts_5Potts_matchMagnetization(struct __
                                   if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 267, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_1);
                                   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-                                  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_sum); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 267, __pyx_L15_error)
+                                  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_mean); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 267, __pyx_L15_error)
                                   __Pyx_GOTREF(__pyx_t_2);
                                   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
                                   __pyx_t_1 = NULL;
@@ -22855,6 +22855,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_mapping, __pyx_k_mapping, sizeof(__pyx_k_mapping), 0, 0, 1, 1},
   {&__pyx_n_s_matchMagnetization, __pyx_k_matchMagnetization, sizeof(__pyx_k_matchMagnetization), 0, 0, 1, 1},
+  {&__pyx_n_s_mean, __pyx_k_mean, sizeof(__pyx_k_mean), 0, 0, 1, 1},
   {&__pyx_n_s_memview, __pyx_k_memview, sizeof(__pyx_k_memview), 0, 0, 1, 1},
   {&__pyx_n_s_mode, __pyx_k_mode, sizeof(__pyx_k_mode), 0, 0, 1, 1},
   {&__pyx_n_s_mp, __pyx_k_mp, sizeof(__pyx_k_mp), 0, 0, 1, 1},
@@ -22906,7 +22907,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_strided_and_indirect, __pyx_k_strided_and_indirect, sizeof(__pyx_k_strided_and_indirect), 0, 0, 1, 0},
   {&__pyx_kp_s_stringsource, __pyx_k_stringsource, sizeof(__pyx_k_stringsource), 0, 0, 1, 0},
   {&__pyx_n_s_struct, __pyx_k_struct, sizeof(__pyx_k_struct), 0, 0, 1, 1},
-  {&__pyx_n_s_sum, __pyx_k_sum, sizeof(__pyx_k_sum), 0, 0, 1, 1},
   {&__pyx_n_s_super, __pyx_k_super, sizeof(__pyx_k_super), 0, 0, 1, 1},
   {&__pyx_n_s_t, __pyx_k_t, sizeof(__pyx_k_t), 0, 0, 1, 1},
   {&__pyx_n_s_t_2, __pyx_k_t_2, sizeof(__pyx_k_t_2), 0, 0, 1, 1},
