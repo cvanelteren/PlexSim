@@ -185,9 +185,9 @@ cdef class Potts(Model):
         for memTime in range(1, self._memorySize):
             # check for current state
             if self._memory[memTime][node] == states[node]:
-                energy[0] -= <double>  exp(-memTime * self._delta) * self._delta
+                energy[0] -= <double>  exp(-memTime) * self._delta
             if self._memory[memTime][node] == testState:
-                energy[1] -= <double> exp(-memTime *  self._delta) * self._delta
+                energy[1] -= <double> exp(-memTime) * self._delta
 
         # with gil: print(energy)
         return energy

@@ -4845,7 +4845,7 @@ static std::vector<double>  __pyx_f_6Models_5potts_5Potts_energy(struct __pyx_ob
  *         for memTime in range(1, self._memorySize):
  *             # check for current state
  *             if self._memory[memTime][node] == states[node]:             # <<<<<<<<<<<<<<
- *                 energy[0] -= <double>  exp(-memTime * self._delta) * self._delta
+ *                 energy[0] -= <double>  exp(-memTime) * self._delta
  *             if self._memory[memTime][node] == testState:
  */
     __pyx_t_15 = __pyx_v_memTime;
@@ -4857,27 +4857,27 @@ static std::vector<double>  __pyx_f_6Models_5potts_5Potts_energy(struct __pyx_ob
       /* "Models/potts.pyx":188
  *             # check for current state
  *             if self._memory[memTime][node] == states[node]:
- *                 energy[0] -= <double>  exp(-memTime * self._delta) * self._delta             # <<<<<<<<<<<<<<
+ *                 energy[0] -= <double>  exp(-memTime) * self._delta             # <<<<<<<<<<<<<<
  *             if self._memory[memTime][node] == testState:
- *                 energy[1] -= <double> exp(-memTime *  self._delta) * self._delta
+ *                 energy[1] -= <double> exp(-memTime) * self._delta
  */
       __pyx_t_10 = 0;
-      (__pyx_v_energy[__pyx_t_10]) = ((__pyx_v_energy[__pyx_t_10]) - (((double)exp(((-__pyx_v_memTime) * __pyx_v_self->_delta))) * __pyx_v_self->_delta));
+      (__pyx_v_energy[__pyx_t_10]) = ((__pyx_v_energy[__pyx_t_10]) - (((double)exp((-__pyx_v_memTime))) * __pyx_v_self->_delta));
 
       /* "Models/potts.pyx":187
  *         for memTime in range(1, self._memorySize):
  *             # check for current state
  *             if self._memory[memTime][node] == states[node]:             # <<<<<<<<<<<<<<
- *                 energy[0] -= <double>  exp(-memTime * self._delta) * self._delta
+ *                 energy[0] -= <double>  exp(-memTime) * self._delta
  *             if self._memory[memTime][node] == testState:
  */
     }
 
     /* "Models/potts.pyx":189
  *             if self._memory[memTime][node] == states[node]:
- *                 energy[0] -= <double>  exp(-memTime * self._delta) * self._delta
+ *                 energy[0] -= <double>  exp(-memTime) * self._delta
  *             if self._memory[memTime][node] == testState:             # <<<<<<<<<<<<<<
- *                 energy[1] -= <double> exp(-memTime *  self._delta) * self._delta
+ *                 energy[1] -= <double> exp(-memTime) * self._delta
  * 
  */
     __pyx_t_18 = __pyx_v_memTime;
@@ -4886,20 +4886,20 @@ static std::vector<double>  __pyx_f_6Models_5potts_5Potts_energy(struct __pyx_ob
     if (__pyx_t_9) {
 
       /* "Models/potts.pyx":190
- *                 energy[0] -= <double>  exp(-memTime * self._delta) * self._delta
+ *                 energy[0] -= <double>  exp(-memTime) * self._delta
  *             if self._memory[memTime][node] == testState:
- *                 energy[1] -= <double> exp(-memTime *  self._delta) * self._delta             # <<<<<<<<<<<<<<
+ *                 energy[1] -= <double> exp(-memTime) * self._delta             # <<<<<<<<<<<<<<
  * 
  *         # with gil: print(energy)
  */
       __pyx_t_10 = 1;
-      (__pyx_v_energy[__pyx_t_10]) = ((__pyx_v_energy[__pyx_t_10]) - (((double)exp(((-__pyx_v_memTime) * __pyx_v_self->_delta))) * __pyx_v_self->_delta));
+      (__pyx_v_energy[__pyx_t_10]) = ((__pyx_v_energy[__pyx_t_10]) - (((double)exp((-__pyx_v_memTime))) * __pyx_v_self->_delta));
 
       /* "Models/potts.pyx":189
  *             if self._memory[memTime][node] == states[node]:
- *                 energy[0] -= <double>  exp(-memTime * self._delta) * self._delta
+ *                 energy[0] -= <double>  exp(-memTime) * self._delta
  *             if self._memory[memTime][node] == testState:             # <<<<<<<<<<<<<<
- *                 energy[1] -= <double> exp(-memTime *  self._delta) * self._delta
+ *                 energy[1] -= <double> exp(-memTime) * self._delta
  * 
  */
     }
