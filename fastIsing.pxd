@@ -16,19 +16,13 @@ cdef class Ising(Model):
         # np.ndarray _H # external magnetic field
         double[::1]  _H # external magnetic field
         double _beta
-
     # computes the energy
     cdef double energy(self, \
                        int  node, \
                        long[::1] states) nogil
-    # cdef double energy(self, \
-    #                    int  node, \
-    #                    long[::1] states)
-
 
     # overload the parent functions
     cpdef long[::1] updateState(self, long[::1] nodesToUpdate)
-    # cdef long[::1] _updateState(self, long[::1] nodesToUpdate)
     cdef long[::1] _updateState(self, long[::1] nodesToUpdate) nogil
     # # python wrapper
 

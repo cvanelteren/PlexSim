@@ -37,19 +37,23 @@ cdef class Model:
 
         long[:, ::1] _memory # for memory dynamics
 
-        int _memorySize
+        int _memorySize # memory size
+
+        # random sampler
         mt19937 gen
         unsigned long _seed
         uniform_real_distribution[double] dist
 
-        int _nNodes
-        str _updateType
-        str _nudgeType
-        double[::1] _nudges
+        int _nNodes # number of nodes
+        str _updateType # update type
+        str _nudgeType  # nudge type
+        double[::1] _nudges # array containing external inputs
         # np.ndarray _nudges
 
+        
         unordered_map[long, Connection] _adj # adjacency lists
         int _nStates
+
         #private
         dict __dict__ # allow dynamic python objects
     cpdef void construct(self, object graph, \

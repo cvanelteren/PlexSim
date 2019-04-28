@@ -31,82 +31,44 @@ from libc.stdio cimport printf
 
 
 # from libc.math cimport max, min
-
+from Models.parallel cimport *
 # use external exp
 cdef extern from "vfastexp.h":
     double exp_approx "EXP" (double) nogil
 
-
-from cpython cimport PyObject, Py_XINCREF, Py_XDECREF
-cdef extern from *:
-    """
-    #include <Python.h>
-    #include <mutex>
-
-    std::mutex ref_mutex;
-
-    class PyObjectHolder{
-    public:
-        PyObject *ptr;
-        PyObjectHolder():ptr(nullptr){}
-        PyObjectHolder(PyObject *o):ptr(o){
-            std::lock_guard<std::mutex> guard(ref_mutex);
-            Py_XINCREF(ptr);
-        }
-        //rule of 3
-        ~PyObjectHolder(){
-            std::lock_guard<std::mutex> guard(ref_mutex);
-            Py_XDECREF(ptr);
-        }
-        PyObjectHolder(const PyObjectHolder &h):
-            PyObjectHolder(h.ptr){}
-        PyObjectHolder& operator=(const PyObjectHolder &other){
-            {
-                std::lock_guard<std::mutex> guard(ref_mutex);
-                Py_XDECREF(ptr);
-                ptr=other.ptr;
-                Py_XINCREF(ptr);
-            }
-            return *this;
-
-        }
-    };
-    """
-    cdef cppclass PyObjectHolder:
-        PyObject *ptr
-        PyObjectHolder(PyObject *o) nogil
 cdef class Ising(Model):
     # def __cinit__(self, *args, **kwargs):
     #     print('cinit fastIsing')
     def __init__(self, \
-                 graph,\
-                 temperature = 1,\
-                 agentStates = [-1 ,1],\
-                 nudgeType   = 'constant',\
-                 updateType  = 'async', \
-                 magSide     = 'neg',\
-                 ):
+                **kwargs):
+                 # graph,\
+                 # temperature = 1,\
+                 # agentStates = [-1 ,1],\
+                 # nudgeType   = 'constant',\
+                 # updateType  = 'async', \
+                 # magSide     = 'neg',\
+                 # ):
         # print('Init ising')
         super(Ising, self).__init__(\
-                  graph       = graph, \
-                  agentStates = agentStates, \
-                  updateType  = updateType, \
-                  nudgeType   = nudgeType)
+                                    **kwargs)
+                  # graph       = graph, \
+                  # agentStates = agentStates, \
+                  # updateType  = updateType, \
+                  # nudgeType   = nudgeType)
 
 
         cdef np.ndarray H  = np.zeros(self.graph.number_of_nodes(), float)
         for node, nodeID in self.mapping.items():
-            H[nodeID] = graph.nodes()[node].get('H', 0)
+            H[nodeID] = self.graph.nodes()[node].get('H', 0)
         # for some reason deepcopy works with this enabled...
         self.states           = np.asarray(self.states.base).copy()
         self.nudges           = np.asarray(self.nudges.base).copy()
         # specific model parameters
         self._H               = H
         # self._beta             = np.inf if temperature == 0 else 1 / temperature
-        self.t                = temperature
+        self.t                = kwargs.get('temperature', 1)
         self.magSideOptions   = {'': 0, 'neg': -1, 'pos': 1}
-        self.magSide          = magSide
-
+        self.magSide          = kwargs.get('magSide', '')
     @property
     def H(self): return self._H
 
@@ -323,28 +285,13 @@ cdef class Ising(Model):
         return results
     def __deepcopy__(self, memo):
         # print('deepcopy')
-        tmp = Ising(
-                    graph       = copy.deepcopy(self.graph), \
-                    temperature = self.t,\
-                    agentStates = list(self.agentStates.base),\
-                    updateType  = self.updateType,\
-                    nudgeType   = self.nudgeType,\
-                    magSide     = self.magSide)
-        # tmp.states = self.states
+        tmp = {i: getattr(self, i) for i in dir(self)}
+        tmp = Ising(**tmp)
         return tmp
 
     def __reduce__(self):
-        return (rebuild, (self.graph, \
-                          self.t,\
-                          list(self.agentStates.base.copy()),\
-                          self.updateType,\
-                          self.nudgeType,\
-                          self.magSide, self.nudges.base))
-    # property states:
-    #     def __get__(self):
-    #         return self._states.base
-    #     def __set__(self, values):
-    #         return np.array(self._states)
+        tmp = {i: getattr(self, i) for i in dir(self)}
+        return (rebuild, tmp)
 
     # PROPERTIES
     @property
@@ -380,12 +327,7 @@ cdef class Ising(Model):
         self._t   = value
         self.beta = 1 / value if value != 0 else np.inf
 
-cpdef Ising rebuild(object graph, double t, \
-                    list agentStates, \
-                    str updateType, \
-                    str nudgeType, \
-                    str magSide, \
-              np.ndarray nudges):
-    cdef Ising tmp = copy.deepcopy(Ising(graph, t, agentStates, nudgeType, updateType, magSide))
-    tmp.nudges = nudges.copy()
+def rebuild(**kwargs):
+    cdef Ising tmp = copy.deepcopy(Ising(**kwargs))
+    tmp.nudges = kwargs.get('nudges').copy()
     return tmp

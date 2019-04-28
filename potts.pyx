@@ -13,66 +13,25 @@ from libc.math cimport exp, log, cos, pi
 cimport cython
 from cython.parallel cimport prange, threadid
 
+from Models.parallel cimport *
 
-from cpython cimport PyObject, Py_XINCREF, Py_XDECREF
-cdef extern from *:
-    """
-    #include <Python.h>
-    #include <mutex>
 
-    std::mutex ref_mutex;
-
-    class PyObjectHolder{
-    public:
-        PyObject *ptr;
-        PyObjectHolder():ptr(nullptr){}
-        PyObjectHolder(PyObject *o):ptr(o){
-            std::lock_guard<std::mutex> guard(ref_mutex);
-            Py_XINCREF(ptr);
-        }
-        //rule of 3
-        ~PyObjectHolder(){
-            std::lock_guard<std::mutex> guard(ref_mutex);
-            Py_XDECREF(ptr);
-        }
-        PyObjectHolder(const PyObjectHolder &h):
-            PyObjectHolder(h.ptr){}
-        PyObjectHolder& operator=(const PyObjectHolder &other){
-            {
-                std::lock_guard<std::mutex> guard(ref_mutex);
-                Py_XDECREF(ptr);
-                ptr=other.ptr;
-                Py_XINCREF(ptr);
-            }
-            return *this;
-
-        }
-    };
-    """
-    cdef cppclass PyObjectHolder:
-        PyObject *ptr
-        PyObjectHolder(PyObject *o) nogil
 cdef class Potts(Model):
     def __init__(self, \
-                 graph,\
-                 temperature = 1,\
-                 agentStates = [-1 ,1, 0],\
-                 nudgeType   = 'constant',\
-                 updateType  = 'async', \
-                 memorySize  = 0, \
-                 delta       = 1):
+                 **kwargs):
+        """
+        Potts model
 
-        super(Potts, self).__init__(\
-                  graph       = graph, \
-                  agentStates = agentStates, \
-                  updateType  = updateType, \
-                  nudgeType   = nudgeType, \
-                  memorySize  = memorySize)
+        default inputs see :super:
 
+        Additional inputs
+        :delta: a modifier for how much the previous memory sizes influence the next state
+        """
+        super(Potts, self).__init__(**kwargs)
 
         cdef np.ndarray H  = np.zeros(self.graph.number_of_nodes(), float)
         for node, nodeID in self.mapping.items():
-            H[nodeID] = graph.nodes()[node].get('H', 0)
+            H[nodeID] = self.graph.nodes()[node].get('H', 0)
         # for some reason deepcopy works with this enabled...
         self.states = np.asarray(self.states.base).copy()
         self.nudges = np.asarray(self.nudges.base).copy()
@@ -80,27 +39,15 @@ cdef class Potts(Model):
         # specific model parameters
         self._H      = H
         # self._beta = np.inf if temperature == 0 else 1 / temperature
-        self.t       = temperature
+        self.t       = kwargs.get('temperature', 1)
 
-        self._delta  = delta
+        self._delta  = kwargs.get('delta', 0)
 
         # self._memory = np.ones((self.memorySize, self.nNodes), dtype = long)
 
     @property
     def delta(self): return self._delta
-    @property
-    def magSide(self):
-        for k, v in self.magSideOptions.items():
-            if v == self._magSide:
-                return k
-    @magSide.setter
-    def magSide(self, value):
-        idx = self.magSideOptions.get(value,\
-              f'Option not recognized. Options {self.magSideOptions.keys()}')
-        if isinstance(idx, int):
-            self._magSide = idx
-        else:
-            print(idx)
+
     @property
     def H(self): return self._H
 
@@ -222,20 +169,14 @@ cdef class Potts(Model):
 
         # fill memory  by shifting all rows down by 1
         cdef int memTime
-        # repopulate buffer\
-        # with gil:
-            # print('>', self.memory.base)
+        # repopulate buffer
         for node in range(self._nNodes):
             self._states[node]    = self._newstates[node]
-            # with gil:
-                # print(self.memorySize)
             if self._memorySize:
                 for memTime in range(self._memorySize - 1, 0, -1):
                         # with gil: print(memTime)
                         self._memory[memTime, node] = self._memory[memTime - 1, node]
                 self._memory[0, node] = self._states[node]
-        # with gil:
-            # print('<', self.memory.base)
         return self._states
 
     cpdef  np.ndarray matchMagnetization(self,\
@@ -260,7 +201,6 @@ cdef class Potts(Model):
                 int N = len(temps)
                 int i, j
                 double t, avg, sus
-                # Ising m
                 int threads = mp.cpu_count()
                 vector[PyObjectHolder] tmpHolder
                 Potts tmp
@@ -315,39 +255,21 @@ cdef class Potts(Model):
             # print(results[0])
             self.t = tcopy # reset temp
             return results
+
+
     def __deepcopy__(self, memo):
-        # print('deepcopy')
-        tmp = Potts(
-                    graph       = copy.deepcopy(self.graph), \
-                    temperature = self.t,\
-                    agentStates = list(self.agentStates.base),\
-                    updateType  = self.updateType,\
-                    nudgeType   = self.nudgeType,\
-                    memorySize  = self.memorySize,\
-                    delta       = self.delta, \
-                    )
-        # tmp.states = self.states
+        tmp = {i: getattr(self, i) for i in dir(self)}
+        tmp = Potts(**tmp)
         return tmp
 
     def __reduce__(self):
-        return (rebuild, (self.graph, \
-                          self.t,\
-                          list(self.agentStates.base.copy()),\
-                          self.updateType,\
-                          self.nudgeType,\
-                          self.nudges.base,
-                          self.memorySize,\
-                          self.delta))
+        tmp = {i: getattr(self, i) for i in dir(self)}
+        return (rebuild, tmp)
 
 
 
-cpdef Potts rebuild(object graph, double t, \
-                  list agentStates, \
-                  str updateType, \
-                  str nudgeType, \
-                  np.ndarray nudges,\
-                  int memorySize, \
-                  int delta):
-  cdef Potts tmp = copy.deepcopy(Potts(graph, t, agentStates, nudgeType, updateType, memorySize, delta))
-  tmp.nudges = nudges.copy()
-  return tmp
+def rebuild(**kwargs):
+    print('>', kwargs)
+    cdef Potts tmp = Potts(**kwargs)
+    tmp.nudges = kwargs.get('nudges').copy()
+    return tmp

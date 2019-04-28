@@ -24,28 +24,16 @@ from libc.math cimport lround
 #     int INT_MAX
 #     int RAND_MAX
 
-__VERSION__ = 1.1 # added version number
+__VERSION__ = 1.2 # added version number
 # SEED SETUP
 from posix.time cimport clock_gettime,\
 timespec, CLOCK_REALTIME
 
 # from sampler cimport Sampler # mersenne sampler
 cdef class Model: # see pxd
-    # def __cinit__(self, *args, **kwargs):
-        # print(kwargs)
-        # print ('cinit model')
-        # graph           = kwargs.get('graph', [])
-        # agentStates     = kwargs.get('agentStates', [-1, 1])
-        # self.construct(graph, agentStates)
-        # self.updateType = kwargs.get('updateType', 'single')
-        # self.nudgeType  = kwargs.get('nudgeType', 'constant')
-
     def __init__(self,\
-                 object graph, \
-                 list  agentStates = [0, 1], \
-                 str  updateType   = 'single',\
-                 str  nudgeType    = 'constant',\
-                 int memorySize   = 0):
+                 **kwargs,\
+                 ):
         '''
         General class for the models
         It defines the expected methods for the model; this can be expanded
@@ -53,6 +41,15 @@ cdef class Model: # see pxd
         by the rest of the package.
 
         It translates the networkx graph into c++ unordered_map map for speed
+
+        kwargs should at least have:
+        :graph: a networkx graph
+
+        optional:
+            :agentStates: the states that the agents can assume [default = [0,1]]
+            :updateType: how to sample the state space (default async)
+            :nudgeType: the type of nudge used (default: constant)
+            :memorySize: use memory dynamics (default 0)
         '''
         # print('Init model')
         # use current time as seed for rng
@@ -65,13 +62,13 @@ cdef class Model: # see pxd
         self.gen  = mt19937(self.seed)
 
         # create adj list
-        self.construct(graph, agentStates)
-        self.nudgeType  = copy.copy(nudgeType)
-        self.updateType = updateType
+        self.construct(kwargs.get('graph'), kwargs.get('agentStates', [0, 1]))
+        self.nudgeType  = copy.copy(kwargs.get('nudgeType', 'constant'))
+        self.updateType = kwargs.get('updateType', 'async')
         # self.memory = np.ones((memorySize, self._nNodes), dtype = long) * np.NaN   # note keep the memory first not in state space, i.e start without any form memory
-        self._memory        = np.random.choice(self.agentStates, size = (memorySize, self._nNodes))
+        self.memorySize   = kwargs.get('memorySize', 0)
+        self._memory        = np.random.choice(self.agentStates, size = (self.memorySize, self._nNodes))
 
-        self.memorySize   = memorySize
 
 
     cpdef void construct(self, object graph, list agentStates):
@@ -333,7 +330,7 @@ cdef class Model: # see pxd
             self._memory = value
 
     @property
-    def agentStates(self): return self._agentStates # warning has no setter!
+    def agentStates(self): return list(self._agentStates) # warning has no setter!
     @property
     def adj(self)       : return self._adj
     @property
