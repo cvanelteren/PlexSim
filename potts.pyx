@@ -174,24 +174,24 @@ cdef class Potts(Model):
         for neighboridx in range(neighbors):
             neighbor   = self._adj[node].neighbors[neighboridx]
             weight     = self._adj[node].weights[neighboridx]
-            energy[0]  -= weight * cos(2 * pi  * (states[node] - states[neighbor])/ self._nStates)
-            energy[1]  -= weight * cos(2 * pi * (testState - states[neighbor]) / self._nStates)
+            energy[0]  -= weight * self.hamiltonian(states[node], states[neighbor])
+            energy[1]  -= weight * self.hamiltonian(testState, states[neighbor])
             # if states[neighbor] == states[node]:
                 # energy[0] -= weight
             # if states[neighbor] == testState:
                 # energy[1] -= weight
 
-        # add information of memory
+        # retrieve memory
         cdef int memTime
-        for memTime in range(1, self._memorySize):
+        for memTime in range(self._memorySize):
             # check for current state
-            if self._memory[memTime][node] == states[node]:
-                energy[0] -= <double>  exp(-memTime) * self._delta
-            if self._memory[memTime][node] == testState:
-                energy[1] -= <double> exp(-memTime) * self._delta
-
+            energy[0] -= self.hamiltonian(states[node], self._memory[memTime, node]) * exp(-memTime * self._delta)
+            energy[1] -= self.hamiltonian(testState, self._memory[memTime, node]) * exp(-memTime * self._delta)
         # with gil: print(energy)
         return energy
+    cdef double hamiltonian(self, long x, long y) nogil:
+        return cos(2 * pi  * (x - y) / self._nStates)
+
     @cython.boundscheck(False)
     @cython.wraparound(False)
     @cython.nonecheck(False)
@@ -230,10 +230,9 @@ cdef class Potts(Model):
             # with gil:
                 # print(self.memorySize)
             if self._memorySize:
-                if self._memorySize > 2:
-                    for memTime in range(self._memorySize - 2, 0, -1):
+                for memTime in range(self._memorySize - 1, 0, -1):
                         # with gil: print(memTime)
-                        self._memory[memTime + 1, node] = self._memory[memTime, node]
+                        self._memory[memTime, node] = self._memory[memTime - 1, node]
                 self._memory[0, node] = self._states[node]
         # with gil:
             # print('<', self.memory.base)

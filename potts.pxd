@@ -19,7 +19,8 @@ cdef class Potts(Model):
     # cdef long[::1] _updateState(self, long[::1] nodesToUpdate)
     cdef long[::1] _updateState(self, long[::1] nodesToUpdate) nogil
 
-
+    # update function
+    cdef double hamiltonian(self, long x, long y) nogil
 
     cpdef  np.ndarray matchMagnetization(self,\
                               np.ndarray temps  = *,\
