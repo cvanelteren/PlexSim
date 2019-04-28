@@ -9,8 +9,7 @@ import multiprocessing as mp
 import numpy  as np
 cimport numpy as np
 
-from libc.math cimport exp
-from libc.math cimport log
+from libc.math cimport exp, log, cos, pi
 cimport cython
 from cython.parallel cimport prange, threadid
 
@@ -175,10 +174,12 @@ cdef class Potts(Model):
         for neighboridx in range(neighbors):
             neighbor   = self._adj[node].neighbors[neighboridx]
             weight     = self._adj[node].weights[neighboridx]
-            if states[neighbor] == states[node]:
-                energy[0] -= weight
-            if states[neighbor] == testState:
-                energy[1] -= weight
+            energy[0]  -= weight * cos(2 * pi  * (states[node] - states[neighbor])/ self._nStates)
+            energy[1]  -= weight * cos(2 * pi * (testState - states[neighbor]) / self._nStates)
+            # if states[neighbor] == states[node]:
+                # energy[0] -= weight
+            # if states[neighbor] == testState:
+                # energy[1] -= weight
 
         # add information of memory
         cdef int memTime
