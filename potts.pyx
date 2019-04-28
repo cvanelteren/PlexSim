@@ -22,8 +22,7 @@ cdef class Potts(Model):
         """
         Potts model
 
-        default inputs see :super:
-
+        default inputs see :Model:
         Additional inputs
         :delta: a modifier for how much the previous memory sizes influence the next state
         """
@@ -42,8 +41,6 @@ cdef class Potts(Model):
         self.t       = kwargs.get('temperature', 1)
 
         self._delta  = kwargs.get('delta', 0)
-
-        # self._memory = np.ones((self.memorySize, self.nNodes), dtype = long)
 
     @property
     def delta(self): return self._delta
@@ -269,7 +266,6 @@ cdef class Potts(Model):
 
 
 def rebuild(**kwargs):
-    print('>', kwargs)
     cdef Potts tmp = Potts(**kwargs)
     tmp.nudges = kwargs.get('nudges').copy()
     return tmp

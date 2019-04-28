@@ -66,8 +66,10 @@ cdef class Model: # see pxd
         self.nudgeType  = copy.copy(kwargs.get('nudgeType', 'constant'))
         self.updateType = kwargs.get('updateType', 'async')
         # self.memory = np.ones((memorySize, self._nNodes), dtype = long) * np.NaN   # note keep the memory first not in state space, i.e start without any form memory
+        
+        # create memory
         self.memorySize   = kwargs.get('memorySize', 0)
-        self._memory        = np.random.choice(self.agentStates, size = (self.memorySize, self._nNodes))
+        self._memory      = np.random.choice(self.agentStates, size = (self.memorySize, self._nNodes))
 
 
 
