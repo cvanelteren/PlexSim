@@ -40,23 +40,15 @@ cdef class Ising(Model):
     # def __cinit__(self, *args, **kwargs):
     #     print('cinit fastIsing')
     def __init__(self, \
-                **kwargs):
-                 # graph,\
-                 # temperature = 1,\
-                 # agentStates = [-1 ,1],\
-                 # nudgeType   = 'constant',\
-                 # updateType  = 'async', \
-                 # magSide     = 'neg',\
-                 # ):
+                 graph,\
+                 temperature = 1,\
+                 agentStates = [-1 ,1],\
+                 nudgeType   = 'constant',\
+                 updateType  = 'async', \
+                 magSide     = 'neg',\
+                 **kwargs):
+        super(Ising, self).__init__(**locals())
         # print('Init ising')
-        super(Ising, self).__init__(\
-                                    **kwargs)
-                  # graph       = graph, \
-                  # agentStates = agentStates, \
-                  # updateType  = updateType, \
-                  # nudgeType   = nudgeType)
-
-
         cdef np.ndarray H  = np.zeros(self.graph.number_of_nodes(), float)
         for node, nodeID in self.mapping.items():
             H[nodeID] = self.graph.nodes()[node].get('H', 0)
@@ -66,9 +58,10 @@ cdef class Ising(Model):
         # specific model parameters
         self._H               = H
         # self._beta             = np.inf if temperature == 0 else 1 / temperature
-        self.t                = kwargs.get('temperature', 1)
+        self.t                = temperature
         self.magSideOptions   = {'': 0, 'neg': -1, 'pos': 1}
-        self.magSide          = kwargs.get('magSide', '')
+        self.magSide          = magSide
+
     @property
     def H(self): return self._H
 
@@ -328,6 +321,6 @@ cdef class Ising(Model):
         self.beta = 1 / value if value != 0 else np.inf
 
 def rebuild(**kwargs):
-    cdef Ising tmp = copy.deepcopy(Ising(**kwargs))
+    cdef Ising tmp = Ising(**kwargs)
     tmp.nudges = kwargs.get('nudges').copy()
     return tmp

@@ -17,7 +17,8 @@
         ],
         "extra_link_args": [
             "-fopenmp",
-            "-std=c++17"
+            "-std=c++17",
+            "-lomp"
         ],
         "include_dirs": [
             "/home/casper/miniconda3/lib/python3.7/site-packages/numpy/core/include",
@@ -3092,7 +3093,7 @@ static int __pyx_pf_6Models_6models_5Model___init__(struct __pyx_obj_6Models_6mo
   /* "Models/models.pyx":65
  * 
  *         # create adj list
- *         self.construct(kwargs.get('graph'), kwargs.get('agentStates', [0, 1]))             # <<<<<<<<<<<<<<
+ *         self.construct(kwargs.get('graph'), kwargs.get('agentStates', [-1, 1]))             # <<<<<<<<<<<<<<
  *         self.nudgeType  = copy.copy(kwargs.get('nudgeType', 'constant'))
  *         self.updateType = kwargs.get('updateType', 'async')
  */
@@ -3100,9 +3101,9 @@ static int __pyx_pf_6Models_6models_5Model___init__(struct __pyx_obj_6Models_6mo
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = PyList_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_4, 0, __pyx_int_0);
+  __Pyx_INCREF(__pyx_int_neg_1);
+  __Pyx_GIVEREF(__pyx_int_neg_1);
+  PyList_SET_ITEM(__pyx_t_4, 0, __pyx_int_neg_1);
   __Pyx_INCREF(__pyx_int_1);
   __Pyx_GIVEREF(__pyx_int_1);
   PyList_SET_ITEM(__pyx_t_4, 1, __pyx_int_1);
@@ -3116,7 +3117,7 @@ static int __pyx_pf_6Models_6models_5Model___init__(struct __pyx_obj_6Models_6mo
 
   /* "Models/models.pyx":66
  *         # create adj list
- *         self.construct(kwargs.get('graph'), kwargs.get('agentStates', [0, 1]))
+ *         self.construct(kwargs.get('graph'), kwargs.get('agentStates', [-1, 1]))
  *         self.nudgeType  = copy.copy(kwargs.get('nudgeType', 'constant'))             # <<<<<<<<<<<<<<
  *         self.updateType = kwargs.get('updateType', 'async')
  *         # self.memory = np.ones((memorySize, self._nNodes), dtype = long) * np.NaN   # note keep the memory first not in state space, i.e start without any form memory
@@ -3148,7 +3149,7 @@ static int __pyx_pf_6Models_6models_5Model___init__(struct __pyx_obj_6Models_6mo
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
   /* "Models/models.pyx":67
- *         self.construct(kwargs.get('graph'), kwargs.get('agentStates', [0, 1]))
+ *         self.construct(kwargs.get('graph'), kwargs.get('agentStates', [-1, 1]))
  *         self.nudgeType  = copy.copy(kwargs.get('nudgeType', 'constant'))
  *         self.updateType = kwargs.get('updateType', 'async')             # <<<<<<<<<<<<<<
  *         # self.memory = np.ones((memorySize, self._nNodes), dtype = long) * np.NaN   # note keep the memory first not in state space, i.e start without any form memory

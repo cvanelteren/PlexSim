@@ -62,11 +62,11 @@ cdef class Model: # see pxd
         self.gen  = mt19937(self.seed)
 
         # create adj list
-        self.construct(kwargs.get('graph'), kwargs.get('agentStates', [0, 1]))
+        self.construct(kwargs.get('graph'), kwargs.get('agentStates', [-1, 1]))
         self.nudgeType  = copy.copy(kwargs.get('nudgeType', 'constant'))
         self.updateType = kwargs.get('updateType', 'async')
         # self.memory = np.ones((memorySize, self._nNodes), dtype = long) * np.NaN   # note keep the memory first not in state space, i.e start without any form memory
-        
+
         # create memory
         self.memorySize   = kwargs.get('memorySize', 0)
         self._memory      = np.random.choice(self.agentStates, size = (self.memorySize, self._nNodes))

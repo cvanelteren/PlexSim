@@ -18,7 +18,14 @@ from Models.parallel cimport *
 
 cdef class Potts(Model):
     def __init__(self, \
-                 **kwargs):
+                        graph,\
+                        temperature = 1,\
+                        agentStates = [-1 ,1],\
+                        nudgeType   = 'constant',\
+                        updateType  = 'async', \
+                        memSize     = 0, \
+                        delta            = 1, \
+                        **kwargs):
         """
         Potts model
 
@@ -26,7 +33,7 @@ cdef class Potts(Model):
         Additional inputs
         :delta: a modifier for how much the previous memory sizes influence the next state
         """
-        super(Potts, self).__init__(**kwargs)
+        super(Potts, self).__init__(**locals())
 
         cdef np.ndarray H  = np.zeros(self.graph.number_of_nodes(), float)
         for node, nodeID in self.mapping.items():
@@ -38,9 +45,9 @@ cdef class Potts(Model):
         # specific model parameters
         self._H      = H
         # self._beta = np.inf if temperature == 0 else 1 / temperature
-        self.t       = kwargs.get('temperature', 1)
+        self.t       = temperature
 
-        self._delta  = kwargs.get('delta', 0)
+        self._delta  = delta
 
     @property
     def delta(self): return self._delta
