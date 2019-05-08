@@ -85,7 +85,8 @@ cdef class Model: # see pxd
         DEFAULTWEIGHT = 1.
         DEFAULTNUDGE  = 0.
         # DEFAULTSTATE  = random # don't use; just for clarity
-
+        # enforce strings
+        graph = nx.relabel_nodes(graph, {node : str(node) for node in graph.nodes()})
         # forward declaration and init
         cdef:
             dict mapping = {} # made nodelabe to internal
@@ -103,8 +104,7 @@ cdef class Model: # see pxd
             nodelink = nx.node_link_data(graph)
 
             for nodeidx, node in enumerate(nodelink['nodes']):
-                id                = str(node.get('id'))
-
+                id                = node.get('id')
                 # why?
                 # if type(id) is not str and type(id) is not tuple:
                     # print(type(id))
@@ -379,7 +379,7 @@ cdef class Model: # see pxd
         self._nudges[:] =  0
         if isinstance(vals, dict):
             for k, v in vals.items():
-                idx = self.mapping[k]
+                idx = self.mapping[str(k)]
                 self._nudges[idx] = v
         elif isinstance(vals, np.ndarray):
             self._nudges = vals
