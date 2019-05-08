@@ -143,6 +143,8 @@ cdef class Ising(Model):
 
 
         energy -= self._nudges[node] * states[node]
+        # with gil:
+            # print(node, energy, self._nudges[node])
         # energy *= (1 + self._nudges[node])
         return energy
 
@@ -280,6 +282,7 @@ cdef class Ising(Model):
         # print('deepcopy')
         tmp = {i: getattr(self, i) for i in dir(self)}
         tmp = Ising(**tmp)
+        tmp.nudges = self.nudges.base
         return tmp
 
     def __reduce__(self):

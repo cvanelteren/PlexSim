@@ -104,9 +104,11 @@ cdef class Model: # see pxd
 
             for nodeidx, node in enumerate(nodelink['nodes']):
                 id                = node.get('id')
-                if type(id) is not str and type(id) is not tuple:
+
+                # why?
+                # if type(id) is not str and type(id) is not tuple:
                     # print(type(id))
-                    id = float(id)
+                    # id = float(id)
 
                 mapping[id]       = nodeidx
                 rmapping[nodeidx] = id
@@ -379,6 +381,8 @@ cdef class Model: # see pxd
             for k, v in vals.items():
                 idx = self.mapping[k]
                 self._nudges[idx] = v
+        elif isinstance(vals, np.ndarray):
+            self._nudges = vals
 
     @updateType.setter
     def updateType(self, value):
