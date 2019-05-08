@@ -103,7 +103,7 @@ cdef class Model: # see pxd
             nodelink = nx.node_link_data(graph)
 
             for nodeidx, node in enumerate(nodelink['nodes']):
-                id                = node.get('id')
+                id                = str(node.get('id'))
 
                 # why?
                 # if type(id) is not str and type(id) is not tuple:
