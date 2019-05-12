@@ -45,7 +45,7 @@ cdef class Ising(Model):
                  agentStates = [-1 ,1],\
                  nudgeType   = 'constant',\
                  updateType  = 'async', \
-                 magSide     = 'neg',\
+                 magSide     = '',\
                  **kwargs):
         super(Ising, self).__init__(**locals())
         # print('Init ising')
@@ -139,10 +139,15 @@ cdef class Ising(Model):
         for i in range(length):
             neighbor = self._adj[node].neighbors[i]
             weight   = self._adj[node].weights[i]
-            energy  -= states[node] * states[neighbor] * weight
+            energy  += states[node] * states[neighbor] * weight
 
-
-        energy -= self._nudges[node] * states[node]
+        # energy =  (1 + self._nudges[node]  * states[node]) * energy
+        # energy -= self._nudges[node]
+        # energy *= (self._nudges[node] + 1)
+        energy += self._nudges[node] * states[node]
+        # if self._nudges[node]:
+            # energy = self._nudges[node]
+        # with gil: pint(energy)
         # with gil:
             # print(node, energy, self._nudges[node])
         # energy *= (1 + self._nudges[node])
@@ -176,7 +181,7 @@ cdef class Ising(Model):
             node      = nodesToUpdate[n]
             energy    = self.energy(node, self._states)
             # p = 1 / ( 1. + exp_approx(-self.beta * 2. * energy) )
-            p  = 1 / ( 1. + exp(-self._beta * 2. * energy))
+            p  = 1 / ( 1. + exp(self._beta * 2. * energy))
             # p  = p  +  self._nudges[node]
             # p += self._nudges[node]
             if self.rand() < p:
