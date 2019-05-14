@@ -12,12 +12,12 @@
             "-ffast-math",
             "-Ofast",
             "-march=native",
-            "-std=c++11",
+            "-std=c++17",
             "-fno-wrapv"
         ],
         "extra_link_args": [
             "-fopenmp",
-            "-std=c++11",
+            "-std=c++17",
             "-lomp"
         ],
         "include_dirs": [
@@ -5834,7 +5834,7 @@ static PyObject *__pyx_pf_6Models_5potts_5Potts_8__deepcopy__(struct __pyx_obj_6
  *     def __deepcopy__(self, memo):
  *         tmp = {i: getattr(self, i) for i in dir(self)}             # <<<<<<<<<<<<<<
  *         tmp = Potts(**tmp)
- *         tmp.nudges = self.nudges.base
+ *         tmp.nudges = self.nudges.base.copy()
  */
   { /* enter inner scope */
     __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 265, __pyx_L5_error)
@@ -5903,7 +5903,7 @@ static PyObject *__pyx_pf_6Models_5potts_5Potts_8__deepcopy__(struct __pyx_obj_6
  *     def __deepcopy__(self, memo):
  *         tmp = {i: getattr(self, i) for i in dir(self)}
  *         tmp = Potts(**tmp)             # <<<<<<<<<<<<<<
- *         tmp.nudges = self.nudges.base
+ *         tmp.nudges = self.nudges.base.copy()
  *         return tmp
  */
   if (likely(PyDict_CheckExact(__pyx_v_tmp))) {
@@ -5922,21 +5922,39 @@ static PyObject *__pyx_pf_6Models_5potts_5Potts_8__deepcopy__(struct __pyx_obj_6
   /* "Models/potts.pyx":267
  *         tmp = {i: getattr(self, i) for i in dir(self)}
  *         tmp = Potts(**tmp)
- *         tmp.nudges = self.nudges.base             # <<<<<<<<<<<<<<
+ *         tmp.nudges = self.nudges.base.copy()             # <<<<<<<<<<<<<<
  *         return tmp
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_nudges); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 267, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_base); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 267, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_nudges); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 267, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_tmp, __pyx_n_s_nudges, __pyx_t_1) < 0) __PYX_ERR(0, 267, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_base); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 267, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_copy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 267, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_1);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_1, function);
+    }
+  }
+  __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 267, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_tmp, __pyx_n_s_nudges, __pyx_t_3) < 0) __PYX_ERR(0, 267, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "Models/potts.pyx":268
  *         tmp = Potts(**tmp)
- *         tmp.nudges = self.nudges.base
+ *         tmp.nudges = self.nudges.base.copy()
  *         return tmp             # <<<<<<<<<<<<<<
  * 
  *     def __reduce__(self):
