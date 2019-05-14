@@ -264,7 +264,7 @@ cdef class Potts(Model):
     def __deepcopy__(self, memo):
         tmp = {i: getattr(self, i) for i in dir(self)}
         tmp = Potts(**tmp)
-        tmp.nudges = self.nudges.base.copy()
+        tmp.nudges = self.nudges.base
         return tmp
 
     def __reduce__(self):

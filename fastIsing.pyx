@@ -139,9 +139,9 @@ cdef class Ising(Model):
         for i in range(length):
             neighbor = self._adj[node].neighbors[i]
             weight   = self._adj[node].weights[i]
-            energy  += states[node] * states[neighbor] * weight
+            energy  -= states[node] * states[neighbor] * weight
 
-        energy += self._nudges[node] * states[node]
+        energy -= self._nudges[node] * states[node]
         # energy *= (1 + self._nudges[node] * states[node])
         return energy
 
@@ -173,7 +173,7 @@ cdef class Ising(Model):
             node      = nodesToUpdate[n]
             energy    = self.energy(node, self._states)
             # p = 1 / ( 1. + exp_approx(-self.beta * 2. * energy) )
-            p  = 1 / ( 1. + exp(self._beta * 2. * energy))
+            p  = 1 / ( 1. + exp(-self._beta * 2. * energy))
             # p  = p  +  self._nudges[node]
             # p += self._nudges[node]
             if self.rand() < p:
