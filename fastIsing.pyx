@@ -142,9 +142,7 @@ cdef class Ising(Model):
             energy  += states[node] * states[neighbor] * weight
 
         energy += self._nudges[node] * states[node]
-        # energy = (1 + self._nudges[node]) * energy
-        # if self._nudges[node]:
-            # energy = self._nudges[node]
+        # energy *= (1 + self._nudges[node] * states[node])
         return energy
 
     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
