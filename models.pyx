@@ -76,6 +76,9 @@ cdef class Model: # see pxd
     cpdef void construct(self, object graph, list agentStates):
         """
         Constructs adj matrix using structs
+
+        intput:
+            :nx.Graph or nx.DiGraph: graph
         """
         # print('Constructing')
         # check if graph has weights or states assigned and or nudges
@@ -86,7 +89,9 @@ cdef class Model: # see pxd
         DEFAULTNUDGE  = 0.
         # DEFAULTSTATE  = random # don't use; just for clarity
         # enforce strings
+        version =  getattr(graph, '__version__', __VERSION__)
         graph = nx.relabel_nodes(graph, {node : str(node) for node in graph.nodes()})
+        graph.__version__ = version
         # forward declaration and init
         cdef:
             dict mapping = {} # made nodelabe to internal
@@ -98,17 +103,14 @@ cdef class Model: # see pxd
             np.ndarray nudges = np.zeros(graph.number_of_nodes(), dtype = float)
             unordered_map[long, Connection] adj # see .pxd
 
+
+
         # new data format
-        if getattr(graph, '__version__', __VERSION__ ) > 1.0:
+        if getattr(graph, '__version__',  __VERSION__ ) > 1.0:
             # generate graph in json format
             nodelink = nx.node_link_data(graph)
-
             for nodeidx, node in enumerate(nodelink['nodes']):
                 id                = node.get('id')
-                # why?
-                # if type(id) is not str and type(id) is not tuple:
-                    # print(type(id))
-                    # id = float(id)
 
                 mapping[id]       = nodeidx
                 rmapping[nodeidx] = id
