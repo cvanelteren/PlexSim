@@ -50,7 +50,7 @@ cdef class Model:
         double[::1] _nudges # array containing external inputs
         # np.ndarray _nudges
 
-        
+
         unordered_map[long, Connection] _adj # adjacency lists
         int _nStates
 
