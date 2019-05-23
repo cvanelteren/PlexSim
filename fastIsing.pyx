@@ -62,6 +62,8 @@ cdef class Ising(Model):
         self.magSideOptions   = {'': 0, 'neg': -1, 'pos': 1}
         self.magSide          = magSide
 
+        # print(self.updateType)
+
     @property
     def H(self): return self._H
 
