@@ -41,7 +41,7 @@ cdef class Ising(Model):
     #     print('cinit fastIsing')
     def __init__(self, \
                  graph,\
-                 temperature = 1,\
+                 t = 1,\
                  agentStates = [-1 ,1],\
                  nudgeType   = 'constant',\
                  updateType  = 'async', \
@@ -58,7 +58,7 @@ cdef class Ising(Model):
         # specific model parameters
         self._H               = H
         # self._beta             = np.inf if temperature == 0 else 1 / temperature
-        self.t                = temperature
+        self.t                = t
         self.magSideOptions   = {'': 0, 'neg': -1, 'pos': 1}
         self.magSide          = magSide
 
@@ -144,7 +144,7 @@ cdef class Ising(Model):
             energy  -= states[node] * states[neighbor] * weight
 
         energy -= self._nudges[node] * states[node]
-        # energy *= (1 + self._nudges[node] * states[node])
+        # energy *= (1 + self._nudges[node])
         return energy
 
     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):

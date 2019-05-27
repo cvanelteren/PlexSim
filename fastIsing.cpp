@@ -2807,7 +2807,6 @@ static const char __pyx_k_PickleError[] = "PickleError";
 static const char __pyx_k_agentStates[] = "agentStates";
 static const char __pyx_k_computeProb[] = "computeProb";
 static const char __pyx_k_scipy_stats[] = "scipy.stats";
-static const char __pyx_k_temperature[] = "temperature";
 static const char __pyx_k_updateState[] = "updateState";
 static const char __pyx_k_RuntimeError[] = "RuntimeError";
 static const char __pyx_k_pyx_checksum[] = "__pyx_checksum";
@@ -3021,7 +3020,6 @@ static PyObject *__pyx_n_s_struct;
 static PyObject *__pyx_n_s_super;
 static PyObject *__pyx_n_s_t;
 static PyObject *__pyx_n_s_t_2;
-static PyObject *__pyx_n_s_temperature;
 static PyObject *__pyx_n_s_temps;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_threshold;
@@ -3037,7 +3035,7 @@ static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_s_updateState;
 static PyObject *__pyx_n_s_updateType;
 static PyObject *__pyx_n_s_zeros;
-static int __pyx_pf_6Models_9fastIsing_5Ising___init__(struct __pyx_obj_6Models_9fastIsing_Ising *__pyx_v_self, PyObject *__pyx_v_graph, PyObject *__pyx_v_temperature, PyObject *__pyx_v_agentStates, PyObject *__pyx_v_nudgeType, PyObject *__pyx_v_updateType, PyObject *__pyx_v_magSide, PyObject *__pyx_v_kwargs); /* proto */
+static int __pyx_pf_6Models_9fastIsing_5Ising___init__(struct __pyx_obj_6Models_9fastIsing_Ising *__pyx_v_self, PyObject *__pyx_v_graph, PyObject *__pyx_v_t, PyObject *__pyx_v_agentStates, PyObject *__pyx_v_nudgeType, PyObject *__pyx_v_updateType, PyObject *__pyx_v_magSide, PyObject *__pyx_v_kwargs); /* proto */
 static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_1H___get__(struct __pyx_obj_6Models_9fastIsing_Ising *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_2burnin(struct __pyx_obj_6Models_9fastIsing_Ising *__pyx_v_self, int __pyx_v_samples, double __pyx_v_threshold); /* proto */
 static PyObject *__pyx_pf_6Models_9fastIsing_5Ising_4updateState(struct __pyx_obj_6Models_9fastIsing_Ising *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate); /* proto */
@@ -3159,14 +3157,14 @@ static PyObject *__pyx_codeobj__42;
  *     #     print('cinit fastIsing')
  *     def __init__(self, \             # <<<<<<<<<<<<<<
  *                  graph,\
- *                  temperature = 1,\
+ *                  t = 1,\
  */
 
 /* Python wrapper */
 static int __pyx_pw_6Models_9fastIsing_5Ising_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_pw_6Models_9fastIsing_5Ising_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_graph = 0;
-  PyObject *__pyx_v_temperature = 0;
+  PyObject *__pyx_v_t = 0;
   PyObject *__pyx_v_agentStates = 0;
   PyObject *__pyx_v_nudgeType = 0;
   PyObject *__pyx_v_updateType = 0;
@@ -3178,7 +3176,7 @@ static int __pyx_pw_6Models_9fastIsing_5Ising_1__init__(PyObject *__pyx_v_self, 
   __pyx_v_kwargs = PyDict_New(); if (unlikely(!__pyx_v_kwargs)) return -1;
   __Pyx_GOTREF(__pyx_v_kwargs);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_graph,&__pyx_n_s_temperature,&__pyx_n_s_agentStates,&__pyx_n_s_nudgeType,&__pyx_n_s_updateType,&__pyx_n_s_magSide,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_graph,&__pyx_n_s_t,&__pyx_n_s_agentStates,&__pyx_n_s_nudgeType,&__pyx_n_s_updateType,&__pyx_n_s_magSide,0};
     PyObject* values[6] = {0,0,0,0,0,0};
     values[1] = ((PyObject *)__pyx_int_1);
     values[2] = __pyx_k_;
@@ -3212,7 +3210,7 @@ static int __pyx_pw_6Models_9fastIsing_5Ising_1__init__(PyObject *__pyx_v_self, 
         CYTHON_FALLTHROUGH;
         case  1:
         if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_temperature);
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_t);
           if (value) { values[1] = value; kw_args--; }
         }
         CYTHON_FALLTHROUGH;
@@ -3261,7 +3259,7 @@ static int __pyx_pw_6Models_9fastIsing_5Ising_1__init__(PyObject *__pyx_v_self, 
       }
     }
     __pyx_v_graph = values[0];
-    __pyx_v_temperature = values[1];
+    __pyx_v_t = values[1];
     __pyx_v_agentStates = values[2];
     __pyx_v_nudgeType = values[3];
     __pyx_v_updateType = values[4];
@@ -3276,7 +3274,7 @@ static int __pyx_pw_6Models_9fastIsing_5Ising_1__init__(PyObject *__pyx_v_self, 
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6Models_9fastIsing_5Ising___init__(((struct __pyx_obj_6Models_9fastIsing_Ising *)__pyx_v_self), __pyx_v_graph, __pyx_v_temperature, __pyx_v_agentStates, __pyx_v_nudgeType, __pyx_v_updateType, __pyx_v_magSide, __pyx_v_kwargs);
+  __pyx_r = __pyx_pf_6Models_9fastIsing_5Ising___init__(((struct __pyx_obj_6Models_9fastIsing_Ising *)__pyx_v_self), __pyx_v_graph, __pyx_v_t, __pyx_v_agentStates, __pyx_v_nudgeType, __pyx_v_updateType, __pyx_v_magSide, __pyx_v_kwargs);
 
   /* function exit code */
   __Pyx_XDECREF(__pyx_v_kwargs);
@@ -3284,7 +3282,7 @@ static int __pyx_pw_6Models_9fastIsing_5Ising_1__init__(PyObject *__pyx_v_self, 
   return __pyx_r;
 }
 
-static int __pyx_pf_6Models_9fastIsing_5Ising___init__(struct __pyx_obj_6Models_9fastIsing_Ising *__pyx_v_self, PyObject *__pyx_v_graph, PyObject *__pyx_v_temperature, PyObject *__pyx_v_agentStates, PyObject *__pyx_v_nudgeType, PyObject *__pyx_v_updateType, PyObject *__pyx_v_magSide, PyObject *__pyx_v_kwargs) {
+static int __pyx_pf_6Models_9fastIsing_5Ising___init__(struct __pyx_obj_6Models_9fastIsing_Ising *__pyx_v_self, PyObject *__pyx_v_graph, PyObject *__pyx_v_t, PyObject *__pyx_v_agentStates, PyObject *__pyx_v_nudgeType, PyObject *__pyx_v_updateType, PyObject *__pyx_v_magSide, PyObject *__pyx_v_kwargs) {
   PyArrayObject *__pyx_v_H = 0;
   PyObject *__pyx_v_node = NULL;
   PyObject *__pyx_v_nodeID = NULL;
@@ -3352,8 +3350,8 @@ static int __pyx_pf_6Models_9fastIsing_5Ising___init__(struct __pyx_obj_6Models_
   if (((PyObject *)__pyx_v_self)) {
     if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_self, ((PyObject *)__pyx_v_self)) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
   }
-  if (__pyx_v_temperature) {
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_temperature, __pyx_v_temperature) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
+  if (__pyx_v_t) {
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_t, __pyx_v_t) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
   }
   if (__pyx_v_updateType) {
     if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_updateType, __pyx_v_updateType) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
@@ -3632,7 +3630,7 @@ static int __pyx_pf_6Models_9fastIsing_5Ising___init__(struct __pyx_obj_6Models_
  *         # specific model parameters
  *         self._H               = H             # <<<<<<<<<<<<<<
  *         # self._beta             = np.inf if temperature == 0 else 1 / temperature
- *         self.t                = temperature
+ *         self.t                = t
  */
   __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(((PyObject *)__pyx_v_H), PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 59, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->_H, 0);
@@ -3643,15 +3641,15 @@ static int __pyx_pf_6Models_9fastIsing_5Ising___init__(struct __pyx_obj_6Models_
   /* "Models/fastIsing.pyx":61
  *         self._H               = H
  *         # self._beta             = np.inf if temperature == 0 else 1 / temperature
- *         self.t                = temperature             # <<<<<<<<<<<<<<
+ *         self.t                = t             # <<<<<<<<<<<<<<
  *         self.magSideOptions   = {'': 0, 'neg': -1, 'pos': 1}
  *         self.magSide          = magSide
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_t, __pyx_v_temperature) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_t, __pyx_v_t) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
 
   /* "Models/fastIsing.pyx":62
  *         # self._beta             = np.inf if temperature == 0 else 1 / temperature
- *         self.t                = temperature
+ *         self.t                = t
  *         self.magSideOptions   = {'': 0, 'neg': -1, 'pos': 1}             # <<<<<<<<<<<<<<
  *         self.magSide          = magSide
  * 
@@ -3665,7 +3663,7 @@ static int __pyx_pf_6Models_9fastIsing_5Ising___init__(struct __pyx_obj_6Models_
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "Models/fastIsing.pyx":63
- *         self.t                = temperature
+ *         self.t                = t
  *         self.magSideOptions   = {'': 0, 'neg': -1, 'pos': 1}
  *         self.magSide          = magSide             # <<<<<<<<<<<<<<
  * 
@@ -3678,7 +3676,7 @@ static int __pyx_pf_6Models_9fastIsing_5Ising___init__(struct __pyx_obj_6Models_
  *     #     print('cinit fastIsing')
  *     def __init__(self, \             # <<<<<<<<<<<<<<
  *                  graph,\
- *                  temperature = 1,\
+ *                  t = 1,\
  */
 
   /* function exit code */
@@ -4500,7 +4498,7 @@ static double __pyx_f_6Models_9fastIsing_5Ising_energy(struct __pyx_obj_6Models_
  *             energy  -= states[node] * states[neighbor] * weight
  * 
  *         energy -= self._nudges[node] * states[node]             # <<<<<<<<<<<<<<
- *         # energy *= (1 + self._nudges[node] * states[node])
+ *         # energy *= (1 + self._nudges[node])
  *         return energy
  */
   __pyx_t_8 = __pyx_v_node;
@@ -4509,7 +4507,7 @@ static double __pyx_f_6Models_9fastIsing_5Ising_energy(struct __pyx_obj_6Models_
 
   /* "Models/fastIsing.pyx":148
  *         energy -= self._nudges[node] * states[node]
- *         # energy *= (1 + self._nudges[node] * states[node])
+ *         # energy *= (1 + self._nudges[node])
  *         return energy             # <<<<<<<<<<<<<<
  * 
  *     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
@@ -23570,7 +23568,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_super, __pyx_k_super, sizeof(__pyx_k_super), 0, 0, 1, 1},
   {&__pyx_n_s_t, __pyx_k_t, sizeof(__pyx_k_t), 0, 0, 1, 1},
   {&__pyx_n_s_t_2, __pyx_k_t_2, sizeof(__pyx_k_t_2), 0, 0, 1, 1},
-  {&__pyx_n_s_temperature, __pyx_k_temperature, sizeof(__pyx_k_temperature), 0, 0, 1, 1},
   {&__pyx_n_s_temps, __pyx_k_temps, sizeof(__pyx_k_temps), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_threshold, __pyx_k_threshold, sizeof(__pyx_k_threshold), 0, 0, 1, 1},
@@ -24498,7 +24495,7 @@ if (!__Pyx_RefNanny) {
 
   /* "Models/fastIsing.pyx":45
  *                  graph,\
- *                  temperature = 1,\
+ *                  t = 1,\
  *                  agentStates = [-1 ,1],\             # <<<<<<<<<<<<<<
  *                  nudgeType   = 'constant',\
  *                  updateType  = 'async', \
