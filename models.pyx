@@ -70,7 +70,9 @@ cdef class Model: # see pxd
         # create memory
         self.memorySize   = kwargs.get('memorySize', 0)
         self._memory      = np.random.choice(self.agentStates, size = (self.memorySize, self._nNodes))
-
+        # TODO: remove
+        tmp =  kwargs.get('kwargs', {})
+        self.nudges = tmp.get('nudges', {})
 
 
     cpdef void construct(self, object graph, list agentStates):
@@ -385,7 +387,8 @@ cdef class Model: # see pxd
                 self._nudges[idx] = v
         elif isinstance(vals, np.ndarray):
             self._nudges = vals
-
+        elif isinstance(vals, cython.view.memoryview):
+            self._nudges = vals.base.copy()
     @updateType.setter
     def updateType(self, value):
         """

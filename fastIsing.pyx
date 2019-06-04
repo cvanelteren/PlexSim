@@ -281,7 +281,7 @@ cdef class Ising(Model):
         # print('deepcopy')
         tmp = {i: getattr(self, i) for i in dir(self)}
         tmp = Ising(**tmp)
-        tmp.nudges = self.nudges.base.copy()
+        # tmp.nudges = self.nudges.base.copy()
         return tmp
 
     def __reduce__(self):
