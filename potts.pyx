@@ -19,11 +19,11 @@ from Models.parallel cimport *
 cdef class Potts(Model):
     def __init__(self, \
                         graph,\
-                        temperature = 1,\
+                        t = 1,\
                         agentStates = [-1 ,1],\
                         nudgeType   = 'constant',\
                         updateType  = 'async', \
-                        memSize     = 0, \
+                        memorySize     = 0, \
                         delta            = 1, \
                         **kwargs):
         """
@@ -45,7 +45,7 @@ cdef class Potts(Model):
         # specific model parameters
         self._H      = H
         # self._beta = np.inf if temperature == 0 else 1 / temperature
-        self.t       = temperature
+        self.t       = t
 
         self._delta  = delta
 
@@ -264,7 +264,7 @@ cdef class Potts(Model):
     def __deepcopy__(self, memo):
         tmp = {i: getattr(self, i) for i in dir(self)}
         tmp = Potts(**tmp)
-        tmp.nudges = self.nudges.base
+        # tmp.nudges = self.nudges.base
         return tmp
 
     def __reduce__(self):
