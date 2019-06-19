@@ -88,7 +88,8 @@ cdef class Potts(Model):
             double Z
         for node in range(self._nNodes):
             Z = self._adj[node].neighbors.size()
-            siteEnergy.push_back((-self.energy(node, states)[0]  * self._nStates / Z - 1) / (self._nStates - 1))
+            # siteEnergy.push_back((-self.energy(node, states)[0]  * self._nStates / Z - 1) / (self._nStates - 1))
+            siteEnergy.push_back((-self.energy(node, states)[0]) / Z)
         return siteEnergy
 
 
@@ -141,7 +142,7 @@ cdef class Potts(Model):
         # with gil: print(energy)
         return energy
     cdef double hamiltonian(self, long x, long y) nogil:
-        return cos(2 * pi  * (x - y) / self._nStates)
+        return cos(2 * pi  * (<double> x - <double> y) / <double> self._nStates)
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
