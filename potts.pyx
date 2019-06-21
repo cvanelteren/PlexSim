@@ -247,7 +247,10 @@ cdef class Potts(Model):
                     # (<Potts> tmptr).reset
                     res        = (<Potts> tmptr).simulate(n)
                     # results[0, i] = np.array(self.siteEnergy(res[n-1])).sum()
-                    results[0, i] = np.array([self.siteEnergy(resi) for resi in res]).mean()
+                    mu = np.array([self.siteEnergy(resi) for resi in res])
+
+                    results[0, i] = mu.mean()
+                    results[1, i] = (mu**2).mean()  - mu.mean()**2 * self._beta
                     # results[0, i] = np.array([(self.siteEnergy(resi)**2).mean(0) - results[0, i]**2)  * (<Potts> tmptr)._beta \
                                               # for resi in res].mean()
                     # for j in range(n):
