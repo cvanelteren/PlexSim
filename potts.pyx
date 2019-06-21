@@ -20,11 +20,11 @@ cdef class Potts(Model):
     def __init__(self, \
                         graph,\
                         t = 1,\
-                        agentStates = [-1 ,1],\
+                        agentStates = [0, 1],\
                         nudgeType   = 'constant',\
                         updateType  = 'async', \
                         memorySize     = 0, \
-                        delta            = 1, \
+                        delta            = 0, \
                         **kwargs):
         """
         Potts model
@@ -85,11 +85,11 @@ cdef class Potts(Model):
         cdef:
             vector[double] siteEnergy
             int node
-            double Z
+            double Z, energy
         for node in range(self._nNodes):
             Z = self._adj[node].neighbors.size()
-            # siteEnergy.push_back((-self.energy(node, states)[0]  * self._nStates / Z - 1) / (self._nStates - 1))
-            siteEnergy.push_back((-self.energy(node, states)[0]) / Z)
+            energy = - self.energy(node, states)[0] / Z # just average
+            siteEnergy.push_back(energy)
         return siteEnergy
 
 
@@ -123,16 +123,18 @@ cdef class Potts(Model):
         energy[0] = self._H[node]
         energy[1] = self._H[node]
         energy[2] = testState # keep track of possible new state
+
+        # maybe check all states? now just random, in the limit this would
+        # result in an awful fit
         for neighboridx in range(neighbors):
             neighbor   = self._adj[node].neighbors[neighboridx]
             weight     = self._adj[node].weights[neighboridx]
+            # if states[node] == states[neighbor]:
+                # energy[0] += weight
+            # if testState == states[neighbor]:
+                # energy[1] += weight
             energy[0]  -= weight * self.hamiltonian(states[node], states[neighbor])
             energy[1]  -= weight * self.hamiltonian(testState, states[neighbor])
-            # if states[neighbor] == states[node]:
-                # energy[0] -= weight
-            # if states[neighbor] == testState:
-                # energy[1] -= weight
-
         # retrieve memory
         cdef int memTime
         for memTime in range(self._memorySize):
@@ -142,6 +144,7 @@ cdef class Potts(Model):
         # with gil: print(energy)
         return energy
     cdef double hamiltonian(self, long x, long y) nogil:
+        # sanity checking
         return cos(2 * pi  * (<double> x - <double> y) / <double> self._nStates)
 
     @cython.boundscheck(False)
