@@ -33,7 +33,7 @@ cdef class Ising(Model):
     cpdef np.ndarray[double] burnin(self,\
                  int samples=*,\
                  double threshold =*)
-
+    cpdef double hammy(self)
     # compute mag for different temps
     cpdef np.ndarray matchMagnetization(self,\
                            np.ndarray temps =*,\

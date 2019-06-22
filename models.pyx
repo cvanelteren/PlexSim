@@ -292,7 +292,6 @@ cdef class Model: # see pxd
             for j in range(sampleSize):
                 samples[samplei][j]    = self._nodeids[start + j]
         return samples
-
     cpdef void reset(self):
         self.states = np.random.choice(\
                 self.agentStates, size = self._nNodes)

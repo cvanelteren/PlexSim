@@ -207,10 +207,16 @@ cdef class Ising(Model):
         """
 
         probs = np.zeros(self.nNodes)
-        for node in self.nodeIDs:
-            en = self.energy(node, self.states[node])
+        for node in self.nodeids:
+            en = self.energy(node, self.states)
             probs[node] = exp(-self._beta * en)
         return probs / np.nansum(probs)
+
+    cpdef double  hammy(self):
+        cdef double h = 0
+        for node in self.nodeids:
+            h -= self.energy(node, self.states)
+        return h
 
     cpdef  np.ndarray matchMagnetization(self,\
                               np.ndarray temps  = np.logspace(-3, 2, 20),\
