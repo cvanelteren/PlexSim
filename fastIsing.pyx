@@ -278,8 +278,9 @@ cdef class Ising(Model):
                 (<Ising> tmptr).burnin(burninSamples)
                 magres        = (<Ising> tmptr).simulate(n)
                 results[0, i] = abs(magres.mean())
-                results[1, i] = ((magres**2).mean() - magres.mean()**2) * (<Ising> tmptr).beta
+                # results[1, i] = ((magres**2).mean() - magres.mean()**2) * (<Ising> tmptr).beta
                 pbar.update(1)
+        results[1, :] = abs(np.gradient(results[0], temps, edge_order = 1))
         # print(results[0])
         self.t = tcopy # reset temp
         return results
