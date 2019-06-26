@@ -424,6 +424,10 @@ cdef class Model: # see pxd
             value = np.asarray(value) # enforce
             self._newstates = value
             self._states    = value
+        elif isinstance(value, dict):
+            for k, v in value.items():
+                idx = self.mapping[k]
+                self._states[idx] = v
     # TODOL move this back ^
     # cdef long[::1] updateState(self, int[:] nodesToUpdate):
     #     ""
