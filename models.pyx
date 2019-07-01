@@ -63,8 +63,11 @@ cdef class Model: # see pxd
 
         # create adj list
         self.construct(kwargs.get('graph'), kwargs.get('agentStates', [-1, 1]))
+
+        # create properties
         self.nudgeType  = copy.copy(kwargs.get('nudgeType', 'constant'))
         self.updateType = kwargs.get('updateType', 'async')
+
         # self.memory = np.ones((memorySize, self._nNodes), dtype = long) * np.NaN   # note keep the memory first not in state space, i.e start without any form memory
 
         # create memory
@@ -255,12 +258,17 @@ cdef class Model: # see pxd
         """
         # check the amount of samples to get
         cdef int sampleSize
+        cdef long[:, ::1] tmp
+        cdef int x
         if self._updateType == 'single':
-            sampleSize = 1
-        # elif self._updateType == 'serial':
-        #     return self._nodeids[None, :]
+            sampleSize = self._sampleSize
+        elif self._updateType == 'serial':
+
+            for x in range(self._nNodes):
+                tmp[x] = self._nodeids[x]
+            return tmp
         else:
-            sampleSize = self._nNodes
+            sampleSize = self._sampleSize
         cdef:
             # TODO replace this with a nogil version
             # long _samples[nSamples][sampleSize]
@@ -279,7 +287,7 @@ cdef class Model: # see pxd
         for samplei in range(nSamples):
             # shuffle if the current tracker is larger than the array
             start  = (samplei * sampleSize) % self._nNodes
-            if self._updateType != 'serial' and (start + sampleSize >= self._nNodes or sampleSize == 1):
+            if (start + sampleSize >= self._nNodes or sampleSize == 1):
                 for i in range(self._nNodes):
                     # shuffle the array without replacement
                     j                = lround(self.rand() * (self._nNodes - 1))
@@ -290,7 +298,7 @@ cdef class Model: # see pxd
                     if sampleSize == 1 : break
             # assign the samples; will be sorted in case of serial
             for j in range(sampleSize):
-                samples[samplei][j]    = self._nodeids[start + j]
+                samples[samplei][j]    = self._nodeids[j]
         return samples
     cpdef void reset(self):
         self.states = np.random.choice(\
@@ -312,7 +320,7 @@ cdef class Model: # see pxd
     cpdef np.ndarray simulate(self, long long int  samples):
         cdef:
             long[:, ::1] results = np.zeros((samples, self._nNodes), int)
-            int sampleSize = 1 if self._updateType == 'single' else self._nNodes
+            # int sampleSize = 1 if self._updateType == 'single' else self._nNodes
             long[:, ::1] r = self.sampleNodes(samples)
             # vector[vector[int][sampleSize]] r = self.sampleNodes(samples)
             int i
@@ -335,6 +343,8 @@ cdef class Model: # see pxd
     def memory(self, value):
         if isinstance(value, np.ndarray):
             self._memory = value
+    @property
+    def sampleSize(self): return self._sampleSize
 
     @property
     def agentStates(self): return list(self._agentStates) # warning has no setter!
@@ -397,16 +407,32 @@ cdef class Model: # see pxd
             - async : asynchronous; update n Nodes but with mutation possible
             - single: update 1 node random
             - serial: like crt scan
+            - [float]: async but only x percentage of the total system
         """
-        assert value in 'sync async single serial'
+        assert value in 'sync async single serial' or float(value)
+
         self._updateType = value
         # allow for mutation if async else independent updates
+        self._newstates = self._states.copy()
         if value == 'async':
-            self._newstates = self._states
-        else:
-            if value == 'serial':
-                self._nodeids = np.sort(self._nodeids) # enforce  for sampler
-            self._newstates = self._states.copy()
+            self._newstates = self._states # allow mutability
+            self._sampleSize = self._nNodes
+
+        # scan lines
+        if value == 'serial':
+            self._sampleSize = self._nNodes
+            self._nodeids = np.sort(self._nodeids) # enforce  for sampler
+
+        # percentage
+        try:
+            tmp = float(value)
+            assert tmp > 0, "Don't think you want to sample 0 nodes"
+            self._sampleSize = <long>(tmp * self._nNodes)
+        except Exception as e:
+            pass
+        # single
+        if value == 'single':
+            self._sampleSize = 1
 
     @nudgeType.setter
     def nudgeType(self, value):
@@ -428,6 +454,14 @@ cdef class Model: # see pxd
             for k, v in value.items():
                 idx = self.mapping[k]
                 self._states[idx] = v
+
+
+
+
+
+
+
+                
     # TODOL move this back ^
     # cdef long[::1] updateState(self, int[:] nodesToUpdate):
     #     ""

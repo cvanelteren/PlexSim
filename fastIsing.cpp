@@ -1398,6 +1398,7 @@ struct __pyx_obj_6Models_6models_Model {
   int _nNodes;
   PyObject *_updateType;
   PyObject *_nudgeType;
+  int _sampleSize;
   __Pyx_memviewslice _nudges;
   std::unordered_map<long,struct __pyx_t_6Models_6models_Connection>  _adj;
   int _nStates;
