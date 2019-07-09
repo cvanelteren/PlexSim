@@ -249,7 +249,15 @@ cdef class Model: # see pxd
     @cython.cdivision(True)
     @cython.initializedcheck(False)
     @cython.overflowcheck(False)
-    cdef long[:, ::1] sampleNodes(self, long  nSamples) nogil:
+    cpdef long[:, ::1] sampleNodes(self, long nSamples):
+        return self._sampleNodes(nSamples)
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    @cython.nonecheck(False)
+    @cython.cdivision(True)
+    @cython.initializedcheck(False)
+    @cython.overflowcheck(False)
+    cdef long[:, ::1] _sampleNodes(self, long  nSamples) nogil:
     # cdef long [:, ::1] sampleNodes(self, long  nSamples):
         """
         Shuffles nodeids only when the current sample is larger
@@ -461,7 +469,7 @@ cdef class Model: # see pxd
 
 
 
-                
+
     # TODOL move this back ^
     # cdef long[::1] updateState(self, int[:] nodesToUpdate):
     #     ""

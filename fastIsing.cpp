@@ -1511,7 +1511,8 @@ struct __pyx_vtabstruct_6Models_6models_Model {
   void (*construct)(struct __pyx_obj_6Models_6models_Model *, PyObject *, PyObject *, int __pyx_skip_dispatch);
   __Pyx_memviewslice (*updateState)(struct __pyx_obj_6Models_6models_Model *, __Pyx_memviewslice, int __pyx_skip_dispatch);
   __Pyx_memviewslice (*_updateState)(struct __pyx_obj_6Models_6models_Model *, __Pyx_memviewslice);
-  __Pyx_memviewslice (*sampleNodes)(struct __pyx_obj_6Models_6models_Model *, long);
+  __Pyx_memviewslice (*_sampleNodes)(struct __pyx_obj_6Models_6models_Model *, long);
+  __Pyx_memviewslice (*sampleNodes)(struct __pyx_obj_6Models_6models_Model *, long, int __pyx_skip_dispatch);
   double (*rand)(struct __pyx_obj_6Models_6models_Model *);
   PyArrayObject *(*simulate)(struct __pyx_obj_6Models_6models_Model *, PY_LONG_LONG, int __pyx_skip_dispatch);
   void (*reset)(struct __pyx_obj_6Models_6models_Model *, int __pyx_skip_dispatch);
@@ -3982,7 +3983,7 @@ static PyArrayObject *__pyx_f_6Models_9fastIsing_5Ising_burnin(struct __pyx_obj_
  *             states = self.updateState(r[0]) # update state
  *             # check if magnetization = constant
  */
-    __pyx_t_9 = ((struct __pyx_vtabstruct_6Models_9fastIsing_Ising *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.sampleNodes(((struct __pyx_obj_6Models_6models_Model *)__pyx_v_self), 1); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(0, 97, __pyx_L1_error)
+    __pyx_t_9 = ((struct __pyx_vtabstruct_6Models_9fastIsing_Ising *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.sampleNodes(((struct __pyx_obj_6Models_6models_Model *)__pyx_v_self), 1, 0); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(0, 97, __pyx_L1_error)
     __PYX_XDEC_MEMVIEW(&__pyx_v_r, 1);
     __pyx_v_r = __pyx_t_9;
     __pyx_t_9.memview = NULL;
