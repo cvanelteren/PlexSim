@@ -271,7 +271,6 @@ cdef class Model: # see pxd
         if self._updateType == 'single':
             sampleSize = self._sampleSize
         elif self._updateType == 'serial':
-
             for x in range(self._nNodes):
                 tmp[x] = self._nodeids[x]
             return tmp
@@ -430,7 +429,9 @@ cdef class Model: # see pxd
         if value == 'serial':
             self._sampleSize = self._nNodes
             self._nodeids = np.sort(self._nodeids) # enforce  for sampler
-
+        if value == 'sync':
+            self._sampleSize = self._nNodes
+            self._newstates = self._states.copy()
         # percentage
         try:
             tmp = float(value)
