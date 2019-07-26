@@ -399,6 +399,7 @@ cdef class Model: # see pxd
         self._nudges[:] =  0
         if isinstance(vals, dict):
             for k, v in vals.items():
+                # assert string
                 idx = self.mapping[str(k)]
                 self._nudges[idx] = v
         elif isinstance(vals, np.ndarray):
