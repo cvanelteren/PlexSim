@@ -1,4 +1,4 @@
-from models import Model
+from Models import Model
 from scipy.stats import beta, bernoulli
 import numpy as np
 class SIS(Model):
@@ -33,7 +33,7 @@ class SIS(Model):
                 # check infection outside network
                 # check infecting within network
                 a = [self.infectInside(node) for i in self.edgeData[node]]
-                
+
 
                 if any(a) or self.infectOutside():
                     self.states[node] = 1

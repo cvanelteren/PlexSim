@@ -1,5 +1,5 @@
 # distutils: language = c++
-from Models.models cimport Model
+from Models.Models cimport Model
 import numpy as np
 cimport numpy as np
 cimport cython

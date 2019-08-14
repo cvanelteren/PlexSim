@@ -25,12 +25,12 @@
             "."
         ],
         "language": "c++",
-        "name": "Models.circular",
+        "name": "Models.Percolation",
         "sources": [
-            "Models/circular.pyx"
+            "Models/Percolation.pyx"
         ]
     },
-    "module_name": "Models.circular"
+    "module_name": "Models.Percolation"
 }
 END: Cython Metadata */
 
@@ -641,8 +641,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__Models__circular
-#define __PYX_HAVE_API__Models__circular
+#define __PYX_HAVE__Models__Percolation
+#define __PYX_HAVE_API__Models__Percolation
 /* Early includes */
 #include <string.h>
 #include <stdio.h>
@@ -890,7 +890,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "Models/circular.pyx",
+  "Models/Percolation.pyx",
   "stringsource",
   "__init__.pxd",
   "type.pxd",
@@ -1242,8 +1242,8 @@ static CYTHON_INLINE __pyx_t_double_complex __pyx_t_double_complex_from_parts(do
 
 
 /*--- Type declarations ---*/
-struct __pyx_obj_6Models_6models_Model;
-struct __pyx_obj_6Models_8circular_CCA;
+struct __pyx_obj_6Models_6Models_Model;
+struct __pyx_obj_6Models_11Percolation_Percolation;
 struct __pyx_array_obj;
 struct __pyx_MemviewEnum_obj;
 struct __pyx_memoryview_obj;
@@ -1284,30 +1284,30 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  * cdef inline object PyArray_MultiIterNew1(a):
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
-struct __pyx_t_6Models_6models_Connection;
+struct __pyx_t_6Models_6Models_Connection;
 
-/* "Models/models.pxd":19
+/* "Models/Models.pxd":19
  *         T operator()(mt19937 gen) # ignore the possibility of using other classes for "gen"
  * 
  * cdef struct Connection:             # <<<<<<<<<<<<<<
  *     vector[int] neighbors
  *     vector[double] weights
  */
-struct __pyx_t_6Models_6models_Connection {
+struct __pyx_t_6Models_6Models_Connection {
   std::vector<int>  neighbors;
   std::vector<double>  weights;
 };
 
-/* "Models/models.pxd":23
+/* "Models/Models.pxd":23
  *     vector[double] weights
  * 
  * cdef class Model:             # <<<<<<<<<<<<<<
  *     cdef:
  *         # public
  */
-struct __pyx_obj_6Models_6models_Model {
+struct __pyx_obj_6Models_6Models_Model {
   PyObject_HEAD
-  struct __pyx_vtabstruct_6Models_6models_Model *__pyx_vtab;
+  struct __pyx_vtabstruct_6Models_6Models_Model *__pyx_vtab;
   __Pyx_memviewslice _states;
   __Pyx_memviewslice _newstates;
   __Pyx_memviewslice _nodeids;
@@ -1322,22 +1322,22 @@ struct __pyx_obj_6Models_6models_Model {
   PyObject *_nudgeType;
   int _sampleSize;
   __Pyx_memviewslice _nudges;
-  std::unordered_map<long,struct __pyx_t_6Models_6models_Connection>  _adj;
+  std::unordered_map<long,struct __pyx_t_6Models_6Models_Connection>  _adj;
   int _nStates;
   PyObject *__dict__;
 };
 
 
-/* "Models/circular.pxd":5
+/* "Models/Percolation.pxd":5
+ * from Models.Models cimport Model
  * 
- * 
- * cdef class CCA(Model):             # <<<<<<<<<<<<<<
+ * cdef class Percolation(Model):             # <<<<<<<<<<<<<<
  *     cdef:
- *         double _threshold
+ *         double p
  */
-struct __pyx_obj_6Models_8circular_CCA {
-  struct __pyx_obj_6Models_6models_Model __pyx_base;
-  double _threshold;
+struct __pyx_obj_6Models_11Percolation_Percolation {
+  struct __pyx_obj_6Models_6Models_Model __pyx_base;
+  double p;
 };
 
 
@@ -1419,7 +1419,7 @@ struct __pyx_memoryviewslice_obj {
 
 
 
-/* "Models/models.pxd":23
+/* "Models/Models.pxd":23
  *     vector[double] weights
  * 
  * cdef class Model:             # <<<<<<<<<<<<<<
@@ -1427,32 +1427,31 @@ struct __pyx_memoryviewslice_obj {
  *         # public
  */
 
-struct __pyx_vtabstruct_6Models_6models_Model {
-  void (*construct)(struct __pyx_obj_6Models_6models_Model *, PyObject *, PyObject *, int __pyx_skip_dispatch);
-  __Pyx_memviewslice (*updateState)(struct __pyx_obj_6Models_6models_Model *, __Pyx_memviewslice, int __pyx_skip_dispatch);
-  __Pyx_memviewslice (*_updateState)(struct __pyx_obj_6Models_6models_Model *, __Pyx_memviewslice);
-  __Pyx_memviewslice (*_sampleNodes)(struct __pyx_obj_6Models_6models_Model *, long);
-  __Pyx_memviewslice (*sampleNodes)(struct __pyx_obj_6Models_6models_Model *, long, int __pyx_skip_dispatch);
-  double (*rand)(struct __pyx_obj_6Models_6models_Model *);
-  PyArrayObject *(*simulate)(struct __pyx_obj_6Models_6models_Model *, PY_LONG_LONG, int __pyx_skip_dispatch);
-  void (*reset)(struct __pyx_obj_6Models_6models_Model *, int __pyx_skip_dispatch);
+struct __pyx_vtabstruct_6Models_6Models_Model {
+  void (*construct)(struct __pyx_obj_6Models_6Models_Model *, PyObject *, PyObject *, int __pyx_skip_dispatch);
+  __Pyx_memviewslice (*updateState)(struct __pyx_obj_6Models_6Models_Model *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  __Pyx_memviewslice (*_updateState)(struct __pyx_obj_6Models_6Models_Model *, __Pyx_memviewslice);
+  __Pyx_memviewslice (*_sampleNodes)(struct __pyx_obj_6Models_6Models_Model *, int);
+  __Pyx_memviewslice (*sampleNodes)(struct __pyx_obj_6Models_6Models_Model *, int, int __pyx_skip_dispatch);
+  double (*rand)(struct __pyx_obj_6Models_6Models_Model *);
+  PyArrayObject *(*simulate)(struct __pyx_obj_6Models_6Models_Model *, int, int __pyx_skip_dispatch);
+  void (*reset)(struct __pyx_obj_6Models_6Models_Model *, int __pyx_skip_dispatch);
 };
-static struct __pyx_vtabstruct_6Models_6models_Model *__pyx_vtabptr_6Models_6models_Model;
+static struct __pyx_vtabstruct_6Models_6Models_Model *__pyx_vtabptr_6Models_6Models_Model;
 
 
-/* "Models/circular.pyx":6
- * cimport numpy as np
- * cimport cython
- * cdef class CCA(Model):             # <<<<<<<<<<<<<<
- *     def __init__(self, \
- *                     graph,\
+/* "Models/Percolation.pyx":15
+ * import networkx as nx
+ * 
+ * cdef class Percolation(Model):             # <<<<<<<<<<<<<<
+ *     def __init__(self, graph, p = 1, agentStates = [0, 1], updateType = 'single'):
+ *         super(Percolation, self).__init__(**locals())
  */
 
-struct __pyx_vtabstruct_6Models_8circular_CCA {
-  struct __pyx_vtabstruct_6Models_6models_Model __pyx_base;
-  long (*_evolve)(struct __pyx_obj_6Models_8circular_CCA *, long);
+struct __pyx_vtabstruct_6Models_11Percolation_Percolation {
+  struct __pyx_vtabstruct_6Models_6Models_Model __pyx_base;
 };
-static struct __pyx_vtabstruct_6Models_8circular_CCA *__pyx_vtabptr_6Models_8circular_CCA;
+static struct __pyx_vtabstruct_6Models_11Percolation_Percolation *__pyx_vtabptr_6Models_11Percolation_Percolation;
 
 
 /* "View.MemoryView":105
@@ -1595,14 +1594,40 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg
 #define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
 #endif
 
-/* PyObjectSetAttrStr.proto */
-#if CYTHON_USE_TYPE_SLOTS
-#define __Pyx_PyObject_DelAttrStr(o,n) __Pyx_PyObject_SetAttrStr(o, n, NULL)
-static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value);
-#else
-#define __Pyx_PyObject_DelAttrStr(o,n)   PyObject_DelAttr(o,n)
-#define __Pyx_PyObject_SetAttrStr(o,n,v) PyObject_SetAttr(o,n,v)
-#endif
+/* BufferIndexError.proto */
+static void __Pyx_RaiseBufferIndexError(int axis);
+
+/* BufferIndexErrorNogil.proto */
+static void __Pyx_RaiseBufferIndexErrorNogil(int axis);
+
+/* MemviewSliceInit.proto */
+#define __Pyx_BUF_MAX_NDIMS %(BUF_MAX_NDIMS)d
+#define __Pyx_MEMVIEW_DIRECT   1
+#define __Pyx_MEMVIEW_PTR      2
+#define __Pyx_MEMVIEW_FULL     4
+#define __Pyx_MEMVIEW_CONTIG   8
+#define __Pyx_MEMVIEW_STRIDED  16
+#define __Pyx_MEMVIEW_FOLLOW   32
+#define __Pyx_IS_C_CONTIG 1
+#define __Pyx_IS_F_CONTIG 2
+static int __Pyx_init_memviewslice(
+                struct __pyx_memoryview_obj *memview,
+                int ndim,
+                __Pyx_memviewslice *memviewslice,
+                int memview_is_new_reference);
+static CYTHON_INLINE int __pyx_add_acquisition_count_locked(
+    __pyx_atomic_int *acquisition_count, PyThread_type_lock lock);
+static CYTHON_INLINE int __pyx_sub_acquisition_count_locked(
+    __pyx_atomic_int *acquisition_count, PyThread_type_lock lock);
+#define __pyx_get_slice_count_pointer(memview) (memview->acquisition_count_aligned_p)
+#define __pyx_get_slice_count(memview) (*__pyx_get_slice_count_pointer(memview))
+#define __PYX_INC_MEMVIEW(slice, have_gil) __Pyx_INC_MEMVIEW(slice, have_gil, __LINE__)
+#define __PYX_XDEC_MEMVIEW(slice, have_gil) __Pyx_XDEC_MEMVIEW(slice, have_gil, __LINE__)
+static CYTHON_INLINE void __Pyx_INC_MEMVIEW(__Pyx_memviewslice *, int, int);
+static CYTHON_INLINE void __Pyx_XDEC_MEMVIEW(__Pyx_memviewslice *, int, int);
+
+/* FetchCommonPointer.proto */
+static void* __Pyx_FetchCommonPointer(void* pointer, const char* name);
 
 /* PyDictVersioning.proto */
 #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
@@ -1674,31 +1699,42 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject
 /* PyObjectCallOneArg.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
 
-/* MemviewSliceInit.proto */
-#define __Pyx_BUF_MAX_NDIMS %(BUF_MAX_NDIMS)d
-#define __Pyx_MEMVIEW_DIRECT   1
-#define __Pyx_MEMVIEW_PTR      2
-#define __Pyx_MEMVIEW_FULL     4
-#define __Pyx_MEMVIEW_CONTIG   8
-#define __Pyx_MEMVIEW_STRIDED  16
-#define __Pyx_MEMVIEW_FOLLOW   32
-#define __Pyx_IS_C_CONTIG 1
-#define __Pyx_IS_F_CONTIG 2
-static int __Pyx_init_memviewslice(
-                struct __pyx_memoryview_obj *memview,
-                int ndim,
-                __Pyx_memviewslice *memviewslice,
-                int memview_is_new_reference);
-static CYTHON_INLINE int __pyx_add_acquisition_count_locked(
-    __pyx_atomic_int *acquisition_count, PyThread_type_lock lock);
-static CYTHON_INLINE int __pyx_sub_acquisition_count_locked(
-    __pyx_atomic_int *acquisition_count, PyThread_type_lock lock);
-#define __pyx_get_slice_count_pointer(memview) (memview->acquisition_count_aligned_p)
-#define __pyx_get_slice_count(memview) (*__pyx_get_slice_count_pointer(memview))
-#define __PYX_INC_MEMVIEW(slice, have_gil) __Pyx_INC_MEMVIEW(slice, have_gil, __LINE__)
-#define __PYX_XDEC_MEMVIEW(slice, have_gil) __Pyx_XDEC_MEMVIEW(slice, have_gil, __LINE__)
-static CYTHON_INLINE void __Pyx_INC_MEMVIEW(__Pyx_memviewslice *, int, int);
-static CYTHON_INLINE void __Pyx_XDEC_MEMVIEW(__Pyx_memviewslice *, int, int);
+/* PyObjectCallNoArg.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
+#else
+#define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
+#endif
+
+/* GetModuleGlobalName.proto */
+#if CYTHON_USE_DICT_VERSIONS
+#define __Pyx_GetModuleGlobalName(var, name)  {\
+    static PY_UINT64_T __pyx_dict_version = 0;\
+    static PyObject *__pyx_dict_cached_value = NULL;\
+    (var) = (likely(__pyx_dict_version == __PYX_GET_DICT_VERSION(__pyx_d))) ?\
+        (likely(__pyx_dict_cached_value) ? __Pyx_NewRef(__pyx_dict_cached_value) : __Pyx_GetBuiltinName(name)) :\
+        __Pyx__GetModuleGlobalName(name, &__pyx_dict_version, &__pyx_dict_cached_value);\
+}
+#define __Pyx_GetModuleGlobalNameUncached(var, name)  {\
+    PY_UINT64_T __pyx_dict_version;\
+    PyObject *__pyx_dict_cached_value;\
+    (var) = __Pyx__GetModuleGlobalName(name, &__pyx_dict_version, &__pyx_dict_cached_value);\
+}
+static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value);
+#else
+#define __Pyx_GetModuleGlobalName(var, name)  (var) = __Pyx__GetModuleGlobalName(name)
+#define __Pyx_GetModuleGlobalNameUncached(var, name)  (var) = __Pyx__GetModuleGlobalName(name)
+static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name);
+#endif
+
+/* PyObjectSetAttrStr.proto */
+#if CYTHON_USE_TYPE_SLOTS
+#define __Pyx_PyObject_DelAttrStr(o,n) __Pyx_PyObject_SetAttrStr(o, n, NULL)
+static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value);
+#else
+#define __Pyx_PyObject_DelAttrStr(o,n)   PyObject_DelAttr(o,n)
+#define __Pyx_PyObject_SetAttrStr(o,n,v) PyObject_SetAttr(o,n,v)
+#endif
 
 /* PyThreadStateGet.proto */
 #if CYTHON_FAST_THREAD_STATE
@@ -1735,6 +1771,11 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
 #define __Pyx_ErrRestore(type, value, tb)  PyErr_Restore(type, value, tb)
 #define __Pyx_ErrFetch(type, value, tb)  PyErr_Fetch(type, value, tb)
 #endif
+
+/* WriteUnraisableException.proto */
+static void __Pyx_WriteUnraisable(const char *name, int clineno,
+                                  int lineno, const char *filename,
+                                  int full_traceback, int nogil);
 
 /* RaiseException.proto */
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
@@ -1880,27 +1921,6 @@ static CYTHON_INLINE PyObject* __Pyx_decode_c_string(
 /* GetAttr3.proto */
 static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *, PyObject *, PyObject *);
 
-/* GetModuleGlobalName.proto */
-#if CYTHON_USE_DICT_VERSIONS
-#define __Pyx_GetModuleGlobalName(var, name)  {\
-    static PY_UINT64_T __pyx_dict_version = 0;\
-    static PyObject *__pyx_dict_cached_value = NULL;\
-    (var) = (likely(__pyx_dict_version == __PYX_GET_DICT_VERSION(__pyx_d))) ?\
-        (likely(__pyx_dict_cached_value) ? __Pyx_NewRef(__pyx_dict_cached_value) : __Pyx_GetBuiltinName(name)) :\
-        __Pyx__GetModuleGlobalName(name, &__pyx_dict_version, &__pyx_dict_cached_value);\
-}
-#define __Pyx_GetModuleGlobalNameUncached(var, name)  {\
-    PY_UINT64_T __pyx_dict_version;\
-    PyObject *__pyx_dict_cached_value;\
-    (var) = __Pyx__GetModuleGlobalName(name, &__pyx_dict_version, &__pyx_dict_cached_value);\
-}
-static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value);
-#else
-#define __Pyx_GetModuleGlobalName(var, name)  (var) = __Pyx__GetModuleGlobalName(name)
-#define __Pyx_GetModuleGlobalNameUncached(var, name)  (var) = __Pyx__GetModuleGlobalName(name)
-static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name);
-#endif
-
 /* SwapException.proto */
 #if CYTHON_FAST_THREAD_STATE
 #define __Pyx_ExceptionSwap(type, value, tb)  __Pyx__ExceptionSwap(__pyx_tstate, type, value, tb)
@@ -1981,16 +2001,8 @@ static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
 #define __Pyx_PyList_Append(L,x) PyList_Append(L,x)
 #endif
 
-/* FetchCommonPointer.proto */
-static void* __Pyx_FetchCommonPointer(void* pointer, const char* name);
-
 /* None.proto */
 static CYTHON_INLINE long __Pyx_div_long(long, long);
-
-/* WriteUnraisableException.proto */
-static void __Pyx_WriteUnraisable(const char *name, int clineno,
-                                  int lineno, const char *filename,
-                                  int full_traceback, int nogil);
 
 /* ImportFrom.proto */
 static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
@@ -2128,14 +2140,14 @@ static int __Pyx_ValidateAndInit_memviewslice(
 static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_long(PyObject *, int writable_flag);
 
 /* CIntToPy.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
+
+/* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
 /* MemviewDtypeToObject.proto */
 static CYTHON_INLINE PyObject *__pyx_memview_get_long(const char *itemp);
 static CYTHON_INLINE int __pyx_memview_set_long(const char *itemp, PyObject *obj);
-
-/* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 
 /* RealImag.proto */
 #if CYTHON_CCOMPLEX
@@ -2249,10 +2261,10 @@ __pyx_memoryview_copy_new_contig(const __Pyx_memviewslice *from_mvs,
                                  int dtype_is_object);
 
 /* CIntFromPy.proto */
-static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
+static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
 
 /* CIntFromPy.proto */
-static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
+static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE char __Pyx_PyInt_As_char(PyObject *);
@@ -2263,9 +2275,9 @@ static int __Pyx_check_binary_version(void);
 /* InitStrings.proto */
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
-static long __pyx_f_6Models_8circular_3CCA__evolve(struct __pyx_obj_6Models_8circular_CCA *__pyx_v_self, long __pyx_v_node); /* proto*/
-static __Pyx_memviewslice __pyx_f_6Models_8circular_3CCA_updateState(struct __pyx_obj_6Models_8circular_CCA *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate, int __pyx_skip_dispatch); /* proto*/
-static __Pyx_memviewslice __pyx_f_6Models_8circular_3CCA__updateState(struct __pyx_obj_6Models_8circular_CCA *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate); /* proto*/
+static __Pyx_memviewslice __pyx_f_6Models_11Percolation_11Percolation__updateState(struct __pyx_obj_6Models_11Percolation_Percolation *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate); /* proto*/
+static __Pyx_memviewslice __pyx_f_6Models_11Percolation_11Percolation_updateState(struct __pyx_obj_6Models_11Percolation_Percolation *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate, int __pyx_skip_dispatch); /* proto*/
+static void __pyx_f_6Models_11Percolation_11Percolation_reset(struct __pyx_obj_6Models_11Percolation_Percolation *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *__pyx_v_self); /* proto*/
 static char *__pyx_memoryview_get_item_pointer(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_index); /* proto*/
 static PyObject *__pyx_memoryview_is_slice(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_obj); /* proto*/
@@ -2276,6 +2288,10 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
 static PyObject *__pyx_memoryview_assign_item_from_object(struct __pyx_memoryview_obj *__pyx_v_self, char *__pyx_v_itemp, PyObject *__pyx_v_value); /* proto*/
 static PyObject *__pyx_memoryviewslice_convert_item_to_object(struct __pyx_memoryviewslice_obj *__pyx_v_self, char *__pyx_v_itemp); /* proto*/
 static PyObject *__pyx_memoryviewslice_assign_item_from_object(struct __pyx_memoryviewslice_obj *__pyx_v_self, char *__pyx_v_itemp, PyObject *__pyx_v_value); /* proto*/
+
+/* Module declarations from 'cython.view' */
+
+/* Module declarations from 'cython' */
 
 /* Module declarations from 'cpython.buffer' */
 
@@ -2314,15 +2330,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *, cha
 
 /* Module declarations from 'libcpp.unordered_map' */
 
-/* Module declarations from 'cython.view' */
+/* Module declarations from 'Models.Models' */
+static PyTypeObject *__pyx_ptype_6Models_6Models_Model = 0;
 
-/* Module declarations from 'cython' */
-
-/* Module declarations from 'Models.models' */
-static PyTypeObject *__pyx_ptype_6Models_6models_Model = 0;
-
-/* Module declarations from 'Models.circular' */
-static PyTypeObject *__pyx_ptype_6Models_8circular_CCA = 0;
+/* Module declarations from 'Models.Percolation' */
+static PyTypeObject *__pyx_ptype_6Models_11Percolation_Percolation = 0;
 static PyTypeObject *__pyx_array_type = 0;
 static PyTypeObject *__pyx_MemviewEnum_type = 0;
 static PyTypeObject *__pyx_memoryview_type = 0;
@@ -2368,11 +2380,11 @@ static void __pyx_memoryview_slice_assign_scalar(__Pyx_memviewslice *, int, size
 static void __pyx_memoryview__slice_assign_scalar(char *, Py_ssize_t *, Py_ssize_t *, int, size_t, void *); /*proto*/
 static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *, PyObject *); /*proto*/
 static __Pyx_TypeInfo __Pyx_TypeInfo_long = { "long", NULL, sizeof(long), { 0 }, 0, IS_UNSIGNED(long) ? 'U' : 'I', IS_UNSIGNED(long), 0 };
-#define __Pyx_MODULE_NAME "Models.circular"
-extern int __pyx_module_is_main_Models__circular;
-int __pyx_module_is_main_Models__circular = 0;
+#define __Pyx_MODULE_NAME "Models.Percolation"
+extern int __pyx_module_is_main_Models__Percolation;
+int __pyx_module_is_main_Models__Percolation = 0;
 
-/* Implementation of 'Models.circular' */
+/* Implementation of 'Models.Percolation' */
 static PyObject *__pyx_builtin_super;
 static PyObject *__pyx_builtin_range;
 static PyObject *__pyx_builtin_TypeError;
@@ -2386,11 +2398,15 @@ static PyObject *__pyx_builtin_id;
 static PyObject *__pyx_builtin_IndexError;
 static const char __pyx_k_O[] = "O";
 static const char __pyx_k_c[] = "c";
+static const char __pyx_k_p[] = "p";
 static const char __pyx_k_id[] = "id";
 static const char __pyx_k_np[] = "np";
-static const char __pyx_k_CCA[] = "CCA";
+static const char __pyx_k_nx[] = "nx";
+static const char __pyx_k__29[] = "*";
+static const char __pyx_k_app[] = "app";
 static const char __pyx_k_new[] = "__new__";
 static const char __pyx_k_obj[] = "obj";
+static const char __pyx_k_plt[] = "plt";
 static const char __pyx_k_base[] = "base";
 static const char __pyx_k_dict[] = "__dict__";
 static const char __pyx_k_init[] = "__init__";
@@ -2411,34 +2427,39 @@ static const char __pyx_k_flags[] = "flags";
 static const char __pyx_k_graph[] = "graph";
 static const char __pyx_k_numpy[] = "numpy";
 static const char __pyx_k_range[] = "range";
+static const char __pyx_k_reset[] = "reset";
+static const char __pyx_k_scene[] = "scene";
 static const char __pyx_k_shape[] = "shape";
 static const char __pyx_k_start[] = "start";
 static const char __pyx_k_super[] = "super";
+static const char __pyx_k_vispy[] = "vispy";
+static const char __pyx_k_choice[] = "choice";
 static const char __pyx_k_encode[] = "encode";
 static const char __pyx_k_format[] = "format";
 static const char __pyx_k_import[] = "__import__";
-static const char __pyx_k_kwargs[] = "kwargs";
+static const char __pyx_k_nNodes[] = "nNodes";
 static const char __pyx_k_name_2[] = "__name__";
 static const char __pyx_k_pickle[] = "pickle";
+static const char __pyx_k_random[] = "random";
 static const char __pyx_k_reduce[] = "__reduce__";
 static const char __pyx_k_single[] = "single";
+static const char __pyx_k_states[] = "states";
 static const char __pyx_k_struct[] = "struct";
 static const char __pyx_k_unpack[] = "unpack";
 static const char __pyx_k_update[] = "update";
 static const char __pyx_k_fortran[] = "fortran";
 static const char __pyx_k_memview[] = "memview";
+static const char __pyx_k_visuals[] = "visuals";
 static const char __pyx_k_Ellipsis[] = "Ellipsis";
-static const char __pyx_k_constant[] = "constant";
 static const char __pyx_k_getstate[] = "__getstate__";
 static const char __pyx_k_itemsize[] = "itemsize";
+static const char __pyx_k_networkx[] = "networkx";
 static const char __pyx_k_pyx_type[] = "__pyx_type";
 static const char __pyx_k_setstate[] = "__setstate__";
 static const char __pyx_k_TypeError[] = "TypeError";
 static const char __pyx_k_enumerate[] = "enumerate";
-static const char __pyx_k_nudgeType[] = "nudgeType";
 static const char __pyx_k_pyx_state[] = "__pyx_state";
 static const char __pyx_k_reduce_ex[] = "__reduce_ex__";
-static const char __pyx_k_threshold[] = "threshold";
 static const char __pyx_k_IndexError[] = "IndexError";
 static const char __pyx_k_ValueError[] = "ValueError";
 static const char __pyx_k_pyx_result[] = "__pyx_result";
@@ -2446,6 +2467,7 @@ static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_updateType[] = "updateType";
 static const char __pyx_k_ImportError[] = "ImportError";
 static const char __pyx_k_MemoryError[] = "MemoryError";
+static const char __pyx_k_Percolation[] = "Percolation";
 static const char __pyx_k_PickleError[] = "PickleError";
 static const char __pyx_k_agentStates[] = "agentStates";
 static const char __pyx_k_updateState[] = "updateState";
@@ -2459,6 +2481,7 @@ static const char __pyx_k_allocate_buffer[] = "allocate_buffer";
 static const char __pyx_k_dtype_is_object[] = "dtype_is_object";
 static const char __pyx_k_pyx_PickleError[] = "__pyx_PickleError";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
+static const char __pyx_k_matplotlib_pyplot[] = "matplotlib.pyplot";
 static const char __pyx_k_pyx_unpickle_Enum[] = "__pyx_unpickle_Enum";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_strided_and_direct[] = "<strided and direct>";
@@ -2473,6 +2496,7 @@ static const char __pyx_k_itemsize_0_for_cython_array[] = "itemsize <= 0 for cyt
 static const char __pyx_k_ndarray_is_not_C_contiguous[] = "ndarray is not C contiguous";
 static const char __pyx_k_unable_to_allocate_array_data[] = "unable to allocate array data.";
 static const char __pyx_k_strided_and_direct_or_indirect[] = "<strided and direct or indirect>";
+static const char __pyx_k_Created_on_Fri_Jun_7_10_37_33_2[] = "\nCreated on Fri Jun  7 10:37:33 2019\n\n@author: casper\n";
 static const char __pyx_k_numpy_core_multiarray_failed_to[] = "numpy.core.multiarray failed to import";
 static const char __pyx_k_unknown_dtype_code_in_numpy_pxd[] = "unknown dtype code in numpy.pxd (%d)";
 static const char __pyx_k_Buffer_view_does_not_expose_stri[] = "Buffer view does not expose strides";
@@ -2496,7 +2520,6 @@ static const char __pyx_k_unable_to_allocate_shape_and_str[] = "unable to alloca
 static const char __pyx_k_Format_string_allocated_too_shor_2[] = "Format string allocated too short.";
 static PyObject *__pyx_n_s_ASCII;
 static PyObject *__pyx_kp_s_Buffer_view_does_not_expose_stri;
-static PyObject *__pyx_n_s_CCA;
 static PyObject *__pyx_kp_s_Can_only_create_a_buffer_that_is;
 static PyObject *__pyx_kp_s_Cannot_assign_to_read_only_memor;
 static PyObject *__pyx_kp_s_Cannot_create_writable_memory_vi;
@@ -2517,20 +2540,23 @@ static PyObject *__pyx_kp_s_MemoryView_of_r_object;
 static PyObject *__pyx_kp_u_Non_native_byte_order_not_suppor;
 static PyObject *__pyx_n_b_O;
 static PyObject *__pyx_kp_s_Out_of_bounds_on_buffer_access_a;
+static PyObject *__pyx_n_s_Percolation;
 static PyObject *__pyx_n_s_PickleError;
 static PyObject *__pyx_n_s_RuntimeError;
 static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_kp_s_Unable_to_convert_item_to_object;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_View_MemoryView;
+static PyObject *__pyx_n_s__29;
 static PyObject *__pyx_n_s_agentStates;
 static PyObject *__pyx_n_s_allocate_buffer;
+static PyObject *__pyx_n_s_app;
 static PyObject *__pyx_n_s_base;
 static PyObject *__pyx_n_s_c;
 static PyObject *__pyx_n_u_c;
+static PyObject *__pyx_n_s_choice;
 static PyObject *__pyx_n_s_class;
 static PyObject *__pyx_n_s_cline_in_traceback;
-static PyObject *__pyx_n_u_constant;
 static PyObject *__pyx_kp_s_contiguous_and_direct;
 static PyObject *__pyx_kp_s_contiguous_and_indirect;
 static PyObject *__pyx_n_s_dict;
@@ -2550,25 +2576,29 @@ static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_itemsize;
 static PyObject *__pyx_kp_s_itemsize_0_for_cython_array;
-static PyObject *__pyx_n_s_kwargs;
 static PyObject *__pyx_n_s_main;
+static PyObject *__pyx_n_s_matplotlib_pyplot;
 static PyObject *__pyx_n_s_memview;
 static PyObject *__pyx_n_s_mode;
+static PyObject *__pyx_n_s_nNodes;
 static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_name_2;
 static PyObject *__pyx_kp_u_ndarray_is_not_C_contiguous;
 static PyObject *__pyx_kp_u_ndarray_is_not_Fortran_contiguou;
 static PyObject *__pyx_n_s_ndim;
+static PyObject *__pyx_n_s_networkx;
 static PyObject *__pyx_n_s_new;
 static PyObject *__pyx_kp_s_no_default___reduce___due_to_non;
 static PyObject *__pyx_n_s_np;
-static PyObject *__pyx_n_s_nudgeType;
 static PyObject *__pyx_n_s_numpy;
 static PyObject *__pyx_kp_u_numpy_core_multiarray_failed_to;
 static PyObject *__pyx_kp_u_numpy_core_umath_failed_to_impor;
+static PyObject *__pyx_n_s_nx;
 static PyObject *__pyx_n_s_obj;
+static PyObject *__pyx_n_s_p;
 static PyObject *__pyx_n_s_pack;
 static PyObject *__pyx_n_s_pickle;
+static PyObject *__pyx_n_s_plt;
 static PyObject *__pyx_n_s_pyx_PickleError;
 static PyObject *__pyx_n_s_pyx_checksum;
 static PyObject *__pyx_n_s_pyx_getbuffer;
@@ -2577,10 +2607,13 @@ static PyObject *__pyx_n_s_pyx_state;
 static PyObject *__pyx_n_s_pyx_type;
 static PyObject *__pyx_n_s_pyx_unpickle_Enum;
 static PyObject *__pyx_n_s_pyx_vtable;
+static PyObject *__pyx_n_s_random;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_reduce;
 static PyObject *__pyx_n_s_reduce_cython;
 static PyObject *__pyx_n_s_reduce_ex;
+static PyObject *__pyx_n_s_reset;
+static PyObject *__pyx_n_s_scene;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_kp_s_self_dist_self_gen_cannot_be_con;
 static PyObject *__pyx_n_s_setstate;
@@ -2589,6 +2622,7 @@ static PyObject *__pyx_n_s_shape;
 static PyObject *__pyx_n_u_single;
 static PyObject *__pyx_n_s_size;
 static PyObject *__pyx_n_s_start;
+static PyObject *__pyx_n_s_states;
 static PyObject *__pyx_n_s_step;
 static PyObject *__pyx_n_s_stop;
 static PyObject *__pyx_kp_s_strided_and_direct;
@@ -2598,7 +2632,6 @@ static PyObject *__pyx_kp_s_stringsource;
 static PyObject *__pyx_n_s_struct;
 static PyObject *__pyx_n_s_super;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_n_s_threshold;
 static PyObject *__pyx_kp_s_unable_to_allocate_array_data;
 static PyObject *__pyx_kp_s_unable_to_allocate_shape_and_str;
 static PyObject *__pyx_kp_u_unknown_dtype_code_in_numpy_pxd;
@@ -2606,12 +2639,13 @@ static PyObject *__pyx_n_s_unpack;
 static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_s_updateState;
 static PyObject *__pyx_n_s_updateType;
-static int __pyx_pf_6Models_8circular_3CCA___init__(struct __pyx_obj_6Models_8circular_CCA *__pyx_v_self, PyObject *__pyx_v_graph, PyObject *__pyx_v_threshold, PyObject *__pyx_v_agentStates, PyObject *__pyx_v_updateType, PyObject *__pyx_v_nudgeType, PyObject *__pyx_v_kwargs); /* proto */
-static PyObject *__pyx_pf_6Models_8circular_3CCA_9threshold___get__(struct __pyx_obj_6Models_8circular_CCA *__pyx_v_self); /* proto */
-static int __pyx_pf_6Models_8circular_3CCA_9threshold_2__set__(struct __pyx_obj_6Models_8circular_CCA *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_6Models_8circular_3CCA_2updateState(struct __pyx_obj_6Models_8circular_CCA *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate); /* proto */
-static PyObject *__pyx_pf_6Models_8circular_3CCA_4__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_6Models_8circular_CCA *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6Models_8circular_3CCA_6__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_6Models_8circular_CCA *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_n_s_vispy;
+static PyObject *__pyx_n_s_visuals;
+static int __pyx_pf_6Models_11Percolation_11Percolation___init__(struct __pyx_obj_6Models_11Percolation_Percolation *__pyx_v_self, PyObject *__pyx_v_graph, PyObject *__pyx_v_p, PyObject *__pyx_v_agentStates, PyObject *__pyx_v_updateType); /* proto */
+static PyObject *__pyx_pf_6Models_11Percolation_11Percolation_2updateState(struct __pyx_obj_6Models_11Percolation_Percolation *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate); /* proto */
+static PyObject *__pyx_pf_6Models_11Percolation_11Percolation_4reset(struct __pyx_obj_6Models_11Percolation_Percolation *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6Models_11Percolation_11Percolation_6__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_6Models_11Percolation_Percolation *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6Models_11Percolation_11Percolation_8__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_6Models_11Percolation_Percolation *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
@@ -2656,13 +2690,11 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_16_memoryviewslice_4base___get__
 static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_tp_new_6Models_8circular_CCA(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_6Models_11Percolation_Percolation(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_array(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_Enum(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_memoryview(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new__memoryviewslice(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
-static PyObject *__pyx_float_0_;
-static PyObject *__pyx_float_1_;
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_184977713;
@@ -2695,50 +2727,43 @@ static PyObject *__pyx_tuple__24;
 static PyObject *__pyx_tuple__26;
 static PyObject *__pyx_tuple__27;
 static PyObject *__pyx_tuple__28;
-static PyObject *__pyx_tuple__29;
 static PyObject *__pyx_tuple__30;
 static PyObject *__pyx_tuple__31;
 static PyObject *__pyx_tuple__32;
 static PyObject *__pyx_tuple__33;
 static PyObject *__pyx_tuple__34;
-static PyObject *__pyx_codeobj__35;
+static PyObject *__pyx_tuple__35;
+static PyObject *__pyx_codeobj__36;
 /* Late includes */
 
-/* "Models/circular.pyx":7
- * cimport cython
- * cdef class CCA(Model):
- *     def __init__(self, \             # <<<<<<<<<<<<<<
- *                     graph,\
- *                     threshold = 0.,\
+/* "Models/Percolation.pyx":16
+ * 
+ * cdef class Percolation(Model):
+ *     def __init__(self, graph, p = 1, agentStates = [0, 1], updateType = 'single'):             # <<<<<<<<<<<<<<
+ *         super(Percolation, self).__init__(**locals())
+ *         self.p = p
  */
 
 /* Python wrapper */
-static int __pyx_pw_6Models_8circular_3CCA_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_pw_6Models_8circular_3CCA_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static int __pyx_pw_6Models_11Percolation_11Percolation_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_6Models_11Percolation_11Percolation_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_graph = 0;
-  PyObject *__pyx_v_threshold = 0;
+  PyObject *__pyx_v_p = 0;
   PyObject *__pyx_v_agentStates = 0;
   PyObject *__pyx_v_updateType = 0;
-  PyObject *__pyx_v_nudgeType = 0;
-  PyObject *__pyx_v_kwargs = 0;
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
-  __pyx_v_kwargs = PyDict_New(); if (unlikely(!__pyx_v_kwargs)) return -1;
-  __Pyx_GOTREF(__pyx_v_kwargs);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_graph,&__pyx_n_s_threshold,&__pyx_n_s_agentStates,&__pyx_n_s_updateType,&__pyx_n_s_nudgeType,0};
-    PyObject* values[5] = {0,0,0,0,0};
-    values[1] = ((PyObject *)__pyx_float_0_);
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_graph,&__pyx_n_s_p,&__pyx_n_s_agentStates,&__pyx_n_s_updateType,0};
+    PyObject* values[4] = {0,0,0,0};
+    values[1] = ((PyObject *)__pyx_int_1);
     values[2] = __pyx_k_;
     values[3] = ((PyObject *)__pyx_n_u_single);
-    values[4] = ((PyObject *)__pyx_n_u_constant);
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
-        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
-        CYTHON_FALLTHROUGH;
         case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
         CYTHON_FALLTHROUGH;
         case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
@@ -2758,7 +2783,7 @@ static int __pyx_pw_6Models_8circular_3CCA_1__init__(PyObject *__pyx_v_self, PyO
         CYTHON_FALLTHROUGH;
         case  1:
         if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_threshold);
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_p);
           if (value) { values[1] = value; kw_args--; }
         }
         CYTHON_FALLTHROUGH;
@@ -2773,20 +2798,12 @@ static int __pyx_pw_6Models_8circular_3CCA_1__init__(PyObject *__pyx_v_self, PyO
           PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_updateType);
           if (value) { values[3] = value; kw_args--; }
         }
-        CYTHON_FALLTHROUGH;
-        case  4:
-        if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_nudgeType);
-          if (value) { values[4] = value; kw_args--; }
-        }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 7, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 16, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
-        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
-        CYTHON_FALLTHROUGH;
         case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
         CYTHON_FALLTHROUGH;
         case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
@@ -2799,101 +2816,94 @@ static int __pyx_pw_6Models_8circular_3CCA_1__init__(PyObject *__pyx_v_self, PyO
       }
     }
     __pyx_v_graph = values[0];
-    __pyx_v_threshold = values[1];
+    __pyx_v_p = values[1];
     __pyx_v_agentStates = values[2];
     __pyx_v_updateType = values[3];
-    __pyx_v_nudgeType = values[4];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 7, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 16, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
-  __Pyx_AddTraceback("Models.circular.CCA.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("Models.Percolation.Percolation.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6Models_8circular_3CCA___init__(((struct __pyx_obj_6Models_8circular_CCA *)__pyx_v_self), __pyx_v_graph, __pyx_v_threshold, __pyx_v_agentStates, __pyx_v_updateType, __pyx_v_nudgeType, __pyx_v_kwargs);
+  __pyx_r = __pyx_pf_6Models_11Percolation_11Percolation___init__(((struct __pyx_obj_6Models_11Percolation_Percolation *)__pyx_v_self), __pyx_v_graph, __pyx_v_p, __pyx_v_agentStates, __pyx_v_updateType);
 
   /* function exit code */
-  __Pyx_XDECREF(__pyx_v_kwargs);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_6Models_8circular_3CCA___init__(struct __pyx_obj_6Models_8circular_CCA *__pyx_v_self, PyObject *__pyx_v_graph, PyObject *__pyx_v_threshold, PyObject *__pyx_v_agentStates, PyObject *__pyx_v_updateType, PyObject *__pyx_v_nudgeType, PyObject *__pyx_v_kwargs) {
+static int __pyx_pf_6Models_11Percolation_11Percolation___init__(struct __pyx_obj_6Models_11Percolation_Percolation *__pyx_v_self, PyObject *__pyx_v_graph, PyObject *__pyx_v_p, PyObject *__pyx_v_agentStates, PyObject *__pyx_v_updateType) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
+  double __pyx_t_4;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "Models/circular.pyx":14
- *                     nudgeType   = 'constant',\
- *                     **kwargs):
- *         super(CCA, self).__init__(**locals())             # <<<<<<<<<<<<<<
- *         self.threshold = threshold
- * 
+  /* "Models/Percolation.pyx":17
+ * cdef class Percolation(Model):
+ *     def __init__(self, graph, p = 1, agentStates = [0, 1], updateType = 'single'):
+ *         super(Percolation, self).__init__(**locals())             # <<<<<<<<<<<<<<
+ *         self.p = p
+ *     cdef long[::1] _updateState(self, long[::1] nodesToUpdate) nogil:
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6Models_8circular_CCA));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6Models_8circular_CCA));
-  PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)__pyx_ptype_6Models_8circular_CCA));
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6Models_11Percolation_Percolation));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6Models_11Percolation_Percolation));
+  PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)__pyx_ptype_6Models_11Percolation_Percolation));
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_1, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (__pyx_v_agentStates) {
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_agentStates, __pyx_v_agentStates) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_agentStates, __pyx_v_agentStates) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
   }
   if (__pyx_v_graph) {
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_graph, __pyx_v_graph) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_graph, __pyx_v_graph) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
   }
-  if (__pyx_v_kwargs) {
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_kwargs, __pyx_v_kwargs) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
-  }
-  if (__pyx_v_nudgeType) {
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_nudgeType, __pyx_v_nudgeType) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
+  if (__pyx_v_p) {
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_p, __pyx_v_p) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
   }
   if (((PyObject *)__pyx_v_self)) {
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_self, ((PyObject *)__pyx_v_self)) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
-  }
-  if (__pyx_v_threshold) {
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_threshold, __pyx_v_threshold) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_self, ((PyObject *)__pyx_v_self)) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
   }
   if (__pyx_v_updateType) {
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_updateType, __pyx_v_updateType) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_updateType, __pyx_v_updateType) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
   }
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "Models/circular.pyx":15
- *                     **kwargs):
- *         super(CCA, self).__init__(**locals())
- *         self.threshold = threshold             # <<<<<<<<<<<<<<
- * 
- *     # threshold for neighborhood decision
+  /* "Models/Percolation.pyx":18
+ *     def __init__(self, graph, p = 1, agentStates = [0, 1], updateType = 'single'):
+ *         super(Percolation, self).__init__(**locals())
+ *         self.p = p             # <<<<<<<<<<<<<<
+ *     cdef long[::1] _updateState(self, long[::1] nodesToUpdate) nogil:
+ *         cdef:
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_threshold, __pyx_v_threshold) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_v_p); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_v_self->p = __pyx_t_4;
 
-  /* "Models/circular.pyx":7
- * cimport cython
- * cdef class CCA(Model):
- *     def __init__(self, \             # <<<<<<<<<<<<<<
- *                     graph,\
- *                     threshold = 0.,\
+  /* "Models/Percolation.pyx":16
+ * 
+ * cdef class Percolation(Model):
+ *     def __init__(self, graph, p = 1, agentStates = [0, 1], updateType = 'single'):             # <<<<<<<<<<<<<<
+ *         super(Percolation, self).__init__(**locals())
+ *         self.p = p
  */
 
   /* function exit code */
@@ -2903,364 +2913,222 @@ static int __pyx_pf_6Models_8circular_3CCA___init__(struct __pyx_obj_6Models_8ci
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("Models.circular.CCA.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("Models.Percolation.Percolation.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "Models/circular.pyx":19
- *     # threshold for neighborhood decision
- *     @property
- *     def threshold(self):             # <<<<<<<<<<<<<<
- *         return self._threshold
- *     @threshold.setter
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6Models_8circular_3CCA_9threshold_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_6Models_8circular_3CCA_9threshold_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6Models_8circular_3CCA_9threshold___get__(((struct __pyx_obj_6Models_8circular_CCA *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6Models_8circular_3CCA_9threshold___get__(struct __pyx_obj_6Models_8circular_CCA *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__get__", 0);
-
-  /* "Models/circular.pyx":20
- *     @property
- *     def threshold(self):
- *         return self._threshold             # <<<<<<<<<<<<<<
- *     @threshold.setter
- *     def threshold(self, value):
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_threshold); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "Models/circular.pyx":19
- *     # threshold for neighborhood decision
- *     @property
- *     def threshold(self):             # <<<<<<<<<<<<<<
- *         return self._threshold
- *     @threshold.setter
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("Models.circular.CCA.threshold.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "Models/circular.pyx":22
- *         return self._threshold
- *     @threshold.setter
- *     def threshold(self, value):             # <<<<<<<<<<<<<<
- *         assert 0 <= value <= 1.
- *         self._threshold = value
- */
-
-/* Python wrapper */
-static int __pyx_pw_6Models_8circular_3CCA_9threshold_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_6Models_8circular_3CCA_9threshold_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6Models_8circular_3CCA_9threshold_2__set__(((struct __pyx_obj_6Models_8circular_CCA *)__pyx_v_self), ((PyObject *)__pyx_v_value));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_6Models_8circular_3CCA_9threshold_2__set__(struct __pyx_obj_6Models_8circular_CCA *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
-  double __pyx_t_3;
-  __Pyx_RefNannySetupContext("__set__", 0);
-
-  /* "Models/circular.pyx":23
- *     @threshold.setter
- *     def threshold(self, value):
- *         assert 0 <= value <= 1.             # <<<<<<<<<<<<<<
- *         self._threshold = value
- * 
- */
-  #ifndef CYTHON_WITHOUT_ASSERTIONS
-  if (unlikely(!Py_OptimizeFlag)) {
-    __pyx_t_1 = PyObject_RichCompare(__pyx_int_0, __pyx_v_value, Py_LE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
-    if (__Pyx_PyObject_IsTrue(__pyx_t_1)) {
-      __Pyx_DECREF(__pyx_t_1);
-      __pyx_t_1 = PyObject_RichCompare(__pyx_v_value, __pyx_float_1_, Py_LE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
-    }
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 23, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_2)) {
-      PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(0, 23, __pyx_L1_error)
-    }
-  }
-  #endif
-
-  /* "Models/circular.pyx":24
- *     def threshold(self, value):
- *         assert 0 <= value <= 1.
- *         self._threshold = value             # <<<<<<<<<<<<<<
- * 
- *     @cython.boundscheck(False)
- */
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 24, __pyx_L1_error)
-  __pyx_v_self->_threshold = __pyx_t_3;
-
-  /* "Models/circular.pyx":22
- *         return self._threshold
- *     @threshold.setter
- *     def threshold(self, value):             # <<<<<<<<<<<<<<
- *         assert 0 <= value <= 1.
- *         self._threshold = value
- */
-
-  /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("Models.circular.CCA.threshold.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "Models/circular.pyx":32
- *     @cython.initializedcheck(False)
- *     @cython.overflowcheck(False)
- *     cdef long _evolve(self, long node) nogil:             # <<<<<<<<<<<<<<
- *         """
- *         Rule : evolve if the state of the neigbhors exceed a threshold
- */
-
-static long __pyx_f_6Models_8circular_3CCA__evolve(struct __pyx_obj_6Models_8circular_CCA *__pyx_v_self, long __pyx_v_node) {
-  long __pyx_v_neighbor;
-  long __pyx_v_nNeighbors;
-  int __pyx_v_i;
-  double __pyx_v_fraction;
-  long __pyx_r;
-  long __pyx_t_1;
-  long __pyx_t_2;
-  long __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
-  Py_ssize_t __pyx_t_5;
-  int __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
-  Py_ssize_t __pyx_t_8;
-  Py_ssize_t __pyx_t_9;
-  Py_ssize_t __pyx_t_10;
-
-  /* "Models/circular.pyx":38
- * 
+/* "Models/Percolation.pyx":19
+ *         super(Percolation, self).__init__(**locals())
+ *         self.p = p
+ *     cdef long[::1] _updateState(self, long[::1] nodesToUpdate) nogil:             # <<<<<<<<<<<<<<
  *         cdef:
- *             long neighbor, nNeighbors = self._adj[node].neighbors.size()             # <<<<<<<<<<<<<<
- *             int i
- *             double fraction = 0
+ *             int node, neighbor, N = nodesToUpdate.shape[0]
  */
-  __pyx_v_nNeighbors = (__pyx_v_self->__pyx_base._adj[__pyx_v_node]).neighbors.size();
 
-  /* "Models/circular.pyx":40
- *             long neighbor, nNeighbors = self._adj[node].neighbors.size()
- *             int i
- *             double fraction = 0             # <<<<<<<<<<<<<<
- *         # check neighbors and see if they exceed threshold
- *         for neighbor in range(nNeighbors):
- */
-  __pyx_v_fraction = 0.0;
+static __Pyx_memviewslice __pyx_f_6Models_11Percolation_11Percolation__updateState(struct __pyx_obj_6Models_11Percolation_Percolation *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate) {
+  int __pyx_v_node;
+  int __pyx_v_neighbor;
+  int __pyx_v_N;
+  __Pyx_memviewslice __pyx_r = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_1;
+  int __pyx_t_2;
+  int __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  int __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  int __pyx_t_7;
+  std::vector<int> ::size_type __pyx_t_8;
+  std::vector<int> ::size_type __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  int __pyx_t_11;
 
-  /* "Models/circular.pyx":42
- *             double fraction = 0
- *         # check neighbors and see if they exceed threshold
- *         for neighbor in range(nNeighbors):             # <<<<<<<<<<<<<<
- *             neighbor = self._adj[node].neighbors[neighbor]
- *             if self._states[neighbor] == (self._states[node] + 1) % self._nStates:
+  /* "Models/Percolation.pyx":21
+ *     cdef long[::1] _updateState(self, long[::1] nodesToUpdate) nogil:
+ *         cdef:
+ *             int node, neighbor, N = nodesToUpdate.shape[0]             # <<<<<<<<<<<<<<
+ *         for node in range(N):
+ *             node = nodesToUpdate[node]
  */
-  __pyx_t_1 = __pyx_v_nNeighbors;
+  __pyx_v_N = (__pyx_v_nodesToUpdate.shape[0]);
+
+  /* "Models/Percolation.pyx":22
+ *         cdef:
+ *             int node, neighbor, N = nodesToUpdate.shape[0]
+ *         for node in range(N):             # <<<<<<<<<<<<<<
+ *             node = nodesToUpdate[node]
+ *             if self._states[node]:
+ */
+  __pyx_t_1 = __pyx_v_N;
   __pyx_t_2 = __pyx_t_1;
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
-    __pyx_v_neighbor = __pyx_t_3;
+    __pyx_v_node = __pyx_t_3;
 
-    /* "Models/circular.pyx":43
- *         # check neighbors and see if they exceed threshold
- *         for neighbor in range(nNeighbors):
- *             neighbor = self._adj[node].neighbors[neighbor]             # <<<<<<<<<<<<<<
- *             if self._states[neighbor] == (self._states[node] + 1) % self._nStates:
- *                 fraction += 1
+    /* "Models/Percolation.pyx":23
+ *             int node, neighbor, N = nodesToUpdate.shape[0]
+ *         for node in range(N):
+ *             node = nodesToUpdate[node]             # <<<<<<<<<<<<<<
+ *             if self._states[node]:
+ *                 for neighbor in range(self._adj[node].neighbors.size()):
  */
-    __pyx_v_neighbor = ((__pyx_v_self->__pyx_base._adj[__pyx_v_node]).neighbors[__pyx_v_neighbor]);
-
-    /* "Models/circular.pyx":44
- *         for neighbor in range(nNeighbors):
- *             neighbor = self._adj[node].neighbors[neighbor]
- *             if self._states[neighbor] == (self._states[node] + 1) % self._nStates:             # <<<<<<<<<<<<<<
- *                 fraction += 1
- *         # consume cell
- */
-    __pyx_t_4 = __pyx_v_neighbor;
-    __pyx_t_5 = __pyx_v_node;
-    __pyx_t_6 = (((*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_self->__pyx_base._states.data) + __pyx_t_4)) ))) == (((*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_self->__pyx_base._states.data) + __pyx_t_5)) ))) + 1) % __pyx_v_self->__pyx_base._nStates)) != 0);
-    if (__pyx_t_6) {
-
-      /* "Models/circular.pyx":45
- *             neighbor = self._adj[node].neighbors[neighbor]
- *             if self._states[neighbor] == (self._states[node] + 1) % self._nStates:
- *                 fraction += 1             # <<<<<<<<<<<<<<
- *         # consume cell
- *         fraction /= <double> nNeighbors
- */
-      __pyx_v_fraction = (__pyx_v_fraction + 1.0);
-
-      /* "Models/circular.pyx":44
- *         for neighbor in range(nNeighbors):
- *             neighbor = self._adj[node].neighbors[neighbor]
- *             if self._states[neighbor] == (self._states[node] + 1) % self._nStates:             # <<<<<<<<<<<<<<
- *                 fraction += 1
- *         # consume cell
- */
+    __pyx_t_4 = __pyx_v_node;
+    __pyx_t_5 = -1;
+    if (__pyx_t_4 < 0) {
+      __pyx_t_4 += __pyx_v_nodesToUpdate.shape[0];
+      if (unlikely(__pyx_t_4 < 0)) __pyx_t_5 = 0;
+    } else if (unlikely(__pyx_t_4 >= __pyx_v_nodesToUpdate.shape[0])) __pyx_t_5 = 0;
+    if (unlikely(__pyx_t_5 != -1)) {
+      __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+      __PYX_ERR(0, 23, __pyx_L1_error)
     }
-  }
+    __pyx_v_node = (*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_nodesToUpdate.data) + __pyx_t_4)) )));
 
-  /* "Models/circular.pyx":47
- *                 fraction += 1
- *         # consume cell
- *         fraction /= <double> nNeighbors             # <<<<<<<<<<<<<<
- *         if fraction  >= self._threshold:
- *             return  (self._states[node]  + 1)  %  self._nStates
+    /* "Models/Percolation.pyx":24
+ *         for node in range(N):
+ *             node = nodesToUpdate[node]
+ *             if self._states[node]:             # <<<<<<<<<<<<<<
+ *                 for neighbor in range(self._adj[node].neighbors.size()):
+ *                     neighbor = self._adj[node].neighbors[neighbor]
  */
-  __pyx_v_fraction = (__pyx_v_fraction / ((double)__pyx_v_nNeighbors));
-
-  /* "Models/circular.pyx":48
- *         # consume cell
- *         fraction /= <double> nNeighbors
- *         if fraction  >= self._threshold:             # <<<<<<<<<<<<<<
- *             return  (self._states[node]  + 1)  %  self._nStates
- *         # remain unchanged
- */
-  __pyx_t_6 = ((__pyx_v_fraction >= __pyx_v_self->_threshold) != 0);
-  if (__pyx_t_6) {
-
-    /* "Models/circular.pyx":49
- *         fraction /= <double> nNeighbors
- *         if fraction  >= self._threshold:
- *             return  (self._states[node]  + 1)  %  self._nStates             # <<<<<<<<<<<<<<
- *         # remain unchanged
- *         else:
- */
-    __pyx_t_7 = __pyx_v_node;
-    __pyx_r = (((*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_self->__pyx_base._states.data) + __pyx_t_7)) ))) + 1) % __pyx_v_self->__pyx_base._nStates);
-    goto __pyx_L0;
-
-    /* "Models/circular.pyx":48
- *         # consume cell
- *         fraction /= <double> nNeighbors
- *         if fraction  >= self._threshold:             # <<<<<<<<<<<<<<
- *             return  (self._states[node]  + 1)  %  self._nStates
- *         # remain unchanged
- */
-  }
-
-  /* "Models/circular.pyx":52
- *         # remain unchanged
- *         else:
- *             if self.rand() <= self._threshold:             # <<<<<<<<<<<<<<
- *                 i = <long> self.rand() * self._nStates
- *                 self._states[node] = self._agentStates[i]
- */
-  /*else*/ {
-    __pyx_t_6 = ((((struct __pyx_vtabstruct_6Models_8circular_CCA *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.rand(((struct __pyx_obj_6Models_6models_Model *)__pyx_v_self)) <= __pyx_v_self->_threshold) != 0);
-    if (__pyx_t_6) {
-
-      /* "Models/circular.pyx":53
- *         else:
- *             if self.rand() <= self._threshold:
- *                 i = <long> self.rand() * self._nStates             # <<<<<<<<<<<<<<
- *                 self._states[node] = self._agentStates[i]
- *             return self._states[node]
- */
-      __pyx_v_i = (((long)((struct __pyx_vtabstruct_6Models_8circular_CCA *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.rand(((struct __pyx_obj_6Models_6models_Model *)__pyx_v_self))) * __pyx_v_self->__pyx_base._nStates);
-
-      /* "Models/circular.pyx":54
- *             if self.rand() <= self._threshold:
- *                 i = <long> self.rand() * self._nStates
- *                 self._states[node] = self._agentStates[i]             # <<<<<<<<<<<<<<
- *             return self._states[node]
- * 
- */
-      __pyx_t_8 = __pyx_v_i;
-      __pyx_t_9 = __pyx_v_node;
-      *((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_self->__pyx_base._states.data) + __pyx_t_9)) )) = (*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_self->__pyx_base._agentStates.data) + __pyx_t_8)) )));
-
-      /* "Models/circular.pyx":52
- *         # remain unchanged
- *         else:
- *             if self.rand() <= self._threshold:             # <<<<<<<<<<<<<<
- *                 i = <long> self.rand() * self._nStates
- *                 self._states[node] = self._agentStates[i]
- */
+    if (unlikely(!__pyx_v_self->__pyx_base._states.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 24, __pyx_L1_error)}
+    __pyx_t_6 = __pyx_v_node;
+    __pyx_t_5 = -1;
+    if (__pyx_t_6 < 0) {
+      __pyx_t_6 += __pyx_v_self->__pyx_base._states.shape[0];
+      if (unlikely(__pyx_t_6 < 0)) __pyx_t_5 = 0;
+    } else if (unlikely(__pyx_t_6 >= __pyx_v_self->__pyx_base._states.shape[0])) __pyx_t_5 = 0;
+    if (unlikely(__pyx_t_5 != -1)) {
+      __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+      __PYX_ERR(0, 24, __pyx_L1_error)
     }
+    __pyx_t_7 = ((*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_self->__pyx_base._states.data) + __pyx_t_6)) ))) != 0);
+    if (__pyx_t_7) {
 
-    /* "Models/circular.pyx":55
- *                 i = <long> self.rand() * self._nStates
- *                 self._states[node] = self._agentStates[i]
- *             return self._states[node]             # <<<<<<<<<<<<<<
- * 
+      /* "Models/Percolation.pyx":25
+ *             node = nodesToUpdate[node]
+ *             if self._states[node]:
+ *                 for neighbor in range(self._adj[node].neighbors.size()):             # <<<<<<<<<<<<<<
+ *                     neighbor = self._adj[node].neighbors[neighbor]
+ *                     if self.rand() < self.p:
+ */
+      __pyx_t_8 = (__pyx_v_self->__pyx_base._adj[__pyx_v_node]).neighbors.size();
+      __pyx_t_9 = __pyx_t_8;
+      for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_9; __pyx_t_5+=1) {
+        __pyx_v_neighbor = __pyx_t_5;
+
+        /* "Models/Percolation.pyx":26
+ *             if self._states[node]:
+ *                 for neighbor in range(self._adj[node].neighbors.size()):
+ *                     neighbor = self._adj[node].neighbors[neighbor]             # <<<<<<<<<<<<<<
+ *                     if self.rand() < self.p:
+ *                         self._states[neighbor] = 1
+ */
+        __pyx_v_neighbor = ((__pyx_v_self->__pyx_base._adj[__pyx_v_node]).neighbors[__pyx_v_neighbor]);
+
+        /* "Models/Percolation.pyx":27
+ *                 for neighbor in range(self._adj[node].neighbors.size()):
+ *                     neighbor = self._adj[node].neighbors[neighbor]
+ *                     if self.rand() < self.p:             # <<<<<<<<<<<<<<
+ *                         self._states[neighbor] = 1
+ *         return self._states
+ */
+        __pyx_t_7 = ((((struct __pyx_vtabstruct_6Models_11Percolation_Percolation *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.rand(((struct __pyx_obj_6Models_6Models_Model *)__pyx_v_self)) < __pyx_v_self->p) != 0);
+        if (__pyx_t_7) {
+
+          /* "Models/Percolation.pyx":28
+ *                     neighbor = self._adj[node].neighbors[neighbor]
+ *                     if self.rand() < self.p:
+ *                         self._states[neighbor] = 1             # <<<<<<<<<<<<<<
+ *         return self._states
  *     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
  */
-    __pyx_t_10 = __pyx_v_node;
-    __pyx_r = (*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_self->__pyx_base._states.data) + __pyx_t_10)) )));
-    goto __pyx_L0;
+          if (unlikely(!__pyx_v_self->__pyx_base._states.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 28, __pyx_L1_error)}
+          __pyx_t_10 = __pyx_v_neighbor;
+          __pyx_t_11 = -1;
+          if (__pyx_t_10 < 0) {
+            __pyx_t_10 += __pyx_v_self->__pyx_base._states.shape[0];
+            if (unlikely(__pyx_t_10 < 0)) __pyx_t_11 = 0;
+          } else if (unlikely(__pyx_t_10 >= __pyx_v_self->__pyx_base._states.shape[0])) __pyx_t_11 = 0;
+          if (unlikely(__pyx_t_11 != -1)) {
+            __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_11);
+            __PYX_ERR(0, 28, __pyx_L1_error)
+          }
+          *((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_self->__pyx_base._states.data) + __pyx_t_10)) )) = 1;
+
+          /* "Models/Percolation.pyx":27
+ *                 for neighbor in range(self._adj[node].neighbors.size()):
+ *                     neighbor = self._adj[node].neighbors[neighbor]
+ *                     if self.rand() < self.p:             # <<<<<<<<<<<<<<
+ *                         self._states[neighbor] = 1
+ *         return self._states
+ */
+        }
+      }
+
+      /* "Models/Percolation.pyx":24
+ *         for node in range(N):
+ *             node = nodesToUpdate[node]
+ *             if self._states[node]:             # <<<<<<<<<<<<<<
+ *                 for neighbor in range(self._adj[node].neighbors.size()):
+ *                     neighbor = self._adj[node].neighbors[neighbor]
+ */
+    }
   }
 
-  /* "Models/circular.pyx":32
- *     @cython.initializedcheck(False)
- *     @cython.overflowcheck(False)
- *     cdef long _evolve(self, long node) nogil:             # <<<<<<<<<<<<<<
- *         """
- *         Rule : evolve if the state of the neigbhors exceed a threshold
+  /* "Models/Percolation.pyx":29
+ *                     if self.rand() < self.p:
+ *                         self._states[neighbor] = 1
+ *         return self._states             # <<<<<<<<<<<<<<
+ *     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
+ *         return self._updateState(nodesToUpdate)
+ */
+  if (unlikely(!__pyx_v_self->__pyx_base._states.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 29, __pyx_L1_error)}
+  __PYX_INC_MEMVIEW(&__pyx_v_self->__pyx_base._states, 1);
+  __pyx_r = __pyx_v_self->__pyx_base._states;
+  goto __pyx_L0;
+
+  /* "Models/Percolation.pyx":19
+ *         super(Percolation, self).__init__(**locals())
+ *         self.p = p
+ *     cdef long[::1] _updateState(self, long[::1] nodesToUpdate) nogil:             # <<<<<<<<<<<<<<
+ *         cdef:
+ *             int node, neighbor, N = nodesToUpdate.shape[0]
  */
 
   /* function exit code */
+  __pyx_L1_error:;
+  __pyx_r.data = NULL;
+  __pyx_r.memview = NULL;
+  {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    __Pyx_AddTraceback("Models.Percolation.Percolation._updateState", __pyx_clineno, __pyx_lineno, __pyx_filename);
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+  }
+  goto __pyx_L2;
   __pyx_L0:;
+  if (unlikely(!__pyx_r.memview)) {
+    PyErr_SetString(PyExc_TypeError, "Memoryview return value is not initialized");
+  }
+  __pyx_L2:;
   return __pyx_r;
 }
 
-/* "Models/circular.pyx":57
- *             return self._states[node]
- * 
+/* "Models/Percolation.pyx":30
+ *                         self._states[neighbor] = 1
+ *         return self._states
  *     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):             # <<<<<<<<<<<<<<
  *         return self._updateState(nodesToUpdate)
- *     @cython.boundscheck(False)
+ *     cpdef void reset(self):
  */
 
-static PyObject *__pyx_pw_6Models_8circular_3CCA_3updateState(PyObject *__pyx_v_self, PyObject *__pyx_arg_nodesToUpdate); /*proto*/
-static __Pyx_memviewslice __pyx_f_6Models_8circular_3CCA_updateState(struct __pyx_obj_6Models_8circular_CCA *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate, int __pyx_skip_dispatch) {
+static PyObject *__pyx_pw_6Models_11Percolation_11Percolation_3updateState(PyObject *__pyx_v_self, PyObject *__pyx_arg_nodesToUpdate); /*proto*/
+static __Pyx_memviewslice __pyx_f_6Models_11Percolation_11Percolation_updateState(struct __pyx_obj_6Models_11Percolation_Percolation *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate, int __pyx_skip_dispatch) {
   __Pyx_memviewslice __pyx_r = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3279,11 +3147,11 @@ static __Pyx_memviewslice __pyx_f_6Models_8circular_3CCA_updateState(struct __py
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_updateState); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_updateState); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_6Models_8circular_3CCA_3updateState)) {
-        if (unlikely(!__pyx_v_nodesToUpdate.memview)) { __Pyx_RaiseUnboundLocalError("nodesToUpdate"); __PYX_ERR(0, 57, __pyx_L1_error) }
-        __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_nodesToUpdate, 1, (PyObject *(*)(char *)) __pyx_memview_get_long, (int (*)(char *, PyObject *)) __pyx_memview_set_long, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 57, __pyx_L1_error)
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_6Models_11Percolation_11Percolation_3updateState)) {
+        if (unlikely(!__pyx_v_nodesToUpdate.memview)) { __Pyx_RaiseUnboundLocalError("nodesToUpdate"); __PYX_ERR(0, 30, __pyx_L1_error) }
+        __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_nodesToUpdate, 1, (PyObject *(*)(char *)) __pyx_memview_get_long, (int (*)(char *, PyObject *)) __pyx_memview_set_long, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 30, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_4 = __pyx_t_1; __pyx_t_5 = NULL;
@@ -3299,10 +3167,10 @@ static __Pyx_memviewslice __pyx_f_6Models_8circular_3CCA_updateState(struct __py
         __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3);
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_long(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(0, 57, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_long(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(0, 30, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_r = __pyx_t_6;
         __pyx_t_6.memview = NULL;
@@ -3323,25 +3191,25 @@ static __Pyx_memviewslice __pyx_f_6Models_8circular_3CCA_updateState(struct __py
     #endif
   }
 
-  /* "Models/circular.pyx":58
- * 
+  /* "Models/Percolation.pyx":31
+ *         return self._states
  *     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
  *         return self._updateState(nodesToUpdate)             # <<<<<<<<<<<<<<
- *     @cython.boundscheck(False)
- *     @cython.wraparound(False)
+ *     cpdef void reset(self):
+ *         self.states = np.random.choice(self.agentStates, p = [1 - self.p, self.p], size = self.nNodes)
  */
-  __pyx_t_6 = ((struct __pyx_vtabstruct_6Models_8circular_CCA *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._updateState(((struct __pyx_obj_6Models_6models_Model *)__pyx_v_self), __pyx_v_nodesToUpdate); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_t_6 = ((struct __pyx_vtabstruct_6Models_11Percolation_Percolation *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._updateState(((struct __pyx_obj_6Models_6Models_Model *)__pyx_v_self), __pyx_v_nodesToUpdate); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(0, 31, __pyx_L1_error)
   __pyx_r = __pyx_t_6;
   __pyx_t_6.memview = NULL;
   __pyx_t_6.data = NULL;
   goto __pyx_L0;
 
-  /* "Models/circular.pyx":57
- *             return self._states[node]
- * 
+  /* "Models/Percolation.pyx":30
+ *                         self._states[neighbor] = 1
+ *         return self._states
  *     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):             # <<<<<<<<<<<<<<
  *         return self._updateState(nodesToUpdate)
- *     @cython.boundscheck(False)
+ *     cpdef void reset(self):
  */
 
   /* function exit code */
@@ -3354,7 +3222,7 @@ static __Pyx_memviewslice __pyx_f_6Models_8circular_3CCA_updateState(struct __py
   __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
   __pyx_r.data = NULL;
   __pyx_r.memview = NULL;
-  __Pyx_AddTraceback("Models.circular.CCA.updateState", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("Models.Percolation.Percolation.updateState", __pyx_clineno, __pyx_lineno, __pyx_filename);
   goto __pyx_L2;
   __pyx_L0:;
   if (unlikely(!__pyx_r.memview)) {
@@ -3366,38 +3234,38 @@ static __Pyx_memviewslice __pyx_f_6Models_8circular_3CCA_updateState(struct __py
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6Models_8circular_3CCA_3updateState(PyObject *__pyx_v_self, PyObject *__pyx_arg_nodesToUpdate); /*proto*/
-static PyObject *__pyx_pw_6Models_8circular_3CCA_3updateState(PyObject *__pyx_v_self, PyObject *__pyx_arg_nodesToUpdate) {
+static PyObject *__pyx_pw_6Models_11Percolation_11Percolation_3updateState(PyObject *__pyx_v_self, PyObject *__pyx_arg_nodesToUpdate); /*proto*/
+static PyObject *__pyx_pw_6Models_11Percolation_11Percolation_3updateState(PyObject *__pyx_v_self, PyObject *__pyx_arg_nodesToUpdate) {
   __Pyx_memviewslice __pyx_v_nodesToUpdate = { 0, 0, { 0 }, { 0 }, { 0 } };
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("updateState (wrapper)", 0);
   assert(__pyx_arg_nodesToUpdate); {
-    __pyx_v_nodesToUpdate = __Pyx_PyObject_to_MemoryviewSlice_dc_long(__pyx_arg_nodesToUpdate, PyBUF_WRITABLE); if (unlikely(!__pyx_v_nodesToUpdate.memview)) __PYX_ERR(0, 57, __pyx_L3_error)
+    __pyx_v_nodesToUpdate = __Pyx_PyObject_to_MemoryviewSlice_dc_long(__pyx_arg_nodesToUpdate, PyBUF_WRITABLE); if (unlikely(!__pyx_v_nodesToUpdate.memview)) __PYX_ERR(0, 30, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
-  __Pyx_AddTraceback("Models.circular.CCA.updateState", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("Models.Percolation.Percolation.updateState", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6Models_8circular_3CCA_2updateState(((struct __pyx_obj_6Models_8circular_CCA *)__pyx_v_self), __pyx_v_nodesToUpdate);
+  __pyx_r = __pyx_pf_6Models_11Percolation_11Percolation_2updateState(((struct __pyx_obj_6Models_11Percolation_Percolation *)__pyx_v_self), __pyx_v_nodesToUpdate);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6Models_8circular_3CCA_2updateState(struct __pyx_obj_6Models_8circular_CCA *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate) {
+static PyObject *__pyx_pf_6Models_11Percolation_11Percolation_2updateState(struct __pyx_obj_6Models_11Percolation_Percolation *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("updateState", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_nodesToUpdate.memview)) { __Pyx_RaiseUnboundLocalError("nodesToUpdate"); __PYX_ERR(0, 57, __pyx_L1_error) }
-  __pyx_t_1 = __pyx_f_6Models_8circular_3CCA_updateState(__pyx_v_self, __pyx_v_nodesToUpdate, 1); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 57, __pyx_L1_error)
-  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_t_1, 1, (PyObject *(*)(char *)) __pyx_memview_get_long, (int (*)(char *, PyObject *)) __pyx_memview_set_long, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L1_error)
+  if (unlikely(!__pyx_v_nodesToUpdate.memview)) { __Pyx_RaiseUnboundLocalError("nodesToUpdate"); __PYX_ERR(0, 30, __pyx_L1_error) }
+  __pyx_t_1 = __pyx_f_6Models_11Percolation_11Percolation_updateState(__pyx_v_self, __pyx_v_nodesToUpdate, 1); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_t_1, 1, (PyObject *(*)(char *)) __pyx_memview_get_long, (int (*)(char *, PyObject *)) __pyx_memview_set_long, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
   __pyx_t_1.memview = NULL;
@@ -3410,7 +3278,7 @@ static PyObject *__pyx_pf_6Models_8circular_3CCA_2updateState(struct __pyx_obj_6
   __pyx_L1_error:;
   __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("Models.circular.CCA.updateState", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("Models.Percolation.Percolation.updateState", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_nodesToUpdate, 1);
@@ -3419,115 +3287,170 @@ static PyObject *__pyx_pf_6Models_8circular_3CCA_2updateState(struct __pyx_obj_6
   return __pyx_r;
 }
 
-/* "Models/circular.pyx":65
- *     @cython.initializedcheck(False)
- *     @cython.overflowcheck(False)
- *     cdef long [::1]  _updateState(self, long[::1] nodesToUpdate) nogil:             # <<<<<<<<<<<<<<
- *         """
- *         Circular update rule with threshold:
+/* "Models/Percolation.pyx":32
+ *     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
+ *         return self._updateState(nodesToUpdate)
+ *     cpdef void reset(self):             # <<<<<<<<<<<<<<
+ *         self.states = np.random.choice(self.agentStates, p = [1 - self.p, self.p], size = self.nNodes)
  */
 
-static __Pyx_memviewslice __pyx_f_6Models_8circular_3CCA__updateState(struct __pyx_obj_6Models_8circular_CCA *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate) {
-  int __pyx_v_node;
-  int __pyx_v_N;
-  __Pyx_memviewslice __pyx_r = { 0, 0, { 0 }, { 0 }, { 0 } };
-  size_t __pyx_t_1;
-  int __pyx_t_2;
-  int __pyx_t_3;
-  int __pyx_t_4;
-  Py_ssize_t __pyx_t_5;
-  Py_ssize_t __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
-  Py_ssize_t __pyx_t_8;
-
-  /* "Models/circular.pyx":72
- *         """
- *         cdef:
- *             int node, N = len(nodesToUpdate)             # <<<<<<<<<<<<<<
- *         for node in range(N):
- *             node = nodesToUpdate[node]
- */
-  __pyx_t_1 = __Pyx_MemoryView_Len(__pyx_v_nodesToUpdate); 
-  __pyx_v_N = __pyx_t_1;
-
-  /* "Models/circular.pyx":73
- *         cdef:
- *             int node, N = len(nodesToUpdate)
- *         for node in range(N):             # <<<<<<<<<<<<<<
- *             node = nodesToUpdate[node]
- *             self._newstates[node] = self._evolve(node)
- */
-  __pyx_t_2 = __pyx_v_N;
-  __pyx_t_3 = __pyx_t_2;
-  for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
-    __pyx_v_node = __pyx_t_4;
-
-    /* "Models/circular.pyx":74
- *             int node, N = len(nodesToUpdate)
- *         for node in range(N):
- *             node = nodesToUpdate[node]             # <<<<<<<<<<<<<<
- *             self._newstates[node] = self._evolve(node)
- *         for node in range(self._nNodes):
- */
-    __pyx_t_5 = __pyx_v_node;
-    __pyx_v_node = (*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_nodesToUpdate.data) + __pyx_t_5)) )));
-
-    /* "Models/circular.pyx":75
- *         for node in range(N):
- *             node = nodesToUpdate[node]
- *             self._newstates[node] = self._evolve(node)             # <<<<<<<<<<<<<<
- *         for node in range(self._nNodes):
- *             self._states[node] = self._newstates[node]
- */
-    __pyx_t_6 = __pyx_v_node;
-    *((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_self->__pyx_base._newstates.data) + __pyx_t_6)) )) = ((struct __pyx_vtabstruct_6Models_8circular_CCA *)__pyx_v_self->__pyx_base.__pyx_vtab)->_evolve(__pyx_v_self, __pyx_v_node);
+static PyObject *__pyx_pw_6Models_11Percolation_11Percolation_5reset(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static void __pyx_f_6Models_11Percolation_11Percolation_reset(struct __pyx_obj_6Models_11Percolation_Percolation *__pyx_v_self, int __pyx_skip_dispatch) {
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  __Pyx_RefNannySetupContext("reset", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_reset); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_6Models_11Percolation_11Percolation_5reset)) {
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
   }
 
-  /* "Models/circular.pyx":76
- *             node = nodesToUpdate[node]
- *             self._newstates[node] = self._evolve(node)
- *         for node in range(self._nNodes):             # <<<<<<<<<<<<<<
- *             self._states[node] = self._newstates[node]
- *         return self._states
+  /* "Models/Percolation.pyx":33
+ *         return self._updateState(nodesToUpdate)
+ *     cpdef void reset(self):
+ *         self.states = np.random.choice(self.agentStates, p = [1 - self.p, self.p], size = self.nNodes)             # <<<<<<<<<<<<<<
  */
-  __pyx_t_2 = __pyx_v_self->__pyx_base._nNodes;
-  __pyx_t_3 = __pyx_t_2;
-  for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
-    __pyx_v_node = __pyx_t_4;
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_random); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_choice); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_agentStates); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
+  __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_4 = PyFloat_FromDouble((1.0 - __pyx_v_self->p)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_self->p); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_6 = PyList_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_GIVEREF(__pyx_t_4);
+  PyList_SET_ITEM(__pyx_t_6, 0, __pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_5);
+  PyList_SET_ITEM(__pyx_t_6, 1, __pyx_t_5);
+  __pyx_t_4 = 0;
+  __pyx_t_5 = 0;
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_p, __pyx_t_6) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_nNodes); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_size, __pyx_t_6) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_states, __pyx_t_6) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "Models/circular.pyx":77
- *             self._newstates[node] = self._evolve(node)
- *         for node in range(self._nNodes):
- *             self._states[node] = self._newstates[node]             # <<<<<<<<<<<<<<
- *         return self._states
- */
-    __pyx_t_7 = __pyx_v_node;
-    __pyx_t_8 = __pyx_v_node;
-    *((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_self->__pyx_base._states.data) + __pyx_t_8)) )) = (*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_self->__pyx_base._newstates.data) + __pyx_t_7)) )));
-  }
-
-  /* "Models/circular.pyx":78
- *         for node in range(self._nNodes):
- *             self._states[node] = self._newstates[node]
- *         return self._states             # <<<<<<<<<<<<<<
- */
-  __PYX_INC_MEMVIEW(&__pyx_v_self->__pyx_base._states, 1);
-  __pyx_r = __pyx_v_self->__pyx_base._states;
-  goto __pyx_L0;
-
-  /* "Models/circular.pyx":65
- *     @cython.initializedcheck(False)
- *     @cython.overflowcheck(False)
- *     cdef long [::1]  _updateState(self, long[::1] nodesToUpdate) nogil:             # <<<<<<<<<<<<<<
- *         """
- *         Circular update rule with threshold:
+  /* "Models/Percolation.pyx":32
+ *     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
+ *         return self._updateState(nodesToUpdate)
+ *     cpdef void reset(self):             # <<<<<<<<<<<<<<
+ *         self.states = np.random.choice(self.agentStates, p = [1 - self.p, self.p], size = self.nNodes)
  */
 
   /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_WriteUnraisable("Models.Percolation.Percolation.reset", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  if (unlikely(!__pyx_r.memview)) {
-    PyErr_SetString(PyExc_TypeError, "Memoryview return value is not initialized");
-  }
+  __Pyx_RefNannyFinishContext();
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6Models_11Percolation_11Percolation_5reset(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_6Models_11Percolation_11Percolation_5reset(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("reset (wrapper)", 0);
+  __pyx_r = __pyx_pf_6Models_11Percolation_11Percolation_4reset(((struct __pyx_obj_6Models_11Percolation_Percolation *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6Models_11Percolation_11Percolation_4reset(struct __pyx_obj_6Models_11Percolation_Percolation *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("reset", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_6Models_11Percolation_11Percolation_reset(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("Models.Percolation.Percolation.reset", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
@@ -3538,19 +3461,19 @@ static __Pyx_memviewslice __pyx_f_6Models_8circular_3CCA__updateState(struct __p
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6Models_8circular_3CCA_5__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_6Models_8circular_3CCA_5__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6Models_11Percolation_11Percolation_7__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_6Models_11Percolation_11Percolation_7__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6Models_8circular_3CCA_4__reduce_cython__(((struct __pyx_obj_6Models_8circular_CCA *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6Models_11Percolation_11Percolation_6__reduce_cython__(((struct __pyx_obj_6Models_11Percolation_Percolation *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6Models_8circular_3CCA_4__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_6Models_8circular_CCA *__pyx_v_self) {
+static PyObject *__pyx_pf_6Models_11Percolation_11Percolation_6__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_6Models_11Percolation_Percolation *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3577,7 +3500,7 @@ static PyObject *__pyx_pf_6Models_8circular_3CCA_4__reduce_cython__(CYTHON_UNUSE
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("Models.circular.CCA.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("Models.Percolation.Percolation.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -3592,19 +3515,19 @@ static PyObject *__pyx_pf_6Models_8circular_3CCA_4__reduce_cython__(CYTHON_UNUSE
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6Models_8circular_3CCA_7__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_6Models_8circular_3CCA_7__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_6Models_11Percolation_11Percolation_9__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_6Models_11Percolation_11Percolation_9__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6Models_8circular_3CCA_6__setstate_cython__(((struct __pyx_obj_6Models_8circular_CCA *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_6Models_11Percolation_11Percolation_8__setstate_cython__(((struct __pyx_obj_6Models_11Percolation_Percolation *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6Models_8circular_3CCA_6__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_6Models_8circular_CCA *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_6Models_11Percolation_11Percolation_8__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_6Models_11Percolation_Percolation *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3631,7 +3554,7 @@ static PyObject *__pyx_pf_6Models_8circular_3CCA_6__setstate_cython__(CYTHON_UNU
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("Models.circular.CCA.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("Models.Percolation.Percolation.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -18829,18 +18752,18 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static struct __pyx_vtabstruct_6Models_8circular_CCA __pyx_vtable_6Models_8circular_CCA;
+static struct __pyx_vtabstruct_6Models_11Percolation_Percolation __pyx_vtable_6Models_11Percolation_Percolation;
 
-static PyObject *__pyx_tp_new_6Models_8circular_CCA(PyTypeObject *t, PyObject *a, PyObject *k) {
-  struct __pyx_obj_6Models_8circular_CCA *p;
-  PyObject *o = __pyx_ptype_6Models_6models_Model->tp_new(t, a, k);
+static PyObject *__pyx_tp_new_6Models_11Percolation_Percolation(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_6Models_11Percolation_Percolation *p;
+  PyObject *o = __pyx_ptype_6Models_6Models_Model->tp_new(t, a, k);
   if (unlikely(!o)) return 0;
-  p = ((struct __pyx_obj_6Models_8circular_CCA *)o);
-  p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_6Models_6models_Model*)__pyx_vtabptr_6Models_8circular_CCA;
+  p = ((struct __pyx_obj_6Models_11Percolation_Percolation *)o);
+  p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_6Models_6Models_Model*)__pyx_vtabptr_6Models_11Percolation_Percolation;
   return o;
 }
 
-static void __pyx_tp_dealloc_6Models_8circular_CCA(PyObject *o) {
+static void __pyx_tp_dealloc_6Models_11Percolation_Percolation(PyObject *o) {
   #if CYTHON_USE_TP_FINALIZE
   if (unlikely(PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE) && Py_TYPE(o)->tp_finalize) && !_PyGC_FINALIZED(o)) {
     if (PyObject_CallFinalizerFromDealloc(o)) return;
@@ -18848,22 +18771,22 @@ static void __pyx_tp_dealloc_6Models_8circular_CCA(PyObject *o) {
   #endif
   PyObject_GC_UnTrack(o);
   PyObject_GC_Track(o);
-  if (likely(__pyx_ptype_6Models_6models_Model)) __pyx_ptype_6Models_6models_Model->tp_dealloc(o); else __Pyx_call_next_tp_dealloc(o, __pyx_tp_dealloc_6Models_8circular_CCA);
+  if (likely(__pyx_ptype_6Models_6Models_Model)) __pyx_ptype_6Models_6Models_Model->tp_dealloc(o); else __Pyx_call_next_tp_dealloc(o, __pyx_tp_dealloc_6Models_11Percolation_Percolation);
 }
 
-static int __pyx_tp_traverse_6Models_8circular_CCA(PyObject *o, visitproc v, void *a) {
+static int __pyx_tp_traverse_6Models_11Percolation_Percolation(PyObject *o, visitproc v, void *a) {
   int e;
-  e = ((likely(__pyx_ptype_6Models_6models_Model)) ? ((__pyx_ptype_6Models_6models_Model->tp_traverse) ? __pyx_ptype_6Models_6models_Model->tp_traverse(o, v, a) : 0) : __Pyx_call_next_tp_traverse(o, v, a, __pyx_tp_traverse_6Models_8circular_CCA)); if (e) return e;
+  e = ((likely(__pyx_ptype_6Models_6Models_Model)) ? ((__pyx_ptype_6Models_6Models_Model->tp_traverse) ? __pyx_ptype_6Models_6Models_Model->tp_traverse(o, v, a) : 0) : __Pyx_call_next_tp_traverse(o, v, a, __pyx_tp_traverse_6Models_11Percolation_Percolation)); if (e) return e;
   return 0;
 }
 
-static int __pyx_tp_clear_6Models_8circular_CCA(PyObject *o) {
-  if (likely(__pyx_ptype_6Models_6models_Model)) { if (__pyx_ptype_6Models_6models_Model->tp_clear) __pyx_ptype_6Models_6models_Model->tp_clear(o); } else __Pyx_call_next_tp_clear(o, __pyx_tp_clear_6Models_8circular_CCA);
+static int __pyx_tp_clear_6Models_11Percolation_Percolation(PyObject *o) {
+  if (likely(__pyx_ptype_6Models_6Models_Model)) { if (__pyx_ptype_6Models_6Models_Model->tp_clear) __pyx_ptype_6Models_6Models_Model->tp_clear(o); } else __Pyx_call_next_tp_clear(o, __pyx_tp_clear_6Models_11Percolation_Percolation);
   return 0;
 }
 
-static PyObject *__pyx___dict__getter_6Models_8circular_CCA(PyObject *o, CYTHON_UNUSED void *x) {
-  struct __pyx_obj_6Models_8circular_CCA *p = (struct __pyx_obj_6Models_8circular_CCA *)o;
+static PyObject *__pyx___dict__getter_6Models_11Percolation_Percolation(PyObject *o, CYTHON_UNUSED void *x) {
+  struct __pyx_obj_6Models_11Percolation_Percolation *p = (struct __pyx_obj_6Models_11Percolation_Percolation *)o;
   if (unlikely(!p->__pyx_base.__dict__)){
     p->__pyx_base.__dict__ = PyDict_New();
   }
@@ -18871,39 +18794,25 @@ static PyObject *__pyx___dict__getter_6Models_8circular_CCA(PyObject *o, CYTHON_
   return p->__pyx_base.__dict__;
 }
 
-static PyObject *__pyx_getprop_6Models_8circular_3CCA_threshold(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_6Models_8circular_3CCA_9threshold_1__get__(o);
-}
-
-static int __pyx_setprop_6Models_8circular_3CCA_threshold(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_6Models_8circular_3CCA_9threshold_3__set__(o, v);
-  }
-  else {
-    PyErr_SetString(PyExc_NotImplementedError, "__del__");
-    return -1;
-  }
-}
-
-static PyMethodDef __pyx_methods_6Models_8circular_CCA[] = {
-  {"updateState", (PyCFunction)__pyx_pw_6Models_8circular_3CCA_3updateState, METH_O, 0},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_6Models_8circular_3CCA_5__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_6Models_8circular_3CCA_7__setstate_cython__, METH_O, 0},
+static PyMethodDef __pyx_methods_6Models_11Percolation_Percolation[] = {
+  {"updateState", (PyCFunction)__pyx_pw_6Models_11Percolation_11Percolation_3updateState, METH_O, 0},
+  {"reset", (PyCFunction)__pyx_pw_6Models_11Percolation_11Percolation_5reset, METH_NOARGS, 0},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_6Models_11Percolation_11Percolation_7__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_6Models_11Percolation_11Percolation_9__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
-static struct PyGetSetDef __pyx_getsets_6Models_8circular_CCA[] = {
-  {(char *)"__dict__", __pyx___dict__getter_6Models_8circular_CCA, 0, (char *)0, 0},
-  {(char *)"threshold", __pyx_getprop_6Models_8circular_3CCA_threshold, __pyx_setprop_6Models_8circular_3CCA_threshold, (char *)0, 0},
+static struct PyGetSetDef __pyx_getsets_6Models_11Percolation_Percolation[] = {
+  {(char *)"__dict__", __pyx___dict__getter_6Models_11Percolation_Percolation, 0, (char *)0, 0},
   {0, 0, 0, 0, 0}
 };
 
-static PyTypeObject __pyx_type_6Models_8circular_CCA = {
+static PyTypeObject __pyx_type_6Models_11Percolation_Percolation = {
   PyVarObject_HEAD_INIT(0, 0)
-  "Models.circular.CCA", /*tp_name*/
-  sizeof(struct __pyx_obj_6Models_8circular_CCA), /*tp_basicsize*/
+  "Models.Percolation.Percolation", /*tp_name*/
+  sizeof(struct __pyx_obj_6Models_11Percolation_Percolation), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  __pyx_tp_dealloc_6Models_8circular_CCA, /*tp_dealloc*/
+  __pyx_tp_dealloc_6Models_11Percolation_Percolation, /*tp_dealloc*/
   0, /*tp_print*/
   0, /*tp_getattr*/
   0, /*tp_setattr*/
@@ -18925,23 +18834,23 @@ static PyTypeObject __pyx_type_6Models_8circular_CCA = {
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
   0, /*tp_doc*/
-  __pyx_tp_traverse_6Models_8circular_CCA, /*tp_traverse*/
-  __pyx_tp_clear_6Models_8circular_CCA, /*tp_clear*/
+  __pyx_tp_traverse_6Models_11Percolation_Percolation, /*tp_traverse*/
+  __pyx_tp_clear_6Models_11Percolation_Percolation, /*tp_clear*/
   0, /*tp_richcompare*/
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
   0, /*tp_iternext*/
-  __pyx_methods_6Models_8circular_CCA, /*tp_methods*/
+  __pyx_methods_6Models_11Percolation_Percolation, /*tp_methods*/
   0, /*tp_members*/
-  __pyx_getsets_6Models_8circular_CCA, /*tp_getset*/
+  __pyx_getsets_6Models_11Percolation_Percolation, /*tp_getset*/
   0, /*tp_base*/
   0, /*tp_dict*/
   0, /*tp_descr_get*/
   0, /*tp_descr_set*/
-  offsetof(struct __pyx_obj_6Models_8circular_CCA, __pyx_base.__dict__), /*tp_dictoffset*/
-  __pyx_pw_6Models_8circular_3CCA_1__init__, /*tp_init*/
+  offsetof(struct __pyx_obj_6Models_11Percolation_Percolation, __pyx_base.__dict__), /*tp_dictoffset*/
+  __pyx_pw_6Models_11Percolation_11Percolation_1__init__, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_6Models_8circular_CCA, /*tp_new*/
+  __pyx_tp_new_6Models_11Percolation_Percolation, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -19081,7 +18990,7 @@ static PyBufferProcs __pyx_tp_as_buffer_array = {
 
 static PyTypeObject __pyx_type___pyx_array = {
   PyVarObject_HEAD_INIT(0, 0)
-  "Models.circular.array", /*tp_name*/
+  "Models.Percolation.array", /*tp_name*/
   sizeof(struct __pyx_array_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_array, /*tp_dealloc*/
@@ -19192,7 +19101,7 @@ static PyMethodDef __pyx_methods_Enum[] = {
 
 static PyTypeObject __pyx_type___pyx_MemviewEnum = {
   PyVarObject_HEAD_INIT(0, 0)
-  "Models.circular.Enum", /*tp_name*/
+  "Models.Percolation.Enum", /*tp_name*/
   sizeof(struct __pyx_MemviewEnum_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_Enum, /*tp_dealloc*/
@@ -19445,7 +19354,7 @@ static PyBufferProcs __pyx_tp_as_buffer_memoryview = {
 
 static PyTypeObject __pyx_type___pyx_memoryview = {
   PyVarObject_HEAD_INIT(0, 0)
-  "Models.circular.memoryview", /*tp_name*/
+  "Models.Percolation.memoryview", /*tp_name*/
   sizeof(struct __pyx_memoryview_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_memoryview, /*tp_dealloc*/
@@ -19575,7 +19484,7 @@ static struct PyGetSetDef __pyx_getsets__memoryviewslice[] = {
 
 static PyTypeObject __pyx_type___pyx_memoryviewslice = {
   PyVarObject_HEAD_INIT(0, 0)
-  "Models.circular._memoryviewslice", /*tp_name*/
+  "Models.Percolation._memoryviewslice", /*tp_name*/
   sizeof(struct __pyx_memoryviewslice_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc__memoryviewslice, /*tp_dealloc*/
@@ -19649,18 +19558,18 @@ static PyMethodDef __pyx_methods[] = {
 #if PY_MAJOR_VERSION >= 3
 #if CYTHON_PEP489_MULTI_PHASE_INIT
 static PyObject* __pyx_pymod_create(PyObject *spec, PyModuleDef *def); /*proto*/
-static int __pyx_pymod_exec_circular(PyObject* module); /*proto*/
+static int __pyx_pymod_exec_Percolation(PyObject* module); /*proto*/
 static PyModuleDef_Slot __pyx_moduledef_slots[] = {
   {Py_mod_create, (void*)__pyx_pymod_create},
-  {Py_mod_exec, (void*)__pyx_pymod_exec_circular},
+  {Py_mod_exec, (void*)__pyx_pymod_exec_Percolation},
   {0, NULL}
 };
 #endif
 
 static struct PyModuleDef __pyx_moduledef = {
     PyModuleDef_HEAD_INIT,
-    "circular",
-    0, /* m_doc */
+    "Percolation",
+    __pyx_k_Created_on_Fri_Jun_7_10_37_33_2, /* m_doc */
   #if CYTHON_PEP489_MULTI_PHASE_INIT
     0, /* m_size */
   #else
@@ -19690,7 +19599,6 @@ static struct PyModuleDef __pyx_moduledef = {
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ASCII, __pyx_k_ASCII, sizeof(__pyx_k_ASCII), 0, 0, 1, 1},
   {&__pyx_kp_s_Buffer_view_does_not_expose_stri, __pyx_k_Buffer_view_does_not_expose_stri, sizeof(__pyx_k_Buffer_view_does_not_expose_stri), 0, 0, 1, 0},
-  {&__pyx_n_s_CCA, __pyx_k_CCA, sizeof(__pyx_k_CCA), 0, 0, 1, 1},
   {&__pyx_kp_s_Can_only_create_a_buffer_that_is, __pyx_k_Can_only_create_a_buffer_that_is, sizeof(__pyx_k_Can_only_create_a_buffer_that_is), 0, 0, 1, 0},
   {&__pyx_kp_s_Cannot_assign_to_read_only_memor, __pyx_k_Cannot_assign_to_read_only_memor, sizeof(__pyx_k_Cannot_assign_to_read_only_memor), 0, 0, 1, 0},
   {&__pyx_kp_s_Cannot_create_writable_memory_vi, __pyx_k_Cannot_create_writable_memory_vi, sizeof(__pyx_k_Cannot_create_writable_memory_vi), 0, 0, 1, 0},
@@ -19711,20 +19619,23 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_Non_native_byte_order_not_suppor, __pyx_k_Non_native_byte_order_not_suppor, sizeof(__pyx_k_Non_native_byte_order_not_suppor), 0, 1, 0, 0},
   {&__pyx_n_b_O, __pyx_k_O, sizeof(__pyx_k_O), 0, 0, 0, 1},
   {&__pyx_kp_s_Out_of_bounds_on_buffer_access_a, __pyx_k_Out_of_bounds_on_buffer_access_a, sizeof(__pyx_k_Out_of_bounds_on_buffer_access_a), 0, 0, 1, 0},
+  {&__pyx_n_s_Percolation, __pyx_k_Percolation, sizeof(__pyx_k_Percolation), 0, 0, 1, 1},
   {&__pyx_n_s_PickleError, __pyx_k_PickleError, sizeof(__pyx_k_PickleError), 0, 0, 1, 1},
   {&__pyx_n_s_RuntimeError, __pyx_k_RuntimeError, sizeof(__pyx_k_RuntimeError), 0, 0, 1, 1},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {&__pyx_kp_s_Unable_to_convert_item_to_object, __pyx_k_Unable_to_convert_item_to_object, sizeof(__pyx_k_Unable_to_convert_item_to_object), 0, 0, 1, 0},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_View_MemoryView, __pyx_k_View_MemoryView, sizeof(__pyx_k_View_MemoryView), 0, 0, 1, 1},
+  {&__pyx_n_s__29, __pyx_k__29, sizeof(__pyx_k__29), 0, 0, 1, 1},
   {&__pyx_n_s_agentStates, __pyx_k_agentStates, sizeof(__pyx_k_agentStates), 0, 0, 1, 1},
   {&__pyx_n_s_allocate_buffer, __pyx_k_allocate_buffer, sizeof(__pyx_k_allocate_buffer), 0, 0, 1, 1},
+  {&__pyx_n_s_app, __pyx_k_app, sizeof(__pyx_k_app), 0, 0, 1, 1},
   {&__pyx_n_s_base, __pyx_k_base, sizeof(__pyx_k_base), 0, 0, 1, 1},
   {&__pyx_n_s_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 0, 1, 1},
   {&__pyx_n_u_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 1, 0, 1},
+  {&__pyx_n_s_choice, __pyx_k_choice, sizeof(__pyx_k_choice), 0, 0, 1, 1},
   {&__pyx_n_s_class, __pyx_k_class, sizeof(__pyx_k_class), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
-  {&__pyx_n_u_constant, __pyx_k_constant, sizeof(__pyx_k_constant), 0, 1, 0, 1},
   {&__pyx_kp_s_contiguous_and_direct, __pyx_k_contiguous_and_direct, sizeof(__pyx_k_contiguous_and_direct), 0, 0, 1, 0},
   {&__pyx_kp_s_contiguous_and_indirect, __pyx_k_contiguous_and_indirect, sizeof(__pyx_k_contiguous_and_indirect), 0, 0, 1, 0},
   {&__pyx_n_s_dict, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
@@ -19744,25 +19655,29 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_n_s_itemsize, __pyx_k_itemsize, sizeof(__pyx_k_itemsize), 0, 0, 1, 1},
   {&__pyx_kp_s_itemsize_0_for_cython_array, __pyx_k_itemsize_0_for_cython_array, sizeof(__pyx_k_itemsize_0_for_cython_array), 0, 0, 1, 0},
-  {&__pyx_n_s_kwargs, __pyx_k_kwargs, sizeof(__pyx_k_kwargs), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
+  {&__pyx_n_s_matplotlib_pyplot, __pyx_k_matplotlib_pyplot, sizeof(__pyx_k_matplotlib_pyplot), 0, 0, 1, 1},
   {&__pyx_n_s_memview, __pyx_k_memview, sizeof(__pyx_k_memview), 0, 0, 1, 1},
   {&__pyx_n_s_mode, __pyx_k_mode, sizeof(__pyx_k_mode), 0, 0, 1, 1},
+  {&__pyx_n_s_nNodes, __pyx_k_nNodes, sizeof(__pyx_k_nNodes), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
   {&__pyx_n_s_name_2, __pyx_k_name_2, sizeof(__pyx_k_name_2), 0, 0, 1, 1},
   {&__pyx_kp_u_ndarray_is_not_C_contiguous, __pyx_k_ndarray_is_not_C_contiguous, sizeof(__pyx_k_ndarray_is_not_C_contiguous), 0, 1, 0, 0},
   {&__pyx_kp_u_ndarray_is_not_Fortran_contiguou, __pyx_k_ndarray_is_not_Fortran_contiguou, sizeof(__pyx_k_ndarray_is_not_Fortran_contiguou), 0, 1, 0, 0},
   {&__pyx_n_s_ndim, __pyx_k_ndim, sizeof(__pyx_k_ndim), 0, 0, 1, 1},
+  {&__pyx_n_s_networkx, __pyx_k_networkx, sizeof(__pyx_k_networkx), 0, 0, 1, 1},
   {&__pyx_n_s_new, __pyx_k_new, sizeof(__pyx_k_new), 0, 0, 1, 1},
   {&__pyx_kp_s_no_default___reduce___due_to_non, __pyx_k_no_default___reduce___due_to_non, sizeof(__pyx_k_no_default___reduce___due_to_non), 0, 0, 1, 0},
   {&__pyx_n_s_np, __pyx_k_np, sizeof(__pyx_k_np), 0, 0, 1, 1},
-  {&__pyx_n_s_nudgeType, __pyx_k_nudgeType, sizeof(__pyx_k_nudgeType), 0, 0, 1, 1},
   {&__pyx_n_s_numpy, __pyx_k_numpy, sizeof(__pyx_k_numpy), 0, 0, 1, 1},
   {&__pyx_kp_u_numpy_core_multiarray_failed_to, __pyx_k_numpy_core_multiarray_failed_to, sizeof(__pyx_k_numpy_core_multiarray_failed_to), 0, 1, 0, 0},
   {&__pyx_kp_u_numpy_core_umath_failed_to_impor, __pyx_k_numpy_core_umath_failed_to_impor, sizeof(__pyx_k_numpy_core_umath_failed_to_impor), 0, 1, 0, 0},
+  {&__pyx_n_s_nx, __pyx_k_nx, sizeof(__pyx_k_nx), 0, 0, 1, 1},
   {&__pyx_n_s_obj, __pyx_k_obj, sizeof(__pyx_k_obj), 0, 0, 1, 1},
+  {&__pyx_n_s_p, __pyx_k_p, sizeof(__pyx_k_p), 0, 0, 1, 1},
   {&__pyx_n_s_pack, __pyx_k_pack, sizeof(__pyx_k_pack), 0, 0, 1, 1},
   {&__pyx_n_s_pickle, __pyx_k_pickle, sizeof(__pyx_k_pickle), 0, 0, 1, 1},
+  {&__pyx_n_s_plt, __pyx_k_plt, sizeof(__pyx_k_plt), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_PickleError, __pyx_k_pyx_PickleError, sizeof(__pyx_k_pyx_PickleError), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_checksum, __pyx_k_pyx_checksum, sizeof(__pyx_k_pyx_checksum), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_getbuffer, __pyx_k_pyx_getbuffer, sizeof(__pyx_k_pyx_getbuffer), 0, 0, 1, 1},
@@ -19771,10 +19686,13 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pyx_type, __pyx_k_pyx_type, sizeof(__pyx_k_pyx_type), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_unpickle_Enum, __pyx_k_pyx_unpickle_Enum, sizeof(__pyx_k_pyx_unpickle_Enum), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
+  {&__pyx_n_s_random, __pyx_k_random, sizeof(__pyx_k_random), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_reduce, __pyx_k_reduce, sizeof(__pyx_k_reduce), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_cython, __pyx_k_reduce_cython, sizeof(__pyx_k_reduce_cython), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_ex, __pyx_k_reduce_ex, sizeof(__pyx_k_reduce_ex), 0, 0, 1, 1},
+  {&__pyx_n_s_reset, __pyx_k_reset, sizeof(__pyx_k_reset), 0, 0, 1, 1},
+  {&__pyx_n_s_scene, __pyx_k_scene, sizeof(__pyx_k_scene), 0, 0, 1, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_kp_s_self_dist_self_gen_cannot_be_con, __pyx_k_self_dist_self_gen_cannot_be_con, sizeof(__pyx_k_self_dist_self_gen_cannot_be_con), 0, 0, 1, 0},
   {&__pyx_n_s_setstate, __pyx_k_setstate, sizeof(__pyx_k_setstate), 0, 0, 1, 1},
@@ -19783,6 +19701,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_u_single, __pyx_k_single, sizeof(__pyx_k_single), 0, 1, 0, 1},
   {&__pyx_n_s_size, __pyx_k_size, sizeof(__pyx_k_size), 0, 0, 1, 1},
   {&__pyx_n_s_start, __pyx_k_start, sizeof(__pyx_k_start), 0, 0, 1, 1},
+  {&__pyx_n_s_states, __pyx_k_states, sizeof(__pyx_k_states), 0, 0, 1, 1},
   {&__pyx_n_s_step, __pyx_k_step, sizeof(__pyx_k_step), 0, 0, 1, 1},
   {&__pyx_n_s_stop, __pyx_k_stop, sizeof(__pyx_k_stop), 0, 0, 1, 1},
   {&__pyx_kp_s_strided_and_direct, __pyx_k_strided_and_direct, sizeof(__pyx_k_strided_and_direct), 0, 0, 1, 0},
@@ -19792,7 +19711,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_struct, __pyx_k_struct, sizeof(__pyx_k_struct), 0, 0, 1, 1},
   {&__pyx_n_s_super, __pyx_k_super, sizeof(__pyx_k_super), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
-  {&__pyx_n_s_threshold, __pyx_k_threshold, sizeof(__pyx_k_threshold), 0, 0, 1, 1},
   {&__pyx_kp_s_unable_to_allocate_array_data, __pyx_k_unable_to_allocate_array_data, sizeof(__pyx_k_unable_to_allocate_array_data), 0, 0, 1, 0},
   {&__pyx_kp_s_unable_to_allocate_shape_and_str, __pyx_k_unable_to_allocate_shape_and_str, sizeof(__pyx_k_unable_to_allocate_shape_and_str), 0, 0, 1, 0},
   {&__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_k_unknown_dtype_code_in_numpy_pxd, sizeof(__pyx_k_unknown_dtype_code_in_numpy_pxd), 0, 1, 0, 0},
@@ -19800,11 +19718,13 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_update, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
   {&__pyx_n_s_updateState, __pyx_k_updateState, sizeof(__pyx_k_updateState), 0, 0, 1, 1},
   {&__pyx_n_s_updateType, __pyx_k_updateType, sizeof(__pyx_k_updateType), 0, 0, 1, 1},
+  {&__pyx_n_s_vispy, __pyx_k_vispy, sizeof(__pyx_k_vispy), 0, 0, 1, 1},
+  {&__pyx_n_s_visuals, __pyx_k_visuals, sizeof(__pyx_k_visuals), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 14, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 22, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(2, 272, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(2, 856, __pyx_L1_error)
@@ -20118,9 +20038,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(1, 286, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__29);
-  __Pyx_GIVEREF(__pyx_tuple__29);
+  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(1, 286, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__30);
+  __Pyx_GIVEREF(__pyx_tuple__30);
 
   /* "View.MemoryView":287
  * 
@@ -20129,9 +20049,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(1, 287, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__30);
-  __Pyx_GIVEREF(__pyx_tuple__30);
+  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(1, 287, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__31);
+  __Pyx_GIVEREF(__pyx_tuple__31);
 
   /* "View.MemoryView":288
  * cdef generic = Enum("<strided and direct or indirect>")
@@ -20140,9 +20060,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(1, 288, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__31);
-  __Pyx_GIVEREF(__pyx_tuple__31);
+  __pyx_tuple__32 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(1, 288, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__32);
+  __Pyx_GIVEREF(__pyx_tuple__32);
 
   /* "View.MemoryView":291
  * 
@@ -20151,9 +20071,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_tuple__32 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(1, 291, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__32);
-  __Pyx_GIVEREF(__pyx_tuple__32);
+  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(1, 291, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__33);
+  __Pyx_GIVEREF(__pyx_tuple__33);
 
   /* "View.MemoryView":292
  * 
@@ -20162,19 +20082,19 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(1, 292, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__33);
-  __Pyx_GIVEREF(__pyx_tuple__33);
+  __pyx_tuple__34 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(1, 292, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__34);
+  __Pyx_GIVEREF(__pyx_tuple__34);
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_Enum(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_tuple__34 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__34);
-  __Pyx_GIVEREF(__pyx_tuple__34);
-  __pyx_codeobj__35 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__34, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__35)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__35 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__35);
+  __Pyx_GIVEREF(__pyx_tuple__35);
+  __pyx_codeobj__36 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__35, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__36)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -20191,8 +20111,6 @@ __Pyx_FastGilFuncInit();
 if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1, __pyx_L1_error)
 
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  __pyx_float_0_ = PyFloat_FromDouble(0.); if (unlikely(!__pyx_float_0_)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_float_1_ = PyFloat_FromDouble(1.); if (unlikely(!__pyx_float_1_)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_184977713 = PyInt_FromLong(184977713L); if (unlikely(!__pyx_int_184977713)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -20244,25 +20162,25 @@ static int __Pyx_modinit_type_init_code(void) {
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
-  __pyx_t_1 = PyImport_ImportModule("Models.models"); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("Models.Models"); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_ptype_6Models_6models_Model = __Pyx_ImportType(__pyx_t_1, "Models.models", "Model", sizeof(struct __pyx_obj_6Models_6models_Model), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6Models_6models_Model) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_vtabptr_6Models_6models_Model = (struct __pyx_vtabstruct_6Models_6models_Model*)__Pyx_GetVtable(__pyx_ptype_6Models_6models_Model->tp_dict); if (unlikely(!__pyx_vtabptr_6Models_6models_Model)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_vtabptr_6Models_8circular_CCA = &__pyx_vtable_6Models_8circular_CCA;
-  __pyx_vtable_6Models_8circular_CCA.__pyx_base = *__pyx_vtabptr_6Models_6models_Model;
-  __pyx_vtable_6Models_8circular_CCA.__pyx_base.updateState = (__Pyx_memviewslice (*)(struct __pyx_obj_6Models_6models_Model *, __Pyx_memviewslice, int __pyx_skip_dispatch))__pyx_f_6Models_8circular_3CCA_updateState;
-  __pyx_vtable_6Models_8circular_CCA.__pyx_base._updateState = (__Pyx_memviewslice (*)(struct __pyx_obj_6Models_6models_Model *, __Pyx_memviewslice))__pyx_f_6Models_8circular_3CCA__updateState;
-  __pyx_vtable_6Models_8circular_CCA._evolve = (long (*)(struct __pyx_obj_6Models_8circular_CCA *, long))__pyx_f_6Models_8circular_3CCA__evolve;
-  __pyx_type_6Models_8circular_CCA.tp_base = __pyx_ptype_6Models_6models_Model;
-  if (PyType_Ready(&__pyx_type_6Models_8circular_CCA) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_ptype_6Models_6Models_Model = __Pyx_ImportType(__pyx_t_1, "Models.Models", "Model", sizeof(struct __pyx_obj_6Models_6Models_Model), __Pyx_ImportType_CheckSize_Warn);
+   if (!__pyx_ptype_6Models_6Models_Model) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_vtabptr_6Models_6Models_Model = (struct __pyx_vtabstruct_6Models_6Models_Model*)__Pyx_GetVtable(__pyx_ptype_6Models_6Models_Model->tp_dict); if (unlikely(!__pyx_vtabptr_6Models_6Models_Model)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_vtabptr_6Models_11Percolation_Percolation = &__pyx_vtable_6Models_11Percolation_Percolation;
+  __pyx_vtable_6Models_11Percolation_Percolation.__pyx_base = *__pyx_vtabptr_6Models_6Models_Model;
+  __pyx_vtable_6Models_11Percolation_Percolation.__pyx_base.updateState = (__Pyx_memviewslice (*)(struct __pyx_obj_6Models_6Models_Model *, __Pyx_memviewslice, int __pyx_skip_dispatch))__pyx_f_6Models_11Percolation_11Percolation_updateState;
+  __pyx_vtable_6Models_11Percolation_Percolation.__pyx_base._updateState = (__Pyx_memviewslice (*)(struct __pyx_obj_6Models_6Models_Model *, __Pyx_memviewslice))__pyx_f_6Models_11Percolation_11Percolation__updateState;
+  __pyx_vtable_6Models_11Percolation_Percolation.__pyx_base.reset = (void (*)(struct __pyx_obj_6Models_6Models_Model *, int __pyx_skip_dispatch))__pyx_f_6Models_11Percolation_11Percolation_reset;
+  __pyx_type_6Models_11Percolation_Percolation.tp_base = __pyx_ptype_6Models_6Models_Model;
+  if (PyType_Ready(&__pyx_type_6Models_11Percolation_Percolation) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
-  __pyx_type_6Models_8circular_CCA.tp_print = 0;
+  __pyx_type_6Models_11Percolation_Percolation.tp_print = 0;
   #endif
-  if (__Pyx_SetVtable(__pyx_type_6Models_8circular_CCA.tp_dict, __pyx_vtabptr_6Models_8circular_CCA) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_CCA, (PyObject *)&__pyx_type_6Models_8circular_CCA) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6Models_8circular_CCA) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
-  __pyx_ptype_6Models_8circular_CCA = &__pyx_type_6Models_8circular_CCA;
+  if (__Pyx_SetVtable(__pyx_type_6Models_11Percolation_Percolation.tp_dict, __pyx_vtabptr_6Models_11Percolation_Percolation) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Percolation, (PyObject *)&__pyx_type_6Models_11Percolation_Percolation) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6Models_11Percolation_Percolation) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_ptype_6Models_11Percolation_Percolation = &__pyx_type_6Models_11Percolation_Percolation;
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
   if (PyType_Ready(&__pyx_type___pyx_array) < 0) __PYX_ERR(1, 105, __pyx_L1_error)
@@ -20393,11 +20311,11 @@ static int __Pyx_modinit_function_import_code(void) {
 
 
 #if PY_MAJOR_VERSION < 3
-__Pyx_PyMODINIT_FUNC initcircular(void) CYTHON_SMALL_CODE; /*proto*/
-__Pyx_PyMODINIT_FUNC initcircular(void)
+__Pyx_PyMODINIT_FUNC initPercolation(void) CYTHON_SMALL_CODE; /*proto*/
+__Pyx_PyMODINIT_FUNC initPercolation(void)
 #else
-__Pyx_PyMODINIT_FUNC PyInit_circular(void) CYTHON_SMALL_CODE; /*proto*/
-__Pyx_PyMODINIT_FUNC PyInit_circular(void)
+__Pyx_PyMODINIT_FUNC PyInit_Percolation(void) CYTHON_SMALL_CODE; /*proto*/
+__Pyx_PyMODINIT_FUNC PyInit_Percolation(void)
 #if CYTHON_PEP489_MULTI_PHASE_INIT
 {
   return PyModuleDef_Init(&__pyx_moduledef);
@@ -20464,17 +20382,18 @@ bad:
 }
 
 
-static CYTHON_SMALL_CODE int __pyx_pymod_exec_circular(PyObject *__pyx_pyinit_module)
+static CYTHON_SMALL_CODE int __pyx_pymod_exec_Percolation(PyObject *__pyx_pyinit_module)
 #endif
 #endif
 {
   PyObject *__pyx_t_1 = NULL;
-  static PyThread_type_lock __pyx_t_2[8];
+  PyObject *__pyx_t_2 = NULL;
+  static PyThread_type_lock __pyx_t_3[8];
   __Pyx_RefNannyDeclarations
   #if CYTHON_PEP489_MULTI_PHASE_INIT
   if (__pyx_m) {
     if (__pyx_m == __pyx_pyinit_module) return 0;
-    PyErr_SetString(PyExc_RuntimeError, "Module 'circular' has already been imported. Re-initialisation is not supported.");
+    PyErr_SetString(PyExc_RuntimeError, "Module 'Percolation' has already been imported. Re-initialisation is not supported.");
     return -1;
   }
   #elif PY_MAJOR_VERSION >= 3
@@ -20489,7 +20408,7 @@ if (!__Pyx_RefNanny) {
       Py_FatalError("failed to import 'refnanny' module");
 }
 #endif
-  __Pyx_RefNannySetupContext("__Pyx_PyMODINIT_FUNC PyInit_circular(void)", 0);
+  __Pyx_RefNannySetupContext("__Pyx_PyMODINIT_FUNC PyInit_Percolation(void)", 0);
   if (__Pyx_check_binary_version() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #ifdef __Pxy_PyFrame_Initialize_Offsets
   __Pxy_PyFrame_Initialize_Offsets();
@@ -20528,7 +20447,7 @@ if (!__Pyx_RefNanny) {
   Py_INCREF(__pyx_m);
   #else
   #if PY_MAJOR_VERSION < 3
-  __pyx_m = Py_InitModule4("circular", __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
+  __pyx_m = Py_InitModule4("Percolation", __pyx_methods, __pyx_k_Created_on_Fri_Jun_7_10_37_33_2, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
   #else
   __pyx_m = PyModule_Create(&__pyx_moduledef);
   #endif
@@ -20546,14 +20465,14 @@ if (!__Pyx_RefNanny) {
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  if (__pyx_module_is_main_Models__circular) {
+  if (__pyx_module_is_main_Models__Percolation) {
     if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name_2, __pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "Models.circular")) {
-      if (unlikely(PyDict_SetItemString(modules, "Models.circular", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "Models.Percolation")) {
+      if (unlikely(PyDict_SetItemString(modules, "Models.Percolation", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   #endif
@@ -20574,30 +20493,87 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "Models/circular.pyx":3
- * # distutils: language = c++
- * from Models.models cimport Model
- * import numpy as np             # <<<<<<<<<<<<<<
- * cimport numpy as np
- * cimport cython
+  /* "Models/Percolation.pyx":10
+ * """
+ * 
+ * import matplotlib.pyplot as plt, numpy as np             # <<<<<<<<<<<<<<
+ * from vispy import app, scene, visuals
+ * from Models.Models cimport Model
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
+  __Pyx_INCREF(__pyx_n_s__29);
+  __Pyx_GIVEREF(__pyx_n_s__29);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s__29);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_matplotlib_pyplot, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_plt, __pyx_t_2) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_numpy, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_2) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "Models/Percolation.pyx":11
+ * 
+ * import matplotlib.pyplot as plt, numpy as np
+ * from vispy import app, scene, visuals             # <<<<<<<<<<<<<<
+ * from Models.Models cimport Model
+ * import networkx as nx
+ */
+  __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_n_s_app);
+  __Pyx_GIVEREF(__pyx_n_s_app);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_app);
+  __Pyx_INCREF(__pyx_n_s_scene);
+  __Pyx_GIVEREF(__pyx_n_s_scene);
+  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_scene);
+  __Pyx_INCREF(__pyx_n_s_visuals);
+  __Pyx_GIVEREF(__pyx_n_s_visuals);
+  PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_s_visuals);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_vispy, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_app); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_app, __pyx_t_2) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_scene); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_scene, __pyx_t_2) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_visuals); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_visuals, __pyx_t_2) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "Models/circular.pyx":10
- *                     graph,\
- *                     threshold = 0.,\
- *                     agentStates = [-1 ,1],\             # <<<<<<<<<<<<<<
- *                     updateType = 'single',\
- *                     nudgeType   = 'constant',\
+  /* "Models/Percolation.pyx":13
+ * from vispy import app, scene, visuals
+ * from Models.Models cimport Model
+ * import networkx as nx             # <<<<<<<<<<<<<<
+ * 
+ * cdef class Percolation(Model):
  */
-  __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_networkx, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_int_neg_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_nx, __pyx_t_1) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "Models/Percolation.pyx":16
+ * 
+ * cdef class Percolation(Model):
+ *     def __init__(self, graph, p = 1, agentStates = [0, 1], updateType = 'single'):             # <<<<<<<<<<<<<<
+ *         super(Percolation, self).__init__(**locals())
+ *         self.p = p
+ */
+  __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_INCREF(__pyx_int_0);
+  __Pyx_GIVEREF(__pyx_int_0);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_int_0);
   __Pyx_INCREF(__pyx_int_1);
   __Pyx_GIVEREF(__pyx_int_1);
   PyList_SET_ITEM(__pyx_t_1, 1, __pyx_int_1);
@@ -20605,10 +20581,10 @@ if (!__Pyx_RefNanny) {
   __Pyx_GIVEREF(__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "Models/circular.pyx":1
+  /* "Models/Percolation.pyx":1
  * # distutils: language = c++             # <<<<<<<<<<<<<<
- * from Models.models cimport Model
- * import numpy as np
+ * #!/usr/bin/env python3
+ * # -*- coding: utf-8 -*-
  */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -20635,7 +20611,7 @@ if (!__Pyx_RefNanny) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__29, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 286, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 286, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(generic);
   __Pyx_DECREF_SET(generic, __pyx_t_1);
@@ -20649,7 +20625,7 @@ if (!__Pyx_RefNanny) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 287, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__31, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 287, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(strided);
   __Pyx_DECREF_SET(strided, __pyx_t_1);
@@ -20663,7 +20639,7 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__31, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 288, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__32, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 288, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(indirect);
   __Pyx_DECREF_SET(indirect, __pyx_t_1);
@@ -20677,7 +20653,7 @@ if (!__Pyx_RefNanny) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__32, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 291, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__33, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(contiguous);
   __Pyx_DECREF_SET(contiguous, __pyx_t_1);
@@ -20691,7 +20667,7 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__33, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 292, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__34, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 292, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(indirect_contiguous);
   __Pyx_DECREF_SET(indirect_contiguous, __pyx_t_1);
@@ -20714,15 +20690,15 @@ if (!__Pyx_RefNanny) {
  *     PyThread_allocate_lock(),
  *     PyThread_allocate_lock(),
  */
-  __pyx_t_2[0] = PyThread_allocate_lock();
-  __pyx_t_2[1] = PyThread_allocate_lock();
-  __pyx_t_2[2] = PyThread_allocate_lock();
-  __pyx_t_2[3] = PyThread_allocate_lock();
-  __pyx_t_2[4] = PyThread_allocate_lock();
-  __pyx_t_2[5] = PyThread_allocate_lock();
-  __pyx_t_2[6] = PyThread_allocate_lock();
-  __pyx_t_2[7] = PyThread_allocate_lock();
-  memcpy(&(__pyx_memoryview_thread_locks[0]), __pyx_t_2, sizeof(__pyx_memoryview_thread_locks[0]) * (8));
+  __pyx_t_3[0] = PyThread_allocate_lock();
+  __pyx_t_3[1] = PyThread_allocate_lock();
+  __pyx_t_3[2] = PyThread_allocate_lock();
+  __pyx_t_3[3] = PyThread_allocate_lock();
+  __pyx_t_3[4] = PyThread_allocate_lock();
+  __pyx_t_3[5] = PyThread_allocate_lock();
+  __pyx_t_3[6] = PyThread_allocate_lock();
+  __pyx_t_3[7] = PyThread_allocate_lock();
+  memcpy(&(__pyx_memoryview_thread_locks[0]), __pyx_t_3, sizeof(__pyx_memoryview_thread_locks[0]) * (8));
 
   /* "View.MemoryView":545
  *         info.obj = self
@@ -20773,13 +20749,14 @@ if (!__Pyx_RefNanny) {
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init Models.circular", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init Models.Percolation", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_CLEAR(__pyx_m);
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init Models.circular");
+    PyErr_SetString(PyExc_ImportError, "init Models.Percolation");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -21000,19 +20977,283 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg
 }
 #endif
 
-/* PyObjectSetAttrStr */
-#if CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value) {
-    PyTypeObject* tp = Py_TYPE(obj);
-    if (likely(tp->tp_setattro))
-        return tp->tp_setattro(obj, attr_name, value);
-#if PY_MAJOR_VERSION < 3
-    if (likely(tp->tp_setattr))
-        return tp->tp_setattr(obj, PyString_AS_STRING(attr_name), value);
+/* BufferIndexError */
+static void __Pyx_RaiseBufferIndexError(int axis) {
+  PyErr_Format(PyExc_IndexError,
+     "Out of bounds on buffer access (axis %d)", axis);
+}
+
+/* BufferIndexErrorNogil */
+static void __Pyx_RaiseBufferIndexErrorNogil(int axis) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE gilstate = PyGILState_Ensure();
+    #endif
+    __Pyx_RaiseBufferIndexError(axis);
+    #ifdef WITH_THREAD
+    PyGILState_Release(gilstate);
+    #endif
+}
+
+/* MemviewSliceInit */
+static int
+__Pyx_init_memviewslice(struct __pyx_memoryview_obj *memview,
+                        int ndim,
+                        __Pyx_memviewslice *memviewslice,
+                        int memview_is_new_reference)
+{
+    __Pyx_RefNannyDeclarations
+    int i, retval=-1;
+    Py_buffer *buf = &memview->view;
+    __Pyx_RefNannySetupContext("init_memviewslice", 0);
+    if (memviewslice->memview || memviewslice->data) {
+        PyErr_SetString(PyExc_ValueError,
+            "memviewslice is already initialized!");
+        goto fail;
+    }
+    if (buf->strides) {
+        for (i = 0; i < ndim; i++) {
+            memviewslice->strides[i] = buf->strides[i];
+        }
+    } else {
+        Py_ssize_t stride = buf->itemsize;
+        for (i = ndim - 1; i >= 0; i--) {
+            memviewslice->strides[i] = stride;
+            stride *= buf->shape[i];
+        }
+    }
+    for (i = 0; i < ndim; i++) {
+        memviewslice->shape[i]   = buf->shape[i];
+        if (buf->suboffsets) {
+            memviewslice->suboffsets[i] = buf->suboffsets[i];
+        } else {
+            memviewslice->suboffsets[i] = -1;
+        }
+    }
+    memviewslice->memview = memview;
+    memviewslice->data = (char *)buf->buf;
+    if (__pyx_add_acquisition_count(memview) == 0 && !memview_is_new_reference) {
+        Py_INCREF(memview);
+    }
+    retval = 0;
+    goto no_fail;
+fail:
+    memviewslice->memview = 0;
+    memviewslice->data = 0;
+    retval = -1;
+no_fail:
+    __Pyx_RefNannyFinishContext();
+    return retval;
+}
+#ifndef Py_NO_RETURN
+#define Py_NO_RETURN
 #endif
-    return PyObject_SetAttr(obj, attr_name, value);
+static void __pyx_fatalerror(const char *fmt, ...) Py_NO_RETURN {
+    va_list vargs;
+    char msg[200];
+#ifdef HAVE_STDARG_PROTOTYPES
+    va_start(vargs, fmt);
+#else
+    va_start(vargs);
+#endif
+    vsnprintf(msg, 200, fmt, vargs);
+    va_end(vargs);
+    Py_FatalError(msg);
+}
+static CYTHON_INLINE int
+__pyx_add_acquisition_count_locked(__pyx_atomic_int *acquisition_count,
+                                   PyThread_type_lock lock)
+{
+    int result;
+    PyThread_acquire_lock(lock, 1);
+    result = (*acquisition_count)++;
+    PyThread_release_lock(lock);
+    return result;
+}
+static CYTHON_INLINE int
+__pyx_sub_acquisition_count_locked(__pyx_atomic_int *acquisition_count,
+                                   PyThread_type_lock lock)
+{
+    int result;
+    PyThread_acquire_lock(lock, 1);
+    result = (*acquisition_count)--;
+    PyThread_release_lock(lock);
+    return result;
+}
+static CYTHON_INLINE void
+__Pyx_INC_MEMVIEW(__Pyx_memviewslice *memslice, int have_gil, int lineno)
+{
+    int first_time;
+    struct __pyx_memoryview_obj *memview = memslice->memview;
+    if (!memview || (PyObject *) memview == Py_None)
+        return;
+    if (__pyx_get_slice_count(memview) < 0)
+        __pyx_fatalerror("Acquisition count is %d (line %d)",
+                         __pyx_get_slice_count(memview), lineno);
+    first_time = __pyx_add_acquisition_count(memview) == 0;
+    if (first_time) {
+        if (have_gil) {
+            Py_INCREF((PyObject *) memview);
+        } else {
+            PyGILState_STATE _gilstate = PyGILState_Ensure();
+            Py_INCREF((PyObject *) memview);
+            PyGILState_Release(_gilstate);
+        }
+    }
+}
+static CYTHON_INLINE void __Pyx_XDEC_MEMVIEW(__Pyx_memviewslice *memslice,
+                                             int have_gil, int lineno) {
+    int last_time;
+    struct __pyx_memoryview_obj *memview = memslice->memview;
+    if (!memview ) {
+        return;
+    } else if ((PyObject *) memview == Py_None) {
+        memslice->memview = NULL;
+        return;
+    }
+    if (__pyx_get_slice_count(memview) <= 0)
+        __pyx_fatalerror("Acquisition count is %d (line %d)",
+                         __pyx_get_slice_count(memview), lineno);
+    last_time = __pyx_sub_acquisition_count(memview) == 1;
+    memslice->data = NULL;
+    if (last_time) {
+        if (have_gil) {
+            Py_CLEAR(memslice->memview);
+        } else {
+            PyGILState_STATE _gilstate = PyGILState_Ensure();
+            Py_CLEAR(memslice->memview);
+            PyGILState_Release(_gilstate);
+        }
+    } else {
+        memslice->memview = NULL;
+    }
+}
+
+/* FetchCommonPointer */
+static void* __Pyx_FetchCommonPointer(void* pointer, const char* name) {
+#if PY_VERSION_HEX >= 0x02070000
+    PyObject* fake_module = NULL;
+    PyObject* capsule = NULL;
+    void* value = NULL;
+    fake_module = PyImport_AddModule((char*) "_cython_" CYTHON_ABI);
+    if (!fake_module) return NULL;
+    Py_INCREF(fake_module);
+    capsule = PyObject_GetAttrString(fake_module, name);
+    if (!capsule) {
+        if (!PyErr_ExceptionMatches(PyExc_AttributeError)) goto bad;
+        PyErr_Clear();
+        capsule = PyCapsule_New(pointer, name, NULL);
+        if (!capsule) goto bad;
+        if (PyObject_SetAttrString(fake_module, name, capsule) < 0)
+            goto bad;
+    }
+    value = PyCapsule_GetPointer(capsule, name);
+bad:
+    Py_XDECREF(capsule);
+    Py_DECREF(fake_module);
+    return value;
+#else
+    return pointer;
+#endif
+}
+
+/* FastGil */
+#define __Pyx_FastGIL_ABI_module "_cython_" CYTHON_ABI
+#define __Pyx_FastGIL_PyCapsuleName "FastGilFuncs"
+#define __Pyx_FastGIL_PyCapsule\
+    __Pyx_FastGIL_ABI_module "." __Pyx_FastGIL_PyCapsuleName
+#if PY_VERSION_HEX < 0x02070000
+  #undef CYTHON_THREAD_LOCAL
+#endif
+#ifdef CYTHON_THREAD_LOCAL
+#include "pythread.h"
+#include "pystate.h"
+static CYTHON_THREAD_LOCAL PyThreadState *__Pyx_FastGil_tcur = NULL;
+static CYTHON_THREAD_LOCAL int __Pyx_FastGil_tcur_depth = 0;
+static int __Pyx_FastGil_autoTLSkey = -1;
+static CYTHON_INLINE void __Pyx_FastGIL_Remember0(void) {
+  ++__Pyx_FastGil_tcur_depth;
+}
+static CYTHON_INLINE void __Pyx_FastGIL_Forget0(void) {
+  if (--__Pyx_FastGil_tcur_depth == 0) {
+    __Pyx_FastGil_tcur = NULL;
+  }
+}
+static CYTHON_INLINE PyThreadState *__Pyx_FastGil_get_tcur(void) {
+  PyThreadState *tcur = __Pyx_FastGil_tcur;
+  if (tcur == NULL) {
+    tcur = __Pyx_FastGil_tcur = (PyThreadState*)PyThread_get_key_value(__Pyx_FastGil_autoTLSkey);
+  }
+  return tcur;
+}
+static PyGILState_STATE __Pyx_FastGil_PyGILState_Ensure(void) {
+  int current;
+  PyThreadState *tcur;
+  __Pyx_FastGIL_Remember0();
+  tcur = __Pyx_FastGil_get_tcur();
+  if (tcur == NULL) {
+    return PyGILState_Ensure();
+  }
+  current = tcur == __Pyx_PyThreadState_Current;
+  if (current == 0) {
+    PyEval_RestoreThread(tcur);
+  }
+  ++tcur->gilstate_counter;
+  return current ? PyGILState_LOCKED : PyGILState_UNLOCKED;
+}
+static void __Pyx_FastGil_PyGILState_Release(PyGILState_STATE oldstate) {
+  PyThreadState *tcur = __Pyx_FastGil_get_tcur();
+  __Pyx_FastGIL_Forget0();
+  if (tcur->gilstate_counter == 1) {
+    PyGILState_Release(oldstate);
+  } else {
+    --tcur->gilstate_counter;
+    if (oldstate == PyGILState_UNLOCKED) {
+      PyEval_SaveThread();
+    }
+  }
+}
+static void __Pyx_FastGilFuncInit0(void) {
+  int key;
+  void* this_thread_state = (void*) PyGILState_GetThisThreadState();
+  for (key = 0; key < 100; key++) {
+    if (PyThread_get_key_value(key) == this_thread_state) {
+      __Pyx_FastGil_autoTLSkey = key;
+      break;
+    }
+  }
+  if (__Pyx_FastGil_autoTLSkey != -1) {
+    PyObject* capsule = NULL;
+    PyObject* abi_module = NULL;
+    __Pyx_PyGILState_Ensure = __Pyx_FastGil_PyGILState_Ensure;
+    __Pyx_PyGILState_Release = __Pyx_FastGil_PyGILState_Release;
+    __Pyx_FastGIL_Remember = __Pyx_FastGIL_Remember0;
+    __Pyx_FastGIL_Forget = __Pyx_FastGIL_Forget0;
+    capsule = PyCapsule_New(&__Pyx_FastGilFuncs, __Pyx_FastGIL_PyCapsule, NULL);
+    abi_module = PyImport_AddModule(__Pyx_FastGIL_ABI_module);
+    if (capsule && abi_module) {
+      PyObject_SetAttrString(abi_module, __Pyx_FastGIL_PyCapsuleName, capsule);
+    }
+    Py_XDECREF(capsule);
+  }
+}
+#else
+static void __Pyx_FastGilFuncInit0(void) {
+  CYTHON_UNUSED void* force_use = (void*)&__Pyx_FetchCommonPointer;
 }
 #endif
+static void __Pyx_FastGilFuncInit(void) {
+#if PY_VERSION_HEX >= 0x02070000
+  struct __Pyx_FastGilVtab* shared = (struct __Pyx_FastGilVtab*)PyCapsule_Import(__Pyx_FastGIL_PyCapsule, 1);
+#else
+  struct __Pyx_FastGilVtab* shared = NULL;
+#endif
+  if (shared) {
+    __Pyx_FastGilFuncs = *shared;
+  } else {
+   PyErr_Clear();
+    __Pyx_FastGilFuncInit0();
+  }
+}
 
 /* PyDictVersioning */
 #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
@@ -21276,139 +21517,76 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
 }
 #endif
 
-/* MemviewSliceInit */
-static int
-__Pyx_init_memviewslice(struct __pyx_memoryview_obj *memview,
-                        int ndim,
-                        __Pyx_memviewslice *memviewslice,
-                        int memview_is_new_reference)
-{
-    __Pyx_RefNannyDeclarations
-    int i, retval=-1;
-    Py_buffer *buf = &memview->view;
-    __Pyx_RefNannySetupContext("init_memviewslice", 0);
-    if (memviewslice->memview || memviewslice->data) {
-        PyErr_SetString(PyExc_ValueError,
-            "memviewslice is already initialized!");
-        goto fail;
+/* PyObjectCallNoArg */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
+#if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(func)) {
+        return __Pyx_PyFunction_FastCall(func, NULL, 0);
     }
-    if (buf->strides) {
-        for (i = 0; i < ndim; i++) {
-            memviewslice->strides[i] = buf->strides[i];
-        }
-    } else {
-        Py_ssize_t stride = buf->itemsize;
-        for (i = ndim - 1; i >= 0; i--) {
-            memviewslice->strides[i] = stride;
-            stride *= buf->shape[i];
-        }
-    }
-    for (i = 0; i < ndim; i++) {
-        memviewslice->shape[i]   = buf->shape[i];
-        if (buf->suboffsets) {
-            memviewslice->suboffsets[i] = buf->suboffsets[i];
-        } else {
-            memviewslice->suboffsets[i] = -1;
-        }
-    }
-    memviewslice->memview = memview;
-    memviewslice->data = (char *)buf->buf;
-    if (__pyx_add_acquisition_count(memview) == 0 && !memview_is_new_reference) {
-        Py_INCREF(memview);
-    }
-    retval = 0;
-    goto no_fail;
-fail:
-    memviewslice->memview = 0;
-    memviewslice->data = 0;
-    retval = -1;
-no_fail:
-    __Pyx_RefNannyFinishContext();
-    return retval;
-}
-#ifndef Py_NO_RETURN
-#define Py_NO_RETURN
 #endif
-static void __pyx_fatalerror(const char *fmt, ...) Py_NO_RETURN {
-    va_list vargs;
-    char msg[200];
-#ifdef HAVE_STDARG_PROTOTYPES
-    va_start(vargs, fmt);
+#ifdef __Pyx_CyFunction_USED
+    if (likely(PyCFunction_Check(func) || __Pyx_CyFunction_Check(func)))
 #else
-    va_start(vargs);
+    if (likely(PyCFunction_Check(func)))
 #endif
-    vsnprintf(msg, 200, fmt, vargs);
-    va_end(vargs);
-    Py_FatalError(msg);
-}
-static CYTHON_INLINE int
-__pyx_add_acquisition_count_locked(__pyx_atomic_int *acquisition_count,
-                                   PyThread_type_lock lock)
-{
-    int result;
-    PyThread_acquire_lock(lock, 1);
-    result = (*acquisition_count)++;
-    PyThread_release_lock(lock);
-    return result;
-}
-static CYTHON_INLINE int
-__pyx_sub_acquisition_count_locked(__pyx_atomic_int *acquisition_count,
-                                   PyThread_type_lock lock)
-{
-    int result;
-    PyThread_acquire_lock(lock, 1);
-    result = (*acquisition_count)--;
-    PyThread_release_lock(lock);
-    return result;
-}
-static CYTHON_INLINE void
-__Pyx_INC_MEMVIEW(__Pyx_memviewslice *memslice, int have_gil, int lineno)
-{
-    int first_time;
-    struct __pyx_memoryview_obj *memview = memslice->memview;
-    if (!memview || (PyObject *) memview == Py_None)
-        return;
-    if (__pyx_get_slice_count(memview) < 0)
-        __pyx_fatalerror("Acquisition count is %d (line %d)",
-                         __pyx_get_slice_count(memview), lineno);
-    first_time = __pyx_add_acquisition_count(memview) == 0;
-    if (first_time) {
-        if (have_gil) {
-            Py_INCREF((PyObject *) memview);
-        } else {
-            PyGILState_STATE _gilstate = PyGILState_Ensure();
-            Py_INCREF((PyObject *) memview);
-            PyGILState_Release(_gilstate);
+    {
+        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
+            return __Pyx_PyObject_CallMethO(func, NULL);
         }
     }
+    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
 }
-static CYTHON_INLINE void __Pyx_XDEC_MEMVIEW(__Pyx_memviewslice *memslice,
-                                             int have_gil, int lineno) {
-    int last_time;
-    struct __pyx_memoryview_obj *memview = memslice->memview;
-    if (!memview ) {
-        return;
-    } else if ((PyObject *) memview == Py_None) {
-        memslice->memview = NULL;
-        return;
+#endif
+
+/* GetModuleGlobalName */
+#if CYTHON_USE_DICT_VERSIONS
+static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value)
+#else
+static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
+#endif
+{
+    PyObject *result;
+#if !CYTHON_AVOID_BORROWED_REFS
+#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
+    result = _PyDict_GetItem_KnownHash(__pyx_d, name, ((PyASCIIObject *) name)->hash);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    } else if (unlikely(PyErr_Occurred())) {
+        return NULL;
     }
-    if (__pyx_get_slice_count(memview) <= 0)
-        __pyx_fatalerror("Acquisition count is %d (line %d)",
-                         __pyx_get_slice_count(memview), lineno);
-    last_time = __pyx_sub_acquisition_count(memview) == 1;
-    memslice->data = NULL;
-    if (last_time) {
-        if (have_gil) {
-            Py_CLEAR(memslice->memview);
-        } else {
-            PyGILState_STATE _gilstate = PyGILState_Ensure();
-            Py_CLEAR(memslice->memview);
-            PyGILState_Release(_gilstate);
-        }
-    } else {
-        memslice->memview = NULL;
+#else
+    result = PyDict_GetItem(__pyx_d, name);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
     }
+#endif
+#else
+    result = PyObject_GetItem(__pyx_d, name);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    }
+    PyErr_Clear();
+#endif
+    return __Pyx_GetBuiltinName(name);
 }
+
+/* PyObjectSetAttrStr */
+#if CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value) {
+    PyTypeObject* tp = Py_TYPE(obj);
+    if (likely(tp->tp_setattro))
+        return tp->tp_setattro(obj, attr_name, value);
+#if PY_MAJOR_VERSION < 3
+    if (likely(tp->tp_setattr))
+        return tp->tp_setattr(obj, PyString_AS_STRING(attr_name), value);
+#endif
+    return PyObject_SetAttr(obj, attr_name, value);
+}
+#endif
 
 /* PyErrFetchRestore */
 #if CYTHON_FAST_THREAD_STATE
@@ -21433,6 +21611,48 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
     tstate->curexc_traceback = 0;
 }
 #endif
+
+/* WriteUnraisableException */
+static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
+                                  CYTHON_UNUSED int lineno, CYTHON_UNUSED const char *filename,
+                                  int full_traceback, CYTHON_UNUSED int nogil) {
+    PyObject *old_exc, *old_val, *old_tb;
+    PyObject *ctx;
+    __Pyx_PyThreadState_declare
+#ifdef WITH_THREAD
+    PyGILState_STATE state;
+    if (nogil)
+        state = PyGILState_Ensure();
+#ifdef _MSC_VER
+    else state = (PyGILState_STATE)-1;
+#endif
+#endif
+    __Pyx_PyThreadState_assign
+    __Pyx_ErrFetch(&old_exc, &old_val, &old_tb);
+    if (full_traceback) {
+        Py_XINCREF(old_exc);
+        Py_XINCREF(old_val);
+        Py_XINCREF(old_tb);
+        __Pyx_ErrRestore(old_exc, old_val, old_tb);
+        PyErr_PrintEx(1);
+    }
+    #if PY_MAJOR_VERSION < 3
+    ctx = PyString_FromString(name);
+    #else
+    ctx = PyUnicode_FromString(name);
+    #endif
+    __Pyx_ErrRestore(old_exc, old_val, old_tb);
+    if (!ctx) {
+        PyErr_WriteUnraisable(Py_None);
+    } else {
+        PyErr_WriteUnraisable(ctx);
+        Py_DECREF(ctx);
+    }
+#ifdef WITH_THREAD
+    if (nogil)
+        PyGILState_Release(state);
+#endif
+}
 
 /* RaiseException */
 #if PY_MAJOR_VERSION < 3
@@ -22158,41 +22378,6 @@ static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *o, PyObject *n, PyObject
     return (likely(r)) ? r : __Pyx_GetAttr3Default(d);
 }
 
-/* GetModuleGlobalName */
-#if CYTHON_USE_DICT_VERSIONS
-static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value)
-#else
-static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
-#endif
-{
-    PyObject *result;
-#if !CYTHON_AVOID_BORROWED_REFS
-#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
-    result = _PyDict_GetItem_KnownHash(__pyx_d, name, ((PyASCIIObject *) name)->hash);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    } else if (unlikely(PyErr_Occurred())) {
-        return NULL;
-    }
-#else
-    result = PyDict_GetItem(__pyx_d, name);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    }
-#endif
-#else
-    result = PyObject_GetItem(__pyx_d, name);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    }
-    PyErr_Clear();
-#endif
-    return __Pyx_GetBuiltinName(name);
-}
-
 /* SwapException */
 #if CYTHON_FAST_THREAD_STATE
 static CYTHON_INLINE void __Pyx__ExceptionSwap(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
@@ -22517,181 +22702,12 @@ static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED
 }
 #endif
 
-/* FetchCommonPointer */
-static void* __Pyx_FetchCommonPointer(void* pointer, const char* name) {
-#if PY_VERSION_HEX >= 0x02070000
-    PyObject* fake_module = NULL;
-    PyObject* capsule = NULL;
-    void* value = NULL;
-    fake_module = PyImport_AddModule((char*) "_cython_" CYTHON_ABI);
-    if (!fake_module) return NULL;
-    Py_INCREF(fake_module);
-    capsule = PyObject_GetAttrString(fake_module, name);
-    if (!capsule) {
-        if (!PyErr_ExceptionMatches(PyExc_AttributeError)) goto bad;
-        PyErr_Clear();
-        capsule = PyCapsule_New(pointer, name, NULL);
-        if (!capsule) goto bad;
-        if (PyObject_SetAttrString(fake_module, name, capsule) < 0)
-            goto bad;
-    }
-    value = PyCapsule_GetPointer(capsule, name);
-bad:
-    Py_XDECREF(capsule);
-    Py_DECREF(fake_module);
-    return value;
-#else
-    return pointer;
-#endif
-}
-
-/* FastGil */
-#define __Pyx_FastGIL_ABI_module "_cython_" CYTHON_ABI
-#define __Pyx_FastGIL_PyCapsuleName "FastGilFuncs"
-#define __Pyx_FastGIL_PyCapsule\
-    __Pyx_FastGIL_ABI_module "." __Pyx_FastGIL_PyCapsuleName
-#if PY_VERSION_HEX < 0x02070000
-  #undef CYTHON_THREAD_LOCAL
-#endif
-#ifdef CYTHON_THREAD_LOCAL
-#include "pythread.h"
-#include "pystate.h"
-static CYTHON_THREAD_LOCAL PyThreadState *__Pyx_FastGil_tcur = NULL;
-static CYTHON_THREAD_LOCAL int __Pyx_FastGil_tcur_depth = 0;
-static int __Pyx_FastGil_autoTLSkey = -1;
-static CYTHON_INLINE void __Pyx_FastGIL_Remember0(void) {
-  ++__Pyx_FastGil_tcur_depth;
-}
-static CYTHON_INLINE void __Pyx_FastGIL_Forget0(void) {
-  if (--__Pyx_FastGil_tcur_depth == 0) {
-    __Pyx_FastGil_tcur = NULL;
-  }
-}
-static CYTHON_INLINE PyThreadState *__Pyx_FastGil_get_tcur(void) {
-  PyThreadState *tcur = __Pyx_FastGil_tcur;
-  if (tcur == NULL) {
-    tcur = __Pyx_FastGil_tcur = (PyThreadState*)PyThread_get_key_value(__Pyx_FastGil_autoTLSkey);
-  }
-  return tcur;
-}
-static PyGILState_STATE __Pyx_FastGil_PyGILState_Ensure(void) {
-  int current;
-  PyThreadState *tcur;
-  __Pyx_FastGIL_Remember0();
-  tcur = __Pyx_FastGil_get_tcur();
-  if (tcur == NULL) {
-    return PyGILState_Ensure();
-  }
-  current = tcur == __Pyx_PyThreadState_Current;
-  if (current == 0) {
-    PyEval_RestoreThread(tcur);
-  }
-  ++tcur->gilstate_counter;
-  return current ? PyGILState_LOCKED : PyGILState_UNLOCKED;
-}
-static void __Pyx_FastGil_PyGILState_Release(PyGILState_STATE oldstate) {
-  PyThreadState *tcur = __Pyx_FastGil_get_tcur();
-  __Pyx_FastGIL_Forget0();
-  if (tcur->gilstate_counter == 1) {
-    PyGILState_Release(oldstate);
-  } else {
-    --tcur->gilstate_counter;
-    if (oldstate == PyGILState_UNLOCKED) {
-      PyEval_SaveThread();
-    }
-  }
-}
-static void __Pyx_FastGilFuncInit0(void) {
-  int key;
-  void* this_thread_state = (void*) PyGILState_GetThisThreadState();
-  for (key = 0; key < 100; key++) {
-    if (PyThread_get_key_value(key) == this_thread_state) {
-      __Pyx_FastGil_autoTLSkey = key;
-      break;
-    }
-  }
-  if (__Pyx_FastGil_autoTLSkey != -1) {
-    PyObject* capsule = NULL;
-    PyObject* abi_module = NULL;
-    __Pyx_PyGILState_Ensure = __Pyx_FastGil_PyGILState_Ensure;
-    __Pyx_PyGILState_Release = __Pyx_FastGil_PyGILState_Release;
-    __Pyx_FastGIL_Remember = __Pyx_FastGIL_Remember0;
-    __Pyx_FastGIL_Forget = __Pyx_FastGIL_Forget0;
-    capsule = PyCapsule_New(&__Pyx_FastGilFuncs, __Pyx_FastGIL_PyCapsule, NULL);
-    abi_module = PyImport_AddModule(__Pyx_FastGIL_ABI_module);
-    if (capsule && abi_module) {
-      PyObject_SetAttrString(abi_module, __Pyx_FastGIL_PyCapsuleName, capsule);
-    }
-    Py_XDECREF(capsule);
-  }
-}
-#else
-static void __Pyx_FastGilFuncInit0(void) {
-  CYTHON_UNUSED void* force_use = (void*)&__Pyx_FetchCommonPointer;
-}
-#endif
-static void __Pyx_FastGilFuncInit(void) {
-#if PY_VERSION_HEX >= 0x02070000
-  struct __Pyx_FastGilVtab* shared = (struct __Pyx_FastGilVtab*)PyCapsule_Import(__Pyx_FastGIL_PyCapsule, 1);
-#else
-  struct __Pyx_FastGilVtab* shared = NULL;
-#endif
-  if (shared) {
-    __Pyx_FastGilFuncs = *shared;
-  } else {
-   PyErr_Clear();
-    __Pyx_FastGilFuncInit0();
-  }
-}
-
 /* None */
 static CYTHON_INLINE long __Pyx_div_long(long a, long b) {
     long q = a / b;
     long r = a - q*b;
     q -= ((r != 0) & ((r ^ b) < 0));
     return q;
-}
-
-/* WriteUnraisableException */
-static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
-                                  CYTHON_UNUSED int lineno, CYTHON_UNUSED const char *filename,
-                                  int full_traceback, CYTHON_UNUSED int nogil) {
-    PyObject *old_exc, *old_val, *old_tb;
-    PyObject *ctx;
-    __Pyx_PyThreadState_declare
-#ifdef WITH_THREAD
-    PyGILState_STATE state;
-    if (nogil)
-        state = PyGILState_Ensure();
-#ifdef _MSC_VER
-    else state = (PyGILState_STATE)-1;
-#endif
-#endif
-    __Pyx_PyThreadState_assign
-    __Pyx_ErrFetch(&old_exc, &old_val, &old_tb);
-    if (full_traceback) {
-        Py_XINCREF(old_exc);
-        Py_XINCREF(old_val);
-        Py_XINCREF(old_tb);
-        __Pyx_ErrRestore(old_exc, old_val, old_tb);
-        PyErr_PrintEx(1);
-    }
-    #if PY_MAJOR_VERSION < 3
-    ctx = PyString_FromString(name);
-    #else
-    ctx = PyUnicode_FromString(name);
-    #endif
-    __Pyx_ErrRestore(old_exc, old_val, old_tb);
-    if (!ctx) {
-        PyErr_WriteUnraisable(Py_None);
-    } else {
-        PyErr_WriteUnraisable(ctx);
-        Py_DECREF(ctx);
-    }
-#ifdef WITH_THREAD
-    if (nogil)
-        PyGILState_Release(state);
-#endif
 }
 
 /* ImportFrom */
@@ -24047,6 +24063,59 @@ __pyx_fail:
 }
 
 /* CIntToPy */
+  static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
+    const int neg_one = (int) ((int) 0 - (int) 1), const_zero = (int) 0;
+    const int is_unsigned = neg_one > const_zero;
+    if (is_unsigned) {
+        if (sizeof(int) < sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(int) <= sizeof(unsigned long)) {
+            return PyLong_FromUnsignedLong((unsigned long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(int) <= sizeof(unsigned PY_LONG_LONG)) {
+            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
+#endif
+        }
+    } else {
+        if (sizeof(int) <= sizeof(long)) {
+            return PyInt_FromLong((long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(int) <= sizeof(PY_LONG_LONG)) {
+            return PyLong_FromLongLong((PY_LONG_LONG) value);
+#endif
+        }
+    }
+    {
+        int one = 1; int little = (int)*(unsigned char *)&one;
+        unsigned char *bytes = (unsigned char *)&value;
+        return _PyLong_FromByteArray(bytes, sizeof(int),
+                                     little, !is_unsigned);
+    }
+}
+
+/* CIntFromPyVerify */
+  #define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
+    __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 0)
+#define __PYX_VERIFY_RETURN_INT_EXC(target_type, func_type, func_value)\
+    __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 1)
+#define __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, exc)\
+    {\
+        func_type value = func_value;\
+        if (sizeof(target_type) < sizeof(func_type)) {\
+            if (unlikely(value != (func_type) (target_type) value)) {\
+                func_type zero = 0;\
+                if (exc && unlikely(value == (func_type)-1 && PyErr_Occurred()))\
+                    return (target_type) -1;\
+                if (is_unsigned && unlikely(value < zero))\
+                    goto raise_neg_overflow;\
+                else\
+                    goto raise_overflow;\
+            }\
+        }\
+        return (target_type) value;\
+    }
+
+/* CIntToPy */
   static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
     const long neg_one = (long) ((long) 0 - (long) 1), const_zero = (long) 0;
     const int is_unsigned = neg_one > const_zero;
@@ -24077,28 +24146,6 @@ __pyx_fail:
     }
 }
 
-/* CIntFromPyVerify */
-  #define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
-    __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 0)
-#define __PYX_VERIFY_RETURN_INT_EXC(target_type, func_type, func_value)\
-    __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 1)
-#define __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, exc)\
-    {\
-        func_type value = func_value;\
-        if (sizeof(target_type) < sizeof(func_type)) {\
-            if (unlikely(value != (func_type) (target_type) value)) {\
-                func_type zero = 0;\
-                if (exc && unlikely(value == (func_type)-1 && PyErr_Occurred()))\
-                    return (target_type) -1;\
-                if (is_unsigned && unlikely(value < zero))\
-                    goto raise_neg_overflow;\
-                else\
-                    goto raise_overflow;\
-            }\
-        }\
-        return (target_type) value;\
-    }
-
 /* MemviewDtypeToObject */
   static CYTHON_INLINE PyObject *__pyx_memview_get_long(const char *itemp) {
     return (PyObject *) __Pyx_PyInt_From_long(*(long *) itemp);
@@ -24109,37 +24156,6 @@ static CYTHON_INLINE int __pyx_memview_set_long(const char *itemp, PyObject *obj
         return 0;
     *(long *) itemp = value;
     return 1;
-}
-
-/* CIntToPy */
-  static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
-    const int neg_one = (int) ((int) 0 - (int) 1), const_zero = (int) 0;
-    const int is_unsigned = neg_one > const_zero;
-    if (is_unsigned) {
-        if (sizeof(int) < sizeof(long)) {
-            return PyInt_FromLong((long) value);
-        } else if (sizeof(int) <= sizeof(unsigned long)) {
-            return PyLong_FromUnsignedLong((unsigned long) value);
-#ifdef HAVE_LONG_LONG
-        } else if (sizeof(int) <= sizeof(unsigned PY_LONG_LONG)) {
-            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
-#endif
-        }
-    } else {
-        if (sizeof(int) <= sizeof(long)) {
-            return PyInt_FromLong((long) value);
-#ifdef HAVE_LONG_LONG
-        } else if (sizeof(int) <= sizeof(PY_LONG_LONG)) {
-            return PyLong_FromLongLong((PY_LONG_LONG) value);
-#endif
-        }
-    }
-    {
-        int one = 1; int little = (int)*(unsigned char *)&one;
-        unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(int),
-                                     little, !is_unsigned);
-    }
 }
 
 /* Declarations */
@@ -24551,195 +24567,6 @@ no_fail:
 }
 
 /* CIntFromPy */
-  static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *x) {
-    const long neg_one = (long) ((long) 0 - (long) 1), const_zero = (long) 0;
-    const int is_unsigned = neg_one > const_zero;
-#if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_Check(x))) {
-        if (sizeof(long) < sizeof(long)) {
-            __PYX_VERIFY_RETURN_INT(long, long, PyInt_AS_LONG(x))
-        } else {
-            long val = PyInt_AS_LONG(x);
-            if (is_unsigned && unlikely(val < 0)) {
-                goto raise_neg_overflow;
-            }
-            return (long) val;
-        }
-    } else
-#endif
-    if (likely(PyLong_Check(x))) {
-        if (is_unsigned) {
-#if CYTHON_USE_PYLONG_INTERNALS
-            const digit* digits = ((PyLongObject*)x)->ob_digit;
-            switch (Py_SIZE(x)) {
-                case  0: return (long) 0;
-                case  1: __PYX_VERIFY_RETURN_INT(long, digit, digits[0])
-                case 2:
-                    if (8 * sizeof(long) > 1 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(long) >= 2 * PyLong_SHIFT) {
-                            return (long) (((((long)digits[1]) << PyLong_SHIFT) | (long)digits[0]));
-                        }
-                    }
-                    break;
-                case 3:
-                    if (8 * sizeof(long) > 2 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(long) >= 3 * PyLong_SHIFT) {
-                            return (long) (((((((long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0]));
-                        }
-                    }
-                    break;
-                case 4:
-                    if (8 * sizeof(long) > 3 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(long) >= 4 * PyLong_SHIFT) {
-                            return (long) (((((((((long)digits[3]) << PyLong_SHIFT) | (long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0]));
-                        }
-                    }
-                    break;
-            }
-#endif
-#if CYTHON_COMPILING_IN_CPYTHON
-            if (unlikely(Py_SIZE(x) < 0)) {
-                goto raise_neg_overflow;
-            }
-#else
-            {
-                int result = PyObject_RichCompareBool(x, Py_False, Py_LT);
-                if (unlikely(result < 0))
-                    return (long) -1;
-                if (unlikely(result == 1))
-                    goto raise_neg_overflow;
-            }
-#endif
-            if (sizeof(long) <= sizeof(unsigned long)) {
-                __PYX_VERIFY_RETURN_INT_EXC(long, unsigned long, PyLong_AsUnsignedLong(x))
-#ifdef HAVE_LONG_LONG
-            } else if (sizeof(long) <= sizeof(unsigned PY_LONG_LONG)) {
-                __PYX_VERIFY_RETURN_INT_EXC(long, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
-#endif
-            }
-        } else {
-#if CYTHON_USE_PYLONG_INTERNALS
-            const digit* digits = ((PyLongObject*)x)->ob_digit;
-            switch (Py_SIZE(x)) {
-                case  0: return (long) 0;
-                case -1: __PYX_VERIFY_RETURN_INT(long, sdigit, (sdigit) (-(sdigit)digits[0]))
-                case  1: __PYX_VERIFY_RETURN_INT(long,  digit, +digits[0])
-                case -2:
-                    if (8 * sizeof(long) - 1 > 1 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(long, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                            return (long) (((long)-1)*(((((long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
-                        }
-                    }
-                    break;
-                case 2:
-                    if (8 * sizeof(long) > 1 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                            return (long) ((((((long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
-                        }
-                    }
-                    break;
-                case -3:
-                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(long, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                            return (long) (((long)-1)*(((((((long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
-                        }
-                    }
-                    break;
-                case 3:
-                    if (8 * sizeof(long) > 2 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                            return (long) ((((((((long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
-                        }
-                    }
-                    break;
-                case -4:
-                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(long, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
-                            return (long) (((long)-1)*(((((((((long)digits[3]) << PyLong_SHIFT) | (long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
-                        }
-                    }
-                    break;
-                case 4:
-                    if (8 * sizeof(long) > 3 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
-                            return (long) ((((((((((long)digits[3]) << PyLong_SHIFT) | (long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
-                        }
-                    }
-                    break;
-            }
-#endif
-            if (sizeof(long) <= sizeof(long)) {
-                __PYX_VERIFY_RETURN_INT_EXC(long, long, PyLong_AsLong(x))
-#ifdef HAVE_LONG_LONG
-            } else if (sizeof(long) <= sizeof(PY_LONG_LONG)) {
-                __PYX_VERIFY_RETURN_INT_EXC(long, PY_LONG_LONG, PyLong_AsLongLong(x))
-#endif
-            }
-        }
-        {
-#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
-            PyErr_SetString(PyExc_RuntimeError,
-                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
-#else
-            long val;
-            PyObject *v = __Pyx_PyNumber_IntOrLong(x);
- #if PY_MAJOR_VERSION < 3
-            if (likely(v) && !PyLong_Check(v)) {
-                PyObject *tmp = v;
-                v = PyNumber_Long(tmp);
-                Py_DECREF(tmp);
-            }
- #endif
-            if (likely(v)) {
-                int one = 1; int is_little = (int)*(unsigned char *)&one;
-                unsigned char *bytes = (unsigned char *)&val;
-                int ret = _PyLong_AsByteArray((PyLongObject *)v,
-                                              bytes, sizeof(val),
-                                              is_little, !is_unsigned);
-                Py_DECREF(v);
-                if (likely(!ret))
-                    return val;
-            }
-#endif
-            return (long) -1;
-        }
-    } else {
-        long val;
-        PyObject *tmp = __Pyx_PyNumber_IntOrLong(x);
-        if (!tmp) return (long) -1;
-        val = __Pyx_PyInt_As_long(tmp);
-        Py_DECREF(tmp);
-        return val;
-    }
-raise_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "value too large to convert to long");
-    return (long) -1;
-raise_neg_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "can't convert negative value to long");
-    return (long) -1;
-}
-
-/* CIntFromPy */
   static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
     const int neg_one = (int) ((int) 0 - (int) 1), const_zero = (int) 0;
     const int is_unsigned = neg_one > const_zero;
@@ -24926,6 +24753,195 @@ raise_neg_overflow:
     PyErr_SetString(PyExc_OverflowError,
         "can't convert negative value to int");
     return (int) -1;
+}
+
+/* CIntFromPy */
+  static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *x) {
+    const long neg_one = (long) ((long) 0 - (long) 1), const_zero = (long) 0;
+    const int is_unsigned = neg_one > const_zero;
+#if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_Check(x))) {
+        if (sizeof(long) < sizeof(long)) {
+            __PYX_VERIFY_RETURN_INT(long, long, PyInt_AS_LONG(x))
+        } else {
+            long val = PyInt_AS_LONG(x);
+            if (is_unsigned && unlikely(val < 0)) {
+                goto raise_neg_overflow;
+            }
+            return (long) val;
+        }
+    } else
+#endif
+    if (likely(PyLong_Check(x))) {
+        if (is_unsigned) {
+#if CYTHON_USE_PYLONG_INTERNALS
+            const digit* digits = ((PyLongObject*)x)->ob_digit;
+            switch (Py_SIZE(x)) {
+                case  0: return (long) 0;
+                case  1: __PYX_VERIFY_RETURN_INT(long, digit, digits[0])
+                case 2:
+                    if (8 * sizeof(long) > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(long) >= 2 * PyLong_SHIFT) {
+                            return (long) (((((long)digits[1]) << PyLong_SHIFT) | (long)digits[0]));
+                        }
+                    }
+                    break;
+                case 3:
+                    if (8 * sizeof(long) > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(long) >= 3 * PyLong_SHIFT) {
+                            return (long) (((((((long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0]));
+                        }
+                    }
+                    break;
+                case 4:
+                    if (8 * sizeof(long) > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(long) >= 4 * PyLong_SHIFT) {
+                            return (long) (((((((((long)digits[3]) << PyLong_SHIFT) | (long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0]));
+                        }
+                    }
+                    break;
+            }
+#endif
+#if CYTHON_COMPILING_IN_CPYTHON
+            if (unlikely(Py_SIZE(x) < 0)) {
+                goto raise_neg_overflow;
+            }
+#else
+            {
+                int result = PyObject_RichCompareBool(x, Py_False, Py_LT);
+                if (unlikely(result < 0))
+                    return (long) -1;
+                if (unlikely(result == 1))
+                    goto raise_neg_overflow;
+            }
+#endif
+            if (sizeof(long) <= sizeof(unsigned long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(long, unsigned long, PyLong_AsUnsignedLong(x))
+#ifdef HAVE_LONG_LONG
+            } else if (sizeof(long) <= sizeof(unsigned PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(long, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
+#endif
+            }
+        } else {
+#if CYTHON_USE_PYLONG_INTERNALS
+            const digit* digits = ((PyLongObject*)x)->ob_digit;
+            switch (Py_SIZE(x)) {
+                case  0: return (long) 0;
+                case -1: __PYX_VERIFY_RETURN_INT(long, sdigit, (sdigit) (-(sdigit)digits[0]))
+                case  1: __PYX_VERIFY_RETURN_INT(long,  digit, +digits[0])
+                case -2:
+                    if (8 * sizeof(long) - 1 > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(long, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                            return (long) (((long)-1)*(((((long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
+                        }
+                    }
+                    break;
+                case 2:
+                    if (8 * sizeof(long) > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                            return (long) ((((((long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
+                        }
+                    }
+                    break;
+                case -3:
+                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(long, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                            return (long) (((long)-1)*(((((((long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
+                        }
+                    }
+                    break;
+                case 3:
+                    if (8 * sizeof(long) > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                            return (long) ((((((((long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
+                        }
+                    }
+                    break;
+                case -4:
+                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(long, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
+                            return (long) (((long)-1)*(((((((((long)digits[3]) << PyLong_SHIFT) | (long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
+                        }
+                    }
+                    break;
+                case 4:
+                    if (8 * sizeof(long) > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
+                            return (long) ((((((((((long)digits[3]) << PyLong_SHIFT) | (long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
+                        }
+                    }
+                    break;
+            }
+#endif
+            if (sizeof(long) <= sizeof(long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(long, long, PyLong_AsLong(x))
+#ifdef HAVE_LONG_LONG
+            } else if (sizeof(long) <= sizeof(PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(long, PY_LONG_LONG, PyLong_AsLongLong(x))
+#endif
+            }
+        }
+        {
+#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
+            PyErr_SetString(PyExc_RuntimeError,
+                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
+#else
+            long val;
+            PyObject *v = __Pyx_PyNumber_IntOrLong(x);
+ #if PY_MAJOR_VERSION < 3
+            if (likely(v) && !PyLong_Check(v)) {
+                PyObject *tmp = v;
+                v = PyNumber_Long(tmp);
+                Py_DECREF(tmp);
+            }
+ #endif
+            if (likely(v)) {
+                int one = 1; int is_little = (int)*(unsigned char *)&one;
+                unsigned char *bytes = (unsigned char *)&val;
+                int ret = _PyLong_AsByteArray((PyLongObject *)v,
+                                              bytes, sizeof(val),
+                                              is_little, !is_unsigned);
+                Py_DECREF(v);
+                if (likely(!ret))
+                    return val;
+            }
+#endif
+            return (long) -1;
+        }
+    } else {
+        long val;
+        PyObject *tmp = __Pyx_PyNumber_IntOrLong(x);
+        if (!tmp) return (long) -1;
+        val = __Pyx_PyInt_As_long(tmp);
+        Py_DECREF(tmp);
+        return val;
+    }
+raise_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "value too large to convert to long");
+    return (long) -1;
+raise_neg_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "can't convert negative value to long");
+    return (long) -1;
 }
 
 /* CIntFromPy */

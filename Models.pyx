@@ -234,10 +234,10 @@ cdef class Model: # see pxd
     # cdef long[::1]  _updateState(self, long[::1] nodesToUpdate) :
     cdef long[::1]  _updateState(self, long[::1] nodesToUpdate) nogil:
         return self._nodeids
-
-
+    #
+    #
     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
-        return self._nodeids
+        return self._updateState(nodesToUpdate)
 
 
     cdef double rand(self) nogil:
@@ -249,7 +249,7 @@ cdef class Model: # see pxd
     @cython.cdivision(True)
     @cython.initializedcheck(False)
     @cython.overflowcheck(False)
-    cpdef long[:, ::1] sampleNodes(self, long nSamples):
+    cpdef long[:, ::1] sampleNodes(self, int nSamples):
         return self._sampleNodes(nSamples)
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -257,7 +257,7 @@ cdef class Model: # see pxd
     @cython.cdivision(True)
     @cython.initializedcheck(False)
     @cython.overflowcheck(False)
-    cdef long[:, ::1] _sampleNodes(self, long  nSamples) nogil:
+    cdef long[:, ::1] _sampleNodes(self, int  nSamples) nogil:
     # cdef long [:, ::1] sampleNodes(self, long  nSamples):
         """
         Shuffles nodeids only when the current sample is larger
@@ -324,16 +324,17 @@ cdef class Model: # see pxd
     @cython.cdivision(True)
     @cython.initializedcheck(False)
     @cython.overflowcheck(False)
-    cpdef np.ndarray simulate(self, long long int  samples):
+    cpdef np.ndarray simulate(self, int  samples):
         cdef:
             long[:, ::1] results = np.zeros((samples, self._nNodes), int)
             # int sampleSize = 1 if self._updateType == 'single' else self._nNodes
             long[:, ::1] r = self.sampleNodes(samples)
             # vector[vector[int][sampleSize]] r = self.sampleNodes(samples)
             int i
+
         results[0] = self._states
-        for i in range(samples - 1):
-            results[i + 1] = self.updateState(r[i])
+        for i in range(samples):
+            results.base[i] = self.updateState(r[i])
         return results.base # convert back to normal array
 
     # TODO: make class pickable

@@ -9,7 +9,7 @@ Created on Fri Jun  7 10:37:33 2019
 
 import matplotlib.pyplot as plt, numpy as np
 from vispy import app, scene, visuals
-from Models.models cimport Model
+from Models.Models cimport Model
 import networkx as nx
 
 cdef class Percolation(Model):

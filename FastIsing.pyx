@@ -7,7 +7,7 @@ Created on Tue Feb  6 09:36:17 2018
 
 @author: Casper van Elteren
 """
-from Models.models cimport Model
+from Models.Models cimport Model
 # from models cimport Model
 import numpy  as np
 cimport numpy as np

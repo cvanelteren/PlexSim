@@ -61,18 +61,24 @@ cdef class Model:
     cpdef void construct(self, object graph, \
                     list agentStates)
 
-    cpdef long[::1] updateState(self, long[::1] nodesToUpdate)
+    cpdef  long[::1] updateState(self, long[::1] nodesToUpdate)
+    # cpdef long[::1] updateState(self, long[::1] nodesToUpdate)
+    # cpdef double[:, ::1] updateState(self, long[::1] nodesToUpdate)
+
+    # cpdef double[:, ::1] updateState(self, long[::1] nodesToUpdate)
+
     cdef long[::1]  _updateState(self, long[::1] nodesToUpdate) nogil
+    # cdef double[::1]  _updateState(self, long[::1] nodesToUpdate) nogil
     # cdef long[::1]  _updateState(self, long[::1] nodesToUpdate)
 
-    cdef  long[:, ::1] _sampleNodes(self, long nSamples) nogil
+    cdef  long[:, ::1] _sampleNodes(self, int nSamples) nogil
 
-    cpdef long[:, ::1] sampleNodes(self, long nSamples)
+    cpdef long[:, ::1] sampleNodes(self, int nSamples)
     # cdef  vector sampleNodes(self, long Samples) nogil
     # cdef  long[:, ::1] sampleNodes(self, long Samples)
 
     cdef double rand(self) nogil
-    cpdef np.ndarray simulate(self, long long int  samples)
+    cpdef np.ndarray simulate(self, int samples)
 
     # cpdef long[::1] updateState(self, long[::1] nodesToUpdate)
 

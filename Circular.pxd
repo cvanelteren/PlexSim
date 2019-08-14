@@ -1,5 +1,5 @@
 #distutils: language = c++
-from Models.models cimport Model
+from Models.Models cimport Model
 
 
 cdef class CCA(Model):
@@ -8,5 +8,5 @@ cdef class CCA(Model):
 
     cdef long _evolve(self, long node) nogil
     # overload the parent functions
-    # cpdef long[::1] updateState(self, long[::1] nodesToUpdate)
-    # cdef long[::1] _updateState(self, long[::1] nodesToUpdate) nogil
+    cpdef long[::1] updateState(self, long[::1] nodesToUpdate)
+    cdef long[::1] _updateState(self, long[::1] nodesToUpdate) nogil

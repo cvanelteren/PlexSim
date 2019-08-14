@@ -1,5 +1,5 @@
-# from Models.models cimport Model
-from Models.models cimport Model
+# from Models.Models cimport Model
+from Models.Models cimport Model
 from libcpp.vector cimport vector
 from libcpp.map cimport map
 from libcpp.unordered_map cimport unordered_map

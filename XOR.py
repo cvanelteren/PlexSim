@@ -6,7 +6,7 @@ Created on Sun Apr  1 18:59:12 2018
 """
 import networkx as nx
 #from models import Model
-from fastIsing import Ising
+from FastIsing import Ising
 from numpy import *
 class XOR(Ising):
     # TODO: this class is presenteed as is; the target in updateState needs to be considered

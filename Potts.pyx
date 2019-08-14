@@ -1,5 +1,5 @@
 # distutils: language=c++
-from Models.models cimport Model
+from Models.Models cimport Model
 from libcpp.vector cimport vector
 
 # from models cimport Model
