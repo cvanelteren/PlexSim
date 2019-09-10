@@ -132,7 +132,7 @@ cdef class Ising(Model):
         # t = np.zeros(magRatios.size)
         t = {}
         for idx, mr in enumerate(magRatios):
-          t[mr] = optimize.root(\
+          t[np.round(mr, 2)] = optimize.root(\
                       froot,\
                       0, \
                       args = (optCoeffs, mr),\
@@ -338,7 +338,6 @@ cdef class Ising(Model):
             modelsPy.append(tmp)
             tmpHolder.push_back(PyObjectHolder(<PyObject *> tmp))
 
-        print('here')
         for i in prange(N, nogil = True, schedule = 'static',\
                         num_threads = threads):
             # m = copy.deepcopy(self)
