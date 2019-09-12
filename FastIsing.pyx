@@ -7,11 +7,11 @@ Created on Tue Feb  6 09:36:17 2018
 
 @author: Casper van Elteren
 """
-from Models.Models cimport Model
 # from models cimport Model
 import numpy  as np
 cimport numpy as np
 
+from Models.Models cimport Model
 from scipy.stats import linregress
 import networkx as nx, multiprocessing as mp, \
                 scipy,  functools, copy, time
@@ -65,12 +65,12 @@ cdef class Ising(Model):
 
         # this be a tuple with list, dict
 
-        # cdef tuple equilibriate = \
-        # kwargs.get('equilibrium', ())
+        cdef tuple equilibriate = \
+        kwargs.get('equilibrium', ())
 
-        # if equilibriate:
-          # print('Starting equilibration')
-          # self.equilibriate(*equilibriate)
+        if equilibriate:
+          print('Starting equilibration')
+          self.equilibriate(*equilibriate)
         # kwargs.pop('equilibrium', None)
 
 
@@ -113,6 +113,10 @@ cdef class Ising(Model):
         # run simulation
         # returns mag and sus
         magValues = self.matchMagnetization(**settings)
+        # magValues[0, :] = (magValues[0] - magValues[0].min()) / (magValues[0].max() - magValues[0].min())
+
+        # print(magValues)
+
         # normalize 0, 1
         # magValues = (magValues - magValues.min()) / (magValues.max() - magValues.min())
 
@@ -121,7 +125,7 @@ cdef class Ising(Model):
         from scipy import optimize
         optCoeffs = optimize.curve_fit(\
               sigmoid, settings['temperatures'], \
-              magValues[0])[0]
+              magValues[0], maxfev = int(1e5))[0]
 
         matched = {}
 
@@ -131,6 +135,7 @@ cdef class Ising(Model):
         matched['mag'] = magValues
         # t = np.zeros(magRatios.size)
         t = {}
+
         for idx, mr in enumerate(magRatios):
           t[np.round(mr, 2)] = optimize.root(\
                       froot,\
@@ -369,8 +374,15 @@ cdef class Ising(Model):
         return tmp
 
     def __reduce__(self):
-        tmp = {i: getattr(self, i) for i in dir(self)}
-        return (rebuild, tmp)
+        graph = self.graph
+        t     = self.t
+        magSide = self.magSide
+        updateType = self.updateType
+        nudges = self.nudges.base
+        states = self.states.base
+
+        return ( rebuild,  (graph, t, nudges, states, magSide, updateType))
+        # return (rebuild, tmp)
 
     # PROPERTIES
     @property
@@ -407,7 +419,17 @@ cdef class Ising(Model):
         self._t   = value
         self.beta = 1 / value if value != 0 else np.inf
 
-def rebuild(**kwargs):
-    cdef Ising tmp = Ising(**kwargs)
-    tmp.nudges = kwargs.get('nudges').copy()
-    return tmp
+def rebuild(graph, t, nudges, states, magSide, updateType):
+  cdef Ising tmp = Ising(graph, t = t,\
+   magSide = magSide, updateType = updateType)
+  tmp.nudges = nudges.copy()
+  tmp.states = states.copy()
+  return tmp
+#def rebuild(d):
+#    cdef dict kwargs = {}
+#    for (k, v ) in d:
+#      kwargs[k] = v
+#    print("rebuilding", kwargs)
+#    cdef Ising tmp = Ising(**kwargs)
+#    tmp.nudges = kwargs.get('nudges').copy()
+#    return tmp

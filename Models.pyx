@@ -1,7 +1,6 @@
-# cython: infer_types=True
 # distutils: language=c++
 # __author__ = 'Casper van Elteren'
-
+cimport cython
 
 import numpy as np
 cimport numpy as np
@@ -9,7 +8,6 @@ import networkx as nx, functools, time
 from tqdm import tqdm
 import copy
 
-cimport cython
 from cython.parallel cimport parallel, prange
 from cython.operator cimport dereference, preincrement
 from libc.stdlib cimport malloc, free
@@ -289,8 +287,8 @@ cdef class Model: # see pxd
 
         # replace with nogil variant
         with gil:
-            samples = np.ndarray((nSamples, sampleSize), dtype = int)
-
+            samples = np.zeros((nSamples, sampleSize), dtype = long,\
+                                order = 'C')
         for samplei in range(nSamples):
             # shuffle if the current tracker is larger than the array
             start  = (samplei * sampleSize) % self._nNodes
@@ -326,7 +324,7 @@ cdef class Model: # see pxd
     @cython.overflowcheck(False)
     cpdef np.ndarray simulate(self, int  samples):
         cdef:
-            long[:, ::1] results = np.zeros((samples, self._nNodes), int)
+            long[:, ::1] results = np.zeros((samples, self._nNodes), long)
             # int sampleSize = 1 if self._updateType == 'single' else self._nNodes
             long[:, ::1] r = self.sampleNodes(samples)
             # vector[vector[int][sampleSize]] r = self.sampleNodes(samples)
@@ -378,7 +376,8 @@ cdef class Model: # see pxd
     def nodeids(self)   : return self._nodeids
     @property
     def seed(self)      : return self._seed
-    @ memorySize.setter
+
+    @memorySize.setter
     def memorySize(self, value):
         self._memorySize = value
 
@@ -438,7 +437,7 @@ cdef class Model: # see pxd
         try:
             tmp = float(value)
             assert tmp > 0, "Don't think you want to sample 0 nodes"
-            self._sampleSize = <long>(tmp * self._nNodes)
+            self._sampleSize = np.max((<long>(tmp * self._nNodes), 1))
         except Exception as e:
             pass
         # single
@@ -465,73 +464,3 @@ cdef class Model: # see pxd
             for k, v in value.items():
                 idx = self.mapping[k]
                 self._states[idx] = v
-
-
-
-
-
-
-
-
-    # TODOL move this back ^
-    # cdef long[::1] updateState(self, int[:] nodesToUpdate):
-    #     ""
-    #     Implement this method
-    #     """
-    #     assert False
-    # @cython.wraparound(False)
-    # @cython.boundscheck(False)
-    # @cython.nonecheck(False)
-    # cpdef simulate(self, int nSamples, int step):
-    #     # pre-define number of simulation steps
-    #     cdef int N   = nSamples * step + 1
-    #     cdef long[:, :] nodesToUpdate = self.sampleNodes(N)
-    #     # nodesToUpdate = np.array([self.sampleNodes[self.mode](self.nodeIDs) for i in range(nSamples * step + 1)])
-    #     # init storage vector
-    #     cdef simulationResults = np.zeros( (nSamples + 1, self.nNodes), dtype = self.statesDtype) # TODO: this should be a generator as well
-    #     cdef long[:] states               = self.states
-    #
-    #     simulationResults[0, :]   = states # always store current state
-    #
-    #     # loop declaration
-    #     cdef double nudge
-    #     cdef int sampleCounter = 1
-    #     cdef int stepCounter   = 1 # zero step is already done?
-    #
-    #     cdef dict mapping     = self.mapping
-    #     cdef double[:] nudges = self.nudges
-    #     cdef updateState      = self.updateState
-    #     cdef str nudgeType    = self.nudgeType
-    #     for sampleCounter in range(N):
-    #         if pulse: # run pulse; remove nudges after sim step
-    #             copyNudge = nudges.copy() # make deep copy  #TODO: think this will cause slowdowns for very large networks
-    #             for node, nudge in pulse.items():
-    #                 if isinstance(node, tuple):
-    #                     for i in node:
-    #                         nudges[mapping[i]] = nudge
-    #                 else:
-    #                     # inject overwhelming pulse for 1 delta
-    #                     if nudgeType == 'pulse':
-    #                         state = states[mapping[node]]
-    #                         nudges[mapping[node]] =  nudge
-    #                     # constant pulse add
-    #                     else:
-    #                         nudges[mapping[node]] = nudge
-    #
-    #         # self.updateState(next(nodesToUpdate))
-    #         updateState(nodesToUpdate[stepCounter])
-    #         # self.updateState(nodesToUpdate.__next__()) # update generator
-    #         # twice swap cuz otherway was annoying
-    #         if pulse:
-    #             nudges = copyNudge # reset the copy
-    #             if nudgeType == 'pulse':
-    #               pulse = {}
-    #             elif nudgeType == 'constant' and sampleCounter >= nSamples // 2:
-    #               pulse = {}
-    #         if stepCounter % step == 0: # if stepCounter starts at zero 1 step is already made
-    #             simulationResults[sampleCounter] = states
-    #             sampleCounter += 1 # update sample counter
-    #         stepCounter += 1  # update step counter
-    #     # out of while
-    #     else:
-    #         return simulationResults
