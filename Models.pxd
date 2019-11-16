@@ -16,6 +16,12 @@ cdef extern from "<random>" namespace "std" nogil:
         uniform_real_distribution(T a, T b)
         T operator()(mt19937 gen) # ignore the possibility of using other classes for "gen"
 
+ctypedef fused STATEDTYPE:
+    int 
+    long
+    float
+    double
+
 cdef struct Connection:
     vector[int] neighbors
     vector[double] weights
