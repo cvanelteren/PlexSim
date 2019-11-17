@@ -364,7 +364,7 @@ cdef class Ising(Model):
                 # results[1, i] = ((magres**2).mean() - magres.mean()**2) * (<Ising> tmptr).beta
                 pbar.update(1)
         results[1, :] = abs(np.gradient(results[0], temperatures, edge_order = 1))
-        results[0, :] = (results[0] - results[0].min()) / (results[0].max() - results[0].min())
+        #results[0, :] = (results[0] - results[0].min()) / (results[0].max() - results[0].min())
         # print(results[0])
         self.t = tcopy # reset temp
         return results
