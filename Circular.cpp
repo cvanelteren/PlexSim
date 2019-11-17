@@ -1283,8 +1283,8 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 struct __pyx_t_6Models_6Models_Connection;
 
-/* "Models/Models.pxd":19
- *         T operator()(mt19937 gen) # ignore the possibility of using other classes for "gen"
+/* "Models/Models.pxd":25
+ *     double
  * 
  * cdef struct Connection:             # <<<<<<<<<<<<<<
  *     vector[int] neighbors
@@ -1295,7 +1295,7 @@ struct __pyx_t_6Models_6Models_Connection {
   std::vector<double>  weights;
 };
 
-/* "Models/Models.pxd":23
+/* "Models/Models.pxd":29
  *     vector[double] weights
  * 
  * cdef class Model:             # <<<<<<<<<<<<<<
@@ -1416,7 +1416,7 @@ struct __pyx_memoryviewslice_obj {
 
 
 
-/* "Models/Models.pxd":23
+/* "Models/Models.pxd":29
  *     vector[double] weights
  * 
  * cdef class Model:             # <<<<<<<<<<<<<<
