@@ -1,6 +1,6 @@
 #distutils: language = c++
 cimport cython
-from Models.Models cimport Model
+from PlexSim.Models.Models cimport Model
 
 cdef class Percolation(Model):
     cdef:

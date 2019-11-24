@@ -1,5 +1,5 @@
 #distutils: language = c++
-from Models.Models cimport Model
+from PlexSim.Models.Models cimport Model
 
 
 cdef class CCA(Model):

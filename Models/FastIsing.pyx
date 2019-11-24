@@ -11,7 +11,7 @@ Created on Tue Feb  6 09:36:17 2018
 import numpy  as np
 cimport numpy as np
 
-from Models.Models cimport Model
+from PlexSim.Models.Models cimport Model
 from scipy.stats import linregress
 import networkx as nx, multiprocessing as mp, \
                 scipy,  functools, copy, time
@@ -31,7 +31,7 @@ from libc.stdio cimport printf
 
 
 # from libc.math cimport max, min
-from Models.parallel cimport *
+from PlexSim.Models.parallel cimport *
 # use external exp
 cdef extern from "vfastexp.h":
     double exp_approx "EXP" (double) nogil

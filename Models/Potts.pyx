@@ -1,5 +1,5 @@
 # distutils: language=c++
-from Models.Models cimport Model
+from PlexSim.Models.Models cimport Model
 from libcpp.vector cimport vector
 
 # from models cimport Model
@@ -13,7 +13,7 @@ from libc.math cimport exp, log, cos, pi
 cimport cython
 from cython.parallel cimport prange, threadid
 
-from Models.parallel cimport *
+from PlexSim.Models.parallel cimport *
 
 
 cdef class Potts(Model):
