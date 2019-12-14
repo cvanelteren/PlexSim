@@ -68,6 +68,10 @@ cdef class Model:
                     list agentStates)
 
     cpdef  long[::1] updateState(self, long[::1] nodesToUpdate)
+
+    cdef void _hebbianUpdate(self)
+
+    cdef double _learningFunction(self, int xi, int xj)
     # cpdef long[::1] updateState(self, long[::1] nodesToUpdate)
     # cpdef double[:, ::1] updateState(self, long[::1] nodesToUpdate)
 

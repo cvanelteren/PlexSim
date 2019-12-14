@@ -185,6 +185,7 @@ cdef class Potts(Model):
                         # with gil: print(memTime)
                         self._memory[memTime, node] = self._memory[memTime - 1, node]
                 self._memory[0, node] = self._states[node]
+        self._hebbianUpdate()
         return self._states
 
     cpdef  np.ndarray matchMagnetization(self,\

@@ -17,7 +17,7 @@ from libc.stdio cimport printf
 from libcpp.vector cimport vector
 from libcpp.map cimport map
 from libcpp.unordered_map cimport unordered_map
-from libc.math cimport lround
+from libc.math cimport lround, abs
 # cdef extern from "limits.h":
 #     int INT_MAX
 #     int RAND_MAX
@@ -74,7 +74,6 @@ cdef class Model: # see pxd
         # TODO: remove
         tmp =  kwargs.get('kwargs', {})
         self.nudges = tmp.get('nudges', {})
-
 
     cpdef void construct(self, object graph, list agentStates):
         """
@@ -139,7 +138,7 @@ cdef class Model: # see pxd
                     adj[target].weights.push_back(weight)
         # version <= 1.0
         else:
-            print("Using legacy loader")
+            # print("Using legacy loader")
             from ast import literal_eval
             for line in nx.generate_multiline_adjlist(graph, ','):
                 add = False # tmp for not overwriting doubles
@@ -154,12 +153,12 @@ cdef class Model: # see pxd
                         lineData.append(prop) # for strings
                 node, info = lineData
                 # check properties, assign defaults
-                if 'state' not in graph.node[node]:
+                if 'state' not in graph.nodes[node]:
                     idx = np.random.choice(agentStates)
                     # print(idx, agentStates)
-                    graph.node[node]['state'] = idx
-                if 'nudge' not in graph.node[node]:
-                    graph.node[node]['nudge'] =  DEFAULTNUDGE
+                    graph.nodes[node]['state'] = idx
+                if 'nudge' not in graph.nodes[node]:
+                    graph.nodes[node]['nudge'] =  DEFAULTNUDGE
 
                 # if not dict then it is a source
                 if isinstance(info, dict) is False:
@@ -174,8 +173,8 @@ cdef class Model: # see pxd
                     source   = node
                     sourceID = mapping[node]
 
-                    states[sourceID] = <long> graph.node[node]['state']
-                    nudges[sourceID] = <double> graph.node[node]['nudge']
+                    states[sourceID] = <long> graph.nodes[node]['state']
+                    nudges[sourceID] = <double> graph.nodes[node]['nudge']
                 # check neighbors
                 else:
                     if 'weight' not in info:
@@ -451,6 +450,7 @@ cdef class Model: # see pxd
 
     @states.setter # TODO: expand
     def states(self, value):
+        cdef int idx
         if isinstance(value, int):
             self._newstates[:] = value
             self._states   [:] = value
@@ -464,3 +464,55 @@ cdef class Model: # see pxd
             for k, v in value.items():
                 idx = self.mapping[k]
                 self._states[idx] = v
+
+    cdef void _hebbianUpdate(self):
+        """
+        Hebbian learning rule that will strengthen similar
+        connections and weaken dissimilar connections
+
+        """
+
+        # TODO: add learning rate delta
+        # TODO: use hamiltonian function -> how to make general
+        cdef:
+            int nodeI, nodeJ
+            int neighbors, neighbor
+            int stateI, stateJ
+            double weightI, weightJ # weights
+            double Z # normalization constant
+            double tmp
+
+            vector[double] hebbianWeights
+        # get neighbors
+        for nodeI in range(self._nNodes):
+            # update connectivity weight
+            stateI = self._states[nodeI]
+            neighbors = self._adj[nodeI].neighbors.size()
+            # init values
+            Z = 0
+            
+            hebbianWeights = range(neighbors) 
+            # construct weight vector
+            for nodeJ in range(neighbors):
+                neighbor = self._adj[nodeI].neighbors[nodeJ]
+                stateJ = self._states[neighbor]
+                weightJ = self._adj[nodeI].weights[nodeJ]
+                tmp = 1 + .1 * weightJ * self._learningFunction(stateI, stateJ)
+                hebbianWeights[nodeJ] =  tmp
+
+                Z = Z + tmp
+
+            # update the weights
+            for nodeJ in range(neighbors):
+                self._adj[nodeI].weights[nodeJ] = hebbianWeights[nodeJ] / Z
+                
+
+                
+                
+
+
+    cdef double _learningFunction(self, int xi, int xj):
+        """
+        From Ito & Kaneko 2002
+        """
+        return 1 - 2 * (xi - xj)
