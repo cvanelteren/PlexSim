@@ -16,6 +16,7 @@ from scipy.stats import linregress
 import networkx as nx, multiprocessing as mp, \
                 scipy,  functools, copy, time
 from tqdm import tqdm
+from pyprind import ProgBar
 
 # ___CythonImports___
 cimport cython
@@ -25,6 +26,7 @@ from cython.parallel cimport prange, parallel, threadid
 
 from libc.math cimport exp
 from libcpp.map cimport map
+from libcpp.unordered_map cimport unordered_map
 from libcpp.vector cimport vector
 from cython.operator cimport dereference, preincrement, postincrement
 from libc.stdio cimport printf
@@ -219,7 +221,7 @@ cdef class Ising(Model):
             neighbor = self._adj[node].neighbors[i]
             weight   = self._adj[node].weights[i]
             energy  -= states[node] * states[neighbor] * weight
-        if not self._nudges.find(node) == self._nudges.end():
+        if self._nudges.find(node) != self._nudges.end():
             energy -= self._nudges[node] * states[node]
         # energy *= (1 + self._nudges[node])
         return energy
@@ -244,7 +246,7 @@ cdef class Ising(Model):
             # long[::1] newstates = self._newstates
             int length          = nodesToUpdate.shape[0]
             double Z            = <double> self._nNodes
-            long node
+            long node, newstate
             double energy, p
             int n
         # for n in prange(length,  = True): # dont prange this
@@ -256,7 +258,10 @@ cdef class Ising(Model):
             p  = 1 / ( 1. + exp(-self._beta * 2. * energy))
             # update only if necessary
             if self.rand() < p:
-                self._newstates[node] = -self._states[node]
+                newstate = -self._states[node]
+                self._newstates[node] = newstate
+                if self._updateType == 'async':
+                    self._states[node] = newstate
         # uggly
         cdef double mu   =  0 # sign
         cdef long   NEG  = -1 # see the self.magSideOptions
@@ -266,8 +271,6 @@ cdef class Ising(Model):
        #     # self._states[node] = self._newstates[node] # update
        #     mu          += self._states[node] # normalization not really needed
        # Update new states
-        with gil:
-            print(self._newstates)
         cdef unordered_map[long, long].iterator start = self._newstates.begin()
         while start != self._newstates.end():
             node = dereference(start).first
@@ -330,7 +333,8 @@ cdef class Ising(Model):
             np.ndarray magres
             list modelsPy = []
         print("Computing mag per t")
-        pbar = tqdm(total = N)
+        # pbar = tqdm(total = N)
+        pbar = ProgBar(N)
         # for i in prange(N, nogil = True, num_threads = threads, \
                         # schedule = 'static'):
             # with gil:

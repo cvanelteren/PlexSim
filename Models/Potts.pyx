@@ -1,10 +1,11 @@
-# distutils: language=c++
+#distutils: language=c++
 from PlexSim.Models.Models cimport Model
 from libcpp.vector cimport vector
 
 # from models cimport Model
 import copy
 from tqdm import tqdm
+from pyprind import ProgBar
 import multiprocessing as mp
 import numpy  as np
 cimport numpy as np
@@ -12,7 +13,8 @@ cimport numpy as np
 from libc.math cimport exp, log, cos, pi
 cimport cython
 from cython.parallel cimport prange, threadid
-
+from cython.operator cimport postincrement, dereference
+from libcpp.unordered_map cimport unordered_map
 from PlexSim.Models.parallel cimport *
 
 
@@ -40,7 +42,7 @@ cdef class Potts(Model):
             H[nodeID] = self.graph.nodes()[node].get('H', 0)
         # for some reason deepcopy works with this enabled...
         self.states = np.asarray(self.states.base).copy()
-        self.nudges = np.asarray(self.nudges.base).copy()
+        # self.nudges = np.asarray(self.nudges.base).copy()
 
         # specific model parameters
         self._H      = H
@@ -166,6 +168,8 @@ cdef class Potts(Model):
             vector[double] probs
             int agentState
             double randomNumber
+        # clear buffer
+        self._newstates.clear()
         for nodeidx in range(nodes):
             node         = nodesToUpdate[nodeidx]
             probs        = self.energy(node, self._states)
@@ -173,18 +177,27 @@ cdef class Potts(Model):
             # with gil:
                 # print(probs)
             if randomNumber <= exp(- self._beta * (probs[1] - probs[0])):
-                self._newstates[node] = <int> probs[2]
+                newstate = <int> probs[2]
+                self._newstates[node] = newstate
+                if self._updateType == 'async':
+                    self._states[node] = newstate
 
         # fill memory  by shifting all rows down by 1
-        cdef int memTime
+        cdef:
+            int memTime
         # repopulate buffer
-        for node in range(self._nNodes):
-            self._states[node]    = self._newstates[node]
-            if self._memorySize:
-                for memTime in range(self._memorySize - 1, 0, -1):
-                        # with gil: print(memTime)
-                        self._memory[memTime, node] = self._memory[memTime - 1, node]
-                self._memory[0, node] = self._states[node]
+            unordered_map[long, long].iterator start = \
+                    self._newstates.begin()
+
+        while start != self._newstates.end():
+            node = dereference(start).first
+            self._states[node] = dereference(start).second
+            postincrement(start)
+          #  if self._memorySize:
+          #      for memTime in range(self._memorySize - 1, 0, -1):
+          #              # with gil: print(memTime)
+          #              self._memory[memTime, node] = self._memory[memTime - 1, node]
+          #      self._memory[0, node] = self._states[node]
         # self._hebbianUpdate()
         return self._states
 
@@ -218,7 +231,8 @@ cdef class Potts(Model):
 
 
             print("Computing mag per t")
-            pbar = tqdm(total = N)
+            #pbar = tqdm(total = N)
+            pbar = ProgBar(N)
             # for i in prange(N, nogil = True, num_threads = threads, \
                             # schedule = 'static'):
                 # with gil:
