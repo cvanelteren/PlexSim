@@ -26,7 +26,7 @@ from cython.parallel cimport prange, parallel, threadid
 from libc.math cimport exp
 from libcpp.map cimport map
 from libcpp.vector cimport vector
-from cython.operator cimport dereference, preincrement
+from cython.operator cimport dereference, preincrement, postincrement
 from libc.stdio cimport printf
 
 
@@ -248,11 +248,13 @@ cdef class Ising(Model):
             double energy, p
             int n
         # for n in prange(length,  = True): # dont prange this
+        self._newstates.clear()
         for n in range(length):
             node      = nodesToUpdate[n]
             energy    = self.energy(node, self._states)
             # p = 1 / ( 1. + exp_approx(-self.beta * 2. * energy) )
             p  = 1 / ( 1. + exp(-self._beta * 2. * energy))
+            # update only if necessary
             if self.rand() < p:
                 self._newstates[node] = -self._states[node]
         # uggly
@@ -260,16 +262,24 @@ cdef class Ising(Model):
         cdef long   NEG  = -1 # see the self.magSideOptions
         cdef long   POS  =  1
         # compute mean
-        for node in range(self._nNodes):
-            self._states[node] = self._newstates[node] # update
-            mu          += self._states[node] # normalization not really needed
+       # for node in range(self._nNodes):
+       #     # self._states[node] = self._newstates[node] # update
+       #     mu          += self._states[node] # normalization not really needed
+       # Update new states
+        with gil:
+            print(self._newstates)
+        cdef unordered_map[long, long].iterator start = self._newstates.begin()
+        while start != self._newstates.end():
+            node = dereference(start).first
+            self._states[node] = dereference(start).second
+            postincrement(start)
 
-        # out of state equilibrium?
-        if (mu < 0 and self._magSide == POS) or\
-         (mu > 0 and self._magSide == NEG):
-            # flip if true
-            for node in range(self._nNodes):
-                self._states[node] = -self._states[node]
+       # # out of state equilibrium?
+       # if (mu < 0 and self._magSide == POS) or\
+       #  (mu > 0 and self._magSide == NEG):
+       #     # flip if true
+       #     for node in range(self._nNodes):
+       #         self._states[node] = -self._states[node]
         return self._states
 
 

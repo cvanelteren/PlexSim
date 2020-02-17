@@ -36,7 +36,9 @@ cdef class Model:
         # np.ndarray  agentStates
 
         long[::1] _states
-        long[::1] _newstates # alias
+
+        unordered_map[long, long] _newstates
+        # long[::1] _newstates # alias
 
         long[::1]  _nodeids
         long[::1]  _agentStates

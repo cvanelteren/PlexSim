@@ -218,7 +218,8 @@ cdef class Model: # see pxd
         np.random.shuffle(_nodeids) # prevent initial scan-lines in grid
         self._nodeids   = _nodeids.copy()
         self._states    = states.copy()
-        self._newstates = states.copy()
+
+        # self._newstates = states.copy()
         self._nNodes    = graph.number_of_nodes()
 
     # cdef long[::1]  _updateState(self, long[::1] nodesToUpdate) :
@@ -397,11 +398,13 @@ cdef class Model: # see pxd
         elif isinstance(vals, np.ndarray):
             assert len(vals) == self.nNodes
             for node in range(self.nNodes):
-                self._nudges[node] = vals[node]
+                if vals[node]:
+                    self._nudges[node] = vals[node]
         elif isinstance(vals, cython.view.memoryview):
             assert len(vals) == self.nNodes
             for node in range(self.nNodes):
-                self._nudges[node] = vals.base[node]
+                if vals.base[node]:
+                    self._nudges[node] = vals.base[node]
     @updateType.setter
     def updateType(self, value):
         """
@@ -417,18 +420,15 @@ cdef class Model: # see pxd
 
         self._updateType = value
         # allow for mutation if async else independent updates
-        self._newstates = self._states.copy()
-        if value == 'async':
-            self._newstates = self._states # allow mutability
+        # self._newstates = self._states.copy()
+        if value == 'async' or value == 'sync':
             self._sampleSize = self._nNodes
-
+            #for node in range(self.nNodes):
+             #   self._newstates[node] = self._states[node]
         # scan lines
         if value == 'serial':
             self._sampleSize = self._nNodes
             self._nodeids = np.sort(self._nodeids) # enforce  for sampler
-        if value == 'sync':
-            self._sampleSize = self._nNodes
-            self._newstates = self._states.copy()
         # percentage
         try:
             tmp = float(value)
@@ -449,13 +449,11 @@ cdef class Model: # see pxd
     def states(self, value):
         cdef int idx
         if isinstance(value, int):
-            self._newstates[:] = value
             self._states   [:] = value
         # TODO: change this to iterable check
         elif isinstance(value, np.ndarray) or isinstance(value, list):
             assert len(value) == self.nNodes
             value = np.asarray(value) # enforce
-            self._newstates = value
             self._states    = value
         elif isinstance(value, dict):
             for k, v in value.items():
