@@ -185,7 +185,7 @@ cdef class Potts(Model):
                         # with gil: print(memTime)
                         self._memory[memTime, node] = self._memory[memTime - 1, node]
                 self._memory[0, node] = self._states[node]
-        self._hebbianUpdate()
+        # self._hebbianUpdate()
         return self._states
 
     cpdef  np.ndarray matchMagnetization(self,\
@@ -243,7 +243,7 @@ cdef class Potts(Model):
                 with gil:
                     t                  = temps[i]
                     (<Potts> tmptr).t  = t
-                # self.states     = jdx if jdx else self.reset() # rest to ones; only interested in how mag is kept
+                    self.states     = self.agentStates[0] # rest to ones; only interested in how mag is kept
                     # (<Potts> tmptr).burnin(burninSamples)
                     # (<Potts> tmptr).reset
                     res        = (<Potts> tmptr).simulate(n)

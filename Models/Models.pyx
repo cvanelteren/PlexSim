@@ -49,7 +49,6 @@ cdef class Model: # see pxd
             :nudgeType: the type of nudge used (default: constant)
             :memorySize: use memory dynamics (default 0)
         '''
-        # print('Init model')
         # use current time as seed for rng
         cdef timespec ts
         clock_gettime(CLOCK_REALTIME, &ts)
@@ -82,7 +81,6 @@ cdef class Model: # see pxd
         intput:
             :nx.Graph or nx.DiGraph: graph
         """
-        # print('Constructing')
         # check if graph has weights or states assigned and or nudges
         # note does not check all combinations
         # input validation / construct adj lists
@@ -102,7 +100,8 @@ cdef class Model: # see pxd
             np.ndarray states = np.zeros(graph.number_of_nodes(), int, 'C')
             int counter = 0
             # double[::1] nudges = np.zeros(graph.number_of_nodes(), dtype = float)
-            np.ndarray nudges = np.zeros(graph.number_of_nodes(), dtype = float)
+            unordered_map[long, double] nudges      
+            # np.ndarray nudges = np.zeros(graph.number_of_nodes(), dtype = float)
             unordered_map[long, Connection] adj # see .pxd
 
 
@@ -113,7 +112,6 @@ cdef class Model: # see pxd
             nodelink = nx.node_link_data(graph)
             for nodeidx, node in enumerate(nodelink['nodes']):
                 id                = node.get('id')
-
                 mapping[id]       = nodeidx
                 rmapping[nodeidx] = id
                 states[nodeidx]   = <long>   node.get('state', np.random.choice(agentStates))
@@ -138,7 +136,6 @@ cdef class Model: # see pxd
                     adj[target].weights.push_back(weight)
         # version <= 1.0
         else:
-            # print("Using legacy loader")
             from ast import literal_eval
             for line in nx.generate_multiline_adjlist(graph, ','):
                 add = False # tmp for not overwriting doubles
@@ -155,7 +152,6 @@ cdef class Model: # see pxd
                 # check properties, assign defaults
                 if 'state' not in graph.nodes[node]:
                     idx = np.random.choice(agentStates)
-                    # print(idx, agentStates)
                     graph.nodes[node]['state'] = idx
                 if 'nudge' not in graph.nodes[node]:
                     graph.nodes[node]['nudge'] =  DEFAULTNUDGE
@@ -172,7 +168,6 @@ cdef class Model: # see pxd
                     # set source
                     source   = node
                     sourceID = mapping[node]
-
                     states[sourceID] = <long> graph.nodes[node]['state']
                     nudges[sourceID] = <double> graph.nodes[node]['nudge']
                 # check neighbors
@@ -210,9 +205,8 @@ cdef class Model: # see pxd
         self._adj        = adj
 
         self._agentStates = np.asarray(agentStates, dtype = int).copy()
-        # print(states, agentStates)
 
-        self._nudges     = nudges.copy()
+        self._nudges     = nudges #nudges.copy()
         self._nStates    = len(agentStates)
 
 
@@ -226,7 +220,6 @@ cdef class Model: # see pxd
         self._states    = states.copy()
         self._newstates = states.copy()
         self._nNodes    = graph.number_of_nodes()
-        # print(f'Done {id(self)}')
 
     # cdef long[::1]  _updateState(self, long[::1] nodesToUpdate) :
     cdef long[::1]  _updateState(self, long[::1] nodesToUpdate) nogil:
@@ -395,16 +388,20 @@ cdef class Model: # see pxd
         """
         Set nudge value based on dict using the node labels
         """
-        self._nudges[:] =  0
+        self._nudges.clear()
         if isinstance(vals, dict):
             for k, v in vals.items():
                 # assert string
                 idx = self.mapping[str(k)]
                 self._nudges[idx] = v
         elif isinstance(vals, np.ndarray):
-            self._nudges = vals
+            assert len(vals) == self.nNodes
+            for node in range(self.nNodes):
+                self._nudges[node] = vals[node]
         elif isinstance(vals, cython.view.memoryview):
-            self._nudges = vals.base.copy()
+            assert len(vals) == self.nNodes
+            for node in range(self.nNodes):
+                self._nudges[node] = vals.base[node]
     @updateType.setter
     def updateType(self, value):
         """

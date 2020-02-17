@@ -37,8 +37,6 @@ cdef extern from "vfastexp.h":
     double exp_approx "EXP" (double) nogil
 
 cdef class Ising(Model):
-    # def __cinit__(self, *args, **kwargs):
-    #     print('cinit fastIsing')
     def __init__(self, \
                  graph,\
                  t = 1,\
@@ -48,13 +46,12 @@ cdef class Ising(Model):
                  magSide     = '',\
                  **kwargs):
         super(Ising, self).__init__(**locals())
-        # print('Init ising')
         cdef np.ndarray H  = np.zeros(self.graph.number_of_nodes(), float)
         for node, nodeID in self.mapping.items():
             H[nodeID] = self.graph.nodes()[node].get('H', 0)
         # for some reason deepcopy works with this enabled...
         self.states           = np.asarray(self.states.base).copy()
-        self.nudges           = np.asarray(self.nudges.base).copy()
+        # self.nudges           = np.asarray(self.nudges.base).copy()
         # specific model parameters
         self._H               = H
         # self._beta             = np.inf if temperature == 0 else 1 / temperature
@@ -115,11 +112,9 @@ cdef class Ising(Model):
         magValues = self.matchMagnetization(**settings)
         # magValues[0, :] = (magValues[0] - magValues[0].min()) / (magValues[0].max() - magValues[0].min())
 
-        # print(magValues)
 
         # normalize 0, 1
         magValues = (magValues - magValues.min()) / (magValues.max() - magValues.min())
-        # print(magValues.shape)
 
         # func
 
@@ -175,7 +170,6 @@ cdef class Ising(Model):
             long[:, ::1] r
             # vector[int][1] r = 0
 
-        # print('Starting burnin')
         while True:
             r      = self.sampleNodes(1) # produce shuffle
             states = self.updateState(r[0]) # update state
@@ -225,8 +219,8 @@ cdef class Ising(Model):
             neighbor = self._adj[node].neighbors[i]
             weight   = self._adj[node].weights[i]
             energy  -= states[node] * states[neighbor] * weight
-
-        energy -= self._nudges[node] * states[node]
+        if not self._nudges.find(node) == self._nudges.end():
+            energy -= self._nudges[node] * states[node]
         # energy *= (1 + self._nudges[node])
         return energy
 
@@ -259,15 +253,12 @@ cdef class Ising(Model):
             energy    = self.energy(node, self._states)
             # p = 1 / ( 1. + exp_approx(-self.beta * 2. * energy) )
             p  = 1 / ( 1. + exp(-self._beta * 2. * energy))
-            # p  = p  +  self._nudges[node]
-            # p += self._nudges[node]
             if self.rand() < p:
                 self._newstates[node] = -self._states[node]
         # uggly
         cdef double mu   =  0 # sign
         cdef long   NEG  = -1 # see the self.magSideOptions
         cdef long   POS  =  1
-        # printf('%d ', mu)
         # compute mean
         for node in range(self._nNodes):
             self._states[node] = self._newstates[node] # update
@@ -276,7 +267,6 @@ cdef class Ising(Model):
         # out of state equilibrium?
         if (mu < 0 and self._magSide == POS) or\
          (mu > 0 and self._magSide == NEG):
-            # printf('%f %d\n', mu, self._magSide)
             # flip if true
             for node in range(self._nNodes):
                 self._states[node] = -self._states[node]
@@ -380,7 +370,8 @@ cdef class Ising(Model):
         t     = self.t
         magSide = self.magSide
         updateType = self.updateType
-        nudges = self.nudges.base
+        nudges = self.nudges
+        # nudges = self.nudges.base
         states = self.states.base
 
         return ( rebuild,  (graph, t, nudges, states, magSide, updateType))
@@ -424,14 +415,6 @@ cdef class Ising(Model):
 def rebuild(graph, t, nudges, states, magSide, updateType):
   cdef Ising tmp = Ising(graph, t = t,\
    magSide = magSide, updateType = updateType)
-  tmp.nudges = nudges.copy()
+  # tmp.nudges = nudges.copy()
   tmp.states = states.copy()
   return tmp
-#def rebuild(d):
-#    cdef dict kwargs = {}
-#    for (k, v ) in d:
-#      kwargs[k] = v
-#    print("rebuilding", kwargs)
-#    cdef Ising tmp = Ising(**kwargs)
-#    tmp.nudges = kwargs.get('nudges').copy()
-#    return tmp

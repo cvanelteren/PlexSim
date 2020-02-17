@@ -55,7 +55,8 @@ cdef class Model:
         str _nudgeType  # nudge type
 
         int _sampleSize # counter for how large a sample should -> random samples
-        double[::1] _nudges # array containing external inputs
+        unordered_map [long, double] _nudges
+        # double[::1] _nudges # array containing external inputs
         # np.ndarray _nudges
 
 
