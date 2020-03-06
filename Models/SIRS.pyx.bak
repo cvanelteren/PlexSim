@@ -1,0 +1,13 @@
+from PlexSim.Models.Models cimport Model
+
+cdef class SIRS(Model):
+    def __init__(self, graph, updateType):
+        super(SIRS, self).__init__(**locals())
+    cdef _updateState(self, long[::1] nodesToUpdate):
+        cdef:
+            int node
+            long nodeState
+        # simulate disease spread
+        for node in range(nodesToUpdate.size()):
+            node = nodesToUpdate[node]
+            nodeState = self._states[node]
