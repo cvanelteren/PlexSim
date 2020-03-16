@@ -16,7 +16,7 @@ from scipy.stats import linregress
 import networkx as nx, multiprocessing as mp, \
                 scipy,  functools, copy, time
 from tqdm import tqdm
-
+from pyprind import ProgBar
 
 # ___CythonImports___
 cimport cython
@@ -29,9 +29,8 @@ from libcpp.vector cimport vector
 from libcpp.map cimport map
 from libcpp.unordered_map cimport unordered_map
 
-from libc.math cimport exp
-from libc.math cimport lround 
-from cython.operator cimport dereference, preincrement
+from libc.math cimport exp, lround, abs as c_abs
+from cython.operator cimport dereference, preincrement, postincrement
 
 # struct for adjacency matrix
 cdef struct Connection:
@@ -39,3 +38,4 @@ cdef struct Connection:
     vector[double] weights
 
 from PlexSim.Models.Models cimport Model
+from PlexSim.Models.parallel cimport * 

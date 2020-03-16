@@ -16,11 +16,9 @@ cdef class RBN(Model):
 
         # init rules
         # draw random boolean function
-        
         for node in range(self.nNodes):
             k = self._adj[node].neighbors.size()
             _rule = np.random.randint(0, 2**(2 ** k), dtype = int)
-            
             _rule = format(_rule, f'0{2 ** k}b')[::-1]
             self._rules[node] = [int(i) for i in _rule]
     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
@@ -61,7 +59,7 @@ cdef class RBN(Model):
                 self._states[node] = self._newstates[node]
             return self._states
 
-    def __deepcopy__(self):
+    def __deepcopy__(self, memo):
         tmp = {i : getattr(self, i) for i in dir(self)}
         tmp = RBN(**tmp)
         return tmp

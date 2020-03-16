@@ -8,36 +8,7 @@ Created on Tue Feb  6 09:36:17 2018
 @author: Casper van Elteren
 """
 # from models cimport Model
-import numpy  as np
-cimport numpy as np
-
-from PlexSim.Models.Models cimport Model
-from scipy.stats import linregress
-import networkx as nx, multiprocessing as mp, \
-                scipy,  functools, copy, time
-from tqdm import tqdm
-from pyprind import ProgBar
-
-# ___CythonImports___
-cimport cython
-from cython cimport numeric
-from cython.parallel cimport prange, parallel, threadid
-
-
-from libc.math cimport exp
-from libcpp.map cimport map
-from libcpp.unordered_map cimport unordered_map
-from libcpp.vector cimport vector
-from cython.operator cimport dereference, preincrement, postincrement
-from libc.stdio cimport printf
-
-
-# from libc.math cimport max, min
-from PlexSim.Models.parallel cimport *
-# use external exp
-cdef extern from "vfastexp.h":
-    double exp_approx "EXP" (double) nogil
-
+include "definitions.pxi"
 cdef class Ising(Model):
     def __init__(self, \
                  graph,\

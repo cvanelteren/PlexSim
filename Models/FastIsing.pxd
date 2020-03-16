@@ -1,14 +1,4 @@
-# from Models.Models cimport Model
-from PlexSim.Models.Models cimport Model
-from libcpp.vector cimport vector
-from libcpp.map cimport map
-from libcpp.unordered_map cimport unordered_map
-cimport numpy as np
-
-cdef struct Connection:
-    vector[int] neighbors
-    vector[double] weights
-
+include "definitions.pxi"
 cdef class Ising(Model):
     cdef:
         # public
