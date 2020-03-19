@@ -57,7 +57,7 @@ cdef class SIR(Model):
             float neighborWeight
             float infectionRate = 0
             long Z = self._adj[node].neighbors.size()
-            float ZZ = 0
+            float ZZ = 1
         for idx in range(Z):
             neighbor = self._adj[node].neighbors[idx]
             neighborWeight = self._adj[node].weights[idx]

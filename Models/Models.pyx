@@ -18,6 +18,9 @@ from libcpp.vector cimport vector
 from libcpp.map cimport map
 from libcpp.unordered_map cimport unordered_map
 from libc.math cimport lround, abs
+from cython cimport numeric
+ctypedef numeric NODESTATE
+ctypedef vector[NODESTATE] SYSTEMSTATE
 # cdef extern from "limits.h":
 #     int INT_MAX
 #     int RAND_MAX
@@ -50,9 +53,10 @@ cdef class Model: # see pxd
             :memorySize: use memory dynamics (default 0)
         '''
         # use current time as seed for rng
+
         cdef timespec ts
         clock_gettime(CLOCK_REALTIME, &ts)
-        cdef unsigned int seed = ts.tv_sec
+        cdef unsigned int seed = kwargs.get('seed', ts.tv_sec)
         # define rng sampler
         self.dist = uniform_real_distribution[double](0.0, 1.0)
         self.seed = seed
