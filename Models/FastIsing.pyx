@@ -218,11 +218,11 @@ cdef class Ising(Model):
         cdef:
             # long[::1] states    = self._states # alias
             # long[::1] newstates = self._newstates
-            int length          = nodesToUpdate.shape[0]
+            long length          = nodesToUpdate.shape[0]
             double Z            = <double> self._nNodes
             long node, newstate
             double energy, p
-            int n
+            long  n
         # for n in prange(length,  = True): # dont prange this
         for n in range(length):
             node      = nodesToUpdate[n]

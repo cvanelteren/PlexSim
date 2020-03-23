@@ -66,7 +66,6 @@ cdef class Model: # see pxd
 
         # create properties
         self.nudgeType  = copy.copy(kwargs.get('nudgeType', 'constant'))
-        self.updateType = kwargs.get('updateType', 'async')
 
         # self.memory = np.ones((memorySize, self._nNodes), dtype = long) * np.NaN   # note keep the memory first not in state space, i.e start without any form memory
 
@@ -74,9 +73,10 @@ cdef class Model: # see pxd
         self.memorySize   = kwargs.get('memorySize', 0)
         self._memory      = np.random.choice(self.agentStates, size = (self.memorySize, self._nNodes))
         # TODO: remove
-        tmp =  kwargs.get('kwargs', {})
-        self.nudges = tmp.get('nudges', {})
-
+        tmp =  kwargs.get("kwargs", {})
+        self.nudges = tmp.get("nudges", {})
+        print("In constructor", tmp.get("updateType")) 
+        self.updateType = tmp.get("updateType", "async")
     cpdef void construct(self, object graph, list agentStates):
         """
         Constructs adj matrix using structs
@@ -221,7 +221,6 @@ cdef class Model: # see pxd
         np.random.shuffle(_nodeids) # prevent initial scan-lines in grid
         self._nodeids   = _nodeids
         self._states    = states
-        
         self._states_ptr = &self._states[0]
         # self._newstates = states.copy()
         self._nNodes    = graph.number_of_nodes()
@@ -261,7 +260,7 @@ cdef class Model: # see pxd
         """
         # check the amount of samples to get
         cdef:
-            int sampleSize = self._sampleSize
+            long sampleSize = self._sampleSize
             long[:, ::1] samples
             # TODO replace this with a nogil version
             # long _samples[nSamples][sampleSize]
@@ -282,7 +281,7 @@ cdef class Model: # see pxd
         for samplei in range(nSamples):
             # shuffle if the current tracker is larger than the array
             start  = (samplei * sampleSize) % self._nNodes
-            if start + sampleSize >= self._nNodes:
+            if start + sampleSize >= self._nNodes or sampleSize == 1:
                 for i in range(self._nNodes):
                     # shuffle the array without replacement
                     j                = lround(self.rand() * (self._nNodes - 1))
@@ -291,6 +290,8 @@ cdef class Model: # see pxd
                     #self._nodeids[j] = self._nodeids[i]
                     #self._nodeids[i] = k
                     # enforce atleast one shuffle in single updates; otherwise same picked
+                    if sampleSize == 1:
+                        break
             # assign the samples; will be sorted in case of serial
             for j in range(sampleSize):
                 samples[samplei][j]    = self._nodeids[j]
@@ -331,7 +332,10 @@ cdef class Model: # see pxd
     def memorySize(self): return self._memorySize
     @memorySize.setter
     def memorySize(self, value):
-        self._memorySize = value
+        if isinstance(value, int):
+            self._memorySize = value
+        else:
+            self._memorysize = 0
 
     @property
     def memory(self): return self._memory
@@ -367,22 +371,22 @@ cdef class Model: # see pxd
     @property
     def seed(self)      : return self._seed
 
-    @memorySize.setter
-    def memorySize(self, value):
-        self._memorySize = value
 
     @seed.setter
-    def seed(self, value):
+    def seed(self, value, DEFAULT = 0):
         if isinstance(value, int) and value >= 0:
             self._seed = value
             self.gen   = mt19937(self.seed)
         else:
             print("Value is not unsigned long")
+            print(f"{DEFAULT} is used")
+            self._seed = DEFAULT
 
 
     # TODO: reset all after new?
     @nudges.setter
-    def nudges(self, vals):
+    def nudges(self, vals, \
+               DEFAULT = np.zeros(self.nNodes, dtype = float)):
         """
         Set nudge value based on dict using the node labels
         """
@@ -402,56 +406,61 @@ cdef class Model: # see pxd
             for node in range(self.nNodes):
                 if vals.base[node]:
                     self._nudges[node] = vals.base[node]
+        else:
+            self._nudges = DEFAULT
     @updateType.setter
-    def updateType(self, value):
+    def updateType(self, value, DEFAULT = "async"):
         """
         Input validation of the update of the model
         Options:
             - sync  : synchronous; update independently from t > t + 1
             - async : asynchronous; update n Nodes but with mutation possible
             - single: update 1 node random
-            - serial: like crt scan
             - [float]: async but only x percentage of the total system
         """
-
-        assert value in 'sync async single serial' or float(value)
-        self._updateType = value
+        # TODO: do a better switch than this
+        import re
+        # allowed patterns
+        print(f"In setter {value}")
+        pattern = "(sync)?(async)?(single)?(0?.\d+)?"
+        if re.match(pattern, value):
+            self._updateType = value
+        else:
+            raise ValueError, "input not correct"
         # allow for mutation if async else independent updates
         if value in 'sync async':
             self._sampleSize = self._nNodes
             # dequeue buffers
             if value == 'async':
                 self._newstates_ptr = self._states_ptr
+                # replace buffer
                 self._newstates = self._states
             # reset buffer pointers
             elif value == 'sync':
                 # obtain a new memory address
                 from copy import deepcopy 
                 self._newstates = deepcopy(self._states.base)
-                #self._newstates = np.zeros(self._nNodes, dtype = long, order = 'C')
                 assert id(self._newstates.base) != id(self._states.base)
                 # sanity check pointers (maybe swapped!)
                 self._states_ptr   = &self._states[0]
                 self._newstates_ptr = &self._newstates[0]
-        # scan lines
-        if value == 'serial':
-            self._sampleSize = self._nNodes
-            self._nodeids = np.sort(self._nodeids) # enforce  for sampler
         # percentage
         try:
             tmp = float(value)
             assert tmp > 0, "Don't think you want to sample 0 nodes"
             self._sampleSize = np.max((<long>(tmp * self._nNodes), 1))
         except Exception as e:
+            # print(e)
             pass
         # single
         if value == 'single':
             self._sampleSize = 1
-
     @nudgeType.setter
-    def nudgeType(self, value):
-        assert value in 'constant pulse'
-        self._nudgeType = value
+    def nudgeType(self, value, DEFAULT = "constant"):
+        if value in "constant pulse"
+            self._nudgeType = value
+        else:
+            self._nudgeType = DEFAULT
 
     @states.setter # TODO: expand
     def states(self, value):
