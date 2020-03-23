@@ -7,6 +7,4 @@ cdef class CCA(Model):
         double _threshold
 
     cdef long _evolve(self, long node) nogil
-    # overload the parent functions
-    cpdef long[::1] updateState(self, long[::1] nodesToUpdate)
-    cdef long[::1] _updateState(self, long[::1] nodesToUpdate) nogil
+    cdef void _step(self, long node) nogil

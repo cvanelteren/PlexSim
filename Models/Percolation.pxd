@@ -4,7 +4,6 @@ from PlexSim.Models.Models cimport Model
 
 cdef class Percolation(Model):
     cdef:
-        double p
+        double _p
 
-    cpdef long[::1] updateState(self, long[::1] nodesToUpdate)
-    cdef long[::1] _updateState(self, long[::1] nodesToUpdate) nogil
+    cdef void _step(self, long node) nogil

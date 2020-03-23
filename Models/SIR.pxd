@@ -6,9 +6,8 @@ cdef class SIR(Model):
         float _beta
         float _mu
 
-    cpdef long[::1] updateState(self, \
-                                long[::1] nodesToUpdate)
-    cdef long[::1] _updateState(self, long[::1]) nogil
+
+    cdef void _step(self, long node) nogil
 
     cdef float _checkNeighbors(self, long node) nogil
 
