@@ -163,6 +163,21 @@ cdef class Ising(Model):
             print(f'absolute mean magnetization last sample {abs(y[-1])}')
         return y
 
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    @cython.nonecheck(False)
+    @cython.cdivision(True)
+    @cython.initializedcheck(False)
+    @cython.overflowcheck(False)
+    cdef void _step(self, long node,\
+    ) nogil:
+        cdef:
+            float energy
+            float p
+        energy = self._energy(node)
+        p = 1 / (1 + exp(- self._beta * energy))
+        if self._rand() < p:
+          self._newstates_ptr[node] = -self._states_ptr[node]
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -170,10 +185,10 @@ cdef class Ising(Model):
     @cython.cdivision(True)
     @cython.initializedcheck(False)
     @cython.overflowcheck(False)
-    cdef double energy(self, \
-                        int  node, \
+    cdef double _energy(self, \
+                        long  node, \
                         ) nogil :
-                       # cdef double energy(self, \
+                       # cdef double._energy(self, \
                        #                    int  node, \
                        #                    long[::1] states)  :
         """
@@ -194,72 +209,25 @@ cdef class Ising(Model):
             neighbor = self._adj[node].neighbors[i]
             weight   = self._adj[node].weights[i]
             energy  -= self._states_ptr[node] * self._states_ptr[neighbor] *  weight
-            #energy  -= states[node] * states[neighbor] * weight
         if self._nudges.find(node) != self._nudges.end():
-            energy -= self._nudges[node] * self._states_ptr[node]
-        # energy *= (1 + self._nudges[node])
+           energy -= self._nudges[node] * self._states_ptr[node]
         return energy
-
-    cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
-        return self._updateState(nodesToUpdate)
-
-    @cython.boundscheck(False)
-    @cython.wraparound(False)
-    @cython.nonecheck(False)
-    @cython.cdivision(True)
-    @cython.initializedcheck(False)
-    @cython.overflowcheck(False)
-    cdef long[::1] _updateState(self, long[::1] nodesToUpdate) nogil:
-    # cdef long[::1] _updateState(self, long[::1] nodesToUpdate):
-        """
-        Determines the flip probability
-        p = 1/(1 + exp(-beta * delta energy))
-        """
-        cdef:
-            # long[::1] states    = self._states # alias
-            # long[::1] newstates = self._newstates
-            long length          = nodesToUpdate.shape[0]
-            double Z            = <double> self._nNodes
-            long node, newstate
-            double energy, p
-            long  n
-        # for n in prange(length,  = True): # dont prange this
-        for n in range(length):
-            node      = nodesToUpdate[n]
-            energy    = self.energy(node)
-            # p = 1 / ( 1. + exp_approx(-self.beta * 2. * energy) )
-            p  = 1 / ( 1. + exp(-self._beta * 2. * energy))
-            # update only if necessary
-            if self.rand() < p:
-                newstate = -self._states_ptr[node]
-                self._newstates_ptr[node] = newstate
-                #self._newstates[node] = newstate
-        # uggly
-        cdef double mu   =  0 # sign
-        cdef long   NEG  = -1 # see the self.magSideOptions
-        cdef long   POS  =  1
-
-        # swap pointers
-        swap(self._states_ptr, self._newstates_ptr)
-        return self._states
-
-
 
     cpdef np.ndarray[double] computeProb(self):
         """
-        Compute the node probability for the current state p_i = 1/z * (1 + exp( -beta * energy))**-1
+        Compute the node probability for the current state p_i = 1/z * (1 + exp( -beta *._energy))**-1
         """
 
         probs = np.zeros(self.nNodes)
         for node in self.nodeids:
-            en = self.energy(node)
+            en = self._energy(node)
             probs[node] = exp(-self._beta * en)
         return probs / np.nansum(probs)
 
     cpdef double  hammy(self):
         cdef double h = 0
         for node in self.nodeids:
-            h -= self.energy(node)
+            h -= self._energy(node)
         return h
 
     cpdef  np.ndarray matchMagnetization(self,\

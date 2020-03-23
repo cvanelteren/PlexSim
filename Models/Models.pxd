@@ -29,11 +29,6 @@ cdef struct Connection:
 cdef class Model:
     cdef:
         # public
-        # np.ndarray _states
-        # np.ndarray _newstates
-
-        # np.ndarray  _nodeids
-        # np.ndarray  agentStates
 
         long[::1] _states
         long* _states_ptr
@@ -49,9 +44,9 @@ cdef class Model:
         int _memorySize # memory size
 
         # random sampler
-        mt19937 gen
+        mt19937 _gen
         unsigned long _seed
-        uniform_real_distribution[double] dist
+        uniform_real_distribution[double] _dist
 
         int _nNodes # number of nodes
         str _updateType # update type
@@ -71,30 +66,24 @@ cdef class Model:
     cpdef void construct(self, object graph, \
                     list agentStates)
 
+    # Update functions
     cpdef  long[::1] updateState(self, long[::1] nodesToUpdate)
-
-    cdef void _hebbianUpdate(self)
-
-    cdef double _learningFunction(self, int xi, int xj)
-    # cpdef long[::1] updateState(self, long[::1] nodesToUpdate)
-    # cpdef double[:, ::1] updateState(self, long[::1] nodesToUpdate)
-
-    # cpdef double[:, ::1] updateState(self, long[::1] nodesToUpdate)
-
     cdef long[::1]  _updateState(self, long[::1] nodesToUpdate) nogil
-    # cdef double[::1]  _updateState(self, long[::1] nodesToUpdate) nogil
-    # cdef long[::1]  _updateState(self, long[::1] nodesToUpdate)
+    cdef void _step(self, long node) nogil #needs to be implemented per mode
 
+    # TODO: spatial learning
+    cdef void _hebbianUpdate(self)
+    cdef double _learningFunction(self, int xi, int xj)
+
+    # Sampler functions
     cdef  long[:, ::1] _sampleNodes(self, int nSamples) nogil
-
     cpdef long[:, ::1] sampleNodes(self, int nSamples)
-    # cdef  vector sampleNodes(self, long Samples) nogil
-    # cdef  long[:, ::1] sampleNodes(self, long Samples)
 
-    cdef double rand(self) nogil
+    # Random Number generator 
+    cdef double _rand(self) nogil
+
+    # Py wrapper simulation
     cpdef np.ndarray simulate(self, int samples)
-
-    # cpdef long[::1] updateState(self, long[::1] nodesToUpdate)
 
 
     cpdef void reset(self)

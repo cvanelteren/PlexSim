@@ -57,9 +57,9 @@ cdef class Model: # see pxd
         clock_gettime(CLOCK_REALTIME, &ts)
         cdef unsigned int seed = kwargs.get('seed', ts.tv_sec)
         # define rng sampler
-        self.dist = uniform_real_distribution[double](0.0, 1.0)
+        self._dist = uniform_real_distribution[double](0.0, 1.0)
         self.seed = seed
-        self.gen  = mt19937(self.seed)
+        self._gen  = mt19937(self.seed)
 
         # create adj list
         self.construct(kwargs.get('graph'), kwargs.get('agentStates', [-1, 1]))
@@ -77,6 +77,7 @@ cdef class Model: # see pxd
         self.nudges = tmp.get("nudges", {})
         print("In constructor", tmp.get("updateType")) 
         self.updateType = tmp.get("updateType", "async")
+        
     cpdef void construct(self, object graph, list agentStates):
         """
         Constructs adj matrix using structs
@@ -227,15 +228,24 @@ cdef class Model: # see pxd
 
     # cdef long[::1]  _updateState(self, long[::1] nodesToUpdate) :
     cdef long[::1]  _updateState(self, long[::1] nodesToUpdate) nogil:
-        return self._nodeids
-    #
-    #
+        cdef:
+            long node
+            long N =  nodesToUpdate.shape[0]
+        # init loop
+        for node in range(N):
+            node = nodesToUpdate[node]
+            # update 
+            self._step(node)
+        # swap pointers
+        swap(self._states_ptr, self._newstates_ptr)
+        return self._states
     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
         return self._updateState(nodesToUpdate)
  
-
-    cdef double rand(self) nogil:
-        return self.dist(self.gen)
+    cdef void _step(self, long node) nogil:
+        return
+    cdef double _rand(self) nogil:
+        return self._dist(self._gen)
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -284,7 +294,7 @@ cdef class Model: # see pxd
             if start + sampleSize >= self._nNodes or sampleSize == 1:
                 for i in range(self._nNodes):
                     # shuffle the array without replacement
-                    j                = lround(self.rand() * (self._nNodes - 1))
+                    j                = lround(self._rand() * (self._nNodes - 1))
                     swap(self._nodeids[i], self._nodeids[j])
                     #k                = self._nodeids[j]
                     #self._nodeids[j] = self._nodeids[i]
@@ -373,20 +383,20 @@ cdef class Model: # see pxd
 
 
     @seed.setter
-    def seed(self, value, DEFAULT = 0):
+    def seed(self, value):
+        DEFAULT = 0
         if isinstance(value, int) and value >= 0:
             self._seed = value
-            self.gen   = mt19937(self.seed)
         else:
             print("Value is not unsigned long")
             print(f"{DEFAULT} is used")
             self._seed = DEFAULT
-
+        self._gen   = mt19937(self.seed)
 
     # TODO: reset all after new?
     @nudges.setter
     def nudges(self, vals, \
-               DEFAULT = np.zeros(self.nNodes, dtype = float)):
+              ):
         """
         Set nudge value based on dict using the node labels
         """
@@ -406,10 +416,8 @@ cdef class Model: # see pxd
             for node in range(self.nNodes):
                 if vals.base[node]:
                     self._nudges[node] = vals.base[node]
-        else:
-            self._nudges = DEFAULT
     @updateType.setter
-    def updateType(self, value, DEFAULT = "async"):
+    def updateType(self, value):
         """
         Input validation of the update of the model
         Options:
@@ -419,6 +427,7 @@ cdef class Model: # see pxd
             - [float]: async but only x percentage of the total system
         """
         # TODO: do a better switch than this
+        DEFAULT = "async"
         import re
         # allowed patterns
         print(f"In setter {value}")
@@ -456,8 +465,9 @@ cdef class Model: # see pxd
         if value == 'single':
             self._sampleSize = 1
     @nudgeType.setter
-    def nudgeType(self, value, DEFAULT = "constant"):
-        if value in "constant pulse"
+    def nudgeType(self, value):
+        DEFAULT = "constant"
+        if value in "constant pulse":
             self._nudgeType = value
         else:
             self._nudgeType = DEFAULT
