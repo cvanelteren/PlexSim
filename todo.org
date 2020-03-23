@@ -1,0 +1,13 @@
+* Memory
+Add the memory functionality back. Maybe check out the new pointer methods applied to states in order to prevent loop update push
+
+* FastIsing & Potts
+Check all the class methods
+
+* RBN and SIR
+- remove the update state functionality
+- make separate functions
+
+* Hebbian learning
+add.
+
