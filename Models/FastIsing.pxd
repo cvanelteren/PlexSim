@@ -9,7 +9,7 @@ cdef class Ising(Model):
     # computes the energy
     cdef double energy(self, \
                        int  node, \
-                       long[::1] states) nogil
+                       ) nogil
 
     # overload the parent functions
     cpdef long[::1] updateState(self, long[::1] nodesToUpdate)

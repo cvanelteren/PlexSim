@@ -18,12 +18,11 @@ from libcpp.vector cimport vector
 from libcpp.map cimport map
 from libcpp.unordered_map cimport unordered_map
 from libc.math cimport lround, abs
+from cython cimport view
 from cython cimport numeric
-ctypedef numeric NODESTATE
-ctypedef vector[NODESTATE] SYSTEMSTATE
-# cdef extern from "limits.h":
-#     int INT_MAX
-#     int RAND_MAX
+
+cdef extern from "<algorithm>" namespace "std" nogil:
+    void swap[T] (T &a, T &b)
 
 __VERSION__ = 1.2 # added version number
 # SEED SETUP
@@ -101,10 +100,10 @@ cdef class Model: # see pxd
             dict mapping = {} # made nodelabe to internal
             dict rmapping= {} # reverse
             # str delim = '\t'
-            np.ndarray states = np.zeros(graph.number_of_nodes(), int, 'C')
+            np.ndarray states = np.zeros(graph.number_of_nodes(), dtype = int, order  = 'C')
             int counter = 0
             # double[::1] nudges = np.zeros(graph.number_of_nodes(), dtype = float)
-            unordered_map[long, double] nudges      
+            unordered_map[long, double] nudges
             # np.ndarray nudges = np.zeros(graph.number_of_nodes(), dtype = float)
             unordered_map[long, Connection] adj # see .pxd
 
@@ -220,9 +219,10 @@ cdef class Model: # see pxd
 
         _nodeids        = np.arange(graph.number_of_nodes(), dtype = long)
         np.random.shuffle(_nodeids) # prevent initial scan-lines in grid
-        self._nodeids   = _nodeids.copy()
-        self._states    = states.copy()
-
+        self._nodeids   = _nodeids
+        self._states    = states
+        
+        self._states_ptr = &self._states[0]
         # self._newstates = states.copy()
         self._nNodes    = graph.number_of_nodes()
 
@@ -233,7 +233,7 @@ cdef class Model: # see pxd
     #
     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
         return self._updateState(nodesToUpdate)
-
+ 
 
     cdef double rand(self) nogil:
         return self.dist(self.gen)
@@ -260,44 +260,37 @@ cdef class Model: # see pxd
         N.B. nodeids are mutable
         """
         # check the amount of samples to get
-        cdef int sampleSize
-        cdef long[:, ::1] tmp
-        cdef int x
-        if self._updateType == 'single':
-            sampleSize = self._sampleSize
-        elif self._updateType == 'serial':
-            for x in range(self._nNodes):
-                tmp[x] = self._nodeids[x]
-            return tmp
-        else:
-            sampleSize = self._sampleSize
         cdef:
+            int sampleSize = self._sampleSize
+            long[:, ::1] samples
             # TODO replace this with a nogil version
             # long _samples[nSamples][sampleSize]
-            long [:, ::1] samples
             # long sample
             long start
             long i, j, k
             long samplei
 
-            # vector[vector[int][sampleSize]] samples
+        # if serial move through space like CRT line-scan method
+        if self._updateType == 'serial':
+            for i in range(self._nNodes):
+                samples[i] = self._nodeids[i]
+            return samples
 
         # replace with nogil variant
         with gil:
-            samples = np.zeros((nSamples, sampleSize), dtype = long,\
-                                order = 'C')
+            samples = np.zeros((nSamples, sampleSize), dtype = long, order = 'C')
         for samplei in range(nSamples):
             # shuffle if the current tracker is larger than the array
             start  = (samplei * sampleSize) % self._nNodes
-            if (start + sampleSize >= self._nNodes or sampleSize == 1):
+            if start + sampleSize >= self._nNodes:
                 for i in range(self._nNodes):
                     # shuffle the array without replacement
                     j                = lround(self.rand() * (self._nNodes - 1))
-                    k                = self._nodeids[j]
-                    self._nodeids[j] = self._nodeids[i]
-                    self._nodeids[i] = k
+                    swap(self._nodeids[i], self._nodeids[j])
+                    #k                = self._nodeids[j]
+                    #self._nodeids[j] = self._nodeids[i]
+                    #self._nodeids[i] = k
                     # enforce atleast one shuffle in single updates; otherwise same picked
-                    if sampleSize == 1 : break
             # assign the samples; will be sorted in case of serial
             for j in range(sampleSize):
                 samples[samplei][j]    = self._nodeids[j]
@@ -420,15 +413,26 @@ cdef class Model: # see pxd
             - serial: like crt scan
             - [float]: async but only x percentage of the total system
         """
-        assert value in 'sync async single serial' or float(value)
 
+        assert value in 'sync async single serial' or float(value)
         self._updateType = value
         # allow for mutation if async else independent updates
-        # self._newstates = self._states.copy()
-        if value == 'async' or value == 'sync':
+        if value in 'sync async':
             self._sampleSize = self._nNodes
-            #for node in range(self.nNodes):
-             #   self._newstates[node] = self._states[node]
+            # dequeue buffers
+            if value == 'async':
+                self._newstates_ptr = self._states_ptr
+                self._newstates = self._states
+            # reset buffer pointers
+            elif value == 'sync':
+                # obtain a new memory address
+                from copy import deepcopy 
+                self._newstates = deepcopy(self._states.base)
+                #self._newstates = np.zeros(self._nNodes, dtype = long, order = 'C')
+                assert id(self._newstates.base) != id(self._states.base)
+                # sanity check pointers (maybe swapped!)
+                self._states_ptr   = &self._states[0]
+                self._newstates_ptr = &self._newstates[0]
         # scan lines
         if value == 'serial':
             self._sampleSize = self._nNodes
@@ -451,18 +455,19 @@ cdef class Model: # see pxd
 
     @states.setter # TODO: expand
     def states(self, value):
+        from collections import Iterable
         cdef int idx
         if isinstance(value, int):
             self._states   [:] = value
-        # TODO: change this to iterable check
-        elif isinstance(value, np.ndarray) or isinstance(value, list):
-            assert len(value) == self.nNodes
-            value = np.asarray(value) # enforce
-            self._states    = value
         elif isinstance(value, dict):
             for k, v in value.items():
                 idx = self.mapping[k]
                 self._states[idx] = v
+        # assume iterable
+        else:
+            for i in range(self._nNodes):
+                self._states_ptr[i] = value[i]
+                self._newstates_ptr[i] = value[i]
 
     cdef void _hebbianUpdate(self):
         """

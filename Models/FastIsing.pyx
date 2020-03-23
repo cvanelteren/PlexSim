@@ -9,6 +9,8 @@ Created on Tue Feb  6 09:36:17 2018
 """
 # from models cimport Model
 include "definitions.pxi"
+cdef extern from "<algorithm>" namespace "std" nogil:
+    void swap[T] (T &a, T &b)
 cdef class Ising(Model):
     def __init__(self, \
                  graph,\
@@ -23,7 +25,7 @@ cdef class Ising(Model):
         for node, nodeID in self.mapping.items():
             H[nodeID] = self.graph.nodes()[node].get('H', 0)
         # for some reason deepcopy works with this enabled...
-        self.states           = np.asarray(self.states.base).copy()
+        self.states           = self.states.copy() 
         # self.nudges           = np.asarray(self.nudges.base).copy()
         # specific model parameters
         self._H               = H
@@ -170,7 +172,7 @@ cdef class Ising(Model):
     @cython.overflowcheck(False)
     cdef double energy(self, \
                         int  node, \
-                        long[::1] states) nogil :
+                        ) nogil :
                        # cdef double energy(self, \
                        #                    int  node, \
                        #                    long[::1] states)  :
@@ -185,15 +187,16 @@ cdef class Ising(Model):
             long neighbor, i
             double weight
             double delta = 1
-            double energy          = -self._H [node] * states[node]
+            double energy          = -self._H [node] * self._states_ptr[node]
 
         # TODO: add memory part
         for i in range(length):
             neighbor = self._adj[node].neighbors[i]
             weight   = self._adj[node].weights[i]
-            energy  -= states[node] * states[neighbor] * weight
+            energy  -= self._states_ptr[node] * self._states_ptr[neighbor] *  weight
+            #energy  -= states[node] * states[neighbor] * weight
         if self._nudges.find(node) != self._nudges.end():
-            energy -= self._nudges[node] * states[node]
+            energy -= self._nudges[node] * self._states_ptr[node]
         # energy *= (1 + self._nudges[node])
         return energy
 
@@ -221,39 +224,23 @@ cdef class Ising(Model):
             double energy, p
             int n
         # for n in prange(length,  = True): # dont prange this
-        self._newstates.clear()
         for n in range(length):
             node      = nodesToUpdate[n]
-            energy    = self.energy(node, self._states)
+            energy    = self.energy(node)
             # p = 1 / ( 1. + exp_approx(-self.beta * 2. * energy) )
             p  = 1 / ( 1. + exp(-self._beta * 2. * energy))
             # update only if necessary
             if self.rand() < p:
-                newstate = -self._states[node]
-                self._newstates[node] = newstate
-                if self._updateType == 'async':
-                    self._states[node] = newstate
+                newstate = -self._states_ptr[node]
+                self._newstates_ptr[node] = newstate
+                #self._newstates[node] = newstate
         # uggly
         cdef double mu   =  0 # sign
         cdef long   NEG  = -1 # see the self.magSideOptions
         cdef long   POS  =  1
-        # compute mean
-       # for node in range(self._nNodes):
-       #     # self._states[node] = self._newstates[node] # update
-       #     mu          += self._states[node] # normalization not really needed
-       # Update new states
-        cdef unordered_map[long, long].iterator start = self._newstates.begin()
-        while start != self._newstates.end():
-            node = dereference(start).first
-            self._states[node] = dereference(start).second
-            postincrement(start)
 
-       # # out of state equilibrium?
-       # if (mu < 0 and self._magSide == POS) or\
-       #  (mu > 0 and self._magSide == NEG):
-       #     # flip if true
-       #     for node in range(self._nNodes):
-       #         self._states[node] = -self._states[node]
+        # swap pointers
+        swap(self._states_ptr, self._newstates_ptr)
         return self._states
 
 
@@ -265,14 +252,14 @@ cdef class Ising(Model):
 
         probs = np.zeros(self.nNodes)
         for node in self.nodeids:
-            en = self.energy(node, self.states)
+            en = self.energy(node)
             probs[node] = exp(-self._beta * en)
         return probs / np.nansum(probs)
 
     cpdef double  hammy(self):
         cdef double h = 0
         for node in self.nodeids:
-            h -= self.energy(node, self.states)
+            h -= self.energy(node)
         return h
 
     cpdef  np.ndarray matchMagnetization(self,\
@@ -316,7 +303,7 @@ cdef class Ising(Model):
             # tmp.reset()
             # tmp.burnin(burninSamples)
             # tmp.seed += sample # enforce different seeds
-            modelsPy.append(tmp)
+            # modelsPy.append(tmp)
             tmpHolder.push_back(PyObjectHolder(<PyObject *> tmp))
 
         for i in prange(N, nogil = True, schedule = 'static',\
@@ -339,7 +326,7 @@ cdef class Ising(Model):
                 # results[1, i] = ((magres**2).mean() - magres.mean()**2) * (<Ising> tmptr).beta
                 pbar.update(1)
         results[1, :] = abs(np.gradient(results[0], temperatures, edge_order = 1))
-        results[0, :] = (results[0] - results[0].min()) / (results[0].max() - results[0].min())
+        # results[0, :] = (results[0] - results[0].min()) / (results[0].max() - results[0].min())
         # print(results[0])
         self.t = tcopy # reset temp
         return results

@@ -168,6 +168,7 @@ cdef class Potts(Model):
             vector[double] probs
             int agentState
             double randomNumber
+            long[::1]* tmp_ptr
         # clear buffer
         self._newstates.clear()
         for nodeidx in range(nodes):
@@ -185,20 +186,11 @@ cdef class Potts(Model):
         # fill memory  by shifting all rows down by 1
         cdef:
             int memTime
-        # repopulate buffer
-            unordered_map[long, long].iterator start = \
-                    self._newstates.begin()
-
-        while start != self._newstates.end():
-            node = dereference(start).first
-            self._states[node] = dereference(start).second
-            postincrement(start)
-          #  if self._memorySize:
-          #      for memTime in range(self._memorySize - 1, 0, -1):
-          #              # with gil: print(memTime)
-          #              self._memory[memTime, node] = self._memory[memTime - 1, node]
-          #      self._memory[0, node] = self._states[node]
-        # self._hebbianUpdate()
+        # assign tmp ptr
+        tmp_ptr = self._newstates_ptr
+        self._newstates_ptr = self._states_ptr
+        # reassign ptr
+        self._states_ptr = tmp_ptr
         return self._states
 
     cpdef  np.ndarray matchMagnetization(self,\
@@ -213,7 +205,6 @@ cdef class Potts(Model):
                   :burninSamples: number of samples to throw away before sampling
             Returns:
                   :temps: the temperature range as input
-                  :mag:  the magnetization for t in temps
                   :sus:  the magnetic susceptibility
             """
             cdef:
