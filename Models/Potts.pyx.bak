@@ -23,10 +23,10 @@ cdef class Potts(Model):
                         graph,\
                         t = 1,\
                         agentStates = [0, 1],\
-                        nudgeType   = 'constant',\
-                        updateType  = 'async', \
+                        nudgeType   = "constant",\
+                        updateType  = "async", \
                         memorySize     = 0, \
-                        delta            = 0, \
+                        delta          = 0, \
                         **kwargs):
         """
         Potts model
