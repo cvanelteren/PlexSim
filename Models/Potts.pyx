@@ -101,7 +101,7 @@ cdef class Potts(Model):
     @cython.cdivision(True)
     @cython.initializedcheck(False)
     @cython.overflowcheck(False)
-    cdef vector[double] _energy(self, int node) nogil:
+    cdef vector[double] _energy(self, long node) nogil:
         cdef:
             long neighbors = self._adj[node].neighbors.size()
             long* states = self._states_ptr # alias
@@ -155,9 +155,9 @@ cdef class Potts(Model):
             double p
 
         probs = self._energy(node)
-        p = exp(- self._beta * probs[1] - probs[0])
+        p = exp(- self._beta *( probs[1] - probs[0]))
         if self._rand() <= p:
-            self._newstates_ptr[node] = <int> probs[2]
+            self._newstates_ptr[node] = <long> probs[2]
 
     cpdef  np.ndarray matchMagnetization(self,\
                               np.ndarray temps  = np.logspace(-3, 2, 20),\

@@ -12,7 +12,7 @@ cdef class Potts(Model):
         double _beta   # temperature parameter
         double _delta # memory retention variable
     cdef vector[double] _energy(self,\
-                               int node) nogil
+                               long node) nogil
     cdef void _step(self, long node) nogil
     # update function
     cdef double _hamiltonian(self, long x, long y) nogil
