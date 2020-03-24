@@ -12,7 +12,7 @@ Fast and general toolbox for simulation of complex adaptive systems written in c
 PlexSim is released under the GNU-GPLv3 license
 
 Powered by 
-![cython](banner/cython_log.svg)
+![cython](banner/cython_logo.svg)
 
 
 
