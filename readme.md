@@ -18,7 +18,4 @@ Powered by
 
 
 # Example
-<<video width="320" height="240" controls>
-  <source src="banner/PlexSim_banner.mp4" type="video/mp4">
-</video>
-
+![banner_gif](banner/PlexSim_banner.gif)
