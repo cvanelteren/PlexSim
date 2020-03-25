@@ -21,9 +21,13 @@ ctypedef fused STATEDTYPE:
     long
     float
     double
+ctypedef long NODE_STATE
+ctypedef double WEIGHT_TYPE
+ctypedef vector[NODE_STATE] Neighbors
+ctypedef vector[WEIGHT_TYPE] Weights
 
 cdef struct Connection:
-    vector[int] neighbors
+    vector[NODE_STATE] neighbors
     vector[double] weights
 
 cdef class Model:

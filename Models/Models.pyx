@@ -61,8 +61,12 @@ cdef class Model: # see pxd
         self.seed = seed
         self._gen  = mt19937(self.seed)
 
-        # create adj list
+                # create adj list
         self.construct(kwargs.get('graph'), kwargs.get('agentStates', [-1, 1]))
+
+        for k in kwargs.get("kwargs", {}).items():
+            print(k)
+
 
         # create properties
         self.nudgeType  = copy.copy(kwargs.get('nudgeType', 'constant'))
@@ -73,11 +77,9 @@ cdef class Model: # see pxd
         self.memorySize   = kwargs.get('memorySize', 0)
         self._memory      = np.random.choice(self.agentStates, size = (self.memorySize, self._nNodes))
         # TODO: remove
-        tmp =  kwargs.get("kwargs", {})
-        self.nudges = tmp.get("nudges", {})
-        print("In constructor", tmp.get("updateType")) 
-        self.updateType = tmp.get("updateType", "async")
-        
+        #print('*'*32, kwargs)
+        self.nudges = kwargs.get("nudges", {})
+        self.updateType = kwargs.get("updateType", "async")
     cpdef void construct(self, object graph, list agentStates):
         """
         Constructs adj matrix using structs
@@ -98,13 +100,13 @@ cdef class Model: # see pxd
         graph.__version__ = version
         # forward declaration and init
         cdef:
-            dict mapping = {} # made nodelabe to internal
+            dict mapping = {} # made nodelabel to internal
             dict rmapping= {} # reverse
             # str delim = '\t'
             np.ndarray states = np.zeros(graph.number_of_nodes(), dtype = int, order  = 'C')
             int counter = 0
             # double[::1] nudges = np.zeros(graph.number_of_nodes(), dtype = float)
-            unordered_map[long, double] nudges
+            unordered_map[long, double] nudges 
             # np.ndarray nudges = np.zeros(graph.number_of_nodes(), dtype = float)
             unordered_map[long, Connection] adj # see .pxd
 
@@ -241,7 +243,6 @@ cdef class Model: # see pxd
         return self._states
     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
         return self._updateState(nodesToUpdate)
- 
     cdef void _step(self, long node) nogil:
         return
     cdef double _rand(self) nogil:
@@ -395,8 +396,7 @@ cdef class Model: # see pxd
 
     # TODO: reset all after new?
     @nudges.setter
-    def nudges(self, vals, \
-              ):
+    def nudges(self, vals):
         """
         Set nudge value based on dict using the node labels
         """
@@ -430,12 +430,11 @@ cdef class Model: # see pxd
         DEFAULT = "async"
         import re
         # allowed patterns
-        print(f"In setter {value}")
         pattern = "(sync)?(async)?(single)?(0?.\d+)?"
         if re.match(pattern, value):
             self._updateType = value
         else:
-            raise ValueError, "input not correct"
+            self._updateType = "async"
         # allow for mutation if async else independent updates
         if value in 'sync async':
             self._sampleSize = self._nNodes
