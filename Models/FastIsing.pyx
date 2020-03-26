@@ -21,7 +21,8 @@ cdef class Ising(Model):
                  magSide     = '',\
                  **kwargs):
         super(Ising, self).__init__(**locals())
-        cdef np.ndarray H  = np.zeros(self.graph.number_of_nodes(), float)
+        cdef np.ndarray  H  = np.zeros(self.nNodes, \
+                                        dtype = float, order = 'C')
         for node, nodeID in self.mapping.items():
             H[nodeID] = self.graph.nodes()[node].get('H', 0)
         # for some reason deepcopy works with this enabled...
@@ -162,23 +163,6 @@ cdef class Ising(Model):
             print('Number of bunin samples used {0}\n\n'.format(counter))
             print(f'absolute mean magnetization last sample {abs(y[-1])}')
         return y
-
-    @cython.boundscheck(False)
-    @cython.wraparound(False)
-    @cython.nonecheck(False)
-    @cython.cdivision(True)
-    @cython.initializedcheck(False)
-    @cython.overflowcheck(False)
-    cdef void _step(self, long node,\
-    ) nogil:
-        cdef:
-            float energy
-            float p
-        energy = self._energy(node)
-        p = 1 / (1 + exp(- self._beta * energy))
-        if self._rand() < p:
-          self._newstates_ptr[node] = -self._states_ptr[node]
-
     @cython.boundscheck(False)
     @cython.wraparound(False)
     @cython.nonecheck(False)
@@ -202,17 +186,37 @@ cdef class Ising(Model):
             long neighbor, i
             double weight
             double delta = 1
-            double energy          = -self._H [node] * self._states_ptr[node]
+            double energy          = 0
+            #double energy          = -self._H [node] * self._states_ptr[node]
 
         # TODO: add memory part
         for i in range(length):
             neighbor = self._adj[node].neighbors[i]
             weight   = self._adj[node].weights[i]
             energy  -= self._states_ptr[node] * self._states_ptr[neighbor] *  weight
-        if self._nudges.find(node) != self._nudges.end():
-           energy -= self._nudges[node] * self._states_ptr[node]
+
+           #energy -= self._nudges[node] * self._states_ptr[node]
         return energy
 
+
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    @cython.nonecheck(False)
+    @cython.cdivision(True)
+    @cython.initializedcheck(False)
+    @cython.overflowcheck(False)
+    cdef void _step(self, long node,\
+    ) nogil:
+        cdef:
+            double  energy
+            double  p
+        # look for nudge
+        # normal update
+        energy = self._energy(node)
+        # p = 1 / (1. + exp(- self._beta * 2. * energy))
+        p = exp(- self._beta * 2 * energy)
+        if self._rand() >= p:
+          self._newstates_ptr[node] = -self._states_ptr[node]
     cpdef np.ndarray[double] computeProb(self):
         """
         Compute the node probability for the current state p_i = 1/z * (1 + exp( -beta *._energy))**-1
