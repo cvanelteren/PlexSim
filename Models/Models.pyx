@@ -242,8 +242,8 @@ cdef class Model: # see pxd
             _nudge = self._nudges.find(node)
             if _nudge != self._nudges.end():
                 if self._rand() < dereference(_nudge).second:
-                    idx = <long> (self._rand() * (self._nNodes - 1))
-                    self._newstates_ptr[node] = idx
+                    idx = <long> (self._rand() * (self._nStates - 1))
+                    self._newstates_ptr[node] = self._agentStates[idx]
             else:
                 self._step(node)
         # swap pointers
