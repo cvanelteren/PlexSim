@@ -64,8 +64,6 @@ cdef class Model: # see pxd
                 # create adj list
         self.construct(kwargs.get('graph'), kwargs.get('agentStates', [-1, 1]))
 
-        for k in kwargs.get("kwargs", {}).items():
-            print(k)
 
 
         # create properties

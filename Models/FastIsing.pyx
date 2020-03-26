@@ -107,7 +107,6 @@ cdef class Ising(Model):
         matched['mag'] = magValues
         # t = np.zeros(magRatios.size)
         t = {}
-
         for idx, mr in enumerate(magRatios):
           t[np.round(mr, 2)] = optimize.root(\
                       froot,\
@@ -183,19 +182,17 @@ cdef class Ising(Model):
         """
         cdef:
             long length            = self._adj[node].neighbors.size()
-            long neighbor, i
+            long neighbor
+            long i
             double weight
             double delta = 1
-            double energy          = 0
-            #double energy          = -self._H [node] * self._states_ptr[node]
+            double energy          = -self._H [node] * self._states_ptr[node]
 
         # TODO: add memory part
         for i in range(length):
             neighbor = self._adj[node].neighbors[i]
             weight   = self._adj[node].weights[i]
             energy  -= self._states_ptr[node] * self._states_ptr[neighbor] *  weight
-
-           #energy -= self._nudges[node] * self._states_ptr[node]
         return energy
 
 
@@ -213,9 +210,8 @@ cdef class Ising(Model):
         # look for nudge
         # normal update
         energy = self._energy(node)
-        # p = 1 / (1. + exp(- self._beta * 2. * energy))
-        p = exp(- self._beta * 2 * energy)
-        if self._rand() >= p:
+        p = 1 / (1. + exp(-self._beta * 2. * energy))
+        if self._rand() < p:
           self._newstates_ptr[node] = -self._states_ptr[node]
     cpdef np.ndarray[double] computeProb(self):
         """
@@ -354,7 +350,7 @@ cdef class Ising(Model):
     def t(self, value):
       # make property
         self._t   = value
-        self.beta = 1 / value if value != 0 else np.inf
+        self.beta = 1 / <float>(value) if value != 0 else np.inf
 
 def rebuild(graph, t, nudges, states, magSide, updateType):
   cdef Ising tmp = Ising(graph, t = t,\

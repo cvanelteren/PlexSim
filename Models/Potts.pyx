@@ -85,13 +85,19 @@ cdef class Potts(Model):
     @cython.overflowcheck(False)
     cpdef vector[double] siteEnergy(self, long[::1] states):
         cdef:
-            vector[double] siteEnergy
+            vector[double] siteEnergy = vector[double](self._nNodes)
             int node
             double Z, energy
+
+            long* ptr = self._states_ptr
+        # reset pointer to current state
+        self._states_ptr = &states[0]
         for node in range(self._nNodes):
             Z = self._adj[node].neighbors.size()
-            energy = - self.energy(node, states)[0] / Z # just average
-            siteEnergy.push_back(energy)
+            energy = - self._energy(node)[0] / Z # just average
+            siteEnergy[node] = energy
+        # reset pointer to original buffer
+        self._states_ptr = ptr
         return siteEnergy
 
 
