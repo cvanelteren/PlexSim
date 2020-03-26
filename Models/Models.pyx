@@ -232,6 +232,7 @@ cdef class Model: # see pxd
     cdef long[::1]  _updateState(self, long[::1] nodesToUpdate) nogil:
         cdef:
             long node
+            long idx
             long N =  nodesToUpdate.shape[0]
             unordered_map[long, double].iterator _nudge
         # init loop
@@ -241,7 +242,8 @@ cdef class Model: # see pxd
             _nudge = self._nudges.find(node)
             if _nudge != self._nudges.end():
                 if self._rand() < dereference(_nudge).second:
-                    self._newstates_ptr[node] = <long> (self._rand() * (self._nNodes - 1))
+                    idx = <long> (self._rand() * (self._nNodes - 1))
+                    self._newstates_ptr[node] = idx
             else:
                 self._step(node)
         # swap pointers
