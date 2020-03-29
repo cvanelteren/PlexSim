@@ -249,7 +249,7 @@ cdef class Model: # see pxd
             _nudge = self._nudges.find(node)
             if _nudge != self._nudges.end():
                 if self._rand() < dereference(_nudge).second:
-                    idx = <long> (self._rand() * (self._nStates - 1))
+                    idx = lround(self._rand() * (self._nStates - 1))
                     self._newstates_ptr[node] = self._agentStates[idx]
             else:
                 self._step(node)
@@ -403,6 +403,7 @@ cdef class Model: # see pxd
     def seed(self, value):
         DEFAULT = 0
         if isinstance(value, int) and value >= 0:
+            print(f"setting seed {value}")
             self._seed = value
         else:
             print("Value is not unsigned long")
@@ -558,10 +559,10 @@ cdef class Model: # see pxd
     def __reduce__(self):
         tmp = {i: getattr(self, i) for i in dir(self
         )}
-        return (self.__class__, tmp)
+        return (self.__class__, (tmp),)
     def __deepcopy__(self, memo):
         tmp = {i : getattr(self, i) for i in dir(self)}
-        return self.__class__(tmp)
+        return self.__class__(**tmp)
 
 cdef class Potts(Model):
     def __init__(self, \
@@ -586,7 +587,6 @@ cdef class Potts(Model):
         for node, nodeID in self.mapping.items():
             H[nodeID] = self.graph.nodes()[node].get('H', 0)
         # for some reason deepcopy works with this enabled...
-        #self.states = np.asarray(self.states.base).copy()
         # self.nudges = np.asarray(self.nudges.base).copy()
 
         # specific model parameters
@@ -666,14 +666,14 @@ cdef class Potts(Model):
         # count the neighbors in the different possible states
 
         # draw random new state
-        cdef long testState = lround(self._rand() * (self._nStates - 1))
+        cdef long testState = lround(self._rand() * (self._nStates-1))
 
         # get proposal 
         testState = self._agentStates[testState]
 
         energy[0] = self._H[node]
         energy[1] = self._H[node]
-        energy[2] = testState # keep track of possible new state
+        energy[2] = <double> testState # keep track of possible new state
 
         # maybe check all states? now just random, in the limit this would
         # result in an awful fit
@@ -710,6 +710,8 @@ cdef class Potts(Model):
         p = exp(- self._beta *( probs[1] - probs[0]))
         if self._rand() < p:
             self._newstates_ptr[node] = <long> probs[2]
+        else:
+            self._newstates_ptr[node] = self._states_ptr[node]
 
     cpdef  np.ndarray matchMagnetization(self,\
                               np.ndarray temps  = np.logspace(-3, 2, 20),\
@@ -790,7 +792,8 @@ cdef class Potts(Model):
             # print(results[0])
             self.t = tcopy # reset temp
             return results
-
+    cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
+        return self._updateState(nodesToUpdate)
 
 
 

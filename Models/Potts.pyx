@@ -10,7 +10,7 @@ import multiprocessing as mp
 import numpy  as np
 cimport numpy as np
 
-from libc.math cimport exp, log, cos, pi
+from libc.math cimport exp, log, cos, pi, lround
 cimport cython
 from cython.parallel cimport prange, threadid
 from cython.operator cimport postincrement, dereference
@@ -22,7 +22,7 @@ cdef class Potts(Model):
     def __init__(self, \
                         graph,\
                         t = 1,\
-                        agentStates = [0, 1],\
+                        agentStates = [0, 1, 2],\
                         nudgeType   = 'constant',\
                         updateType  = 'async', \
                         memorySize     = 0, \
@@ -41,7 +41,7 @@ cdef class Potts(Model):
         for node, nodeID in self.mapping.items():
             H[nodeID] = self.graph.nodes()[node].get('H', 0)
         # for some reason deepcopy works with this enabled...
-        self.states = np.asarray(self.states.base).copy()
+        #self.states = np.asarray(self.states.base).copy()
         # self.nudges = np.asarray(self.nudges.base).copy()
 
         # specific model parameters
@@ -123,9 +123,8 @@ cdef class Potts(Model):
         # count the neighbors in the different possible states
 
         # draw random new state
-        cdef int testState = <int> (self._rand() * self._nStates)
+        cdef long testState = lround(self._rand() * (self._nStates-1))
         testState = self._agentStates[testState]
-
         energy[0] = self._H[node]
         energy[1] = self._H[node]
         energy[2] = testState # keep track of possible new state
@@ -145,6 +144,7 @@ cdef class Potts(Model):
         #    energy[1] -= self._hamiltonian(testState, self._memory[memTime, node]) * exp(-memTime * self._delta)
         # with gil: print(energy)
         return energy
+
     cdef double _hamiltonian(self, long x, long y) nogil:
         # sanity checking
         return cos(2 * pi  * (<double> x - <double> y) / <double> self._nStates)
@@ -162,7 +162,7 @@ cdef class Potts(Model):
 
         probs = self._energy(node)
         p = exp(- self._beta *( probs[1] - probs[0]))
-        if self._rand() <= p:
+        if self._rand() < p:
             self._newstates_ptr[node] = <long> probs[2]
 
     cpdef  np.ndarray matchMagnetization(self,\
