@@ -565,14 +565,14 @@ cdef class Model: # see pxd
 
 cdef class Potts(Model):
     def __init__(self, \
-                        graph,\
-                        t = 1,\
-                        agentStates = [0, 1],\
-                        nudgeType   = 'constant',\
-                        updateType  = 'async', \
-                        memorySize     = 0, \
-                        delta            = 0, \
-                        **kwargs):
+                 graph,\
+                 t = 1,\
+                 agentStates = [0, 1],\
+                 nudgeType   = 'constant',\
+                 updateType  = 'async', \
+                 memorySize     = 0, \
+                 delta            = 0, \
+                 **kwargs):
         """
         Potts model
 
@@ -618,8 +618,6 @@ cdef class Potts(Model):
         self._t   = value
         self.beta = 1 / value if value != 0 else np.inf
 
-    cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
-        return self._updateState(nodesToUpdate)
 
 
     @cython.boundscheck(False)
@@ -695,7 +693,7 @@ cdef class Potts(Model):
 
     cdef double _hamiltonian(self, long x, long y) nogil:
         # sanity checking
-        return cos(2 * pi  * (<double> x - <double> y) / <double> self._nStates)
+        return cos(2 * pi  * ( x - y) / <double> self._nStates)
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
