@@ -554,7 +554,14 @@ cdef class Model: # see pxd
         From Ito & Kaneko 2002
         """
         return 1 - 2 * (xi - xj)
-
+    
+    def __reduce__(self):
+        tmp = {i: getattr(self, i) for i in dir(self
+        )}
+        return (self.__class__, tmp)
+    def __deepcopy__(self, memo):
+        tmp = {i : getattr(self, i) for i in dir(self)}
+        return self.__class__(tmp)
 
 cdef class Potts(Model):
     def __init__(self, \
@@ -661,7 +668,9 @@ cdef class Potts(Model):
         # count the neighbors in the different possible states
 
         # draw random new state
-        cdef long testState = lround(self._rand() * (self._nStates-1))
+        cdef long testState = lround(self._rand() * (self._nStates - 1))
+
+        # get proposal 
         testState = self._agentStates[testState]
 
         energy[0] = self._H[node]
@@ -785,15 +794,7 @@ cdef class Potts(Model):
             return results
 
 
-    def __deepcopy__(self, memo):
-        tmp = {i: getattr(self, i) for i in dir(self)}
-        tmp = Potts(**tmp)
-        # tmp.nudges = self.nudges.base
-        return tmp
 
-    def __reduce__(self):
-        tmp = {i: getattr(self, i) for i in dir(self)}
-        return (rebuild, (tmp, Potts))
 
 cdef class SIR(Model):
     def __init__(self, graph, updateType = 'async',\
@@ -931,18 +932,7 @@ cdef class RBN(Model):
         #update
        self._newstates_ptr[node] = self._rules[node][counter]
        return
-    
-    # overloading parrent
-    def __deepcopy__(self, memo):
-        tmp = {i : getattr(self, i) for i in dir(self)}
-        tmp = RBN(**tmp)
-        return tmp
-    def __reduce__(self):
-        graph = self.graph
-        states = self.states.base.copy()
-        nudges = self.nudges.base.copy()
-        updateType = self.updateType
-        return (rebuild, (graph, states, nudges, updateType))
+
 
 cdef class Percolation(Model):
     def __init__(self, graph, p = 1, agentStates = [0, 1], updateType = 'single'):
@@ -1040,9 +1030,3 @@ cdef class CCA(Model):
 #    return tmp
 
 
-
-def rebuild(**kwargs):
-    print(kwargs)
-    cdef Potts tmp = Potts(**kwargs)
-    tmp.nudges = kwargs.get('nudges').copy()
-    return tmp
