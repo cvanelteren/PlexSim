@@ -693,7 +693,7 @@ cdef class Potts(Model):
 
     cdef double _hamiltonian(self, long x, long y) nogil:
         # sanity checking
-        return cos(2 * pi  * ( x - y) / <double> self._nStates)
+        return cos(2 * pi  * ( x - y ) / <double> self._nStates)
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
