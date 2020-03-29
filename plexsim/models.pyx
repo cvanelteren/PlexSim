@@ -19,7 +19,6 @@ from libc.stdio cimport printf
 from libcpp.vector cimport vector
 from libcpp.map cimport map
 from libcpp.unordered_map cimport unordered_map
-from libc.math cimport lround, abs
 
 from libc.math cimport exp, log, cos, pi, lround
 
@@ -410,7 +409,6 @@ cdef class Model: # see pxd
             print(f"{DEFAULT} is used")
             self._seed = DEFAULT
         self._gen   = mt19937(self.seed)
-
     # TODO: reset all after new?
     @nudges.setter
     def nudges(self, vals):
@@ -657,6 +655,7 @@ cdef class Potts(Model):
             long neighbor, neighboridx
             double weight # TODO: remove delta
             vector[double] energy = vector[double](3)
+            long  testState
         # fill buffer
         # TODO: change this to more efficient buffer
         # keep track of:
@@ -666,8 +665,15 @@ cdef class Potts(Model):
         # count the neighbors in the different possible states
 
         # draw random new state
-        cdef long testState = lround(self._rand() * (self._nStates-1))
-
+        #TODO: fix this
+        # this doesnot work 
+        #testState = lround(self._rand() * (self._nStates))
+        # this works; no idea why. In fact this shouldnot work
+        testState = <long> (self._rand() * (self._nStates ))
+        #testState = <int> weight
+        #with gil:
+        #    print(testState, weight)
+        #printf('%d\n', testState)
         # get proposal 
         testState = self._agentStates[testState]
 
