@@ -309,7 +309,8 @@ cdef class Model: # see pxd
             if start + sampleSize >= self._nNodes or sampleSize == 1:
                 for i in range(self._nNodes):
                     # shuffle the array without replacement
-                    j                = lround(self._rand() * (self._nNodes - 1))
+                    j                 = <long> (self._rand() * self._nNodes)
+                    #j                = lround(self._rand() * (self._nNodes - 1))
                     swap(self._nodeids[i], self._nodeids[j])
                     #k                = self._nodeids[j]
                     #self._nodeids[j] = self._nodeids[i]
@@ -396,13 +397,14 @@ cdef class Model: # see pxd
     @property
     def seed(self)      : return self._seed
     @property
+    def sampleSize(self): return self._sampleSize
+    @property
     def newstates(self) : return self._newstates
 
     @seed.setter
     def seed(self, value):
         DEFAULT = 0
         if isinstance(value, int) and value >= 0:
-            print(f"setting seed {value}")
             self._seed = value
         else:
             print("Value is not unsigned long")
@@ -445,45 +447,45 @@ cdef class Model: # see pxd
         DEFAULT = "async"
         import re
         # allowed patterns
-        pattern = "(sync)?(async)?(single)?(0?.\d+)?"
+        pattern = "(sync)?(async)?"
         if re.match(pattern, value):
             self._updateType = value
         else:
-            self._updateType = "async"
+            self._updateType = DEFAULT
         # allow for mutation if async else independent updates
-        if value in 'sync async':
+        if value == "async"
+            # set pointers to the same thing
+            self._newstates_ptr = self._states_ptr
+            # assign  buffers to the same address
+            self._newstates = self._states
+            # sanity check
+            assert self._states_ptr == self._newstates_ptr
+            assert id(self._states.base) == id(self._newstates.base)
+        # rset buffer pointers
+        elif value == "sync":
+            # obtain a new memory address
+            self._newstates = self._states.base.copy()
+            assert id(self._newstates.base) != id(self._states.base)
+            # sanity check pointers (maybe swapped!)
+            self._states_ptr   = &self._states[0]
+            self._newstates_ptr = &self._newstates[0]
+            # test memory addresses
+            assert self._states_ptr != self._newstates_ptr
+            assert id(self._newstates.base) != id(self._states.base)
+    @sampleSize.setter
+    def sampleSize(self, value):
+        """
+        Sample size setter for sample nodes
+        """
+        if isinstance(value, int):
+            assert 0 < value <= self.nNodes
+            self._sampleSize = value
+        if isinstance(value, float):
+            assert 0 < value <= 1
+            self._sampleSize = <long> (value * self._nNodes)
+        # default
+        else:
             self._sampleSize = self._nNodes
-            # dequeue buffers
-            if value == 'async':
-                # set pointers to the same thing
-                self._newstates_ptr = self._states_ptr
-                # assign  buffers to the same address
-                self._newstates = self._states
-                # sanity check
-                assert self._states_ptr == self._newstates_ptr
-                assert id(self._states.base) == id(self._newstates.base)
-            # reset buffer pointers
-            elif value == 'sync':
-                # obtain a new memory address
-                self._newstates = self._states.base.copy()
-                assert id(self._newstates.base) != id(self._states.base)
-                # sanity check pointers (maybe swapped!)
-                self._states_ptr   = &self._states[0]
-                self._newstates_ptr = &self._newstates[0]
-                # test memory addresses
-                assert self._states_ptr != self._newstates_ptr
-                assert id(self._newstates.base) != id(self._states.base)
-        # percentage
-        try:
-            tmp = float(value)
-            assert tmp > 0, "Don't think you want to sample 0 nodes"
-            self._sampleSize = np.max((<long>(tmp * self._nNodes), 1))
-        except Exception as e:
-            # print(e)
-            pass
-        # single
-        if value == 'single':
-            self._sampleSize = 1
     @nudgeType.setter
     def nudgeType(self, value):
         DEFAULT = "constant"
@@ -670,6 +672,9 @@ cdef class Potts(Model):
         #testState = lround(self._rand() * (self._nStates))
         # this works; no idea why. In fact this shouldnot work
         testState = <long> (self._rand() * (self._nStates ))
+        if testState >= self._nStates:
+            with gil:
+                assert False
         #testState = <int> weight
         #with gil:
         #    print(testState, weight)
@@ -969,12 +974,12 @@ cdef class Percolation(Model):
 
 cdef class CCA(Model):
     def __init__(self, \
-                    graph,\
-                    threshold = 0.,\
-                    agentStates = [-1 ,1],\
-                    updateType = 'single',\
-                    nudgeType   = 'constant',\
-                    **kwargs):
+                 graph,\
+                 threshold = 0.,\
+                 agentStates = [-1 ,1],\
+                 updateType = "async",\
+                 nudgeType   = "constant",\
+                 **kwargs):
         super(CCA, self).__init__(**locals())
         self.threshold = threshold
 
@@ -993,32 +998,31 @@ cdef class CCA(Model):
     @cython.cdivision(True)
     @cython.initializedcheck(False)
     @cython.overflowcheck(False)
-    cdef long _evolve(self, long node) nogil:
+    cdef void _evolve(self, long node) nogil:
         """
         Rule : evolve if the state of the neigbhors exceed a threshold
         """
 
         cdef:
-            long neighbor, nNeighbors = self._adj[node].neighbors.size()
+            long neighbor
+            long nNeighbors = self._adj[node].neighbors.size()
             int i
             double fraction = 0
             long* states = self._states_ptr
         # check neighbors and see if they exceed threshold
         for neighbor in range(nNeighbors):
             neighbor = self._adj[node].neighbors[neighbor]
-            if states[neighbor] == (states[node] + 1) % self._nStates:
-                fraction += 1
+            if (states[neighbor] == (states[node] + 1) % self._nStates):
+                fraction += 1 / <double> nNeighbors
         # consume cell
-        fraction /= <double> nNeighbors
         if fraction  >= self._threshold:
-            return  (states[node]  + 1)  %  self._nStates
+            (self._newstates_ptr[node] + 1) % self._nStates
         # remain unchanged
         else:
             if self._rand() <= self._threshold:
-                i = <long> self._rand() * self._nStates
-                states[node] = self._agentStates[i]
-            return self._states[node]
-
+                i = <long> (self._rand() * self._nStates)
+                self._newstates_ptr[node] = self._agentStates[i]
+        return 
     @cython.boundscheck(False)
     @cython.wraparound(False)
     @cython.nonecheck(False)
@@ -1026,7 +1030,7 @@ cdef class CCA(Model):
     @cython.initializedcheck(False)
     @cython.overflowcheck(False)
     cdef void _step(self, long node) nogil:
-        self._newstates_ptr[node] = self._evolve(node)
+        self._evolve(node)
         return
 
 
