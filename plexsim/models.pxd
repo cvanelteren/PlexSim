@@ -109,7 +109,8 @@ cdef class Potts(Model):
     cpdef  np.ndarray matchMagnetization(self,\
                                          np.ndarray temps  = *,\
                                          int n             = *,\
-                                         int burninSamples = *)
+                                         int burninSamples = *,\
+                                         double  match =*)
     cpdef vector[double] siteEnergy(self, long[::1] states)
 
 cdef class SIR(Model):

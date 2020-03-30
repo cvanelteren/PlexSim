@@ -249,7 +249,7 @@ cdef class Model: # see pxd
             _nudge = self._nudges.find(node)
             if _nudge != self._nudges.end():
                 if self._rand() < dereference(_nudge).second:
-                    idx = lround(self._rand() * (self._nStates - 1))
+                    idx = <long> (self._rand() * self._nStates)
                     self._newstates_ptr[node] = self._agentStates[idx]
             else:
                 self._step(node)
@@ -726,7 +726,8 @@ cdef class Potts(Model):
     cpdef  np.ndarray matchMagnetization(self,\
                               np.ndarray temps  = np.logspace(-3, 2, 20),\
                               int n             = int(1e3),\
-                              int burninSamples = 0):
+                              int burninSamples = 0,\
+                              double match = -1):
             """
             Computes the magnetization as a function of temperatures
             Input:
@@ -786,7 +787,6 @@ cdef class Potts(Model):
                     mu = np.array([self.siteEnergy(resi) for resi in res])
 
                     results[0, i] = mu.mean()
-                    results[1, i] = (mu**2).mean()  - mu.mean()**2 * self._beta
                     # results[0, i] = np.array([(self.siteEnergy(resi)**2).mean(0) - results[0, i]**2)  * (<Potts> tmptr)._beta \
                                               # for resi in res].mean()
                     # for j in range(n):
@@ -799,12 +799,32 @@ cdef class Potts(Model):
                     # results[0, i] = avg
                     # results[1, i] = sus
                     pbar.update(1)
+            results[1, :] = np.abs(np.gradient(results[0], temps, edge_order = 1))
+            if match > 0:
+                # fit sigmoid
+                from scipy import optimize
+                params, cov = optimize.curve_fit(sigmoid, temps, results[0], maxfev = 10_000)
+                # optimize
+                # setting matched temperature
+                critic = optimize.fmin(sigmoidOpt, \
+                                       x0 = 0,\
+                                       args = (params, match ),\
+                                       )
+                tcopy = critic
+                print(f"Sigmoid fit params {params}\nAt T={critic}")
             # print(results[0])
             self.t = tcopy # reset temp
             return results
     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
         return self._updateState(nodesToUpdate)
 
+# associated with potts for matching magnetic
+@cython.binding(True)
+def sigmoid(x, a, b, c, d):
+    return  a / (1 + np.exp(b * x - c)) + d
+@cython.binding(True)
+def sigmoidOpt(x, params, match):
+    return np.abs( sigmoid(x, *params) - match )
 
 
 cdef class SIR(Model):
