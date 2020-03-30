@@ -63,28 +63,29 @@ cdef class Model: # see pxd
 
         cdef timespec ts
         clock_gettime(CLOCK_REALTIME, &ts)
-        cdef unsigned int seed = kwargs.get('seed', ts.tv_sec)
+        cdef unsigned int seed = kwargs.get("seed", ts.tv_sec)
         # define rng sampler
         self._dist = uniform_real_distribution[double](0.0, 1.0)
         self.seed = seed
         self._gen  = mt19937(self.seed)
         # create adj list
-        self.construct(kwargs.get('graph'), kwargs.get('agentStates', [-1, 1]))
 
 
+        # DEFAULTS
+        self.construct(kwargs.get("graph"), kwargs.get("agentStates", [-1, 1]))
 
         # create properties
-        self.nudgeType  = copy.copy(kwargs.get('nudgeType', 'constant'))
+        self.nudgeType  = copy.copy(kwargs.get("nudgeType", "constant"))
 
         # self.memory = np.ones((memorySize, self._nNodes), dtype = long) * np.NaN   # note keep the memory first not in state space, i.e start without any form memory
 
         # create memory
-        self.memorySize   = kwargs.get('memorySize', 0)
+        self.memorySize   = kwargs.get("memorySize", 0)
         self._memory      = np.random.choice(self.agentStates, size = (self.memorySize, self._nNodes))
-        # TODO: remove
-        #print('*'*32, kwargs)
         self.nudges = kwargs.get("nudges", {})
+        # n.b. sampleSize has to be set from no on
         self.updateType = kwargs.get("updateType", "async")
+        self.sampleSize = kwargs.get("sampleSize", self._nNodes)
 
     cpdef void construct(self, object graph, list agentStates):
         """
@@ -445,6 +446,7 @@ cdef class Model: # see pxd
         """
         # TODO: do a better switch than this
         DEFAULT = "async"
+        # not needed anymore since single is not a sampler kv
         import re
         # allowed patterns
         pattern = "(sync)?(async)?"
@@ -453,7 +455,7 @@ cdef class Model: # see pxd
         else:
             self._updateType = DEFAULT
         # allow for mutation if async else independent updates
-        if value == "async"
+        if value == "async":
             # set pointers to the same thing
             self._newstates_ptr = self._states_ptr
             # assign  buffers to the same address
@@ -461,7 +463,7 @@ cdef class Model: # see pxd
             # sanity check
             assert self._states_ptr == self._newstates_ptr
             assert id(self._states.base) == id(self._newstates.base)
-        # rset buffer pointers
+        # reset buffer pointers
         elif value == "sync":
             # obtain a new memory address
             self._newstates = self._states.base.copy()
@@ -569,10 +571,7 @@ cdef class Potts(Model):
                  graph,\
                  t = 1,\
                  agentStates = [0, 1],\
-                 nudgeType   = 'constant',\
-                 updateType  = 'async', \
-                 memorySize     = 0, \
-                 delta            = 0, \
+                 delta       = 0, \
                  **kwargs):
         """
         Potts model
@@ -809,9 +808,11 @@ cdef class Potts(Model):
 
 
 cdef class SIR(Model):
-    def __init__(self, graph, updateType = 'async',\
+    def __init__(self, graph, \
                  agentStates = [0, 1, 2],\
-                 beta = 1, mu = 1):
+                 beta = 1,\
+                 mu = 1,\
+                 **kwargs):
         super(SIR, self).__init__(**locals())
         self.beta = beta
         self.mu   = mu
@@ -947,7 +948,8 @@ cdef class RBN(Model):
 
 
 cdef class Percolation(Model):
-    def __init__(self, graph, p = 1, agentStates = [0, 1], updateType = 'single'):
+    def __init__(self, graph, p = 1, agentStates = [0, 1], \
+                **kwargs):
         super(Percolation, self).__init__(**locals())
         self.p = p
 
@@ -976,11 +978,14 @@ cdef class CCA(Model):
     def __init__(self, \
                  graph,\
                  threshold = 0.,\
-                 agentStates = [-1 ,1],\
-                 updateType = "async",\
-                 nudgeType   = "constant",\
+                 agentStates = [0, 1, 2],\
                  **kwargs):
+        """
+        Circular cellular automaton
+        """
+
         super(CCA, self).__init__(**locals())
+
         self.threshold = threshold
 
     # threshold for neighborhood decision
@@ -1013,10 +1018,10 @@ cdef class CCA(Model):
         for neighbor in range(nNeighbors):
             neighbor = self._adj[node].neighbors[neighbor]
             if (states[neighbor] == (states[node] + 1) % self._nStates):
-                fraction += 1 / <double> nNeighbors
+                fraction += 1 
         # consume cell
-        if fraction  >= self._threshold:
-            (self._newstates_ptr[node] + 1) % self._nStates
+        if (fraction / <double> nNeighbors >= self._threshold):
+            self._newstates_ptr[node] = ((states[node] + 1) % self._nStates)
         # remain unchanged
         else:
             if self._rand() <= self._threshold:
