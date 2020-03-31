@@ -113,6 +113,9 @@ cdef class Potts(Model):
                                          double  match =*)
     cpdef vector[double] siteEnergy(self, long[::1] states)
 
+cdef class Ising(Potts):
+    cdef double _hamiltonian(self, long x, long y) nogil
+
 cdef class SIR(Model):
     cdef:
         float _beta

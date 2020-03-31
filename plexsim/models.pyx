@@ -20,7 +20,7 @@ from libcpp.vector cimport vector
 from libcpp.map cimport map
 from libcpp.unordered_map cimport unordered_map
 
-from libc.math cimport exp, log, cos, pi, lround
+from libc.math cimport exp, log, cos, pi, lround, fabs 
 
 from pyprind import ProgBar
 import multiprocessing as mp
@@ -235,27 +235,38 @@ cdef class Model: # see pxd
         # self._newstates = states.copy()
         self._nNodes    = graph.number_of_nodes()
 
-    # cdef long[::1]  _updateState(self, long[::1] nodesToUpdate) :
     cdef long[::1]  _updateState(self, long[::1] nodesToUpdate) nogil:
         cdef:
             long node
             long idx
             long N =  nodesToUpdate.shape[0]
             unordered_map[long, double].iterator _nudge
+
         # init loop
         for node in range(N):
             node = nodesToUpdate[node]
+
             # update
             _nudge = self._nudges.find(node)
             if _nudge != self._nudges.end():
-                if self._rand() < dereference(_nudge).second:
-                    idx = <long> (self._rand() * self._nStates)
-                    self._newstates_ptr[node] = self._agentStates[idx]
+                if self._rand() < fabs(\
+                        dereference(_nudge).second):
+                    # positive nudge is switch
+                    if dereference(_nudge).second > 0:
+                        idx = <long> (self._rand() * self._nStates)
+                        self._newstates_ptr[node] = self._agentStates[idx]
+                    # negative nudge is freeze
+                    else:
+                        self._newstates_ptr[node] = self._states_ptr[node]
+                else:
+                    self._step(node)
+
             else:
                 self._step(node)
         # swap pointers
         swap(self._states_ptr, self._newstates_ptr)
         return self._newstates
+
     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
         return self._updateState(nodesToUpdate)
     cdef void _step(self, long node) nogil:
@@ -501,11 +512,12 @@ cdef class Model: # see pxd
         from collections import Iterable
         cdef int idx
         if isinstance(value, int):
-            self._states   [:] = value
+            for node in range(self._nNodes):
+                self._states_ptr[node] = value
         elif isinstance(value, dict):
             for k, v in value.items():
                 idx = self.mapping[k]
-                self._states[idx] = v
+                self._states_ptr[idx] = v
         # assume iterable
         else:
             for i in range(self._nNodes):
@@ -635,7 +647,7 @@ cdef class Potts(Model):
         # reset pointer to current state
         self._states_ptr = &states[0]
         for node in range(self._nNodes):
-            Z = self._adj[node].neighbors.size()
+            Z = <double> self._adj[node].neighbors.size()
             energy = - self._energy(node)[0] / Z # just average
             siteEnergy[node] = energy
         # reset pointer to original buffer
@@ -671,9 +683,6 @@ cdef class Potts(Model):
         #testState = lround(self._rand() * (self._nStates))
         # this works; no idea why. In fact this shouldnot work
         testState = <long> (self._rand() * (self._nStates ))
-        if testState >= self._nStates:
-            with gil:
-                assert False
         #testState = <int> weight
         #with gil:
         #    print(testState, weight)
@@ -786,7 +795,7 @@ cdef class Potts(Model):
                     # results[0, i] = np.array(self.siteEnergy(res[n-1])).sum()
                     mu = np.array([self.siteEnergy(resi) for resi in res])
 
-                    results[0, i] = mu.mean()
+                    results[0, i] = np.nanmean(mu)
                     # results[0, i] = np.array([(self.siteEnergy(resi)**2).mean(0) - results[0, i]**2)  * (<Potts> tmptr)._beta \
                                               # for resi in res].mean()
                     # for j in range(n):
@@ -818,6 +827,15 @@ cdef class Potts(Model):
     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
         return self._updateState(nodesToUpdate)
 
+
+cdef class Ising(Potts):
+    def __init__(self, graph, \
+                 **kwargs):
+        agentStates = [-1, 1]
+        super(Ising, self).__init__(**locals())
+
+    cdef double _hamiltonian(self, long x , long y) nogil:
+        return <double> (x * y)
 # associated with potts for matching magnetic
 @cython.binding(True)
 def sigmoid(x, a, b, c, d):
