@@ -86,6 +86,10 @@ cdef class Model: # see pxd
         # n.b. sampleSize has to be set from no on
         self.updateType = kwargs.get("updateType", "async")
         self.sampleSize = kwargs.get("sampleSize", self._nNodes)
+        
+        if "states" in kwargs:
+            print("setting states")
+            self.states = kwargs.get("states").copy()
 
     cpdef void construct(self, object graph, list agentStates):
         """
@@ -123,7 +127,7 @@ cdef class Model: # see pxd
         if getattr(graph, '__version__',  __VERSION__ ) > 1.0:
             # generate graph in json format
             nodelink = nx.node_link_data(graph)
-            for nodeidx, node in enumerate(nodelink['nodes']):
+            for nodeidx, node in enumerate(nodelink.get('nodes')):
                 id                = node.get('id')
                 mapping[id]       = nodeidx
                 rmapping[nodeidx] = id
@@ -240,6 +244,9 @@ cdef class Model: # see pxd
             long node
             long idx
             long N =  nodesToUpdate.shape[0]
+            long numNeighbors
+            long backup
+            long update = 0
             unordered_map[long, double].iterator _nudge
 
         # init loop
@@ -248,21 +255,24 @@ cdef class Model: # see pxd
 
             # update
             _nudge = self._nudges.find(node)
+            update = 0
             if _nudge != self._nudges.end():
                 if self._rand() < fabs(\
                         dereference(_nudge).second):
                     # positive nudge is switch
                     if dereference(_nudge).second > 0:
-                        idx = <long> (self._rand() * self._nStates)
-                        self._newstates_ptr[node] = self._agentStates[idx]
-                    # negative nudge is freeze
-                    else:
-                        self._newstates_ptr[node] = self._states_ptr[node]
-                else:
-                    self._step(node)
-
-            else:
-                self._step(node)
+                        # set update
+                        update = 1
+                        numNeighbors = self._adj[node].neighbors.size() 
+                        # get neighbor to swap state
+                        idx = <long> (self._rand() * numNeighbors)
+                        idx = self._adj[node].neighbors[idx]
+                        backup = self._states_ptr[idx]
+                        # uniform sample from possible states
+                        self._states_ptr[idx] = self._agentStates[ <long> (self._rand() * self._nStates)]
+            self._step(node)
+            if update == 1:
+                self._states_ptr[idx] = backup
         # swap pointers
         swap(self._states_ptr, self._newstates_ptr)
         return self._newstates
@@ -376,7 +386,7 @@ cdef class Model: # see pxd
             self._memorysize = 0
 
     @property
-    def memory(self): return self._memory
+    def memory(self): return self._memory.base
     @memory.setter
     def memory(self, value):
         if isinstance(value, np.ndarray):
@@ -389,15 +399,13 @@ cdef class Model: # see pxd
     @property
     def adj(self)       : return self._adj
     @property
-    def states(self)    : return self._states
+    def states(self)    : return self._states.base
     @property
     def updateType(self): return self._updateType
     @property
     def nudgeType(self) : return self._nudgeType
-    @property #return mem view of states
-    def states(self)    : return self._states
     @property
-    def nodeids(self)   : return self._nodeids
+    def nodeids(self)   : return self._nodeids.base
     @property
     def nudges(self)    : return self._nudges
     @property
@@ -405,13 +413,11 @@ cdef class Model: # see pxd
     @property
     def nStates(self)   : return self._nStates
     @property
-    def nodeids(self)   : return self._nodeids
-    @property
     def seed(self)      : return self._seed
     @property
     def sampleSize(self): return self._sampleSize
     @property
-    def newstates(self) : return self._newstates
+    def newstates(self) : return self._newstates.base
 
     @seed.setter
     def seed(self, value):
@@ -569,15 +575,22 @@ cdef class Model: # see pxd
         From Ito & Kaneko 2002
         """
         return 1 - 2 * (xi - xj)
-    
     def __reduce__(self):
-        tmp = {i: getattr(self, i) for i in dir(self
-        )}
-        return (self.__class__, (tmp),)
+        kwargs = {}
+        for k in dir(self):
+            atr = getattr(self, k)
+            if not callable(atr) and not k.startswith('_'):
+                kwargs[k] = atr
+        #for k in kwargs: print(k)
+        return rebuild, (self.__class__, kwargs)
+        #return rebuild, (self.__class__, kwargs)
+
     def __deepcopy__(self, memo):
         tmp = {i : getattr(self, i) for i in dir(self)}
         return self.__class__(**tmp)
 
+def rebuild(cls, kwargs):
+    return cls(**kwargs)
 cdef class Potts(Model):
     def __init__(self, \
                  graph,\
@@ -592,26 +605,19 @@ cdef class Potts(Model):
         Additional inputs
         :delta: a modifier for how much the previous memory sizes influence the next state
         """
+        #print(kwargs, locals())
+
         super(Potts, self).__init__(**locals())
 
-        cdef np.ndarray H  = np.zeros(self.graph.number_of_nodes(), float)
-        for node, nodeID in self.mapping.items():
-            H[nodeID] = self.graph.nodes()[node].get('H', 0)
-        # for some reason deepcopy works with this enabled...
-        # self.nudges = np.asarray(self.nudges.base).copy()
-
-        # specific model parameters
-        self._H      = H
-        # self._beta = np.inf if temperature == 0 else 1 / temperature
+        self._H = kwargs.get("H", np.zeros(self._nNodes, dtype = float))
         self.t       = t
-
         self._delta  = delta
 
     @property
     def delta(self): return self._delta
 
     @property
-    def H(self): return self._H
+    def H(self): return self._H.base
 
     @property
     def beta(self): return self._beta
@@ -845,15 +851,17 @@ def sigmoidOpt(x, params, match):
     return np.abs( sigmoid(x, *params) - match )
 
 
-cdef class SIR(Model):
+cdef class SIRS(Model):
     def __init__(self, graph, \
                  agentStates = [0, 1, 2],\
                  beta = 1,\
                  mu = 1,\
+                 nu = 0,\
                  **kwargs):
-        super(SIR, self).__init__(**locals())
+        super(SIRS, self).__init__(**locals())
         self.beta = beta
         self.mu   = mu
+        self.nu   = nu
         self.init_random()
 
         """
@@ -866,8 +874,9 @@ cdef class SIR(Model):
 
         The dynamics are as follows
 
-        S ----> I ----> R
-          beta     mu
+        S ----> I ----> R ----> S
+                  ----> S 
+          beta     mu      nu (my addition)
 
         The update depends on the state a individual is in.
 
@@ -892,6 +901,13 @@ cdef class SIR(Model):
     def mu(self, value):
         assert 0 <= value <= 1, "mu \in (0,1)?"
         self._mu = value
+    @property
+    def nu(self):
+        return self._nu
+    @nu.setter
+    def nu(self, value):
+        assert 0 <= value <= 1
+        self._nu = value
 
     cdef float _checkNeighbors(self, long node) nogil:
         """
@@ -915,17 +931,23 @@ cdef class SIR(Model):
 
     cdef void _step(self, long node) nogil:
 
-        cdef float infectionRate 
+        cdef:
+            float rng = self._rand()
         # HEALTHY state 
         if self._states_ptr[node] == 0:
-            infectionRate = self._checkNeighbors(node)
             # infect
-            if self._rand() < infectionRate:
+            if rng  < self._checkNeighbors(node):
                 self._newstates_ptr[node] = 1
         # SICK state
         elif self._states_ptr[node] == 1:
-            if self._rand() < self._mu:
+            if rng < self._mu:
                 self._newstates_ptr[node] += 1
+            elif rng < self._nu:
+                self._newstates_ptr[node] = 0
+        # SIRS motive
+        elif self._states_ptr[node] == 2:
+            if rng < self._nu:
+                self._newstates_ptr[node] = 0
         # add SIRS dynamic?
         return
 
