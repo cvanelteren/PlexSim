@@ -121,6 +121,7 @@ cdef class SIRS(Model):
         float _beta
         float _mu
         float _nu
+        float _kappa
 
     cdef void _step(self, long node) nogil
 

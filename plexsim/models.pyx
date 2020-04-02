@@ -857,11 +857,13 @@ cdef class SIRS(Model):
                  beta = 1,\
                  mu = 1,\
                  nu = 0,\
+                 kappa = 0,\
                  **kwargs):
         super(SIRS, self).__init__(**locals())
-        self.beta = beta
-        self.mu   = mu
-        self.nu   = nu
+        self.beta  = beta
+        self.mu    = mu
+        self.nu    = nu
+        self.kappa = kappa
         self.init_random()
 
         """
@@ -874,14 +876,20 @@ cdef class SIRS(Model):
 
         The dynamics are as follows
 
-        S ----> I ----> R ----> S
-                  ----> S 
-          beta     mu      nu (my addition)
-
-        The update depends on the state a individual is in.
+        S ----> I ----> R
+          beta     mu
+               The update depends on the state a individual is in.
 
         S_i: beta A_{i}.dot(states[A[i]])  beta         |  infected neighbors / total neighbors
         I_i: \mu                                        | prop of just getting cured
+
+        TODO: no spontaneous infections possible
+        (my addition)
+        S ----> I ----> R ----> S
+          beta     mu     kappa
+                I ----> S
+                   nu
+
 
         Todo: the sir model currently describes a final end-state. We can model it that we just assume distributions
         """
@@ -908,6 +916,13 @@ cdef class SIRS(Model):
     def nu(self, value):
         assert 0 <= value <= 1
         self._nu = value
+    @property
+    def kappa(self):
+        return self._kappa
+    @kappa.setter
+    def kappa(self, value):
+        assert 0<=value<= 1
+        self._kappa = value
 
     cdef float _checkNeighbors(self, long node) nogil:
         """
@@ -941,12 +956,12 @@ cdef class SIRS(Model):
         # SICK state
         elif self._states_ptr[node] == 1:
             if rng < self._mu:
-                self._newstates_ptr[node] += 1
+                self._newstates_ptr[node] = 2
             elif rng < self._nu:
                 self._newstates_ptr[node] = 0
         # SIRS motive
         elif self._states_ptr[node] == 2:
-            if rng < self._nu:
+            if rng < self._kappa:
                 self._newstates_ptr[node] = 0
         # add SIRS dynamic?
         return
@@ -964,19 +979,20 @@ cdef class RBN(Model):
                  updateType = "sync",\
                  **kwargs):
 
-
         agentStates = [0, 1]
 
         super(RBN, self).__init__(**locals())
-        self.states = np.asarray(self.states.base.copy())
+        # self.states = np.asarray(self.states.base.copy())
 
         # init rules
         # draw random boolean function
         for node in range(self.nNodes):
             k = self._adj[node].neighbors.size()
-            _rule = np.random.randint(0, 2**(2 ** k), dtype = int)
-            _rule = format(_rule, f'0{2 ** k}b')[::-1]
-            self._rules[node] = [int(i) for i in _rule]
+            #rule = np.random.randint(0, 2**k, dtype = long)
+            #rule = format(_rule, f"0{k}b")[::-1]
+            rule = np.random.randint(0, 2**(2 ** k), dtype = int)
+            rule = format(rule, f'0{2 ** k}b')[::-1]
+            self._rules[node] = [int(i) for i in rule]
 
     @property
     def rules(self):
