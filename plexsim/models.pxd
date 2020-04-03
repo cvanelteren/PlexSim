@@ -116,6 +116,12 @@ cdef class Potts(Model):
 cdef class Ising(Potts):
     cdef double _hamiltonian(self, long x, long y) nogil
 
+cdef class Bornholdt(Ising):
+     cdef:
+         double _system_mag
+         double _alpha
+     cdef void _step(self, long  node) nogil
+
 cdef class SIRS(Model):
     cdef:
         float _beta

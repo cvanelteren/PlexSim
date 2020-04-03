@@ -40,6 +40,12 @@ timespec, CLOCK_REALTIME
 
 cdef class Model: # see pxd
     def __init__(self,\
+                 graph,\
+                 agentStates = [0],\
+                 nudgeType = "constant",\
+                 updateType = "async",\
+                 nudges = {},\
+                 seed = None,\
                  **kwargs,\
                  ):
         '''
@@ -60,32 +66,39 @@ cdef class Model: # see pxd
             :memorySize: use memory dynamics (default 0)
         '''
         # use current time as seed for rng
-
-        cdef timespec ts
-        clock_gettime(CLOCK_REALTIME, &ts)
-        cdef unsigned int seed = kwargs.get("seed", ts.tv_sec)
+ 
+        cdef:
+            timespec ts
+            unsigned int _seed
+        if seed is None:
+            clock_gettime(CLOCK_REALTIME, &ts)
+            seed = ts.tv_sec
+        elif seed >= 0:
+            _seed = seed
+        else:
+            assert False, "seed needs uint"
         # define rng sampler
         self._dist = uniform_real_distribution[double](0.0, 1.0)
-        self.seed = seed
+        self.seed = _seed
         self._gen  = mt19937(self.seed)
         # create adj list
 
 
         # DEFAULTS
-        self.construct(kwargs.get("graph"), kwargs.get("agentStates", [-1, 1]))
+        self.construct(graph, agentStates)
 
         # create properties
-        self.nudgeType  = copy.copy(kwargs.get("nudgeType", "constant"))
+        self.nudgeType  = nudgeType
 
         # self.memory = np.ones((memorySize, self._nNodes), dtype = long) * np.NaN   # note keep the memory first not in state space, i.e start without any form memory
 
         # create memory
         self.memorySize   = kwargs.get("memorySize", 0)
         self._memory      = np.random.choice(self.agentStates, size = (self.memorySize, self._nNodes))
-        self.nudges = kwargs.get("nudges", {})
+        self.nudges = nudges
         # n.b. sampleSize has to be set from no on
-        self.updateType = kwargs.get("updateType", "async")
-        self.sampleSize = kwargs.get("sampleSize", self._nNodes)
+        self.updateType = updateType
+        self.sampleSize = kwargs.get("sampleSize", self.nNodes)
         
         if "states" in kwargs:
             print("setting states")
@@ -591,6 +604,7 @@ cdef class Model: # see pxd
 
 def rebuild(cls, kwargs):
     return cls(**kwargs)
+
 cdef class Potts(Model):
     def __init__(self, \
                  graph,\
@@ -606,8 +620,10 @@ cdef class Potts(Model):
         :delta: a modifier for how much the previous memory sizes influence the next state
         """
         #print(kwargs, locals())
-
-        super(Potts, self).__init__(**locals())
+        super(Potts, self).__init__(\
+                                    graph = graph,\
+                                    agentStates = agentStates,\
+                                    **kwargs)
 
         self._H = kwargs.get("H", np.zeros(self._nNodes, dtype = float))
         self.t       = t
@@ -835,10 +851,16 @@ cdef class Potts(Model):
 
 
 cdef class Ising(Potts):
-    def __init__(self, graph, \
+    def __init__(self, graph,\
                  **kwargs):
+        # default override
         agentStates = [-1, 1]
-        super(Ising, self).__init__(**locals())
+        if "agentStates" in kwargs:
+            del kwargs["agentStates"]
+        super(Ising, self).__init__(\
+                                    graph = graph,\
+                                    agentStates = agentStates,\
+                                    **kwargs)
 
     cdef double _hamiltonian(self, long x , long y) nogil:
         return <double> (x * y)
@@ -849,6 +871,50 @@ def sigmoid(x, a, b, c, d):
 @cython.binding(True)
 def sigmoidOpt(x, params, match):
     return np.abs( sigmoid(x, *params) - match )
+
+
+cdef class Bornholdt(Ising):
+    def __init__(self,\
+                 graph, \
+                 double alpha = 1,\
+                 **kwargs):
+        """
+        Implementation of Bornholdt model (2000)
+        Ising-like dynamics with a global magnetiztion dynamic
+        """
+        self.alpha = alpha
+        super(Bornholdt, self).__init__(graph = graph, **kwargs)
+
+        self._system_mag = np.mean(self.states)
+
+    @property
+    def alpha(self): return self._alpha
+    @alpha.setter
+    def alpha(self, value):
+        """Global coupling"""
+        #TODO: add checks?
+        self._alpha = <double> value
+
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    @cython.nonecheck(False)
+    @cython.cdivision(True)
+    @cython.initializedcheck(False)
+    @cython.overflowcheck(False)
+    cdef void _step(self, long node) nogil:
+        cdef:
+            vector[double] probs
+            double p
+            double systemInfluence = self._states_ptr[node] * self._alpha * fabs(self._system_mag)
+
+        probs = self._energy(node) 
+        p = exp(- self._beta *( probs[1] - probs[0])  - systemInfluence)
+        if self._rand() < p:
+            self._newstates_ptr[node] = <long> probs[2]
+            self._system_mag += probs[2] / <double> self._nNodes
+        else:
+            self._newstates_ptr[node] = self._states_ptr[node]
+
 
 
 cdef class SIRS(Model):
