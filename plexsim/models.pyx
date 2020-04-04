@@ -99,9 +99,7 @@ cdef class Model: # see pxd
         # n.b. sampleSize has to be set from no on
         self.updateType = updateType
         self.sampleSize = kwargs.get("sampleSize", self.nNodes)
-        
         if "states" in kwargs:
-            print("setting states")
             self.states = kwargs.get("states").copy()
 
     cpdef void construct(self, object graph, list agentStates):
@@ -905,13 +903,13 @@ cdef class Bornholdt(Ising):
         cdef:
             vector[double] probs
             double p
-            double systemInfluence = self._states_ptr[node] * self._alpha * fabs(self._system_mag)
+            double systemInfluence = self._alpha * fabs(self._system_mag)
 
-        probs = self._energy(node) 
-        p = exp(- self._beta *( probs[1] - probs[0])  - systemInfluence)
+        probs = self._energy(node)
+        p = exp(- 2 * self._beta * ( probs[1] - systemInfluence))
         if self._rand() < p:
             self._newstates_ptr[node] = <long> probs[2]
-            self._system_mag += probs[2] / <double> self._nNodes
+            self._system_mag += 2 * (probs[2] / <double> self._nNodes)
         else:
             self._newstates_ptr[node] = self._states_ptr[node]
 
