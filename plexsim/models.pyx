@@ -12,7 +12,7 @@ import copy
 
 cimport cython
 from cython.parallel cimport parallel, prange, threadid
-from cython.operator cimport dereference, preincrement, postincrement
+from cython.operator cimport dereference as deref, preincrement, postincrement
 from libc.stdlib cimport malloc, free
 from libc.string cimport strcmp
 from libc.stdio cimport printf
@@ -269,9 +269,9 @@ cdef class Model: # see pxd
             update = 0
             if _nudge != self._nudges.end():
                 if self._rand() < fabs(\
-                        dereference(_nudge).second):
+                        deref(_nudge).second):
                     # positive nudge is switch
-                    if dereference(_nudge).second > 0:
+                    if deref(_nudge).second > 0:
                         # set update
                         update = 1
                         numNeighbors = self._adj[node].neighbors.size() 
@@ -285,8 +285,12 @@ cdef class Model: # see pxd
             if update == 1:
                 self._states_ptr[idx] = backup
         # swap pointers
-        swap(self._states_ptr, self._newstates_ptr)
+        self._swap_buffers()
         return self._newstates
+
+    cdef void _swap_buffers(self) nogil:
+        swap(self._states_ptr, self._newstates_ptr)
+        return
 
     cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
         return self._updateState(nodesToUpdate)
@@ -791,6 +795,7 @@ cdef class Potts(Model):
             cdef int tid
             for i in range(threads):
                 tmp = copy.deepcopy(self)
+                tmp.states     = self.agentStates[0] # rest to ones; only interested in how mag is kept
                 # tmp.reset()
                 # tmp.burnin(burninSamples)
                 # tmp.seed += sample # enforce different seeds
@@ -808,25 +813,9 @@ cdef class Potts(Model):
                 with gil:
                     t                  = temps[i]
                     (<Potts> tmptr).t  = t
-                    self.states     = self.agentStates[0] # rest to ones; only interested in how mag is kept
-                    # (<Potts> tmptr).burnin(burninSamples)
-                    # (<Potts> tmptr).reset
                     res        = (<Potts> tmptr).simulate(n)
-                    # results[0, i] = np.array(self.siteEnergy(res[n-1])).sum()
-                    mu = np.array([self.siteEnergy(resi) for resi in res])
-
-                    results[0, i] = np.nanmean(mu)
-                    # results[0, i] = np.array([(self.siteEnergy(resi)**2).mean(0) - results[0, i]**2)  * (<Potts> tmptr)._beta \
-                                              # for resi in res].mean()
-                    # for j in range(n):
-                        # resi = np.array(self.siteEnergy(res[j]))
-                        # avg = avg + resi.mean()
-                        # sus = sus + (resi**2).mean()
-
-                    # avg           = avg / nmean
-                    # sus           = (sus/N - avg) * (<Potts> tmptr)._beta
-                    # results[0, i] = avg
-                    # results[1, i] = sus
+                    # mu = np.array([self.siteEnergy(resi) for resi in res])
+                    results[0, i] = (res == self._agentStates[0]).mean() - 1/self._nStates
                     pbar.update(1)
             results[1, :] = np.abs(np.gradient(results[0], temps, edge_order = 1))
             if match > 0:
@@ -870,7 +859,7 @@ def sigmoid(x, a, b, c, d):
 def sigmoidOpt(x, params, match):
     return np.abs( sigmoid(x, *params) - match )
 
-
+# TODO: system coupling is updated instantaneously which is in contradiction with the sync update rule
 cdef class Bornholdt(Ising):
     def __init__(self,\
                  graph, \
@@ -883,8 +872,24 @@ cdef class Bornholdt(Ising):
         self.alpha = alpha
         super(Bornholdt, self).__init__(graph = graph, **kwargs)
 
-        self._system_mag = np.mean(self.states)
+        self.system_mag     = np.mean(self.states)
 
+    @property
+    def system_mag(self):
+        return self._system_mag
+    @system_mag.setter
+    def system_mag(self, value):
+
+        self._system_mag = value
+        self._newsystem_mag = value
+        if self.updateType == "sync":
+            self._system_mag_ptr    = &(self._system_mag)
+            self._newsystem_mag_ptr = &(self._newsystem_mag)
+        elif self.updateType == "async":
+            self._system_mag_ptr    = &self._system_mag
+            self._newsystem_mag_ptr = self._system_mag_ptr
+        else:
+            raise ValueError("Input not recognized")
     @property
     def alpha(self): return self._alpha
     @alpha.setter
@@ -903,15 +908,20 @@ cdef class Bornholdt(Ising):
         cdef:
             vector[double] probs
             double p
-            double systemInfluence = self._alpha * fabs(self._system_mag)
+            double systemInfluence = self._alpha * fabs(deref(self._system_mag_ptr))
 
         probs = self._energy(node)
         p = exp(- 2 * self._beta * ( probs[1] - systemInfluence))
         if self._rand() < p:
             self._newstates_ptr[node] = <long> probs[2]
-            self._system_mag += 2 * (probs[2] / <double> self._nNodes)
+            self._newsystem_mag_ptr[0]  += 2 * (probs[2] / <double> self._nNodes)
         else:
             self._newstates_ptr[node] = self._states_ptr[node]
+
+    cdef void _swap_buffers(self) nogil:
+        swap(self._states_ptr, self._newstates_ptr)
+        swap(self._system_mag_ptr, self._newsystem_mag_ptr)
+        return
 
 
 

@@ -75,6 +75,8 @@ cdef class Model:
     # Update functions
     cpdef  long[::1] updateState(self, long[::1] nodesToUpdate)
     cdef long[::1]  _updateState(self, long[::1] nodesToUpdate) nogil
+
+    cdef void _swap_buffers(self) nogil
     cdef void _step(self, long node) nogil #needs to be implemented per mode
 
     # TODO: spatial learning
@@ -119,8 +121,14 @@ cdef class Ising(Potts):
 cdef class Bornholdt(Ising):
      cdef:
          double _system_mag
+         double* _system_mag_ptr
+         double _newsystem_mag
+         double* _newsystem_mag_ptr
+
          double _alpha
      cdef void _step(self, long  node) nogil
+
+     cdef void _swap_buffers(self) nogil
 
 cdef class SIRS(Model):
     cdef:
