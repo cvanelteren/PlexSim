@@ -1,0 +1,27 @@
+ if getattr(graph, '__version__',  __VERSION__ ) > 1.0:
+     # generate graph in json format
+     nodelink = nx.node_link_data(graph)
+     for nodeidx, node in enumerate(nodelink.get('nodes')):
+         id                = node.get('id')
+         mapping[id]       = nodeidx
+         rmapping[nodeidx] = id
+         states[nodeidx]   = <long>   node.get('state', np.random.choice(agentStates))
+         nudges[id]   = <double> node.get('nudge', DEFAULTNUDGE)
+     directed  = nodelink.get('directed')
+     for link in nodelink['links']:
+         source = mapping[link.get('source')]
+         target = mapping[link.get('target')]
+         weight = <double> link.get('weight', DEFAULTWEIGHT)
+         # reverse direction for inputs
+         if directed:
+             # get link as input
+             adj[target].neighbors.push_back(source)
+             adj[target].weights.push_back(weight)
+         else:
+             # add neighbors
+             adj[source].neighbors.push_back(target)
+             adj[target].neighbors.push_back(source)
+
+             # add weights
+             adj[source].weights.push_back(weight)
+             adj[target].weights.push_back(weight)
