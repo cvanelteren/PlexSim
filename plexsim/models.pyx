@@ -2,8 +2,6 @@
 # __author__ = 'Casper van Elteren'
 cimport cython
 
-
-
 import numpy as np
 cimport numpy as np
 import networkx as nx, functools, time
@@ -27,6 +25,8 @@ import multiprocessing as mp
 
 cdef extern from "<algorithm>" namespace "std" nogil:
     void swap[T] (T &a, T &b)
+cdef extern from "math.h":
+    bint isnan(double x) nogil
 
 include "parallel.pxd"
 include "definitions.pxi"
@@ -37,8 +37,7 @@ from posix.time cimport clock_gettime,\
 timespec, CLOCK_REALTIME
 
 # from sampler cimport Sampler # mersenne sampler
-
-cdef class Model: # see pxd
+cdef class Model: # see pxd 
     def __init__(self,\
                  graph,\
                  agentStates = [0],\
@@ -46,9 +45,10 @@ cdef class Model: # see pxd
                  updateType = "async",\
                  nudges = {},\
                  seed = None,\
+                 memorySize = 0,\
                  **kwargs,\
                  ):
-        '''
+        """
         General class for the models
         It defines the expected methods for the model; this can be expanded
         to suite your personal needs but the methods defined here need are relied on
@@ -64,9 +64,8 @@ cdef class Model: # see pxd
             :updateType: how to sample the state space (default async)
             :nudgeType: the type of nudge used (default: constant)
             :memorySize: use memory dynamics (default 0)
-        '''
+       """
         # use current time as seed for rng
- 
         cdef:
             timespec ts
             unsigned int _seed
@@ -93,7 +92,7 @@ cdef class Model: # see pxd
         # self.memory = np.ones((memorySize, self._nNodes), dtype = long) * np.NaN   # note keep the memory first not in state space, i.e start without any form memory
 
         # create memory
-        self.memorySize   = kwargs.get("memorySize", 0)
+        self.memorySize   = memorySize
         self._memory      = np.random.choice(self.agentStates, size = (self.memorySize, self._nNodes))
         self.nudges = nudges
         # n.b. sampleSize has to be set from no on
@@ -101,6 +100,7 @@ cdef class Model: # see pxd
         self.sampleSize = kwargs.get("sampleSize", self.nNodes)
         if "states" in kwargs:
             self.states = kwargs.get("states").copy()
+        self.last_written = kwargs.get("last_written", 0)
 
     cpdef void construct(self, object graph, list agentStates):
         """
@@ -118,121 +118,59 @@ cdef class Model: # see pxd
         # DEFAULTSTATE  = random # don't use; just for clarity
         # enforce strings
         version =  getattr(graph, '__version__', __VERSION__)
+
+
+        # relabel all nodes as strings in order to prevent networkx relabelling
         graph = nx.relabel_nodes(graph, {node : str(node) for node in graph.nodes()})
         graph.__version__ = version
-        # forward declaration and init
+        # forward declaration
         cdef:
             dict mapping = {} # made nodelabel to internal
             dict rmapping= {} # reverse
             # str delim = '\t'
-            np.ndarray states = np.zeros(graph.number_of_nodes(), dtype = int, order  = 'C')
-            int counter = 0
+            NODE[::1] states = np.zeros(graph.number_of_nodes(), dtype = long)
+            NODEID counter = 0
+            NODEID source, target
             # double[::1] nudges = np.zeros(graph.number_of_nodes(), dtype = float)
-            unordered_map[long, double] nudges 
+            unordered_map[NODEID, NUDGE] nudges 
             # np.ndarray nudges = np.zeros(graph.number_of_nodes(), dtype = float)
-            unordered_map[long, Connection] adj # see .pxd
+            unordered_map[NODEID, Connection] adj # see .pxd
 
 
 
-        # new data format
-        if getattr(graph, '__version__',  __VERSION__ ) > 1.0:
-            # generate graph in json format
-            nodelink = nx.node_link_data(graph)
-            for nodeidx, node in enumerate(nodelink.get('nodes')):
-                id                = node.get('id')
-                mapping[id]       = nodeidx
-                rmapping[nodeidx] = id
-                states[nodeidx]   = <long>   node.get('state', np.random.choice(agentStates))
-                nudges[nodeidx]   = <double> node.get('nudge', DEFAULTNUDGE)
-            directed  = nodelink.get('directed')
-            for link in nodelink['links']:
-                source = mapping[link.get('source')]
-                target = mapping[link.get('target')]
-                weight = <double> link.get('weight', DEFAULTWEIGHT)
-                # reverse direction for inputs
-                if directed:
-                    # get link as input
-                    adj[target].neighbors.push_back(source)
-                    adj[target].weights.push_back(weight)
-                else:
-                    # add neighbors
-                    adj[source].neighbors.push_back(target)
-                    adj[target].neighbors.push_back(source)
+        # generate graph in json format
+        nodelink = nx.node_link_data(graph)
+        for nodeidx, node in enumerate(nodelink.get('nodes')):
+            id                = node.get('id')
+            mapping[id]       = nodeidx
+            rmapping[nodeidx] = id
+            states[nodeidx]   = <NODE>   node.get('state', np.random.choice(agentStates))
+            nudges[nodeidx]   = <NUDGE> node.get('nudge', DEFAULTNUDGE)
+        directed  = nodelink.get('directed')
+        for link in nodelink['links']:
+            source = mapping[link.get('source')]
+            target = mapping[link.get('target')]
+            weight = <WEIGHT> link.get('weight', DEFAULTWEIGHT)
+            # reverse direction for inputs
+            if directed:
+                  # get link as input
+                  adj[target].neighbors.push_back(source)
+                  adj[target].weights.push_back(weight)
+            else:
+                  # add neighbors
+                  adj[source].neighbors.push_back(target)
+                  adj[target].neighbors.push_back(source)
 
-                    # add weights
-                    adj[source].weights.push_back(weight)
-                    adj[target].weights.push_back(weight)
-        # version <= 1.0
-        else:
-            from ast import literal_eval
-            for line in nx.generate_multiline_adjlist(graph, ','):
-                add = False # tmp for not overwriting doubles
-                # input validation
-                lineData = []
-                # if second is not dict then it must be source
-                for prop in line.split(','):
-                    try:
-                        i = literal_eval(prop) # throws error if only string
-                        lineData.append(i)
-                    except:
-                        lineData.append(prop) # for strings
-                node, info = lineData
-                # check properties, assign defaults
-                if 'state' not in graph.nodes[node]:
-                    idx = np.random.choice(agentStates)
-                    graph.nodes[node]['state'] = idx
-                if 'nudge' not in graph.nodes[node]:
-                    graph.nodes[node]['nudge'] =  DEFAULTNUDGE
-
-                # if not dict then it is a source
-                if isinstance(info, dict) is False:
-                    # add node to seen
-                    if node not in mapping:
-                        # append to stack
-                        counter             = len(mapping)
-                        mapping[node]       = counter
-                        rmapping[counter]   = node
-
-                    # set source
-                    source   = node
-                    sourceID = mapping[node]
-                    states[sourceID] = <long> graph.nodes[node]['state']
-                    nudges[sourceID] = <double> graph.nodes[node]['nudge']
-                # check neighbors
-                else:
-                    if 'weight' not in info:
-                        graph[source][node]['weight'] = DEFAULTWEIGHT
-                    if node not in mapping:
-                        counter           = len(mapping)
-                        mapping[node]     = counter
-                        rmapping[counter] = node
-
-                    # check if it has a reverse edge
-                    if graph.has_edge(node, source):
-                        sincID = mapping[node]
-                        weight = graph[node][source]['weight']
-                        # check if t he node is already in stack
-                        if sourceID in set(adj[sincID]) :
-                            add = True
-                        # not found so we should add
-                        else:
-                            add = True
-                    # add source > node
-                    sincID = <long> mapping[node]
-                    adj[sourceID].neighbors.push_back(<long> mapping[node])
-                    adj[sourceID].weights.push_back(<double> graph[source][node]['weight'])
-                    # add reverse
-                    if add:
-                        adj[sincID].neighbors.push_back( <long> sourceID)
-                        adj[sincID].weights.push_back( <double> graph[node][source]['weight'])
-
+                  # add weights
+                  adj[source].weights.push_back(weight)
+                  adj[target].weights.push_back(weight)
         # public and python accessible
         self.graph       = graph
         self.mapping     = mapping
         self.rmapping    = rmapping
         self._adj        = adj
 
-        self._agentStates = np.asarray(agentStates, dtype = int).copy()
+        self._agentStates = np.asarray(agentStates, dtype = long).copy()
 
         self._nudges     = nudges #nudges.copy()
         self._nStates    = len(agentStates)
@@ -250,7 +188,7 @@ cdef class Model: # see pxd
         # self._newstates = states.copy()
         self._nNodes    = graph.number_of_nodes()
 
-    cdef long[::1]  _updateState(self, long[::1] nodesToUpdate) nogil:
+    cdef NODE[::1]  _updateState(self, NODEID[::1] nodesToUpdate) nogil:
         cdef:
             long node
             long idx
@@ -258,7 +196,7 @@ cdef class Model: # see pxd
             long numNeighbors
             long backup
             long update = 0
-            unordered_map[long, double].iterator _nudge
+            unordered_map[NODEID, NUDGE].iterator _nudge
 
         # init loop
         for node in range(N):
@@ -268,10 +206,9 @@ cdef class Model: # see pxd
             _nudge = self._nudges.find(node)
             update = 0
             if _nudge != self._nudges.end():
-                if self._rand() < fabs(\
-                        deref(_nudge).second):
+                if self._rand() < fabs( deref(_nudge).second):
                     # positive nudge is switch
-                    if deref(_nudge).second > 0:
+                    if deref(_nudge).second > 0 and self._adj[node].neighbors.size():
                         # set update
                         update = 1
                         numNeighbors = self._adj[node].neighbors.size() 
@@ -286,35 +223,39 @@ cdef class Model: # see pxd
                 self._states_ptr[idx] = backup
         # swap pointers
         self._swap_buffers()
-        return self._newstates
+        self._last_written = (self._last_written + 1) % 2
+        #return self._states
+        if self._last_written == 0:
+            return self._states
+        else:
+            return self._newstates
 
     cdef void _swap_buffers(self) nogil:
+        """
+        Update state buffers
+        This function is intended to allow for custom buffers update
+        """
         swap(self._states_ptr, self._newstates_ptr)
         return
 
-    cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
+    cpdef NODE[::1] updateState(self, NODEID[::1] nodesToUpdate):
+        """
+        General state updater wrapper
+        I
+        """
         return self._updateState(nodesToUpdate)
-    cdef void _step(self, long node) nogil:
+
+    cdef void _step(self, NODEID node) nogil:
         return
+
     cdef double _rand(self) nogil:
         return self._dist(self._gen)
 
-    @cython.boundscheck(False)
-    @cython.wraparound(False)
-    @cython.nonecheck(False)
-    @cython.cdivision(True)
-    @cython.initializedcheck(False)
-    @cython.overflowcheck(False)
-    cpdef long[:, ::1] sampleNodes(self, int nSamples):
+    cpdef NODEID[:, ::1] sampleNodes(self, long nSamples):
         return self._sampleNodes(nSamples)
-    @cython.boundscheck(False)
-    @cython.wraparound(False)
-    @cython.nonecheck(False)
-    @cython.cdivision(True)
-    @cython.initializedcheck(False)
-    @cython.overflowcheck(False)
-    cdef long[:, ::1] _sampleNodes(self, int  nSamples) nogil:
-    # cdef long [:, ::1] sampleNodes(self, long  nSamples):
+
+    cdef NODEID[:, ::1] _sampleNodes(self, long  nSamples) nogil:
+        # cdef long [:, ::1] sampleNodes(self, long  nSamples):
         """
         Shuffles nodeids only when the current sample is larger
         than the shuffled array
@@ -323,7 +264,6 @@ cdef class Model: # see pxd
         # check the amount of samples to get
         cdef:
             long sampleSize = self._sampleSize
-            long[:, ::1] samples
             # TODO replace this with a nogil version
             # long _samples[nSamples][sampleSize]
             # long sample
@@ -332,6 +272,7 @@ cdef class Model: # see pxd
             long samplei
 
         # if serial move through space like CRT line-scan method
+        cdef NODEID[:, ::1] samples
         if self._updateType == 'serial':
             for i in range(self._nNodes):
                 samples[i] = self._nodeids[i]
@@ -339,7 +280,7 @@ cdef class Model: # see pxd
 
         # replace with nogil variant
         with gil:
-            samples = np.zeros((nSamples, sampleSize), dtype = long, order = 'C')
+            samples = np.zeros((nSamples, sampleSize), dtype = long)
         for samplei in range(nSamples):
             # shuffle if the current tracker is larger than the array
             start  = (samplei * sampleSize) % self._nNodes
@@ -347,11 +288,7 @@ cdef class Model: # see pxd
                 for i in range(self._nNodes):
                     # shuffle the array without replacement
                     j                 = <long> (self._rand() * self._nNodes)
-                    #j                = lround(self._rand() * (self._nNodes - 1))
                     swap(self._nodeids[i], self._nodeids[j])
-                    #k                = self._nodeids[j]
-                    #self._nodeids[j] = self._nodeids[i]
-                    #self._nodeids[i] = k
                     # enforce atleast one shuffle in single updates; otherwise same picked
                     if sampleSize == 1:
                         break
@@ -359,6 +296,7 @@ cdef class Model: # see pxd
             for j in range(sampleSize):
                 samples[samplei][j]    = self._nodeids[j]
         return samples
+        
     cpdef void reset(self):
         self.states = np.random.choice(\
                 self.agentStates, size = self._nNodes)
@@ -368,182 +306,33 @@ cdef class Model: # see pxd
         """
         Sets all nudges to zero
         """
-        self.nudges[:] = 0
+        self._nudges.clear()
 
-    @cython.boundscheck(False)
-    @cython.wraparound(False)
-    @cython.nonecheck(False)
-    @cython.cdivision(True)
-    @cython.initializedcheck(False)
-    @cython.overflowcheck(False)
     cpdef np.ndarray simulate(self, int  samples):
         cdef:
-            long[:, ::1] results = np.zeros((samples, self._nNodes), long)
+            NODE[:, ::1] results = np.zeros((samples, self._nNodes), long)
             # int sampleSize = 1 if self._updateType == 'single' else self._nNodes
-            long[:, ::1] r = self.sampleNodes(samples)
+            NODEID[:, ::1] r = self.sampleNodes(samples)
             # vector[vector[int][sampleSize]] r = self.sampleNodes(samples)
             int i
 
         results[0] = self._states
-        for i in range(samples):
-            results.base[i] = self.updateState(r[i])
+        with nogil:
+            for i in range(samples):
+                results[i] = self._updateState(r[i])
         return results.base # convert back to normal array
 
     # TODO: make class pickable
     # hence the wrappers
     @property
     def memorySize(self): return self._memorySize
+
     @memorySize.setter
     def memorySize(self, value):
         if isinstance(value, int):
             self._memorySize = value
         else:
             self._memorysize = 0
-
-    @property
-    def memory(self): return self._memory.base
-    @memory.setter
-    def memory(self, value):
-        if isinstance(value, np.ndarray):
-            self._memory = value
-    @property
-    def sampleSize(self): return self._sampleSize
-
-    @property
-    def agentStates(self): return list(self._agentStates) # warning has no setter!
-    @property
-    def adj(self)       : return self._adj
-    @property
-    def states(self)    : return self._states.base
-    @property
-    def updateType(self): return self._updateType
-    @property
-    def nudgeType(self) : return self._nudgeType
-    @property
-    def nodeids(self)   : return self._nodeids.base
-    @property
-    def nudges(self)    : return self._nudges
-    @property
-    def nNodes(self)    : return self._nNodes
-    @property
-    def nStates(self)   : return self._nStates
-    @property
-    def seed(self)      : return self._seed
-    @property
-    def sampleSize(self): return self._sampleSize
-    @property
-    def newstates(self) : return self._newstates.base
-
-    @seed.setter
-    def seed(self, value):
-        DEFAULT = 0
-        if isinstance(value, int) and value >= 0:
-            self._seed = value
-        else:
-            print("Value is not unsigned long")
-            print(f"{DEFAULT} is used")
-            self._seed = DEFAULT
-        self._gen   = mt19937(self.seed)
-    # TODO: reset all after new?
-    @nudges.setter
-    def nudges(self, vals):
-        """
-        Set nudge value based on dict using the node labels
-        """
-        self._nudges.clear()
-        if isinstance(vals, dict):
-            for k, v in vals.items():
-                # assert string
-                idx = self.mapping[str(k)]
-                self._nudges[idx] = v
-        elif isinstance(vals, np.ndarray):
-            assert len(vals) == self.nNodes
-            for node in range(self.nNodes):
-                if vals[node]:
-                    self._nudges[node] = vals[node]
-        elif isinstance(vals, cython.view.memoryview):
-            assert len(vals) == self.nNodes
-            for node in range(self.nNodes):
-                if vals.base[node]:
-                    self._nudges[node] = vals.base[node]
-    @updateType.setter
-    def updateType(self, value):
-        """
-        Input validation of the update of the model
-        Options:
-            - sync  : synchronous; update independently from t > t + 1
-            - async : asynchronous; update n Nodes but with mutation possible
-            - single: update 1 node random
-            - [float]: async but only x percentage of the total system
-        """
-        # TODO: do a better switch than this
-        DEFAULT = "async"
-        # not needed anymore since single is not a sampler kv
-        import re
-        # allowed patterns
-        pattern = "(sync)?(async)?"
-        if re.match(pattern, value):
-            self._updateType = value
-        else:
-            self._updateType = DEFAULT
-        # allow for mutation if async else independent updates
-        if value == "async":
-            # set pointers to the same thing
-            self._newstates_ptr = self._states_ptr
-            # assign  buffers to the same address
-            self._newstates = self._states
-            # sanity check
-            assert self._states_ptr == self._newstates_ptr
-            assert id(self._states.base) == id(self._newstates.base)
-        # reset buffer pointers
-        elif value == "sync":
-            # obtain a new memory address
-            self._newstates = self._states.base.copy()
-            assert id(self._newstates.base) != id(self._states.base)
-            # sanity check pointers (maybe swapped!)
-            self._states_ptr   = &self._states[0]
-            self._newstates_ptr = &self._newstates[0]
-            # test memory addresses
-            assert self._states_ptr != self._newstates_ptr
-            assert id(self._newstates.base) != id(self._states.base)
-    @sampleSize.setter
-    def sampleSize(self, value):
-        """
-        Sample size setter for sample nodes
-        """
-        if isinstance(value, int):
-            assert 0 < value <= self.nNodes
-            self._sampleSize = value
-        if isinstance(value, float):
-            assert 0 < value <= 1
-            self._sampleSize = <long> (value * self._nNodes)
-        # default
-        else:
-            self._sampleSize = self._nNodes
-    @nudgeType.setter
-    def nudgeType(self, value):
-        DEFAULT = "constant"
-        if value in "constant pulse":
-            self._nudgeType = value
-        else:
-            self._nudgeType = DEFAULT
-
-    @states.setter # TODO: expand
-    def states(self, value):
-        from collections import Iterable
-        cdef int idx
-        if isinstance(value, int):
-            for node in range(self._nNodes):
-                self._states_ptr[node] = value
-        elif isinstance(value, dict):
-            for k, v in value.items():
-                idx = self.mapping[k]
-                self._states_ptr[idx] = v
-        # assume iterable
-        else:
-            for i in range(self._nNodes):
-                self._states_ptr[i] = value[i]
-                self._newstates_ptr[i] = value[i]
 
     cdef void _hebbianUpdate(self):
         """
@@ -566,7 +355,7 @@ cdef class Model: # see pxd
         # get neighbors
         for nodeI in range(self._nNodes):
             # update connectivity weight
-            stateI = self._states[nodeI]
+            stateI = self._states_ptr[nodeI]
             neighbors = self._adj[nodeI].neighbors.size()
             # init values
             Z = 0
@@ -574,7 +363,7 @@ cdef class Model: # see pxd
             # construct weight vector
             for nodeJ in range(neighbors):
                 neighbor = self._adj[nodeI].neighbors[nodeJ]
-                stateJ = self._states[neighbor]
+                stateJ = self._states_ptr[neighbor]
                 weightJ = self._adj[nodeI].weights[nodeJ]
                 tmp = 1 + .1 * weightJ * self._learningFunction(stateI, stateJ)
                 hebbianWeights[nodeJ] =  tmp
@@ -584,18 +373,184 @@ cdef class Model: # see pxd
             # update the weights
             for nodeJ in range(neighbors):
                 self._adj[nodeI].weights[nodeJ] = hebbianWeights[nodeJ] / Z
+        return 
 
-    cdef double _learningFunction(self, int xi, int xj):
+    cdef double _learningFunction(self, NODEID xi, NODEID xj):
         """
         From Ito & Kaneko 2002
         """
         return 1 - 2 * (xi - xj)
+
+    @property
+    def last_written(self):
+        return self._last_written
+
+    @last_written.setter
+    def last_written(self, value):
+        self._last_written = value
+
+    @property
+    def memory(self): return self._memory.base
+
+    @memory.setter
+    def memory(self, value):
+        if isinstance(value, np.ndarray):
+            self._memory = value
+    @property
+    def sampleSize(self): return self._sampleSize
+
+    @property
+    def agentStates(self): return list(self._agentStates) # warning has no setter!
+
+    @property
+    def adj(self)       : return self._adj
+
+    @property
+    def states(self)    : return self._states.base
+    
+    @property
+    def updateType(self): return self._updateType
+
+    @property
+    def nudgeType(self) : return self._nudgeType
+
+    @property
+    def nodeids(self)   : return self._nodeids.base
+
+    @property
+    def nudges(self)    : return self._nudges
+
+    @property
+    def nNodes(self)    : return self._nNodes
+
+    @property
+    def nStates(self)   : return self._nStates
+
+    @property
+    def seed(self)      : return self._seed
+
+    @property
+    def sampleSize(self): return self._sampleSize
+
+    @property
+    def newstates(self) : return self._newstates.base
+
+    @seed.setter
+    def seed(self, value):
+        if isinstance(value, int) and value >= 0:
+            self._seed = value
+        else:
+            raise ValueError("Not an uint found")
+        self._gen   = mt19937(self.seed)
+    # TODO: reset all after new?
+    @nudges.setter
+    def nudges(self, vals):
+        """
+        Set nudge value based on dict using the node labels
+        """
+        self._nudges.clear()
+        # nudges are copied
+        # rebuild should account for this
+        if isinstance(vals, dict):
+            for k, v in vals.items():
+                if k in self.mapping:
+                    idx = self.mapping[k]
+                    self._nudges[idx] = v
+                elif k in self.rmapping:
+                    self._nudges[k] = v
+        else:
+            raise TypeError("Nudge input not a dict!")
+                    
+    @updateType.setter
+    def updateType(self, value):
+        """
+        Input validation of the update of the model
+        Options:
+            - sync  : synchronous; update independently from t > t + 1
+            - async : asynchronous; update n Nodes but with mutation possible
+            - single: update 1 node random
+            - [float]: async but only x percentage of the total system
+        """
+        # TODO: do a better switch than this
+        # not needed anymore since single is not a sampler kv
+        import re
+        # allowed patterns
+        pattern = "(sync)?(async)?"
+        if re.match(pattern, value):
+            self._updateType = value
+        else:
+            raise ValueError("No possible setting found")
+        # allow for mutation if async else independent updates
+        if value == "async":
+            # set pointers to the same thing
+            self._newstates_ptr = self._states_ptr
+            # assign  buffers to the same address
+            self._newstates = self._states
+            # sanity check
+            assert self._states_ptr == self._newstates_ptr
+            assert id(self._states.base) == id(self._newstates.base)
+        # reset buffer pointers
+        elif value == "sync":
+            # obtain a new memory address
+            self._newstates = self._states.base.copy()
+            assert id(self._newstates.base) != id(self._states.base)
+            # sanity check pointers (maybe swapped!)
+            self._states_ptr   = &self._states[0]
+            self._newstates_ptr = &self._newstates[0]
+            # test memory addresses
+            assert self._states_ptr != self._newstates_ptr
+            assert id(self._newstates.base) != id(self._states.base)
+        self.last_written = 0
+
+    @sampleSize.setter
+    def sampleSize(self, value):
+        """
+        Sample size setter for sample nodes
+        """
+        if isinstance(value, int):
+            assert 0 < value <= self.nNodes, f"value {value} {self.nNodes}"
+            self._sampleSize = value
+        elif isinstance(value, float):
+            assert 0 < value <= 1
+            self._sampleSize = <long> (value * self._nNodes)
+        # default
+
+    @nudgeType.setter
+    def nudgeType(self, value):
+        DEFAULT = "constant"
+        if value in "constant pulse":
+            self._nudgeType = value
+        else:
+            raise ValueError("Setting not understood")
+
+    @states.setter # TODO: expand
+    def states(self, value):
+        from collections import Iterable
+        cdef int idx
+        if isinstance(value, int):
+            for node in range(self._nNodes):
+                self._states_ptr[node] = value
+        elif isinstance(value, dict):
+            for k, v in value.items():
+                idx = self.mapping[k]
+                self._states_ptr[idx] = v
+        # assume iterable
+        else:
+            for i in range(self._nNodes):
+                self._states_ptr[i] = value[i]
+                self._newstates_ptr[i] = value[i]
+
+
     def __reduce__(self):
         kwargs = {}
         for k in dir(self):
             atr = getattr(self, k)
             if not callable(atr) and not k.startswith('_'):
                 kwargs[k] = atr
+
+        tmp = {}
+        for k, v in self.nudges.items():
+            tmp[self.rmapping[k]] = v
         #for k in kwargs: print(k)
         return rebuild, (self.__class__, kwargs)
         #return rebuild, (self.__class__, kwargs)
@@ -655,13 +610,7 @@ cdef class Potts(Model):
 
 
 
-    @cython.boundscheck(False)
-    @cython.wraparound(False)
-    @cython.nonecheck(False)
-    @cython.cdivision(True)
-    @cython.initializedcheck(False)
-    @cython.overflowcheck(False)
-    cpdef vector[double] siteEnergy(self, long[::1] states):
+    cpdef vector[double] siteEnergy(self, NODE[::1] states):
         cdef:
             vector[double] siteEnergy = vector[double](self._nNodes)
             int node
@@ -679,13 +628,7 @@ cdef class Potts(Model):
         return siteEnergy
 
 
-    @cython.boundscheck(False)
-    @cython.wraparound(False)
-    @cython.nonecheck(False)
-    @cython.cdivision(True)
-    @cython.initializedcheck(False)
-    @cython.overflowcheck(False)
-    cdef vector[double] _energy(self, long node) nogil:
+    cdef vector[double] _energy(self, NODEID node) nogil:
         cdef:
             long neighbors = self._adj[node].neighbors.size()
             long* states = self._states_ptr # alias
@@ -694,7 +637,6 @@ cdef class Potts(Model):
             vector[double] energy = vector[double](3)
             long  testState
         # fill buffer
-        # TODO: change this to more efficient buffer
         # keep track of:
         #   - energy of current state
         #   - energy of possible state
@@ -702,15 +644,7 @@ cdef class Potts(Model):
         # count the neighbors in the different possible states
 
         # draw random new state
-        #TODO: fix this
-        # this doesnot work 
-        #testState = lround(self._rand() * (self._nStates))
-        # this works; no idea why. In fact this shouldnot work
         testState = <long> (self._rand() * (self._nStates ))
-        #testState = <int> weight
-        #with gil:
-        #    print(testState, weight)
-        #printf('%d\n', testState)
         # get proposal 
         testState = self._agentStates[testState]
 
@@ -734,16 +668,10 @@ cdef class Potts(Model):
         # with gil: print(energy)
         return energy
 
-    cdef double _hamiltonian(self, long x, long y) nogil:
+    cdef double _hamiltonian(self, NODE x, NODE  y) nogil:
         # sanity checking
         return cos(2 * pi  * ( x - y ) / <double> self._nStates)
 
-    @cython.boundscheck(False)
-    @cython.wraparound(False)
-    @cython.nonecheck(False)
-    @cython.cdivision(True)
-    @cython.initializedcheck(False)
-    @cython.overflowcheck(False)
     cdef void _step(self, long node) nogil:
         cdef:
             vector[double] probs
@@ -751,7 +679,8 @@ cdef class Potts(Model):
 
         probs = self._energy(node)
         p = exp(- self._beta *( probs[1] - probs[0]))
-        if self._rand() < p:
+        # edge case isnan when H = 0 or T = 0 and inf
+        if self._rand() < p or isnan(p):
             self._newstates_ptr[node] = <long> probs[2]
         else:
             self._newstates_ptr[node] = self._states_ptr[node]
@@ -795,7 +724,6 @@ cdef class Potts(Model):
             cdef int tid
             for i in range(threads):
                 tmp = copy.deepcopy(self)
-                tmp.states     = self.agentStates[0] # rest to ones; only interested in how mag is kept
                 # tmp.reset()
                 # tmp.burnin(burninSamples)
                 # tmp.seed += sample # enforce different seeds
@@ -813,6 +741,7 @@ cdef class Potts(Model):
                 with gil:
                     t                  = temps[i]
                     (<Potts> tmptr).t  = t
+                    (<Potts> tmptr).states = self._agentStates[0]
                     res        = (<Potts> tmptr).simulate(n)
                     # mu = np.array([self.siteEnergy(resi) for resi in res])
                     results[0, i] = (res == self._agentStates[0]).mean() - 1/self._nStates
@@ -833,7 +762,7 @@ cdef class Potts(Model):
             # print(results[0])
             self.t = tcopy # reset temp
             return results
-    cpdef long[::1] updateState(self, long[::1] nodesToUpdate):
+    cpdef NODE[::1] updateState(self, NODEID[::1] nodesToUpdate):
         return self._updateState(nodesToUpdate)
 
 
@@ -849,7 +778,7 @@ cdef class Ising(Potts):
                                     agentStates = agentStates,\
                                     **kwargs)
 
-    cdef double _hamiltonian(self, long x , long y) nogil:
+    cdef double _hamiltonian(self, NODE x , NODE y) nogil:
         return <double> (x * y)
 # associated with potts for matching magnetic
 @cython.binding(True)
@@ -879,7 +808,6 @@ cdef class Bornholdt(Ising):
         return self._system_mag
     @system_mag.setter
     def system_mag(self, value):
-
         self._system_mag = value
         self._newsystem_mag = value
         if self.updateType == "sync":
@@ -898,13 +826,7 @@ cdef class Bornholdt(Ising):
         #TODO: add checks?
         self._alpha = <double> value
 
-    @cython.boundscheck(False)
-    @cython.wraparound(False)
-    @cython.nonecheck(False)
-    @cython.cdivision(True)
-    @cython.initializedcheck(False)
-    @cython.overflowcheck(False)
-    cdef void _step(self, long node) nogil:
+    cdef void _step(self, NODEID node) nogil:
         cdef:
             vector[double] probs
             double p
@@ -919,9 +841,9 @@ cdef class Bornholdt(Ising):
             self._newstates_ptr[node] = self._states_ptr[node]
 
     cdef void _swap_buffers(self) nogil:
-        swap(self._states_ptr, self._newstates_ptr)
-        swap(self._system_mag_ptr, self._newsystem_mag_ptr)
-        return
+         swap(self._states_ptr, self._newstates_ptr)
+         swap(self._system_mag_ptr, self._newsystem_mag_ptr)
+         return
 
 
 
@@ -952,7 +874,7 @@ cdef class SIRS(Model):
 
         S ----> I ----> R
           beta     mu
-               The update depends on the state a individual is in.
+               The update deself.mapping.find(k) != tmp.end()pends on the state a individual is in.
 
         S_i: beta A_{i}.dot(states[A[i]])  beta         |  infected neighbors / total neighbors
         I_i: \mu                                        | prop of just getting cured
@@ -998,7 +920,7 @@ cdef class SIRS(Model):
         assert 0<=value<= 1
         self._kappa = value
 
-    cdef float _checkNeighbors(self, long node) nogil:
+    cdef float _checkNeighbors(self, NODEID node) nogil:
         """
         Check neighbors for infection
         """
@@ -1018,7 +940,7 @@ cdef class SIRS(Model):
             ZZ += neighborWeight
         return infectionRate * self._beta / ZZ
 
-    cdef void _step(self, long node) nogil:
+    cdef void _step(self, NODEID node) nogil:
 
         cdef:
             float rng = self._rand()
@@ -1072,12 +994,6 @@ cdef class RBN(Model):
     def rules(self):
         return self._rules
 
-    @cython.boundscheck(False)
-    @cython.wraparound(False)
-    @cython.nonecheck(False)
-    @cython.cdivision(True)
-    @cython.initializedcheck(False)
-    @cython.overflowcheck(False)
     cdef void _step(self, long node) nogil:
        """
        Update step for Random Boolean networks
@@ -1111,7 +1027,7 @@ cdef class Percolation(Model):
     def p(self, value):
         self._p = value
 
-    cdef void _step(self, long node) nogil:
+    cdef void _step(self, NODEID node) nogil:
         cdef:
             long neighbor
         if self._states_ptr[node]:
@@ -1147,13 +1063,7 @@ cdef class CCA(Model):
         assert 0 <= value <= 1.
         self._threshold = value
 
-    @cython.boundscheck(False)
-    @cython.wraparound(False)
-    @cython.nonecheck(False)
-    @cython.cdivision(True)
-    @cython.initializedcheck(False)
-    @cython.overflowcheck(False)
-    cdef void _evolve(self, long node) nogil:
+    cdef void _evolve(self, NODEID node) nogil:
         """
         Rule : evolve if the state of the neigbhors exceed a threshold
         """
@@ -1178,13 +1088,7 @@ cdef class CCA(Model):
                 i = <long> (self._rand() * self._nStates)
                 self._newstates_ptr[node] = self._agentStates[i]
         return 
-    @cython.boundscheck(False)
-    @cython.wraparound(False)
-    @cython.nonecheck(False)
-    @cython.cdivision(True)
-    @cython.initializedcheck(False)
-    @cython.overflowcheck(False)
-    cdef void _step(self, long node) nogil:
+    cdef void _step(self, NODEID node) nogil:
         self._evolve(node)
         return
 

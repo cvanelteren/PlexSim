@@ -22,27 +22,34 @@ ctypedef fused STATEDTYPE:
     long
     float
     double
-ctypedef long NODE_STATE
-ctypedef double WEIGHT_TYPE
-ctypedef vector[NODE_STATE] Neighbors
-ctypedef vector[WEIGHT_TYPE] Weights
+
+ctypedef long NODE
+ctypedef long NODEID
+ctypedef double WEIGHT
+ctypedef double NUDGE
+ctypedef vector[NODE] Neighbors
+ctypedef vector[WEIGHT] Weights
 
 cdef struct Connection:
-    vector[NODE_STATE] neighbors
-    vector[double] weights
+    #unordered_map[NODE, WEIGHT] neighbors
+    #NUDGE nudge
+    vector[NODE] neighbors
+    vector[WEIGHT] weights
 
 cdef class Model:
     cdef:
         # public
 
-        long[::1] _states
-        long* _states_ptr
+        NODE[::1] _states
+        NODE* _states_ptr
 
-        long[::1] _newstates
-        long* _newstates_ptr
+        NODE[::1] _newstates
+        NODE* _newstates_ptr
 
-        long[::1]  _nodeids
-        long[::1]  _agentStates
+        bint  _last_written
+
+        NODEID[::1]  _nodeids
+        NODE[::1]  _agentStates
 
         long[:, ::1] _memory # for memory dynamics
 
@@ -52,14 +59,14 @@ cdef class Model:
         mt19937 _gen
         unsigned long _seed
         uniform_real_distribution[double] _dist
-
+        
         int _zeta 
         int _nNodes # number of nodes
         str _updateType # update type
         str _nudgeType  # nudge type
 
         int _sampleSize # counter for how large a sample should -> random samples
-        unordered_map [long, double] _nudges
+        unordered_map [NODEID, NUDGE] _nudges
         #double[::1] _nudges # array containing external inputs
         # np.ndarray _nudges
 
@@ -67,25 +74,27 @@ cdef class Model:
         unordered_map[long, Connection] _adj # adjacency lists
         int _nStates
 
+        #unordered_map[char, long] mapping
+        #unordered_map[long, char] rmapping
         #private
         dict __dict__ # allow dynamic python objects
     cpdef void construct(self, object graph, \
                     list agentStates)
 
     # Update functions
-    cpdef  long[::1] updateState(self, long[::1] nodesToUpdate)
-    cdef long[::1]  _updateState(self, long[::1] nodesToUpdate) nogil
+    cpdef  NODE[::1] updateState(self, NODEID[::1] nodesToUpdate)
+    cdef NODE[::1]  _updateState(self, NODEID[::1] nodesToUpdate) nogil
 
     cdef void _swap_buffers(self) nogil
-    cdef void _step(self, long node) nogil #needs to be implemented per mode
+    cdef void _step(self, NODEID node) nogil #needs to be implemented per mode
 
     # TODO: spatial learning
     cdef void _hebbianUpdate(self)
-    cdef double _learningFunction(self, int xi, int xj)
+    cdef double _learningFunction(self, NODEID xi, NODEID xj)
 
     # Sampler functions
-    cdef  long[:, ::1] _sampleNodes(self, int nSamples) nogil
-    cpdef long[:, ::1] sampleNodes(self, int nSamples)
+    cdef  NODEID[:, ::1]  _sampleNodes(self, long nSamples) nogil
+    cpdef NODEID[:, ::1] sampleNodes(self, long nSamples)
 
     # Random Number generator 
     cdef double _rand(self) nogil
@@ -103,20 +112,20 @@ cdef class Potts(Model):
         double _beta   # temperature parameter
         double _delta # memory retention variable
     cdef vector[double] _energy(self,\
-                               long node) nogil
-    cdef void _step(self, long node) nogil
+                               NODEID  node) nogil
+    cdef void _step(self, long NODEID) nogil
     # update function
-    cdef double _hamiltonian(self, long x, long y) nogil
+    cdef double _hamiltonian(self, NODE x, NODE  y) nogil
 
     cpdef  np.ndarray matchMagnetization(self,\
                                          np.ndarray temps  = *,\
                                          int n             = *,\
                                          int burninSamples = *,\
                                          double  match =*)
-    cpdef vector[double] siteEnergy(self, long[::1] states)
+    cpdef vector[double] siteEnergy(self, NODE[::1] states)
 
 cdef class Ising(Potts):
-    cdef double _hamiltonian(self, long x, long y) nogil
+    cdef double _hamiltonian(self, NODE x, NODE y) nogil
 
 cdef class Bornholdt(Ising):
      cdef:
@@ -137,9 +146,9 @@ cdef class SIRS(Model):
         float _nu
         float _kappa
 
-    cdef void _step(self, long node) nogil
+    cdef void _step(self, long NODEID) nogil
 
-    cdef float _checkNeighbors(self, long node) nogil
+    cdef float _checkNeighbors(self, long NODEID) nogil
 
     cpdef void init_random(self, node =*)
 
@@ -148,20 +157,20 @@ cdef class RBN(Model):
     cdef:
         double _delta # memory retention variable
 
-        unordered_map[long, vector[int]] _rules
+        unordered_map[NODEID, vector[NODE]] _rules
 
     # overload the parent functions
-    cdef void _step(self, long node) nogil
+    cdef void _step(self, NODEID node) nogil
 
 cdef class Percolation(Model):
     cdef:
         double _p
 
-    cdef void _step(self, long node) nogil
+    cdef void _step(self, NODEID node) nogil
 
 cdef class CCA(Model):
     cdef:
         double _threshold
 
-    cdef void  _evolve(self, long node) nogil
-    cdef void _step(self, long node) nogil
+    cdef void  _evolve(self, NODEID node) nogil
+    cdef void _step(self, NODEID node) nogil

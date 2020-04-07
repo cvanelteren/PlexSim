@@ -1,13 +1,15 @@
-* Memory
-Add the memory functionality back. Maybe check out the new pointer methods applied to states in order to prevent loop update push
-
+* Models
+TODO:
+- [x] updated buffer method to pointer-style 
+- [x] removed 'single' and moved to sampleSize
+- [x] Async and sync buffers is clearer and only options
+- [ ] add Hebbian learning
+- [ ] add memory dynamics
+- [x] unittests potts 
+- [x] unittests ising
+- [x] unittests model
+- [ ] add a typedef for states
 * FastIsing & Potts
-Check all the class methods
-
-* RBN and SIR
-- remove the update state functionality
-- make separate functions
-
-* Hebbian learning
-add.
+- [x] Check all the class methods
+- [x] added Bornholdt model
 
