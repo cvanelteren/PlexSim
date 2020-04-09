@@ -8,7 +8,8 @@ import networkx as nx, functools, time
 from tqdm import tqdm
 import copy
 
-cimport cython
+cimport cython, openmp
+openmp.omp_set_num_threads(openmp.omp_get_num_threads())
 from cython.parallel cimport parallel, prange, threadid
 from cython.operator cimport dereference as deref, preincrement, postincrement
 from libc.stdlib cimport malloc, free
@@ -28,10 +29,6 @@ cdef extern from "<algorithm>" namespace "std" nogil:
 cdef extern from "math.h":
     bint isnan(double x) nogil
 
-include "parallel.pxd"
-include "definitions.pxi"
-
-__VERSION__ = 1.2 # added version number
 # SEED SETUP
 from posix.time cimport clock_gettime,\
 timespec, CLOCK_REALTIME
@@ -71,11 +68,11 @@ cdef class Model: # see pxd
             unsigned int _seed
         if seed is None:
             clock_gettime(CLOCK_REALTIME, &ts)
-            seed = ts.tv_sec
-        elif seed >= 0:
+            _seed = ts.tv_sec
+        elif seed >= 0 and isinstance(seed, int):
             _seed = seed
         else:
-            assert False, "seed needs uint"
+            raise  ValueError("seed needs uint")
         # define rng sampler
         self._dist = uniform_real_distribution[double](0.0, 1.0)
         self.seed = _seed
@@ -117,12 +114,10 @@ cdef class Model: # see pxd
         DEFAULTNUDGE  = 0.
         # DEFAULTSTATE  = random # don't use; just for clarity
         # enforce strings
-        version =  getattr(graph, '__version__', __VERSION__)
 
 
         # relabel all nodes as strings in order to prevent networkx relabelling
         graph = nx.relabel_nodes(graph, {node : str(node) for node in graph.nodes()})
-        graph.__version__ = version
         # forward declaration
         cdef:
             dict mapping = {} # made nodelabel to internal
@@ -199,7 +194,9 @@ cdef class Model: # see pxd
             unordered_map[NODEID, NUDGE].iterator _nudge
 
         # init loop
-        for node in range(N):
+        #for node in range(N):
+        for node in prange(N, nogil = True,\
+                        schedule = 'static'):
             node = nodesToUpdate[node]
 
             # update
@@ -273,10 +270,6 @@ cdef class Model: # see pxd
 
         # if serial move through space like CRT line-scan method
         cdef NODEID[:, ::1] samples
-        if self._updateType == 'serial':
-            for i in range(self._nNodes):
-                samples[i] = self._nodeids[i]
-            return samples
 
         # replace with nogil variant
         with gil:
@@ -541,23 +534,40 @@ cdef class Model: # see pxd
                 self._newstates_ptr[i] = value[i]
 
 
-    def __reduce__(self):
+    #TODO: edit or remove this
+    @property
+    def settings(self):
         kwargs = {}
         for k in dir(self):
             atr = getattr(self, k)
             if not callable(atr) and not k.startswith('_'):
                 kwargs[k] = atr
+        return kwargs
 
-        tmp = {}
-        for k, v in self.nudges.items():
-            tmp[self.rmapping[k]] = v
-        #for k in kwargs: print(k)
-        return rebuild, (self.__class__, kwargs)
+    def __reduce__(self):
+        kwargs = self._getParams()
+        return rebuild, (self.__class__, self.settings)
         #return rebuild, (self.__class__, kwargs)
 
     def __deepcopy__(self, memo):
         tmp = {i : getattr(self, i) for i in dir(self)}
         return self.__class__(**tmp)
+
+    cdef vector[PyObjectHolder] _spawn(self, int nThreads = openmp.omp_get_num_threads()):
+        """Spawn independent models"""
+        cdef:
+            int tid
+            vector[PyObjectHolder] spawn = vector[PyObjectHolder](nThreads)
+            vector[PyObject] _tmp = vector[PyObject](nThreads)
+            Model m
+        for tid in range(nThreads):
+            m =  self.__class__(**self.settings)
+            spawn[tid] = PyObjectHolder(\
+                                        <PyObject*> m\
+                                        )
+        return spawn
+
+        
 
 def rebuild(cls, kwargs):
     return cls(**kwargs)
@@ -683,8 +693,7 @@ cdef class Potts(Model):
         if self._rand() < p or isnan(p):
             self._newstates_ptr[node] = <long> probs[2]
         else:
-            self._newstates_ptr[node] = self._states_ptr[node]
-
+            self._newstates_ptr[node] = self._states_ptr[node] 
     cpdef  np.ndarray matchMagnetization(self,\
                               np.ndarray temps  = np.logspace(-3, 2, 20),\
                               int n             = int(1e3),\
@@ -720,15 +729,16 @@ cdef class Potts(Model):
             # for i in prange(N, nogil = True, num_threads = threads, \
                             # schedule = 'static'):
                 # with gil:
+            tmpHolder = self._spawn(threads)
             cdef PyObject *tmptr
             cdef int tid
-            for i in range(threads):
-                tmp = copy.deepcopy(self)
-                # tmp.reset()
-                # tmp.burnin(burninSamples)
-                # tmp.seed += sample # enforce different seeds
-                modelsPy.append(tmp)
-                tmpHolder.push_back(PyObjectHolder(<PyObject *> tmp))
+            #for i in range(threads):
+            #    tmp = copy.deepcopy(self)
+            #    # tmp.reset()
+            #    # tmp.burnin(burninSamples)
+            #    # tmp.seed += sample # enforce different seeds
+            #    modelsPy.append(tmp)
+            #    tmpHolder.push_back(PyObjectHolder(<PyObject *> tmp))
 
 
             for i in prange(N, nogil = True, schedule = 'static',\
@@ -959,6 +969,8 @@ cdef class SIRS(Model):
         elif self._states_ptr[node] == 2:
             if rng < self._kappa:
                 self._newstates_ptr[node] = 0
+        else:
+            self._newstates_ptr[node] = self._states_ptr[node]
         # add SIRS dynamic?
         return
 

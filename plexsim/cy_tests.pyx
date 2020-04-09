@@ -3,20 +3,22 @@
 
 cdef extern from *:
     ctypedef struct PyObject
-import numpy as np
-cimport numpy as np
 from libcpp.vector cimport vector
 from libcpp.pair cimport  pair
 from cython.operator cimport dereference as deref
+from libc.stdlib cimport malloc, free
 cdef extern from "<algorithm>" namespace "std" nogil:
     void swap[T] (T &a, T &b)
-
 
 cdef struct Test:
     pair[long, double] neighbor
 
-cdef Test a
 
-a.neighbor = (0, 1)
 
+cimport numpy as np
+import numpy as np
+
+
+
+#cdef char* c = <char*> b.view.buf 
 
