@@ -4,6 +4,7 @@
 
 cimport numpy as np
 from libcpp.vector cimport vector
+from libcpp.pair cimport pair
 from libcpp.map cimport map
 from libcpp.unordered_map cimport unordered_map
 import cython
@@ -71,12 +72,13 @@ ctypedef double WEIGHT
 ctypedef double NUDGE
 ctypedef vector[NODE] Neighbors
 ctypedef vector[WEIGHT] Weights
+ctypedef vector[PyObjectHolder] SpawnVec
 
 cdef struct Connection:
     #unordered_map[NODE, WEIGHT] neighbors
     #NUDGE nudge
-    vector[NODE] neighbors
-    vector[WEIGHT] weights
+    Neighbors neighbors
+    Weights  weights
 
 cdef class Model:
     cdef:
@@ -144,7 +146,8 @@ cdef class Model:
     # Py wrapper simulation
     cpdef np.ndarray simulate(self, int samples)
 
-    cdef vector[PyObjectHolder] _spawn(self, int nThreads=*)
+    cdef SpawnVec _spawn(self, int nThreads=*)
+
     cpdef void reset(self)
 
 
@@ -159,11 +162,12 @@ cdef class Potts(Model):
     # update function
     cdef double _hamiltonian(self, NODE x, NODE  y) nogil
 
-    cpdef  np.ndarray matchMagnetization(self,\
-                                         np.ndarray temps  = *,\
-                                         int n             = *,\
-                                         int burninSamples = *,\
-                                         double  match =*)
+    cpdef  np.ndarray magnetize(self,\
+                                np.ndarray temps  = *,\
+                                int n             = *,\
+                                int burninSamples = *,\
+                                double  match =*)
+
     cpdef vector[double] siteEnergy(self, NODE[::1] states)
 
 cdef class Ising(Potts):

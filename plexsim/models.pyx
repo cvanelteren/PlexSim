@@ -34,6 +34,7 @@ from posix.time cimport clock_gettime,\
 timespec, CLOCK_REALTIME
 
 # from sampler cimport Sampler # mersenne sampler
+
 cdef class Model: # see pxd 
     def __init__(self,\
                  graph,\
@@ -518,8 +519,6 @@ cdef class Model: # see pxd
 
     @states.setter # TODO: expand
     def states(self, value):
-        from collections import Iterable
-        cdef int idx
         if isinstance(value, int):
             for node in range(self._nNodes):
                 self._states_ptr[node] = value
@@ -535,38 +534,53 @@ cdef class Model: # see pxd
 
 
     #TODO: edit or remove this
-    @property
-    def settings(self):
+    def get_settings(self):
         kwargs = {}
         for k in dir(self):
             atr = getattr(self, k)
             if not callable(atr) and not k.startswith('_'):
                 kwargs[k] = atr
+        print(kwargs)
         return kwargs
 
     def __reduce__(self):
         kwargs = self._getParams()
-        return rebuild, (self.__class__, self.settings)
+        return rebuild, (self.__class__, self.get_settings())
         #return rebuild, (self.__class__, kwargs)
 
     def __deepcopy__(self, memo):
-        tmp = {i : getattr(self, i) for i in dir(self)}
-        return self.__class__(**tmp)
+        return self.__class__(**self.get_settings())
 
-    cdef vector[PyObjectHolder] _spawn(self, int nThreads = openmp.omp_get_num_threads()):
-        """Spawn independent models"""
+    #TODO: not sure what happens to the pointers if accesses inappropriately
+
+    cdef SpawnVec _spawn(self, int nThreads = openmp.omp_get_num_threads()):
+        """
+        Spawn independent models
+        """
+
         cdef:
             int tid
-            vector[PyObjectHolder] spawn = vector[PyObjectHolder](nThreads)
-            vector[PyObject] _tmp = vector[PyObject](nThreads)
+            SpawnVec spawn 
             Model m
         for tid in range(nThreads):
-            m =  self.__class__(**self.settings)
-            spawn[tid] = PyObjectHolder(\
+            # ref counter increase
+            m = self.__new__()
+            # storing -> unsafe?
+            spawn.push_back( PyObjectHolder(\
                                         <PyObject*> m\
                                         )
+                             )
         return spawn
 
+    #cpdef spawn(self, int nThreads = openmp.omp_get_num_threads()):
+    #    cdef:
+    #        list models = []
+    #        SpawnVec models_ = self._spawn(nThreads)
+    #    for tid in range(nThreads):
+    #        models.append( <Model> models[tid].ptr )
+    #    print(models)
+    #    return models
+        
         
 
 def rebuild(cls, kwargs):
@@ -694,7 +708,8 @@ cdef class Potts(Model):
             self._newstates_ptr[node] = <long> probs[2]
         else:
             self._newstates_ptr[node] = self._states_ptr[node] 
-    cpdef  np.ndarray matchMagnetization(self,\
+
+    cpdef  np.ndarray magnetize(self,\
                               np.ndarray temps  = np.logspace(-3, 2, 20),\
                               int n             = int(1e3),\
                               int burninSamples = 0,\
@@ -717,33 +732,27 @@ cdef class Potts(Model):
                 int i, j
                 double t, avg, sus
                 int threads = mp.cpu_count()
-                vector[PyObjectHolder] tmpHolder
-                Potts tmp
                 np.ndarray magres
                 list modelsPy = []
 
 
-            print("Computing mag per t")
-            #pbar = tqdm(total = N)
             pbar = ProgBar(N)
-            # for i in prange(N, nogil = True, num_threads = threads, \
-                            # schedule = 'static'):
-                # with gil:
-            tmpHolder = self._spawn(threads)
-            cdef PyObject *tmptr
-            cdef int tid
-            #for i in range(threads):
-            #    tmp = copy.deepcopy(self)
-            #    # tmp.reset()
-            #    # tmp.burnin(burninSamples)
-            #    # tmp.seed += sample # enforce different seeds
-            #    modelsPy.append(tmp)
-            #    tmpHolder.push_back(PyObjectHolder(<PyObject *> tmp))
 
-
+            # setup parallel models
+            print("spawning threads")
+            cdef:
+                int tid
+                vector[PyObjectHolder]  tmpHolder #= self._spawn(threads)
+                PyObject *tmptr
+            models_ = []
+            cdef Model tmp
+            for tid in range(threads):
+                print(f'in thread {tid}', end = ' ')
+                tmp = copy.deepcopy(self)
+                tmpHolder.push_back(PyObjectHolder(<PyObject *>tmp))
+            print("Magnetizing temperatures")
             for i in prange(N, nogil = True, schedule = 'static',\
                             num_threads = threads):
-                # m = copy.deepcopy(self)
                 tid = threadid()
                 tmptr = tmpHolder[tid].ptr
                 avg = 0
@@ -753,10 +762,11 @@ cdef class Potts(Model):
                     (<Potts> tmptr).t  = t
                     (<Potts> tmptr).states = self._agentStates[0]
                     res        = (<Potts> tmptr).simulate(n)
-                    # mu = np.array([self.siteEnergy(resi) for resi in res])
-                    results[0, i] = (res == self._agentStates[0]).mean() - 1/self._nStates
+                    results[0, i] = np.mean((res == self._agentStates[0])) - 1/self._nStates
                     pbar.update(1)
             results[1, :] = np.abs(np.gradient(results[0], temps, edge_order = 1))
+
+            # fit sigmoid
             if match > 0:
                 # fit sigmoid
                 from scipy import optimize
@@ -769,9 +779,10 @@ cdef class Potts(Model):
                                        )
                 tcopy = critic
                 print(f"Sigmoid fit params {params}\nAt T={critic}")
-            # print(results[0])
+
             self.t = tcopy # reset temp
             return results
+
     cpdef NODE[::1] updateState(self, NODEID[::1] nodesToUpdate):
         return self._updateState(nodesToUpdate)
 
