@@ -13,12 +13,13 @@ cdef extern from "<algorithm>" namespace "std" nogil:
 cdef struct Test:
     pair[long, double] neighbor
 
-
-
 cimport numpy as np
 import numpy as np
 
 
+cdef struct Test:
+    int x
+    int y
 
-#cdef char* c = <char*> b.view.buf 
-
+cdef vector[Test] b
+cdef Test tmp
