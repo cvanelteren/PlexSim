@@ -96,11 +96,13 @@ class TestBaseModel(ut.TestCase):
     def test_apply_nudge(self):
         print("testing nudges")
         nudges = {"1" : 1}
+        self.m.kNudges = 10
         self.m.nudges = nudges 
         print(self.m.nudges)
         print(self.m.adj)
         nodes = np.ones(10, dtype = int) * self.m.mapping[next(iter(nudges))]
         self.m.updateState(memoryview(nodes))
+        print('done')
         ## fill buffer
         #self.m._apply_nudges(self, backup)
         #self.assertEqual(backup[0], 1)

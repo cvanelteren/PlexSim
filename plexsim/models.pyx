@@ -189,6 +189,7 @@ cdef class Model:
 
     cdef node_state_t[::1]  _updateState(self, node_id_t[::1] nodesToUpdate) nogil:
         cdef NudgesBackup* backup = new NudgesBackup()
+        #cdef NudgesBackup backup = NudgesBackup()
         cdef node_id_t node
         # updating nodes
         for node in range(nodesToUpdate.shape[0]):
@@ -198,9 +199,9 @@ cdef class Model:
             self._remove_nudge(node, backup)
         # clean up
         else:
+            free(backup)
             self._swap_buffers()
             self._last_written = (self._last_written + 1) % 2 
-            free(backup)
 
         # return buffers
         if self._last_written == 0:
@@ -695,10 +696,12 @@ cdef class Potts(Model):
         while it != self._adj[node].neighbors.end():
             weight   = deref(it).second
             neighbor = deref(it).first
-            # update energies
+                 # update energies
             energy[0]  -= weight * self._hamiltonian(states[node], states[neighbor])
             energy[1]  -= weight * self._hamiltonian(testState, states[neighbor])
+
             post(it)
+
         return energy
 
     cdef double _hamiltonian(self, node_state_t x, node_state_t  y) nogil:
