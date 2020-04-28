@@ -1,0 +1,10 @@
+import numpy as np
+import time
+N = 2000
+
+a = np.random.rand(N, N)
+b = np.random.rand(N, N)
+start = time.time()
+c = a.dot(b)
+print(f"Time taken : {time.time() - start}")
+

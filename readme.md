@@ -19,3 +19,8 @@ Powered by
 
 # Example
 ![banner_gif](banner/PlexSim_banner.gif)
+
+
+# notes
+Cannot have static pyobjects, this causes a segfault in pybind11. 
+Use atexit for cleaning them up.
