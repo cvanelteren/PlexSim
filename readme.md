@@ -11,8 +11,6 @@ _N.b._ this is a work in progress
 `conda env update --file environment.yml`
 
 ## Build and run checks
-`./build.sh -tv`
-## build and run tests
 `sh build.sh -tv`
 
 # License
