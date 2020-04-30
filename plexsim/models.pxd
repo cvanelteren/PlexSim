@@ -169,6 +169,8 @@ cdef class Model:
 
     cpdef void reset(self, p =*)
 
+    cdef vector[double] _nudgeShift(self, node_id_t node, \
+                         vector[double] p) nogil
 
 cdef class Potts(Model):
     cdef:
@@ -192,6 +194,7 @@ cdef class Potts(Model):
                                 double  match =*)
 
     cpdef vector[double] siteEnergy(self, node_state_t[::1] states)
+
 
 cdef class Ising(Potts):
     cdef double _hamiltonian(self, node_state_t x, node_state_t y) nogil

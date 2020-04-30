@@ -50,11 +50,11 @@ public:
   int nNodes;
 
   samples_t samples;
-  std::vector<nodeID_t> nodeids;
+  xt::xarray<nodeID_t> nodeids;
 
   // constructor
   Model(py::object graph,\
-        nodeStates agentStates = nodeStates(1, 0),  \
+        agentStates_t  agentStates = agentStates_t(1, 0), \
         string nudgeType       = "constant",\
         string updateType      = "async",\
         int sampleSize         = 0, \
@@ -125,7 +125,7 @@ public:
     this-> graph = graph;
     this-> nNodes= this->adj.size();
 
-    this->nodeids = std::vector<nodeID_t>(this->nNodes);
+    this->nodeids = xt::xarray<nodeID_t>(this->nNodes);
     for (auto node = 0; node < nNodes; ++node){
         this->nodeids[node] = node;
     }
@@ -145,12 +145,12 @@ public:
     // samples_t samples = this->samples;
     // samples.resize(nSamples * sampleSize);
     int N = nSamples * sampleSize;
-    samples_t samples = samples_t(N,0);
+    samples_t samples = samples_t::from_shape({N});
     for (int samplei = 0; samplei < N; ++samplei){
       // shuffle the node ids
       // start = (samplei * sampleSize) % nNodes;
       if (samplei % nNodes >= nNodes){
-          std::shuffle(nodeids.begin(), nodeids.begin() + sampleSize, std::default_random_engine());
+          xt::random::shuffle(nodeids);
           }
       // assign to sample
       //ptr[samplei] = nodeids[samplei % nNodes];
@@ -199,11 +199,17 @@ public:
 
 
 PYBIND11_MODULE(example, m){
+  xt::import_numpy();
   py::class_<Model, PyModel<>>(m, "Model")
-    .def(
-         py::init<py::object, nodeStates, string, string, int, int>(),
+    .def(py::init<\
+         py::object, \
+         agentStates_t,\
+         string,\
+         string,\
+         int,\
+         int        >(),
          "graph"_a       ,
-         "agentStates"_a = nodeStates(1, 0),
+         "agentStates"_a = agentStates_t(1, 0),
          "nudgeType"_a   = "constant",
          "updateType"_a  = "async",
          "sampleSize"_a  = -1,
@@ -216,4 +222,5 @@ PYBIND11_MODULE(example, m){
 
   m.doc() = "Testing this stuff out";
 }
+
 

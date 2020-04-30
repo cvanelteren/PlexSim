@@ -5,7 +5,6 @@ cimport cython
 import numpy as np
 cimport numpy as np
 import networkx as nx, functools, time
-from tqdm import tqdm
 import copy
 
 cimport cython, openmp
@@ -194,20 +193,16 @@ cdef class Model:
         # updating nodes
         for node in range(nodesToUpdate.shape[0]):
             node = nodesToUpdate[node]
-            self._apply_nudge(node, backup)
+            #self._apply_nudge(node, backup)
             self._step(node)
-            self._remove_nudge(node, backup)
+            #self._remove_nudge(node, backup)
         # clean up
         else:
             free(backup)
             self._swap_buffers()
             self._last_written = (self._last_written + 1) % 2 
 
-        # return buffers
-        if self._last_written == 0:
-            return self._states
-        else:
-            return self._newstates
+        return self._newstates if self._last_written else self._states 
     cdef void _apply_nudge(self, node_id_t node,\
                            NudgesBackup* backup) nogil:
 
@@ -267,6 +262,26 @@ cdef class Model:
         deref(backup).clear()
         return
 
+
+    cdef vector[double]  _nudgeShift(self, node_id_t node, vector[double] p ) nogil:
+        # shift pmf by some nudge
+        _nudge = self._nudges.find(node)
+        cdef int i
+        cdef double[::1] tmp_
+        if _nudge != self._nudges.end(): 
+            with gil:
+                tmp_ = np.random.randn(p.size()) * deref(_nudge).second
+                #tmp_ = np.convolve(p, tmp_, "same'")
+                #tmp_ = (tmp_ - np.mean(tmp_))
+                #tmp_ /= np.sum(tmp_)
+            for i in range(p.size()) :
+                p[i] += tmp_[i] 
+        return p
+
+
+            
+
+
     cdef void _swap_buffers(self) nogil:
         """
         Update state buffers
@@ -287,7 +302,7 @@ cdef class Model:
 
     cdef double _rand(self) nogil:
         return self._dist(self._gen)
-
+    
     cpdef node_id_t[:, ::1] sampleNodes(self, long nSamples):
         return self._sampleNodes(nSamples)
 
@@ -714,8 +729,16 @@ cdef class Potts(Model):
             double delta = self._beta * (energies[1] - energies[0])
             double p = exp(-delta)
             double rng = self._rand()
-        if rng < p or isnan(p):
-            self._newstates_ptr[node] = <node_state_t> energies[2]
+            vector[double] ps = vector[double](1, p)
+        ps = self._nudgeShift(node, ps)
+        cdef int pidx
+        cdef double pLower = 0
+        for pidx in range(ps.size()):
+            p = ps[pidx]
+            if pLower < rng < p or isnan(p):
+               self._newstates_ptr[node] = <node_state_t> energies[2]
+               break
+            pLower += p
         free(energies)
         return
 
@@ -859,10 +882,7 @@ cdef class Bornholdt(Ising):
             double delta
             double p
             double systemInfluence = self._alpha * deref(self._system_mag_ptr)
-
         energies = self._energy(node)
-
-
         delta = energies[0] * self._states_ptr[node] - self._states_ptr[node] * systemInfluence
         p = 1 / ( 1. + exp( -2 * self._beta * delta))
 
@@ -974,7 +994,6 @@ cdef class SIRS(Model):
         return infectionRate * self._beta / ZZ
 
     cdef void _step(self, node_id_t node) nogil:
-
         cdef:
             float rng = self._rand()
         # HEALTHY state 
