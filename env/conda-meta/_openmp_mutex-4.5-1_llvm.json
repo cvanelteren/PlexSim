@@ -1,0 +1,44 @@
+{
+  "build": "1_llvm",
+  "build_number": 1,
+  "channel": "https://conda.anaconda.org/conda-forge/linux-64",
+  "constrains": [],
+  "depends": [
+    "_libgcc_mutex 0.1 conda_forge",
+    "llvm-openmp >=9.0.1"
+  ],
+  "extracted_package_dir": "/home/casper/miniconda3/pkgs/_openmp_mutex-4.5-1_llvm",
+  "features": "",
+  "files": [
+    "lib/libgomp.so.1"
+  ],
+  "fn": "_openmp_mutex-4.5-1_llvm.tar.bz2",
+  "license": "BSD-3-Clause",
+  "license_family": "BSD",
+  "link": {
+    "source": "/home/casper/miniconda3/pkgs/_openmp_mutex-4.5-1_llvm",
+    "type": 1
+  },
+  "md5": "fa8d764c883a53d22ce622bea830c818",
+  "name": "_openmp_mutex",
+  "package_tarball_full_path": "/home/casper/miniconda3/pkgs/_openmp_mutex-4.5-1_llvm.tar.bz2",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "lib/libgomp.so.1",
+        "path_type": "softlink",
+        "sha256": "bd8c88c98660ac084a5e2f9b7ab94921376104dcd8aea17d42ffc050d0114740",
+        "size_in_bytes": 1192112
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "336db438c84eca10d0765ab81bd0bce677dbc0ab03c136ecf27ed05028397660",
+  "size": 5187,
+  "subdir": "linux-64",
+  "timestamp": 1582045300613,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/conda-forge/linux-64/_openmp_mutex-4.5-1_llvm.tar.bz2",
+  "version": "4.5"
+}

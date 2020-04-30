@@ -3,12 +3,17 @@
 Fast and general toolbox for simulation of complex adaptive systems written in cython.
 _N.b._ this is a work in progress
 
-## Dependencies
 
-- python >= 3.8
-- cython >=.28
-- numpy >= 1.18.1
-... see req.txt
+# Installation
+## New environment
+`conda env create --file environment.yml`
+## Existing environment
+`conda env update --file environment.yml`
+
+## Build and run checks
+`./build.sh -tv`
+## build and run tests
+`sh build.sh -tv`
 
 # License
 PlexSim is released under the GNU-GPLv3 license

@@ -1,0 +1,12 @@
+name: plexsim
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8.2
+  - numpy
+  - networkx
+  - scipy
+  - Cython
+  - scikit-learn
+  - pyprind
+

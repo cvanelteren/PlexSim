@@ -1,9 +1,15 @@
 #include <iostream>
 #include <pybind11/stl.h>
 #include <pybind11/pybind11.h>
-#include <ctime>
-#include <random>
+#include <pybind11/numpy.h>
 
+#define FORCE_IMPORT_ARRAY
+#include "xtensor/xrandom.hpp"
+#include "xtensor-python/pyarray.hpp"
+#include "xtensor-python/pycontainer.hpp"
+
+#include <random>
+#include <ctime>
 namespace py = pybind11;
 using namespace pybind11::literals;
 using namespace std;
@@ -13,10 +19,11 @@ using namespace std;
 typedef int nodeID_t; 
 typedef int nodeState_t;
 typedef float weight_t;
-typedef std::vector<nodeState_t> nodeStates;
+typedef xt::xarray<nodeState_t> nodeStates;
+typedef std::vector<long> agentStates_t;
 
 // sampling binding
-typedef std::vector<nodeID_t> samples_t;
+typedef xt::xarray<nodeID_t> samples_t;
 // typedef std::array<nodeID_t> samples_t;
 
 // Adjacency definition
