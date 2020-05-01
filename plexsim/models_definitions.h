@@ -9,6 +9,7 @@
 #include "xtensor/xrandom.hpp"
 #include "xtensor-python/pyarray.hpp"
 #include "xtensor/xmath.hpp"
+#include "xtensor/xstrided_view.hpp"
 #include "xtensor/xio.hpp"
 
 #include <ctime>
