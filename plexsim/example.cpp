@@ -46,21 +46,25 @@ public:
     nudgeProperty nudgeType;
     updateProperty updateType;
 
-    unsigned int sampleSize;
-    unsigned int nNodes;
+    size_t sampleSize;
+    size_t nNodes;
 
-    unsigned int nStates;
+    size_t nStates;
     randutils::mt19937_rng rng;
-  
+    nodeStates states;
+    nodeStates newstates;
+
+    agentStates_t  agentStates;
+ 
+    bool write ;
   xt::xarray<nodeID_t> nodeids;
 
   // constructor
   Model(py::object graph,\
-        agentStates_t  agentStates = agentStates_t(1, 0), \
+        agentStates_t  agentStates = agentStates_t( {0,1}),  \
         string nudgeType       = "constant",\
         string updateType      = "async",\
-        int sampleSize         = 0, \
-        int seed               = -1\
+        size_t sampleSize         = 0 \
         ) {
 
       // setup seed
@@ -79,13 +83,25 @@ public:
       this->sampleSize = sampleSize;
       this->nudgeType  = nudgeType;
       this->updateType = updateType;
-    this->nStates    = agentStates.size();
+      this->agentStates = agentStates;
+      this->nStates    = agentStates.size();
 
-    if (sampleSize <= 0) this->sampleSize = this->nNodes;
+      this->sampleSize = (sampleSize == 0 ? this->nNodes : sampleSize);
 
-    // setup buffers
-    this->states     = nodeStates({this->nNodes} );
-    this->newstates  = nodeStates({this->nNodes});
+      this->write = false;
+      // setup buffers
+      // this->states     = nodeStates({this->nNodes} );
+      xt::xarray<int>tmp = xt::arange(0, 5);
+      xt::random::choice(tmp, 1, false);
+      // this->states  = xt::random::choice(agentStates, 1);
+      // this->states  = xt::zeros<nodeState_t>({this->nNodes}) ;
+      this->states = xt::zeros<nodeState_t>({this->nNodes});
+      for (auto node = 0 ; node < this->nNodes; node++){
+          this->states[node] = this->rng.pick(agentStates);
+      }
+      this->newstates  = this->states;
+
+    // this->newstates  = nodeStates({this->nNodes});
   }
   virtual ~Model()  = default;
 
@@ -106,6 +122,7 @@ public:
     weight_t weight;
     weight_t defaultWeight = weight_t(1.);
     bool directed = py::bool_(nodelink["directed"]);
+
     // extract link information
     for (auto link : nodelink["links"]){
       // extract data
@@ -125,7 +142,7 @@ public:
     };
     // hide model
     this-> graph = graph;
-    this->nNodes = static_cast <unsigned int>(py::int_(graph.attr("number_of_nodes")()));
+    this-> nNodes = static_cast <unsigned int>(py::int_(graph.attr("number_of_nodes")()));
 
     this->nodeids = xt::arange(this->nNodes);
     return ;
@@ -144,7 +161,6 @@ public:
        unsigned int N   = nSamples * sampleSize;
        nodeids_a nodes  = nodeids_a::from_shape({N});
 
-       int idx;
        for (uint samplei = 0; samplei < N; samplei++){
          // shuffle the node ids
          // start = (samplei * sampleSize) % nNodes;
@@ -163,14 +179,17 @@ public:
         /*
           Node update loop
         */
-      // for (auto node = 0; node < this->nNodes; node++){
-      //     this->step(nodes[node]);
-      // }
-      for (auto node : nodes){
-          this->step(node);
-      }
+      for (auto node = 0; node < nodes.size(); node++){
+           this->step(nodes[node]);
+       }
         this->swap_buffers();
-        return this->states;
+        this->write = (this->write ? false : true);
+        if (this->write){
+            return this->states;
+           }
+        else{
+            return this->newstates;
+        }
     }
     //implement inherited class
     virtual void step(nodeID_t node_id)  = 0;
@@ -182,9 +201,10 @@ public:
     nodeStates  simulate(unsigned int nSamples){
 
         nodeStates results = nodeStates::from_shape({nSamples, this->sampleSize});
-
-        for (uint samplei = 0 ; samplei < nSamples; samplei++){
-            xt::view(results, samplei) = this->updateState(this->sampleNodes(1));
+        
+        const auto nodes = this->sampleNodes(nSamples);
+        for (unsigned int samplei = 0 ; samplei < nSamples; samplei++){
+            xt::view(results, samplei) = this->updateState(xt::view(nodes, samplei));
             }
         return results;
     }
@@ -196,29 +216,43 @@ private:
 
     
   // buffers to write updates to
-  nodeStates states;
-  nodeStates newstates;
 };
 
 class Potts: public Model{
 public:
+
+    double beta;
+    double t;
+
     Potts(\
      py::object graph,                               \
      agentStates_t  agentStates = agentStates_t(1, 0), \
+     double t               = 1,\
      string nudgeType       = "constant",\
      string updateType      = "async",\
-     int sampleSize         = 0, \
-     int seed               = -1\
+     size_t sampleSize         = 0 \
           ): Model(graph, agentStates,\
                    nudgeType, updateType,\
-                   sampleSize, seed){
+                   sampleSize){
+        this-> beta = 1/t; this->t = t;
         
     };
 
    void step(nodeID_t node){
-       xt::xarray<double> energies = xt::xarray<double>({3});
-
-       
+       xt::xarray<double> energies = {0, 0};
+       nodeState_t nodeState = this->states[node];
+       nodeState_t neighborState;
+       nodeState_t  proposal = this->rng.pick(this->agentStates);
+       for (auto neighbor : this->adj[node].neighbors){
+           neighborState = this->states[neighbor.first];
+           energies[0] -= this->hamiltonian(nodeState, neighborState) * neighbor.second;
+           energies[1] -= this->hamiltonian(proposal, neighborState) * neighbor.second;
+       }
+       xt::xarray<double> delta = {this->beta *(energies[1] - energies[0])};
+       xt::xarray<double>p = xt::exp(- delta);
+       if (this->rng.variate<double, uniform_real_distribution>(0., 1.) < p[0]){
+           this->newstates[node] = proposal;
+       } 
        return ;
     }
 
@@ -271,14 +305,13 @@ PYBIND11_MODULE(example, m){
          agentStates_t,\
          string,\
          string,\
-         int,\
-         int        >(),
+         size_t\
+         >(),
          "graph"_a       ,
          "agentStates"_a = agentStates_t(1, 0),
          "nudgeType"_a   = "constant",
          "updateType"_a  = "async",
-         "sampleSize"_a  = -1,
-         "seed"_a        = -1
+         "sampleSize"_a  = 0
          )
     .def_readwrite("graph", &Model::graph)
     .def("sampleNodes", &Model::sampleNodes,
@@ -290,16 +323,16 @@ PYBIND11_MODULE(example, m){
       .def(py::init<\
            py::object, \
            agentStates_t,\
+           double,\
            string,\
            string,\
-           int,\
-           int        >(),
+           size_t        >(),
            "graph"_a       ,
            "agentStates"_a = agentStates_t({0, 1}),
+           "t"_a           = 1.,\
            "nudgeType"_a   = "constant",
            "updateType"_a  = "async",
-           "sampleSize"_a  = -1,
-           "seed"_a        = -1
+           "sampleSize"_a  = 0\
            )
       .def_readwrite("graph", &Potts::graph)
       .def("sampleNodes", &Potts::sampleNodes,

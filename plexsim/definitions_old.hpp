@@ -20,7 +20,7 @@ typedef int nodeID_t;
 typedef int nodeState_t;
 typedef float weight_t;
 typedef xt::xarray<nodeState_t> nodeStates;
-typedef std::vector<long> agentStates_t;
+typedef xt::xarray<nodeState_t> agentStates_t;
 
 // sampling binding
 typedef xt::xarray<nodeID_t> samples_t;
