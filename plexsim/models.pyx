@@ -334,16 +334,16 @@ cdef class Model:
             # shuffle if the current tracker is larger than the array
             start  = (samplei * sampleSize) % self._nNodes
             if start + sampleSize >= self._nNodes or sampleSize == 1:
-                for i in range(self._nNodes):
-                    # shuffle the array without replacement
-                    j                 = <long> (self._rand() * self._nNodes)
-                    swap(self._nodeids[i], self._nodeids[j])
-                    # enforce atleast one shuffle in single updates; otherwise same picked
-                    if sampleSize == 1:
-                          break
+                for i in range(self._nNodes - 1, 1):
+                   # shuffle the array without replacement
+                   j                 = <long> (self._rand() * i)
+                   swap(self._nodeids[i], self._nodeids[j])
+                   # enforce atleast one shuffle in single updates; otherwise same picked
+                   if sampleSize == 1:
+                         break
             # assign the samples; will be sorted in case of serial
             for j in range(sampleSize):
-                samples[samplei][j]    = self._nodeids[j]
+                samples[samplei][j]    = self._nodeids[start + j]
         return samples
         
     cpdef void reset(self, p = None):
