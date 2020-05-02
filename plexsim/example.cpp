@@ -161,15 +161,21 @@ public:
        unsigned int N   = nSamples * sampleSize;
        nodeids_a nodes  = nodeids_a::from_shape({N});
 
-       for (uint samplei = 0; samplei < N; samplei++){
+       size_t idx;
+       int node;
+       for (size_t samplei = 0; samplei < N; samplei++){
          // shuffle the node ids
          // start = (samplei * sampleSize) % nNodes;
            if (!(samplei % nNodes)){
+               //for (node = this->nNodes - 1 ; node > 1; node--){
+               //    idx = this->rng.uniform(0, node);
+               //    swap(nodeids[node], nodeids[idx]);
+               //}
                this->rng.shuffle(nodeids);
          }
          // assign to sample
          //ptr[samplei] = nodeids[samplei % nNodes];
-           nodes[samplei] = nodeids[samplei % nNodes];
+           xt::view(nodes, samplei) = nodeids[samplei % nNodes];
     }
     return xt::reshape_view(nodes, {nSamples, sampleSize});
   }
