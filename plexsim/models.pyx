@@ -330,20 +330,18 @@ cdef class Model:
         with gil:
             samples = np.zeros((nSamples, sampleSize), dtype = long)
         # cdef vector[vector[node_id_t]] samples = vector[vector[node_id_t]](nSamples)
+        cdef node_id_t* nodeids = &self._nodeids[0]
         for samplei in range(nSamples):
-            # shuffle if the current tracker is larger than the array
-            start  = (samplei * sampleSize) % self._nNodes
             if start + sampleSize >= self._nNodes or sampleSize == 1:
                 for i in range(self._nNodes - 1, 1):
-                   # shuffle the array without replacement
-                   j                 = <long> (self._rand() * i)
-                   swap(self._nodeids[i], self._nodeids[j])
-                   # enforce atleast one shuffle in single updates; otherwise same picked
-                   if sampleSize == 1:
-                         break
+                    # shuffle the array without replacement
+                    j                 = <long> (self._rand() * i)
+                    swap(nodeids[i], nodeids[j])
+                    if sampleSize == 1:
+                          break
             # assign the samples; will be sorted in case of serial
             for j in range(sampleSize):
-                samples[samplei][j]    = self._nodeids[start + j]
+                samples[samplei][j]    = nodeids[start + j]
         return samples
         
     cpdef void reset(self, p = None):
@@ -714,9 +712,7 @@ cdef class Potts(Model):
                  # update energies
             energy[0]  -= weight * self._hamiltonian(states[node], states[neighbor])
             energy[1]  -= weight * self._hamiltonian(testState, states[neighbor])
-
             post(it)
-
         return energy
 
     cdef double _hamiltonian(self, node_state_t x, node_state_t  y) nogil:
