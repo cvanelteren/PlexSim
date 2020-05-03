@@ -155,7 +155,7 @@ public:
 
        unsigned int sampleSize   = this->sampleSize;
        int nNodes       = this->nNodes;
-       auto nodeids     = this->nodeids;
+       Nodeids nodeids     = this->nodeids;
        // samples samples = this->samples;
        // samples.resize(nSamples * sampleSize);
        unsigned int N   = nSamples * sampleSize;
@@ -167,11 +167,11 @@ public:
          // shuffle the node ids
          // start = (samplei * sampleSize) % nNodes;
            if (!(samplei % nNodes)){
-               //for (node = this->nNodes - 1 ; node > 1; node--){
-               //    idx = this->rng.uniform(0, node);
-               //    swap(nodeids[node], nodeids[idx]);
-               //}
-               this->rng.shuffle(nodeids);
+               for (node = this->nNodes - 1 ; node > 1; node--){
+                   idx = this->rng.uniform(0, node);
+                   swap(nodeids[node], nodeids[idx]);
+               }
+               //this->rng.shuffle(nodeids);
          }
          // assign to sample
          //ptr[samplei] = nodeids[samplei % nNodes];
@@ -185,11 +185,13 @@ public:
         /*
           Node update loop
         */
+
       for (auto node = 0; node < nodes.size(); node++){
            this->step(nodes[node]);
        }
         this->swap_buffers();
         this->write = (this->write ? false : true);
+
         if (this->write){
             return this->states;
            }
@@ -208,7 +210,7 @@ public:
 
         nodeStates results = nodeStates::from_shape({nSamples, this->sampleSize});
         
-        const auto nodes = this->sampleNodes(nSamples);
+        nodeids_a nodes = this->sampleNodes(nSamples);
         for (unsigned int samplei = 0 ; samplei < nSamples; samplei++){
             xt::view(results, samplei) = this->updateState(xt::view(nodes, samplei));
             }
@@ -304,7 +306,6 @@ public:
 
 
 PYBIND11_MODULE(example, m){
-  xt::import_numpy();
   py::class_<Model, PyModel<>>(m, "Model")
     .def(py::init<\
          py::object, \
@@ -346,4 +347,5 @@ PYBIND11_MODULE(example, m){
       .def("simulate", &Potts::simulate)
       ;
   m.doc() = "Testing this stuff out";
-}
+};
+
