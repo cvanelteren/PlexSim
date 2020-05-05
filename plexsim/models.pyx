@@ -781,12 +781,9 @@ cdef class Potts(Model):
                 with gil:
                     (<Model> tmptr).t      =  temps[ni]
                     (<Model> tmptr).states = self._agentStates[0]
-                    res = np.unique((<Model> tmptr).simulate(n).flat,\
-                                    return_counts = True)[1]
-                    xr = np.arange(0, res.size)
-                    phase = np.exp(2 * np.pi * 1j * xr * Z)* \
-                        res/ <double>(self._nNodes * n)
-                    phase = np.real(phase).sum()
+                    res = (<Model> tmptr).simulate(n) / <double> self._nStates
+                    phase = np.exp(2 * np.pi * 1j * res)
+                    phase = np.real(phase).mean()
                     results[0, ni] = np.abs(phase)
                     pbar.update(1)
             results[1, :] = np.abs(np.gradient(results[0], temps, edge_order = 1))
@@ -892,6 +889,7 @@ cdef class Bornholdt(Ising):
          swap(self._states_ptr, self._newstates_ptr)
          swap(self._system_mag_ptr, self._newsystem_mag_ptr)
          return
+
 
 
 

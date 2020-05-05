@@ -1,5 +1,8 @@
 #include <iostream>
 #include <math.h>
+#include <complex>
+#include <any>
+
 #include <pybind11/stl.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
@@ -9,6 +12,7 @@
 #include "xtensor/xrandom.hpp"
 #include "xtensor-python/pyarray.hpp"
 #include "xtensor/xmath.hpp"
+#include "xtensor/xcomplex.hpp"
 #include "xtensor/xstrided_view.hpp"
 #include "xtensor/xio.hpp"
 
@@ -19,6 +23,7 @@ using namespace std;
 
 // DEFINITIONS
 // general model definitions
+typedef xt::xarray<double> xarrd;
 typedef int nodeID_t; 
 typedef int nodeState_t;
 typedef float weight_t;
@@ -34,7 +39,7 @@ typedef  xt::xarray<nodeID_t> Nodeids;
 // Adjacency definition
 typedef unordered_map<nodeID_t, weight_t> Neighbors;
 struct Connection{
-  Neighbors neighbors;
+    Neighbors neighbors;
 };
 
 
@@ -42,3 +47,4 @@ typedef unordered_map<nodeID_t, Connection> Connections;
 
 
 
+double PI =xt::numeric_constants<double>::PI ;
