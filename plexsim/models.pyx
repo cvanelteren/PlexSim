@@ -38,6 +38,7 @@ timespec, CLOCK_REALTIME
 # from sampler cimport Sampler # mersenne sampler
 
 
+
 cdef class Model:
     def __init__(self,\
                  graph       = nx.path_graph(1),\
@@ -104,6 +105,7 @@ cdef class Model:
                 self.states = kwargs.get("states").copy()
                 self.last_written = kwargs.get("last_written", 0)
 
+        
     cpdef void construct(self, object graph, list agentStates):
         """
         Constructs adj matrix using structs
@@ -625,6 +627,7 @@ cdef class Potts(Model):
                  t = 1,\
                  agentStates = [0, 1],\
                  delta       = 0, \
+                 rules       = nx.Graph(),\
                  **kwargs):
         """
         Potts model
@@ -642,6 +645,26 @@ cdef class Potts(Model):
         self._H = kwargs.get("H", np.zeros(self._nNodes, dtype = float))
         self.t       = t
         self._delta  = delta
+        self.constructRules(rules)
+
+    cpdef void constructRules(self, object rules):
+        
+        cdef:
+             multimap[node_state_t, node_state_t] r
+             dict nl = nx.node_link_data(rules)
+             node_state_t source, target
+             pair[node_state_t, node_state_t] tmp
+        for link in nl['links']:
+            source, target = list(link.values())
+            tmp = pair[node_state_t, node_state_t](target, source)
+
+            r.insert(tmp)
+            if not nl['directed']:
+                   r.insert(pair[node_state_t, node_state_t](source, target))
+        self._rules = r 
+        return 
+            
+
 
     @property
     def delta(self): return self._delta
@@ -706,14 +729,31 @@ cdef class Potts(Model):
         energy[2] = self._agentStates[testState]
         # compute the energy
         it = self._adj[node].neighbors.begin()
+        cdef bint inRules
         while it != self._adj[node].neighbors.end():
             weight   = deref(it).second
             neighbor = deref(it).first
-                 # update energies
-            energy[0]  -= weight * self._hamiltonian(states[node], states[neighbor])
-            energy[1]  -= weight * self._hamiltonian(testState, states[neighbor])
+            # check rules
+            if self._checkRules(states[node], states[neighbor]):
+                energy[0] -= weight
+            else:
+                energy[0]  -= weight * self._hamiltonian(states[node], states[neighbor])
+
+            if self._checkRules(testState, states[neighbor]):
+                energy[1] -= weight
+            else:
+                 energy[1]  -= weight * self._hamiltonian(testState, states[neighbor])
             post(it)
         return energy
+
+    cdef bint _checkRules(self, node_state_t x, node_state_t y) nogil:
+    
+        it = self._rules.find(x)
+        while it != self._rules.end():
+            if deref(it).second == y:
+                return True
+            post(it)
+        return False
 
     cdef double _hamiltonian(self, node_state_t x, node_state_t  y) nogil:
         return cos(2 * pi  * ( x - y ) / <double> (self._nStates))

@@ -1,0 +1,1 @@
+{"rustc":17444072189324216992,"features":"[\"blas\", \"blas-src\", \"cblas-sys\"]","target":10088282520713642473,"profile":2574335274271406459,"path":17912134428687456212,"deps":[],"local":[{"CheckDepInfo":{"dep_info":"release/.fingerprint/ndarray-d6f68021e91eb403/dep-build-script-build_script_build-d6f68021e91eb403"}}],"rustflags":[],"metadata":12734421682426488421}

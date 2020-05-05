@@ -9,17 +9,19 @@ from subprocess import run
 add = []
 compiler = 'g++'
 optFlag = '-O3'
-cppv    = '11'
+cppv    = '14'
 
 flags = f'{optFlag} -march=native -std=c++{cppv} -flto '\
         '-frename-registers -funroll-loops -fno-wrapv '\
-        '-fopenmp-simd -fopenmp -D_GLIBCXX_PARALLEL'
+        '-fopenmp-simd -fopenmp -D_GLIBCXX_PARALLEL -Wfatal-errors'
+
+flags = f'{optFlag} -march=native -std=c++{cppv} -fopenmp -fopenmp-simd'
 try:
     clangCheck = run(f"{compiler} --version".split(), capture_output= True)
     if not clangCheck.returncode and 'fs4' not in os.uname().nodename:
         print("Using default")
         os.environ['CXXFLAGS'] =  f'{compiler} {flags}'
-        os.environ['CC']       =  f'{compiler} {flags}'
+        #os.environ['CC']       =  f'{compiler} {flags}'
         # add.append('-lomp') # c
 except Exception as e:
     print(e)
