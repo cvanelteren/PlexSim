@@ -43,6 +43,21 @@ cdef struct Connection:
 
 ctypedef unordered_map[node_id_t, Connection] Connections
 
+cdef extern from "<map>" namespace "std":
+    cdef cppclass multimap[T, U]:
+        cppclass iterator:
+            pair[T, U]& operator*() nogil
+            iterator operator++() nogil
+            iterator operator--() nogil
+            bint operator==(iterator) nogil
+            bint operator!=(iterator) nogil
+
+        multimap() nogil except +
+        U& operator[](T&) nogil
+        iterator begin() nogil
+        iterator end() nogil
+        pair[iterator, bint] insert(pair[T, U]) nogil # XXX pair[T,U]&
+        iterator find(T&) nogil
 
 cdef extern from *:
     """
@@ -178,9 +193,12 @@ cdef class Potts(Model):
         double _beta   # temperature parameter
         double _delta # memory retention variable
 
+        multimap[node_state_t, node_state_t] _rules
     # cdef vector[double] _energy(self,\
                                # node_id_t  node) nogil
     
+    cdef bint _checkRules(self, node_state_t x, node_state_t y) nogil
+    cpdef void constructRules(self, object rules)
     cdef double*  _energy(self,node_id_t  node) nogil
     cdef void _step(self, long node_id_t) nogil
     cdef void _step(self, long node_id_t) nogil

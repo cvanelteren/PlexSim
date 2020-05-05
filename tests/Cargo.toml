@@ -1,0 +1,12 @@
+[package]
+name = "test_rust"
+version = "0.1.0" 
+authors = ["Casper van Elteren <caspervanelteren@mgail.com"]
+
+[dependencies]
+ndarray = "0.12"
+ndarray-rand = "0.8"
+rand = "0.5"  
+
+[profile.release]
+opt-level = 3

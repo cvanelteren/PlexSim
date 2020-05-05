@@ -31,6 +31,7 @@ def test_dot():
 
 if __name__ == "__main__":
     print("Testing numpy")
+    test_dot()
 
     
 

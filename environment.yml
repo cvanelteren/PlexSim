@@ -1,4 +1,3 @@
-name: plexsim
 channels:
   - conda-forge
 dependencies:
@@ -9,4 +8,5 @@ dependencies:
   - Cython
   - scikit-learn
   - pyprind
+  - pybind11
 
