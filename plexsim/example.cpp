@@ -20,32 +20,10 @@ protected:
 // use template for the node state type ? 
 class Model{
 public:
-  // updateProperty
-  class updateProperty: public Property <string> {
-  public:
-    virtual string& operator = (const string &f){
-      if (f == "async") return value = f;
-      else if(f =="sync") return value = f;
-      else return value = "async";
-      }
-  };
-
-  // nudge property
-  class nudgeProperty : public Property <string> {
-  public:
-    virtual string& operator= (const string &f){
-      if (f == "constant") return value = f;
-      else if (f == "pulse") return value = f;
-      else return value = "constant";
-      }
-  };
-
     Connections adj; // adjecency
     py::object graph; // stash nx object inside the class
 
-    nudgeProperty nudgeType;
-    updateProperty updateType;
-
+    
     size_t sampleSize;
     size_t nNodes;
 
@@ -57,7 +35,35 @@ public:
     agentStates_t  agentStates;
  
     bool write ;
-  xt::xarray<nodeID_t> nodeids;
+    xt::xarray<nodeID_t> nodeids;
+
+
+  // updateProperty
+    class updateProperty: public Property <string> {
+  public:
+    virtual string& operator = (const string &f){
+        if (f == "async"){
+            // Model::newstates; // = Model::states;
+            return value = f;
+        }
+        else if (f == "sync"){
+            // Model::newstates = Model::states;
+            return value = f;
+        }
+    }
+  };
+  // nudge property
+  class nudgeProperty : public Property <string> {
+  public:
+    virtual string& operator= (const string &f){
+      if (f == "constant") return value = f;
+      else if (f == "pulse") return value = f;
+      else return value = "constant";
+      }
+  };
+
+  nudgeProperty nudgeType;
+  updateProperty updateType;
 
   // constructor
   Model(py::object graph,\
@@ -80,13 +86,13 @@ public:
       create_adj(graph);
 
       // setup properties
-      this->sampleSize = sampleSize;
-      this->nudgeType  = nudgeType;
-      this->updateType = updateType;
-      this->agentStates = agentStates;
-      this->nStates    = agentStates.size();
+      this->sampleSize   = sampleSize;
+      this->nudgeType    = nudgeType;
+      this->updateType   = updateType;
+      this->agentStates  = agentStates;
+      this->nStates      = agentStates.size();
 
-      this->sampleSize = (sampleSize == 0 ? this->nNodes : sampleSize);
+      this->sampleSize   = (sampleSize == 0 ? this->nNodes : sampleSize);
 
       this->write = false;
       // setup buffers
@@ -132,13 +138,10 @@ public:
       // py::print(target, source, weight);
 
        // add target to source only
-       if (directed){
-           this->adj[target].neighbors[source] = weight;
-       }
-       else{
+       this->adj[target].neighbors[source] = weight;
+       if (!(directed)){
            this->adj[source].neighbors[target] = weight;
-           this->adj[target].neighbors[source] = weight;
-       };
+       }
     };
     // hide model
     this-> graph = graph;
@@ -154,29 +157,25 @@ public:
     nodeids_a sampleNodes(uint nSamples){
 
        unsigned int sampleSize   = this->sampleSize;
-       int nNodes       = this->nNodes;
-       Nodeids nodeids     = this->nodeids;
+       int nNodes                = this->nNodes;
        // samples samples = this->samples;
        // samples.resize(nSamples * sampleSize);
        unsigned int N   = nSamples * sampleSize;
        nodeids_a nodes  = nodeids_a::from_shape({N});
 
-       size_t idx;
-       int node;
+       size_t tmp;
+       Nodeids nodeids = this->nodeids;
+       //#pragma omp parallel private(nodeids, tmp) for
        for (size_t samplei = 0; samplei < N; samplei++){
          // shuffle the node ids
          // start = (samplei * sampleSize) % nNodes;
-           if (!(samplei % nNodes)){
-               for (node = this->nNodes - 1 ; node > 1; node--){
-                   idx = this->rng.uniform(0, node);
-                   swap(nodeids[node], nodeids[idx]);
-               }
-               //this->rng.shuffle(nodeids);
+           tmp = samplei % nNodes;
+           if (!(tmp)){
+               this->rng.shuffle(nodeids);
          }
          // assign to sample
-         //ptr[samplei] = nodeids[samplei % nNodes];
-           xt::view(nodes, samplei) = nodeids[samplei % nNodes];
-    }
+         xt::view(nodes, samplei) = nodeids[tmp];
+       }
     return xt::reshape_view(nodes, {nSamples, sampleSize});
   }
 
@@ -189,15 +188,11 @@ public:
       for (auto node = 0; node < nodes.size(); node++){
            this->step(nodes[node]);
        }
+        auto tmp = this->newstates;
         this->swap_buffers();
         this->write = (this->write ? false : true);
+        return tmp;
 
-        if (this->write){
-            return this->states;
-           }
-        else{
-            return this->newstates;
-        }
     }
     //implement inherited class
     virtual void step(nodeID_t node_id)  = 0;
@@ -211,11 +206,13 @@ public:
         nodeStates results = nodeStates::from_shape({nSamples, this->sampleSize});
         
         nodeids_a nodes = this->sampleNodes(nSamples);
-        for (unsigned int samplei = 0 ; samplei < nSamples; samplei++){
+        for (size_t samplei = 0 ; samplei < nSamples; samplei++){
             xt::view(results, samplei) = this->updateState(xt::view(nodes, samplei));
             }
         return results;
     }
+
+
 
 private:
   // std::mt19937_64 _gen; // RNG generator 
@@ -229,8 +226,16 @@ private:
 class Potts: public Model{
 public:
 
-    double beta;
-    double t;
+    class Temperature: public Property <double>{
+    public:
+        double beta;  
+        virtual double& operator= (double & t){
+            beta = (t == 0 ? std::numeric_limits<double>::infinity() : 1 / t);
+            return value = t;
+        }
+    };
+
+    Temperature t;
 
     Potts(\
      py::object graph,                               \
@@ -242,32 +247,65 @@ public:
           ): Model(graph, agentStates,\
                    nudgeType, updateType,\
                    sampleSize){
-        this-> beta = 1/t; this->t = t;
+        this->t = t; 
         
     };
 
    void step(nodeID_t node){
-       xt::xarray<double> energies = {0, 0};
        nodeState_t nodeState = this->states[node];
        nodeState_t neighborState;
        nodeState_t  proposal = this->rng.pick(this->agentStates);
-       for (auto neighbor : this->adj[node].neighbors){
+
+       double cEn = 0;
+       double fEn = 0;
+       Connection* tmp = &this->adj[node]; 
+
+       //#pragma parallel reduction(+:cEn, +:fEn) for
+       for (auto neighbor : tmp->neighbors){
            neighborState = this->states[neighbor.first];
-           energies[0] -= this->hamiltonian(nodeState, neighborState) * neighbor.second;
-           energies[1] -= this->hamiltonian(proposal, neighborState) * neighbor.second;
+           cEn -= this->hamiltonian(nodeState, neighborState) * neighbor.second;
+           fEn -= this->hamiltonian(proposal, neighborState) * neighbor.second;
        }
-       xt::xarray<double> delta = {this->beta *(energies[1] - energies[0])};
-       xt::xarray<double>p = xt::exp(- delta);
-       if (this->rng.variate<double, uniform_real_distribution>(0., 1.) < p[0]){
+       xarrd delta = {this->t.beta *(fEn - cEn)};
+       xarrd p     = xt::exp(- delta);
+       if ((this->rng.uniform(0., 1.) < p[0]) || (xt::isnan(p)[0])){
            this->newstates[node] = proposal;
        } 
        return ;
     }
 
     double hamiltonian(nodeID_t x, nodeID_t y){
-        double delta = 2. * xt::numeric_constants<double>::PI * (x - y) / double(this->nStates); 
+        double delta = 2. * PI * (x - y) / double(this->nStates); 
         return cos(delta);
     }
+
+     xarrd magnetize(\
+                  xt::pyarray<double>& temps,   \
+                  size_t nSamples,\
+                  double match){
+
+         xarrd results    = xt::zeros<double>({3, static_cast<int>(nSamples)}) ;
+         Temperature tcopy  = this->t;
+         double z         = this->nStates;
+
+         xarrd  tmp;
+         xarrd phase;
+         for (size_t tidx = 0; tidx < temps.size(); tidx++){
+             this->t = temps[tidx];
+             xt::view(this->states, xt::all()) = this->agentStates[0];
+
+             tmp   = 2 * PI * this->simulate(nSamples) / z;
+             phase = xt::mean(xt::real(xt::exp( 1i * tmp)));
+
+             xt::view(results, 0, tidx) = temps[tidx];
+             xt::view(results, 1, tidx) = phase;
+             if (tidx >= 1){
+                 xt::view(results, 2, tidx) = (results[1, tidx] - results[1, tidx - 1]) / (temps[0, tidx] - temps[0, tidx - 1]);
+             }
+             }
+         this->t = tcopy;
+         return results;
+     }
 };
 
 
@@ -306,6 +344,7 @@ public:
 
 
 PYBIND11_MODULE(example, m){
+    xt::import_numpy();
   py::class_<Model, PyModel<>>(m, "Model")
     .def(py::init<\
          py::object, \
@@ -321,9 +360,8 @@ PYBIND11_MODULE(example, m){
          "sampleSize"_a  = 0
          )
     .def_readwrite("graph", &Model::graph)
-    .def("sampleNodes", &Model::sampleNodes,
-           "Class method for sampling nodes")
-    .def("simulate", &Model::simulate)
+    .def("sampleNodes",     &Model::sampleNodes)
+    .def("simulate",        &Model::simulate)
       ;//end class definition
 
   py::class_<Potts, PyPotts<>>(m, "Potts")
@@ -342,9 +380,12 @@ PYBIND11_MODULE(example, m){
            "sampleSize"_a  = 0\
            )
       .def_readwrite("graph", &Potts::graph)
-      .def("sampleNodes", &Potts::sampleNodes,
-           "Class method for sampling nodes")
-      .def("simulate", &Potts::simulate)
+      .def("sampleNodes",     &Potts::sampleNodes)
+      .def("simulate",        &Potts::simulate)
+      .def("magnetize",       &Potts::magnetize,\
+           "temps"_a = static_cast<xt::pyarray<double>>(xt::logspace(-3, 1, 10)), \
+            "nSamples"_a = 1000,\
+            "match"_a    = -1)
       ;
   m.doc() = "Testing this stuff out";
 };
