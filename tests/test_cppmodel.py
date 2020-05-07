@@ -16,17 +16,18 @@ import time
 def timeit(m, N, loops, func):
     start = time.time()
     for i in range(loops):
-        getattr(m, func)(N)
+        a = getattr(m, func)(N)
+
     stop = time.time() - start
     print("Time taken ", stop)
 
-N = [10]
+N = [10, 125]
 steps = 10000
-loops = 3
+loops = 5
 for ni in N:
     print(f"Testing size {ni}, {ni}\n")
     g = nx.grid_graph([ni, ni])
-    M = models.Potts(g)
+    M = models.Potts(g, sampleSize = ni*ni)
     cm = cppModels.Potts(g)
 
     print("cython")
@@ -35,8 +36,8 @@ for ni in N:
     print("cpp")
     timeit(cm, steps, loops, 'sampleNodes')
 
-    print("cython sim")
-    timeit(M, steps, loops, 'simulate')
-    print("cpp cim")
-    timeit(cm, steps, loops, 'simulate')
+    #print("cython sim")
+    #timeit(M, steps, loops, 'simulate')
+    #print("cpp cim")
+    #timeit(cm, steps, loops, 'simulate')
     # print(cm.magnetize(np.geomspace(-3, 1)))
