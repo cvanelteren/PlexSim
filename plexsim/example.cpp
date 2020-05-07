@@ -165,7 +165,9 @@ public:
 
        size_t tmp;
        Nodeids nodeids = this->nodeids;
-       //#pragma omp parallel private(nodeids, tmp) for
+
+       //#pragma omp parallel private(nodeids, tmp)
+       //#pragma omp for
        for (size_t samplei = 0; samplei < N; samplei++){
          // shuffle the node ids
          // start = (samplei * sampleSize) % nNodes;
@@ -303,7 +305,16 @@ public:
                  xt::view(results, 2, tidx) = (results[1, tidx] - results[1, tidx - 1]) / (temps[0, tidx] - temps[0, tidx - 1]);
              }
              }
+         // if (match >= 0){
+         //    py::object optimize  = py::module::import("scipy.optimize");
+         //    py::list param = optimize.attr("curve_fit")(sigmoid, temps, xt::view(results, 1), maxfev = 10000);
+
+         //    double t = optimize.attr("fmin")(sigmoidOps, x0 = 0, args = (param[0], match));
+         //    tcopy.t = t;
+            
+         // }
          this->t = tcopy;
+
          return results;
      }
 };
