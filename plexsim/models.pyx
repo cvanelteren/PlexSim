@@ -333,20 +333,19 @@ cdef class Model:
             samples = np.zeros((nSamples, sampleSize), dtype = long)
         # cdef vector[vector[node_id_t]] samples = vector[vector[node_id_t]](nSamples)
         cdef node_id_t* nodeids 
-        with parallel():
-            nodeids = &self._nodeids[0]
-            for samplei in prange(nSamples):
-                if start + sampleSize >= self._nNodes or sampleSize == 1:
-                    # fisher-yates swap
-                    for i in range(self._nNodes - 1, 1):
-                        # shuffle the array without replacement
-                        j                 = <long> (self._rand() * i)
-                        swap(nodeids[i], nodeids[j])
-                        if sampleSize == 1:
-                            break
-                # assign the samples; will be sorted in case of seri        
-                for j in range(sampleSize):
-                    samples[samplei][j]    = nodeids[start + j]
+        nodeids = &self._nodeids[0]
+        for samplei in prange(nSamples):
+            if start + sampleSize >= self._nNodes or sampleSize == 1:
+                # fisher-yates swap
+                for i in range(self._nNodes - 1, 1):
+                      # shuffle the array without replacement
+                      j                 = <long> (self._rand() * i)
+                      swap(nodeids[i], nodeids[j])
+                      if sampleSize == 1:
+                          break
+            # assign the samples; will be sorted in case of seri        
+            for j in range(sampleSize):
+                  samples[samplei][j]    = nodeids[start + j]
         return samples
         
     cpdef void reset(self, p = None):
@@ -588,6 +587,9 @@ cdef class Model:
             atr = getattr(self, k)
             if not callable(atr) and not k.startswith('_'):
                 kwargs[k] = atr
+                if k == 'seed':
+                    kwargs[k] += 1
+
         return kwargs
 
     def __reduce__(self):

@@ -21,7 +21,7 @@ def timeit(m, N, loops, func):
     stop = time.time() - start
     print("Time taken ", stop)
 
-N = [10, 125]
+N = [10, 12]
 steps = 10000
 loops = 5
 for ni in N:
@@ -36,8 +36,8 @@ for ni in N:
     print("cpp")
     timeit(cm, steps, loops, 'sampleNodes')
 
-    #print("cython sim")
-    #timeit(M, steps, loops, 'simulate')
-    #print("cpp cim")
-    #timeit(cm, steps, loops, 'simulate')
-    # print(cm.magnetize(np.geomspace(-3, 1)))
+    print("cython sim")
+    timeit(M, steps, loops, 'simulate')
+    print("cpp cim")
+    timeit(cm, steps, loops, 'simulate')
+    print(cm.magnetize(np.geomspace(-3, 1)))

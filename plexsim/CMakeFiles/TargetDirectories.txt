@@ -1,3 +1,2 @@
 /home/casper/projects/information_impact/PlexSim/plexsim/CMakeFiles/rebuild_cache.dir
-/home/casper/projects/information_impact/PlexSim/plexsim/CMakeFiles/example.dir
 /home/casper/projects/information_impact/PlexSim/plexsim/CMakeFiles/edit_cache.dir

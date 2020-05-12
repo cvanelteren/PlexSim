@@ -56,10 +56,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/casper/miniconda3/envs/plexsim/bin/cmake
+CMAKE_COMMAND = /home/casper/miniconda3/bin/cmake
 
 # The command to remove a file.
-RM = /home/casper/miniconda3/envs/plexsim/bin/cmake -E rm -f
+RM = /home/casper/miniconda3/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -76,7 +76,7 @@ CMAKE_BINARY_DIR = /home/casper/projects/information_impact/PlexSim/plexsim
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/casper/miniconda3/envs/plexsim/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/home/casper/miniconda3/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -127,46 +127,6 @@ depend:
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
-# Target rules for targets named example
-
-# Build rule for target.
-example: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 example
-.PHONY : example
-
-# fast build rule for target.
-example/fast:
-	$(MAKE) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/build
-.PHONY : example/fast
-
-example.o: example.cpp.o
-
-.PHONY : example.o
-
-# target to build an object file
-example.cpp.o:
-	$(MAKE) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/example.cpp.o
-.PHONY : example.cpp.o
-
-example.i: example.cpp.i
-
-.PHONY : example.i
-
-# target to preprocess a source file
-example.cpp.i:
-	$(MAKE) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/example.cpp.i
-.PHONY : example.cpp.i
-
-example.s: example.cpp.s
-
-.PHONY : example.s
-
-# target to generate assembly for a file
-example.cpp.s:
-	$(MAKE) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/example.cpp.s
-.PHONY : example.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -175,10 +135,6 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... example"
-	@echo "... example.o"
-	@echo "... example.i"
-	@echo "... example.s"
 .PHONY : help
 
 
