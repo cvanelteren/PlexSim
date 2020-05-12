@@ -164,13 +164,14 @@ public:
        nodeids_a nodes  = nodeids_a::from_shape({N});
 
        size_t tmp;
-       Nodeids nodeids = this->nodeids;
+       Nodeids nodeids = this->nodeids ;
 
-       //#pragma omp parallel private(nodeids, tmp)
-       //#pragma omp for
+// #pragma omp parallel private(tmp, nodeids) 
+       // #pragma omp for
        for (size_t samplei = 0; samplei < N; samplei++){
          // shuffle the node ids
-         // start = (samplei * sampleSize) % nNodes;
+          
+           // tmp = samplei & (nNodes - 1);
            tmp = samplei % nNodes;
            if (!(tmp)){
                this->rng.shuffle(nodeids);
@@ -262,7 +263,7 @@ public:
        double fEn = 0;
        Connection* tmp = &this->adj[node]; 
 
-       //#pragma parallel reduction(+:cEn, +:fEn) for
+       #pragma parallel reduction(+:cEn, +:fEn) for
        for (auto neighbor : tmp->neighbors){
            neighborState = this->states[neighbor.first];
            cEn -= this->hamiltonian(nodeState, neighborState) * neighbor.second;
@@ -349,55 +350,60 @@ public:
     void step (nodeID_t node) override{
         PYBIND11_OVERLOAD(void, Base, step, node); 
     }
-
-
 };
 
 
 PYBIND11_MODULE(example, m){
     xt::import_numpy();
-  py::class_<Model, PyModel<>>(m, "Model")
-    .def(py::init<\
-         py::object, \
-         agentStates_t,\
-         string,\
-         string,\
-         size_t\
-         >(),
-         "graph"_a       ,
-         "agentStates"_a = agentStates_t(1, 0),
-         "nudgeType"_a   = "constant",
-         "updateType"_a  = "async",
-         "sampleSize"_a  = 0
-         )
-    .def_readwrite("graph", &Model::graph)
-    .def("sampleNodes",     &Model::sampleNodes)
-    .def("simulate",        &Model::simulate)
-      ;//end class definition
-
-  py::class_<Potts, PyPotts<>>(m, "Potts")
+    py::class_<Model, PyModel<>>(m, "Model")
       .def(py::init<\
            py::object, \
            agentStates_t,\
-           double,\
            string,\
            string,\
-           size_t        >(),
+           size_t\
+           >(),
            "graph"_a       ,
-           "agentStates"_a = agentStates_t({0, 1}),
-           "t"_a           = 1.,\
+           "agentStates"_a = agentStates_t(1, 0),
            "nudgeType"_a   = "constant",
            "updateType"_a  = "async",
-           "sampleSize"_a  = 0\
-           )
-      .def_readwrite("graph", &Potts::graph)
-      .def("sampleNodes",     &Potts::sampleNodes)
-      .def("simulate",        &Potts::simulate)
-      .def("magnetize",       &Potts::magnetize,\
-           "temps"_a = static_cast<xt::pyarray<double>>(xt::logspace(-3, 1, 10)), \
-            "nSamples"_a = 1000,\
+           "sampleSize"_a  = 0
+            )
+      .def_readwrite("graph", &Model::graph)
+      .def("sampleNodes",     &Model::sampleNodes)
+      .def("simulate",        &Model::simulate)
+        ;//end class definition
+
+    // py::class_<Potts::Temperature, PyPotts>(m, "temp")
+    //   .def(py::init<double>())
+    //   .def(py::self+py::self)
+    //   // .def(py::self + float())
+    //   ;
+
+     py::class_<Potts, PyPotts<>>(m, "Potts")
+        .def(py::init<\
+             py::object, \
+             agentStates_t,\
+             double,\
+             string,\
+             string,\
+             size_t        >(),
+             "graph"_a       ,
+             "agentStates"_a = agentStates_t({0, 1}),
+             "t"_a           = 1.,\
+             "nudgeType"_a   = "constant",
+             "updateType"_a  = "async",
+             "sampleSize"_a  = 0\
+             )
+         .def_readwrite("graph", &Potts::graph)
+        .def("sampleNodes",     &Potts::sampleNodes)
+        .def("simulate",        &Potts::simulate)
+        .def("magnetize",       &Potts::magnetize,\
+             "temps"_a = static_cast<xt::pyarray<double>>(xt::             logspace(-3, 1, 10)), \
+             "nSamples"_a = 1000,\
             "match"_a    = -1)
-      ;
-  m.doc() = "Testing this stuff out";
+       .def("t", &Potts::t)
+       ;
+     m.doc() = "Testing this stuff out";
 };
 

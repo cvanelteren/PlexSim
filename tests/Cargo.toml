@@ -10,4 +10,4 @@ rand = "0.5"
 mersenne_twister ="1.1.1"
 rayon = "^1.0"
 [profile.release]
-opt-level = 3
+    opt-level = 3   
