@@ -4,18 +4,17 @@
 
 #include "models_definitions.h" // includes all defintions used here
 
-template <typename T>
-class Property {
+template<typename T>
+class Property{
 public:
-  virtual ~Property() {}
-  virtual T& operator= (const T& f) {return value = f;}
-  virtual const T& operator() () const {return value;}
-  virtual explicit operator const T& () const  {return value;}
-  virtual T* operator-> () {return &value;}
-protected: 
+  virtual ~Property(){}
+  virtual Property& operator= (const T& f){ value = f; return *this;}
+  virtual const T& operator () () const {return value;}
+  virtual explicit operator const T& () const {return value;}
+  virtual T* operator->() {return &value;}
+protected:
   T value;
 };
-
 // CLASS IMPLEMENTATION
 // use template for the node state type ? 
 class Model{
@@ -41,24 +40,30 @@ public:
   // updateProperty
     class updateProperty: public Property <string> {
   public:
-    virtual string& operator = (const string &f){
+    virtual updateProperty& operator = (const string &f){
         if (f == "async"){
             // Model::newstates; // = Model::states;
-            return value = f;
+          value = f;
         }
         else if (f == "sync"){
             // Model::newstates = Model::states;
-            return value = f;
+          value = f;
         }
+        return *this;
     }
   };
+
   // nudge property
   class nudgeProperty : public Property <string> {
   public:
-    virtual string& operator= (const string &f){
-      if (f == "constant") return value = f;
-      else if (f == "pulse") return value = f;
-      else return value = "constant";
+    virtual nudgeProperty& operator= (const string &f){
+      if (f == "constant")
+        { value = f; }
+      else if (f == "pulse")
+        { value = f; }
+      else
+        { value = "constant"; }
+      return *this;
       }
   };
 
@@ -232,9 +237,10 @@ public:
     class Temperature: public Property <double>{
     public:
         double beta;  
-        virtual double& operator= (double & t){
+        virtual Temperature& operator= (double & t){
             beta = (t == 0 ? std::numeric_limits<double>::infinity() : 1 / t);
-            return value = t;
+            value = t; 
+            return *this;
         }
     };
 
@@ -372,6 +378,20 @@ PYBIND11_MODULE(example, m){
       .def_readwrite("graph", &Model::graph)
       .def("sampleNodes",     &Model::sampleNodes)
       .def("simulate",        &Model::simulate)
+      .def_property("nudgeType", \
+                    [] (const Model &self){
+                      return static_cast<string>(self.nudgeType);
+                        },\
+                    [](Model &self, string s){
+                      self.nudgeType = s;
+                    })
+      .def_property("updateType", \
+                    [](const Model& self){
+                      return static_cast<string>(self.updateType);
+                    },\
+                    [](Model &self, string s){
+                      self.updateType = s;
+                    })
         ;//end class definition
 
     // py::class_<Potts::Temperature, PyPotts>(m, "temp")
@@ -395,15 +415,17 @@ PYBIND11_MODULE(example, m){
              "updateType"_a  = "async",
              "sampleSize"_a  = 0\
              )
-         .def_readwrite("graph", &Potts::graph)
+        .def_readwrite("graph", &Potts::graph)
         .def("sampleNodes",     &Potts::sampleNodes)
         .def("simulate",        &Potts::simulate)
         .def("magnetize",       &Potts::magnetize,\
              "temps"_a = static_cast<xt::pyarray<double>>(xt::             logspace(-3, 1, 10)), \
              "nSamples"_a = 1000,\
             "match"_a    = -1)
-       .def("t", &Potts::t)
+       .def_property("t", \
+        [](const Potts &self) { return static_cast<double>(self.t);}, \
+        [](Potts &self, double value) {self.t = value;})
        ;
-     m.doc() = "Testing this stuff out";
+     m.doc() = "PlexSim reimplentation. Testing pybind11 out.";
 };
 
