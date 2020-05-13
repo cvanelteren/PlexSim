@@ -1,1 +1,1 @@
-g++ -O3 -fopenmp -DNDEBUG -std=c++2a -shared `python3-config --cflags` -I/home/casper/miniconda3/lib/python3.8/site-packages/numpy/core/include -I/home/casper/miniconda3/include example.cpp -o example`python3-config --extension-suffix`
+g++ `python3-config --cflags` -O3 -fopenmp -DNDEBUG -std=c++2a -shared -Wfatal-errors  -I/home/casper/miniconda3/lib/python3.8/site-packages/numpy/core/include -I/home/casper/miniconda3/include example.cpp -o example`python3-config --extension-suffix`
