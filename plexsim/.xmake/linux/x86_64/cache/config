@@ -1,7 +1,0 @@
-{
-    mtimes = { },
-    options_all = {
-        trybuild = "cmake"
-    },
-    __version = "2.3.3"
-}
