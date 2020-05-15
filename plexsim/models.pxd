@@ -193,11 +193,11 @@ cdef class Potts(Model):
         double _beta   # temperature parameter
         double _delta # memory retention variable
 
-        multimap[node_state_t, node_state_t] _rules
+        multimap[node_state_t, pair[node_state_t, double]] _rules
     # cdef vector[double] _energy(self,\
                                # node_id_t  node) nogil
     
-    cdef bint _checkRules(self, node_state_t x, node_state_t y) nogil
+    cdef pair[node_state_t, double] _checkRules(self, node_state_t x, node_state_t y) nogil
     cpdef void constructRules(self, object rules)
     cdef double*  _energy(self,node_id_t  node) nogil
     cdef void _step(self, long node_id_t) nogil
