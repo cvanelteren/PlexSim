@@ -171,8 +171,7 @@ public:
        size_t tmp;
        Nodeids nodeids = this->nodeids ;
 
-// #pragma omp parallel private(tmp, nodeids) 
-       // #pragma omp for
+       #pragma omp parallel for private(tmp, nodeids)
        for (size_t samplei = 0; samplei < N; samplei++){
          // shuffle the node ids
           
