@@ -133,7 +133,7 @@ cdef class Model:
         unsigned long _seed
         uniform_real_distribution[double] _dist
 
-        int _zeta
+        int _memento
         int _nNodes # number of nodes
         str _updateType # update type
         str _nudgeType  # nudge type
@@ -197,7 +197,7 @@ cdef class Potts(Model):
     # cdef vector[double] _energy(self,\
                                # node_id_t  node) nogil
     
-    cdef pair[node_state_t, double] _checkRules(self, node_state_t x, node_state_t y) nogil
+    cdef pair[bint, pair[node_state_t, double]] _checkRules(self, node_state_t x, node_state_t y) nogil
     cpdef void constructRules(self, object rules)
     cdef double*  _energy(self,node_id_t  node) nogil
     cdef void _step(self, long node_id_t) nogil
@@ -212,6 +212,9 @@ cdef class Potts(Model):
                                 double  match =*)
 
     cpdef vector[double] siteEnergy(self, node_state_t[::1] states)
+
+    cpdef void checkRand(self, long N)
+    cdef void _checkRand(self, long N) nogil
 
 
 cdef class Ising(Potts):

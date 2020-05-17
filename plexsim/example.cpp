@@ -171,19 +171,31 @@ public:
        size_t tmp;
        Nodeids nodeids = this->nodeids ;
 
-       #pragma omp parallel for private(tmp, nodeids)
+       size_t j;
+#pragma omp parallel for private(tmp, nodeids, j)
        for (size_t samplei = 0; samplei < N; samplei++){
          // shuffle the node ids
           
            // tmp = samplei & (nNodes - 1);
            tmp = samplei % nNodes;
            if (!(tmp)){
-               this->rng.shuffle(nodeids);
+             // for (int  i = this->nNodes; i > 0 ; i--){
+             //   j = this->rng.uniform(0, i);
+             //   swap(nodeids[i], nodeids[j]);
+
+             // }
+             this->rng.shuffle(nodeids);
          }
          // assign to sample
          xt::view(nodes, samplei) = nodeids[tmp];
        }
     return xt::reshape_view(nodes, {nSamples, sampleSize});
+  }
+
+  void checkRand(long N){
+    for (auto i = 0; i < N ; i++){
+      this->rng.uniform(0., 1.);
+    }
   }
 
     // Implement per model
@@ -424,6 +436,7 @@ PYBIND11_MODULE(example, m){
        .def_property("t", \
         [](const Potts &self) { return static_cast<double>(self.t);}, \
         [](Potts &self, double value) {self.t = value;})
+       .def("checkRand", &Potts::checkRand)
        ;
      m.doc() = "PlexSim reimplentation. Testing pybind11 out.";
 };

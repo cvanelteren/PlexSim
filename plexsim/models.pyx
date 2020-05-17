@@ -49,6 +49,7 @@ cdef class Model:
                  seed        = None,\
                  memorySize  = 0,\
                  kNudges     = 1,\
+                 memento     = 0,
                  **kwargs,\
                  ):
         """
@@ -97,6 +98,8 @@ cdef class Model:
             # create memory
             self.memorySize   = memorySize
             self._memory      = np.random.choice(self.agentStates, size = (self.memorySize, self._nNodes))
+            # weight factor of memory
+            self._memento     = memento
             self.nudges = nudges
             # n.b. sampleSize has to be set from no on
             self.updateType = updateType
@@ -290,6 +293,11 @@ cdef class Model:
         This function is intended to allow for custom buffers update
         """
         swap(self._states_ptr, self._newstates_ptr)
+        cdef size_t mi
+        # use swapped states
+        self._memory[0] = self._states
+        for mi in range(1, self._memorySize):
+            self._memory[mi] = self._memory[mi - 1]
         return
 
     cpdef node_state_t[::1] updateState(self, node_id_t[::1] nodesToUpdate):
@@ -334,15 +342,16 @@ cdef class Model:
         # cdef vector[vector[node_id_t]] samples = vector[vector[node_id_t]](nSamples)
         cdef node_id_t* nodeids 
         nodeids = &self._nodeids[0]
-        for samplei in prange(nSamples):
+        for samplei in range(nSamples):
+            start = (samplei * sampleSize) % self._nNodes
             if start + sampleSize >= self._nNodes or sampleSize == 1:
                 # fisher-yates swap
                 for i in range(self._nNodes - 1, 1):
-                      # shuffle the array without replacement
-                      j                 = <long> (self._rand() * i)
-                      swap(nodeids[i], nodeids[j])
-                      if sampleSize == 1:
-                          break
+                    # shuffle the array without replacement
+                    j                 = <size_t> (self._rand() * i)
+                    swap(nodeids[i], nodeids[j])
+                    if sampleSize == 1:
+                         break
             # assign the samples; will be sorted in case of seri        
             for j in range(sampleSize):
                   samples[samplei][j]    = nodeids[start + j]
@@ -388,6 +397,14 @@ cdef class Model:
             self._memorySize = value
         else:
             self._memorysize = 0
+
+    @property
+    def memento(self) : return self._memento
+    @memento.setter
+    def memento(self, val):
+        if isinstance(val, int):
+            self._memento = val
+
 
     cdef void _hebbianUpdate(self):
         """
@@ -671,11 +688,6 @@ cdef class Potts(Model):
                 tmp.first  = source;
                 tmp.second = pair[node_state_t, double](target, weight)
                 r.insert(tmp)
-
-        it = r.begin()
-        while it != r.end():
-            print(deref(it).first, deref(it).second)
-            post(it)
         self._rules = r 
         return 
 
@@ -735,7 +747,7 @@ cdef class Potts(Model):
             double* energy = <double*> malloc(3 * sizeof(double)) 
             long  testState
         # draw random new state
-        testState = <long> (self._rand() * (self._nStates ))
+        testState = <size_t> (self._rand() * (self._nStates ))
 
         energy[0] = self._H[node]
         energy[1] = self._H[node]
@@ -743,37 +755,51 @@ cdef class Potts(Model):
         energy[2] = self._agentStates[testState]
         # compute the energy
         it = self._adj[node].neighbors.begin()
-        cdef pair[node_state_t, double] rule;
+        cdef pair[bint, pair[node_state_t, double]] rule;
         while it != self._adj[node].neighbors.end():
             weight   = deref(it).second
             neighbor = deref(it).first
             # check rules
             rule = self._checkRules(states[node], states[neighbor])
-            if not rule == pair[node_state_t, double]():
-                energy[0] -= rule.second
-            else:
+            if not rule.first:
                 energy[0]  -=  weight * self._hamiltonian(states[node], states[neighbor])
-            rule = self._checkRules(testState, states[neighbor])
-            if not rule == pair[node_state_t, double]():
-                 energy[1] -= rule.second
             else:
-                 energy[1]  -= weight * self._hamiltonian(testState, states[neighbor])
+                energy[0] -= rule.second.second
+            rule = self._checkRules(testState, states[neighbor])
+            if not rule.first:
+                 energy[1]  -= weight * self._hamiltonian(self._agentStates[testState], states[neighbor])
+            else:
+                 energy[1] -= rule.second.second
             post(it)
+        cdef size_t mi
+        for mi in range(self._memorySize):
+            energy[0] -= exp(- mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
+            energy[1] -= exp(-mi * self._memento ) * self._hamiltonian(self._agentStates[testState], self._memory[mi, node])
         return energy
 
-    cdef pair[node_state_t,  double] _checkRules(self, node_state_t x, node_state_t y) nogil:
+    cdef pair[bint, pair[node_state_t,  double]] _checkRules(self, node_state_t x, node_state_t y) nogil:
     
         it = self._rules.find(x)
-        cdef pair[node_state_t, double] tmp 
+        cdef pair[bint, pair[node_state_t, double]] tmp 
         while it != self._rules.end():
             if deref(it).second.first == y:
-                tmp = deref(it).second
+                tmp.first = True
+                tmp.second = deref(it).second
                 return tmp
             post(it)
         return tmp
 
     cdef double _hamiltonian(self, node_state_t x, node_state_t  y) nogil:
         return cos(2 * pi  * ( x - y ) / <double> (self._nStates + 1))
+
+    cpdef void checkRand(self, long N):
+        self._checkRand(N)
+        return
+    cdef void _checkRand(self, long N) nogil:
+        cdef int i
+        for i in range(N):
+            self._rand()
+        return
 
     cdef void _step(self, long node) nogil:
         cdef:
