@@ -404,6 +404,8 @@ cdef class Model:
     def memento(self, val):
         if isinstance(val, int):
             self._memento = val
+            self._memory = np.random.choice(self.agentStates,
+                                            size = (val, self.nNodes))
 
 
     cdef void _hebbianUpdate(self):
