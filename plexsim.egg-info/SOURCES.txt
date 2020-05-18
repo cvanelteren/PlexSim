@@ -1,9 +1,0 @@
-setup.py
-plexsim/cy_tests.cpp
-plexsim/cy_tests_memory.cpp
-plexsim/models.cpp
-plexsim.egg-info/PKG-INFO
-plexsim.egg-info/SOURCES.txt
-plexsim.egg-info/dependency_links.txt
-plexsim.egg-info/not-zip-safe
-plexsim.egg-info/top_level.txt
