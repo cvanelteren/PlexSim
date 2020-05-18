@@ -172,7 +172,7 @@ public:
        Nodeids nodeids = this->nodeids ;
 
        size_t j;
-#pragma omp parallel for private(tmp, nodeids, j)
+       #pragma omp parallel for private(tmp, nodeids, j)
        for (size_t samplei = 0; samplei < N; samplei++){
          // shuffle the node ids
           
@@ -273,18 +273,17 @@ public:
 
    void step(nodeID_t node){
        nodeState_t nodeState = this->states[node];
-       nodeState_t neighborState;
        nodeState_t  proposal = this->rng.pick(this->agentStates);
 
        double cEn = 0;
        double fEn = 0;
-       Connection* tmp = &this->adj[node]; 
+       Neighbors *tmp = &this->adj[node].neighbors; 
 
-       #pragma parallel reduction(+:cEn, +:fEn) for
-       for (auto neighbor : tmp->neighbors){
-           neighborState = this->states[neighbor.first];
-           cEn -= this->hamiltonian(nodeState, neighborState) * neighbor.second;
-           fEn -= this->hamiltonian(proposal, neighborState) * neighbor.second;
+       
+// #pragma omp parallel for default(none) reduction(-:cEn, fEn) shared(tmp, nodeState, proposal)
+       for (auto bucket  = 0 ; bucket < tmp->bucket_count(); bucket ++){
+         cEn -= this->hamiltonian(nodeState, tmp->begin(bucket)->first) * (tmp->begin(bucket)->second);
+         fEn -= this->hamiltonian(proposal, tmp->begin(bucket)->first) * (tmp->begin(bucket)->second);
        }
        xarrd delta = {this->t.beta *(fEn - cEn)};
        xarrd p     = xt::exp(- delta);

@@ -41,6 +41,7 @@ class MT_RNG
 
     unsigned long mt[N];
     int mti;
+  
 }; // class MT_RNG
 
 } // namespace mtrandom

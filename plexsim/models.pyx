@@ -342,6 +342,7 @@ cdef class Model:
         # cdef vector[vector[node_id_t]] samples = vector[vector[node_id_t]](nSamples)
         cdef node_id_t* nodeids 
         nodeids = &self._nodeids[0]
+        cdef int tid
         for samplei in range(nSamples):
             start = (samplei * sampleSize) % self._nNodes
             if start + sampleSize >= self._nNodes or sampleSize == 1:
@@ -351,10 +352,10 @@ cdef class Model:
                     j                 = <size_t> (self._rand() * i)
                     swap(nodeids[i], nodeids[j])
                     if sampleSize == 1:
-                         break
+                        break
             # assign the samples; will be sorted in case of seri        
             for j in range(sampleSize):
-                  samples[samplei][j]    = nodeids[start + j]
+                samples[samplei][j]    = nodeids[start + j]
         return samples
         
     cpdef void reset(self, p = None):
@@ -494,7 +495,15 @@ cdef class Model:
         else:
             return self._states.base
 
-
+    cpdef void testArray(self,  long  n):
+        cdef long[::1] m = np.ones(n, dtype = long)
+        cdef int i
+        cdef double d = 0
+        with nogil:
+            for i in range(n):
+                d += m[i]
+        assert d == n
+        return 
     @seed.setter
     def seed(self, value):
         if isinstance(value, int) and value >= 0:
@@ -792,7 +801,7 @@ cdef class Potts(Model):
         return tmp
 
     cdef double _hamiltonian(self, node_state_t x, node_state_t  y) nogil:
-        return cos(2 * pi  * ( x - y ) / <double> (self._nStates + 1))
+        return cos(2 * pi  * ( x - y ) / <double> (self._nStates))
 
     cpdef void checkRand(self, long N):
         self._checkRand(N)
