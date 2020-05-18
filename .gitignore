@@ -1,5 +1,6 @@
 Data/*
 build/*
+plexsim-*
 plexsim/target
 *.so
 *.cpp
