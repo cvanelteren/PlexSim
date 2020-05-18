@@ -161,6 +161,8 @@ cdef class Model:
     cdef void _apply_nudge(self, node_state_t node,\
                             NudgesBackup* backup) nogil
 
+    cpdef void testArray(self, long   n)
+
     cdef void _remove_nudge(self, node_id_t node, NudgesBackup* backup) nogil
 
     cdef void _swap_buffers(self) nogil

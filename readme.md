@@ -11,7 +11,9 @@ _N.b._ this is a work in progress
 `conda env update --file environment.yml`
 
 ## Build and run checks
-`sh build.sh -tv`
+pip install .
+
+alt: `sh build.sh -tv`
 
 # License
 PlexSim is released under the GNU-GPLv3 license
