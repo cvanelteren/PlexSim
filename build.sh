@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python compile.py build_ext --inplace
+python setup.py build_ext --inplace
 while [ "$1" != "" ]; do
     case $1 in
         -t | --test)

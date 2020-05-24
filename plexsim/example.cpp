@@ -4,6 +4,15 @@
 
 #include "models_definitions.h" // includes all defintions used here
 
+struct pair_hash {
+   template <class T1, class T2>
+   std::size_t operator () (const std::pair<T1,T2> &p) const {
+       auto h1 = std::hash<T1>{}(p.first);
+       auto h2 = std::hash<T2>{}(p.second);
+  return h1 ^ h2;  
+   }
+  };
+
 template<typename T>
 class Property{
 public:
@@ -172,7 +181,7 @@ public:
        Nodeids nodeids = this->nodeids ;
 
        size_t j;
-       #pragma omp parallel for private(tmp, nodeids, j)
+       // #pragma omp parallel for private(tmp, nodeids, j)
        for (size_t samplei = 0; samplei < N; samplei++){
          // shuffle the node ids
           
@@ -255,6 +264,7 @@ public:
         }
     };
 
+    unordered_map<pair<nodeState_t, nodeState_t>, double, pair_hash> memo;
     Temperature t;
 
     Potts(\
@@ -272,20 +282,37 @@ public:
     };
 
    void step(nodeID_t node){
-       nodeState_t nodeState = this->states[node];
+       nodeState_t state  = this->states[node];
        nodeState_t  proposal = this->rng.pick(this->agentStates);
 
-       double cEn = 0;
-       double fEn = 0;
-       Neighbors *tmp = &this->adj[node].neighbors; 
+       vector<nodeState_t> check {state, proposal};
+       Neighbors tmp = this->adj[node].neighbors; 
+
+       nodeState_t nstate; 
+       double weight;
+// #pragma omp parallel for default(none) reduction(-:cEn, fEn) shared(tmp, nodeState, proposal)
 
        
-// #pragma omp parallel for default(none) reduction(-:cEn, fEn) shared(tmp, nodeState, proposal)
-       for (auto bucket  = 0 ; bucket < tmp->bucket_count(); bucket ++){
-         cEn -= this->hamiltonian(nodeState, tmp->begin(bucket)->first) * (tmp->begin(bucket)->second);
-         fEn -= this->hamiltonian(proposal, tmp->begin(bucket)->first) * (tmp->begin(bucket)->second);
+       pair<nodeState_t, nodeState_t> mempair;
+       for (auto neighbor : tmp)
+         {
+           nstate = neighbor.first;
+           weight = neighbor.second;
+           mempair.first = nstate;
+
+           for (auto i = 0; i < check.size(); i++){
+             mempair.second = check[i];
+             if (this->memo.find(mempair) != this->memo.end()){
+                check[i] -= mempair.second;
+                // cout << mempair.second << endl;
+             }
+             else{
+                check[i] -= weight * this->hamiltonian(check[i], nstate);
+                this->memo[mempair] = weight;
+             }
+           }
        }
-       xarrd delta = {this->t.beta *(fEn - cEn)};
+       xarrd delta = {this->t.beta *(check[1] - check[0])};
        xarrd p     = xt::exp(- delta);
        if ((this->rng.uniform(0., 1.) < p[0]) || (xt::isnan(p)[0])){
            this->newstates[node] = proposal;
