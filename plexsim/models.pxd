@@ -13,20 +13,20 @@ import cython
 from cpython cimport PyObject, Py_XINCREF, Py_XDECREF
 
 # TYPE DEFINITIONS
-ctypedef long node_state_t
+ctypedef long state_t
 ctypedef long node_id_t
 ctypedef double weight_t
 ctypedef double nudge_t
 
 # TODO: move to structs?
-ctypedef vector[node_state_t] Neighbors
+ctypedef vector[state_t] Neighbors
 ctypedef vector[weight_t] Weights
 
 # nudges hash map
 ctypedef unordered_map[node_id_t, nudge_t] Nudges
 
 cdef struct NodeBackup:
-    node_state_t state
+    state_t state
     weight_t weight
 
 # nudge temporaries
@@ -40,24 +40,58 @@ cdef struct Connection:
     unordered_map[node_id_t, weight_t] neighbors
     # Neighbors neighbors
     # Weights  weights
-
 ctypedef unordered_map[node_id_t, Connection] Connections
 
-cdef extern from "<map>" namespace "std":
+
+cdef extern from "<map>" namespace "std" nogil:
     cdef cppclass multimap[T, U]:
         cppclass iterator:
-            pair[T, U]& operator*() nogil
-            iterator operator++() nogil
-            iterator operator--() nogil
-            bint operator==(iterator) nogil
-            bint operator!=(iterator) nogil
+            pair[T, U]& operator*()
+            iterator operator++() 
+            iterator operator--()
+            bint operator==(iterator)
+            bint operator!=(iterator)
 
-        multimap() nogil except +
-        U& operator[](T&) nogil
-        iterator begin() nogil
-        iterator end() nogil
-        pair[iterator, bint] insert(pair[T, U]) nogil # XXX pair[T,U]&
-        iterator find(T&) nogil
+        multimap() except +
+        U& operator[](T&)
+        iterator begin()
+        iterator end()
+        pair[iterator, bint] insert(pair[T, U])# XXX pair[T,U]&
+        iterator find(T&)
+        
+# cdef extern from *:
+#     """
+#     struct pair_hash {
+#         template <class T1, class T2>
+#         std::size_t operator () (const std::pair<T1,T2> &p) const {
+#             auto h1 = std::hash<T1>{}(p.first);
+#             auto h2 = std::hash<T2>{}(p.second);
+#         return h1 ^ h2;  
+#         }
+#     };
+#     """
+#     cdef cppclass pair_hash:
+#        pass
+
+    # cdef cppclass hash_unordered_map[T, U, H]:
+    #    hash_unordered_map() except+
+    #    pass
+
+# cdef extern from "<unordered_map>" using namespace "std":
+#     cdef cppclass hash_map[T, U, V]:
+#         ctypedef T key_type
+#         ctypedef U mapped_type
+#         ctypedef V hash_type
+
+
+    
+
+from libcpp.unordered_set cimport unordered_set
+# ctypedef unordered_set[state_t] MemoizeUnit
+ctypedef pair[state_t, state_t] MemoizeUnit
+# ctypedef unordered_map[MemoizeUnit, double, pair_hash]  MemoizeMap
+
+
 
 cdef extern from *:
     """
@@ -113,20 +147,22 @@ cdef class Model:
     cdef:
         # public
 
-        node_state_t[::1] _states
-        node_state_t* _states_ptr
+        state_t[::1] _states
+        state_t* _states_ptr
 
-        node_state_t[::1] _newstates
-        node_state_t* _newstates_ptr
+        state_t[::1] _newstates
+        state_t* _newstates_ptr
 
         bint  _last_written
 
         node_id_t[::1]  _nodeids
-        node_state_t[::1]  _agentStates
+        state_t[::1]  _agentStates
 
-        node_state_t[:, ::1] _memory # for memory dynamics
+        state_t[:, ::1] _memory # for memory dynamics
 
         int _memorySize #memory size
+
+        # MemoizeMap _memoize
 
         # random sampler
         mt19937 _gen
@@ -155,10 +191,10 @@ cdef class Model:
                     list agentStates)
 
     # Update functions
-    cpdef  node_state_t[::1] updateState(self, node_id_t[::1] nodesToUpdate)
-    cdef node_state_t[::1]  _updateState(self, node_id_t[::1] nodesToUpdate) nogil
+    cpdef  state_t[::1] updateState(self, node_id_t[::1] nodesToUpdate)
+    cdef state_t[::1]  _updateState(self, node_id_t[::1] nodesToUpdate) nogil
 
-    cdef void _apply_nudge(self, node_state_t node,\
+    cdef void _apply_nudge(self, state_t node,\
                             NudgesBackup* backup) nogil
 
     cpdef void testArray(self, long   n)
@@ -195,17 +231,17 @@ cdef class Potts(Model):
         double _beta   # temperature parameter
         double _delta # memory retention variable
 
-        multimap[node_state_t, pair[node_state_t, double]] _rules
+        multimap[state_t, pair[state_t, double]] _rules
     # cdef vector[double] _energy(self,\
                                # node_id_t  node) nogil
     
-    cdef pair[bint, pair[node_state_t, double]] _checkRules(self, node_state_t x, node_state_t y) nogil
+    cdef pair[bint, pair[state_t, double]] _checkRules(self, state_t x, state_t y) nogil
     cpdef void constructRules(self, object rules)
     cdef double*  _energy(self,node_id_t  node) nogil
     cdef void _step(self, long node_id_t) nogil
     cdef void _step(self, long node_id_t) nogil
     # update function
-    cdef double _hamiltonian(self, node_state_t x, node_state_t  y) nogil
+    cdef double _hamiltonian(self, state_t x, state_t  y) nogil
 
     cpdef  np.ndarray magnetize(self,\
                                 np.ndarray temps  = *,\
@@ -213,14 +249,14 @@ cdef class Potts(Model):
                                 int burninSamples = *,\
                                 double  match =*)
 
-    cpdef vector[double] siteEnergy(self, node_state_t[::1] states)
+    cpdef vector[double] siteEnergy(self, state_t[::1] states)
 
     cpdef void checkRand(self, long N)
     cdef void _checkRand(self, long N) nogil
 
 
 cdef class Ising(Potts):
-    cdef double _hamiltonian(self, node_state_t x, node_state_t y) nogil
+    cdef double _hamiltonian(self, state_t x, state_t y) nogil
 
 cdef class Bornholdt(Ising):
      cdef:
@@ -252,7 +288,7 @@ cdef class RBN(Model):
     cdef:
         double _delta # memory retention variable
 
-        unordered_map[node_id_t, vector[node_state_t]] _rules
+        unordered_map[node_id_t, vector[state_t]] _rules
 
     # overload the parent functions
     cdef void _step(self, node_id_t node) nogil

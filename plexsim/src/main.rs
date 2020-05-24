@@ -1,7 +1,9 @@
+
 extern crate rand;
 extern crate rayon;
 extern crate ndarray;
-// extern crate ndarray_rand;
+// extern crate simd;
+extern crate ndarray_rand;
 extern crate serde;
 extern crate serde_json;
 extern crate mersenne_twister;
@@ -9,6 +11,11 @@ extern crate rand_mt;
 extern crate xorshift;
 extern crate time;
 
+// // extern crate pyo3;
+// extern crate numpy;
+// use pyo3::prelude::Python;
+// use numpy::array::{PyArray1};
+// use numpy::{ToPyArray, PyArray};
 
 use std::fs::File;
 use std::io::Read;
@@ -23,6 +30,9 @@ use ndarray::prelude::*;
 use ndarray::parallel::prelude::*;
 use ndarray::Zip;
 
+
+use rand::seq::SliceRandom;
+
 use std::collections::HashMap;
 
 use serde::{Deserialize, Serialize};
@@ -32,6 +42,8 @@ use xorshift::{Rand, Rng, SeedableRng, SplitMix64, Xoroshiro128, Xorshift128, Xo
 
 type NodeID    = usize;
 type NodeState = usize;
+
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 
 struct Structure{
     directed    : bool,
@@ -85,21 +97,26 @@ impl Structure{
         }; 
     }
 
+    #[inline]
     pub fn sampleNodes(&mut self, n_samples: usize) -> Array1<NodeID>{
         // let mut rng : MersenneTwister = SeedableRng::from_seed(0);
         let N  = n_samples * self.sampleSize;
         let mut nodeids = Array1::<NodeID>::zeros(N);
+
+        let mut n = Array1::from_vec(self.nodeids.clone());
         // loop vars
         let nNodes = self.adj.len() - 1 as usize;
         let mut j : NodeID;
-        nodeids.par_map_inplace(|val|
-         {
-             let mut r = self.rng;
-             *val = r.gen_range(0, nNodes);
-        });
 
-        // find parallel alternative
-        // let mut checker: usize;
+        //find parallel alternative
+
+        let mut checker: usize;
+
+        for val in nodeids.exact_chunks_mut(self.sampleSize){
+           // let mut val = val;
+           self.rng.shuffle(&mut self.nodeids);
+        }
+
         // for (sample, val) in nodeids.indexed_iter_mut()
         // {
         //     checker = sample % nNodes; 
@@ -108,10 +125,10 @@ impl Structure{
         //            j = self.rng.gen_range(0, i);
         //            self.nodeids.swap(i, j);
         //         }
-        //         // self.rng.shuffle(&mut self.nodeids);
-        //         // self.nodeids.shuffle(&mut self.rng);
-        //     }
-        //     *val  =  self.nodeids[checker];
+                // self.rng.shuffle(&mut self.nodeids);
+                // self.nodeids.shuffle(&mut self.rng);
+            // }
+            // *val  =  self.nodeids[checker];
         // }
 
         // println!("{:?}", nodeids);
@@ -132,10 +149,18 @@ impl Structure{
         // for x in m.iter(){
             // d += x;
         // }
-        assert_eq!(d, n);
     }
 
+    // pub fn testNum(&self, n : usize){
+    //     let gil = Python::acquire_gil();
+    //     let py  = gil.python();
+    //     let ar = array![[1i64,2], [3,4]].to_pyarray(py);
+    //     let mut d = 0;
+    //     for x in ar.iter(){
+    //         d += x;
+    //     }
 
+    // }
     pub fn testVec(&self, n : usize){
         let m = vec![1; n];
         let mut d = 0;
@@ -178,7 +203,6 @@ struct Potts{
     dynamics : Dynamics,
 }
 
-
 extern crate floating_duration;
 use std::path::Path;
 
@@ -194,11 +218,10 @@ fn main(){
     let mut n : Array1<NodeID>;
     // let steps = 10usize.pow(1);
     let steps = 10usize.pow(5);
-    let loops = 100000;
-    
+    let loops = 10usize.pow(2);
     let start = Instant::now();
     for x in 0..loops{
-        m.testArray(steps);
+        m.sampleNodes(steps);
         // m.testArray(steps);
         // m.randCheck(steps);
     }

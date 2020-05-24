@@ -16,7 +16,7 @@ flags = f'{optFlag} -march=native -std=c++{cppv} -flto '\
         '-frename-registers -funroll-loops -fno-wrapv '\
         '-fopenmp-simd -fopenmp -D_GLIBCXX_PARALLEL -Wfatal-errors'
 
-flags = f'{optFlag} -march=native -std=c++{cppv} -fopenmp -fopenmp-simd'
+# flags = f'{optFlag} -march=native -std=c++{cppv} -fopenmp -fopenmp-simd'
 try:
     clangCheck = run(f"{compiler} --version".split(), capture_output= True)
     if not clangCheck.returncode and 'fs4' not in os.uname().nodename:
@@ -72,7 +72,9 @@ setup(\
       author  = "Casper van Elteren",\
       author_email = "caspervanelteren@gmail.com",\
       url  = "cvanelteren.github.io",\
-      zip_safe         = False,\
+      # zip_safe         = False,\
+      packages = "plexsim".split(),\
+      package_data = dict(plexsim = '*.pxd'.split()),\
       ext_modules = cythonize(\
                     exts,\
                     # annotate            = True,\ # set to true for performance html

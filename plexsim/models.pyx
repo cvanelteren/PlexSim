@@ -20,7 +20,7 @@ from libcpp.unordered_map cimport unordered_map
 
 
 from cpython.mem cimport PyMem_Malloc, PyMem_Realloc, PyMem_Free
-from libc.math cimport exp, log, cos, pi, lround, fabs, isnan
+from libc.math cimport exp, log, cos, pi, lround, fabs, isnan, signbit
 
 from pyprind import ProgBar
 import multiprocessing as mp
@@ -108,6 +108,7 @@ cdef class Model:
                 self.states = kwargs.get("states").copy()
                 self.last_written = kwargs.get("last_written", 0)
 
+
         
     cpdef void construct(self, object graph, list agentStates):
         """
@@ -133,7 +134,7 @@ cdef class Model:
             dict mapping = {}
             dict rmapping= {}
 
-            node_state_t[::1] states = np.zeros(graph.number_of_nodes(), dtype = long)
+            state_t[::1] states = np.zeros(graph.number_of_nodes(), dtype = long)
 
             node_id_t source, target
 
@@ -154,7 +155,7 @@ cdef class Model:
             nodeid            = node.get('id')
             mapping[nodeid]   = nodeidx
             rmapping[nodeidx] = nodeid
-            states[nodeidx]   = <node_state_t> node.get("state", np.random.choice(agentStates))
+            states[nodeidx]   = <state_t> node.get("state", np.random.choice(agentStates))
             nudges[nodeidx]   = <nudge_t> node.get("nudge", DEFAULTNUDGE)
         # go through edges
         cdef bint directed  = nodelink.get('directed')
@@ -191,7 +192,7 @@ cdef class Model:
         self._states_ptr = &self._states[0]
         self._nNodes    = graph.number_of_nodes()
 
-    cdef node_state_t[::1]  _updateState(self, node_id_t[::1] nodesToUpdate) nogil:
+    cdef state_t[::1]  _updateState(self, node_id_t[::1] nodesToUpdate) nogil:
         cdef NudgesBackup* backup = new NudgesBackup()
         #cdef NudgesBackup backup = NudgesBackup()
         cdef node_id_t node
@@ -216,7 +217,7 @@ cdef class Model:
             return
         # TODO: check struct inits; I think there is no copying done here
         cdef node_id_t idx
-        cdef node_state_t state
+        cdef state_t state
         cdef NodeBackup tmp
         cdef weight_t weight
         cdef int jdx = 0
@@ -300,7 +301,7 @@ cdef class Model:
             self._memory[mi] = self._memory[mi - 1]
         return
 
-    cpdef node_state_t[::1] updateState(self, node_id_t[::1] nodesToUpdate):
+    cpdef state_t[::1] updateState(self, node_id_t[::1] nodesToUpdate):
         """
         General state updater wrapper
         I
@@ -373,7 +374,7 @@ cdef class Model:
 
     cpdef np.ndarray simulate(self, int  samples):
         cdef:
-            node_state_t[:, ::1] results = np.zeros((samples, self._nNodes), long)
+            state_t[:, ::1] results = np.zeros((samples, self._nNodes), long)
             # int sampleSize = 1 if self._updateType == 'single' else self._nNodes
             node_id_t[:, ::1] r = self.sampleNodes(samples)
             # vector[vector[int][sampleSize]] r = self.sampleNodes(samples)
@@ -497,13 +498,16 @@ cdef class Model:
 
     cpdef void testArray(self,  long  n):
         cdef long[::1] m = np.ones(n, dtype = long)
+
         cdef int i
         cdef double d = 0
         with nogil:
             for i in range(n):
                 d += m[i]
         assert d == n
+
         return 
+
     @seed.setter
     def seed(self, value):
         if isinstance(value, int) and value >= 0:
@@ -683,21 +687,21 @@ cdef class Potts(Model):
     cpdef void constructRules(self, object rules):
         
         cdef:
-             multimap[node_state_t, pair[ node_state_t, double ]] r
+             multimap[state_t, pair[ state_t, double ]] r
              dict nl = nx.node_link_data(rules)
-             node_state_t source, target
-             pair[node_state_t, pair[node_state_t, double]] tmp
+             state_t source, target
+             pair[state_t, pair[state_t, double]] tmp
              double weight
         for link in nl['links']:
             weight = link.get('weight', 1)
             source = link.get('source')
             target = link.get('target')
             tmp.first = target
-            tmp.second = pair[node_state_t, double](source, weight)
+            tmp.second = pair[state_t, double](source, weight)
             r.insert(tmp)
             if not nl['directed'] and source != target:
                 tmp.first  = source;
-                tmp.second = pair[node_state_t, double](target, weight)
+                tmp.second = pair[state_t, double](target, weight)
                 r.insert(tmp)
         self._rules = r 
         return 
@@ -727,7 +731,7 @@ cdef class Potts(Model):
 
 
 
-    cpdef vector[double] siteEnergy(self, node_state_t[::1] states):
+    cpdef vector[double] siteEnergy(self, state_t[::1] states):
         cdef:
             vector[double] siteEnergy = vector[double](self._nNodes)
             int node
@@ -756,42 +760,56 @@ cdef class Potts(Model):
             double weight # TODO: remove delta
             # vector[double] energy = vector[double](3, self._H[node]) 
             double* energy = <double*> malloc(3 * sizeof(double)) 
+            state_t* check = <state_t*> malloc(2 * sizeof(state_t))
             long  testState
         # draw random new state
         testState = <size_t> (self._rand() * (self._nStates ))
-
         energy[0] = self._H[node]
         energy[1] = self._H[node]
 
         energy[2] = self._agentStates[testState]
+
+        check[0] = states[node]
+        check[1] = self._agentStates[testState]
+
         # compute the energy
         it = self._adj[node].neighbors.begin()
-        cdef pair[bint, pair[node_state_t, double]] rule;
+        cdef pair[bint, pair[state_t, double]] rule;
+
+        cdef double update
+        cdef state_t proposal
+
+        cdef MemoizeUnit memop
         while it != self._adj[node].neighbors.end():
             weight   = deref(it).second
             neighbor = deref(it).first
             # check rules
-            rule = self._checkRules(states[node], states[neighbor])
-            if not rule.first:
-                energy[0]  -=  weight * self._hamiltonian(states[node], states[neighbor])
-            else:
-                energy[0] -= rule.second.second
-            rule = self._checkRules(testState, states[neighbor])
-            if not rule.first:
-                 energy[1]  -= weight * self._hamiltonian(self._agentStates[testState], states[neighbor])
-            else:
-                 energy[1] -= rule.second.second
+            for idx in range(2):
+                proposal = check[idx]
+                rule = self._checkRules(proposal, states[neighbor])
+                if not rule.first:
+                    update = weight * self._hamiltonian(proposal, states[neighbor])
+                else:
+                    update = rule.second.second
+
+                # memop.first = pair[state_t, state_t](proposal, states[neighbor])
+                # memop.second = update
+                # self._memoize.insert(memop)
+
+                energy[idx] -= update
             post(it)
+        free(check)
         cdef size_t mi
         for mi in range(self._memorySize):
+            
             energy[0] -= exp(- mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
             energy[1] -= exp(-mi * self._memento ) * self._hamiltonian(self._agentStates[testState], self._memory[mi, node])
         return energy
 
-    cdef pair[bint, pair[node_state_t,  double]] _checkRules(self, node_state_t x, node_state_t y) nogil:
+    cdef pair[bint, pair[state_t,  double]] _checkRules(self, state_t x, state_t y) nogil:
     
         it = self._rules.find(x)
-        cdef pair[bint, pair[node_state_t, double]] tmp 
+        cdef pair[bint, pair[state_t, double]] tmp 
         while it != self._rules.end():
             if deref(it).second.first == y:
                 tmp.first = True
@@ -800,7 +818,7 @@ cdef class Potts(Model):
             post(it)
         return tmp
 
-    cdef double _hamiltonian(self, node_state_t x, node_state_t  y) nogil:
+    cdef double _hamiltonian(self, state_t x, state_t  y) nogil:
         return cos(2 * pi  * ( x - y ) / <double> (self._nStates))
 
     cpdef void checkRand(self, long N):
@@ -817,16 +835,20 @@ cdef class Potts(Model):
             # vector[double] energies = self._energy(node)
             double* energies = self._energy(node)
             double delta = self._beta * (energies[1] - energies[0])
-            double p = exp(-delta)
+            double p
             double rng = self._rand()
-            vector[double] ps = vector[double](1, p)
+
+        p = exp(-delta)
+        # todo : multiple state check?
+        # boiler plate is done 
+        cdef vector[double] ps = vector[double](1, p)
         ps = self._nudgeShift(node, ps)
         cdef int pidx
         cdef double pLower = 0
         for pidx in range(ps.size()):
             p = ps[pidx]
             if pLower < rng < p or isnan(p):
-               self._newstates_ptr[node] = <node_state_t> energies[2]
+               self._newstates_ptr[node] = <state_t> energies[2]
                break
             pLower += p
         free(energies)
@@ -914,7 +936,7 @@ cdef class Ising(Potts):
                                     agentStates = agentStates,\
                                     **kwargs)
 
-    cdef double _hamiltonian(self, node_state_t x , node_state_t y) nogil:
+    cdef double _hamiltonian(self, state_t x , state_t y) nogil:
         return <double> (x * y)
 # associated with potts for matching magnetic
 @cython.binding(True)
