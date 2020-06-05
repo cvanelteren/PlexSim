@@ -14,13 +14,13 @@ from cpython cimport PyObject, Py_XINCREF, Py_XDECREF
 
 # TYPE DEFINITIONS
 ctypedef long state_t
-ctypedef long node_id_t
+ctypedef size_t node_id_t
 ctypedef double weight_t
 ctypedef double nudge_t
 
-# TODO: move to structs?
-ctypedef vector[state_t] Neighbors
-ctypedef vector[weight_t] Weights
+# # TODO: move to structs?
+# ctypedef vector[state_t] Neighbors
+# ctypedef vector[weight_t] Weights
 
 # nudges hash map
 ctypedef unordered_map[node_id_t, nudge_t] Nudges
@@ -36,9 +36,10 @@ ctypedef unordered_map[node_id_t, NodeBackup] NudgesBackup
 ctypedef vector[PyObjectHolder] SpawnVec
 
 
+ctypedef unordered_map[node_id_t, weight_t] Neighbors
 cdef struct Connection:
-    unordered_map[node_id_t, weight_t] neighbors
-    # Neighbors neighbors
+    # unordered_map[node_id_t, weight_t] neighbors
+    Neighbors neighbors
     # Weights  weights
 ctypedef unordered_map[node_id_t, Connection] Connections
 
@@ -160,44 +161,46 @@ cdef class Model:
 
         state_t[:, ::1] _memory # for memory dynamics
 
-        int _memorySize #memory size
+        size_t _memorySize #memory size
 
         # MemoizeMap _memoize
 
         # random sampler
         mt19937 _gen
-        unsigned long _seed
+        size_t _seed
         uniform_real_distribution[double] _dist
 
-        int _memento
-        int _nNodes # number of nodes
+        size_t _memento
+        size_t _nNodes # number of nodes
         str _updateType # update type
         str _nudgeType  # nudge type
 
-        int _sampleSize # counter for how large a sample should -> random samples
+        size_t  _sampleSize # counter for how large a sample should -> random samples
 
         # define nudges
         Nudges _nudges
         double   _kNudges
 
         Connections _adj # adjacency lists
-        int _nStates
+        size_t _nStates
 
         #unordered_map[char, long] mapping
         #unordered_map[long, char] rmapping
         #private
+        double _z 
+
         dict __dict__ # allow dynamic python objects
     cpdef void construct(self, object graph, \
-                    list agentStates)
+                    state_t[::1] agentStates)
 
     # Update functions
     cpdef  state_t[::1] updateState(self, node_id_t[::1] nodesToUpdate)
     cdef state_t[::1]  _updateState(self, node_id_t[::1] nodesToUpdate) nogil
 
-    cdef void _apply_nudge(self, state_t node,\
+    cdef void _apply_nudge(self, node_id_t node,\
                             NudgesBackup* backup) nogil
 
-    cpdef void testArray(self, long   n)
+    cpdef void testArray(self, size_t  n)
 
     cdef void _remove_nudge(self, node_id_t node, NudgesBackup* backup) nogil
 
@@ -209,21 +212,23 @@ cdef class Model:
     cdef double _learningFunction(self, node_id_t xi, node_id_t xj)
 
     # Sampler functions
-    cdef  node_id_t[:, ::1]  _sampleNodes(self, long nSamples) nogil
-    cpdef node_id_t[:, ::1] sampleNodes(self, long nSamples)
+    cdef  node_id_t[:, ::1]  _sampleNodes(self, size_t nSamples) nogil
+    cpdef node_id_t[:, ::1] sampleNodes(self, size_t nSamples)
 
     # Random Number generator 
     cdef double _rand(self) nogil
 
     # Py wrapper simulation
-    cpdef np.ndarray simulate(self, int samples)
+    cpdef np.ndarray simulate(self, size_t samples)
 
-    cdef SpawnVec _spawn(self, int nThreads=*)
+    cdef SpawnVec _spawn(self, size_t nThreads=*)
 
     cpdef void reset(self, p =*)
 
     cdef vector[double] _nudgeShift(self, node_id_t node, \
                          vector[double] p) nogil
+
+    cpdef void checkRand(self, size_t n)
 
 cdef class Potts(Model):
     cdef:
@@ -232,31 +237,33 @@ cdef class Potts(Model):
         double _delta # memory retention variable
 
         multimap[state_t, pair[state_t, double]] _rules
-    # cdef vector[double] _energy(self,\
-                               # node_id_t  node) nogil
+
     
     cdef pair[bint, pair[state_t, double]] _checkRules(self, state_t x, state_t y) nogil
+
     cpdef void constructRules(self, object rules)
-    cdef double*  _energy(self,node_id_t  node) nogil
-    cdef void _step(self, long node_id_t) nogil
-    cdef void _step(self, long node_id_t) nogil
+
+
+    cdef void _step(self, node_id_t node) nogil
+
+    cdef double*  _energy(self, node_id_t  node) nogil
+
     # update function
     cdef double _hamiltonian(self, state_t x, state_t  y) nogil
 
     cpdef  np.ndarray magnetize(self,\
                                 np.ndarray temps  = *,\
-                                int n             = *,\
-                                int burninSamples = *,\
+                                size_t n             = *,\
+                                size_t burninSamples = *,\
                                 double  match =*)
 
     cpdef vector[double] siteEnergy(self, state_t[::1] states)
 
-    cpdef void checkRand(self, long N)
-    cdef void _checkRand(self, long N) nogil
 
 
 cdef class Ising(Potts):
     cdef double _hamiltonian(self, state_t x, state_t y) nogil
+
 
 cdef class Bornholdt(Ising):
      cdef:
@@ -266,9 +273,10 @@ cdef class Bornholdt(Ising):
          double* _newsystem_mag_ptr
 
          double _alpha
-     cdef void _step(self, long  node) nogil
 
      cdef void _swap_buffers(self) nogil
+
+     cdef void _step(self, node_id_t node) nogil
 
 cdef class SIRS(Model):
     cdef:
@@ -277,11 +285,17 @@ cdef class SIRS(Model):
         float _nu
         float _kappa
 
-    cdef void _step(self, long node_id_t) nogil
+    cdef void _step(self, node_id_t node) nogil
 
-    cdef float _checkNeighbors(self, long node_id_t) nogil
+    cdef float _checkNeighbors(self,  node_id_t node) nogil
 
     cpdef void init_random(self, node =*)
+
+cdef class Bonabeau(Model):
+    cdef:
+        float _eta
+    cdef void _step(self, node_id_t node) nogil
+    cdef double _hamiltonian(self, state_t x, state_t y) nogil
 
 cdef class RBN(Model):
     """Random boolean network"""

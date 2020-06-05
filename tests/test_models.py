@@ -1,12 +1,10 @@
-import sys
-sys.path.insert(0, '../')
 import unittest as ut
 from plexsim.models import *
 import subprocess, numpy as np
 
 class TestBaseModel(ut.TestCase):
     model = Model
-    agentStates = [0]
+    agentStates = np.array([0])
     #g = nx.path_graph()
     g  = nx.path_graph(3)
     def setUp(self):
@@ -23,6 +21,9 @@ class TestBaseModel(ut.TestCase):
         for sample in samples.base.flat:
             self.assertTrue(0 <= sample <= self.m.nNodes)
         return samples
+
+    def test_sampling(self):
+        self.m.sampleNodes(100) 
 
     def test_init(self):
         # testin update types
@@ -99,7 +100,7 @@ class TestBaseModel(ut.TestCase):
         nudges = {"1" : 1}
         self.m.kNudges = 10
         self.m.nudges = nudges 
-        nodes = np.ones(10, dtype = int) * self.m.mapping[next(iter(nudges))]
+        nodes = np.ones(10, dtype = np.uintp) * self.m.mapping[next(iter(nudges))]
         self.m.updateState(memoryview(nodes))
         ## fill buffer
         #self.m._apply_nudges(self, backup)
@@ -113,7 +114,7 @@ class TestBaseModel(ut.TestCase):
 
 class TestPotts(TestBaseModel):
     model = Potts
-    agentStates = [0, 1]
+    agentStates = np.array([0, 1])
     g = nx.path_graph(2)
     def test_updateState(self):
         # force update to be independent
@@ -122,8 +123,9 @@ class TestPotts(TestBaseModel):
         temps = np.asarray([0, np.inf])
         targs = [1, 0]
         mag, sus = self.m.magnetize(temps = temps,\
-                                             n = 10000)
+                                    n = 10000)
         for (magi, target) in zip(mag, targs):
+            print(magi, target)
             self.assertAlmostEqual(magi, target, places = 1)
 
     def test_nudgeShift(self):
@@ -135,9 +137,10 @@ class TestPotts(TestBaseModel):
 
 class TestIsing(TestPotts):
     model = Ising
-    agentStates = [-1, 1]
+    # agentStates = np.array([-1, 1], dtype = int)
+    agentStates = np.array([0, 1], dtype = int)
 
-from plexsim import cy_tests 
+# from plexsim import cy_tests 
 
 if __name__ == '__main__':
     ut.main()
