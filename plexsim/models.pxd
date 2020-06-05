@@ -294,8 +294,9 @@ cdef class SIRS(Model):
 cdef class Bonabeau(Model):
     cdef:
         float _eta
+        double[::1] _weight
     cdef void _step(self, node_id_t node) nogil
-    cdef double _hamiltonian(self, state_t x, state_t y) nogil
+    cdef double _hamiltonian(self, double x, double y) nogil
 
 cdef class RBN(Model):
     """Random boolean network"""
