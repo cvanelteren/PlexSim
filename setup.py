@@ -6,7 +6,7 @@ import numpy, multiprocessing as mp, os
 
 import re, os
 from subprocess import run
-__version__ = "1.0.1"
+__version__ = "1.1.0"
 add = []
 compiler = 'g++'
 optFlag = '-Ofast'
@@ -64,6 +64,11 @@ cdirectives =  dict(\
                     binding          = True,\
                     # embedsignature = True,\
                     )
+import unittest
+def TestSuite():
+    test_loader = unittest.TestLoader()
+    test_suite = test_loader.discover('tests', pattern='test_*.py')
+    return test_suite
 #with open('requirements.txt', 'r') as f:
 #    requirements = f.read().splitlines()
 setup(\
@@ -72,7 +77,9 @@ setup(\
       author  = "Casper van Elteren",\
       author_email = "caspervanelteren@gmail.com",\
       url  = "cvanelteren.github.io",\
-      # zip_safe         = False,\
+      test_suite = "setup.TestSuite",\
+      # allow pxd import
+      zip_safe         = False,\
       packages = "plexsim".split(),\
       package_data = dict(plexsim = '*.pxd'.split()),\
       ext_modules = cythonize(\

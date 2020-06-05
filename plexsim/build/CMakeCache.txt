@@ -380,9 +380,9 @@ CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding PYTHON
 FIND_PACKAGE_MESSAGE_DETAILS_PYTHON:INTERNAL=/home/casper/miniconda3/bin/python
 //Details about finding Python3
-FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[/home/casper/miniconda3/bin/python3][/home/casper/miniconda3/bin/python3.8][/home/casper/miniconda3/include/python3.8][/home/casper/miniconda3/lib/python3.8/site-packages/numpy/core/include][cfound components:  Interpreter Development NumPy ][v3.8.2(3.8.2)]
+FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[/home/casper/miniconda3/bin/python3][/home/casper/miniconda3/bin/python3.8][/home/casper/miniconda3/include/python3.8][/home/casper/miniconda3/lib/python3.8/site-packages/numpy/core/include][cfound components:  Interpreter Development NumPy ][v3.8.3(3.8.2)]
 //Details about finding PythonInterp
-FIND_PACKAGE_MESSAGE_DETAILS_PythonInterp:INTERNAL=[/home/casper/miniconda3/bin/python][v3.8.2()]
+FIND_PACKAGE_MESSAGE_DETAILS_PythonInterp:INTERNAL=[/home/casper/miniconda3/bin/python][v3.8.3()]
 //ADVANCED property for variable: PYTHON_EXECUTABLE
 PYTHON_EXECUTABLE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PYTHON_LIBRARY

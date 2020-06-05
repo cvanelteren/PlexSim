@@ -1,14 +1,10 @@
 import sys
-sys.path.insert(0, '../')
 from plexsim import models
-from plexsim import example as cppModels
 import networkx as nx, numpy as np
-# from plexsim import example_old as cppModels
-
-
+sys.path.insert(0, '../plexsim')
+import example as cppModels 
 
 import time
-
 
 class tmp:
     def __init__(self):
@@ -26,19 +22,18 @@ def timeit(m, N, loops, func):
     stop = time.time() - start
     print("Time taken ", stop)
 
-N = [10]
-steps = int(10**5)
+N = [300]
+steps = int(10)
 loops = int(10**2)
-tests = 'sampleNodes'.split()
+tests = 'sampleNodes simulate'.split()
 # tests = 'testArray'.split()
 T = tmp()
 for ni in N:
-    print(f"Testing size {ni}, {ni}\n")
-    g = nx.grid_graph([ni, ni])
-    M = models.Potts(g, sampleSize = ni*ni)
+    g = nx.complete_graph(ni)
+    print(f"Testing size {g.number_of_nodes()}\n")
+    M = models.Potts(g)
     cm = cppModels.Potts(g)
 
-    # [timeit(T, steps, loops, i) for i in tests]
     [timeit(M, steps, loops, i) for i in tests]
     print('-'*32)
     [timeit(cm, steps, loops, i) for i in tests]

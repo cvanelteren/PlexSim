@@ -182,6 +182,7 @@ public:
 
        size_t j;
        // #pragma omp parallel for private(tmp, nodeids, j)
+       #pragma omp simd
        for (size_t samplei = 0; samplei < N; samplei++){
          // shuffle the node ids
           
@@ -285,7 +286,7 @@ public:
        nodeState_t state  = this->states[node];
        nodeState_t  proposal = this->rng.pick(this->agentStates);
 
-       vector<nodeState_t> check {state, proposal};
+       int check[2] =  {state, proposal};
        Neighbors tmp = this->adj[node].neighbors; 
 
        nodeState_t nstate; 
@@ -294,29 +295,40 @@ public:
 
        
        pair<nodeState_t, nodeState_t> mempair;
-       for (auto neighbor : tmp)
-         {
-           nstate = neighbor.first;
-           weight = neighbor.second;
-           mempair.first = nstate;
 
-           for (auto i = 0; i < check.size(); i++){
-             mempair.second = check[i];
-             if (this->memo.find(mempair) != this->memo.end()){
-                check[i] -= mempair.second;
-                // cout << mempair.second << endl;
-             }
-             else{
-                check[i] -= weight * this->hamiltonian(check[i], nstate);
-                this->memo[mempair] = weight;
-             }
+#pragma omp simd reduction(-:check)
+       for (auto b = 0; b < tmp.bucket_count(); b++){
+         for (auto neighbor = tmp.begin(b); neighbor != tmp.end(b); neighbor++){
+            // decode neighbor
+            nstate = neighbor->first;
+            weight = neighbor->second;
+            // memoize the state
+            // mempair.first = nstate;
+
+            for (auto j = 0; j < 2; j++){
+
+              check[j] -= weight * this->hamiltonian(check[j], nstate);
+
+              // //memoize
+              // mempair.second = check[j];
+              // if (this->memo.find(mempair) != this->memo.end()){
+              //   check[j] -= mempair.second;
+              //   // cout << mempair.second << endl;
+              // }
+              // // normal update
+              // else{
+              //   check[j] -= weight * this->hamiltonian(check[j], nstate);
+              //   this->memo[mempair] = weight;
+              // }
+
            }
+         }
        }
        xarrd delta = {this->t.beta *(check[1] - check[0])};
        xarrd p     = xt::exp(- delta);
        if ((this->rng.uniform(0., 1.) < p[0]) || (xt::isnan(p)[0])){
            this->newstates[node] = proposal;
-       } 
+       }
        return ;
     }
 

@@ -1,4 +1,6 @@
 # distutils: language=c++
+##  cython: np_pythran=True
+
 # __author__ = 'Casper van Elteren'
 cimport cython
 
@@ -42,7 +44,7 @@ timespec, CLOCK_REALTIME
 cdef class Model:
     def __init__(self,\
                  graph       = nx.path_graph(1),\
-                 agentStates = [0],\
+                 agentStates = np.array([0], dtype = np.int),\
                  nudgeType   = "constant",\
                  updateType  = "async",\
                  nudges      = {},\
@@ -64,7 +66,6 @@ cdef class Model:
         :graph: a networkx graph
 
         optionalo
-                    
             :agentStates: the states that the agents can assume [default = [0,1]]
             :updateType: how to sample the state space (default async)
             :nudgeType: the type of nudge used (default: constant)
@@ -86,6 +87,8 @@ cdef class Model:
 
         self.kNudges = kNudges
 
+        agentStates = np.asarray(agentStates, dtype = long)
+
         # create adj list
         if graph:
             self.construct(graph, agentStates)
@@ -96,21 +99,21 @@ cdef class Model:
             # self.memory = np.ones((memorySize, self._nNodes), dtype = long) * np.NaN   # note keep the memory first not in state space, i.e start without any form memory
 
             # create memory
-            self.memorySize   = memorySize
+            self.memorySize   = <size_t> memorySize
             self._memory      = np.random.choice(self.agentStates, size = (self.memorySize, self._nNodes))
             # weight factor of memory
-            self._memento     = memento
+            self._memento     = <size_t> memento
             self.nudges = nudges
             # n.b. sampleSize has to be set from no on
             self.updateType = updateType
-            self.sampleSize = kwargs.get("sampleSize", self.nNodes)
+            self.sampleSize = <size_t> kwargs.get("sampleSize", self.nNodes)
             if "states" in kwargs:
                 self.states = kwargs.get("states").copy()
                 self.last_written = kwargs.get("last_written", 0)
+            self._z = 1 / <double> self._nStates
 
 
-        
-    cpdef void construct(self, object graph, list agentStates):
+    cpdef void construct(self, object graph, state_t[::1] agentStates):
         """
         Constructs adj matrix using structs
 
@@ -185,12 +188,12 @@ cdef class Model:
         self._zeta = 0
 
         # Private
-        _nodeids        = np.arange(graph.number_of_nodes(), dtype = long)
+        _nodeids         = np.arange(graph.number_of_nodes(), dtype = np.uintp)
         np.random.shuffle(_nodeids) # prevent initial scan-lines in grid
-        self._nodeids   = _nodeids
-        self._states    = states
+        self._nodeids    = _nodeids
+        self._states     = states
         self._states_ptr = &self._states[0]
-        self._nNodes    = graph.number_of_nodes()
+        self._nNodes     = graph.number_of_nodes()
 
     cdef state_t[::1]  _updateState(self, node_id_t[::1] nodesToUpdate) nogil:
         cdef NudgesBackup* backup = new NudgesBackup()
@@ -209,6 +212,7 @@ cdef class Model:
             self._last_written = (self._last_written + 1) % 2 
 
         return self._newstates if self._last_written else self._states 
+
     cdef void _apply_nudge(self, node_id_t node,\
                            NudgesBackup* backup) nogil:
 
@@ -272,16 +276,14 @@ cdef class Model:
     cdef vector[double]  _nudgeShift(self, node_id_t node, vector[double] p ) nogil:
         # shift pmf by some nudge
         _nudge = self._nudges.find(node)
-        cdef int i
-        cdef double[::1] tmp_
+        cdef size_t idx
+        cdef double nudge
+        #TODO: normalize nudge pmf
         if _nudge != self._nudges.end(): 
+            nudge = deref(_nudge).second
             with gil:
-                tmp_ = np.random.randn(p.size()) * deref(_nudge).second
-                #tmp_ = np.convolve(p, tmp_, "same'")
-                #tmp_ = (tmp_ - np.mean(tmp_))
-                #tmp_ /= np.sum(tmp_)
-            for i in range(p.size()) :
-                p[i] += tmp_[i] 
+                for idx in range(p.size()) :
+                    p[idx] += nudge 
         return p
 
 
@@ -314,11 +316,11 @@ cdef class Model:
     cdef double _rand(self) nogil:
         return self._dist(self._gen)
     
-    cpdef node_id_t[:, ::1] sampleNodes(self, long nSamples):
+    cpdef node_id_t[:, ::1] sampleNodes(self, size_t nSamples):
         return self._sampleNodes(nSamples)
 
-    cdef node_id_t[:, ::1] _sampleNodes(self, long  nSamples) nogil:
-        # cdef long [:, ::1] sampleNodes(self, long  nSamples):
+    cdef node_id_t[:, ::1] _sampleNodes(self, size_t  nSamples) nogil:
+        # cdef size_t [:, ::1] sampleNodes(self, size_t  nSamples):
         """
         Shuffles nodeids only when the current sample is larger
         than the shuffled array
@@ -326,20 +328,18 @@ cdef class Model:
         """
         # check the amount of samples to get
         cdef:
-            long sampleSize = self._sampleSize
+            size_t sampleSize = self._sampleSize
             # TODO replace this with a nogil version
             # long _samples[nSamples][sampleSize]
-            # long sample
-            long start
-            long i, j, k
-            long samplei
+            size_t start, i, j, k
+            size_t samplei
 
         # if serial move through space like CRT line-scan method
         cdef node_id_t[:, ::1] samples
 
         # replace with nogil variant
         with gil:
-            samples = np.zeros((nSamples, sampleSize), dtype = long)
+            samples = np.zeros((nSamples, sampleSize), dtype = np.uintp)
         # cdef vector[vector[node_id_t]] samples = vector[vector[node_id_t]](nSamples)
         cdef node_id_t* nodeids 
         nodeids = &self._nodeids[0]
@@ -372,9 +372,9 @@ cdef class Model:
         """
         self._nudges.clear()
 
-    cpdef np.ndarray simulate(self, int  samples):
+    cpdef np.ndarray simulate(self, size_t samples):
         cdef:
-            state_t[:, ::1] results = np.zeros((samples, self._nNodes), long)
+            state_t[:, ::1] results = np.zeros((samples, self._nNodes), dtype = np.int)
             # int sampleSize = 1 if self._updateType == 'single' else self._nNodes
             node_id_t[:, ::1] r = self.sampleNodes(samples)
             # vector[vector[int][sampleSize]] r = self.sampleNodes(samples)
@@ -396,7 +396,7 @@ cdef class Model:
     @memorySize.setter
     def memorySize(self, value):
         if isinstance(value, int):
-            self._memorySize = value
+            self._memorySize = <size_t> value
         else:
             self._memorysize = 0
 
@@ -453,7 +453,7 @@ cdef class Model:
     def sampleSize(self): return self._sampleSize
 
     @property
-    def agentStates(self): return list(self._agentStates) # warning has no setter!
+    def agentStates(self): return self._agentStates.base# warning has no setter!
 
     @property
     def adj(self)       : return self._adj
@@ -496,17 +496,7 @@ cdef class Model:
         else:
             return self._states.base
 
-    cpdef void testArray(self,  long  n):
-        cdef long[::1] m = np.ones(n, dtype = long)
 
-        cdef int i
-        cdef double d = 0
-        with nogil:
-            for i in range(n):
-                d += m[i]
-        assert d == n
-
-        return 
 
     @seed.setter
     def seed(self, value):
@@ -585,7 +575,7 @@ cdef class Model:
             self._sampleSize = value
         elif isinstance(value, float):
             assert 0 < value <= 1
-            self._sampleSize = <long> (value * self._nNodes)
+            self._sampleSize = <size_t> (value * self._nNodes)
         # default
 
     @nudgeType.setter
@@ -619,8 +609,6 @@ cdef class Model:
             atr = getattr(self, k)
             if not callable(atr) and not k.startswith('_'):
                 kwargs[k] = atr
-                if k == 'seed':
-                    kwargs[k] += 1
 
         return kwargs
 
@@ -632,7 +620,7 @@ cdef class Model:
     def __deepcopy__(self, memo):
         return self.__class__(**self.get_settings())
 
-    cdef SpawnVec _spawn(self, int nThreads = openmp.omp_get_num_threads()):
+    cdef SpawnVec _spawn(self, size_t nThreads = openmp.omp_get_num_threads()):
         """
         Spawn independent models
         """
@@ -650,6 +638,24 @@ cdef class Model:
                              )
         return spawn
 
+    cpdef void testArray(self,  size_t  n):
+
+        cdef size_t[::1] m = np.ones(n, dtype = np.uintp)
+        cdef int i
+        cdef double d = 0
+        with nogil:
+            for i in range(n):
+                d += m[i]
+        assert d == n
+        return 
+
+    cpdef void checkRand(self, size_t  N):
+        cdef int i
+        with nogil:
+            for i in range(N):
+                self._rand()
+        return
+
 
 
 
@@ -662,7 +668,7 @@ cdef class Potts(Model):
     def __init__(self, \
                  graph,\
                  t = 1,\
-                 agentStates = [0, 1],\
+                 agentStates = np.array([0, 1], dtype = long),\
                  delta       = 0, \
                  rules       = nx.Graph(),\
                  **kwargs):
@@ -736,7 +742,7 @@ cdef class Potts(Model):
             vector[double] siteEnergy = vector[double](self._nNodes)
             int node
             double Z, energy
-            long* ptr = self._states_ptr
+            state_t* ptr = self._states_ptr
         # reset pointer to current state
         self._states_ptr = &states[0]
         energy = 0
@@ -754,32 +760,32 @@ cdef class Potts(Model):
         """
         """
         cdef:
-            long neighbors = self._adj[node].neighbors.size()
-            long* states = self._states_ptr # alias
-            long neighbor, neighboridx
+            size_t neighbors = self._adj[node].neighbors.size()
+            state_t* states = self._states_ptr # alias
+            size_t  neighbor, neighboridx
             double weight # TODO: remove delta
-            # vector[double] energy = vector[double](3, self._H[node]) 
+
             double* energy = <double*> malloc(3 * sizeof(double)) 
             state_t* check = <state_t*> malloc(2 * sizeof(state_t))
-            long  testState
+            state_t  testState
         # draw random new state
         testState = <size_t> (self._rand() * (self._nStates ))
         energy[0] = self._H[node]
         energy[1] = self._H[node]
-
         energy[2] = self._agentStates[testState]
 
         check[0] = states[node]
         check[1] = self._agentStates[testState]
 
         # compute the energy
+        cdef:
+            pair[bint, pair[state_t, double]] rule;
+            double update
+            state_t proposal
+            MemoizeUnit memop
+
         it = self._adj[node].neighbors.begin()
-        cdef pair[bint, pair[state_t, double]] rule;
-
-        cdef double update
-        cdef state_t proposal
-
-        cdef MemoizeUnit memop
+        cdef size_t idx
         while it != self._adj[node].neighbors.end():
             weight   = deref(it).second
             neighbor = deref(it).first
@@ -787,10 +793,12 @@ cdef class Potts(Model):
             for idx in range(2):
                 proposal = check[idx]
                 rule = self._checkRules(proposal, states[neighbor])
-                if not rule.first:
-                    update = weight * self._hamiltonian(proposal, states[neighbor])
+                # update using rule
+                if rule.first:
+                    update = rule.second.first
+                # normal potts
                 else:
-                    update = rule.second.second
+                    update = weight * self._hamiltonian(proposal, states[neighbor])
 
                 # memop.first = pair[state_t, state_t](proposal, states[neighbor])
                 # memop.second = update
@@ -798,10 +806,11 @@ cdef class Potts(Model):
 
                 energy[idx] -= update
             post(it)
+
         free(check)
         cdef size_t mi
+
         for mi in range(self._memorySize):
-            
             energy[0] -= exp(- mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
             energy[1] -= exp(-mi * self._memento ) * self._hamiltonian(self._agentStates[testState], self._memory[mi, node])
         return energy
@@ -819,32 +828,25 @@ cdef class Potts(Model):
         return tmp
 
     cdef double _hamiltonian(self, state_t x, state_t  y) nogil:
-        return cos(2 * pi  * ( x - y ) / <double> (self._nStates))
+        return cos(2 * pi  * ( x - y ) * self._z)
 
-    cpdef void checkRand(self, long N):
-        self._checkRand(N)
-        return
-    cdef void _checkRand(self, long N) nogil:
-        cdef int i
-        for i in range(N):
-            self._rand()
-        return
 
-    cdef void _step(self, long node) nogil:
+
+    cdef void _step(self, node_id_t node) nogil:
         cdef:
             # vector[double] energies = self._energy(node)
             double* energies = self._energy(node)
-            double delta = self._beta * (energies[1] - energies[0])
-            double p
+            double delta     = self._beta * (energies[1] - energies[0])
+
+            double p = exp(-delta)
             double rng = self._rand()
 
-        p = exp(-delta)
         # todo : multiple state check?
         # boiler plate is done 
         cdef vector[double] ps = vector[double](1, p)
         ps = self._nudgeShift(node, ps)
-        cdef int pidx
         cdef double pLower = 0
+        cdef size_t pidx
         for pidx in range(ps.size()):
             p = ps[pidx]
             if pLower < rng < p or isnan(p):
@@ -857,8 +859,8 @@ cdef class Potts(Model):
     @cython.cdivision(False)
     cpdef  np.ndarray magnetize(self,\
                               np.ndarray temps  = np.logspace(-3, 2, 20),\
-                              int n             = int(1e3),\
-                              int burninSamples = 0,\
+                              size_t n             = int(1e3),\
+                              size_t burninSamples = 0,\
                               double match = -1):
             """
             Computes the magnetization as a function of temperatures
@@ -881,28 +883,36 @@ cdef class Potts(Model):
                 list modelsPy = []
 
             # setup parallel models
-            print("spawning threads")
-            print("Magnetizing temperatures")
+            print("Spawning threads")
             cdef:
                 int tid
                 double Z = 1/ <double> self._nStates
                 SpawnVec  tmpHolder = self._spawn(threads)
                 PyObject* tmptr
+                Model     tmpMod
+
+            print("Magnetizing temperatures")
             pbar = ProgBar(N)
+
+            cdef double phase
             for ni in prange(N, nogil = 1,\
                              num_threads =  threads,\
                              schedule = 'static'):
-            # for ni in range(N):
                 tid = threadid()
+                # get model
                 tmptr = tmpHolder[tid].ptr
                 with gil:
-                    (<Model> tmptr).t      =  temps[ni]
-                    (<Model> tmptr).states = self._agentStates[0]
-                    res = (<Model> tmptr).simulate(n) / <double> self._nStates
-                    phase = np.exp(2 * np.pi * 1j * res)
-                    phase = np.real(phase).mean()
+                    tmpMod = <Model> tmptr
+                    # setup simulation
+                    tmpMod.t      =  temps[ni]
+                    tmpMod.states = self._agentStates[0]
+
+                    # calculate phase and susceptibility
+                    res = tmpMod.simulate(n)  * Z 
+                    phase = np.real(np.exp(2 * np.pi * np.complex(0, 1) * res)).mean()
                     results[0, ni] = np.abs(phase)
                     pbar.update(1)
+
             results[1, :] = np.abs(np.gradient(results[0, :], temps, edge_order = 1))
 
             # fit sigmoid
@@ -923,21 +933,18 @@ cdef class Potts(Model):
             return results
 
 
-
 cdef class Ising(Potts):
     def __init__(self, graph,\
                  **kwargs):
         # default override
-        agentStates = [-1, 1]
-        if "agentStates" in kwargs:
-            del kwargs["agentStates"]
+        kwargs['agentStates'] = np.array([0, 1], dtype = long)
         super(Ising, self).__init__(\
                                     graph = graph,\
-                                    agentStates = agentStates,\
                                     **kwargs)
 
-    cdef double _hamiltonian(self, state_t x , state_t y) nogil:
-        return <double> (x * y)
+    # cdef double _hamiltonian(self, state_t x , state_t y) nogil:
+    #     return <double> (x * y)
+
 # associated with potts for matching magnetic
 @cython.binding(True)
 @cython.cdivision(False)
@@ -998,7 +1005,7 @@ cdef class Bornholdt(Ising):
         p = 1 / ( 1. + exp( -2 * self._beta * delta))
 
         if self._rand() < p :
-            self._newstates_ptr[node] = <long> energies[2]
+            self._newstates_ptr[node] = <state_t> energies[2]
             self._newsystem_mag_ptr[0] += 2 * (energies[2] / <double> self._nNodes)
         free(energies)
         return
@@ -1008,12 +1015,14 @@ cdef class Bornholdt(Ising):
          swap(self._system_mag_ptr, self._newsystem_mag_ptr)
          return
 
+        
+
 
 
 
 cdef class SIRS(Model):
     def __init__(self, graph, \
-                 agentStates = [0, 1, 2],\
+                 agentStates = np.array([0, 1, 2], dtype = long),\
                  beta = 1,\
                  mu = 1,\
                  nu = 0,\
@@ -1089,7 +1098,7 @@ cdef class SIRS(Model):
         Check neighbors for infection
         """
         cdef:
-            long neighbor, idx
+            node_id_t  neighbor
             float neighborWeight
             float infectionRate = 0
             float ZZ = 1
@@ -1133,7 +1142,7 @@ cdef class SIRS(Model):
        if node:
            idx = self.mapping[node]
        else:
-           idx = <long> (self._rand() * self._nNodes)
+           idx = <size_t> (self._rand() * self._nNodes)
        self._states[idx] = 1
 
 
@@ -1151,8 +1160,6 @@ cdef class RBN(Model):
         # draw random boolean function
         for node in range(self.nNodes):
             k = self._adj[node].neighbors.size()
-            #rule = np.random.randint(0, 2**k, dtype = long)
-            #rule = format(_rule, f"0{k}b")[::-1]
             rule = np.random.randint(0, 2**(2 ** k), dtype = int)
             rule = format(rule, f'0{2 ** k}b')[::-1]
             self._rules[node] = [int(i) for i in rule]
@@ -1161,7 +1168,7 @@ cdef class RBN(Model):
     def rules(self):
         return self._rules
 
-    cdef void _step(self, long node) nogil:
+    cdef void _step(self, node_id_t node) nogil:
        """
        Update step for Random Boolean networks
        Count all the 1s from the neighbors and index into fixed rule
@@ -1187,7 +1194,8 @@ cdef class RBN(Model):
    
 
 cdef class Percolation(Model):
-    def __init__(self, graph, p = 1, agentStates = [0, 1], \
+    def __init__(self, graph, p = 1, \
+                 agentStates = np.array([0, 1], dtype = long), \
                 **kwargs):
         super(Percolation, self).__init__(**locals())
         self.p = p
@@ -1212,11 +1220,69 @@ cdef class Percolation(Model):
                 post(it)
         return 
 
+
+cdef class Bonabeau(Model):
+    """
+    Bonabeau model in hierarchy formation
+
+    
+    """
+    def __init__(self, graph,\
+                 agentStates = np.array([0, 1]),\
+                 eta = 1,\
+                 **kwargs):
+
+        super(Bonabeau, self).__init__(**locals())
+        self.eta = eta
+
+    @property
+    def eta(self):
+        return self._eta
+    @eta.setter
+    def eta(self,value):
+        self._eta = value
+
+    cdef void _step(self, node_id_t node) nogil:
+        # todo: implement
+        # move over grid
+
+        # if other agent present fight with hamiltonian
+
+        cdef state_t thisState = self._states_ptr[node]
+        if thisState == 0:
+            return
+
+        cdef size_t idx = <size_t> (self._rand() * self._adj[node].neighbors.size())
+        neighbor = self._adj[node].neighbors.begin()
+        for i in range(idx):
+            if i == idx:
+                break
+            post(neighbor)
+
+        cdef:
+            node_id_t neighborPosition = deref(neighbor).first
+            state_t thatState     = self._states_ptr[neighborPosition]
+            double p
+        if thatState:
+            p = self._hamiltonian(thisState, thatState)
+            # won fight
+            if self._rand() < p:
+                # swap position
+                self._newstates_ptr[node] = thatState
+                self._newstates_ptr[neighborPosition] = thisState
+        else:
+            self._newstates_ptr[neighborPosition] = thisState
+            self._newstates_ptr[node]             = thatState
+        return
+    cdef double _hamiltonian(self, state_t x, state_t y) nogil:
+         return <double>(1 + exp(-self._eta * (x - y)))**(-1)
+
+
 cdef class CCA(Model):
     def __init__(self, \
                  graph,\
                  threshold = 0.,\
-                 agentStates = [0, 1, 2],\
+                 agentStates = np.array([0, 1, 2], dtype = long),\
                  **kwargs):
         """
         Circular cellular automaton
@@ -1245,7 +1311,7 @@ cdef class CCA(Model):
             long nNeighbors = self._adj[node].neighbors.size()
             int i
             double fraction = 0
-            long* states = self._states_ptr
+            state_t* states = self._states_ptr
         # check neighbors and see if they exceed threshold
         it = self._adj[node].neighbors.begin()
         while it != self._adj[node].neighbors.end():
@@ -1263,7 +1329,6 @@ cdef class CCA(Model):
     cdef void _step(self, node_id_t node) nogil:
         self._evolve(node)
         return
-
 
 #def rebuild(graph, states, nudges, updateType):
 #    cdef RBN tmp = RBN(graph, updateType = updateType)
