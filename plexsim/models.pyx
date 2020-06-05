@@ -1235,12 +1235,19 @@ cdef class Bonabeau(Model):
         super(Bonabeau, self).__init__(**locals())
         self.eta = eta
 
+        self._weight = np.zeros(self.nNodes, dtype = float)
+
     @property
     def eta(self):
         return self._eta
     @eta.setter
     def eta(self,value):
         self._eta = value
+
+    @property
+    def weight(self): return self._weight.base
+
+    
 
     cdef void _step(self, node_id_t node) nogil:
         # todo: implement
@@ -1264,17 +1271,23 @@ cdef class Bonabeau(Model):
             state_t thatState     = self._states_ptr[neighborPosition]
             double p
         if thatState:
-            p = self._hamiltonian(thisState, thatState)
+            p = self._hamiltonian(self._weight[node], self._weight[neighborPosition])
             # won fight
             if self._rand() < p:
                 # swap position
                 self._newstates_ptr[node] = thatState
                 self._newstates_ptr[neighborPosition] = thisState
+
+                self._weight[node] += 1
+                self._weight[neighborPosition] -= 1
+            else:
+                self._weight[node] -= 1
+                self._weight[neighborPosition] += 1
         else:
             self._newstates_ptr[neighborPosition] = thisState
             self._newstates_ptr[node]             = thatState
         return
-    cdef double _hamiltonian(self, state_t x, state_t y) nogil:
+    cdef double _hamiltonian(self, double x, double y) nogil:
          return <double>(1 + exp(-self._eta * (x - y)))**(-1)
 
 
