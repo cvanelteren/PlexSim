@@ -11,7 +11,8 @@ _N.b._ this is a work in progress
 `conda env update --file environment.yml`
 
 ## Build and run checks
-pip install .
+
+`pip install .`
 
 alt: `sh build.sh -tv`
 
