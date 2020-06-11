@@ -25,7 +25,6 @@ ctypedef double nudge_t
 # nudges hash map
 ctypedef unordered_map[node_id_t, nudge_t] Nudges
 
-
 cdef struct NodeBackup:
     state_t state
     weight_t weight
@@ -43,12 +42,6 @@ cdef struct Connection:
     Neighbors neighbors
     # Weights  weights
 ctypedef unordered_map[node_id_t, Connection] Connections
-
-cdef struct Agent:
-    state_t state
-    node_id_t name
-    Neighbors neighbors
-
 
 
 cdef extern from "<map>" namespace "std" nogil:
@@ -267,9 +260,15 @@ cdef class Potts(Model):
     cpdef vector[double] siteEnergy(self, state_t[::1] states)
 
 
+cdef class Pottsis(Potts):
+    cdef float _mu
+    cdef float _eta
+    cdef double _hamiltonian(self, state_t x, state_t y) nogil
+    cdef double*  _energy(self, node_id_t  node) nogil
 
 cdef class Ising(Potts):
     cdef double _hamiltonian(self, state_t x, state_t y) nogil
+
 
 
 cdef class Bornholdt(Ising):

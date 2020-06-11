@@ -1,20 +1,35 @@
 #distutils: language=c++
 #cython: language_level=3
 
-cdef extern from *:
-    ctypedef struct PyObject
-from libcpp.vector cimport vector
+
+cimport cython
 from libcpp.unordered_map cimport unordered_map
-from libcpp.pair cimport  pair
-from cython.operator cimport dereference as deref
-from libc.stdlib cimport malloc, free
-cdef extern from "<algorithm>" namespace "std" nogil:
-    void swap[T] (T &a, T &b)
+from libcpp.vector cimport vector
+from cython.operator cimport dereference as deref, preincrement, postincrement as post
+cimport numpy as np; import numpy as np
+cdef struct Agent:
+    long id
+    long state
+
+cdef unordered_map[long, Agent] Agents
 
 
-cimport numpy as np
-import numpy as np
+
+cdef Agent agent
+
+cdef vector[long*] test  
+
+for i in range(10):
+    agent.id = i
+    agent.state = 1
+    Agents[i] = agent
+    test.push_back(&Agents[i].state)
+
+
+Agents[1].state = 3
 
 
 
-cdef long[::1] a = np.zeros(10, dtype = int)
+
+
+

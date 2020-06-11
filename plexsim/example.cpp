@@ -180,9 +180,8 @@ public:
        size_t tmp;
        Nodeids nodeids = this->nodeids ;
 
-       size_t j;
+       // size_t j;
        // #pragma omp parallel for private(tmp, nodeids, j)
-       #pragma omp simd
        for (size_t samplei = 0; samplei < N; samplei++){
          // shuffle the node ids
           
@@ -214,7 +213,8 @@ public:
           Node update loop
         */
 
-      for (auto node = 0; node < nodes.size(); node++){
+      #pragma omp simd
+      for (size_t node = 0; node < nodes.size(); node++){
            this->step(nodes[node]);
        }
         auto tmp = this->newstates;
@@ -265,7 +265,7 @@ public:
         }
     };
 
-    unordered_map<pair<nodeState_t, nodeState_t>, double, pair_hash> memo;
+  boost::unordered_map<pair<nodeState_t, nodeState_t>, double, pair_hash> memo;
     Temperature t;
 
     Potts(\
@@ -287,6 +287,7 @@ public:
        nodeState_t  proposal = this->rng.pick(this->agentStates);
 
        int check[2] =  {state, proposal};
+       double energies[2] = {0, 0};
        Neighbors tmp = this->adj[node].neighbors; 
 
        nodeState_t nstate; 
@@ -296,18 +297,18 @@ public:
        
        pair<nodeState_t, nodeState_t> mempair;
 
-#pragma omp simd reduction(-:check)
-       for (auto b = 0; b < tmp.bucket_count(); b++){
-         for (auto neighbor = tmp.begin(b); neighbor != tmp.end(b); neighbor++){
+       // for (auto b = 0; b < tmp.bucket_count(); b++){
+         // for (auto neighbor = tmp.begin(b); neighbor != tmp.end(b); neighbor++){
+       for (auto neighbor : tmp){
             // decode neighbor
-            nstate = neighbor->first;
-            weight = neighbor->second;
+            nstate = neighbor.first;
+            weight = neighbor.second;
             // memoize the state
             // mempair.first = nstate;
-
+            
             for (auto j = 0; j < 2; j++){
 
-              check[j] -= weight * this->hamiltonian(check[j], nstate);
+              energies[j] -= weight * this->hamiltonian(check[j], nstate);
 
               // //memoize
               // mempair.second = check[j];
@@ -321,10 +322,9 @@ public:
               //   this->memo[mempair] = weight;
               // }
 
-           }
          }
        }
-       xarrd delta = {this->t.beta *(check[1] - check[0])};
+       xarrd delta = {this->t.beta *(energies[1] - energies[0])};
        xarrd p     = xt::exp(- delta);
        if ((this->rng.uniform(0., 1.) < p[0]) || (xt::isnan(p)[0])){
            this->newstates[node] = proposal;

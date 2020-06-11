@@ -772,6 +772,7 @@ cdef class Potts(Model):
         testState = <size_t> (self._rand() * (self._nStates ))
         energy[0] = self._H[node]
         energy[1] = self._H[node]
+        # hide state for update
         energy[2] = self._agentStates[testState]
 
         check[0] = states[node]
@@ -810,26 +811,11 @@ cdef class Potts(Model):
         free(check)
         cdef size_t mi
 
+        # TODO: move to separate function
         for mi in range(self._memorySize):
             energy[0] -= exp(- mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
             energy[1] -= exp(-mi * self._memento ) * self._hamiltonian(self._agentStates[testState], self._memory[mi, node])
         return energy
-
-    cdef pair[bint, pair[state_t,  double]] _checkRules(self, state_t x, state_t y) nogil:
-    
-        it = self._rules.find(x)
-        cdef pair[bint, pair[state_t, double]] tmp 
-        while it != self._rules.end():
-            if deref(it).second.first == y:
-                tmp.first = True
-                tmp.second = deref(it).second
-                return tmp
-            post(it)
-        return tmp
-
-    cdef double _hamiltonian(self, state_t x, state_t  y) nogil:
-        return cos(2 * pi  * ( x - y ) * self._z)
-
 
 
     cdef void _step(self, node_id_t node) nogil:
@@ -837,7 +823,7 @@ cdef class Potts(Model):
             # vector[double] energies = self._energy(node)
             double* energies = self._energy(node)
             double delta     = self._beta * (energies[1] - energies[0])
-
+            
             double p = exp(-delta)
             double rng = self._rand()
 
@@ -855,6 +841,21 @@ cdef class Potts(Model):
             pLower += p
         free(energies)
         return
+
+    cdef pair[bint, pair[state_t,  double]] _checkRules(self, state_t x, state_t y) nogil:
+    
+        it = self._rules.find(x)
+        cdef pair[bint, pair[state_t, double]] tmp 
+        while it != self._rules.end():
+            if deref(it).second.first == y:
+                tmp.first = True
+                tmp.second = deref(it).second
+                return tmp
+            post(it)
+        return tmp
+
+    cdef double _hamiltonian(self, state_t x, state_t  y) nogil:
+        return cos(2 * pi  * ( x - y ) * self._z)
 
     @cython.cdivision(False)
     cpdef  np.ndarray magnetize(self,\
@@ -933,6 +934,78 @@ cdef class Potts(Model):
             return results
 
 
+cdef class Pottsis(Potts):
+    def __init__(self, graph, eta = .2, mu = .1, **kwargs):
+        super(Pottsis, self).__init__(graph = graph,\
+                                      **kwargs)
+        self._mu = mu
+        self._eta = eta
+
+    cdef double* _energy(self, node_id_t node) nogil:
+        """
+        """
+        cdef:
+            size_t neighbors = self._adj[node].neighbors.size()
+            state_t* states = self._states_ptr # alias
+            size_t  neighbor, neighboridx
+            double weight # TODO: remove delta
+
+            double* energy = <double*> malloc(3 * sizeof(double)) 
+            state_t* check = <state_t*> malloc(2 * sizeof(state_t))
+            state_t  testState
+        # draw random new state
+        testState = <size_t> (self._rand() * (self._nStates ))
+        
+        check[0] = states[node]
+        check[1] = self._agentStates[testState]
+
+        energy[0] = 0
+        energy[1] = 0
+        # hide state for update
+        energy[2] = self._agentStates[testState]
+
+        # compute the energy
+        cdef:
+            pair[bint, pair[state_t, double]] rule;
+            double update
+            state_t proposal
+            MemoizeUnit memop
+
+        it = self._adj[node].neighbors.begin()
+        cdef size_t idx
+        while it != self._adj[node].neighbors.end():
+            weight   = deref(it).second
+            neighbor = deref(it).first
+            # check rules
+            for idx in range(2):
+                proposal = check[idx]
+                rule = self._checkRules(proposal, states[neighbor])
+                # update using rule
+                if rule.first:
+                    update = rule.second.first
+                # normal potts
+                else:
+                    update = weight * self._hamiltonian(proposal, states[neighbor])
+
+                # memop.first = pair[state_t, state_t](proposal, states[neighbor])
+                # memop.second = update
+                # self._memoize.insert(memop)
+
+                energy[idx] -= update
+            post(it)
+        free(check)
+        energy[0] = self._eta * energy[0] - self._mu * check[0]
+        energy[1] = self._eta * energy[1] - self._mu * check[1]
+        cdef size_t mi
+        # TODO: move to separate function
+        for mi in range(self._memorySize):
+            energy[0] -= exp(- mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
+            energy[1] -= exp(-mi * self._memento ) * self._hamiltonian(self._agentStates[testState], self._memory[mi, node])
+        return energy
+    cdef double _hamiltonian(self, state_t x, state_t y) nogil:
+        return <double> ((1 - x) *  y)
+    
+
 cdef class Ising(Potts):
     def __init__(self, graph,\
                  **kwargs):
@@ -1002,7 +1075,8 @@ cdef class Bornholdt(Ising):
             double systemInfluence = self._alpha * deref(self._system_mag_ptr)
         energies = self._energy(node)
         delta = energies[0] * self._states_ptr[node] - self._states_ptr[node] * systemInfluence
-        p = 1 / ( 1. + exp( -2 * self._beta * delta))
+        p = exp(-self._beta * delta)
+        # p = 1 / ( 1. + exp( -2 * self._beta * delta))
 
         if self._rand() < p :
             self._newstates_ptr[node] = <state_t> energies[2]

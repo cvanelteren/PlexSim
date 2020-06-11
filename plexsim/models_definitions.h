@@ -17,10 +17,13 @@
 #include "xtensor/xstrided_view.hpp"
 #include "xtensor/xio.hpp"
 
+#include "boost/unordered_map.hpp"
+
 #include <ctime>
 namespace py = pybind11;
 using namespace pybind11::literals;
 using namespace std;
+using namespace boost;
 
 // DEFINITIONS
 // general model definitions
@@ -38,13 +41,13 @@ typedef  xt::xarray<nodeID_t> Nodeids;
 // typedef std::array<nodeID_t> samples_t;
 
 // Adjacency definition
-typedef unordered_map<nodeID_t, weight_t> Neighbors;
+typedef boost::unordered_map<nodeID_t, weight_t> Neighbors;
 struct Connection{
     Neighbors neighbors;
 };
 
 
-typedef unordered_map<nodeID_t, Connection> Connections;
+typedef boost::unordered_map<nodeID_t, Connection> Connections;
 
 
 

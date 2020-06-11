@@ -24,7 +24,7 @@ def timeit(m, N, loops, func):
 
 N = [300]
 steps = int(10)
-loops = int(10**2)
+loops = int(1)
 tests = 'sampleNodes simulate'.split()
 # tests = 'testArray'.split()
 T = tmp()
