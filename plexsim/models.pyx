@@ -1116,9 +1116,13 @@ cdef class Bornholdt(Ising):
          return
 
 cdef class AB(Model):
-    def __init__(self, graph, **kwargs):
+    def __init__(self, graph, zealots = dict(),\
+                 **kwargs):
         kwargs['agentStates'] = np.arange(3) # a, ab, b
         super(AB, self).__init__(graph, **kwargs)
+
+        for k in zealots:
+            self._zealots[k] = True
 
     cdef void _step(self, node_id_t node) nogil:
         cdef Neighbors tmp = self._adj[node].neighbors
@@ -1172,6 +1176,8 @@ cdef class AB(Model):
                     self._newstates_ptr[neighbor] = 2
                 elif thatState == 0:
                     self._newstates_ptr[neighbor] = 1
+        if self._zealots[neighbor]:
+            self._newstates_ptr[neighbor] = thatState
         return
 
 

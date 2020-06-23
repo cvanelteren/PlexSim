@@ -88,7 +88,7 @@ setup(\
                     language_level      = 3,\
                     compiler_directives = cdirectives,\
                     # source must be pickable
-                    nthreads            = mp.cpu_count(),\
+                    nthreads            = mp.cpu_count() // 2,\
     ),\
 # gdb_debug =True,
 )
