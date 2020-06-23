@@ -805,7 +805,7 @@ cdef class Potts(Model):
                 # memop.second = update
                 # self._memoize.insert(memop)
 
-                energy[idx] -= update
+                energy[idx] += update
             post(it)
 
         free(check)
@@ -813,8 +813,8 @@ cdef class Potts(Model):
 
         # TODO: move to separate function
         for mi in range(self._memorySize):
-            energy[0] -= exp(- mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
-            energy[1] -= exp(-mi * self._memento ) * self._hamiltonian(self._agentStates[testState], self._memory[mi, node])
+            energy[0] += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
+            energy[1] += exp(mi * self._memento ) * self._hamiltonian(self._agentStates[testState], self._memory[mi, node])
         return energy
 
 
@@ -824,7 +824,7 @@ cdef class Potts(Model):
             double* energies = self._energy(node)
             double delta     = self._beta * (energies[1] - energies[0])
             
-            double p = exp(-delta)
+            double p = exp(delta)
             double rng = self._rand()
 
         # todo : multiple state check?
@@ -985,17 +985,20 @@ cdef class Pottsis(Potts):
                     update = rule.second.first
                 # normal potts
                 else:
-                    update = weight * self._hamiltonian(proposal, states[neighbor])
+                    #update = weight * self._hamiltonian(proposal, states[neighbor])
+                    update = states[neighbor]
 
                 # memop.first = pair[state_t, state_t](proposal, states[neighbor])
                 # memop.second = update
                 # self._memoize.insert(memop)
 
-                energy[idx] -= update
+                energy[idx] += update
             post(it)
+        energy[0] = -log((1-check[0]) * energy[0] * ((1 - self._eta)**energy[0])/energy[0] + self._mu *check[0])
+        # energy[1] = log( (1-check[1]) * energy[1] * ((1 - self._eta)**energy[1])/energy[1] \
+                        # + self._mu * check[1])
+        energy[1] = 0 
         free(check)
-        energy[0] = self._eta * energy[0] - self._mu * check[0]
-        energy[1] = self._eta * energy[1] - self._mu * check[1]
         cdef size_t mi
         # TODO: move to separate function
         for mi in range(self._memorySize):
@@ -1005,6 +1008,29 @@ cdef class Pottsis(Potts):
     cdef double _hamiltonian(self, state_t x, state_t y) nogil:
         return <double> ((1 - x) *  y)
     
+    cdef void _step(self, node_id_t node) nogil:
+        cdef:
+            double* energies = self._energy(node)
+            double delta     = self._beta * (energies[1] - energies[0])
+
+            double p = 1 - exp(delta)
+            double rng = self._rand()
+
+        # todo : multiple state check?
+        # boiler plate is done 
+        cdef vector[double] ps = vector[double](1, p)
+        ps = self._nudgeShift(node, ps)
+        cdef double pLower = 0
+        cdef size_t pidx
+        for pidx in range(ps.size()):
+            p = ps[pidx]
+            if pLower < rng < p or isnan(p):
+                self._newstates_ptr[node] = <state_t> energies[2]
+            break
+        pLower += p
+        free(energies)
+        return
+
 
 cdef class Ising(Potts):
     def __init__(self, graph,\
@@ -1075,7 +1101,7 @@ cdef class Bornholdt(Ising):
             double systemInfluence = self._alpha * deref(self._system_mag_ptr)
         energies = self._energy(node)
         delta = energies[0] * self._states_ptr[node] - self._states_ptr[node] * systemInfluence
-        p = exp(-self._beta * delta)
+        p = exp(self._beta * delta)
         # p = 1 / ( 1. + exp( -2 * self._beta * delta))
 
         if self._rand() < p :
@@ -1089,7 +1115,68 @@ cdef class Bornholdt(Ising):
          swap(self._system_mag_ptr, self._newsystem_mag_ptr)
          return
 
-        
+cdef class AB(Model):
+    def __init__(self, graph, **kwargs):
+        kwargs['agentStates'] = np.arange(3) # a, ab, b
+        super(AB, self).__init__(graph, **kwargs)
+
+    cdef void _step(self, node_id_t node) nogil:
+        cdef Neighbors tmp = self._adj[node].neighbors
+        # random interact with a neighbor
+        cdef size_t idx = <size_t> (self._rand() * (tmp.size() - 1))
+
+        # work around for counter access
+        it = tmp.begin()
+        cdef size_t counter = 0
+        while it != tmp.end(): 
+            if counter == idx:
+                break
+            counter += 1
+            post(it)
+
+        cdef node_id_t neighbor = deref(it).first
+
+        cdef state_t thisState = self._states_ptr[node]
+        cdef state_t thatState = self._states_ptr[neighbor]
+
+        # if not AB
+        if thisState != 1:
+            if thisState == thatState:
+                return
+            else:
+                # CASE A
+                if thisState == 0:
+                    if thatState == 2:
+                        self._newstates_ptr[neighbor] = 1
+                    else:
+                        self._newstates_ptr[neighbor] = 0
+                # CASE B
+                if thisState == 2:
+                    if thatState == 1:
+                        self._newstates_ptr[neighbor] = 2
+                    else:
+                        self._newstates_ptr[neighbor] = 1
+        # CASE AB
+        else:
+            # communicate A
+            if self._rand() < .5:
+                if thatState == 1:
+                    self._newstates_ptr[neighbor] = 0
+                    self._newstates_ptr[node] = 0
+                elif thatState == 2:
+                    self._newstates_ptr[neighbor] = 1
+            # communicate B
+            else:
+                if thatState == 1:
+                    self._newstates_ptr[node] = 2
+                    self._newstates_ptr[neighbor] = 2
+                elif thatState == 0:
+                    self._newstates_ptr[neighbor] = 1
+        return
+
+
+
+
 
 
 

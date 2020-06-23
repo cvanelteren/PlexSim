@@ -260,6 +260,10 @@ cdef class Potts(Model):
     cpdef vector[double] siteEnergy(self, state_t[::1] states)
 
 
+cdef class AB(Model):
+    cdef void _step(self, node_id_t node) nogil
+    
+
 cdef class Pottsis(Potts):
     cdef float _mu
     cdef float _eta
