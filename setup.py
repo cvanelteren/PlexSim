@@ -50,6 +50,7 @@ for (root, dirs, files) in os.walk(baseDir):
                                               ] + add,\
             )
             exts.append(ex)
+print(f'{len(exts)} will be compiled')
 # # compile
 # with open('requirements.txt', 'r') as f:
 #     install_dependencies = [i.strip() for i in f.readlines()]
@@ -88,7 +89,7 @@ setup(\
                     language_level      = 3,\
                     compiler_directives = cdirectives,\
                     # source must be pickable
-                    nthreads            = mp.cpu_count() // 2,\
+                    nthreads            = mp.cpu_count(),\
     ),\
 # gdb_debug =True,
 )
