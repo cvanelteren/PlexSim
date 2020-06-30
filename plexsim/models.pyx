@@ -955,14 +955,16 @@ cdef class Pottsis(Potts):
             state_t  testState
         # draw random new state
         testState = <size_t> (self._rand() * (self._nStates ))
-        
+
+        # store current en proposal state
         check[0] = states[node]
         check[1] = self._agentStates[testState]
 
+        # init energies
         energy[0] = 0
         energy[1] = 0
         # hide state for update
-        energy[2] = self._agentStates[testState]
+        energy[2] = check[1] 
 
         # compute the energy
         cdef:
@@ -977,58 +979,85 @@ cdef class Pottsis(Potts):
             weight   = deref(it).second
             neighbor = deref(it).first
             # check rules
-            for idx in range(2):
-                proposal = check[idx]
-                rule = self._checkRules(proposal, states[neighbor])
-                # update using rule
-                if rule.first:
-                    update = rule.second.first
-                # normal potts
-                else:
-                    #update = weight * self._hamiltonian(proposal, states[neighbor])
-                    update = states[neighbor]
+            rule = self._checkRules(proposal, states[neighbor])
+            # update using rule
+            if rule.first:
+                update = rule.second.first
+            # normal potts
+            else:
+                #update = weight * self._hamiltonian(proposal, states[neighbor])
+                update = states[neighbor]
 
-                # memop.first = pair[state_t, state_t](proposal, states[neighbor])
-                # memop.second = update
-                # self._memoize.insert(memop)
+            # memop.first = pair[state_t, state_t](proposal, states[neighbor])
+            # memop.second = update
+            # self._memoize.insert(memop)
 
-                energy[idx] += update
+            energy[0] += update
+            energy[1] += update
+
             post(it)
-        energy[0] = -log((1-check[0]) * energy[0] * ((1 - self._eta)**energy[0])/energy[0] + self._mu *check[0])
-        # energy[1] = log( (1-check[1]) * energy[1] * ((1 - self._eta)**energy[1])/energy[1] \
-                        # + self._mu * check[1])
-        energy[1] = 0 
+
+        
+
+        # prob of staying the same
+        cdef double fx = (1 - self._eta)**energy[0]
+        energy[0] =(check[0] - 1) * ( (check[0] * 2 - 1) * fx - check[0]) + check[0] * (- 2 * check[0] * self._mu + check[0] + self._mu)
+
+        # prob of swapping
+        energy[1] =(check[0] - 1) * ((check[1] * 2 - 1) * fx - check[1]) + check[0] * (- 2 * check[1] * self._mu + check[1] + self._mu)
+
         free(check)
         cdef size_t mi
-        # TODO: move to separate function
-        for mi in range(self._memorySize):
-            energy[0] -= exp(- mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
-            energy[1] -= exp(-mi * self._memento ) * self._hamiltonian(self._agentStates[testState], self._memory[mi, node])
+
+        # # TODO: move to separate function
+        # for mi in range(self._memorySize):
+        #     energy[0] -= exp(- mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
+        #     energy[1] -= exp(-mi * self._memento ) * self._hamiltonian(self._agentStates[testState], self._memory[mi, node])
+
         return energy
     cdef double _hamiltonian(self, state_t x, state_t y) nogil:
         return <double> ((1 - x) *  y)
     
+
+    def get_energy(self):
+        output = np.zeros(self.nNodes)
+        for node in range(self.nNodes):
+            output[node] = self._energy(node)[0]
+        return output
+
+
+
     cdef void _step(self, node_id_t node) nogil:
         cdef:
             double* energies = self._energy(node)
-            double delta     = self._beta * (energies[1] - energies[0])
+            double delta     = energies[0]
 
-            double p = 1 - exp(delta)
+            double p = delta 
             double rng = self._rand()
 
         # todo : multiple state check?
         # boiler plate is done 
         cdef vector[double] ps = vector[double](1, p)
+        free(energies)
         ps = self._nudgeShift(node, ps)
         cdef double pLower = 0
         cdef size_t pidx
-        for pidx in range(ps.size()):
-            p = ps[pidx]
-            if pLower < rng < p or isnan(p):
-                self._newstates_ptr[node] = <state_t> energies[2]
-            break
-        pLower += p
-        free(energies)
+        # if rng < p or isnan(p):
+
+        # if self._states_ptr[node] == 1:
+        #     with gil:
+        #         print(energies[0], energies[1], p)
+
+        if rng > p:
+            self._newstates_ptr[node] = (self._states[node] + 1) % self._nStates 
+
+        # for pidx in range(ps.size()):
+        #     p = ps[pidx]
+        #     if pLower < rng < p and not isnan(p):
+        #         self._newstates_ptr[node] = <state_t> energies[2]
+        #     break
+        # pLower += p
+
         return
 
 
@@ -1291,10 +1320,12 @@ cdef class SIRS(Model):
                 self._newstates_ptr[node] = 1
         # SICK state
         elif self._states_ptr[node] == 1:
-            if rng < self._mu:
-                self._newstates_ptr[node] = 2
-            elif rng < self._nu:
-                self._newstates_ptr[node] = 0
+            if self._rand() < .5:
+                if rng < self._mu:
+                    self._newstates_ptr[node] = 2
+            else:
+                if rng < self._nu:
+                    self._newstates_ptr[node] = 0
         # SIRS motive
         elif self._states_ptr[node] == 2:
             if rng < self._kappa:
