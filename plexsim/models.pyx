@@ -206,12 +206,15 @@ cdef class Model:
             self._step(node)
             #self._remove_nudge(node, backup)
         # clean up
+        free(backup)
+        self._swap_buffers()
+        self._last_written = (self._last_written + 1) % 2 
+        # return self._newstates
+        if self._last_written == 1:
+            return self._newstates
         else:
-            free(backup)
-            self._swap_buffers()
-            self._last_written = (self._last_written + 1) % 2 
+            return self._states
 
-        return self._newstates if self._last_written else self._states 
 
     cdef void _apply_nudge(self, node_id_t node,\
                            NudgesBackup* backup) nogil:
@@ -221,7 +224,7 @@ cdef class Model:
             return
         # TODO: check struct inits; I think there is no copying done here
         cdef node_id_t idx
-        cdef state_t state
+        cdef state_t state_tte
         cdef NodeBackup tmp
         cdef weight_t weight
         cdef int jdx = 0
@@ -285,9 +288,16 @@ cdef class Model:
                 for idx in range(p.size()) :
                     p[idx] += nudge 
         return p
-
-
-            
+    cdef void _swap_memory(self) nogil:
+        # use swapped states
+        cdef size_t mi, node
+        for mi in range(0, self._memorySize):
+            if mi == 0:
+                for node in range(self._nNodes):
+                    self._memory[mi, node] = self._states_ptr[node]
+            else:
+                self._memory[mi] = self._memory[mi - 1]
+        return
 
 
     cdef void _swap_buffers(self) nogil:
@@ -296,11 +306,8 @@ cdef class Model:
         This function is intended to allow for custom buffers update
         """
         swap(self._states_ptr, self._newstates_ptr)
-        cdef size_t mi
-        # use swapped states
-        self._memory[0] = self._states
-        for mi in range(1, self._memorySize):
-            self._memory[mi] = self._memory[mi - 1]
+        # default also swap the memory buffer if exists
+        self._swap_memory()
         return
 
     cpdef state_t[::1] updateState(self, node_id_t[::1] nodesToUpdate):
@@ -492,9 +499,9 @@ cdef class Model:
     @property
     def newstates(self) :
         if self.last_written:
-            return self._newstates.base
-        else:
             return self._states.base
+        else:
+            return self._newstates.base
 
 
 
@@ -613,8 +620,8 @@ cdef class Model:
         return kwargs
 
     def __reduce__(self):
-        kwargs = self.get_settings()
         return rebuild, (self.__class__, self.get_settings())
+        # return self.__class__(**self.get_settings())
         #return rebuild, (self.__class__, kwargs)
 
     def __deepcopy__(self, memo):
@@ -632,6 +639,7 @@ cdef class Model:
         for tid in range(nThreads):
             # ref counter increase
             m =  self.__deepcopy__({})
+            m._last_written = self._last_written
             spawn.push_back( PyObjectHolder(\
                                         <PyObject*> m\
                                         )
@@ -655,10 +663,6 @@ cdef class Model:
             for i in range(N):
                 self._rand()
         return
-
-
-
-
 
 def rebuild(cls, kwargs):
     return cls(**kwargs)
@@ -770,8 +774,6 @@ cdef class Potts(Model):
             state_t  testState
         # draw random new state
         testState = <size_t> (self._rand() * (self._nStates ))
-        energy[0] = self._H[node]
-        energy[1] = self._H[node]
         # hide state for update
         energy[2] = self._agentStates[testState]
 
@@ -815,6 +817,9 @@ cdef class Potts(Model):
         for mi in range(self._memorySize):
             energy[0] += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
             energy[1] += exp(mi * self._memento ) * self._hamiltonian(self._agentStates[testState], self._memory[mi, node])
+
+        energy[0] += self._H[node]
+        energy[1] += self._H[node]
         return energy
 
 
@@ -935,11 +940,13 @@ cdef class Potts(Model):
 
 
 cdef class Pottsis(Potts):
-    def __init__(self, graph, eta = .2, mu = .1, **kwargs):
+    def __init__(self, graph, beta = 1, eta = .2, mu = .1, **kwargs):
         super(Pottsis, self).__init__(graph = graph,\
                                       **kwargs)
-        self._mu = mu
-        self._eta = eta
+        self.mu = mu
+        self.eta = eta
+        self.beta = beta
+
 
     cdef double* _energy(self, node_id_t node) nogil:
         """
@@ -1003,8 +1010,18 @@ cdef class Pottsis(Potts):
         cdef double fx = (1 - self._eta)**energy[0]
         energy[0] =(check[0] - 1) * ( (check[0] * 2 - 1) * fx - check[0]) + check[0] * (- 2 * check[0] * self._mu + check[0] + self._mu)
 
+        if energy[0]:
+            energy[0] = log(energy[0])
+        else:
+            energy[0] = -INFINITY
+
+
         # prob of swapping
         energy[1] =(check[0] - 1) * ((check[1] * 2 - 1) * fx - check[1]) + check[0] * (- 2 * check[1] * self._mu + check[1] + self._mu)
+        if energy[1]:
+            energy[1] = log(energy[1])
+        else:
+            energy[1] = -INFINITY
 
         free(check)
         cdef size_t mi
@@ -1015,49 +1032,55 @@ cdef class Pottsis(Potts):
         #     energy[1] -= exp(-mi * self._memento ) * self._hamiltonian(self._agentStates[testState], self._memory[mi, node])
 
         return energy
-    cdef double _hamiltonian(self, state_t x, state_t y) nogil:
-        return <double> ((1 - x) *  y)
     
 
     def get_energy(self):
         output = np.zeros(self.nNodes)
         for node in range(self.nNodes):
-            output[node] = self._energy(node)[0]
+            en = self._energy(node)
+            output[node] = np.exp(en[0] - en[1])
         return output
 
+    @property
+    def eta(self):
+        return self._eta
+    @eta.setter
+    def eta(self,value):
+        self._eta = value
 
+    @property
+    def mu(self):
+        return self._mu
+    @mu.setter
+    def mu(self,value):
+        self._mu = value
+
+    @property
+    def beta(self): return self._beta
+
+    @beta.setter
+    def beta(self, value):
+        self._beta = value
 
     cdef void _step(self, node_id_t node) nogil:
         cdef:
             double* energies = self._energy(node)
-            double delta     = energies[0]
+            double delta     = energies[1] - energies[0]
 
-            double p = delta 
+            double p = exp(self._beta * delta)
             double rng = self._rand()
 
         # todo : multiple state check?
         # boiler plate is done 
         cdef vector[double] ps = vector[double](1, p)
-        free(energies)
         ps = self._nudgeShift(node, ps)
         cdef double pLower = 0
         cdef size_t pidx
-        # if rng < p or isnan(p):
 
-        # if self._states_ptr[node] == 1:
-        #     with gil:
-        #         print(energies[0], energies[1], p)
-
-        if rng > p:
-            self._newstates_ptr[node] = (self._states[node] + 1) % self._nStates 
-
-        # for pidx in range(ps.size()):
-        #     p = ps[pidx]
-        #     if pLower < rng < p and not isnan(p):
-        #         self._newstates_ptr[node] = <state_t> energies[2]
-        #     break
-        # pLower += p
-
+        if rng < p:
+            # self._newstates_ptr[node] = (self._states[node] + 1) % self._nStates 
+            self._newstates_ptr[node] = <state_t> energies[2]
+        free(energies)
         return
 
 

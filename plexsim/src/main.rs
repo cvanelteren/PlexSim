@@ -1,4 +1,12 @@
+extern crate faster;
+use faster::*;
 
+// fn main() {
+// let lots_of_10s = [-10i8; 3000].simd_iter(i8s(0))
+//     .simd_map(|v| v.abs())
+//     .scalar_collect();
+// assert_eq!(lots_of_10s, vec![10u8; 3000]);
+// }
 extern crate rand;
 extern crate rayon;
 extern crate ndarray;
@@ -9,7 +17,7 @@ extern crate serde_json;
 extern crate mersenne_twister;
 extern crate rand_mt;
 extern crate xorshift;
-extern crate time;
+ extern crate time;
 
 // // extern crate pyo3;
 // extern crate numpy;
@@ -112,25 +120,28 @@ impl Structure{
 
         let mut checker: usize;
 
-        for val in nodeids.exact_chunks_mut(self.sampleSize){
-           // let mut val = val;
-           self.rng.shuffle(&mut self.nodeids);
-        }
-
-        // for (sample, val) in nodeids.indexed_iter_mut()
-        // {
-        //     checker = sample % nNodes; 
-        //     if checker == 0{
-        //         for i in nNodes..1{
-        //            j = self.rng.gen_range(0, i);
-        //            self.nodeids.swap(i, j);
-        //         }
-                // self.rng.shuffle(&mut self.nodeids);
-                // self.nodeids.shuffle(&mut self.rng);
-            // }
-            // *val  =  self.nodeids[checker];
+        // for val in [0; n_samples].simd_iter(){
+            
         // }
 
+        // for val in nodeids.exact_chunks_mut(self.sampleSize){
+        //    // let mut val = val;
+        //    self.rng.shuffle(&mut self.nodeids);
+        // }
+
+        for (sample, val) in nodeids.indexed_iter_mut()
+        {
+            checker = sample % nNodes; 
+            if checker == 0{
+                for i in nNodes..1{
+                   j = self.rng.gen_range(0, i);
+                   self.nodeids.swap(i, j);
+                }
+                self.rng.shuffle(&mut self.nodeids);
+                // self.nodeids.shuffle(&mut self.rng);
+            }
+            *val  =  self.nodeids[checker];
+        }
         // println!("{:?}", nodeids);
         return nodeids;
     }

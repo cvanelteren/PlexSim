@@ -230,6 +230,8 @@ cdef class Model:
 
     cpdef void checkRand(self, size_t n)
 
+    cdef void _swap_memory(self) nogil
+
 cdef class Potts(Model):
     cdef:
         double[::1] _H
