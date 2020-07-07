@@ -6,7 +6,7 @@ import numpy, multiprocessing as mp, os
 
 import re, os
 from subprocess import run
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 add = []
 compiler = 'g++'
 optFlag = '-Ofast'
@@ -14,9 +14,8 @@ cppv    = '17'
 
 flags = f'{optFlag} -march=native -std=c++{cppv} -flto '\
         '-frename-registers -funroll-loops -fno-wrapv '\
-        '-fopenmp-simd -fopenmp -D_GLIBCXX_PARALLEL -Wfatal-errors'
+        '-fopenmp-simd -fopenmp -Wno-unused-variable -Wno-unused'
 
-# flags = f'{optFlag} -march=native -std=c++{cppv} -fopenmp -fopenmp-simd'
 try:
     clangCheck = run(f"{compiler} --version".split(), capture_output= True)
     if not clangCheck.returncode and 'fs4' not in os.uname().nodename:
@@ -39,6 +38,7 @@ for (root, dirs, files) in os.walk(baseDir):
             # some cython shenanigans
             extPath  = fileName.replace(baseDir, '') # make relative
             extName  = extPath.split('.')[0].replace(os.path.sep, '.') # remove extension
+            print(extPath)
             sources  = [extPath]
             ex = Extension(extName, \
                            sources            = sources, \
@@ -57,18 +57,19 @@ print(f'{len(exts)} will be compiled')
 
 cdirectives =  dict(\
                     fast_gil         = True,\
-                    boundscheck      = False,\
                     cdivision        = True,\
+                    binding          = True,\
+                    embedsignature   = True,\
+                    boundscheck      = False,\
                     initializedcheck = False,\
                     overflowcheck    = False,\
                     nonecheck        = False,\
-                    binding          = True,\
-                    # embedsignature = True,\
                     )
 import unittest
 def TestSuite():
     test_loader = unittest.TestLoader()
-    test_suite = test_loader.discover('tests', pattern='test_*.py')
+    test_suite = test_loader.discover('plexsim/tests', pattern='test_*.py',\
+                                      top_level_dir = 'plexsim')
     return test_suite
 #with open('requirements.txt', 'r') as f:
 #    requirements = f.read().splitlines()
@@ -80,7 +81,8 @@ setup(\
       url  = "cvanelteren.github.io",\
       test_suite = "setup.TestSuite",\
       # allow pxd import
-      zip_safe         = False,\
+      # orig false
+      zip_safe         = True,\
       packages = "plexsim".split(),\
       package_data = dict(plexsim = '*.pxd'.split()),\
       ext_modules = cythonize(\
