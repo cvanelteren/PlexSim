@@ -9,8 +9,8 @@ plexsim/p11test.py
 plexsim.egg-info/PKG-INFO
 plexsim.egg-info/SOURCES.txt
 plexsim.egg-info/dependency_links.txt
+plexsim.egg-info/not-zip-safe
 plexsim.egg-info/top_level.txt
-plexsim.egg-info/zip-safe
 plexsim/tests/cy_tests.cpp
 plexsim/tests/cy_tests_memory.cpp
 plexsim/tests/test_memoryptr.cpp

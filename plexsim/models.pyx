@@ -87,7 +87,7 @@ cdef class Model:
 
         self.kNudges = kNudges
 
-        agentStates = np.asarray(agentStates, dtype = long)
+        agentStates = np.asarray(agentStates, dtype = np.double)
 
         # create adj list
         if graph:
@@ -137,7 +137,7 @@ cdef class Model:
             dict mapping = {}
             dict rmapping= {}
 
-            state_t[::1] states = np.zeros(graph.number_of_nodes(), dtype = long)
+            state_t[::1] states = np.zeros(graph.number_of_nodes(), dtype = np.double)
 
             node_id_t source, target
 
@@ -181,7 +181,7 @@ cdef class Model:
         self.rmapping    = rmapping
         self._adj        = adj
 
-        self._agentStates = np.asarray(agentStates, dtype = long).copy()
+        self._agentStates = np.asarray(agentStates, dtype = np.double).copy()
 
         self._nudges     = nudges
         self._nStates    = len(agentStates)
@@ -224,10 +224,11 @@ cdef class Model:
             return
         # TODO: check struct inits; I think there is no copying done here
         cdef node_id_t idx
-        cdef state_t state_tte
+        cdef state_t state
         cdef NodeBackup tmp
         cdef weight_t weight
         cdef int jdx = 0
+        cdef size_t agent_idx
         # check if there is a nudge
         nudge = self._nudges.find(node)
         it = self._adj[node].neighbors.begin()
@@ -255,7 +256,8 @@ cdef class Model:
                 # adjust weight
                 self._adj[node].neighbors[idx] *= self._kNudges
                 # sample uniformly
-                self._states_ptr[node] = self._agentStates[<int> self._rand() * self._nStates]
+                agent_idx = <size_t> (self._rand() * self._nStates)
+                self._states_ptr[node] = self._agentStates[idx]
         return
 
     cdef void _remove_nudge(self, node_id_t node,\
@@ -381,7 +383,7 @@ cdef class Model:
 
     cpdef np.ndarray simulate(self, size_t samples):
         cdef:
-            state_t[:, ::1] results = np.zeros((samples, self._nNodes), dtype = np.int)
+            state_t[:, ::1] results = np.zeros((samples, self._nNodes), dtype = np.double)
             # int sampleSize = 1 if self._updateType == 'single' else self._nNodes
             node_id_t[:, ::1] r = self.sampleNodes(samples)
             # vector[vector[int][sampleSize]] r = self.sampleNodes(samples)
@@ -667,12 +669,65 @@ cdef class Model:
 def rebuild(cls, kwargs):
     return cls(**kwargs)
 
+cdef class Logmap(Model):
+    def __init__(self,\
+                 graph,\
+                 double r = 1,\
+                 double alpha = 0,\
+                 agentStates = np.arange(2, dtype = np.double),\
+                 **kwargs,\
+                 ):
+        super(Logmap, self).__init__(**locals())
+        self.r = r
+        self.alpha = alpha
+
+
+    @property
+    def r(self):
+        return self._r
+    @r.setter
+    def r(self, value):
+        self._r = value 
+
+    @property
+    def alpha(self):
+        return self._alpha
+    @alpha.setter
+    def alpha(self, value):
+        self._alpha = value
+
+    cdef void _step(self, node_id_t node) nogil:
+        # determine local state
+        it = self._adj[node].neighbors.begin()
+        cdef:
+            weight_t weight
+            node_id_t neighbor
+            long double x_n = 0 
+        while it != self._adj[node].neighbors.end():
+            neighbor = deref(it).first
+            weight   = deref(it).second
+
+            x_n      += weight *  self._states_ptr[neighbor]  
+            post(it)
+        x_n = self._r * self._states_ptr[node] * (1 - self._states_ptr[node]) + self._alpha * abs(cos(x_n - self._states_ptr[node]))
+        self._states_ptr[node] = x_n
+
+        # cdef state_t newstate = self._agentStates[<size_t> (self._rand() * self._nStates)]
+        # cdef double prop =  x_n * newstate
+        # cdef double tmp = prop/(x_n * self._states_ptr[node])
+        # if self._rand() < tmp:
+        #     self._newstates_ptr[node] =  newstate
+
+        return 
+
+
+        
 
 cdef class Potts(Model):
     def __init__(self, \
                  graph,\
                  t = 1,\
-                 agentStates = np.array([0, 1], dtype = long),\
+                 agentStates = np.array([0, 1], dtype = np.double),\
                  delta       = 0, \
                  rules       = nx.Graph(),\
                  **kwargs):
@@ -689,7 +744,7 @@ cdef class Potts(Model):
                                     agentStates = agentStates,\
                                     **kwargs)
 
-        self._H = kwargs.get("H", np.zeros(self._nNodes, dtype = float))
+        self._H = kwargs.get("H", np.zeros(self._nNodes, dtype = np.double))
         self.t       = t
         self._delta  = delta
         self.constructRules(rules)
@@ -771,7 +826,7 @@ cdef class Potts(Model):
 
             double* energy = <double*> malloc(3 * sizeof(double)) 
             state_t* check = <state_t*> malloc(2 * sizeof(state_t))
-            state_t  testState
+            size_t  testState
         # draw random new state
         testState = <size_t> (self._rand() * (self._nStates ))
         # hide state for update
@@ -959,13 +1014,13 @@ cdef class Pottsis(Potts):
 
             double* energy = <double*> malloc(3 * sizeof(double)) 
             state_t* check = <state_t*> malloc(2 * sizeof(state_t))
-            state_t  testState
+            size_t  testState
         # draw random new state
         testState = <size_t> (self._rand() * (self._nStates ))
 
         # store current en proposal state
         check[0] = states[node]
-        check[1] = self._agentStates[testState]
+        # check[1] = <state_t> self._agentStates[testState]
 
         # init energies
         energy[0] = 0
@@ -1088,7 +1143,7 @@ cdef class Ising(Potts):
     def __init__(self, graph,\
                  **kwargs):
         # default override
-        kwargs['agentStates'] = np.array([0, 1], dtype = long)
+        kwargs['agentStates'] = np.array([0, 1], dtype = np.double)
         super(Ising, self).__init__(\
                                     graph = graph,\
                                     **kwargs)
@@ -1241,7 +1296,7 @@ cdef class AB(Model):
 
 cdef class SIRS(Model):
     def __init__(self, graph, \
-                 agentStates = np.array([0, 1, 2], dtype = long),\
+                 agentStates = np.array([0, 1, 2], dtype = np.double),\
                  beta = 1,\
                  mu = 1,\
                  nu = 0,\
@@ -1416,7 +1471,7 @@ cdef class RBN(Model):
 
 cdef class Percolation(Model):
     def __init__(self, graph, p = 1, \
-                 agentStates = np.array([0, 1], dtype = long), \
+                 agentStates = np.array([0, 1], dtype = np.double), \
                 **kwargs):
         super(Percolation, self).__init__(**locals())
         self.p = p
@@ -1456,7 +1511,7 @@ cdef class Bonabeau(Model):
         super(Bonabeau, self).__init__(**locals())
         self.eta = eta
 
-        self._weight = np.zeros(self.nNodes, dtype = float)
+        self._weight = np.zeros(self.nNodes, dtype = np.double)
 
     @property
     def eta(self):
@@ -1516,7 +1571,7 @@ cdef class CCA(Model):
     def __init__(self, \
                  graph,\
                  threshold = 0.,\
-                 agentStates = np.array([0, 1, 2], dtype = long),\
+                 agentStates = np.array([0, 1, 2], dtype = np.double),\
                  **kwargs):
         """
         Circular cellular automaton
