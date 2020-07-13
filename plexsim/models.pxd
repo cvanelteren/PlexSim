@@ -13,10 +13,10 @@ import cython
 from cpython cimport PyObject, Py_XINCREF, Py_XDECREF
 
 # TYPE DEFINITIONS
-ctypedef long state_t
 ctypedef size_t node_id_t
 ctypedef double weight_t
 ctypedef double nudge_t
+ctypedef double state_t
 
 # # TODO: move to structs?
 # ctypedef vector[state_t] Neighbors
@@ -231,6 +231,11 @@ cdef class Model:
     cpdef void checkRand(self, size_t n)
 
     cdef void _swap_memory(self) nogil
+
+
+cdef class Logmap(Model):
+    cdef double _r
+    cdef double _alpha
 
 cdef class Potts(Model):
     cdef:

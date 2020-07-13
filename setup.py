@@ -82,7 +82,7 @@ setup(\
       test_suite = "setup.TestSuite",\
       # allow pxd import
       # orig false
-      zip_safe         = True,\
+      zip_safe         = False,\
       packages = "plexsim".split(),\
       package_data = dict(plexsim = '*.pxd'.split()),\
       ext_modules = cythonize(\
