@@ -633,7 +633,6 @@ cdef class Model:
         """
         Spawn independent models
         """
-
         cdef:
             int tid
             SpawnVec spawn 
@@ -709,7 +708,7 @@ cdef class Logmap(Model):
 
             x_n      += weight *  self._states_ptr[neighbor]  
             post(it)
-        x_n = self._r * self._states_ptr[node] * (1 - self._states_ptr[node]) + self._alpha * abs(cos(x_n - self._states_ptr[node]))
+        x_n = self._r * self._states_ptr[node] * (1 - self._states_ptr[node]) + self._alpha * fabs(cos(x_n - self._states_ptr[node]))
         self._states_ptr[node] = x_n
 
         # cdef state_t newstate = self._agentStates[<size_t> (self._rand() * self._nStates)]
@@ -830,6 +829,13 @@ cdef class Potts(Model):
         # draw random new state
         testState = <size_t> (self._rand() * (self._nStates ))
         # hide state for update
+
+        cdef double nudge = 0
+        if self._nudges.find(node) != self._nudges.end():
+            nudge = self._nudges[node]
+
+        energy[0] = self._H[node] + nudge 
+        energy[1] = self._H[node] + nudge 
         energy[2] = self._agentStates[testState]
 
         check[0] = states[node]
@@ -887,18 +893,22 @@ cdef class Potts(Model):
             double p = exp(delta)
             double rng = self._rand()
 
-        # todo : multiple state check?
-        # boiler plate is done 
-        cdef vector[double] ps = vector[double](1, p)
-        ps = self._nudgeShift(node, ps)
-        cdef double pLower = 0
-        cdef size_t pidx
-        for pidx in range(ps.size()):
-            p = ps[pidx]
-            if pLower < rng < p or isnan(p):
-               self._newstates_ptr[node] = <state_t> energies[2]
-               break
-            pLower += p
+        if rng < p or isnan(p):
+            self._newstates_ptr[node] = <state_t> energies[2]
+
+        # # todo : multiple state check?
+        # # boiler plate is done 
+        # cdef vector[double] ps = vector[double](1, p)
+        # ps = self._nudgeShift(node, ps)
+        # cdef double pLower = 0
+        # cdef size_t pidx
+        # for pidx in range(ps.size()):
+        #     p = ps[pidx]
+        #     if pLower < rng < p or isnan(p):
+        #        self._newstates_ptr[node] = <state_t> energies[2]
+        #        break
+        #     pLower += p
+
         free(energies)
         return
 
@@ -966,7 +976,7 @@ cdef class Potts(Model):
                     tmpMod = <Model> tmptr
                     # setup simulation
                     tmpMod.t      =  temps[ni]
-                    tmpMod.states = self._agentStates[0]
+                    tmpMod.states[:] = self._agentStates[0]
 
                     # calculate phase and susceptibility
                     res = tmpMod.simulate(n)  * Z 

@@ -1,15 +1,3 @@
 * Models
-TODO:
-- [x] updated buffer method to pointer-style 
-- [x] removed 'single' and moved to sampleSize
-- [x] Async and sync buffers is clearer and only options
-- [ ] add Hebbian learning
-- [ ] add memory dynamics
-- [x] unittests potts 
-- [x] unittests ising
-- [x] unittests model
-- [ ] add a typedef for states
-* FastIsing & Potts
-- [x] Check all the class methods
-- [x] added Bornholdt model
-
+- Different structure than single number for state
+- [ ] testing   
