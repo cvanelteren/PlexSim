@@ -748,6 +748,8 @@ cdef class Potts(Model):
         self._delta  = delta
         self.constructRules(rules)
 
+
+   
     cpdef void constructRules(self, object rules):
         
         cdef:
@@ -767,6 +769,7 @@ cdef class Potts(Model):
                 tmp.first  = source;
                 tmp.second = pair[state_t, double](target, weight)
                 r.insert(tmp)
+        self.rules = rules
         self._rules = r 
         return 
 
@@ -792,6 +795,21 @@ cdef class Potts(Model):
     def t(self, value):
         self._t   = value
         self.beta = 1 / value if value != 0 else np.inf
+
+    def show_rules(self):
+        """
+        Return rules as a list
+        Python has no multimap
+        """
+
+        cdef list r = []
+        it = self._rules.begin()
+        while it != self._rules.end():
+            key = deref(it).first
+            val = deref(it).second
+            r.append((key, val))
+            post(it)
+        return r
 
 
 
@@ -859,7 +877,7 @@ cdef class Potts(Model):
                 rule = self._checkRules(proposal, states[neighbor])
                 # update using rule
                 if rule.first:
-                    update = rule.second.first
+                    update = rule.second.second
                 # normal potts
                 else:
                     update = weight * self._hamiltonian(proposal, states[neighbor])
