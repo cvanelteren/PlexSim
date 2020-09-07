@@ -217,7 +217,7 @@ public:
       for (size_t node = 0; node < nodes.size(); node++){
            this->step(nodes[node]);
        }
-        auto tmp = this->newstates;
+        nodeStates& tmp = this->newstates;
         this->swap_buffers();
         this->write = (this->write ? false : true);
         return tmp;
@@ -236,6 +236,7 @@ public:
         
         nodeids_a nodes = this->sampleNodes(nSamples);
         for (size_t samplei = 0 ; samplei < nSamples; samplei++){
+          // results[samplei] = this->updateState(nodes[samplei])
             xt::view(results, samplei) = this->updateState(xt::view(nodes, samplei));
             }
         return results;

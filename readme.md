@@ -12,7 +12,7 @@ _N.b._ this is a work in progress
 
 ## Build and run checks
 
-`pip install .`
+`python setup.py install .`
 
 alt: `sh build.sh -tv`
 

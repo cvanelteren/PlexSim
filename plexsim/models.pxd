@@ -60,23 +60,22 @@ cdef extern from "<map>" namespace "std" nogil:
         pair[iterator, bint] insert(pair[T, U])# XXX pair[T,U]&
         iterator find(T&)
         
-# cdef extern from *:
-#     """
-#     struct pair_hash {
-#         template <class T1, class T2>
-#         std::size_t operator () (const std::pair<T1,T2> &p) const {
-#             auto h1 = std::hash<T1>{}(p.first);
-#             auto h2 = std::hash<T2>{}(p.second);
-#         return h1 ^ h2;  
-#         }
-#     };
-#     """
-#     cdef cppclass pair_hash:
-#        pass
+cdef extern from *:
+    """
+    struct pair_hash {
+        template <class T1, class T2>
+        std::size_t operator () (const std::pair<T1,T2> &p) const {
+            auto h1 = std::hash<T1>{}(p.first);
+            auto h2 = std::hash<T2>{}(p.second);
+        return h1 ^ h2;  
+        }
+    };
+    """
+    cdef cppclass pair_hash[T, U]:
+       pair[T, U]& operator()
 
-    # cdef cppclass hash_unordered_map[T, U, H]:
-    #    hash_unordered_map() except+
-    #    pass
+    cdef cppclass hash_unordered_map[T, U, H]:
+       hash_unordered_map() except+
 
 # cdef extern from "<unordered_map>" using namespace "std":
 #     cdef cppclass hash_map[T, U, V]:
@@ -144,15 +143,56 @@ cdef extern from "<random>" namespace "std" nogil:
         T operator()(mt19937 gen) # ignore the possibility of using other classes for "gen"
 
 
+ctypedef double (*prob_func_t)(state_t, node_id_t) nogil
+
+cdef class MCMC:
+    # class vars
+    cdef:
+        mt19937 _gen
+        size_t _seed
+        uniform_real_distribution[double] _dist
+        double _p_recomb
+        state_t[::1] __states
+
+        Model model
+        dict __dict__
+
+    # # functions
+    # cdef double prob(self, \
+    #                  state_t state, \
+    #                  node_id_t node) nogil
+
+    cdef void recombination(self, \
+                    node_id_t[::1] nodeids,\
+                    state_t* thisState,\
+                    state_t* thatState,\
+                    ) nogil
+
+    cdef void gibbs(self,\
+                    node_id_t[::1] nodeids,\
+                    state_t* thisState,\
+                    state_t* thatState,\
+                    ) nogil
+   
+    cdef double _rand(self) nogil
+    cpdef double rand(self)
+
+    cdef void step(self, node_id_t[::1] nodeids,\
+                   state_t* current_state,\
+                   state_t* new_state,\
+                   ) nogil
+
+    cdef state_t sample_proposal(self) nogil
+
 cdef class Model:
     cdef:
         # public
 
-        state_t[::1] _states
-        state_t* _states_ptr
+        state_t[::1] __states
+        state_t* _states
 
-        state_t[::1] _newstates
-        state_t* _newstates_ptr
+        state_t[::1] __newstates
+        state_t* _newstates
 
         bint  _last_written
 
@@ -166,6 +206,7 @@ cdef class Model:
         # MemoizeMap _memoize
 
         # random sampler
+        MCMC _mcmc
         mt19937 _gen
         size_t _seed
         uniform_real_distribution[double] _dist
@@ -190,12 +231,15 @@ cdef class Model:
         double _z 
 
         dict __dict__ # allow dynamic python objects
+
     cpdef void construct(self, object graph, \
                     state_t[::1] agentStates)
 
     # Update functions
     cpdef  state_t[::1] updateState(self, node_id_t[::1] nodesToUpdate)
     cdef state_t[::1]  _updateState(self, node_id_t[::1] nodesToUpdate) nogil
+
+    cdef double probability(self, state_t state, node_id_t node) nogil
 
     cdef void _apply_nudge(self, node_id_t node,\
                             NudgesBackup* backup) nogil
@@ -254,6 +298,8 @@ cdef class Potts(Model):
     cdef void _step(self, node_id_t node) nogil
 
     cdef double*  _energy(self, node_id_t  node) nogil
+
+    cpdef np.ndarray node_energy(self, state_t[::1] states)
 
     # update function
     cdef double _hamiltonian(self, state_t x, state_t  y) nogil

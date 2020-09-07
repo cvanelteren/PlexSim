@@ -39,6 +39,135 @@ timespec, CLOCK_REALTIME
 
 # from sampler cimport Sampler # mersenne sampler
 
+# cdef from extern "MCMC.cpp":
+#     cdef class MCMC[T]:
+#         MCMC() except+
+#         MCMC(unsigned long) except+
+#         double rand();
+
+cdef class MCMC:
+    def __init__(self,\
+                 object seed,\
+                 Model model,\
+                 double p_recomb = 0):
+        """Init mersenne twister with some seed"""
+
+        self.p_recomb = p_recomb
+        self.model =  model
+
+        cdef timespec ts
+        if seed is None:
+            clock_gettime(CLOCK_REALTIME, &ts)
+            _seed = ts.tv_sec
+        elif seed >= 0 and isinstance(seed, int):
+            _seed = seed
+        else:
+            raise  ValueError("seed needs uint")
+
+        # define rng sampler
+        self._dist = uniform_real_distribution[double](0.0, 1.0)
+        self.seed = _seed
+        self._gen  = mt19937(self.seed)
+
+    @property
+    def p_recomb(self): return self._p_recomb
+
+    @p_recomb.setter
+    def p_recomb(self, value):
+        assert 0 <= value <= 1
+        self._p_recomb = value
+        print(f"recomb set to {value}")
+
+    @property
+    def seed(self): return self._seed
+    @seed.setter
+    def seed(self, value):
+        if isinstance(value, int) and value >= 0:
+            self._seed = value
+        else:
+            raise ValueError("Not an uint found")
+        self._gen   = mt19937(self.seed)
+
+    cdef state_t sample_proposal(self) nogil:
+        cdef size_t idx = <size_t>(self._rand() * self.model._nStates)
+        return self.model._agentStates[idx]
+
+    cdef void step(self, \
+                   node_id_t[::1] nodeids,\
+                   state_t* current_state,\
+                   state_t* new_state,\
+                   ) nogil:
+
+        if self._rand() < self._p_recomb:
+            self.recombination(nodeids, \
+                               current_state, \
+                               new_state,\
+                               )
+        else :
+            self.gibbs(nodeids, current_state, new_state)
+        return
+
+    cdef void gibbs(self, \
+                    node_id_t[::1] nodeids,\
+                    state_t* thisState,\
+                    state_t* thatState,\
+                    ) nogil:
+
+        cdef double p, p_prop, p_cur
+        cdef state_t currentState, proposalState
+        for idx in range(len(nodeids)):
+            currentState  = thisState[nodeids[idx]]
+            proposalState = self.sample_proposal()
+            p_prop = self.model.probability(proposalState, nodeids[idx])
+            p_cur  = self.model.probability(currentState, nodeids[idx])
+            p = p_prop / p_cur
+            # p = p_prop / (p_prop + p_cur)
+            if self._rand() < p:
+                thatState[nodeids[idx]] = proposalState
+        return
+
+    cdef void recombination(self,\
+                    node_id_t[::1] nodeids,\
+                    state_t* thisState,\
+                    state_t* thatState,\
+                    ) nogil:
+        """
+            Return shuffled state to generate a proposal
+        """
+        cdef size_t n = len(nodeids)
+
+        cdef double den, nom
+        # check all pairs of proposals
+        cdef size_t jdx, idx
+        cdef state_t state1, state2
+        for idx in range(1, n, 2):
+            # obtain random pair
+
+            idx = nodeids[idx - 1]
+            jdx = nodeids[idx]
+
+            state1 = thisState[idx]
+            state2 = thisState[jdx]
+
+            # normal state
+            den = self.model.probability(state1, idx) *\
+              self.model.probability(state2, jdx)
+
+            # swapped state
+            nom = self.model.probability(state2, idx) *\
+              self.model.probability(state1, jdx)
+
+            # reject
+            if self._rand() < nom / den:
+                thatState[idx] = state2
+                thatState[jdx] = state1
+        return
+
+    cdef double _rand(self) nogil:
+        """ Draws uniformly from 0, 1"""
+        return self._dist(self._gen)
+    cpdef double rand(self):
+        return self._rand()
 
 
 cdef class Model:
@@ -52,6 +181,7 @@ cdef class Model:
                  memorySize  = 0,\
                  kNudges     = 1,\
                  memento     = 0,
+                 p_recomb    = 0,\
                  **kwargs,\
                  ):
         """
@@ -72,18 +202,9 @@ cdef class Model:
             :memorySize: use memory dynamics (default 0)
        """
         # use current time as seed for rng
-        cdef timespec ts
-        if seed is None:
-            clock_gettime(CLOCK_REALTIME, &ts)
-            _seed = ts.tv_sec
-        elif seed >= 0 and isinstance(seed, int):
-            _seed = seed
-        else:
-            raise  ValueError("seed needs uint")
-        # define rng sampler
-        self._dist = uniform_real_distribution[double](0.0, 1.0)
-        self.seed = _seed
-        self._gen  = mt19937(self.seed)
+        #
+
+
 
         self.kNudges = kNudges
 
@@ -112,6 +233,15 @@ cdef class Model:
                 self.last_written = kwargs.get("last_written", 0)
             self._z = 1 / <double> self._nStates
 
+        self._mcmc = MCMC(\
+                         seed = seed,\
+                         model = self,
+                         p_recomb = p_recomb,\
+                         )
+    @property
+    def mcmc(self): return self._mcmc
+
+   
 
     cpdef void construct(self, object graph, state_t[::1] agentStates):
         """
@@ -191,29 +321,42 @@ cdef class Model:
         _nodeids         = np.arange(graph.number_of_nodes(), dtype = np.uintp)
         np.random.shuffle(_nodeids) # prevent initial scan-lines in grid
         self._nodeids    = _nodeids
-        self._states     = states
-        self._states_ptr = &self._states[0]
+        self.__states     = states
+        self._states = &self.__states[0]
         self._nNodes     = graph.number_of_nodes()
+
+
+    cdef double probability(self, \
+                            state_t state,  \
+                            node_id_t node\
+                            ) nogil:
+        return 0.
 
     cdef state_t[::1]  _updateState(self, node_id_t[::1] nodesToUpdate) nogil:
         cdef NudgesBackup* backup = new NudgesBackup()
         #cdef NudgesBackup backup = NudgesBackup()
-        cdef node_id_t node
+        # cdef node_id_t node
         # updating nodes
-        for node in range(nodesToUpdate.shape[0]):
-            node = nodesToUpdate[node]
-            #self._apply_nudge(node, backup)
-            self._step(node)
+        self._mcmc.step(nodesToUpdate, \
+                       self._states, \
+                       self._newstates)
+
+        #cdef node_id_t node
+        #for node in range(nodesToUpdate.shape[0]):
+        #    node = nodesToUpdate[node]
+        #    #self._apply_nudge(node, backup)
+        #    self._step(node)
             #self._remove_nudge(node, backup)
+        #     #
         # clean up
         free(backup)
         self._swap_buffers()
-        self._last_written = (self._last_written + 1) % 2 
-        # return self._newstates
+        self._last_written = (self._last_written + 1) % 2
+        # return self.__newstates
         if self._last_written == 1:
-            return self._newstates
+            return self.__newstates
         else:
-            return self._states
+            return self.__states
 
 
     cdef void _apply_nudge(self, node_id_t node,\
@@ -234,9 +377,9 @@ cdef class Model:
         it = self._adj[node].neighbors.begin()
         if nudge != self._nudges.end():
             # start nudge
-            if self._rand() < deref(nudge).second:
+            if self._mcmc._rand() < deref(nudge).second:
                 # random sampling
-                idx = <node_id_t> (self._rand() * self._adj[node].neighbors.size())
+                idx = <node_id_t> (self._mcmc._rand() * self._adj[node].neighbors.size())
                 # obtain bucket
                 it = self._adj[node].neighbors.begin()
                 while it != self._adj[node].neighbors.end():
@@ -246,7 +389,7 @@ cdef class Model:
                     jdx +=1 
                     post(it)
                 # obtain state
-                state = self._states_ptr[idx]
+                state = self._states[idx]
                 weight = self._adj[node].neighbors[idx]
                 # store backup
                 tmp.state  = state
@@ -256,8 +399,8 @@ cdef class Model:
                 # adjust weight
                 self._adj[node].neighbors[idx] *= self._kNudges
                 # sample uniformly
-                agent_idx = <size_t> (self._rand() * self._nStates)
-                self._states_ptr[node] = self._agentStates[idx]
+                agent_idx = <size_t> (self._mcmc._rand() * self._nStates)
+                self._states[node] = self._agentStates[idx]
         return
 
     cdef void _remove_nudge(self, node_id_t node,\
@@ -271,7 +414,7 @@ cdef class Model:
         it = deref(backup).begin()
         while it != deref(backup).end():
             neighbor  = deref(it).first
-            self._states_ptr[neighbor] = deref(it).second.state
+            self._states[neighbor] = deref(it).second.state
             self._adj[node].neighbors[neighbor] = deref(it).second.weight
             post(it)
         deref(backup).clear()
@@ -296,7 +439,7 @@ cdef class Model:
         for mi in range(0, self._memorySize):
             if mi == 0:
                 for node in range(self._nNodes):
-                    self._memory[mi, node] = self._states_ptr[node]
+                    self._memory[mi, node] = self._states[node]
             else:
                 self._memory[mi] = self._memory[mi - 1]
         return
@@ -307,7 +450,7 @@ cdef class Model:
         Update state buffers
         This function is intended to allow for custom buffers update
         """
-        swap(self._states_ptr, self._newstates_ptr)
+        swap(self._states, self._newstates)
         # default also swap the memory buffer if exists
         self._swap_memory()
         return
@@ -323,6 +466,7 @@ cdef class Model:
         return
 
     cdef double _rand(self) nogil:
+        # return self._mcmc.rand()
         return self._dist(self._gen)
     
     cpdef node_id_t[:, ::1] sampleNodes(self, size_t nSamples):
@@ -359,7 +503,7 @@ cdef class Model:
                 # fisher-yates swap
                 for i in range(self._nNodes - 1, 1):
                     # shuffle the array without replacement
-                    j                 = <size_t> (self._rand() * i)
+                    j                 = <size_t> (self._mcmc._rand() * i)
                     swap(nodeids[i], nodeids[j])
                     if sampleSize == 1:
                         break
@@ -390,9 +534,9 @@ cdef class Model:
             int i
 
         if self.last_written:
-            results[0] = self._states
+            results[0] = self.__states
         else:
-            results[0] = self._newstates
+            results[0] = self.__newstates
         for i in range(1, samples):
             results[i] = self._updateState(r[i])
         return results.base # convert back to normal array
@@ -470,9 +614,9 @@ cdef class Model:
     @property
     def states(self)    :
         if self.last_written:
-            return self._newstates.base
+            return self.__newstates.base
         else:
-            return self._states.base
+            return self.__states.base
     
     @property
     def updateType(self): return self._updateType
@@ -492,8 +636,6 @@ cdef class Model:
     @property
     def nStates(self)   : return self._nStates
 
-    @property
-    def seed(self)      : return self._seed
 
     @property
     def sampleSize(self): return self._sampleSize
@@ -501,19 +643,12 @@ cdef class Model:
     @property
     def newstates(self) :
         if self.last_written:
-            return self._states.base
+            return self.__states.base
         else:
-            return self._newstates.base
+            return self.__newstates.base
 
 
 
-    @seed.setter
-    def seed(self, value):
-        if isinstance(value, int) and value >= 0:
-            self._seed = value
-        else:
-            raise ValueError("Not an uint found")
-        self._gen   = mt19937(self.seed)
     # TODO: reset all after new?
     @nudges.setter
     def nudges(self, vals):
@@ -555,23 +690,23 @@ cdef class Model:
         # allow for mutation if async else independent updates
         if value == "async":
             # set pointers to the same thing
-            self._newstates_ptr = self._states_ptr
-            # assign  buffers to the same address
             self._newstates = self._states
+            # assign  buffers to the same address
+            self.__newstates = self.__states
             # sanity check
-            assert self._states_ptr == self._newstates_ptr
-            assert id(self._states.base) == id(self._newstates.base)
+            assert self._states == self._newstates
+            assert id(self.__states.base) == id(self.__newstates.base)
         # reset buffer pointers
         elif value == "sync":
             # obtain a new memory address
-            self._newstates = self._states.base.copy()
-            assert id(self._newstates.base) != id(self._states.base)
+            self.__newstates = self.__states.base.copy()
+            assert id(self.__newstates.base) != id(self.__states.base)
             # sanity check pointers (maybe swapped!)
-            self._states_ptr   = &self._states[0]
-            self._newstates_ptr = &self._newstates[0]
+            self._states   = &self.__states[0]
+            self._newstates = &self.__newstates[0]
             # test memory addresses
-            assert self._states_ptr != self._newstates_ptr
-            assert id(self._newstates.base) != id(self._states.base)
+            assert self._states != self._newstates
+            assert id(self.__newstates.base) != id(self.__states.base)
         self.last_written = 0
 
     @sampleSize.setter
@@ -597,28 +732,24 @@ cdef class Model:
 
     @states.setter # TODO: expand
     def states(self, value):
-        if isinstance(value, int):
+        if not hasattr(value, '__iter__'):
             for node in range(self._nNodes):
-                self._states_ptr[node] = value
+                self._states[node] = <state_t> value
         elif isinstance(value, dict):
             for k, v in value.items():
                 idx = self.mapping[k]
-                self._states_ptr[idx] = v
+                self._states[idx] = v
         # assume iterable
         else:
             for i in range(self._nNodes):
-                self._states_ptr[i] = value[i]
-                self._newstates_ptr[i] = value[i]
-
-
-                #TODO: edit or remove this
+                self._states[i]    = <state_t> value[i]
+                self._newstates[i] = <state_t> value[i]
     def get_settings(self):
         kwargs = {}
         for k in dir(self):
             atr = getattr(self, k)
             if not callable(atr) and not k.startswith('_'):
                 kwargs[k] = atr
-
         return kwargs
 
     def __reduce__(self):
@@ -662,7 +793,7 @@ cdef class Model:
         cdef int i
         with nogil:
             for i in range(N):
-                self._rand()
+                self._mcmc._rand()
         return
 
 def rebuild(cls, kwargs):
@@ -706,16 +837,16 @@ cdef class Logmap(Model):
             neighbor = deref(it).first
             weight   = deref(it).second
 
-            x_n      += weight *  self._states_ptr[neighbor]  
+            x_n      += weight *  self._states[neighbor]
             post(it)
-        x_n = self._r * self._states_ptr[node] * (1 - self._states_ptr[node]) + self._alpha * fabs(cos(x_n - self._states_ptr[node]))
-        self._states_ptr[node] = x_n
+        x_n = self._r * self._states[node] * (1 - self._states[node]) + self._alpha * fabs(cos(x_n - self._states[node]))
+        self._states[node] = x_n
 
-        # cdef state_t newstate = self._agentStates[<size_t> (self._rand() * self._nStates)]
+        # cdef state_t newstate = self._agentStates[<size_t> (self._mcmc._rand() * self._nStates)]
         # cdef double prop =  x_n * newstate
-        # cdef double tmp = prop/(x_n * self._states_ptr[node])
-        # if self._rand() < tmp:
-        #     self._newstates_ptr[node] =  newstate
+        # cdef double tmp = prop/(x_n * self._states[node])
+        # if self._mcmc._rand() < tmp:
+        #     self._newstates[node] =  newstate
 
         return 
 
@@ -751,7 +882,6 @@ cdef class Potts(Model):
 
    
     cpdef void constructRules(self, object rules):
-        
         cdef:
              multimap[state_t, pair[ state_t, double ]] r
              dict nl = nx.node_link_data(rules)
@@ -812,22 +942,44 @@ cdef class Potts(Model):
         return r
 
 
+    cpdef np.ndarray node_energy(self, state_t[::1] states):
+        cdef:
+            np.ndarray energies = np.zeros(self._nNodes)
+            state_t* ptr = self._states
+
+            state_t current, state
+            double energy, store 
+
+        self._states = &states[0]
+        for node in range(self._nNodes):
+            current = self._states[node]
+            for state in self._agentStates:
+                self._states[node] = state
+                energy = exp(- self._beta * \
+                             self._energy(node)[0])
+                if state == current:
+                    store = energy
+                energies[node] += energy
+            energies[node] = store / energies[node]
+            self._states = ptr
+        return energies
+
 
     cpdef vector[double] siteEnergy(self, state_t[::1] states):
         cdef:
             vector[double] siteEnergy = vector[double](self._nNodes)
             int node
             double Z, energy
-            state_t* ptr = self._states_ptr
+            state_t* ptr = self._states
         # reset pointer to current state
-        self._states_ptr = &states[0]
+        self._states = &states[0]
         energy = 0
         for node in range(self._nNodes):
-            Z = <double> self._adj[node].neighbors.size()
-            energy = - self._energy(node)[0] / Z # just average
+            # Z = <double> self._adj[node].neighbors.size()
+            energy = - self._energy(node)[0] # just average
             siteEnergy[node] = energy
         # reset pointer to original buffer
-        self._states_ptr = ptr
+        self._states = ptr
         return siteEnergy
 
 
@@ -837,7 +989,7 @@ cdef class Potts(Model):
         """
         cdef:
             size_t neighbors = self._adj[node].neighbors.size()
-            state_t* states = self._states_ptr # alias
+            state_t* states = self._states # alias
             size_t  neighbor, neighboridx
             double weight # TODO: remove delta
 
@@ -845,7 +997,7 @@ cdef class Potts(Model):
             state_t* check = <state_t*> malloc(2 * sizeof(state_t))
             size_t  testState
         # draw random new state
-        testState = <size_t> (self._rand() * (self._nStates ))
+        testState = <size_t> (self._mcmc._rand() * self._nStates )
         # hide state for update
 
         cdef double nudge = 0
@@ -902,17 +1054,30 @@ cdef class Potts(Model):
         return energy
 
 
-    cdef void _step(self, node_id_t node) nogil:
+
+    cdef double probability(self, state_t state, node_id_t node) nogil:
+
+        cdef state_t tmp = self._states[node]
+        self._states[node] = state
         cdef:
+            double* energies = self._energy(node)
+            double p = exp(self._beta * energies[0])
+
+        self._states[node] = tmp
+        free(energies)
+        return p
+
+    cdef void _step(self, node_id_t node) nogil:
             # vector[double] energies = self._energy(node)
+        cdef:
             double* energies = self._energy(node)
             double delta     = self._beta * (energies[1] - energies[0])
-            
+
             double p = exp(delta)
-            double rng = self._rand()
+            double rng = self._mcmc._rand()
 
         if rng < p or isnan(p):
-            self._newstates_ptr[node] = <state_t> energies[2]
+            self._newstates[node] = <state_t> energies[2]
 
         # # todo : multiple state check?
         # # boiler plate is done 
@@ -923,7 +1088,7 @@ cdef class Potts(Model):
         # for pidx in range(ps.size()):
         #     p = ps[pidx]
         #     if pLower < rng < p or isnan(p):
-        #        self._newstates_ptr[node] = <state_t> energies[2]
+        #        self._newstates[node] = <state_t> energies[2]
         #        break
         #     pLower += p
 
@@ -982,11 +1147,10 @@ cdef class Potts(Model):
 
             print("Magnetizing temperatures")
             pbar = ProgBar(N)
-
-            cdef double phase
-            for ni in prange(N, nogil = 1,\
-                             num_threads =  threads,\
-                             schedule = 'static'):
+            for ni in prange(N, \
+                    nogil       = True,\
+                    num_threads =  threads,\
+                    schedule    = 'static'):
                 tid = threadid()
                 # get model
                 tmptr = tmpHolder[tid].ptr
@@ -994,8 +1158,7 @@ cdef class Potts(Model):
                     tmpMod = <Model> tmptr
                     # setup simulation
                     tmpMod.t      =  temps[ni]
-                    tmpMod.states[:] = self._agentStates[0]
-
+                    tmpMod.states[:] = tmpMod.agentStates[0]
                     # calculate phase and susceptibility
                     res = tmpMod.simulate(n)  * Z 
                     phase = np.real(np.exp(2 * np.pi * np.complex(0, 1) * res)).mean()
@@ -1030,13 +1193,13 @@ cdef class Pottsis(Potts):
         self.eta = eta
         self.beta = beta
 
-
+  
     cdef double* _energy(self, node_id_t node) nogil:
         """
         """
         cdef:
             size_t neighbors = self._adj[node].neighbors.size()
-            state_t* states = self._states_ptr # alias
+            state_t* states = self._states # alias
             size_t  neighbor, neighboridx
             double weight # TODO: remove delta
 
@@ -1044,7 +1207,7 @@ cdef class Pottsis(Potts):
             state_t* check = <state_t*> malloc(2 * sizeof(state_t))
             size_t  testState
         # draw random new state
-        testState = <size_t> (self._rand() * (self._nStates ))
+        testState = <size_t> (self._mcmc._rand() * (self._nStates ))
 
         # store current en proposal state
         check[0] = states[node]
@@ -1086,9 +1249,6 @@ cdef class Pottsis(Potts):
             energy[1] += update
 
             post(it)
-
-        
-
         # prob of staying the same
         cdef double fx = (1 - self._eta)**energy[0]
         energy[0] =(check[0] - 1) * ( (check[0] * 2 - 1) * fx - check[0]) + check[0] * (- 2 * check[0] * self._mu + check[0] + self._mu)
@@ -1151,7 +1311,7 @@ cdef class Pottsis(Potts):
             double delta     = energies[1] - energies[0]
 
             double p = exp(self._beta * delta)
-            double rng = self._rand()
+            double rng = self._mcmc._rand()
 
         # todo : multiple state check?
         # boiler plate is done 
@@ -1161,8 +1321,8 @@ cdef class Pottsis(Potts):
         cdef size_t pidx
 
         if rng < p:
-            # self._newstates_ptr[node] = (self._states[node] + 1) % self._nStates 
-            self._newstates_ptr[node] = <state_t> energies[2]
+            # self._newstates[node] = (self.__states[node] + 1) % self._nStates
+            self._newstates[node] = <state_t> energies[2]
         free(energies)
         return
 
@@ -1235,18 +1395,18 @@ cdef class Bornholdt(Ising):
             double p
             double systemInfluence = self._alpha * deref(self._system_mag_ptr)
         energies = self._energy(node)
-        delta = energies[0] * self._states_ptr[node] - self._states_ptr[node] * systemInfluence
+        delta = energies[0] * self._states[node] - self._states[node] * systemInfluence
         p = exp(self._beta * delta)
         # p = 1 / ( 1. + exp( -2 * self._beta * delta))
 
-        if self._rand() < p :
-            self._newstates_ptr[node] = <state_t> energies[2]
+        if self._mcmc._rand() < p :
+            self._newstates[node] = <state_t> energies[2]
             self._newsystem_mag_ptr[0] += 2 * (energies[2] / <double> self._nNodes)
         free(energies)
         return
 
     cdef void _swap_buffers(self) nogil:
-         swap(self._states_ptr, self._newstates_ptr)
+         swap(self._states, self._newstates)
          swap(self._system_mag_ptr, self._newsystem_mag_ptr)
          return
 
@@ -1262,7 +1422,7 @@ cdef class AB(Model):
     cdef void _step(self, node_id_t node) nogil:
         cdef Neighbors tmp = self._adj[node].neighbors
         # random interact with a neighbor
-        cdef size_t idx = <size_t> (self._rand() * (tmp.size() - 1))
+        cdef size_t idx = <size_t> (self._mcmc._rand() * (tmp.size() - 1))
 
         # work around for counter access
         it = tmp.begin()
@@ -1275,8 +1435,8 @@ cdef class AB(Model):
 
         cdef node_id_t neighbor = deref(it).first
 
-        cdef state_t thisState = self._states_ptr[node]
-        cdef state_t thatState = self._states_ptr[neighbor]
+        cdef state_t thisState = self._states[node]
+        cdef state_t thatState = self._states[neighbor]
 
         # if not AB
         if thisState != 1:
@@ -1286,33 +1446,33 @@ cdef class AB(Model):
                 # CASE A
                 if thisState == 0:
                     if thatState == 2:
-                        self._newstates_ptr[neighbor] = 1
+                        self._newstates[neighbor] = 1
                     else:
-                        self._newstates_ptr[neighbor] = 0
+                        self._newstates[neighbor] = 0
                 # CASE B
                 if thisState == 2:
                     if thatState == 1:
-                        self._newstates_ptr[neighbor] = 2
+                        self._newstates[neighbor] = 2
                     else:
-                        self._newstates_ptr[neighbor] = 1
+                        self._newstates[neighbor] = 1
         # CASE AB
         else:
             # communicate A
-            if self._rand() < .5:
+            if self._mcmc._rand() < .5:
                 if thatState == 1:
-                    self._newstates_ptr[neighbor] = 0
-                    self._newstates_ptr[node] = 0
+                    self._newstates[neighbor] = 0
+                    self._newstates[node] = 0
                 elif thatState == 2:
-                    self._newstates_ptr[neighbor] = 1
+                    self._newstates[neighbor] = 1
             # communicate B
             else:
                 if thatState == 1:
-                    self._newstates_ptr[node] = 2
-                    self._newstates_ptr[neighbor] = 2
+                    self._newstates[node] = 2
+                    self._newstates[neighbor] = 2
                 elif thatState == 0:
-                    self._newstates_ptr[neighbor] = 1
+                    self._newstates[neighbor] = 1
         if self._zealots[neighbor]:
-            self._newstates_ptr[neighbor] = thatState
+            self._newstates[neighbor] = thatState
         return
 
 
@@ -1411,33 +1571,33 @@ cdef class SIRS(Model):
             post(it)
             # sick
             if self._states[neighbor] == 1:
-                infectionRate += neighborWeight * self._states_ptr[neighbor]
+                infectionRate += neighborWeight * self._states[neighbor]
             # NOTE: abs weights?
             ZZ += neighborWeight
         return infectionRate * self._beta / ZZ
 
     cdef void _step(self, node_id_t node) nogil:
         cdef:
-            float rng = self._rand()
+            float rng = self._mcmc._rand()
         # HEALTHY state 
-        if self._states_ptr[node] == 0:
+        if self._states[node] == 0:
             # infect
             if rng  < self._checkNeighbors(node):
-                self._newstates_ptr[node] = 1
+                self._newstates[node] = 1
         # SICK state
-        elif self._states_ptr[node] == 1:
-            if self._rand() < .5:
+        elif self._states[node] == 1:
+            if self._mcmc._rand() < .5:
                 if rng < self._mu:
-                    self._newstates_ptr[node] = 2
+                    self._newstates[node] = 2
             else:
                 if rng < self._nu:
-                    self._newstates_ptr[node] = 0
+                    self._newstates[node] = 0
         # SIRS motive
-        elif self._states_ptr[node] == 2:
+        elif self._states[node] == 2:
             if rng < self._kappa:
-                self._newstates_ptr[node] = 0
+                self._newstates[node] = 0
         else:
-            self._newstates_ptr[node] = self._states_ptr[node]
+            self._newstates[node] = self._states[node]
         # add SIRS dynamic?
         return
 
@@ -1446,8 +1606,8 @@ cdef class SIRS(Model):
        if node:
            idx = self.mapping[node]
        else:
-           idx = <size_t> (self._rand() * self._nNodes)
-       self._states[idx] = 1
+           idx = <size_t> (self._mcmc._rand() * self._nNodes)
+       self.__states[idx] = 1
 
 
 cdef class RBN(Model):
@@ -1485,13 +1645,13 @@ cdef class RBN(Model):
            long N = self._adj[node].neighbors.size()
        it = self._adj[node].neighbors.begin()
        while it != self._adj[node].neighbors.end():
-           if self._states_ptr[deref(it).first] == 1:
+           if self._states[deref(it).first] == 1:
                counter += 2 ** c
            c += 1
            post(it)
 
         #update
-       self._newstates_ptr[node] = self._rules[node][counter]
+       self._newstates[node] = self._rules[node][counter]
        return
 
 
@@ -1515,12 +1675,12 @@ cdef class Percolation(Model):
     cdef void _step(self, node_id_t node) nogil:
         cdef:
             long neighbor
-        if self._states_ptr[node]:
+        if self._states[node]:
             it = self._adj[node].neighbors.begin()
             while it != self._adj[node].neighbors.end():
-                if self._rand() < self._p:
+                if self._mcmc._rand() < self._p:
                     neighbor = deref(it).first
-                    self._newstates_ptr[neighbor] = 1
+                    self._newstates[neighbor] = 1
                 post(it)
         return 
 
@@ -1559,11 +1719,11 @@ cdef class Bonabeau(Model):
 
         # if other agent present fight with hamiltonian
 
-        cdef state_t thisState = self._states_ptr[node]
+        cdef state_t thisState = self._states[node]
         if thisState == 0:
             return
 
-        cdef size_t idx = <size_t> (self._rand() * self._adj[node].neighbors.size())
+        cdef size_t idx = <size_t> (self._mcmc._rand() * self._adj[node].neighbors.size())
         neighbor = self._adj[node].neighbors.begin()
         for i in range(idx):
             if i == idx:
@@ -1572,15 +1732,15 @@ cdef class Bonabeau(Model):
 
         cdef:
             node_id_t neighborPosition = deref(neighbor).first
-            state_t thatState     = self._states_ptr[neighborPosition]
+            state_t thatState     = self._states[neighborPosition]
             double p
         if thatState:
             p = self._hamiltonian(self._weight[node], self._weight[neighborPosition])
             # won fight
-            if self._rand() < p:
+            if self._mcmc._rand() < p:
                 # swap position
-                self._newstates_ptr[node] = thatState
-                self._newstates_ptr[neighborPosition] = thisState
+                self._newstates[node] = thatState
+                self._newstates[neighborPosition] = thisState
 
                 self._weight[node] += 1
                 self._weight[neighborPosition] -= 1
@@ -1588,8 +1748,8 @@ cdef class Bonabeau(Model):
                 self._weight[node] -= 1
                 self._weight[neighborPosition] += 1
         else:
-            self._newstates_ptr[neighborPosition] = thisState
-            self._newstates_ptr[node]             = thatState
+            self._newstates[neighborPosition] = thisState
+            self._newstates[node]             = thatState
         return
     cdef double _hamiltonian(self, double x, double y) nogil:
          return <double>(1 + exp(-self._eta * (x - y)))**(-1)
@@ -1628,7 +1788,7 @@ cdef class CCA(Model):
             long nNeighbors = self._adj[node].neighbors.size()
             int i
             double fraction = 0
-            state_t* states = self._states_ptr
+            state_t* states = self._states
         # check neighbors and see if they exceed threshold
         it = self._adj[node].neighbors.begin()
         while it != self._adj[node].neighbors.end():
@@ -1637,11 +1797,11 @@ cdef class CCA(Model):
                 fraction += 1
             post(it)
         if (fraction / <double> nNeighbors >= self._threshold):
-            self._newstates_ptr[node] = ((states[node] + 1 ) % self._nStates)
+            self._newstates[node] = ((states[node] + 1 ) % self._nStates)
         else:
-            if self._rand() <= self._threshold:
-                i = <int> (self._rand() * self._nStates)
-                self._newstates_ptr[node] = self._agentStates[i]
+            if self._mcmc._rand() <= self._threshold:
+                i = <int> (self._mcmc._rand() * self._nStates)
+                self._newstates[node] = self._agentStates[i]
         return 
     cdef void _step(self, node_id_t node) nogil:
         self._evolve(node)
