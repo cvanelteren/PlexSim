@@ -48,12 +48,10 @@ timespec, CLOCK_REALTIME
 cdef class MCMC:
     def __init__(self,\
                  object seed,\
-                 Model model,\
                  double p_recomb = 0):
         """Init mersenne twister with some seed"""
 
         self.p_recomb = p_recomb
-        self.model =  model
 
         cdef timespec ts
         if seed is None:
@@ -76,7 +74,7 @@ cdef class MCMC:
     def p_recomb(self, value):
         assert 0 <= value <= 1
         self._p_recomb = value
-        print(f"recomb set to {value}")
+        # print(f"recomb set to {value}")
 
     @property
     def seed(self): return self._seed
@@ -88,48 +86,44 @@ cdef class MCMC:
             raise ValueError("Not an uint found")
         self._gen   = mt19937(self.seed)
 
-    cdef state_t sample_proposal(self) nogil:
-        cdef size_t idx = <size_t>(self._rand() * self.model._nStates)
-        return self.model._agentStates[idx]
+    cdef state_t sample_proposal(self, PyObject* ptr) nogil:
+        cdef size_t idx = <size_t>(self._rand() * (<Model> ptr)._nStates)
+        return (<Model> ptr)._agentStates[idx]
 
     cdef void step(self, \
                    node_id_t[::1] nodeids,\
-                   state_t* current_state,\
-                   state_t* new_state,\
+                   PyObject* ptr,\
                    ) nogil:
 
         if self._rand() < self._p_recomb:
             self.recombination(nodeids, \
-                               current_state, \
-                               new_state,\
+                               ptr
                                )
         else :
-            self.gibbs(nodeids, current_state, new_state)
+            self.gibbs(nodeids, ptr)
         return
 
     cdef void gibbs(self, \
                     node_id_t[::1] nodeids,\
-                    state_t* thisState,\
-                    state_t* thatState,\
+                    PyObject* ptr,\
                     ) nogil:
 
         cdef double p, p_prop, p_cur
         cdef state_t currentState, proposalState
         for idx in range(len(nodeids)):
-            currentState  = thisState[nodeids[idx]]
-            proposalState = self.sample_proposal()
-            p_prop = self.model.probability(proposalState, nodeids[idx])
-            p_cur  = self.model.probability(currentState, nodeids[idx])
+            currentState  = (<Model> ptr)._states[nodeids[idx]]
+            proposalState = self.sample_proposal(ptr)
+            p_prop = (<Model> ptr).probability(proposalState, nodeids[idx])
+            p_cur  = (<Model> ptr).probability(currentState, nodeids[idx])
             p = p_prop / p_cur
             # p = p_prop / (p_prop + p_cur)
             if self._rand() < p:
-                thatState[nodeids[idx]] = proposalState
+                (<Model> ptr)._newstates[nodeids[idx]] = proposalState
         return
 
     cdef void recombination(self,\
                     node_id_t[::1] nodeids,\
-                    state_t* thisState,\
-                    state_t* thatState,\
+                    PyObject* ptr,\
                     ) nogil:
         """
             Return shuffled state to generate a proposal
@@ -146,28 +140,90 @@ cdef class MCMC:
             idx = nodeids[idx - 1]
             jdx = nodeids[idx]
 
-            state1 = thisState[idx]
-            state2 = thisState[jdx]
+
+            state1 = (<Model> ptr)._states[idx]
+            state2 = (<Model> ptr)._states[jdx]
 
             # normal state
-            den = self.model.probability(state1, idx) *\
-              self.model.probability(state2, jdx)
+            den = (<Model> ptr).probability(state1, idx) *\
+              (<Model> ptr).probability(state2, jdx)
 
             # swapped state
-            nom = self.model.probability(state2, idx) *\
-              self.model.probability(state1, jdx)
+            nom = (<Model> ptr).probability(state2, idx) *\
+              (<Model> ptr).probability(state1, jdx)
 
-            # reject
+            # accept
             if self._rand() < nom / den:
-                thatState[idx] = state2
-                thatState[jdx] = state1
+                (<Model> ptr)._newstates[idx] = state2
+                (<Model> ptr)._newstates[jdx] = state1
         return
+
+    cpdef double rand(self):
+        return self._rand()
 
     cdef double _rand(self) nogil:
         """ Draws uniformly from 0, 1"""
         return self._dist(self._gen)
-    cpdef double rand(self):
-        return self._rand()
+
+
+
+cdef class Rules:
+    def __init__(self, object rules):
+        self.construct_rules(rules)
+
+    cpdef void construct_rules(self, object rules):
+        cdef:
+             # output
+             multimap[state_t, pair[ state_t, double ]] r
+             # var decl.
+             pair[state_t, pair[state_t, double]] tmp
+             double weight
+             dict nl = nx.node_link_data(rules)
+             state_t source, target
+
+        for link in nl['links']:
+            weight = link.get('weight', 1)
+            source = link.get('source')
+            target = link.get('target')
+            tmp.first = target
+            tmp.second = pair[state_t, double](source, weight)
+            r.insert(tmp)
+            if not nl['directed'] and source != target:
+                tmp.first  = source;
+                tmp.second = pair[state_t, double](target, weight)
+                r.insert(tmp)
+        self._rules = r
+        return
+
+    @property
+    def rules(self):
+        """
+        Return rules as a list
+        Python has no multimap
+        """
+
+        cdef list r = []
+        it = self._rules.begin()
+        while it != self._rules.end():
+            key = deref(it).first
+            val = deref(it).second
+            r.append((key, val))
+            post(it)
+        return r
+
+
+
+    cdef rule_t _check_rules(self, state_t x, state_t y) nogil:
+
+        it = self._rules.find(x)
+        cdef rule_t tmp
+        while it != self._rules.end():
+            if deref(it).second.first == y:
+                tmp.first = True
+                tmp.second = deref(it).second
+                return tmp
+            post(it)
+        return tmp
 
 
 cdef class Model:
@@ -182,6 +238,7 @@ cdef class Model:
                  kNudges     = 1,\
                  memento     = 0,
                  p_recomb    = 0,\
+                 rules       = nx.Graph(),\
                  **kwargs,\
                  ):
         """
@@ -235,13 +292,14 @@ cdef class Model:
 
         self._mcmc = MCMC(\
                          seed = seed,\
-                         model = self,
                          p_recomb = p_recomb,\
                          )
+        self._rules = Rules(rules)
+
     @property
     def mcmc(self): return self._mcmc
 
-   
+
 
     cpdef void construct(self, object graph, state_t[::1] agentStates):
         """
@@ -337,17 +395,21 @@ cdef class Model:
         #cdef NudgesBackup backup = NudgesBackup()
         # cdef node_id_t node
         # updating nodes
-        self._mcmc.step(nodesToUpdate, \
-                       self._states, \
-                       self._newstates)
+        # self._mcmc.step(nodesToUpdate, \
+                       # self._states, \
+                       # self._newstates)
 
-        #cdef node_id_t node
-        #for node in range(nodesToUpdate.shape[0]):
+        self._mcmc.step(nodesToUpdate,\
+                       <PyObject *> self)
+
+        # cdef node_id_t node
+        # for node in range(nodesToUpdate.shape[0]):
         #    node = nodesToUpdate[node]
         #    #self._apply_nudge(node, backup)
         #    self._step(node)
-            #self._remove_nudge(node, backup)
-        #     #
+        #     #self._remove_nudge(node, backup)
+
+
         # clean up
         free(backup)
         self._swap_buffers()
@@ -465,10 +527,7 @@ cdef class Model:
     cdef void _step(self, node_id_t node) nogil:
         return
 
-    cdef double _rand(self) nogil:
-        # return self._mcmc.rand()
-        return self._dist(self._gen)
-    
+   
     cpdef node_id_t[:, ::1] sampleNodes(self, size_t nSamples):
         return self._sampleNodes(nSamples)
 
@@ -537,6 +596,7 @@ cdef class Model:
             results[0] = self.__states
         else:
             results[0] = self.__newstates
+
         for i in range(1, samples):
             results[i] = self._updateState(r[i])
         return results.base # convert back to normal array
@@ -732,18 +792,22 @@ cdef class Model:
 
     @states.setter # TODO: expand
     def states(self, value):
-        if not hasattr(value, '__iter__'):
+        # case iterable
+        if hasattr(value, '__iter__'):
+            for i in range(self._nNodes):
+                # case dict
+                if hasattr(value, 'get'):
+                    val = <state_t> value.get(self.rmapping[i])
+                # case iterable
+                else:
+                    val = <state_t> value[i]
+                self._states[i]    = val
+                self._newstates[i] = val
+        # case value
+        else:
             for node in range(self._nNodes):
                 self._states[node] = <state_t> value
-        elif isinstance(value, dict):
-            for k, v in value.items():
-                idx = self.mapping[k]
-                self._states[idx] = v
-        # assume iterable
-        else:
-            for i in range(self._nNodes):
-                self._states[i]    = <state_t> value[i]
-                self._newstates[i] = <state_t> value[i]
+
     def get_settings(self):
         kwargs = {}
         for k in dir(self):
@@ -859,7 +923,6 @@ cdef class Potts(Model):
                  t = 1,\
                  agentStates = np.array([0, 1], dtype = np.double),\
                  delta       = 0, \
-                 rules       = nx.Graph(),\
                  **kwargs):
         """
         Potts model
@@ -877,32 +940,6 @@ cdef class Potts(Model):
         self._H = kwargs.get("H", np.zeros(self._nNodes, dtype = np.double))
         self.t       = t
         self._delta  = delta
-        self.constructRules(rules)
-
-
-   
-    cpdef void constructRules(self, object rules):
-        cdef:
-             multimap[state_t, pair[ state_t, double ]] r
-             dict nl = nx.node_link_data(rules)
-             state_t source, target
-             pair[state_t, pair[state_t, double]] tmp
-             double weight
-        for link in nl['links']:
-            weight = link.get('weight', 1)
-            source = link.get('source')
-            target = link.get('target')
-            tmp.first = target
-            tmp.second = pair[state_t, double](source, weight)
-            r.insert(tmp)
-            if not nl['directed'] and source != target:
-                tmp.first  = source;
-                tmp.second = pair[state_t, double](target, weight)
-                r.insert(tmp)
-        self.rules = rules
-        self._rules = r 
-        return 
-
 
     @property
     def delta(self): return self._delta
@@ -925,21 +962,6 @@ cdef class Potts(Model):
     def t(self, value):
         self._t   = value
         self.beta = 1 / value if value != 0 else np.inf
-
-    def show_rules(self):
-        """
-        Return rules as a list
-        Python has no multimap
-        """
-
-        cdef list r = []
-        it = self._rules.begin()
-        while it != self._rules.end():
-            key = deref(it).first
-            val = deref(it).second
-            r.append((key, val))
-            post(it)
-        return r
 
 
     cpdef np.ndarray node_energy(self, state_t[::1] states):
@@ -984,6 +1006,7 @@ cdef class Potts(Model):
 
 
     # cdef vector[double] _energy(self, node_id_t node) nogil:
+
     cdef double* _energy(self, node_id_t node) nogil:
         """
         """
@@ -1026,7 +1049,7 @@ cdef class Potts(Model):
             # check rules
             for idx in range(2):
                 proposal = check[idx]
-                rule = self._checkRules(proposal, states[neighbor])
+                rule = self._rules._check_rules(proposal, states[neighbor])
                 # update using rule
                 if rule.first:
                     update = rule.second.second
@@ -1095,17 +1118,6 @@ cdef class Potts(Model):
         free(energies)
         return
 
-    cdef pair[bint, pair[state_t,  double]] _checkRules(self, state_t x, state_t y) nogil:
-    
-        it = self._rules.find(x)
-        cdef pair[bint, pair[state_t, double]] tmp 
-        while it != self._rules.end():
-            if deref(it).second.first == y:
-                tmp.first = True
-                tmp.second = deref(it).second
-                return tmp
-            post(it)
-        return tmp
 
     cdef double _hamiltonian(self, state_t x, state_t  y) nogil:
         return cos(2 * pi  * ( x - y ) * self._z)
@@ -1232,7 +1244,7 @@ cdef class Pottsis(Potts):
             weight   = deref(it).second
             neighbor = deref(it).first
             # check rules
-            rule = self._checkRules(proposal, states[neighbor])
+            rule = self._rules._check_rules(proposal, states[neighbor])
             # update using rule
             if rule.first:
                 update = rule.second.first
@@ -1276,6 +1288,25 @@ cdef class Pottsis(Potts):
 
         return energy
     
+    # this is currently not correct,
+    # x, y here need to be the future and current state
+    # This model is different from the traditional potts
+    # The state being considered is not 1, 1 but in this case 2,2
+    # Need a way to solve this problem
+    # cdef double _hamiltonian(self, state_t x, state_t y, double sum) nogil
+    cdef double _hamiltonian(self, state_t x, state_t y) nogil:
+        cdef double fx = (1 - self._eta)**x
+        return log((x - 1) * ((2 * y - 1)) * fx)
+
+    cdef double probability(self, state_t state, node_id_t node) nogil:
+        cdef state_t tmp = self._states[node]
+        self._states[node] = state
+        cdef:
+            double* energies = self._energy(node)
+            double p = exp(self._beta * energies[0])
+        self._states[node] = tmp
+        free(energies)
+        return p
 
     def get_energy(self):
         output = np.zeros(self.nNodes)
@@ -1476,12 +1507,6 @@ cdef class AB(Model):
         return
 
 
-
-
-
-
-
-
 cdef class SIRS(Model):
     def __init__(self, graph, \
                  agentStates = np.array([0, 1, 2], dtype = np.double),\
@@ -1626,11 +1651,11 @@ cdef class RBN(Model):
             k = self._adj[node].neighbors.size()
             rule = np.random.randint(0, 2**(2 ** k), dtype = int)
             rule = format(rule, f'0{2 ** k}b')[::-1]
-            self._rules[node] = [int(i) for i in rule]
+            self._evolve_rules[node] = [int(i) for i in rule]
 
     @property
     def rules(self):
-        return self._rules
+        return self._evolve_rules
 
     cdef void _step(self, node_id_t node) nogil:
        """
@@ -1651,7 +1676,7 @@ cdef class RBN(Model):
            post(it)
 
         #update
-       self._newstates[node] = self._rules[node][counter]
+       self._newstates[node] = self._evolve_rules[node][counter]
        return
 
 

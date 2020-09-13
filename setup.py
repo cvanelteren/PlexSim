@@ -55,6 +55,7 @@ print(f'{len(exts)} will be compiled')
 # with open('requirements.txt', 'r') as f:
 #     install_dependencies = [i.strip() for i in f.readlines()]
 
+from Cython.Compiler import Options
 cdirectives =  dict(\
                     fast_gil         = True,\
                     cdivision        = True,\
