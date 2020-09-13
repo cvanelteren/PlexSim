@@ -17,6 +17,7 @@ ctypedef size_t node_id_t
 ctypedef double weight_t
 ctypedef double nudge_t
 ctypedef double state_t
+ctypedef pair[bint, pair[state_t, double]] rule_t
 
 # # TODO: move to structs?
 # ctypedef vector[state_t] Neighbors
@@ -154,7 +155,6 @@ cdef class MCMC:
         double _p_recomb
         state_t[::1] __states
 
-        Model model
         dict __dict__
 
     # # functions
@@ -164,25 +164,33 @@ cdef class MCMC:
 
     cdef void recombination(self, \
                     node_id_t[::1] nodeids,\
-                    state_t* thisState,\
-                    state_t* thatState,\
+                    PyObject* ptr,\
                     ) nogil
 
     cdef void gibbs(self,\
                     node_id_t[::1] nodeids,\
-                    state_t* thisState,\
-                    state_t* thatState,\
+                    PyObject* ptr,\
                     ) nogil
    
     cdef double _rand(self) nogil
     cpdef double rand(self)
 
     cdef void step(self, node_id_t[::1] nodeids,\
-                   state_t* current_state,\
-                   state_t* new_state,\
+                   PyObject* ptr,\
                    ) nogil
 
-    cdef state_t sample_proposal(self) nogil
+    cdef state_t sample_proposal(self, PyObject* ptr) nogil
+
+cdef class Rules:
+        #properties
+        cdef multimap[state_t, pair[state_t, double]] _rules
+
+        # functions
+        cdef rule_t _check_rules(self, state_t x, state_t y) nogil
+
+        cpdef void construct_rules(self, object rules)
+       
+
 
 cdef class Model:
     cdef:
@@ -205,11 +213,6 @@ cdef class Model:
 
         # MemoizeMap _memoize
 
-        # random sampler
-        MCMC _mcmc
-        mt19937 _gen
-        size_t _seed
-        uniform_real_distribution[double] _dist
 
         size_t _memento
         size_t _nNodes # number of nodes
@@ -228,9 +231,16 @@ cdef class Model:
         #unordered_map[char, long] mapping
         #unordered_map[long, char] rmapping
         #private
-        double _z 
+        double _z
+
+        # rule object
+        Rules _rules
+
+        # random sampler
+        MCMC _mcmc
 
         dict __dict__ # allow dynamic python objects
+
 
     cpdef void construct(self, object graph, \
                     state_t[::1] agentStates)
@@ -259,8 +269,6 @@ cdef class Model:
     cdef  node_id_t[:, ::1]  _sampleNodes(self, size_t nSamples) nogil
     cpdef node_id_t[:, ::1] sampleNodes(self, size_t nSamples)
 
-    # Random Number generator 
-    cdef double _rand(self) nogil
 
     # Py wrapper simulation
     cpdef np.ndarray simulate(self, size_t samples)
@@ -277,6 +285,7 @@ cdef class Model:
     cdef void _swap_memory(self) nogil
 
 
+
 cdef class Logmap(Model):
     cdef double _r
     cdef double _alpha
@@ -287,17 +296,14 @@ cdef class Potts(Model):
         double _beta   # temperature parameter
         double _delta # memory retention variable
 
-        multimap[state_t, pair[state_t, double]] _rules
 
     
-    cdef pair[bint, pair[state_t, double]] _checkRules(self, state_t x, state_t y) nogil
-
-    cpdef void constructRules(self, object rules)
 
 
     cdef void _step(self, node_id_t node) nogil
 
     cdef double*  _energy(self, node_id_t  node) nogil
+    # cdef double* _energy(self, node_id_t node, state_t x =*, state_t y=*) nogil
 
     cpdef np.ndarray node_energy(self, state_t[::1] states)
 
@@ -367,7 +373,7 @@ cdef class RBN(Model):
     cdef:
         double _delta # memory retention variable
 
-        unordered_map[node_id_t, vector[state_t]] _rules
+        unordered_map[node_id_t, vector[state_t]] _evolve_rules
 
     # overload the parent functions
     cdef void _step(self, node_id_t node) nogil
