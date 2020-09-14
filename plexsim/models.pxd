@@ -180,6 +180,9 @@ cdef class MCMC:
                    ) nogil
 
     cdef state_t sample_proposal(self, PyObject* ptr) nogil
+    cdef void fisher_yates(self, node_id_t* x, size_t n, size_t stop) nogil
+    # cdef void fisher_yates(self, state_t* x, size_t n, size_t stop) nogil
+
 
 cdef class Rules:
         #properties

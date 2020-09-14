@@ -38,7 +38,6 @@ for (root, dirs, files) in os.walk(baseDir):
             # some cython shenanigans
             extPath  = fileName.replace(baseDir, '') # make relative
             extName  = extPath.split('.')[0].replace(os.path.sep, '.') # remove extension
-            print(extPath)
             sources  = [extPath]
             ex = Extension(extName, \
                            sources            = sources, \
