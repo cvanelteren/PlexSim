@@ -134,13 +134,18 @@ cdef class MCMC:
         # check all pairs of proposals
         cdef size_t jdx, idx
         cdef state_t state1, state2
+
+        cdef state_t[::1] backup = (<Model> ptr).__states
+        cdef state_t[::1] modified = (<Model> ptr).__states
+        with gil:
+            np.random.shuffle((<Model> ptr).__states)
         for idx in range(1, n, 2):
             # obtain random pair
-
             idx = nodeids[idx - 1]
             jdx = nodeids[idx]
 
 
+            (<Model> ptr)._states = &modified[0]
             state1 = (<Model> ptr)._states[idx]
             state2 = (<Model> ptr)._states[jdx]
 
@@ -148,6 +153,7 @@ cdef class MCMC:
             den = (<Model> ptr).probability(state1, idx) *\
               (<Model> ptr).probability(state2, jdx)
 
+            (<Model> ptr)._states = &backup[0]
             # swapped state
             nom = (<Model> ptr).probability(state2, idx) *\
               (<Model> ptr).probability(state1, jdx)
@@ -156,6 +162,9 @@ cdef class MCMC:
             if self._rand() < nom / den:
                 (<Model> ptr)._newstates[idx] = state2
                 (<Model> ptr)._newstates[jdx] = state1
+            else:
+                (<Model> ptr)._newstates[idx] = backup[idx]
+                (<Model> ptr)._newstates[jdx] = backup[jdx]
         return
 
     cpdef double rand(self):
@@ -165,6 +174,25 @@ cdef class MCMC:
         """ Draws uniformly from 0, 1"""
         return self._dist(self._gen)
 
+    # cdef void fisher_yates(self, state_t * x, \
+    #                        size_t n,\
+    #                        size_t stop) nogil:
+    #     cdef size_t idx, jdx
+    #     for idx in range(n - 1, 1):
+    #         jdx = <size_t> (self._rand() * idx)
+    #         swap(x[idx], x[jdx])
+    #         if stop == 1:
+    #             break
+    #     return
+
+    cdef void fisher_yates(self, node_id_t* x, size_t n, size_t stop) nogil:
+        cdef size_t idx, jdx
+        for idx in range(n - 1, 1):
+            jdx = <size_t> (self._rand() * idx)
+            swap(x[idx], x[jdx])
+            if stop == 1:
+                break
+        return
 
 
 cdef class Rules:
@@ -560,12 +588,8 @@ cdef class Model:
             start = (samplei * sampleSize) % self._nNodes
             if start + sampleSize >= self._nNodes or sampleSize == 1:
                 # fisher-yates swap
-                for i in range(self._nNodes - 1, 1):
-                    # shuffle the array without replacement
-                    j                 = <size_t> (self._mcmc._rand() * i)
-                    swap(nodeids[i], nodeids[j])
-                    if sampleSize == 1:
-                        break
+                self._mcmc.fisher_yates(&nodeids[0], sampleSize, self._nNodes)
+               
             # assign the samples; will be sorted in case of seri        
             for j in range(sampleSize):
                 samples[samplei][j]    = nodeids[start + j]
