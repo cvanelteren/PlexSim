@@ -649,6 +649,9 @@ cdef class Model:
     def graph(self): return self.adj.graph
 
     @property
+    def nNodes(self): return self.adj._nNodes
+
+    @property
     def mcmc(self): return self._mcmc
     # TODO: make class pickable
     # hence the wrappers
@@ -834,7 +837,6 @@ cdef class Model:
              self._newstates = &self.__newstates[0]
 
         # case iterable
-        print(value)
         if hasattr(value, '__iter__'):
             for i in range(self.adj._nNodes):
                 # case dict

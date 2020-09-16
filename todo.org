@@ -1,7 +1,14 @@
 * Models
-- [-] Make model an interface
+* TODO Make model an interface
   - [X] Create adjacency class
   - [X] Create Rule class
   - [ ] Create state class [pending]
   - [X] Add MCMC class with GO
-  - [ ] Merge update state with probability from MCMC
+  - [X] Merge update state with probability from MCMC
+    - [X] Potts / Ising / Bornholdt / Pottsis
+    - [ ] AB model
+    - [ ] Logmap
+    - [ ] SIR
+    - [ ] Percolation
+    - [ ] CCA
+    - [ ] RBN
