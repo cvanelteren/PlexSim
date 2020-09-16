@@ -6,7 +6,7 @@ import numpy, multiprocessing as mp, os
 
 import re, os
 from subprocess import run
-__version__ = "1.2.0"
+__version__ = "1.9.0"
 add = []
 compiler = 'g++'
 optFlag = '-Ofast'
