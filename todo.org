@@ -1,3 +1,7 @@
 * Models
-- Different structure than single number for state
-- [ ] testing   
+- [-] Make model an interface
+  - [X] Create adjacency class
+  - [X] Create Rule class
+  - [ ] Create state class [pending]
+  - [X] Add MCMC class with GO
+  - [ ] Merge update state with probability from MCMC
