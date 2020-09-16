@@ -184,18 +184,38 @@ cdef class MCMC:
     # cdef void fisher_yates(self, state_t* x, size_t n, size_t stop) nogil
 
 
+
 cdef class Rules:
-        #properties
-        cdef multimap[state_t, pair[state_t, double]] _rules
+    """
+Special type of overriding dynamics in a model.
+Creates a layered-structure where part of the model is
+    updated according to fixed rules.
+    """
+    #properties
+    cdef multimap[state_t, pair[state_t, double]] _rules
 
-        # functions
-        cdef rule_t _check_rules(self, state_t x, state_t y) nogil
+    # functions
+    cdef rule_t _check_rules(self, state_t x, state_t y) nogil
 
-        cpdef void construct_rules(self, object rules)
-       
+    cpdef void construct_rules(self, object rules)
+
+
+cdef class Adjacency:
+    """
+    Converts networkx graph to unordered_map
+    """
+    cdef:
+        Connections _adj
+        node_id_t[::1]  _nodeids
+        size_t _nNodes # number of nodes
+        dict __dict__
 
 
 cdef class Model:
+    """
+    Interface for the models and serves a top of the hierarchy in the
+    class structure
+    """
     cdef:
         # public
 
@@ -207,7 +227,6 @@ cdef class Model:
 
         bint  _last_written
 
-        node_id_t[::1]  _nodeids
         state_t[::1]  _agentStates
 
         state_t[:, ::1] _memory # for memory dynamics
@@ -218,7 +237,6 @@ cdef class Model:
 
 
         size_t _memento
-        size_t _nNodes # number of nodes
         str _updateType # update type
         str _nudgeType  # nudge type
 
@@ -228,7 +246,6 @@ cdef class Model:
         Nudges _nudges
         double   _kNudges
 
-        Connections _adj # adjacency lists
         size_t _nStates
 
         #unordered_map[char, long] mapping
@@ -239,14 +256,14 @@ cdef class Model:
         # rule object
         Rules _rules
 
+        # graph
+        Adjacency adj
         # random sampler
         MCMC _mcmc
 
         dict __dict__ # allow dynamic python objects
 
 
-    cpdef void construct(self, object graph, \
-                    state_t[::1] agentStates)
 
     # Update functions
     cpdef  state_t[::1] updateState(self, node_id_t[::1] nodesToUpdate)
