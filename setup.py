@@ -14,7 +14,7 @@ cppv    = '17'
 
 flags = f'{optFlag} -march=native -std=c++{cppv} -flto '\
         '-frename-registers -funroll-loops -fno-wrapv '\
-        '-fopenmp-simd -fopenmp -Wno-unused-variable -Wno-unused'
+        '-fopenmp-simd -fopenmp=libomp -Wno-unused-variable -Wno-unused'
 
 try:
     clangCheck = run(f"{compiler} --version".split(), capture_output= True)
@@ -55,7 +55,9 @@ print(f'{len(exts)} will be compiled')
 #     install_dependencies = [i.strip() for i in f.readlines()]
 
 from Cython.Compiler import Options
+Options.fast_fail = True
 cdirectives =  dict(\
+                    # fast_fail        = True,\
                     fast_gil         = True,\
                     cdivision        = True,\
                     binding          = True,\
