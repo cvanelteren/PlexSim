@@ -144,44 +144,48 @@ cdef extern from "<random>" namespace "std" nogil:
         T operator()(mt19937 gen) # ignore the possibility of using other classes for "gen"
 
 
-ctypedef double (*prob_func_t)(state_t, node_id_t) nogil
 
-cdef class MCMC:
-    # class vars
+cdef class RandomGenerator:
     cdef:
         mt19937 _gen
         size_t _seed
         uniform_real_distribution[double] _dist
-        double _p_recomb
-        state_t[::1] __states
 
+    cdef double _rand(self) nogil
+    cpdef double rand(self)
+
+    # Shuffle algorithm
+    cdef void fisher_yates(self, node_id_t* nodes, \
+                           size_t n, size_t stop) nogil
+
+cdef class MCMC:
+    # class vars
+    cdef:
+        double _p_recomb
+        RandomGenerator rng
         dict __dict__
 
-    # # functions
-    # cdef double prob(self, \
-    #                  state_t state, \
-    #                  node_id_t node) nogil
-
+    # GO algorithm
     cdef void recombination(self, \
                     node_id_t[::1] nodeids,\
                     PyObject* ptr,\
                     ) nogil
 
+    # Standard Gibbs
     cdef void gibbs(self,\
                     node_id_t[::1] nodeids,\
                     PyObject* ptr,\
                     ) nogil
    
-    cdef double _rand(self) nogil
-    cpdef double rand(self)
 
+    # Update function
     cdef void step(self, node_id_t[::1] nodeids,\
                    PyObject* ptr,\
                    ) nogil
 
-    cdef state_t sample_proposal(self, PyObject* ptr) nogil
-    cdef void fisher_yates(self, node_id_t* x, size_t n, size_t stop) nogil
-    # cdef void fisher_yates(self, state_t* x, size_t n, size_t stop) nogil
+    # Proposal state
+    cdef state_t _sample_proposal(self, PyObject* ptr) nogil
+
 
 
 
@@ -199,7 +203,6 @@ Creates a layered-structure where part of the model is
 
     cpdef void construct_rules(self, object rules)
 
-
 cdef class Adjacency:
     """
     Converts networkx graph to unordered_map
@@ -208,6 +211,7 @@ cdef class Adjacency:
         Connections _adj
         node_id_t[::1]  _nodeids
         size_t _nNodes # number of nodes
+
         dict __dict__
 
 
@@ -218,7 +222,6 @@ cdef class Model:
     """
     cdef:
         # public
-
         state_t[::1] __states
         state_t* _states
 
@@ -226,16 +229,14 @@ cdef class Model:
         state_t* _newstates
 
         bint  _last_written
+        bint _use_mcmc
 
         state_t[::1]  _agentStates
 
         state_t[:, ::1] _memory # for memory dynamics
 
         size_t _memorySize #memory size
-
         # MemoizeMap _memoize
-
-
         size_t _memento
         str _updateType # update type
         str _nudgeType  # nudge type
@@ -255,26 +256,20 @@ cdef class Model:
 
         # rule object
         Rules _rules
-
         # graph
         Adjacency adj
-        # random sampler
+        RandomGenerator _rng
         MCMC _mcmc
 
         dict __dict__ # allow dynamic python objects
-
-
 
     # Update functions
     cpdef  state_t[::1] updateState(self, node_id_t[::1] nodesToUpdate)
     cdef state_t[::1]  _updateState(self, node_id_t[::1] nodesToUpdate) nogil
 
-    cdef double probability(self, state_t state, node_id_t node) nogil
 
     cdef void _apply_nudge(self, node_id_t node,\
                             NudgesBackup* backup) nogil
-
-    cpdef void testArray(self, size_t  n)
 
     cdef void _remove_nudge(self, node_id_t node, NudgesBackup* backup) nogil
 
@@ -300,9 +295,11 @@ cdef class Model:
     cdef vector[double] _nudgeShift(self, node_id_t node, \
                          vector[double] p) nogil
 
-    cpdef void checkRand(self, size_t n)
-
     cdef void _swap_memory(self) nogil
+
+    cdef state_t _sample_proposal(self) nogil
+
+    cdef double probability(self, state_t state, node_id_t node) nogil
 
 
 
@@ -317,12 +314,9 @@ cdef class Potts(Model):
         double _delta # memory retention variable
 
 
-    
-
-
     cdef void _step(self, node_id_t node) nogil
 
-    cdef double*  _energy(self, node_id_t  node) nogil
+    cdef double  _energy(self, node_id_t  node) nogil
     # cdef double* _energy(self, node_id_t node, state_t x =*, state_t y=*) nogil
 
     cpdef np.ndarray node_energy(self, state_t[::1] states)
@@ -348,11 +342,10 @@ cdef class Pottsis(Potts):
     cdef float _mu
     cdef float _eta
     cdef double _hamiltonian(self, state_t x, state_t y) nogil
-    cdef double*  _energy(self, node_id_t  node) nogil
+    cdef double  _energy(self, node_id_t  node) nogil
 
 cdef class Ising(Potts):
     cdef double _hamiltonian(self, state_t x, state_t y) nogil
-
 
 
 cdef class Bornholdt(Ising):

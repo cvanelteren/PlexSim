@@ -3,6 +3,7 @@
   - [X] Create adjacency class
   - [X] Create Rule class
   - [ ] Create state class [pending]
+  - [ ] Create nuge class
   - [X] Add MCMC class with GO
   - [X] Merge update state with probability from MCMC
     - [X] Potts / Ising / Bornholdt / Pottsis

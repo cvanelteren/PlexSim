@@ -28,11 +28,15 @@ using namespace boost;
 // DEFINITIONS
 // general model definitions
 typedef xt::xarray<double> xarrd;
-typedef int nodeID_t; 
+typedef size_t nodeID_t;
 typedef int nodeState_t;
 typedef float weight_t;
 typedef xt::xarray<nodeState_t> nodeStates;
-typedef std::vector<long> agentStates_t;
+typedef std::vector<nodeState_t> agentStates_t;
+
+typedef double foena_t;
+typedef xt::xarray<foena_t> FOENA;
+
 
 // sampling binding
 typedef xt::xarray<nodeID_t> nodeids_a;
