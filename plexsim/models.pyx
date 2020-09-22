@@ -266,6 +266,8 @@ cdef class Adjacency:
         np.random.shuffle(_nodeids) # prevent initial scan-lines in grid
         self._nodeids    = _nodeids
         self._nNodes     = graph.number_of_nodes()
+   def __repr__(self):
+        return str(self._adj)
 
 cdef class Rules:
     def __init__(self, object rules):
@@ -1305,13 +1307,20 @@ cdef class Bornholdt(Ising):
 
         self.system_mag     = np.mean(self.states)
 
+    cdef double _get_system_influence(self) nogil:
+        cdef double influence = 0
+        for node in range(self.adj._nNodes):
+            influence += self._states[node]
+        return influence
+
     cdef double probability(self, state_t proposal, node_id_t node) nogil:
         cdef:
             # vector[double] probs
             double energy
             double delta
             double p
-            double systemInfluence = self._alpha * deref(self._system_mag_ptr)
+
+            double systemInfluence = self._alpha * self._get_system_influence()
 
         # store state
         cdef state_t backup_state = self._states[node]
