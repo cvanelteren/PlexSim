@@ -360,6 +360,7 @@ cdef class Bornholdt(Ising):
      cdef void _swap_buffers(self) nogil
 
      cdef void _step(self, node_id_t node) nogil
+     cdef double _get_system_influence(self) nogil
 
 cdef class SIRS(Model):
     cdef:
