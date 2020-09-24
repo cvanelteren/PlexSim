@@ -271,9 +271,7 @@ cdef class Adjacency:
 
 cdef class Rules:
     def __init__(self, object rules):
-        self.construct_rules(rules)
-
-    cpdef void construct_rules(self, object rules):
+        self.rules = rules
         cdef:
              # output
              multimap[state_t, pair[ state_t, double ]] r
@@ -294,23 +292,9 @@ cdef class Rules:
                 tmp.first  = source;
                 tmp.second = pair[state_t, double](target, weight)
                 r.insert(tmp)
-        self._rules = r
-        return
 
-    @property
-    def rules(self):
-        """
-        Return rules as a list
-        Python has no multimap
-        """
-        cdef list r = []
-        it = self._rules.begin()
-        while it != self._rules.end():
-            key = deref(it).first
-            val = deref(it).second
-            r.append((key, val))
-            post(it)
-        return r
+        self._rules = r # cpp property
+        # self.rules = rules # hide object
 
     cdef rule_t _check_rules(self, state_t x, state_t y) nogil:
 
@@ -364,7 +348,7 @@ cdef class Model:
         self._agentStates = np.asarray(agentStates, dtype = np.double).copy()
         self._nStates     = len(agentStates)
 
-        if p_recomb is not None:
+        if isinstance(p_recomb, float):
             self._mcmc = MCMC(self._rng, p_recomb)
             self._use_mcmc = True
         else:
@@ -372,30 +356,30 @@ cdef class Model:
             self._use_mcmc = False
 
         # create adj list
-        if graph:
-            self.adj = Adjacency(graph)
-            # set states if present
-            states = kwargs.get("states")
-            if states is not None:
-                self.states = states.copy()
-            else:
-                self.reset()
+        # if graph:
+        self.adj = Adjacency(graph)
+        # set states if present
+        states = kwargs.get("states")
+        if states is not None:
+            self.states = states.copy()
+        else:
+            self.reset()
 
-            # create properties
-            self.nudgeType  = nudgeType
+        # create properties
+        self.nudgeType  = nudgeType
 
-            # create memory
-            self.memorySize   = <size_t> memorySize
-            self._memory      = np.random.choice(self.agentStates, size = (self.memorySize, self.adj._nNodes))
-            # weight factor of memory
-            self._memento     = <size_t> memento
-            self.nudges       = nudges
-            # n.b. sampleSize has to be set from no on
-            self.updateType = updateType
-            self.sampleSize = <size_t> kwargs.get("sampleSize", self.nNodes)
+        # create memory
+        self.memorySize   = <size_t> memorySize
+        self._memory      = np.random.choice(self.agentStates, size = (self.memorySize, self.adj._nNodes))
+        # weight factor of memory
+        self._memento     = <size_t> memento
+        self.nudges       = nudges
+        # n.b. sampleSize has to be set from no on
+        self.updateType = updateType
+        self.sampleSize = <size_t> kwargs.get("sampleSize", self.nNodes)
 
-            self._z = 1 / <double> self._nStates
-
+        self._z = 1 / <double> self._nStates
+       
 
     cdef state_t[::1]  _updateState(self, node_id_t[::1] nodesToUpdate) nogil:
         cdef NudgesBackup* backup = new NudgesBackup()
@@ -622,7 +606,14 @@ cdef class Model:
     ##### MODEL PROPERTIES
     #####
     #####
-    #####
+    @property
+    def p_recomb(self):
+        return self._mcmc._p_recomb
+
+    @p_recomb.setter
+    def p_recomb(self, value):
+        assert  0 <= value <= 1
+        self._mcmc._p_recomb = value
     @property
     def rng(self): return self._rng
 
@@ -836,11 +827,21 @@ cdef class Model:
                 self._states[node] = <state_t> value
 
     def get_settings(self):
+        """
+        Warning this function may cause bugs
+        The model properties have to be copied without being overly verbose
+        The seed needs to be updated otherwise you will get the model
+        """
         kwargs = {}
+        from pickle import dumps
         for k in dir(self):
             atr = getattr(self, k)
-            if not callable(atr) and not k.startswith('_'):
-                kwargs[k] = atr
+            if k[0] != '_' and not callable(atr):
+                try:
+                    dumps(atr)
+                    kwargs[k] = atr
+                except:
+                    pass
         return kwargs
 
     def __reduce__(self):
@@ -849,6 +850,8 @@ cdef class Model:
         #return rebuild, (self.__class__, kwargs)
 
     def __deepcopy__(self, memo):
+        if len(memo) == 0:
+            memo = self.get_settings()
         return self.__class__(**memo)
 
     cdef SpawnVec _spawn(self, size_t nThreads = openmp.omp_get_num_threads()):
@@ -862,7 +865,9 @@ cdef class Model:
         for tid in range(nThreads):
             # ref counter increase
             m =  self.__deepcopy__(self.get_settings())
-            m._last_written = self._last_written
+            # HACK: fix this
+            # m.mcmc._p_recomb = self.mcmc._p_recomb
+            # force resed
             spawn.push_back( PyObjectHolder(\
                                         <PyObject*> m\
                                         )
@@ -935,7 +940,6 @@ cdef class Potts(Model):
                  t = 1,\
                  agentStates = np.array([0, 1], dtype = np.double),\
                  delta       = 0, \
-                 p_recomb    = 0,\
                  **kwargs):
         """
         Potts model
@@ -1311,15 +1315,14 @@ cdef class Bornholdt(Ising):
         cdef double influence = 0
         for node in range(self.adj._nNodes):
             influence += self._states[node]
-        return influence
-
+        return influence / <double> self.adj._nNodes
+    
     cdef double probability(self, state_t proposal, node_id_t node) nogil:
         cdef:
             # vector[double] probs
             double energy
             double delta
             double p
-
             double systemInfluence = self._alpha * self._get_system_influence()
 
         # store state
@@ -1328,7 +1331,7 @@ cdef class Bornholdt(Ising):
         # compute proposal
         self._states[node] = proposal
         energy = self._energy(node)
-        delta  = energy * self._states[node] - self._states[node] * systemInfluence
+        delta  = energy - self._states[node] * systemInfluence
         p      = exp(self._beta * delta)
         return p
 

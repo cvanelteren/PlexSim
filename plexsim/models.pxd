@@ -195,13 +195,13 @@ Special type of overriding dynamics in a model.
 Creates a layered-structure where part of the model is
     updated according to fixed rules.
     """
+    cdef dict __dict__
     #properties
     cdef multimap[state_t, pair[state_t, double]] _rules
 
     # functions
     cdef rule_t _check_rules(self, state_t x, state_t y) nogil
 
-    cpdef void construct_rules(self, object rules)
 
 cdef class Adjacency:
     """
@@ -211,7 +211,6 @@ cdef class Adjacency:
         Connections _adj
         node_id_t[::1]  _nodeids
         size_t _nNodes # number of nodes
-
         dict __dict__
 
 
