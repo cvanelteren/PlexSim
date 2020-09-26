@@ -20,7 +20,7 @@ try:
     clangCheck = run(f"{compiler} --version".split(), capture_output= True)
     if not clangCheck.returncode and 'fs4' not in os.uname().nodename:
         print("Using default")
-        os.environ['CXXFLAGS'] =  f'{compiler} {flags}'
+        # os.environ['CXXFLAGS'] =  f'{compiler} {flags}'
         # os.environ['CC']       =  f'{compiler} {flags}'
         # add.append('-lomp') # c
 except Exception as e:

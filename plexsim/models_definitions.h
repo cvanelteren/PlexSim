@@ -19,6 +19,7 @@
 
 #include "boost/unordered_map.hpp"
 
+#include "parallel-hashmap/parallel_hashmap/phmap.h"
 #include <ctime>
 namespace py = pybind11;
 using namespace pybind11::literals;
@@ -45,13 +46,15 @@ typedef  xt::xarray<nodeID_t> Nodeids;
 // typedef std::array<nodeID_t> samples_t;
 
 // Adjacency definition
-typedef boost::unordered_map<nodeID_t, weight_t> Neighbors;
+// typedef boost::unordered_map<nodeID_t, weight_t> Neighbors;
+typedef phmap::flat_hash_map<nodeID_t, weight_t> Neighbors;
 struct Connection{
     Neighbors neighbors;
 };
 
 
-typedef boost::unordered_map<nodeID_t, Connection> Connections;
+// typedef boost::unordered_map<nodeID_t, Connection> Connections;
+typedef phmap::flat_hash_map<nodeID_t, Connection> Connections;
 
 
 

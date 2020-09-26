@@ -13,6 +13,29 @@ struct pair_hash {
    }
   };
 
+
+class RandomGenerator{
+  public:
+    double rand();
+
+  private:
+    randutils::mt19937_rng rng;
+
+    // mt19937 gen;
+    // size_t seed;
+    // uniform_real_distribution[double] dist;
+
+};
+
+// class MCMC{
+//   public:
+//     void recombinations(nodeids_a nodeids, Model* ptr);
+//   private:
+//     double p_recomb;
+//     RandomGenerator rng;
+// };
+
+
 template<typename T>
 class Property{
 public:
@@ -24,6 +47,155 @@ public:
 protected:
   T value;
 };
+
+class Adjacency{ public:
+  Connections adj;
+  nodeids_a nodeids;
+  size_t nNodes;
+  py::object graph;
+
+  Adjacency() {} ;
+  Adjacency(py::object graph){
+    // relabel nodes
+    py::object nx = py::module::import("networkx");
+    graph = nx.attr("convert_node_labels_to_integers")(graph,\
+                              "label_attribute"_a = "original");
+
+    py::object nodelink = nx.attr("node_link_data")(graph);
+   // fill adj
+    this->adj = Connections();
+
+    //setup loop for links
+    nodeID_t source, target;
+    weight_t weight;
+    weight_t defaultWeight = weight_t(1.);
+    bool directed = py::bool_(nodelink["directed"]);
+
+    // extract link information
+    for (auto link : nodelink["links"]){
+      // extract data
+      source = static_cast<nodeID_t>(py::int_(link["source"]));
+      target = static_cast<nodeID_t> (py::int_(link["target"]));
+      weight = static_cast<weight_t> (py::float_(link.attr("get")("weight", defaultWeight)));
+      // py::print(target, source, weight);
+
+       // add target to source only
+       this->adj[target].neighbors[source] = weight;
+       if (!(directed)){
+           this->adj[source].neighbors[target] = weight;
+       }
+    };
+    // hide model
+    this-> graph = graph;
+    this-> nNodes = static_cast <size_t>(py::int_(graph.attr("number_of_nodes")()));
+    this->nodeids = xt::arange(this->nNodes);
+    return ;
+  }
+
+  // Neighbors & operator[](nodeID_t node){
+  //   this->adj[node].neighbors; };
+
+ };
+
+
+template<typename T>
+class Model_{
+  public:
+    Adjacency adj;
+    randutils::mt19937_rng rng;
+
+
+    void updateState(nodeids_a nodes){
+         T derived = static_cast<T&>(*this);
+        for (auto node : nodes){
+          derived.step(node);
+        }
+        return;
+    }
+
+
+  // protected:
+  Model_(
+           py::object graph,
+           FOENA agentStates
+           ){
+        this->adj = Adjacency(graph);
+
+        this->states = xt::zeros<foena_t>({this->adj.nNodes});
+
+        for (auto node = 0 ; node < this->adj.nNodes; node++){
+            this->states[node] = this->rng.pick(agentStates);
+        }
+
+        this->newstates  = this->states;
+
+        // std::cout << "in model";
+        return;
+        }
+ // private:
+  FOENA states;
+  FOENA newstates;
+  FOENA agentStates;
+
+};
+//TODO: There is someothing going wrong with a caster of xtensor with this model
+// The up-down casting seems to work fine and the binding requires less boiler plate code
+class Potts_: public Model_<Potts_>{
+    friend class Model_<Potts_>;
+    class Temperature: public Property <double>{
+        public:
+            double beta;
+            virtual Temperature& operator= (double & t){
+                beta = (t == 0 ? std::numeric_limits<double>::infinity() : 1 / t);
+                value = t;
+                return *this;
+            }
+    };
+
+  public:
+    Temperature t;
+    // using Model_<Potts_>::Model_;
+    Potts_(py::object graph,
+           FOENA agentStates, double t) : Model_(graph, agentStates){
+      this->t = t;
+
+      std::cout<< "in potts";
+      // std::cout<< this->adj.nNodes ;
+
+    };
+
+    void step(nodeID_t node) {}
+    // void step(nodeID_t node){
+    //    nodeState_t state  = this->states[node];
+    //    nodeState_t  proposal = this->rng.pick(this->agentStates);
+
+    //    double energy = 0;
+
+
+    //    Neighbors tmp = this->adj.adj[node].neighbors;
+
+    //    for (auto neighbor : tmp){
+    //      energy += neighbor.second *
+    //         this->hamiltonian(proposal, this->states[neighbor.first]);
+    //             }
+
+    //    xarrd delta = {this->t.beta *energy};
+    //    xarrd p     = xt::exp(- delta);
+    //    if ((this->rng.uniform(0., 1.) < p[0]) || (xt::isnan(p)[0])){
+    //        this->newstates[node] = proposal;
+    //    }
+    //    return ;
+    // }
+
+    // double hamiltonian(nodeState_t x, nodeState_t y){
+    //     // double z = double(this->agentStates.size());
+    //     double z = 1.;
+    //     double delta = 2. * PI * (x - y) / z;
+    //     return cos(delta);
+    // }
+};
+
+
 // CLASS IMPLEMENTATION
 // use template for the node state type ? 
 class Model{
@@ -284,7 +456,7 @@ public:
         
     };
 
-   inline void step(nodeID_t node){
+   void step(nodeID_t node){
        nodeState_t state  = this->states[node];
        nodeState_t  proposal = this->rng.pick(this->agentStates);
 
@@ -296,24 +468,16 @@ public:
        // double weight;
 // #pragma omp parallel for default(none) reduction(-:cEn, fEn) shared(tmp, nodeState, proposal)
 
-       
-       // pair<nodeState_t, nodeState_t> mempair;
-
+    // #pragma omp simd
        // for (auto b = 0; b < tmp.bucket_count(); b++){
          // for (auto neighbor = tmp.begin(b); neighbor != tmp.end(b); neighbor++){
        for (auto neighbor : tmp){
-            // decode neighbor
-            // nstate = neighbor.first;
-            // weight = neighbor.second;
-            // memoize the state
-            // mempair.first = nstate;
-            
             for (size_t j = 0; j < 2; j++){
               energies[j] -= neighbor.second * this->hamiltonian(\
                                                                  check[j], \
                                                                  this->states[neighbor.first]);
-         }
-       }
+                    }
+                }
        xarrd delta = {this->t.beta *(energies[1] - energies[0])};
        xarrd p     = xt::exp(- delta);
        if ((this->rng.uniform(0., 1.) < p[0]) || (xt::isnan(p)[0])){
@@ -523,11 +687,11 @@ public:
 
     nodeids_a sampleNodes(uint nSamples){
 
-       unsigned int sampleSize   = this->sampleSize;
-       int nNodes                = this->nNodes;
+       size_t sampleSize   = this->sampleSize;
+       size_t nNodes                = this->nNodes;
        // samples samples = this->samples;
        // samples.resize(nSamples * sampleSize);
-       unsigned int N   = nSamples * sampleSize;
+       size_t N   = nSamples * sampleSize;
        nodeids_a nodes  = nodeids_a::from_shape({N});
 
        size_t tmp;
@@ -535,7 +699,6 @@ public:
 
        // size_t j;
        // #pragma omp parallel for private(tmp, nodeids, j)
-       // #pragma omp simd
        for (size_t samplei = 0; samplei < N; samplei++){
          // shuffle the node ids
 
@@ -554,7 +717,8 @@ public:
          // assign to sample
          xt::view(nodes, samplei) = nodeids[tmp];
        }
-    return xt::reshape_view(nodes, {nSamples, sampleSize});
+       return nodes;
+    // return xt::reshape_view(nodes, {nSamples, sampleSize});
   }
 
   void checkRand(long N){
@@ -564,7 +728,7 @@ public:
   }
 
     // Implement per model
-  inline FOENA*  updateState(nodeids_a nodes){
+  FOENA*  updateState(nodeids_a nodes){
         /*
           Node update loop
         */
@@ -580,7 +744,7 @@ public:
     }
     //implement inherited class
     //
-   inline void step(nodeID_t node){
+   void step(nodeID_t node){
        nodeState_t state  = this->states[node];
        nodeState_t  proposal = this->rng.pick(this->agentStates);
 
@@ -677,6 +841,22 @@ class PyPottsFast: public Base {
 
 PYBIND11_MODULE(example, m){
     xt::import_numpy();
+
+    py::class_<Potts_>(m, "PD")
+      .def(py::init<
+           py::object,
+           FOENA,
+           double
+           >(),
+           "graph"_a,
+           "agentStates"_a = agentStates_t(1, 0),
+           "t"_a = 1.)
+      .def("step", &Potts_::step)
+      .def_property("graph",
+            [] (const Potts_ & self){return self.adj.graph;},
+            [](const Potts_ & self){})
+      ;
+
     py::class_<Model, PyModel<>>(m, "Model")
       .def(py::init<\
            py::object, \

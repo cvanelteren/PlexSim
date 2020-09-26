@@ -547,7 +547,7 @@ cdef class Model:
 
             # assign the samples; will be sorted in case of seri        
             for j in range(sampleSize):
-                samples[samplei][j]    = nodeids[start + j]
+                samples[samplei][j]    = nodeids[(start + j) % self.adj._nNodes]
         return samples
         
     cpdef void reset(self, p = None):
@@ -849,7 +849,7 @@ cdef class Model:
         # return self.__class__(**self.get_settings())
         #return rebuild, (self.__class__, kwargs)
 
-    def __deepcopy__(self, memo):
+    def __deepcopy__(self, memo = {}):
         if len(memo) == 0:
             memo = self.get_settings()
         return self.__class__(**memo)
