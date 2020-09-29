@@ -48,11 +48,12 @@ protected:
   T value;
 };
 
-class Adjacency{ public:
-  Connections adj;
-  nodeids_a nodeids;
-  size_t nNodes;
-  py::object graph;
+class Adjacency{
+    public:
+    Connections adj;
+    nodeids_a nodeids;
+    size_t nNodes;
+    py::object graph;
 
   Adjacency() {} ;
   Adjacency(py::object graph){
@@ -92,56 +93,122 @@ class Adjacency{ public:
     return ;
   }
 
-  // Neighbors & operator[](nodeID_t node){
-  //   this->adj[node].neighbors; };
+  Neighbors operator[](nodeID_t node){
+    return this->adj[node].neighbors; };
 
  };
 
 
-template<typename T>
+template<typename IMPL>
 class Model_{
   public:
+    FOENA states;
+    FOENA newstates;
+    // agentStates_t agentStates;
+    FOENA agentStates; // discrete container
+
+    size_t sampleSize;
+
     Adjacency adj;
     randutils::mt19937_rng rng;
 
-
-    void updateState(nodeids_a nodes){
-         T derived = static_cast<T&>(*this);
-        for (auto node : nodes){
-          derived.step(node);
+    FOENA updateState(nodeids_a nodes){
+        // down cast derived model
+        for (nodeID_t node: nodes){
+          static_cast<IMPL&>(*this).step(node);
         }
-        return;
+
+        this->swap_buffers();
+        return this->states;
     }
 
 
-  // protected:
   Model_(
            py::object graph,
-           FOENA agentStates
+           FOENA agentStates,
+           // agentStates_t agentStates,
+           size_t sampleSize
            ){
-        this->adj = Adjacency(graph);
-
-        this->states = xt::zeros<foena_t>({this->adj.nNodes});
-
-        for (auto node = 0 ; node < this->adj.nNodes; node++){
+        this->adj    = Adjacency(graph);
+        this->states = FOENA({this->adj.nNodes});
+        for (size_t node = 0 ; node < this->adj.nNodes; node++){
             this->states[node] = this->rng.pick(agentStates);
         }
 
         this->newstates  = this->states;
+        this->agentStates = agentStates;
 
-        // std::cout << "in model";
+        this->sampleSize = ( sampleSize == 0 ? this->adj.nNodes : sampleSize);
         return;
         }
+
+    void swap_buffers(){
+      std::swap(this->states,  this->newstates);
+    }
+
+    nodeids_a sampleNodes(size_t nSamples){
+
+       size_t sampleSize   = this->sampleSize;
+       size_t nNodes       = this->adj.nNodes;
+       // samples samples = this->samples;
+       // samples.resize(nSamples * sampleSize);
+       size_t N   = nSamples * sampleSize;
+       nodeids_a nodes  = nodeids_a::from_shape({N});
+
+       size_t tmp;
+       Nodeids nodeids = this->adj.nodeids ;
+
+       // size_t j;
+       #pragma omp for simd
+       // #pragma omp parallel for private(tmp, nodeids)
+       for (size_t samplei = 0; samplei < N; samplei++){
+         // shuffle the node ids
+
+           // tmp = samplei & (nNodes - 1);
+           tmp = samplei % nNodes;
+           if (!(tmp)){
+
+             // for (int  i = this->nNodes; i > 0 ; i--){
+             //   j = this->rng.uniform(0, i);
+             //   swap(nodeids[i], nodeids[j]);
+
+             // }
+             //
+             this->rng.shuffle(nodeids);
+         }
+         // assign to sample
+         xt::view(nodes, samplei) = nodeids[tmp];
+       }
+       // return nodes;
+    return nodes;
+    // return xt::reshape_view(nodes, {nSamples, sampleSize});
+  }
+
+    FOENA  simulate(size_t nSamples){
+        FOENA results = FOENA::from_shape({nSamples, this->sampleSize});
+        nodeids_a nodes = this->sampleNodes(nSamples);
+        #pragma omp for simd
+        for (size_t samplei = 0 ; samplei < nSamples; samplei++){
+            xt::view(results, samplei) = this->updateState(xt::view(nodes,
+                                            xt::range(samplei, samplei + this->sampleSize)));
+            }
+        return results;
+    }
  // private:
-  FOENA states;
-  FOENA newstates;
-  FOENA agentStates;
+  // IMPL& impl_ = static_cast<IMPL&>(*this);
+
+  // IMPL& impl(){
+  //   return *static_cast<IMPL*>(this) ;}
 
 };
+
+auto key_selector = [](auto pair){ return pair.first ; };
+auto value_selector = [](auto pair){ return pair.second ; };
 //TODO: There is someothing going wrong with a caster of xtensor with this model
-// The up-down casting seems to work fine and the binding requires less boiler plate code
+// The u-fvisibility-inlines-hiddenp-down casting seems to work fine and the binding requires less boiler plate code
 class Potts_: public Model_<Potts_>{
-    friend class Model_<Potts_>;
+
+    // friend class Model_<Potts_>;
     class Temperature: public Property <double>{
         public:
             double beta;
@@ -154,45 +221,51 @@ class Potts_: public Model_<Potts_>{
 
   public:
     Temperature t;
-    // using Model_<Potts_>::Model_;
+    using Model_<Potts_>::Model_;
+
     Potts_(py::object graph,
-           FOENA agentStates, double t) : Model_(graph, agentStates){
+           FOENA agentStates = FOENA({0, 1}),
+           size_t sampleSize = 0,
+           double t = 1.) : Model_(graph, agentStates, sampleSize){
       this->t = t;
-
-      std::cout<< "in potts";
-      // std::cout<< this->adj.nNodes ;
-
     };
 
-    void step(nodeID_t node) {}
-    // void step(nodeID_t node){
-    //    nodeState_t state  = this->states[node];
-    //    nodeState_t  proposal = this->rng.pick(this->agentStates);
 
-    //    double energy = 0;
+    void step(nodeID_t node){
+       // nodeState_t state     = this->states[node];
+       nodeState_t  proposal = this->rng.pick(this->agentStates);
+       double energy = 0;
 
+       nodeids_a idx_ = FOENA::from_shape({this->adj[node].size()});
+       FOENA w_   = FOENA::from_shape({this->adj[node].size()});
+       std::cout<< "seg faults?";
 
-    //    Neighbors tmp = this->adj.adj[node].neighbors;
+       std::transform(this->adj[node].begin(), this->adj[node].end(), idx_.begin(), key_selector);
+       std::transform(this->adj[node].begin(), this->adj[node].end(), w_.begin(), value_selector);
 
-    //    for (auto neighbor : tmp){
-    //      energy += neighbor.second *
-    //         this->hamiltonian(proposal, this->states[neighbor.first]);
-    //             }
+       auto b  = xt::index_view(this->states, idx_);
+       std::cout << b;
+       auto e  = xt::linalg::vdot(w_, b);
 
-    //    xarrd delta = {this->t.beta *energy};
-    //    xarrd p     = xt::exp(- delta);
-    //    if ((this->rng.uniform(0., 1.) < p[0]) || (xt::isnan(p)[0])){
-    //        this->newstates[node] = proposal;
-    //    }
-    //    return ;
-    // }
+       // for (auto neighbor : this->adj[node]){
+       //   energy += neighbor.second *
+       //      this->hamiltonian(proposal, this->states[neighbor.first]);
+       //          }
 
-    // double hamiltonian(nodeState_t x, nodeState_t y){
-    //     // double z = double(this->agentStates.size());
-    //     double z = 1.;
-    //     double delta = 2. * PI * (x - y) / z;
-    //     return cos(delta);
-    // }
+       xarrd delta = {this->t.beta *energy};
+       xarrd p     = xt::exp(- delta);
+       if ((this->rng.uniform(0., 1.) < p[0]) || (xt::isnan(p)[0])){
+           this->newstates[node] = proposal;
+       }
+       return ;
+    }
+
+    double hamiltonian(nodeState_t x, nodeState_t y){
+        double z = double(this->agentStates.size());
+        double delta = 2. * PI * (x - y) / z;
+        return cos(delta);
+    }
+
 };
 
 
@@ -212,7 +285,7 @@ public:
     FOENA states;
     FOENA newstates;
 
-    agentStates_t  agentStates;
+    agentStates_t agentStates;
  
     bool write ;
     xt::xarray<nodeID_t> nodeids;
@@ -252,8 +325,9 @@ public:
   updateProperty updateType;
 
   // constructor
-  Model(py::object graph,\
-        agentStates_t  agentStates = agentStates_t( {0,1}),  \
+  Model(
+        py::object graph,                     \
+        agentStates_t  agentStates = agentStates_t(0,1 ),  \
         string nudgeType       = "constant",\
         string updateType      = "async",\
         size_t sampleSize         = 0 \
@@ -324,6 +398,7 @@ public:
       // py::print(target, source, weight);
 
        // add target to source only
+       //
        this->adj[target].neighbors[source] = weight;
        if (!(directed)){
            this->adj[source].neighbors[target] = weight;
@@ -372,7 +447,8 @@ public:
          // assign to sample
          xt::view(nodes, samplei) = nodeids[tmp];
        }
-    return xt::reshape_view(nodes, {nSamples, sampleSize});
+       return nodes;
+    // return xt::reshape_view(nodes, {nSamples, sampleSize});
   }
 
   void checkRand(long N){
@@ -382,7 +458,7 @@ public:
   }
 
     // Implement per model
-  FOENA*  updateState(nodeids_a nodes){
+  FOENA  updateState(nodeids_a nodes){
         /*
           Node update loop
         */
@@ -393,7 +469,7 @@ public:
         // nodeStates& tmp = this->newstates;
         this->swap_buffers();
         this->write = (this->write ? false : true);
-        return &this->states;
+        return this->states;
 
     }
     //implement inherited class
@@ -410,7 +486,7 @@ public:
         nodeids_a nodes = this->sampleNodes(nSamples);
         for (size_t samplei = 0 ; samplei < nSamples; samplei++){
           // results[samplei] = this->updateState(nodes[samplei])
-            xt::view(results, samplei) = *this->updateState(xt::view(nodes, samplei));
+            xt::view(results, samplei) = this->updateState(xt::view(nodes, xt::range(samplei, samplei + this->sampleSize)));
             }
         return results;
     }
@@ -449,9 +525,12 @@ public:
      string nudgeType       = "constant",\
      string updateType      = "async",\
      size_t sampleSize         = 0 \
-          ): Model(graph, agentStates,\
-                   nudgeType, updateType,\
-                   sampleSize){
+          ): Model(
+                graph,
+                agentStates,
+                nudgeType,
+                updateType,
+                sampleSize){
         this->t = t; 
         
     };
@@ -533,7 +612,7 @@ public:
 class PottsFast{
 
 public:
-    Connections adj; // adjecency
+    Adjacency adj; // adjecency
     py::object graph; // stash nx object inside the class
 
 
@@ -615,8 +694,8 @@ public:
       //}
       //this->_dist = std::uniform_real_distribution<double>(0., 1.);
       // create adj
-      create_adj(graph);
 
+      this->adj = Adjacency(graph);
       // setup properties
       this->sampleSize   = sampleSize;
       this->nudgeType    = nudgeType;
@@ -624,7 +703,7 @@ public:
       this->agentStates  = agentStates;
       this->nStates      = agentStates.size();
 
-      this->sampleSize   = (sampleSize == 0 ? this->nNodes : sampleSize);
+      this->sampleSize   = (sampleSize == 0 ? this->adj.nNodes : sampleSize);
 
       this->write = false;
       // setup buffers
@@ -633,8 +712,8 @@ public:
       // xt::random::choice(tmp, 1, false);
       // this->states  = xt::random::choice(agentStates, 1);
       // this->states  = xt::zeros<nodeState_t>({this->nNodes}) ;
-      this->states = xt::zeros<nodeState_t>({this->nNodes});
-      for (auto node = 0 ; node < this->nNodes; node++){
+      this->states = xt::zeros<nodeState_t>({this->adj.nNodes});
+      for (size_t node = 0 ; node < this->adj.nNodes; node++){
           this->states[node] = this->rng.pick(agentStates);
       }
       this->newstates  = this->states;
@@ -643,44 +722,6 @@ public:
     // this->newstates  = nodeStates({this->nNodes});
   }
 
-  void create_adj(py::object graph) {
-
-    // relabel nodes
-    py::object nx = py::module::import("networkx");
-    graph = nx.attr("convert_node_labels_to_integers")(graph,\
-                              "label_attribute"_a = "original");
-
-    py::object nodelink = nx.attr("node_link_data")(graph);
-   // fill adj
-    this->adj = Connections();
-
-    //setup loop for links
-    nodeID_t source, target;
-    weight_t weight;
-    weight_t defaultWeight = weight_t(1.);
-    bool directed = py::bool_(nodelink["directed"]);
-
-    // extract link information
-    for (auto link : nodelink["links"]){
-      // extract data
-      source = static_cast<nodeID_t>(py::int_(link["source"]));
-      target = static_cast<nodeID_t> (py::int_(link["target"]));
-      weight = static_cast<weight_t> (py::float_(link.attr("get")("weight", defaultWeight)));
-      // py::print(target, source, weight);
-
-       // add target to source only
-       this->adj[target].neighbors[source] = weight;
-       if (!(directed)){
-           this->adj[source].neighbors[target] = weight;
-       }
-    };
-    // hide model
-    this-> graph = graph;
-    this-> nNodes = static_cast <unsigned int>(py::int_(graph.attr("number_of_nodes")()));
-
-    this->nodeids = xt::arange(this->nNodes);
-    return ;
-  }
     //double rand(){
     //  return this->_dist(this->_gen);
     //}
@@ -688,14 +729,14 @@ public:
     nodeids_a sampleNodes(uint nSamples){
 
        size_t sampleSize   = this->sampleSize;
-       size_t nNodes                = this->nNodes;
+       size_t nNodes       = this->adj.nNodes;
        // samples samples = this->samples;
        // samples.resize(nSamples * sampleSize);
        size_t N   = nSamples * sampleSize;
        nodeids_a nodes  = nodeids_a::from_shape({N});
 
        size_t tmp;
-       Nodeids nodeids = this->nodeids ;
+       Nodeids nodeids = this->adj.nodeids ;
 
        // size_t j;
        // #pragma omp parallel for private(tmp, nodeids, j)
@@ -717,7 +758,8 @@ public:
          // assign to sample
          xt::view(nodes, samplei) = nodeids[tmp];
        }
-       return nodes;
+       // return nodes;
+    return nodes;
     // return xt::reshape_view(nodes, {nSamples, sampleSize});
   }
 
@@ -728,62 +770,44 @@ public:
   }
 
     // Implement per model
-  FOENA*  updateState(nodeids_a nodes){
+  FOENA updateState(nodeids_a nodes){
         /*
           Node update loop
         */
 
-      for (size_t node = 0; node < nodes.size(); node++){
-           this->step(nodes[node]);
+      for (nodeID_t node : nodes){
+           this->step(node);
        }
         // nodeStates& tmp = this->newstates;
         this->swap_buffers();
         this->write = (this->write ? false : true);
-        return &this->states;
+        return this->states;
 
     }
     //implement inherited class
     //
-   void step(nodeID_t node){
-       nodeState_t state  = this->states[node];
+
+    void step(nodeID_t node){
+       // nodeState_t state     = this->states[node];
        nodeState_t  proposal = this->rng.pick(this->agentStates);
+       double energy = 0;
 
-       nodeState_t check[2] =  {state, proposal};
-       double energies[2] = {0, 0};
-       Neighbors tmp = this->adj[node].neighbors;
+       for (auto neighbor : this->adj[node]){
+         energy += neighbor.second *
+            this->hamiltonian(proposal, this->states[neighbor.first]);
+                }
 
-       nodeState_t nstate;
-       double weight;
-// #pragma omp parallel for default(none) reduction(-:cEn, fEn) shared(tmp, nodeState, proposal)
-
-
-       pair<nodeState_t, nodeState_t> mempair;
-
-       // for (auto b = 0; b < tmp.bucket_count(); b++){
-         // for (auto neighbor = tmp.begin(b); neighbor != tmp.end(b); neighbor++){
-       for (auto neighbor : tmp){
-            // decode neighbor
-            // nstate = neighbor.first;
-            // weight = neighbor.second;
-            // memoize the state
-            // mempair.first = nstate;
-
-        energies[0] -= neighbor.second * this->hamiltonian(check[0], this->states[neighbor.first]);
-        energies[1] -= neighbor.second * this->hamiltonian(check[1], this->states[neighbor.first]);
-            // for (size_t j = 0; j < 2; j++){
-              // energies[j] -= neighbor.second * this->hamiltonian(check[j], this->states[neighbor.first]);
-         // }
-       }
-       xarrd delta = {this->t.beta *(energies[1] - energies[0])};
+       xarrd delta = {this->t.beta *energy};
        xarrd p     = xt::exp(- delta);
        if ((this->rng.uniform(0., 1.) < p[0]) || (xt::isnan(p)[0])){
            this->newstates[node] = proposal;
        }
        return ;
     }
-
     double hamiltonian(nodeState_t x, nodeState_t y){
-        double delta = 2. * PI * (x - y) / double(this->nStates);
+        // double delta = 2. * PI * (x - y) / double(this->nStates);
+        double z = this->agentStates.size();
+        double delta = 2. * PI * (x - y) / z;
         return cos(delta);
     }
 
@@ -798,7 +822,8 @@ public:
         nodeids_a nodes = this->sampleNodes(nSamples);
         for (size_t samplei = 0 ; samplei < nSamples; samplei++){
           // results[samplei] = this->updateState(nodes[samplei])
-            xt::view(results, samplei) = *this->updateState(xt::view(nodes, samplei));
+            xt::view(results, samplei) = this->updateState(
+                        xt::view(nodes, xt::range(samplei, samplei + this->sampleSize)));
             }
         return results;
     }
@@ -832,26 +857,29 @@ public:
     }
 };
 
-template <class Base = PottsFast>
-class PyPottsFast: public Base {
-  public:
-    using Base::Base;
-};
+// class PyPottsFast: public Base {
+//   public:
+//     using Base::Base;
+// };
 
 
 PYBIND11_MODULE(example, m){
     xt::import_numpy();
-
     py::class_<Potts_>(m, "PD")
       .def(py::init<
            py::object,
-           FOENA,
+           xt::pyarray<double>,
+           // agentStates_t,
+           size_t,
            double
            >(),
            "graph"_a,
-           "agentStates"_a = agentStates_t(1, 0),
+           "agentStates"_a = agentStates_t( {0, 1} ),
+           "sampleSize"_a = 0,
            "t"_a = 1.)
       .def("step", &Potts_::step)
+      .def("simulate", &Potts_::simulate)
+      .def("sampleNodes", &Potts_::sampleNodes)
       .def_property("graph",
             [] (const Potts_ & self){return self.adj.graph;},
             [](const Potts_ & self){})
@@ -859,14 +887,14 @@ PYBIND11_MODULE(example, m){
 
     py::class_<Model, PyModel<>>(m, "Model")
       .def(py::init<\
-           py::object, \
-           agentStates_t,\
-           string,\
-           string,\
-           size_t\
-           >(),
+             py::object, \
+             agentStates_t,\
+             string,\
+             string,\
+             size_t\
+             >(),
            "graph"_a       ,
-           "agentStates"_a = agentStates_t(1, 0),
+           "agentStates"_a ,
            "nudgeType"_a   = "constant",
            "updateType"_a  = "async",
            "sampleSize"_a  = 0
@@ -875,29 +903,29 @@ PYBIND11_MODULE(example, m){
       .def("sampleNodes",     &Model::sampleNodes)
       .def("simulate",        &Model::simulate)
       .def_property("nudgeType", \
-                    [] (const Model &self){
+                      [] (const Model &self){
                       return static_cast<string>(self.nudgeType);
                         },\
-                    [](Model &self, string s){
+                      [](Model &self, string s){
                       self.nudgeType = s;
                     })
       .def_property("updateType", \
-                    [](const Model& self){
+                      [](const Model& self){
                       return static_cast<string>(self.updateType);
                     },\
-                    [](Model &self, string s){
+                      [](Model &self, string s){
                       self.updateType = s;
                     })
         ;//end class definition
 
-    py::class_<PottsFast, PyPottsFast<>>(m,"PottsFast")
+    py::class_<PottsFast>(m,"PottsFast")
       .def(py::init<\
-           py::object, \
-           agentStates_t,\
-           string,\
-           string,\
-           size_t\
-           >(),
+             py::object, \
+             agentStates_t,\
+             string,\
+             string,\
+             size_t\
+             >(),
            "graph"_a       ,
            "agentStates"_a = agentStates_t(1, 0),
            "nudgeType"_a   = "constant",
@@ -908,56 +936,58 @@ PYBIND11_MODULE(example, m){
       .def("sampleNodes",     &PottsFast::sampleNodes)
       .def("simulate",        &PottsFast::simulate)
       .def_property("nudgeType", \
-                    [] (const PottsFast &self){
+                      [] (const PottsFast &self){
                       return static_cast<string>(self.nudgeType);
                         },\
-                    [](Model &self, string s){
+                       [](Model &self, string s){
                       self.nudgeType = s;
                     })
       .def_property("updateType", \
-                    [](const PottsFast& self){
+                       [](const PottsFast& self){
                       return static_cast<string>(self.updateType);
                     },\
-                    [](PottsFast &self, string s){
+                       [](PottsFast &self, string s){
                       self.updateType = s;
                     })
 
-       .def_property("t", \
-        [](const PottsFast &self) { return static_cast<double>(self.t);}, \
-        [](PottsFast &self, double value) {self.t = value;})
-       .def("checkRand", &PottsFast::checkRand)
-      ;
-    // py::class_<Potts::Temperature, PyPotts>(m, "temp")
-    //   .def(py::init<double>())
-    //   .def(py::self+py::self)
-    //   // .def(py::self + float())
-    //   ;
+        .def_property("t", \
+           [](const PottsFast &self) { return static_cast<double>(self.t);}, \
+           [](PottsFast &self, double value) {self.t = value;})
+        .def("checkRand", &PottsFast::checkRand)
+       ;
+
+//     //ignore tryout
+//     // py::class_<Potts::Temperature, PyPotts>(m, "temp")
+//     //   .def(py::init<double>())
+//     //   .def(py::self+py::self)
+//     //   // .def(py::self + float())
+//     //   ;
 
      py::class_<Potts, PyPotts<>>(m, "Potts")
         .def(py::init<\
-             py::object, \
-             agentStates_t,\
-             double,\
-             string,\
-             string,\
-             size_t        >(),
+              py::object, \
+              agentStates_t,\
+              double,\
+              string,\
+              string,\
+              size_t        >(),
              "graph"_a       ,
              "agentStates"_a = agentStates_t({0, 1}),
              "t"_a           = 1.,\
-             "nudgeType"_a   = "constant",
+               "nudgeType"_a   = "constant",
              "updateType"_a  = "async",
              "sampleSize"_a  = 0\
-             )
+                )
         .def_readwrite("graph", &Potts::graph)
         .def("sampleNodes",     &Potts::sampleNodes)
         .def("simulate",        &Potts::simulate)
         .def("magnetize",       &Potts::magnetize,\
-             "temps"_a = static_cast<xt::pyarray<double>>(xt::             logspace(-3, 1, 10)), \
-             "nSamples"_a = 1000,\
-            "match"_a    = -1)
+                "temps"_a = static_cast<xt::pyarray<double>>(xt::             logspace(-3, 1, 10)), \
+                "nSamples"_a = 1000,\
+               "match"_a    = -1)
        .def_property("t", \
-        [](const Potts &self) { return static_cast<double>(self.t);}, \
-        [](Potts &self, double value) {self.t = value;})
+           [](const Potts &self) { return static_cast<double>(self.t);}, \
+           [](Potts &self, double value) {self.t = value;})
        .def("checkRand", &Potts::checkRand)
        ;
      m.doc() = "PlexSim reimplentation. Testing pybind11 out.";

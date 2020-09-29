@@ -1,17 +1,18 @@
-g++ `python3-config --cflags` \
-    -Ofast  \
+g++ \
+    -O3  \
     -fopenmp\
+    -fdevirtualize\
+    -fopenmp-simd \
     -DNDEBUG \
     -std=c++17\
-    -fno-wrapv \
-    -fopenmp-simd \
-    -funroll-loops \
     -march=native\
-    -frename-registers \
-    -march=native \
-    -flto  \
     -shared \
-    -Wfatal-errors -I/usr/include  \
-    -I/home/casper/miniconda3/lib/python3.8/site-packages/numpy/core/include -I/home/casper/miniconda3/include \
-    -D_FORTIFY_S \
-    example.cpp -o example`python3-config --extension-suffix`
+    -fPIC\
+    -flto\
+    -lcblas\
+    -freorder-blocks-and-partition\
+    -Wfatal-errors \
+    -I/usr/include/python3.8/  \
+    -I/home/casper/miniconda3/lib/python3.8/site-packages/numpy/core/include \
+    -I/home/casper/miniconda3/include \
+    example.cpp -o example`python3-config --extension-suffix`\
