@@ -12,7 +12,9 @@
 #define FORCE_IMPORT_ARRAY
 #include "xtensor/xrandom.hpp"
 #include "xtensor-python/pyarray.hpp"
+#include "xtensor-blas/xlinalg.hpp"
 #include "xtensor/xmath.hpp"
+#include "xtensor/xindex_view.hpp"
 #include "xtensor/xcomplex.hpp"
 #include "xtensor/xstrided_view.hpp"
 #include "xtensor/xio.hpp"
@@ -20,6 +22,8 @@
 #include "boost/unordered_map.hpp"
 
 #include "parallel-hashmap/parallel_hashmap/phmap.h"
+#define PHMAP_USE_ABSL_HASH
+
 #include <ctime>
 namespace py = pybind11;
 using namespace pybind11::literals;
@@ -41,7 +45,6 @@ typedef xt::xarray<foena_t> FOENA;
 
 // sampling binding
 typedef xt::xarray<nodeID_t> nodeids_a;
-
 typedef  xt::xarray<nodeID_t> Nodeids;
 // typedef std::array<nodeID_t> samples_t;
 
