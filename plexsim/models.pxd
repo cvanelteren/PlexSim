@@ -266,6 +266,8 @@ cdef class Model:
     cpdef  state_t[::1] updateState(self, node_id_t[::1] nodesToUpdate)
     cdef state_t[::1]  _updateState(self, node_id_t[::1] nodesToUpdate) nogil
 
+    cpdef double rand(self, size_t n)
+
 
     cdef void _apply_nudge(self, node_id_t node,\
                             NudgesBackup* backup) nogil
