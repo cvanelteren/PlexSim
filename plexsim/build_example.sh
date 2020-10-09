@@ -1,5 +1,5 @@
 g++ \
-    -O3  \
+    -Ofast  \
     -fopenmp\
     -fdevirtualize\
     -fopenmp-simd \
@@ -7,6 +7,7 @@ g++ \
     -std=c++17\
     -march=native\
     -shared \
+    -funroll-loops\
     -fPIC\
     -flto\
     -lcblas\
