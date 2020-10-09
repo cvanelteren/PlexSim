@@ -79,6 +79,7 @@ cdef class MCMC:
             proposalState = self._sample_proposal(ptr)
 
             p_prop = (<Model> ptr).probability(proposalState, nodeids[idx])
+
             p_cur  = (<Model> ptr).probability(currentState, nodeids[idx])
             p = p_prop / p_cur
             # p = p_prop / (p_prop + p_cur)
@@ -347,7 +348,6 @@ cdef class Model:
 
         self._agentStates = np.asarray(agentStates, dtype = np.double).copy()
         self._nStates     = len(agentStates)
-
         if isinstance(p_recomb, float):
             self._mcmc = MCMC(self._rng, p_recomb)
             self._use_mcmc = True
@@ -380,6 +380,11 @@ cdef class Model:
 
         self._z = 1 / <double> self._nStates
        
+
+    cpdef double rand(self, size_t n):
+        for i in range(n):
+            self._rng.rand()
+        return 0.
 
     cdef state_t[::1]  _updateState(self, node_id_t[::1] nodesToUpdate) nogil:
         cdef NudgesBackup* backup = new NudgesBackup()
@@ -940,6 +945,7 @@ cdef class Potts(Model):
                  t = 1,\
                  agentStates = np.array([0, 1], dtype = np.double),\
                  delta       = 0, \
+                 p_recomb    = 0.,
                  **kwargs):
         """
         Potts model
@@ -952,6 +958,7 @@ cdef class Potts(Model):
         super(Potts, self).__init__(\
                                     graph = graph,\
                                     agentStates = agentStates,\
+                                    p_recomb = p_recomb,
                                     **kwargs)
 
         self._H = kwargs.get("H", \

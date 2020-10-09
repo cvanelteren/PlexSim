@@ -18,17 +18,20 @@
 #include "xtensor/xcomplex.hpp"
 #include "xtensor/xstrided_view.hpp"
 #include "xtensor/xio.hpp"
+#include "xtensor/xarray.hpp"
+#include "xtensor/xio.hpp"
 
-#include "boost/unordered_map.hpp"
 
+#include "robin-map/include/tsl/robin_map.h"
+#include "sparse-map/include/tsl/sparse_map.h"
 #include "parallel-hashmap/parallel_hashmap/phmap.h"
+// #include "Xoshiro-cpp/XoshiroCpp.hpp"
 #define PHMAP_USE_ABSL_HASH
 
 #include <ctime>
 namespace py = pybind11;
 using namespace pybind11::literals;
 using namespace std;
-using namespace boost;
 
 // DEFINITIONS
 // general model definitions
@@ -49,16 +52,17 @@ typedef  xt::xarray<nodeID_t> Nodeids;
 // typedef std::array<nodeID_t> samples_t;
 
 // Adjacency definition
-// typedef boost::unordered_map<nodeID_t, weight_t> Neighbors;
-typedef phmap::flat_hash_map<nodeID_t, weight_t> Neighbors;
+// typedef phmap::flat_hash_map<nodeID_t, weight_t> Neighbors;
+typedef tsl::robin_map<nodeID_t, weight_t> Neighbors;
+// typedef tsl::sparse_map<nodeID_t, weight_t> Neighbors;
 struct Connection{
     Neighbors neighbors;
 };
 
 
 // typedef boost::unordered_map<nodeID_t, Connection> Connections;
-typedef phmap::flat_hash_map<nodeID_t, Connection> Connections;
-
-
-
+// typedef phmap::flat_hash_map<nodeID_t, Connection> Connections;
+// typedef tsl::robin_map<nodeID_t, Connection> Connections;
+typedef phmap::parallel_flat_hash_map<nodeID_t, Connection> Connections;
+// typedef tsl::sparse_map<nodeID_t, Connection> Connections;
 double PI =xt::numeric_constants<double>::PI ;
