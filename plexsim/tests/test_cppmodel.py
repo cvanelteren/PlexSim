@@ -15,10 +15,10 @@ def timeit(m, N, loops, func):
     return stop
 
 
-N = [1000]
+N = [100]
 # N = [10]
-steps = int(1e4)
-loops = int(1)
+steps = int(1e2)
+loops = int(100)
 tests = 'simulate sampleNodes'.split()
 
 timings = []
@@ -29,15 +29,15 @@ def gen_prototypes(g):
     s = {}
     return [
         models.Potts(g        , **s),
-        cppModels.Potts(g     , **s),
-        cppModels.PottsFast(g , **s),
-        cppModels.PD(g        , **s)]
+        # cppModels.Potts(g     , **s),
+        # cppModels.PottsFast(g , **s),
+        cppModels.Potts(g        , **s)]
 
 for ni in N:
     g = nx.complete_graph(ni)
     # g = nx.barabasi_albert_graph(ni, np.random.randint(1, ni))
-    g = nx.path_graph(ni)
-    g = nx.balanced_tree(4, 5)
+    # g = nx.path_graph(ni)
+    # g = nx.balanced_tree(4, 5)
     # g = nx.grid_graph((ni, ni))
     print(f"Testing size {g.number_of_nodes()}\n")
     # define models

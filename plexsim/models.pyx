@@ -955,6 +955,7 @@ cdef class Potts(Model):
         :delta: a modifier for how much the previous memory sizes influence the next state
         """
         #print(kwargs, locals())
+
         super(Potts, self).__init__(\
                                     graph = graph,\
                                     agentStates = agentStates,\

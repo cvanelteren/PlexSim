@@ -75,18 +75,28 @@ def TestSuite():
     return test_suite
 #with open('requirements.txt', 'r') as f:
 #    requirements = f.read().splitlines()
+from setuptools import find_namespace_packages, find_packages
+namespaces = find_namespace_packages(include = ["plexsim"],
+                                     exclude = ["plexsim.tests*"])
+
+packages = find_packages()
+
+# packages = find_packages(where = "plexsim")
+print(packages)
 setup(\
-      name = "plexsim",\
-      version = __version__,\
-      author  = "Casper van Elteren",\
-      author_email = "caspervanelteren@gmail.com",\
-      url  = "cvanelteren.github.io",\
-      test_suite = "setup.TestSuite",\
-      # allow pxd import
-      # orig false
-      zip_safe         = False,\
-      packages = "plexsim".split(),\
-      package_data = dict(plexsim = '*.pxd'.split()),\
+      name               = "plexsim",\
+      version            = __version__,\
+      author             = "Casper van Elteren",\
+      author_email       = "caspervanelteren@gmail.com",\
+      url                = "cvanelteren.github.io",\
+      test_suite         = "setup.TestSuite",\
+      zip_safe           = False,\
+      # namespace_packages = namespaces,
+      # package_dir         = {"" : "plexsim"},
+      packages           = packages,
+      package_data       = { "" : '*.pxd *.pyx'.split(),
+                             "plexsim" : "*pxd *.pyx".split()
+                             },\
       ext_modules = cythonize(\
                     exts,\
                     # annotate            = True,\ # set to true for performance html

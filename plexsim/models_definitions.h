@@ -62,7 +62,7 @@ struct Connection{
 
 // typedef boost::unordered_map<nodeID_t, Connection> Connections;
 // typedef phmap::flat_hash_map<nodeID_t, Connection> Connections;
-// typedef tsl::robin_map<nodeID_t, Connection> Connections;
-typedef phmap::parallel_flat_hash_map<nodeID_t, Connection> Connections;
+typedef tsl::robin_map<nodeID_t, Connection> Connections;
+// typedef phmap::parallel_flat_hash_map<nodeID_t, Connection> Connections;
 // typedef tsl::sparse_map<nodeID_t, Connection> Connections;
 double PI =xt::numeric_constants<double>::PI ;
