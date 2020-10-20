@@ -48,6 +48,7 @@ protected:
   T value;
 };
 
+
 class Adjacency{
     public:
     Connections adj;
@@ -127,6 +128,18 @@ class States {
             // this->states[node] = xt::random::choice(agentStates, 1)[0];
         }
     }
+
+  void set_state(foena_t state){
+    for (auto node = 0; node < this->_states.shape(1); node ++){
+      this->states[node] = state;
+      }
+    }
+
+  void set_state(FOENA states){
+    for (auto node = 0; node < this->_states.shape(1); node ++){
+      this->states[node] = states[node];
+      }
+  }
 
     void swap(){
       // clean-up after update loop
@@ -366,16 +379,16 @@ class Potts: public Model<Potts>{
 
     void step(nodeID_t node){
        auto  proposal            = this->rng.pick(this->agentStates);
-       double energy             = this->energy(node, proposal);
-       energy                   += this->energy(node, proposal);
+       // double energy             = this->energy(node, proposal);
+       // energy                   += this->energy(node, proposal);
+       double energy = 0;
+        for (const auto& neighbor : this->adj[node]){
+            energy += neighbor.second *
+                this->hamiltonian(proposal, this->states[neighbor.first]);
 
-        // for (const auto& neighbor : this->adj[node]){
-        //     energy += neighbor.second *
-        //         this->hamiltonian(proposal, this->states[neighbor.first]);
-
-        //     energy += neighbor.second *
-        //         this->hamiltonian(proposal, this->states[neighbor.first]);
-        // }
+            energy += neighbor.second *
+                this->hamiltonian(proposal, this->states[neighbor.first]);
+        }
        auto delta                = xt::xarray<double>{this->t.beta * energy};
        auto p                    = xt::exp(- delta);
        // xt::random::rand({1}, 0., 1.);
@@ -411,8 +424,22 @@ class Potts: public Model<Potts>{
 
 };
 
-
-
+// std::map<std::string, double> test(size_t nSamples){
+//   std::map< std::string, double> output ;
+//   xt::xarray<size_t> tmp;
+//   std::string  d = std::string(5, 0);
+// // #pragma omp for
+//   for (auto i = 0 ; i < nSamples; i++){
+//     tmp = xt::random::rand<double>({5}, 0, 5);
+//     std::cout << tmp << std::endl;
+//     d = std::transform(tmp.begin(), tmp.end(), d.begin(),
+//                        [](size_t k){
+//                          return static_cast<char>(k); }
+//                        );
+//     output[d] = 1;
+//   }
+//   return output;
+// }
 
 PYBIND11_MODULE(example, m){
     xt::import_numpy();
@@ -436,9 +463,7 @@ PYBIND11_MODULE(example, m){
             [] (const Potts & self){return self.adj.graph;},
             [](const Potts & self){})
       .def("rand", &Potts::rand)
-
       ;
-
 
 };
 

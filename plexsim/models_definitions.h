@@ -2,6 +2,8 @@
 #include <math.h>
 #include <complex>
 #include <any>
+#include <unordered_map>
+#include <string>
 
 #include <pybind11/stl.h>
 #include <pybind11/pybind11.h>
@@ -66,3 +68,6 @@ typedef tsl::robin_map<nodeID_t, Connection> Connections;
 // typedef phmap::parallel_flat_hash_map<nodeID_t, Connection> Connections;
 // typedef tsl::sparse_map<nodeID_t, Connection> Connections;
 double PI =xt::numeric_constants<double>::PI ;
+
+// typedef phmap::flat_hash_map<vector<size_t>, double> TMP;
+typedef std::map<vector<size_t>, double> TMP;

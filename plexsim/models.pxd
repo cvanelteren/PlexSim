@@ -334,6 +334,10 @@ cdef class Potts(Model):
     cpdef vector[double] siteEnergy(self, state_t[::1] states)
 
 
+cdef class Prisoner(Potts):
+    cdef:
+        double _S, _T, _P, _R
+        double _coupling
 cdef class AB(Model):
     cdef unordered_map[node_id_t, bint] _zealots
     cdef void _step(self, node_id_t node) nogil
