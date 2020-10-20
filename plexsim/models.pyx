@@ -1059,7 +1059,6 @@ cdef class Potts(Model):
         return energy
 
     cdef double probability(self, state_t state, node_id_t node) nogil:
-
         cdef state_t tmp = self._states[node]
         self._states[node] = state
         cdef:
@@ -1164,6 +1163,12 @@ cdef class Potts(Model):
     @property
     def H(self): return self._H.base
 
+    @H.setter
+    def H(self, value):
+        assert len(value) == self.nNodes
+        for idx, v in enumerate(value):
+            self._H[idx] = v
+
     @property
     def beta(self): return self._beta
 
@@ -1179,6 +1184,139 @@ cdef class Potts(Model):
     def t(self, value):
         self._t   = value
         self.beta = 1 / value if value != 0 else np.inf
+
+cdef class Prisoner(Potts):
+    def __init__(self, graph,\
+                 agentStates = np.arange(2),\
+                 t = 1.0,\
+                 R = 1.,\
+                 P = 0.,\
+                 S = 0.,\
+                 T = .5,\
+                 hierarchy = None,\
+                 coupling = 0.):
+
+        super(Prisoner, self).__init__(**locals())
+
+        self.R = R # reward
+        self.S = S # suckers' payout
+        self.P = P # punishment
+        self.T = T # temptation
+
+        self.coupling = coupling
+
+        # overwrite magnetization
+        if hierarchy:
+            self.H = hierarchy
+
+
+
+    cdef double _energy(self, node_id_t node) nogil:
+        cdef:
+            size_t neighbors = self.adj._adj[node].neighbors.size()
+            state_t* states = self._states # alias
+            size_t  neighbor, neighboridx
+            double weight # TODO: remove delta
+
+            double energy  = 0
+
+
+        # compute the energy
+        cdef:
+            pair[bint, pair[state_t, double]] rule;
+            double update
+
+        it = self.adj._adj[node].neighbors.begin()
+        cdef size_t idx
+
+        # current state as proposal
+        cdef state_t proposal = self._states[node]
+        while it != self.adj._adj[node].neighbors.end():
+            weight   = deref(it).second
+            neighbor = deref(it).first
+            # check rules
+            rule = self._rules._check_rules(proposal, states[neighbor])
+            # update using rule
+            if rule.first:
+                update = rule.second.second
+            # normal potts
+            else:
+                update = weight * self._hamiltonian(proposal, states[neighbor])
+
+            energy += update
+            post(it)
+
+        cdef size_t mi
+        # TODO: move to separate function
+        for mi in range(self._memorySize):
+            energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
+        return energy
+
+    cdef double _hamiltonian(self, state_t x, state_t y) nogil:
+        """
+        Play the prisoner game
+        """
+        return self._R * x * y + self._T * x * fabs(1  - y) + \
+            self._S * fabs(1 - x) * y  + self._P * fabs( 1 - x ) * fabs( 1 - y )
+
+    cdef double probability(self, state_t state, node_id_t node) nogil:
+        cdef state_t tmp = self._states[node]
+        self._states[node] = state
+
+        cdef size_t idx = <size_t> (self._rng._rand() * self.adj._adj[node].neighbors.size())
+        cdef node_id_t neighbor = (self.adj._adj[node].neighbors.bucket(idx))
+        cdef:
+            double energy          = self._energy(node)
+            double energy_neighbor = self._energy(neighbor)
+            double delta           = self._H[node] - self._H[neighbor]
+            double p = exp(self._beta * (energy - energy_neighbor * (1 + self._coupling * delta)))
+
+        self._states[node] = tmp
+        return p
+
+    def _setter(self, value, start = 0, end = 1):
+        if start <= value <= end:
+            return value
+
+
+    # boiler-plate...
+    @property
+    def coupling(self): return self._coupling
+
+    @coupling.setter
+    def coupling(self, value):
+        self._coupling = self._setter(value)
+
+    @property
+    def P(self): return self._P
+
+    @P.setter
+    def P(self, value):
+        self._P = self._setter(value)
+
+    @property
+    def R(self): return self._R
+
+    @R.setter
+    def R(self, value):
+        self._R = self._setter(value)
+
+    @property
+    def S(self): return self._S
+
+    @S.setter
+    def S(self, value):
+        self._S = self._setter(value)
+
+    @property
+    def T(self) : return self._T
+
+    @T.setter
+    def T(self, value):
+        self._T = self._setter(value)
+
+
+
 
 cdef class Pottsis(Potts):
     def __init__(self, \
@@ -1770,6 +1908,8 @@ cdef class CCA(Model):
     def threshold(self, value):
         assert 0 <= value <= 1.
         self._threshold = value
+
+
 
 
 #def rebuild(graph, states, nudges, updateType):

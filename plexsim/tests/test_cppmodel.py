@@ -15,7 +15,7 @@ def timeit(m, N, loops, func):
     return stop
 
 
-N = [100]
+N = [64]
 # N = [10]
 steps = int(1e2)
 loops = int(100)
@@ -34,11 +34,11 @@ def gen_prototypes(g):
         cppModels.Potts(g        , **s)]
 
 for ni in N:
-    g = nx.complete_graph(ni)
+    # g = nx.complete_graph(ni)
     # g = nx.barabasi_albert_graph(ni, np.random.randint(1, ni))
     # g = nx.path_graph(ni)
     # g = nx.balanced_tree(4, 5)
-    # g = nx.grid_graph((ni, ni))
+    g = nx.grid_graph((ni, ni))
     print(f"Testing size {g.number_of_nodes()}\n")
     # define models
     for m in gen_prototypes(g):

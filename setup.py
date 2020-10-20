@@ -58,7 +58,7 @@ from Cython.Compiler import Options
 Options.fast_fail = True
 cdirectives =  dict(\
                     # fast_fail        = True,\
-                    fast_gil         = True,\
+                    # fast_gil         = True,\
                     cdivision        = True,\
                     binding          = True,\
                     embedsignature   = True,\
