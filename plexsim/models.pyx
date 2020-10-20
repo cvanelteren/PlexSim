@@ -1193,8 +1193,9 @@ cdef class Prisoner(Potts):
                  P = 0.,\
                  S = 0.,\
                  T = .5,\
-                 hierarchy = None,\
-                 coupling = 0.):
+                 hierarchy = None,
+                 p_recomb = None,
+                 coupling = 0., **kwargs):
 
         super(Prisoner, self).__init__(**locals())
 
@@ -1259,6 +1260,11 @@ cdef class Prisoner(Potts):
         return self._R * x * y + self._T * x * fabs(1  - y) + \
             self._S * fabs(1 - x) * y  + self._P * fabs( 1 - x ) * fabs( 1 - y )
 
+
+
+    cdef void _step(self, node_id_t node) nogil:
+        self.probability(self._states[node], node)
+
     cdef double probability(self, state_t state, node_id_t node) nogil:
         cdef state_t tmp = self._states[node]
         self._states[node] = state
@@ -1268,14 +1274,17 @@ cdef class Prisoner(Potts):
         cdef:
             double energy          = self._energy(node)
             double energy_neighbor = self._energy(neighbor)
-            double delta           = self._H[node] - self._H[neighbor]
-            double p = exp(self._beta * (energy - energy_neighbor * (1 + self._coupling * delta)))
+            double delta           = self._H[neighbor] - self._H[node]
+            double p = 1 / (1 + \
+                            exp(self._beta  * (energy - energy_neighbor * (1 + self._coupling * delta))))
 
-        self._states[node] = tmp
+        if self._rng._rand() < p:
+            self._newstates[node] = self._states[neighbor]
+        # self._states[node] = tmp
         return p
 
     def _setter(self, value, start = 0, end = 1):
-        if start <= value <= end:
+        if start >= 0:
             return value
 
 
