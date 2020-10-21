@@ -51,8 +51,7 @@ cdef class MCMC:
         self.rng = rng
         self.p_recomb = p_recomb
 
-    cdef void step(self, \
-                   node_id_t[::1] nodeids,\
+    cdef void step(self, node_id_t[::1] nodeids,\
                    PyObject* ptr,\
                    ) nogil:
 
