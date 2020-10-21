@@ -16,16 +16,6 @@ flags = f'{optFlag} -march=native -std=c++{cppv} -flto '\
         '-frename-registers -funroll-loops -fno-wrapv '\
         '-fopenmp-simd -fopenmp -unused-variable -Wno-unused'
 
-try:
-    clangCheck = run(f"{compiler} --version".split(), capture_output= True)
-    if not clangCheck.returncode and 'fs4' not in os.uname().nodename:
-        print("Using default")
-        # os.environ['CXXFLAGS'] =  f'{compiler} {flags}'
-        # os.environ['CC']       =  f'{compiler} {flags}'
-        # add.append('-lomp') # c
-except Exception as e:
-    print(e)
-    pass
 # collect pyx files
 exts = []
 baseDir =  os.getcwd() + os.path.sep
@@ -39,6 +29,11 @@ for (root, dirs, files) in os.walk(baseDir):
             extPath  = fileName.replace(baseDir, '') # make relative
             extName  = extPath.split('.')[0].replace(os.path.sep, '.') # remove extension
             sources  = [extPath]
+
+            sources  = [extPath]
+            if os.path.exists(extPath.replace(".pyx", ".pxd")):
+                sources.append(extPath.replace(".pyx", ".pxd"))
+
             ex = Extension(extName, \
                            sources            = sources, \
                            include_dirs       = [nums, '.'],\
@@ -94,9 +89,7 @@ setup(\
       # namespace_packages = namespaces,
       # package_dir         = {"" : "plexsim"},
       packages           = packages,
-      package_data       = { "" : '*.pxd *.pyx'.split(),
-                             "plexsim" : "*pxd *.pyx".split()
-                             },\
+      package_data       = { "" : '*.pxd *.pyx'.split()},\
       ext_modules = cythonize(\
                     exts,\
                     # annotate            = True,\ # set to true for performance html
