@@ -6,11 +6,10 @@ import numpy, multiprocessing as mp, os
 
 import re, os
 from subprocess import run
-__version__ = "1.9.0"
 add = []
 compiler = 'g++'
-optFlag = '-Ofast'
-cppv    = '17'
+optFlag  = '-Ofast'
+cppv     = '17'
 
 flags = f'{optFlag} -march=native -std=c++{cppv} -flto '\
         '-frename-registers -funroll-loops -fno-wrapv '\
@@ -21,10 +20,12 @@ exts = []
 baseDir =  os.getcwd() + os.path.sep
 nums = numpy.get_include()
 
+
+data_files = []
 for (root, dirs, files) in os.walk(baseDir):
     for file in files:
         fileName = os.path.join(root, file)
-        if file.endswith('.pyx'):
+        if file.endswith('.pyx') and not "tests" in root:
             # some cython shenanigans
             extPath  = fileName.replace(baseDir, '') # make relative
             extName  = extPath.split('.')[0].replace(os.path.sep, '.') # remove extension
@@ -32,8 +33,10 @@ for (root, dirs, files) in os.walk(baseDir):
             sources  = [extPath]
 
             if os.path.exists(extPath.replace('pyx', "pxd")):
-                sources.append(extPath.replace("pyx", "pxd"))
-            print(sources)
+                base, f = os.path.split(fileName)
+                base = os.path.basename(base)
+                data_files.append((base, [extPath.replace("pyx", "pxd")]))
+
             ex = Extension(extName,
                            sources            = sources,
                            include_dirs       = [nums, '.'],
@@ -45,10 +48,9 @@ for (root, dirs, files) in os.walk(baseDir):
                                               ] + add,
             )
             exts.append(ex)
+
+print(f"data files {data_files}")
 print(f'{len(exts)} will be compiled')
-# # compile
-# with open('requirements.txt', 'r') as f:
-#     install_dependencies = [i.strip() for i in f.readlines()]
 
 from Cython.Compiler import Options
 Options.fast_fail = True
@@ -70,24 +72,25 @@ def TestSuite():
 #with open('requirements.txt', 'r') as f:
 #    requirements = f.read().splitlines()
 from setuptools import find_namespace_packages, find_packages
-namespaces = find_namespace_packages(include = ["plexsim"],
-                                     exclude = ["plexsim.tests*"])
-
-packages = find_packages()
-
-# packages = find_packages(where = "plexsim")
-print(packages)
 setup(
-      package_dir = {"" : "plexsim"},
-      package_data       = { "" : '*.pxd *.pyx'.split(),
-                             "plexsim" : "*pxd *.pyx".split()
-                             },
-      ext_modules = cythonize(
-                    exts,
-                    language_level      = 3,
-                    compiler_directives = cdirectives,
-                    nthreads            = mp.cpu_count(),
+    name                        = "plexsim",
+    author                      = "Casper van Elteren",
+    author_email                = "caspervanelteren@gmail.com",
+    url                         = "cvanelteren.githubio.io",
+    version                     = "2.0",
+    zip_safe                    = False,
+    # package_dir                 = {"" : "plexsim"},
+    # package_data                = {
+        # "" : "*.pyx *.pxd".split(),
+        # "plexsim" : "plexsim/*pyx plexsim/*pxd".split(),
+                    # },
+    include_package_data        = True,
+    data_files                  = data_files,
+    packages                    = find_packages(where = "plexsim"),
+    install_requires            = "cython numpy networkx".split(),
+    ext_modules                 = cythonize(
+                                        exts,
+                                        compiler_directives = cdirectives,
+                                        nthreads            = mp.cpu_count(),
     ),
-# gdb_debug =True,
 )
-
