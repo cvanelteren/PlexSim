@@ -34,15 +34,15 @@ for (root, dirs, files) in os.walk(baseDir):
             if os.path.exists(extPath.replace('pyx', "pxd")):
                 sources.append(extPath.replace("pyx", "pxd"))
             print(sources)
-            ex = Extension(extName, \
-                           sources            = sources, \
-                           include_dirs       = [nums, '.'],\
+            ex = Extension(extName,
+                           sources            = sources,
+                           include_dirs       = [nums, '.'],
                            libraries          = ['stdc++'],
-                           extra_compile_args = flags.split(),\
-                           extra_link_args = ['-fopenmp',\
-                                              f'-std=c++{cppv}',\
-                                              # '-g'\
-                                              ] + add,\
+                           extra_compile_args = flags.split(),
+                           extra_link_args = ['-fopenmp',
+                                              f'-std=c++{cppv}',
+                                              # '-g'
+                                              ] + add,
             )
             exts.append(ex)
 print(f'{len(exts)} will be compiled')
@@ -52,19 +52,19 @@ print(f'{len(exts)} will be compiled')
 
 from Cython.Compiler import Options
 Options.fast_fail = True
-cdirectives =  dict(\
-                    cdivision        = True,\
-                    binding          = True,\
-                    embedsignature   = True,\
-                    boundscheck      = False,\
-                    initializedcheck = False,\
-                    overflowcheck    = False,\
-                    nonecheck        = False,\
+cdirectives =  dict(
+                    cdivision        = True,
+                    binding          = True,
+                    embedsignature   = True,
+                    boundscheck      = False,
+                    initializedcheck = False,
+                    overflowcheck    = False,
+                    nonecheck        = False,
                     )
 import unittest
 def TestSuite():
     test_loader = unittest.TestLoader()
-    test_suite = test_loader.discover('plexsim/tests', pattern='test_*.py',\
+    test_suite = test_loader.discover('plexsim/tests', pattern='test_*.py',
                                       top_level_dir = 'plexsim')
     return test_suite
 #with open('requirements.txt', 'r') as f:
@@ -77,18 +77,17 @@ packages = find_packages()
 
 # packages = find_packages(where = "plexsim")
 print(packages)
-setup(\
+setup(
+      package_dir = {"" : "plexsim"},
       package_data       = { "" : '*.pxd *.pyx'.split(),
                              "plexsim" : "*pxd *.pyx".split()
-                             },\
-      ext_modules = cythonize(\
-                    exts,\
-                    # annotate            = True,\ # set to true for performance html
-                    language_level      = 3,\
-                    compiler_directives = cdirectives,\
-                    # source must be pickable
-                    nthreads            = mp.cpu_count(),\
-    ),\
+                             },
+      ext_modules = cythonize(
+                    exts,
+                    language_level      = 3,
+                    compiler_directives = cdirectives,
+                    nthreads            = mp.cpu_count(),
+    ),
 # gdb_debug =True,
 )
 
