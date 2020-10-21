@@ -16,6 +16,16 @@ flags = f'{optFlag} -march=native -std=c++{cppv} -flto '\
         '-frename-registers -funroll-loops -fno-wrapv '\
         '-fopenmp-simd -fopenmp -unused-variable -Wno-unused'
 
+try:
+    clangCheck = run(f"{compiler} --version".split(), capture_output= True)
+    if not clangCheck.returncode and 'fs4' not in os.uname().nodename:
+        print("Using default")
+        # os.environ['CXXFLAGS'] =  f'{compiler} {flags}'
+        # os.environ['CC']       =  f'{compiler} {flags}'
+        # add.append('-lomp') # c
+except Exception as e:
+    print(e)
+    pass
 # collect pyx files
 exts = []
 baseDir =  os.getcwd() + os.path.sep
@@ -29,11 +39,6 @@ for (root, dirs, files) in os.walk(baseDir):
             extPath  = fileName.replace(baseDir, '') # make relative
             extName  = extPath.split('.')[0].replace(os.path.sep, '.') # remove extension
             sources  = [extPath]
-
-            sources  = [extPath]
-            if os.path.exists(extPath.replace(".pyx", ".pxd")):
-                sources.append(extPath.replace(".pyx", ".pxd"))
-
             ex = Extension(extName, \
                            sources            = sources, \
                            include_dirs       = [nums, '.'],\
@@ -52,8 +57,6 @@ print(f'{len(exts)} will be compiled')
 from Cython.Compiler import Options
 Options.fast_fail = True
 cdirectives =  dict(\
-                    # fast_fail        = True,\
-                    # fast_gil         = True,\
                     cdivision        = True,\
                     binding          = True,\
                     embedsignature   = True,\
@@ -71,25 +74,7 @@ def TestSuite():
 #with open('requirements.txt', 'r') as f:
 #    requirements = f.read().splitlines()
 from setuptools import find_namespace_packages, find_packages
-namespaces = find_namespace_packages(include = ["plexsim"],
-                                     exclude = ["plexsim.tests*"])
-
-packages = find_packages()
-
-# packages = find_packages(where = "plexsim")
-print(packages)
 setup(\
-      name               = "plexsim",\
-      version            = __version__,\
-      author             = "Casper van Elteren",\
-      author_email       = "caspervanelteren@gmail.com",\
-      url                = "cvanelteren.github.io",\
-      test_suite         = "setup.TestSuite",\
-      zip_safe           = False,\
-      # namespace_packages = namespaces,
-      # package_dir         = {"" : "plexsim"},
-      packages           = packages,
-      package_data       = { "" : '*.pxd *.pyx'.split()},\
       ext_modules = cythonize(\
                     exts,\
                     # annotate            = True,\ # set to true for performance html
