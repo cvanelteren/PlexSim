@@ -1196,7 +1196,7 @@ cdef class Prisoner(Potts):
                  p_recomb = None,
                  coupling = 0., **kwargs):
 
-        super(Prisoner, self).__init__(**locals())
+        super(Prisoner, self).__init__(**locals(), **kwargs)
 
         self.R = R # reward
         self.S = S # suckers' payout
