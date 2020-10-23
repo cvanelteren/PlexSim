@@ -1256,8 +1256,13 @@ cdef class Prisoner(Potts):
         """
         Play the prisoner game
         """
-        return self._R * x * y + self._T * x * fabs(1  - y) + \
-            self._S * fabs(1 - x) * y  + self._P * fabs( 1 - x ) * fabs( 1 - y )
+        # x, y
+        # 0, 0  = P -> (1-x) * (1-y)
+        # 1, 0  = S -> x * (y - 1)
+        # 0, 1  = T ->
+        # 1, 1  = R
+        return self._R * x * y + self._T * fabs(1-y) * x + \
+            self._S * x * fabs(1-y)  + self._P * fabs( 1 - x ) * fabs( 1 - y )
 
 
 
