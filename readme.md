@@ -5,6 +5,7 @@ _N.b._ this is a work in progress
 
 
 # Installation
+Current versions are developed on `linux`. 
 ## New environment
 `conda env create --file environment.yml`
 ## Existing environment

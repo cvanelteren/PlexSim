@@ -221,6 +221,7 @@ cdef class Model:
     """
     cdef:
         # public
+        PyObject* ptr
         state_t[::1] __states
         state_t* _states
 

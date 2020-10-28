@@ -23,6 +23,7 @@ from libcpp.vector cimport vector
 from libcpp.pair cimport pair
 from libcpp.map cimport map
 from libcpp.unordered_map cimport unordered_map
+from cpython cimport PyObject
 
 
 from cpython.mem cimport PyMem_Malloc, PyMem_Realloc, PyMem_Free
@@ -146,7 +147,8 @@ cdef class MCMC:
         self._p_recomb = value
         # print(f"recomb set to {value}")
 
-
+cdef api void print_hello():
+    print('hello')
 cdef class RandomGenerator:
     def __init__(self,\
                  object seed,\
@@ -269,6 +271,7 @@ cdef class Adjacency:
    def __repr__(self):
         return str(self._adj)
 
+
 cdef class Rules:
     def __init__(self, object rules):
         self.rules = rules
@@ -378,6 +381,9 @@ cdef class Model:
         self.sampleSize = <size_t> kwargs.get("sampleSize", self.nNodes)
 
         self._z = 1 / <double> self._nStates
+
+        # create pointer
+        self.ptr = <PyObject*> self
        
 
     cpdef double rand(self, size_t n):
@@ -873,7 +879,8 @@ cdef class Model:
             # m.mcmc._p_recomb = self.mcmc._p_recomb
             # force resed
             spawn.push_back( PyObjectHolder(\
-                                        <PyObject*> m\
+                                        # <PyObject*> m\
+                                        m.ptr
                                         )
                              )
         return spawn
@@ -902,6 +909,7 @@ cdef class Logmap(Model):
         super(Logmap, self).__init__(**locals())
         self.r = r
         self.alpha = alpha
+
 
 
 
@@ -1261,7 +1269,7 @@ cdef class Prisoner(Potts):
         # 1, 0  = S -> x * (y - 1)
         # 0, 1  = T ->
         # 1, 1  = R
-        return self._R * x * y + self._T * fabs(1-y) * x + \
+        return self._R * x * y + self._T * fabs(1 - y) * x + \
             self._S * x * fabs(1-y)  + self._P * fabs( 1 - x ) * fabs( 1 - y )
 
 
