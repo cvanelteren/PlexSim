@@ -1225,7 +1225,8 @@ cdef class Prisoner(Potts):
 
         # overwrite magnetization
         if hierarchy:
-            self.H = hierarchy
+            for idx, hi in enumerate(hiearchy):
+                self.H[idx] = hi
 
 
 
@@ -1276,28 +1277,29 @@ cdef class Prisoner(Potts):
         Play the prisoner game
         """
         # x, y
-        # 0, 0  = P -> (1-x) * (1-y)
-        # 1, 0  = S -> x * (y - 1)
-        # 0, 1  = T ->
-        # 1, 1  = R
+        # 0, 0  = (D, D) -> P
+        # 1, 0  = (C, D) -> S
+        # 0, 1  = (D, C) -> T
+        # 1, 1  = (C, C) -> R
 
 
-        # cdef double tmp
-        # if x == 0 and y == 0:
-        #     tmp = self._P
-        # elif x == 1 and y == 0:
-        #     tmp = self._S
-        # elif x == 0 and y == 1:
-        #     tmp = self._T
-        # else:
-        #     tmp = self._R
+        cdef double tmp
+        if x == 0 and y == 0:
+            tmp = self._P
+        elif x == 1 and y == 0:
+            tmp = self._S
+        elif x == 0 and y == 1:
+            tmp = self._T
+        elif x == 1 and y == 1:
+            tmp = self._R
+        return tmp
 
         #if self._rng._rand() < tmp:
             # return 1.
         # return 0.
 
-        return self._R * x * y + self._T * fabs(1 - y) * x + \
-            self._S * x * fabs(1 - y)  + self._P * fabs( 1 - x ) * fabs( 1 - y )
+        # return self._R * x * y + self._S * fabs(1 - y) * x + \
+        #     self._T * x * fabs(1 - y)  + self._P * fabs( 1 - x ) * fabs( 1 - y )
 
 
 
@@ -1308,15 +1310,15 @@ cdef class Prisoner(Potts):
     cpdef double probs(self, state_t state, node_id_t node):
         return self.probability(state, node)
     cdef double probability(self, state_t state, node_id_t node) nogil:
+
+        # get random neighbor
         cdef size_t idx = <size_t> (self._rng._rand() * self.adj._adj[node].neighbors.size())
-        cdef size_t c = 0
+        # get iterator and advance
         it = self.adj._adj[node].neighbors.begin()
-        while it != self.adj._adj[node].neighbors.end():
-            if c == idx :
-                neighbor = deref(it).first
-                break
-            c+= 1
+        for c in range(idx):
             post(it)
+        # assign neighbor
+        cdef node_id_t neighbor = deref(it).first
         # cdef node_id_t neighbor = (self.adj._adj[node].neighbors.bucket(idx))
         cdef:
             double energy          = self._energy(node)
@@ -1325,6 +1327,7 @@ cdef class Prisoner(Potts):
             double p = 1. + exp(self._beta  * (energy - energy_neighbor * (1 + self._delta * self._coupling)))
 
 
+        # adopt strategy
         if self._rng._rand() < 1/p:
             self._newstates[node] = self._states[neighbor]
 
