@@ -214,7 +214,7 @@ cdef class Adjacency:
         dict __dict__
 
 
-cdef class Model:
+cdef public class Model [object PyModel, type PyModel_t]:
     """
     Interface for the models and serves a top of the hierarchy in the
     class structure
@@ -339,6 +339,8 @@ cdef class Prisoner(Potts):
     cdef:
         double _S, _T, _P, _R
         double _coupling
+
+    cpdef  double probs(self, state_t state, node_id_t node)
 cdef class AB(Model):
     cdef unordered_map[node_id_t, bint] _zealots
     cdef void _step(self, node_id_t node) nogil
