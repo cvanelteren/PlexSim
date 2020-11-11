@@ -312,7 +312,7 @@ cdef class Rules:
         return tmp
 
 
-cdef class Model:
+cdef public class Model [object PyModel, type PyModel_t]:
     def __init__(self,\
                  graph       = nx.path_graph(1),\
                  agentStates = np.array([0], dtype = np.int),\
@@ -510,14 +510,14 @@ cdef class Model:
         self._swap_memory()
         return
 
-    cpdef state_t[::1] updateState(self, node_id_t[::1] nodesToUpdate):
+    cpdef public state_t[::1] updateState(self, node_id_t[::1] nodesToUpdate):
         """
         General state updater wrapper
         I
         """
         return self._updateState(nodesToUpdate)
 
-    cdef void _step(self, node_id_t node) nogil:
+    cdef public void _step(self, node_id_t node) nogil:
         return
 
     cpdef node_id_t[:, ::1] sampleNodes(self, size_t nSamples):
@@ -894,6 +894,15 @@ cdef class Model:
         return 1.
 
 
+cdef class ModelMC(Model):
+    def __init__(self, p_recomb = 1, *args, **kwargs):
+        # init base model
+        super(ModelMC, self).__init__(*args, **kwargs)
+
+        # start creating stochastic properties
+        # note the rng is shared with base
+        self._mcmc = MCMC(self._rng, p_recomb)
+
 
 def rebuild(cls, kwargs):
     return cls(**kwargs)
@@ -929,7 +938,8 @@ cdef class Logmap(Model):
 
         x_n = self._r * self._states[node] * (1 - self._states[node]) +\
             self._alpha * fabs(cos(x_n - self._states[node]) )
-        return 
+        self._newstates[node] = x_n
+        return
 
     @property
     def r(self):
@@ -1220,6 +1230,8 @@ cdef class Prisoner(Potts):
 
 
     cdef double _energy(self, node_id_t node) nogil:
+
+        it = self.adj._adj[node].neighbors.begin()
         cdef:
             size_t neighbors = self.adj._adj[node].neighbors.size()
             state_t* states = self._states # alias
@@ -1234,7 +1246,6 @@ cdef class Prisoner(Potts):
             pair[bint, pair[state_t, double]] rule;
             double update
 
-        it = self.adj._adj[node].neighbors.begin()
         cdef size_t idx
 
         # current state as proposal
@@ -1269,30 +1280,57 @@ cdef class Prisoner(Potts):
         # 1, 0  = S -> x * (y - 1)
         # 0, 1  = T ->
         # 1, 1  = R
+
+
+        # cdef double tmp
+        # if x == 0 and y == 0:
+        #     tmp = self._P
+        # elif x == 1 and y == 0:
+        #     tmp = self._S
+        # elif x == 0 and y == 1:
+        #     tmp = self._T
+        # else:
+        #     tmp = self._R
+
+        #if self._rng._rand() < tmp:
+            # return 1.
+        # return 0.
+
         return self._R * x * y + self._T * fabs(1 - y) * x + \
-            self._S * x * fabs(1-y)  + self._P * fabs( 1 - x ) * fabs( 1 - y )
+            self._S * x * fabs(1 - y)  + self._P * fabs( 1 - x ) * fabs( 1 - y )
 
 
 
     cdef void _step(self, node_id_t node) nogil:
         self.probability(self._states[node], node)
 
-    cdef double probability(self, state_t state, node_id_t node) nogil:
-        cdef state_t tmp = self._states[node]
-        self._states[node] = state
 
+    cpdef double probs(self, state_t state, node_id_t node):
+        return self.probability(state, node)
+    cdef double probability(self, state_t state, node_id_t node) nogil:
         cdef size_t idx = <size_t> (self._rng._rand() * self.adj._adj[node].neighbors.size())
-        cdef node_id_t neighbor = (self.adj._adj[node].neighbors.bucket(idx))
+        cdef size_t c = 0
+        it = self.adj._adj[node].neighbors.begin()
+        while it != self.adj._adj[node].neighbors.end():
+            if c == idx :
+                neighbor = deref(it).first
+                break
+            c+= 1
+            post(it)
+        # cdef node_id_t neighbor = (self.adj._adj[node].neighbors.bucket(idx))
         cdef:
             double energy          = self._energy(node)
             double energy_neighbor = self._energy(neighbor)
             double delta           = self._H[neighbor] - self._H[node]
-            double p = 1 / (1 + \
-                            exp(self._beta  * (energy - energy_neighbor * (1 + self._coupling * delta))))
+            double p = 1. + exp(self._beta  * (energy - energy_neighbor * (1 + self._delta * self._coupling)))
 
-        if self._rng._rand() < p:
+
+        if self._rng._rand() < 1/p:
             self._newstates[node] = self._states[neighbor]
-        # self._states[node] = tmp
+
+        # with gil:
+        #     print(energy, energy_neighbor, 1/p, self._newstates[node], self._states[node],
+        #             self._states[neighbor], node, neighbor)
         return p
 
     def _setter(self, value, start = 0, end = 1):
