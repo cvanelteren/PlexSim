@@ -56,6 +56,7 @@ class Adjacency{
     size_t nNodes;
     py::object graph;
 
+    randutils::mt19937_rng rng;
   Adjacency() {} ;
   Adjacency(py::object graph){
     // relabel nodes
@@ -94,71 +95,54 @@ class Adjacency{
     return ;
   }
 
+
+    nodeids_a sampleNodes(size_t nSamples, size_t sampleSize){
+       auto nNodes       = this->nNodes;
+       // samples samples = this->samples;
+       // samples.resize(nSamples * sampleSize);
+       auto N   = nSamples * sampleSize;
+       auto nodes  = nodeids_a::from_shape({N});
+
+       auto tmp = 0;
+       auto nodeids = this->nodeids ;
+
+       // size_t j;
+       #pragma omp simd
+       for (auto samplei = 0; samplei < N; samplei++){
+           tmp = samplei % nNodes;
+           if (!(tmp)){
+             // xt::random::shuffle(nodeids, this->eng);
+             this->rng.shuffle(nodeids);
+         }
+         // assign to sample
+         nodes[samplei] = nodeids[tmp];
+         // xt::view(nodes, samplei) = nodeids[tmp];
+       }
+    // return nodes;
+    return xt::reshape_view(nodes, {nSamples, sampleSize});
+  }
   const Neighbors& operator[](nodeID_t node){
     return this->adj[node].neighbors; };
 
  };
 
-class States {
-    public:
-        FOENA agentStates;
-        xt::xarray< foena_t> _states;
-        foena_t *states;
-        foena_t *newstates;
 
-        States() {};
-        States(FOENA agentStates, size_t nNodes){
-            this->_states = FOENA({2, nNodes});
-            //create pointer to current state
-            this->states    = &this->_states[0];
-            this->newstates = &this->_states[1];
-
-            // randomize the states
-            this->reset();
-
-            this->_states[1]  = this->_states[0];
-            this->agentStates = agentStates;
-
-
-        }
-
-    void reset(){
-      for (auto node = 0 ; node < this->_states.shape(1); node++){
-            std::cout << xt::random::choice(agentStates, 1);
-            // this->states[node] = xt::random::choice(agentStates, 1)[0];
-        }
-    }
-
-  void set_state(foena_t state){
-    for (auto node = 0; node < this->_states.shape(1); node ++){
-      this->states[node] = state;
-      }
-    }
-
-  void set_state(FOENA states){
-    for (auto node = 0; node < this->_states.shape(1); node ++){
-      this->states[node] = states[node];
-      }
-  }
-
-    void swap(){
-      // clean-up after update loop
-      std::swap(this->states, this->newstates);
-    }
-
-  };
 template<typename IMPL>
 class Model{
 public:
-    FOENA states;
-    FOENA newstates;
-    // agentStates_t agentStates;
-    FOENA agentStates; // discrete container
 
     size_t sampleSize;
-
+    // adjacency
     Adjacency adj;
     randutils::mt19937_rng rng;
+
+    // state pointers
+    FOENA newstates;
+    FOENA states;
+    xt::xarray< foena_t> _states;
+
+    FOENA agentStates;
+
     // XoshiroCpp::Xoshiro256Plus eng;
     // States states;
 
@@ -193,29 +177,68 @@ public:
             }
         };
 
+
+      // default constructor
+  Model(size_t nNodes){
+      this->_states = FOENA({2, nNodes});
+      //create pointer to current state
+      this->states    = xt::view(this->_states, 0);
+      this->newstates = xt::view(this->_states, 1);
+
+  }
+
   Model(
         py::object graph,
         FOENA agentStates,
         // agentStates_t agentStates,
         size_t sampleSize
         ){
-             this->adj         = Adjacency(graph);
-             this->agentStates = agentStates;
-             // this->states   = States(agentStates, this->adj.nNodes);
-             this->states      = FOENA::from_shape({this->adj.nNodes});
-             this->newstates   = FOENA::from_shape({this->adj.nNodes});
+            this->adj         = Adjacency(graph);
 
-            for (auto node = 0 ; node < this->adj.nNodes; node++){
-                // std::cout << xt::random::choice(agentStates, 1);
-                // this->states[node] = xt::random::choice(agentStates, 1);
-                this->states[node] = this->rng.pick(agentStates);
-                this->newstates[node] = this->states[node];
-            }
+            Model(this->adj.nNodes);
+            // randomize the states
+            this->agentStates = agentStates;
+
+            // init states networked graph with states
+            this->reset();
+
+            // copy backend buffers
+            this->_states[1]  = this->_states[0];
+
+            // set samplesize
             this->sampleSize = ( sampleSize == 0 ? this->adj.nNodes : sampleSize);
             return;
     }
 
-    FOENA updateState(nodeids_a nodes){
+
+    void reset(){
+      for (auto node = 0 ; node < this->_states.shape(1); node++){
+            std::cout << xt::random::choice(agentStates, 1);
+            // this->states[node] = xt::random::choice(agentStates, 1)[0];
+        }
+    }
+
+  // set state for singular value
+  void set_state(foena_t state){
+    for (auto node = 0; node < this->_states.shape(1); node ++){
+      this->states[node] = state;
+      }
+    }
+
+  // set state for an array
+  void set_state(FOENA states){
+    for (auto node = 0; node < this->_states.shape(1); node ++){
+      this->states[node] = states[node];
+      }
+  }
+
+    void swap(){
+      // clean-up after update loop
+      std::swap(this->states, this->newstates);
+    }
+
+
+    FOENA update(nodeids_a nodes){
         // down cast derived model
        #pragma omp simd
         for (const auto& node: nodes){
@@ -225,49 +248,29 @@ public:
         return this->states;
     }
 
+
+
+FOENA simulate(size_t nSamples){
+        size_t nNodes = this->adj.nNodes;
+        FOENA results = FOENA::from_shape({nSamples, nNodes});
+        nodeids_a nodes = this->adj.sampleNodes(nSamples, this->sampleSize);
+
+        // init buffer with current state
+        xt::row(results, 0) = this->states;
+        #pragma omp simd
+        for (auto samplei = 1; samplei < nSamples - 1; samplei++){
+            xt::view(results, samplei) = this->update(xt::view(nodes,
+        samplei));
+            }
+        return results;
+    }
+
     void swap_buffers(){
       std::swap(this->states, this->newstates);
       // this->states.swap();
     }
 
-    nodeids_a sampleNodes(size_t nSamples){
-       auto sampleSize   = this->sampleSize;
-       auto nNodes       = this->adj.nNodes;
-       // samples samples = this->samples;
-       // samples.resize(nSamples * sampleSize);
-       auto N   = nSamples * sampleSize;
-       auto nodes  = nodeids_a::from_shape({N});
 
-       auto tmp = 0;
-       auto nodeids = this->adj.nodeids ;
-
-       // size_t j;
-       #pragma omp simd
-       for (auto samplei = 0; samplei < N; samplei++){
-           tmp = samplei % nNodes;
-           if (!(tmp)){
-             // xt::random::shuffle(nodeids, this->eng);
-             this->rng.shuffle(nodeids);
-         }
-         // assign to sample
-         nodes[samplei] = nodeids[tmp];
-         // xt::view(nodes, samplei) = nodeids[tmp];
-       }
-    // return nodes;
-    return xt::reshape_view(nodes, {nSamples, sampleSize});
-  }
-
-    FOENA  simulate(size_t nSamples){
-        FOENA results = FOENA::from_shape({nSamples, this->adj.nNodes});
-        nodeids_a nodes = this->sampleNodes(nSamples);
-
-        this->updateState(xt::view(nodes, 0));
-        #pragma omp simd
-        for (auto samplei = 1; samplei < nSamples - 1; samplei++){
-            xt::view(results, samplei) = this->updateState(xt::view(nodes,  samplei));
-            }
-        return results;
-    }
  // private:
   // IMPL& impl_ = static_cast<IMPL&>(*this);
 
@@ -317,7 +320,6 @@ class MCMC{
     }
   }
 
-
   void gibbs(nodeids_a nodes, Model<auto>* ptr){
     double p, p_current, p_proposal;
     foena_t currentState, proposalState;
@@ -344,6 +346,18 @@ class MCMC{
   }
 };
 
+// template<typename IMPL>
+// class ModelMCMC<IMPL>: public Model<IMPL>{
+
+//   ModelMCMC(
+//         py::object graph,
+//         FOENA agentStates,
+//         size_t sampleSize,
+//         size_t seed) : Model(graph = graph,agentStates = agentStates,
+//         sampleSize = sampleSize){
+//     // init mcmc
+//   }
+// }
 
 // auto key_selector = [](auto pair){ return pair.first ; };
 // auto value_selector = [](auto pair){ return pair.second ; };
@@ -382,14 +396,15 @@ class Potts: public Model<Potts>{
        // double energy             = this->energy(node, proposal);
        // energy                   += this->energy(node, proposal);
        double energy = 0;
+       foena_t tmp ;
         for (const auto& neighbor : this->adj[node]){
-            energy += neighbor.second *
-                this->hamiltonian(proposal, this->states[neighbor.first]);
-
-            energy += neighbor.second *
-                this->hamiltonian(proposal, this->states[neighbor.first]);
+          tmp = this->states[neighbor.first];
+          // tmp = xt::view(this->state.states, neighbor.first, 0);
+          energy += neighbor.second *
+                this->hamiltonian(proposal, tmp);
         }
        auto delta                = xt::xarray<double>{this->t.beta * energy};
+
        auto p                    = xt::exp(- delta);
        // xt::random::rand({1}, 0., 1.);
        // if ((xt::random::rand({1}, 0., 1.)[0] < p[0])){
@@ -400,7 +415,7 @@ class Potts: public Model<Potts>{
     }
 
 
-    inline double energy(nodeID_t node, foena_t proposal){
+    double energy(nodeID_t node, foena_t proposal){
        double energy = 0;
         for (const auto& neighbor : this->adj[node]){
             energy += neighbor.second *
@@ -441,6 +456,10 @@ class Potts: public Model<Potts>{
 //   return output;
 // }
 
+void test(int x, int y){
+  std::cout << "x = " << x << std::endl;
+ std::cout << "x = " << y << std::endl;
+}
 PYBIND11_MODULE(example, m){
     xt::import_numpy();
     py::class_<Potts>(m, "Potts")
@@ -455,15 +474,17 @@ PYBIND11_MODULE(example, m){
            "sampleSize"_a = 0,
            "t"_a = 1.)
       .def("simulate", &Potts::simulate)
-      .def("sampleNodes", &Potts::sampleNodes)
+      .def("reset", &Potts::reset)
+      // .def("sampleNodes", &Adjacency::sampleNodes)
       .def_property("agentStates",
                     [](const Potts& self){ return self.agentStates; },
-                    [](const Potts & self) {})
+                    [](const Potts& self) {})
       .def_property("graph",
-            [] (const Potts & self){return self.adj.graph;},
-            [](const Potts & self){})
+            [] (const Potts& self){return self.adj.graph;},
+            [](const Potts& self){})
       .def("rand", &Potts::rand)
       ;
+    m.def("test", &test, "x"_a = 0, "y"_a = 1);
 
 };
 
