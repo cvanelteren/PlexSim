@@ -338,7 +338,7 @@ cdef class Potts(Model):
 cdef class Prisoner(Potts):
     cdef:
         double _S, _T, _P, _R
-        double _coupling
+        double _alpha
 
     cpdef  double probs(self, state_t state, node_id_t node)
 cdef class AB(Model):
@@ -410,5 +410,4 @@ cdef class CCA(Model):
     cdef:
         double _threshold
 
-    cdef void  _evolve(self, node_id_t node) nogil
     cdef void _step(self, node_id_t node) nogil

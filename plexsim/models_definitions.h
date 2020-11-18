@@ -5,10 +5,10 @@
 #include <unordered_map>
 #include <string>
 
-#include <pybind11/stl.h>
-#include <pybind11/pybind11.h>
-#include <pybind11/numpy.h>
-#include <pybind11/operators.h>
+#include "pybind11/stl.h"
+#include "pybind11/pybind11.h"
+#include "pybind11/numpy.h"
+#include "pybind11/operators.h"
 
 #include "randutils.hpp"
 #define FORCE_IMPORT_ARRAY

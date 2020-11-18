@@ -147,8 +147,6 @@ cdef class MCMC:
         self._p_recomb = value
         # print(f"recomb set to {value}")
 
-cdef api void print_hello():
-    print('hello')
 cdef class RandomGenerator:
     def __init__(self,\
                  object seed,\
@@ -1202,30 +1200,32 @@ cdef class Potts(Model):
         self._t   = value
         self.beta = 1 / value if value != 0 else np.inf
 
+#TODO: bug in the alpha coupler...doesnt differ from original code but doesn't
+#work the same way?
 cdef class Prisoner(Potts):
     def __init__(self, graph,\
                  agentStates = np.arange(2),\
                  t = 1.0,\
+                 T = 1,\
                  R = 1.,\
                  P = 0.,\
                  S = 0.,\
-                 T = .5,\
                  hierarchy = None,
                  p_recomb = None,
-                 coupling = 0., **kwargs):
+                 alpha = 0., **kwargs):
 
         super(Prisoner, self).__init__(**locals(), **kwargs)
 
-        self.R = R # reward
-        self.S = S # suckers' payout
-        self.P = P # punishment
         self.T = T # temptation
+        self.R = R # reward
+        self.P = P # punishment
+        self.S = S # suckers' payout
 
-        self.coupling = coupling
+        self.alpha = alpha
 
         # overwrite magnetization
         if hierarchy:
-            for idx, hi in enumerate(hiearchy):
+            for idx, hi in enumerate(hierarchy):
                 self.H[idx] = hi
 
 
@@ -1262,14 +1262,11 @@ cdef class Prisoner(Potts):
             # normal potts
             else:
                 update = weight * self._hamiltonian(proposal, states[neighbor])
-
             energy += update
             post(it)
 
         cdef size_t mi
         # TODO: move to separate function
-        for mi in range(self._memorySize):
-            energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
         return energy
 
     cdef double _hamiltonian(self, state_t x, state_t y) nogil:
@@ -1277,20 +1274,20 @@ cdef class Prisoner(Potts):
         Play the prisoner game
         """
         # x, y
-        # 0, 0  = (D, D) -> P
-        # 1, 0  = (C, D) -> S
         # 0, 1  = (D, C) -> T
         # 1, 1  = (C, C) -> R
+        # 1, 0  = (C, D) -> S
+        # 0, 0  = (D, D) -> P
 
 
-        cdef double tmp
-        if x == 0 and y == 0:
+        cdef double tmp = 0
+        if x == 0. and y == 0.:
             tmp = self._P
-        elif x == 1 and y == 0:
+        elif x == 1. and y == 0.:
             tmp = self._S
-        elif x == 0 and y == 1:
+        elif x == 0. and y == 1.:
             tmp = self._T
-        elif x == 1 and y == 1:
+        elif x == 1. and y == 1.:
             tmp = self._R
         return tmp
 
@@ -1319,17 +1316,21 @@ cdef class Prisoner(Potts):
             post(it)
         # assign neighbor
         cdef node_id_t neighbor = deref(it).first
-        # cdef node_id_t neighbor = (self.adj._adj[node].neighbors.bucket(idx))
-        cdef:
-            double energy          = self._energy(node)
-            double energy_neighbor = self._energy(neighbor)
-            double delta           = self._H[neighbor] - self._H[node]
-            double p = 1. + exp(self._beta  * (energy - energy_neighbor * (1 + self._delta * self._coupling)))
 
+        cdef double energy, energy_neighbor, delta, p
+        energy          = self._energy(node)
+        energy_neighbor = self._energy(neighbor)
+        delta           = self._H[neighbor] - self._H[node]
+        delta = -delta
+        p = 1 / (1. + exp(self._beta  * (energy - energy_neighbor * (1 + self._delta * self._alpha))))
 
-        # adopt strategy
-        if self._rng._rand() < 1/p:
+            # adopt strategy
+        if self._rng._rand() < p:
             self._newstates[node] = self._states[neighbor]
+
+        # else:
+        #     idx = <size_t> (self._rng._rand() * self._nStates)
+        #     self._newstates[node] = self._agentStates[idx]
 
         # with gil:
         #     print(energy, energy_neighbor, 1/p, self._newstates[node], self._states[node],
@@ -1343,11 +1344,11 @@ cdef class Prisoner(Potts):
 
     # boiler-plate...
     @property
-    def coupling(self): return self._coupling
+    def alpha(self): return self._alpha
 
-    @coupling.setter
-    def coupling(self, value):
-        self._coupling = self._setter(value)
+    @alpha.setter
+    def alpha(self, value):
+        self._alpha = self._setter(value)
 
     @property
     def P(self): return self._P
@@ -1933,7 +1934,7 @@ cdef class CCA(Model):
 
         self.threshold = threshold
 
-    cdef void _evolve(self, node_id_t node) nogil:
+    cdef void _step(self, node_id_t node) nogil:
         """
         Rule : evolve if the state of the neigbhors exceed a threshold
         """
@@ -1958,9 +1959,6 @@ cdef class CCA(Model):
                 i = <int> (self._rng._rand() * self._nStates)
                 self._newstates[node] = self._agentStates[i]
         return 
-    cdef void _step(self, node_id_t node) nogil:
-        self._evolve(node)
-        return
 
     # threshold for neighborhood decision
     @property
