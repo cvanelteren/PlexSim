@@ -289,6 +289,7 @@ cdef public class Model [object PyModel, type PyModel_t]:
 
     # Py wrapper simulation
     cpdef np.ndarray simulate(self, size_t samples)
+    cpdef np.ndarray simulate_mean(self, size_t samples)
 
     cdef SpawnVec _spawn(self, size_t nThreads=*)
 
