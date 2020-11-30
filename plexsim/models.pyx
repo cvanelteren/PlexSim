@@ -190,8 +190,8 @@ cdef class RandomGenerator:
                            size_t n, \
                            size_t stop) nogil:
         cdef size_t idx, jdx
-        for idx in range(n - 1, 1):
-            jdx = <size_t> (self._rand() * idx)
+        for idx in range(n - 1):
+            jdx = <size_t> (self._rand() * (n - idx))
             swap(nodes[idx], nodes[jdx])
             if stop == 1:
                 break
@@ -548,8 +548,16 @@ cdef public class Model [object PyModel, type PyModel_t]:
             start = (samplei * sampleSize) % self.adj._nNodes
             if start + sampleSize >= self.adj._nNodes or sampleSize == 1:
                 # fisher-yates swap
+                #
+
+                # for node in range(self.adj._nNodes -  1, 1):
+                #     jdx = <size_t> (self._rand() * idx)
+                #     swap(nodeids[idx], nodeids[jdx])
+                #     if sampleSize == 1:
+                #         break
+
                 self._rng.fisher_yates(\
-                                        nodeids, \
+                                       nodeids,
                                         self.adj._nNodes, \
                                         sampleSize)
 
@@ -588,6 +596,24 @@ cdef public class Model [object PyModel, type PyModel_t]:
         for i in range(1, samples):
             results[i] = self._updateState(r[i])
         return results.base # convert back to normal array
+
+    cpdef np.ndarray simulate_mean(self, size_t samples):
+        cdef:
+            state_t[::1] results = np.zeros(samples, dtype = np.double)
+            # int sampleSize = 1 if self._updateType == 'single' else self.adj._nNodes
+            # vector[vector[int][sampleSize]] r = self.sampleNodes(samples)
+            int i
+
+        if self.last_written:
+            results[0] = np.mean(self.__states)
+        else:
+            results[0] = np.mean(self.__newstates)
+
+        for i in range(1, samples):
+            results[i] = np.mean(self._updateState(self.sampleNodes(1)[0]))
+        return results.base # convert back to normal array
+
+
 
 
     cdef void _hebbianUpdate(self):

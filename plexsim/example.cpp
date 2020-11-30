@@ -35,6 +35,79 @@ struct pair_hash {
 //     RandomGenerator rng;
 // };
 
+struct boid{
+  double velocity ;
+  FOENA position  ;
+  double radius   ;
+  double phase    ;
+
+};
+
+class Boid{
+  double cohesion;
+  double avoidance;
+  double separation;
+
+  vector<boid> boids;
+// general update
+  void update();
+//helpers
+//
+  vector<Boid> get_neighbors(boid b);
+  void align(boid b);      // change angle to the group
+  void coherence(boid b);  // move towards the group
+  void separation(boid b); // dont hit other birds
+
+  Boid() {};
+  Boid(size_t n );
+  Boid(double s, double a, double c, size_t n);
+
+};
+/* How to keep track of distance efficiently?
+  Discretizigin the space is probably the most efficeient way of doing it.
+ Otherwise you would get a dxd matrix. */
+Boid::get_neighbors(boid b){
+  vector<boid> neighbors;
+  double d;
+  auto center = b.position);
+  auto velocities;
+  auto phase;
+  for (auto other : this->boids){
+    d = xt::sqrt( xt::sum((other.position - b.position)^2 ) );
+    if (d < b.radius) {
+      // move the center
+      center = ( center + other.position ) / 2;
+
+      neighbors.push_back(other);
+    }
+    return neighbors;
+  }
+
+}
+Boid::Boid(size_t n){
+  vector<boid> boids;
+  double v, r, phase;
+  FOENA p;
+  for (auto i = 0; i < n; i++){
+    v  = xt::random::rand<double>({1})[0];
+    p  = xt::random::rand<double>({2});
+    r  = 5;
+    phase = xt::random::rand<double> * 3.141592;
+    boids.push_back(boid {
+        .velocity = v, .position = p,  .radius = r,
+        .phase = phase } );
+  }
+  this->boids = boids;
+}
+
+Boid::Boid(double separation, double avoidance, double cohesion, size_t n) :
+Boid::Boid(n){
+  this->separation = separation;
+  this->avoidance  = avoidance;
+  this->cohesion   = cohesion;
+}
+
+
 
 template<typename T>
 class Property{
