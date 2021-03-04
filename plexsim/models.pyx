@@ -398,9 +398,9 @@ cdef public class Model [object PyModel, type PyModel_t]:
         else:
             for node in range(nodesToUpdate.shape[0]):
                 node = nodesToUpdate[node]
-                #self._apply_nudge(node, backup)
+                self._apply_nudge(node, backup)
                 self._step(node)
-                #self._remove_nudge(node, backup)
+                self._remove_nudge(node, backup)
 
         # clean up
         free(backup)
@@ -425,35 +425,47 @@ cdef public class Model [object PyModel, type PyModel_t]:
         cdef weight_t weight
         cdef int jdx = 0
         cdef size_t agent_idx
+        cdef node_id_t target
+
         # check if there is a nudge
         nudge = self._nudges.find(node)
         it = self.adj._adj[node].neighbors.begin()
+        cdef pair[node_id_t, weight_t] _nudge
         if nudge != self._nudges.end():
             # start nudge
-            if self._rng._rand() < deref(nudge).second:
-                # random sampling
-                idx = <node_id_t> (self._rng._rand() * self.adj._adj[node].neighbors.size())
-                # obtain bucket
-                it = self.adj._adj[node].neighbors.begin()
-                while it != self.adj._adj[node].neighbors.end():
-                    if jdx == idx:
-                        idx = deref(it).first
-                        break
-                    jdx +=1 
-                    post(it)
-                # obtain state
-                state = self._states[idx]
-                weight = self.adj._adj[node].neighbors[idx]
-                # store backup
-                tmp.state  = state
-                tmp.weight = weight
-                deref(backup)[idx] = tmp 
+            target = deref(nudge).first
+            weight = deref(nudge).second
+            
+            _nudge.first = self.adj._nNodes + 1
+            _nudge.second = weight
 
-                # adjust weight
-                self.adj._adj[node].neighbors[idx] = weight * self._kNudges
-                # sample uniformly
-                agent_idx = <size_t> (self._rng._rand() * self._nStates)
-                self._states[node] = self._agentStates[idx]
+            self.adj._adj[target].neighbors.insert(_nudge)
+
+            # if self._rng._rand() < deref(nudge).second:
+            #     # random sampling
+            #     idx = <node_id_t> (self._rng._rand() * self.adj._adj[node].neighbors.size())
+            #     # obtain bucket
+            #     it = self.adj._adj[node].neighbors.begin()
+            #     while it != self.adj._adj[node].neighbors.end():
+            #         if jdx == idx:
+            #             idx = deref(it).first
+            #             break
+            #         jdx +=1 
+            #         post(it)
+            #     # obtain state
+            #     state = self._states[idx]
+            #     weight = self.adj._adj[node].neighbors[idx]
+            #     # store backup
+            #     tmp.state  = state
+            #     tmp.weight = weight
+            #     deref(backup)[idx] = tmp 
+
+                # # adjust weight
+                # self.adj._adj[node].neighbors[idx] = weight * self._kNudges
+                # # sample uniformly
+                # agent_idx = <size_t> (self._rng._rand() * self._nStates)
+                # self._states[node] = self._agentStates[idx]
+
         return
 
     cdef void _remove_nudge(self, node_id_t node,\
@@ -464,11 +476,19 @@ cdef public class Model [object PyModel, type PyModel_t]:
         cdef:
             node_id_t neighbor
             NodeBackup state
+            node_id_t nudge_id = self.adj._nNodes + 1
         it = deref(backup).begin()
+
         while it != deref(backup).end():
             neighbor  = deref(it).first
-            self._states[neighbor] = deref(it).second.state
-            self.adj._adj[node].neighbors[neighbor] = deref(it).second.weight
+            jt =  self.adj._adj[deref(it).first].neighbors.find(nudge_id)
+            if jt != self.adj._adj[deref(it).first].neighbors.end():
+                self.adj._adj[deref(it).first].neighbors.erase(jt)
+
+
+            # self._states[neighbor] = deref(it).second.state
+            # self.adj._adj[node].neighbors[neighbor] = deref(it).second.weight
+
             post(it)
         deref(backup).clear()
         return
@@ -763,9 +783,9 @@ cdef public class Model [object PyModel, type PyModel_t]:
             for k, v in vals.items():
                 if k in self.adj.mapping:
                     idx = self.adj.mapping[k]
-                    self._nudges[idx] = v
+                    self._nudges[idx] = <state_t> v
                 elif k in self.adj.rmapping:
-                    self._nudges[k] = v
+                    self._nudges[k] = <state_t> v
         else:
             raise TypeError("Nudge input not a dict!")
 
@@ -907,6 +927,7 @@ cdef public class Model [object PyModel, type PyModel_t]:
                                         m.ptr
                                         )
                              )
+
         return spawn
 
 
@@ -1064,7 +1085,7 @@ cdef class Potts(Model):
             double energy  = self._H[node]
 
         if self._nudges.find(node) != self._nudges.end():
-            energy += self._nudges[node]
+            energy += self._nudges[node] * self._states[node]
 
 
         # compute the energy
@@ -1087,6 +1108,8 @@ cdef class Potts(Model):
             if rule.first:
                 update = rule.second.second
             # normal potts
+            elif neighbor == self.adj._nNodes + 1:
+                update = weight 
             else:
                 update = weight * self._hamiltonian(proposal, states[neighbor])
 
