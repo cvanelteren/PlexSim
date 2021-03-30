@@ -4,7 +4,7 @@ Fast and general toolbox for simulation of complex adaptive systems written in c
 *N.b.* this is a work in progress. Please see the [[Quickstart]] guide below.
 
 #+attr_html: :alt  :align center :class img
-[[file:./banner/newbanner.gif]]
+[[file:./banner/new_banner.gif]]
 
 * Installing
 - Clone the repo ~git clone git@github.com:cvanelteren/PlexSim.git && cd Plexsim~
@@ -212,10 +212,14 @@ for name, axi in ax.items():
     h = axi.imshow(results[name][0], cmap = cmap, vmin = AS[0],\
                   vmax = AS[-1],
                    interpolation = None)
-    axi.set_title(name)
+    axi.set_title(name, color = 'white')
     axi.axis("off")
+    #axi.spines['bottom'].set_color('red')
+    #axi.spines['top'].set_color('red')
+    
     tmp = fig.colorbar(h, cax = cbr, ticks = AS,\
                        orientation = 'horizontal')
+    cbr.tick_params(colors = 'white')
     if modelName == 'SIRS':
         tmp.set_ticklabels("Sus. Inf. Rec.".split())
     hs[name] = h
@@ -223,10 +227,11 @@ mainax = fig.add_subplot(111, frameon = 0,\
                         xticks = [], yticks = [])
 
 text = mainax.annotate("", (.5, .05), xycoords = "axes fraction",
-                       fontsize = 40, ha = 'center', va = 'center')
+                       fontsize = 40, ha = 'center', va = 'center',
+                       color = 'white')
 # fig.subplots_adjust(left = 0, right = 1, bottom = 0, top = 1)
 
-fig.subplots_adjust(wspace = .02, hspace = -2)
+fig.subplots_adjust(wspace = .02, hspace = -.2)
 #fig.subplots_adjust(hspace = -.2)
 fig.tight_layout()
 def update(t):
@@ -247,6 +252,15 @@ anim.save('banner/new_banner.gif', dpi = 150, writer = 'ffmpeg',
           savefig_kwargs = dict(bbox_inches = "tight"))
 print('done')
 #+end_src
+
+#+RESULTS:
+:RESULTS:
+: <ipython-input-114-275f111c989e>:52: UserWarning: This figure was using constrained_layout==True, but that is incompatible with subplots_adjust and or tight_layout: setting constrained_layout==False. 
+:   fig.subplots_adjust(wspace = .02, hspace = -.2)
+: Warning: discarding the 'bbox_inches' argument in 'savefig_kwargs' as it may cause frame size to vary, which is inappropriate for animation.
+: done
+[[file:./.ob-jupyter/d1e857c1b15e375a5d7cd8080e2832a35ccfffb8.png]]
+:END:
 
 
 
