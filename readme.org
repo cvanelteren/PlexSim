@@ -79,8 +79,6 @@ fig.set_facecolor(fc)
 fig.show()
 #+end_src
 
-#+RESULTS:
-[[file:banner/ising_example.png]]
 
 
 
