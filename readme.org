@@ -1,5 +1,6 @@
 #+options: num:nil
 Welcome to Plexsim.
+
 Fast and general toolbox for simulation of complex adaptive systems written in cython.
 *N.b.* this is a work in progress. Please see the [[Quickstart]] guide below.
 
