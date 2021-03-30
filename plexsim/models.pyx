@@ -661,6 +661,9 @@ cdef public class Model [object PyModel, type PyModel_t]:
     #####
     #####
     @property
+    def rules(self):
+        return self._rules.rules
+    @property
     def p_recomb(self):
         return self._mcmc._p_recomb
 
@@ -1000,6 +1003,182 @@ cdef class Logmap(Model):
     def alpha(self, value):
         self._alpha = value
 
+cdef class ValueNetwork(Potts):
+    def __init__(self, graph,
+                 rules, 
+                 t = 1,
+                 bounded_rational = 1,
+                 agentStates = np.arange(0, 2, dtype = np.double),
+                 **kwargs
+                 ):
+        super(ValueNetwork, self).__init__(graph = graph,
+                                     agentStates = agentStates,
+                                     rules = rules,
+                                     **kwargs)
+         
+        #e = [(u, v) for u, v, d in rules.edges(data = True) if dict(d).get('weight', 1) > 0]
+        #r = nx.from_edgelist(e)
+        self.setup_values(bounded_rational)
+
+
+    cpdef vector[double] siteEnergy(self, state_t[::1] states):
+        cdef:
+            vector[double] siteEnergy = vector[double](self.adj._nNodes)
+            int node
+            double Z, energy
+            state_t* ptr = self._states
+        # reset pointer to current state
+        self._states = &states[0]
+        energy = 0
+        for node in range(self.adj._nNodes):
+            # Z = <double> self.adj._adj[node].neighbors.size()
+            energy = - self._energy(node) #/ <double>(self.adj._adj[node].neighbors.size()) # just average
+            siteEnergy[node] = energy
+        # reset pointer to original buffer
+        self._states = ptr
+        return siteEnergy
+     
+    cdef double  magnetize_(self, Model mod, size_t n, double t):
+        # setup simulation
+        mod.t         =  t
+        #mod.states[:] = mod.agentStates[0]
+        # calculate phase and susceptibility
+        res = mod.simulate(n)  
+        res = np.array([mod.siteEnergy(i) for i in res]).mean()
+        #phase = np.real(np.exp(2 * np.pi * np.complex(0, 1) * res)).mean()
+        return res
+
+    #construct shortest path among nodes
+    cpdef void setup_values(self, int bounded_rational = 1):
+        pr = ProgBar(len(self.graph))
+        # store the paths
+        self.paths.clear()
+        for node in self.graph:
+            node_label = self.adj.mapping[node]
+            for other in self.graph:
+                for idx, path in enumerate(nx.all_simple_paths(self.graph, node, other, cutoff = bounded_rational)):
+                    # add the non-local influences
+                    path = [self.adj.mapping[str(i)] for i in path if len(i) == bounded_rational]
+                    self.paths[node_label][idx] = path
+            pr.update()
+        return
+        
+    
+    @property 
+    def pat(self):
+        return self.paths
+    cdef double _energy(self, node_id_t node) nogil:
+        """
+        """
+        cdef:
+            size_t neighbors = self.adj._adj[node].neighbors.size()
+            state_t* states = self._states # alias
+            size_t  neighbor, neighboridx
+            double weight # TODO: remove delta
+
+            double energy  = self._H[node] * self._states[node]
+
+        if self._nudges.find(node) != self._nudges.end():
+            energy += self._nudges[node] * self._states[node]
+
+
+        # compute the energy
+        cdef:
+            pair[bint, pair[state_t, double]] rule;
+            double update
+            MemoizeUnit memop
+
+        cdef size_t idx
+
+
+        # get the distance to consider based on current state
+        #cdef size_t distance = self.distance_converter[proposal]
+        # only get nodes based on distance it can reach based on the value network
+        # current state as proposal
+        cdef state_t proposal = self._states[node]
+        cdef unordered_map[size_t, vector[node_id_t]] consider_nodes = self.paths[node]
+
+        cdef size_t neighbor_other
+        cdef state_t state_other
+        cdef double counter = 0
+
+        cdef vector[node_id_t] path
+        cdef unordered_map[state_t, size_t] checker
+        jt = consider_nodes.begin()
+        cdef state_t start 
+        cdef rule_t rule_pair
+
+        cdef size_t jdx, j
+        while jt != consider_nodes.end():
+            path = deref(jt).second
+            checker.clear()
+            start = states[node]
+            checker[start] = 1
+            # traverse the tree
+            for j in range(1, path.size()):
+                # get neighbor
+                neighbor = path[j]
+                state_other = states[neighbor]
+                rule_pair = self._rules._check_rules(start, state_other)
+                if rule_pair.first:
+                    if rule_pair.second.second > 0 and checker.find(state_other) != checker.end():
+                        checker[state_other] += 1
+                    else:
+                        break
+            counter += checker.size() / <double>(self._nStates)
+            post(jt)
+
+        it = self.adj._adj[node].neighbors.begin() 
+        while it != self.adj._adj[node].neighbors.end():
+            weight   = deref(it).second
+            neighbor = deref(it).first
+            # check rules
+            rule = self._rules._check_rules(proposal, states[neighbor])
+            # update using rule
+            if rule.first:
+                update = rule.second.second
+            # normal potts
+            elif neighbor == self.adj._nNodes + 1:
+                update = weight 
+            else:
+                update = weight * self._hamiltonian(proposal, states[neighbor])
+            energy += update
+            post(it)
+
+        cdef size_t mi
+        # TODO: move to separate function
+        for mi in range(self._memorySize):
+            energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
+        return energy * (1 + counter)
+
+
+    cdef double probability(self, state_t state, node_id_t node) nogil:
+        cdef state_t tmp = self._states[node]
+        self._states[node] = state
+        cdef:
+            double energy = self._energy(node)
+            double p = exp(self._beta * energy)
+
+        self._states[node] = tmp
+        return p
+
+
+
+    # default update TODO remove this
+    cdef double _hamiltonian(self, state_t x, state_t  y) nogil:
+        return cos(2 * pi  * ( x - y ) * self._z)
+
+    cdef void _step(self, node_id_t node) nogil:
+        cdef:
+            state_t proposal = self._sample_proposal()
+            state_t cur_state= self._states[node]
+            double p     = self.probability(proposal, node) / \
+                self.probability(cur_state, node)
+        if self._rng._rand () < p:
+            self._newstates[node] = proposal
+        return
+
+        
 
 cdef class Potts(Model):
     def __init__(self, \
@@ -1082,7 +1261,7 @@ cdef class Potts(Model):
             size_t  neighbor, neighboridx
             double weight # TODO: remove delta
 
-            double energy  = self._H[node]
+            double energy  = self._H[node] * self._states[node]
 
         if self._nudges.find(node) != self._nudges.end():
             energy += self._nudges[node] * self._states[node]
@@ -1147,6 +1326,17 @@ cdef class Potts(Model):
     cdef double _hamiltonian(self, state_t x, state_t  y) nogil:
         return cos(2 * pi  * ( x - y ) * self._z)
 
+
+    cdef double magnetize_(self, Model mod, size_t n, double t):
+        # setup simulation
+        cdef double Z = 1 / <double> self._nStates  
+        mod.t         =  t
+        mod.states[:] = mod.agentStates[0]
+        # calculate phase and susceptibility
+        res = mod.simulate(n)  * Z
+        phase = np.real(np.exp(2 * np.pi * np.complex(0, 1) * res)).mean()
+        return np.abs(phase)
+
     @cython.cdivision(False)
     cpdef  np.ndarray magnetize(self,\
                               np.ndarray temps  = np.logspace(-3, 2, 20),\
@@ -1192,15 +1382,9 @@ cdef class Potts(Model):
                 # get model
                 tmptr = tmpHolder[tid].ptr
                 with gil:
-                    tmpMod = <Model> tmptr
-                    # setup simulation
-                    tmpMod.t         =  temps[ni]
-                    tmpMod.states[:] = tmpMod.agentStates[0]
-                    # calculate phase and susceptibility
-                    res = tmpMod.simulate(n)  * Z 
-                    phase = np.real(np.exp(2 * np.pi * np.complex(0, 1) * res)).mean()
-                    results[0, ni] = np.abs(phase)
+                    results[0, ni] = self.magnetize_(<Model> tmptr, n, temps[ni])
                     pbar.update(1)
+                
 
             results[1, :] = np.abs(np.gradient(results[0, :], temps, edge_order = 1))
 
@@ -1555,7 +1739,7 @@ def sigmoidOpt(x, params, match):
     return np.abs( sigmoid(x, *params) - match )
 
 # TODO: system coupling is updated instantaneously which is in contradiction with the sync update rule
-cdef class Bornholdt(Ising):
+cdef class Bornholdt(Potts):
     def __init__(self,\
                  graph, \
                  double alpha = 1,\
@@ -1589,8 +1773,10 @@ cdef class Bornholdt(Ising):
         # compute proposal
         self._states[node] = proposal
         energy = self._energy(node)
-        delta  = energy - self._states[node] * systemInfluence
+        delta  = energy - abs(self._hamiltonian(proposal, systemInfluence))
         p      = exp(self._beta * delta)
+
+        self._states[node] = backup_state
         return p
 
         # if self._rng._rand() < p :

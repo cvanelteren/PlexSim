@@ -1,0 +1,115 @@
+
+Welcome to Plexsim.
+Fast and general toolbox for simulation of complex adaptive systems written in cython.
+_N.b._ this is a work in progress. Please see the [[Quickstart]]qguide below.
+
+[[file:/banner/Plexsim_banner.gif]]
+* Installing
+- Clone the repo `git clone git@github.com:cvanelteren/PlexSim.git && cd Plexsim`
+- Install the requirements
+  - As an env `conda create env --file environment.yml`
+  - In an existing environment  `conda env update'
+- `python setup.py install`
+  
+* License
+PlexSim is released under the GNU-GPLv3 license
+
+Powered by 
+[[file:/banner/cython_logo.svg]]
+
+* Quickstart  
+Current  versions are  developed on  `linux`. It  is known  that compiling  with
+cython on mac is  difficult due to the `gcc` compiler  being replaced with `clang`
+on apple.  This toolbox  depends on  `openmp` and this  could cause  problems on
+`apple`. 
+** Setting up the model
+Plexsim  relies on  `networkx`  to  create a  graphical  structure  on which  to
+simulate models.  Various models  are available  in `plexsim.models`.  Below the
+Ising model is used
+#+begin_src jupyter-python :exports both
+from matplotlib import style; style.use("seaborn-poster".split())
+import numpy as np, os, sys, networkx as nx, warnings, matplotlib.pyplot as plt
+warnings.simplefilter("ignore")
+
+from plexsim import models
+
+# init lattice graph with periodic bounds
+g = nx.grid_graph((64, 64), periodic = 1)
+# create an ising model
+temperature = 2.5
+
+# async with sampleSize > 1, can be seen as sampleSize of glauberupdates in 1 simulation step
+settings = dict(graph = g,  # graph for the model
+                t = temperature, #temperature for the Ising model
+                sampleSize = len(g), #how many nodes to update per simulation step (default)
+                updateType = 'async',#the update buffers are not independent, use sync for dependency(default)
+                )
+m = models.Ising(graph = g, t = temperature)
+
+
+# create coords an visualize grid with periodic bounds
+# leverage the fact that grid returns tuples of coordinates
+pos = {i: np.array(eval(i)) for i in m.graph.nodes()}
+# create color map for the possible states of the model
+colors = plt.cm.viridis(np.linspace(0, 1, m.nStates))
+fig, ax = plt.subplots()
+nx.draw(m.graph, pos = pos, ax = ax, node_color = colors[m.states.astype(int)],
+        node_size = 20)
+ax.set_title("Ising model with random initial condition", fontsize = 21)
+ax.axis('equal')
+fig.show()
+#+end_src
+
+#+RESULTS:
+:RESULTS:
+#+attr_org: :width 442
+[[file:figures/ising.png]]
+:END:
+#+attr_html: :alt  :align left :class img
+
+
+
+** Simulation 
+#+begin_src jupyter-python :exports both 
+n = int(1e2) # simulation steps
+m.reset() # reset model to random condition
+sim_results = m.simulate(n)
+# show averages
+spacing = np.linspace(0, n, 4, endpoint = False).astype(int)
+fig, ax = plt.subplots(2, 2, figsize = (5,5), constrained_layout = 1)
+for idx, axi in zip(spacing, ax.flat):
+    tmp = sim_results[idx]
+    nx.draw(m.graph, pos = pos, ax = axi, node_color = colors[tmp.astype(int)],
+            node_size = 5)
+    axi.axis('equal'); axi.axis(True); axi.grid(False)
+    axi.margins(0)
+    axi.set_title(f'T = {idx}')
+    axi.set_xlabel("Node")
+    axi.set_ylabel("Node",  labelpad = -5) 
+    axi.set_facecolor('white')
+    for i in "left right bottom top".split():
+        axi.spines[i].set_visible(False)
+    
+fig.subplots_adjust(wspace = .05, hspace = .4)
+fig.show()
+#+end_src
+
+#+RESULTS:
+:RESULTS:
+#+attr_org: :width 306
+[[file:./.ob-jupyter/7288dae433f91006857914b091d9fb111239e0ae.png]]
+:END:
+
+
+** Other parameters
+The documentation is  a work in progress.  Please check out the  source code for
+different models.
+
+
+
+
+* Notes
+Cannot have static pyobjects, this causes a segfault in pybind11. 
+Use atexit for cleaning them up.
+
+
