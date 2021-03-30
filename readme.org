@@ -12,11 +12,10 @@ Fast and general toolbox for simulation of complex adaptive systems written in c
   - As an env ~conda create env --file environment.yml~
   - In an existing environment ~conda env update~
 - ~python setup.py install~
-  
 * License
 PlexSim is released under the GNU-GPLv3 license
 
-Powered by 
+Powered by [[file:./banner/cython_logo.svg]]
 
 * Quickstart  
 
@@ -64,9 +63,6 @@ ax.set_title("Ising model with random initial condition", fontsize = 21)
 ax.axis('equal')
 fig.show()
 #+end_src
-
-#+RESULTS:
-: None
 
 #+attr_html: :alt  :align center :class img
 [[file:./banner/ising_example.png]]
