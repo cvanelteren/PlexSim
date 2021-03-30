@@ -15,7 +15,9 @@ Fast and general toolbox for simulation of complex adaptive systems written in c
 * License
 PlexSim is released under the GNU-GPLv3 license
 
-Powered by [[file:./banner/cython_logo.svg]]
+Powered by
+#+attr_html: :alt  :align right :class img
+[[file:./banner/cython_logo.svg]]
 
 * Quickstart  
 
