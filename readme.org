@@ -1,14 +1,17 @@
-
+#+options:  tic: nill
 Welcome to Plexsim.
 Fast and general toolbox for simulation of complex adaptive systems written in cython.
 _N.b._ this is a work in progress. Please see the [[Quickstart]] guide below.
 
-[[file:/banner/Plexsim_banner.gif]]
+#+attr_html: :alt  :align left :class gif
+[[./banner/Plexsim_banner.gif][test]]
+
+
 * Installing
 - Clone the repo `git clone git@github.com:cvanelteren/PlexSim.git && cd Plexsim`
 - Install the requirements
-  - As an env `conda create env --file environment.yml`
-  - In an existing environment  `conda env update'
+  - As an env ~conda create env --file environment.yml~
+  - In an existing environment ~conda env update~
 - `python setup.py install`
   
 * License
@@ -61,7 +64,7 @@ fig.show()
 #+end_src
 
 #+RESULTS:
-[[file:./.ob-jupyter/6d2f649f779157d2cac9231169b6e1b2a2c05b9b.png]]
+[[file:./.ob-jupyter/2b22dd3695c88e69d8d727b6ad0afb18c700ce6b.png]]
 #+attr_html: :alt  :align left :class img
 
 
