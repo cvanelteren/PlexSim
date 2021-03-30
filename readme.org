@@ -32,7 +32,7 @@ on apple.  This toolbox  depends on  ~openmp~ and this  could cause  problems on
 Plexsim  relies on  ~networkx~ to  create a  graphical  structure  on which  to
 simulate models.  Various models  are available  in ~plexsim.models~.  Below the
 Ising model is used
-#+begin_src python  :file banner/ising_example.png
+#+begin_src jupyter-python  :file banner/ising_example.png
 from matplotlib import style; style.use("seaborn-poster".split())
 import numpy as np, os, sys, networkx as nx, warnings, matplotlib.pyplot as plt
 warnings.simplefilter("ignore")
@@ -62,39 +62,54 @@ fig, ax = plt.subplots()
 nx.draw(m.graph, pos = pos, ax = ax,
         node_color = colors[m.states.astype(int)],
         node_size = 20)
-ax.set_title("Ising model with random initial condition", fontsize = 21)
+
+C = "#ADC3D1"
+fc = '#16161D'
+ax.set_title("Ising model with random initial condition", fontsize = 21,
+             color = C)
 ax.axis('equal')
+
+fig.set_facecolor(fc)
 fig.show()
 #+end_src
+
+
 
 #+attr_html: :alt  :align center :class img
 [[file:./banner/ising_example.png]]
 
 
 ** Simulation 
-#+begin_src python  :file banner/ising_time_example.png
+#+begin_src jupyter-python  :file banner/ising_time_example.png
 n = int(1e2) # simulation steps
 m.reset() # reset model to random condition
 sim_results = m.simulate(n)
 # show averages
 spacing = np.linspace(0, n, 4, endpoint = False).astype(int)
-fig, ax = plt.subplots(2, 2, figsize = (5,5), constrained_layout = 1)
+fig, ax = plt.subplots(2, 2, figsize = (10,10), constrained_layout = 1)
 for idx, axi in zip(spacing, ax.flat):
     tmp = sim_results[idx]
     nx.draw(m.graph, pos = pos, ax = axi, node_color = colors[tmp.astype(int)],
             node_size = 5)
     axi.axis('equal'); axi.axis(True); axi.grid(False)
     axi.margins(0)
-    axi.set_title(f'T = {idx}')
-    axi.set_xlabel("Node")
-    axi.set_ylabel("Node",  labelpad = -5) 
-    axi.set_facecolor('white')
+    axi.set_title(f'T = {idx}', color = C)
+    
+    axi.set_xlabel("Node", color = C)
+    axi.set_facecolor(fc)
+    axi.set_ylabel("Node",  labelpad = -5, color = C)
+    
     for i in "left right bottom top".split():
         axi.spines[i].set_visible(False)
     
 fig.subplots_adjust(wspace = .05, hspace = .4)
+fig.set_facecolor(fc)
 fig.show()
 #+end_src
+
+#+RESULTS:
+[[file:banner/ising_time_example.png]]
+
 
 #+attr_html: :alt  :align center :class img
 [[file:./banner/ising_time_example.png]]
@@ -173,11 +188,6 @@ for idx, (name, m) in enumerate(models.items()):
     results[name] = m.simulate(T).reshape(T, n, n)
 print(f'Simulation took {time.time() - start}')
 #+end_src
-
-#+RESULTS:
-: Settup time was 0.38794541358947754
-: starting sims
-: Simulation took 6.873020648956299
 
 ** Animate
 #+begin_src jupyter-python
