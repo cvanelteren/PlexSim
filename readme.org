@@ -114,12 +114,12 @@ idx = np.random.randint(len(list(g.nodes())))
 node = list(g.nodes())[idx]
 
 # print(nx.get_node_attributes(g, 'state')); assert 0
-g.nodes[node]['state'] = 1
+#g.nodes[node]['state'] = 1
 
-theta = .8
-nx.set_node_attributes(g, {node : 0 if np.random.rand() < theta else 2\
-                          for node in g.nodes()},\
-                      'state')
+#theta = .8
+#nx.set_node_attributes(g, {node : 0 if np.random.rand() < theta else 2\
+#                          for node in g.nodes()},\
+#                      'state')
 
 settings = dict(graph = g,\
                 updateType = 'async',\
@@ -135,9 +135,9 @@ models = dict(
     AB = AB(**settings),
     Prisoner  = Prisoner(**settings),
     Ising = Ising(t = 2.2, **settings),
-    Bornholdt = Bornholdt(t = .5, alpha = 4, **settings),
+    Bornholdt = Bornholdt(t = 2.2, alpha = 4, **settings),
     RBN = RBN(**settings),
-    SIRS = SIRS(mu = .2, nu = .02, kappa = .2, beta = .4, **settings),
+    SIRS = SIRS(mu = .15, nu = 0, kappa = .01, beta = .4, **settings),
     CCA = CCA(agentStates = np.arange(0,4).tolist(), threshold = .01, **settings),
     Percolation = Percolation(p = .01, **settings),
 )
@@ -174,10 +174,9 @@ print(f'Simulation took {time.time() - start}')
 #+end_src
 
 #+RESULTS:
-: Settup time was 0.8292031288146973
+: Settup time was 0.3546304702758789
 : starting sims
-: Simulation took 6.801696300506592
-    
+: Simulation took 6.784936189651489
 ** Animate
 #+begin_src jupyter-python
 import matplotlib.pyplot as plt
@@ -255,11 +254,11 @@ print('done')
 
 #+RESULTS:
 :RESULTS:
-: <ipython-input-118-d0bcaf7fadbc>:52: UserWarning: This figure was using constrained_layout==True, but that is incompatible with subplots_adjust and or tight_layout: setting constrained_layout==False. 
+: <ipython-input-137-d0bcaf7fadbc>:52: UserWarning: This figure was using constrained_layout==True, but that is incompatible with subplots_adjust and or tight_layout: setting constrained_layout==False. 
 :   fig.subplots_adjust(wspace = .02, hspace = -.2)
 : Warning: discarding the 'bbox_inches' argument in 'savefig_kwargs' as it may cause frame size to vary, which is inappropriate for animation.
 : done
-[[file:./.ob-jupyter/e15c18fd43ce030897060ce58b6a388b37994eff.png]]
+[[file:./.ob-jupyter/af907c35fcd6d373a875bbd08f34d88629fcb04a.png]]
 :END:
 
 
