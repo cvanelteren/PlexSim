@@ -7,7 +7,7 @@ Fast and general toolbox for simulation of complex adaptive systems written in c
 #+attr_html: :alt  :align center :class img
 [[file:./banner/new_banner.gif]]
 
-* Installing
+* Installation
 - Clone the repo ~git clone git@github.com:cvanelteren/PlexSim.git && cd Plexsim~
 - Install the requirements
   - As an env ~conda create env --file environment.yml~
