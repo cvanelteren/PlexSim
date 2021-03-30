@@ -2,7 +2,7 @@
 Welcome to Plexsim.
 
 Fast and general toolbox for simulation of complex adaptive systems written in cython.
-*N.b.* this is a work in progress. Please see the [[Quickstart][Quickstart]] guide below.
+*N.b.* this is a work in progress. Please see the [[#quickstart][Quickstart]] guide below.
 
 #+attr_html: :alt  :align center :class img
 [[file:./banner/new_banner.gif]]
@@ -21,6 +21,9 @@ Powered by
 [[file:./banner/cython_logo.svg]]
 
 * Quickstart  
+:properties:
+:custom_id: quickstart
+:end:
 
 Current  versions are  developed on  ~linux~. It  is known  that compiling  with
 cython on mac is  difficult due to the ~gcc~ compiler  being replaced with ~clang~
