@@ -1,0 +1,151 @@
+* Banner animation
+** Setup
+#+begin_src jupyter-python
+from plexsim.models import *
+n = 64
+g = nx.grid_graph([n, n])
+
+nx.set_node_attributes(g, {node : 0 for node in g.nodes()}, 'state')
+idx = np.random.randint(len(list(g.nodes())))
+
+node = list(g.nodes())[idx]
+
+# print(nx.get_node_attributes(g, 'state')); assert 0
+#g.nodes[node]['state'] = 1
+
+#theta = .8
+#nx.set_node_attributes(g, {node : 0 if np.random.rand() < theta else 2\
+#                          for node in g.nodes()},\
+#                      'state')
+
+settings = dict(graph = g,\
+                updateType = 'async',\
+#                 sampleSize = 1,\
+)
+
+import time
+ti = time.time()
+
+models = dict(
+    Potts= Potts(t = .8, agentStates = np.arange(0, 5), **settings),
+    Bonabeau = Bonabeau(agentStates = np.arange(3), eta = 0, **settings),
+    AB = AB(**settings),
+    Prisoner  = Prisoner(**settings),
+    Ising = Ising(t = 2.2, **settings),
+    Bornholdt = Bornholdt(t = 2.2, alpha = 4, **settings),
+    RBN = RBN(**settings),
+    SIRS = SIRS(mu = .15, nu = 0, kappa = .01, beta = .4, **settings),
+    CCA = CCA(agentStates = np.arange(0,4).tolist(), threshold = .01, **settings),
+    Percolation = Percolation(p = .01, **settings),
+)
+print(f"Settup time was {time.time() - ti}")
+# models.get("Bornholdt").sampleSize = 1
+if m := models.get("SIRS"):
+    m.states = 0
+    m.states[m.sampleNodes(1)[0,0]] = 1
+    
+if m := models.get("SIR"):
+    m.states = 0
+    m.states[m.sampleNodes(1)[0,0]] = 1
+    
+    
+if m := models.get("Percolation"):
+    m.states = 0
+    m.states[m.sampleNodes(1)[0,0]] = 1
+print("starting sims")
+
+# mi = list(models.values())
+# for i in mi:
+#     print(i.memory.shape, i.memento)
+# assert 0
+T = 500
+import time
+start = time.time()
+
+results = {}
+for idx, (name, m) in enumerate(models.items()):
+#     m.states = m.agentStates[-1]
+    #m.reset()
+    results[name] = m.simulate(T).reshape(T, n, n)
+print(f'Simulation took {time.time() - start}')
+#+end_src
+
+** Animate
+#+begin_src jupyter-python
+import matplotlib.pyplot as plt
+from ipywidgets import interact, IntSlider
+import matplotlib as mpl
+from mpl_toolkits.axes_grid1 import make_axes_locatable as mal
+import cmasher as cmr
+columns, rows = divmod(len(models), 2)
+# columns = columns + 1 if not columns else columns
+# rows = rows + 1 if not rows else rows
+layout = np.zeros(len(models), dtype = object)
+for idx, c in enumerate(models):
+    layout[idx] = c
+layout = layout.reshape(2, 5)
+fig = plt.figure(figsize = (10,8), constrained_layout = 1)
+ax = fig.subplot_mosaic(layout)
+#setup figure/
+hs  = {}
+pad = .01
+size = '5%'
+for name, axi in ax.items():
+    m = models[name]
+    div = mal(axi)
+    cbr = div.append_axes('bottom', size = size, pad = pad)
+#     div = mal(cbr)
+#     cbr = div.append_axes('right', size = size, pad = pad)
+    AS = m.agentStates
+    NS = len(AS) 
+    cmap = mpl.colors.LinearSegmentedColormap.from_list(\
+          None, cmr.pride(np.linspace(0, 1, NS, endpoint = 0)[:NS]), NS)
+    
+    h = axi.imshow(results[name][0], cmap = cmap, vmin = AS[0],\
+                  vmax = AS[-1],
+                   interpolation = None)
+    C = '#485ea4'
+    C = 'gray'
+    C = "#ADC3D1"
+    axi.set_title(name, color = C)
+    axi.axis("off")
+    #axi.spines['bottom'].set_color('red')
+    #axi.spines['top'].set_color('red')
+    
+    tmp = fig.colorbar(h, cax = cbr, ticks = AS,\
+                       orientation = 'horizontal')
+    cbr.tick_params(colors = C)
+    if modelName == 'SIRS':
+        tmp.set_ticklabels("Sus. Inf. Rec.".split())
+    hs[name] = h
+mainax = fig.add_subplot(111, frameon = 0,\
+                        xticks = [], yticks = [])
+
+text = mainax.annotate("", (.5, .05), xycoords = "axes fraction",
+                       fontsize = 40, ha = 'center', va = 'center',
+                       color = C)
+# fig.subplots_adjust(left = 0, right = 1, bottom = 0, top = 1)
+
+fig.subplots_adjust(wspace = .02, hspace = -.2)
+#fig.subplots_adjust(hspace = -.2)
+fig.tight_layout()
+def update(t):
+    for name, h in hs.items(): 
+        h.set_data(results[name][t])
+#         h.autoscale()
+    text.set_text(f'T = {t:03d}')
+    fig.canvas.flush_events()
+    fig.canvas.draw()
+    return hs.values()
+#fig.subplots_adjust(wspace = .02, hspace = .0)
+from matplotlib.animation import FuncAnimation as FA
+anim = FA(fig, update,
+          frames = np.linspace(0, T, 10, endpoint = 0).astype(int),
+          blit = 0,
+          interval = 1)
+anim.save('banner/new_banner.gif', dpi = 150, writer = 'ffmpeg',
+          savefig_kwargs = dict(bbox_inches = "tight",
+                                facecolor = '#16161D'))
+print('done')
+#+end_src
+
