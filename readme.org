@@ -2,7 +2,7 @@
 Welcome to Plexsim.
 
 Fast and general toolbox for simulation of complex adaptive systems written in cython.
-*N.b.* this is a work in progress. Please see the [[quickstart]] [[#quickstart][Quickstart]] guide below.
+*N.b.* this is a work in progress. Please see the [[#quickstart][Quickstart]] guide below.
 
 #+attr_html: :alt  :align center :class img
 [[file:./banner/new_banner.gif]]
@@ -26,7 +26,9 @@ Powered by
 [[file:./banner/cython_logo.svg]]
 
 * Quickstart  
-<<quickstart>>
+:properties:
+:custom_id: quickstart
+:end:
 ** Setting up the model
 Plexsim  relies on  ~networkx~ to  create a  graphical  structure  on which  to
 simulate models.  Various models  are available  in ~plexsim.models~.  Below the
