@@ -174,9 +174,9 @@ print(f'Simulation took {time.time() - start}')
 #+end_src
 
 #+RESULTS:
-: Settup time was 0.3546304702758789
+: Settup time was 0.38794541358947754
 : starting sims
-: Simulation took 6.784936189651489
+: Simulation took 6.873020648956299
 ** Animate
 #+begin_src jupyter-python
 import matplotlib.pyplot as plt
@@ -211,14 +211,17 @@ for name, axi in ax.items():
     h = axi.imshow(results[name][0], cmap = cmap, vmin = AS[0],\
                   vmax = AS[-1],
                    interpolation = None)
-    axi.set_title(name, color = '#485ea4')
+    C = '#485ea4'
+    C = 'gray'
+    C = "#ADC3D1"
+    axi.set_title(name, color = C)
     axi.axis("off")
     #axi.spines['bottom'].set_color('red')
     #axi.spines['top'].set_color('red')
     
     tmp = fig.colorbar(h, cax = cbr, ticks = AS,\
                        orientation = 'horizontal')
-    cbr.tick_params(colors = '#485ea4')
+    cbr.tick_params(colors = C)
     if modelName == 'SIRS':
         tmp.set_ticklabels("Sus. Inf. Rec.".split())
     hs[name] = h
@@ -227,7 +230,7 @@ mainax = fig.add_subplot(111, frameon = 0,\
 
 text = mainax.annotate("", (.5, .05), xycoords = "axes fraction",
                        fontsize = 40, ha = 'center', va = 'center',
-                       color = '#485ea4')
+                       color = C)
 # fig.subplots_adjust(left = 0, right = 1, bottom = 0, top = 1)
 
 fig.subplots_adjust(wspace = .02, hspace = -.2)
@@ -245,20 +248,21 @@ def update(t):
 from matplotlib.animation import FuncAnimation as FA
 anim = FA(fig, update,
           frames = np.linspace(0, T, 10, endpoint = 0).astype(int),
-          blit = 1,
+          blit = 0,
           interval = 1)
 anim.save('banner/new_banner.gif', dpi = 150, writer = 'ffmpeg',
-          savefig_kwargs = dict(bbox_inches = "tight"))
+          savefig_kwargs = dict(bbox_inches = "tight",
+                                facecolor = '#16161D'))
 print('done')
 #+end_src
 
 #+RESULTS:
 :RESULTS:
-: <ipython-input-137-d0bcaf7fadbc>:52: UserWarning: This figure was using constrained_layout==True, but that is incompatible with subplots_adjust and or tight_layout: setting constrained_layout==False. 
+: <ipython-input-146-1a71351bc784>:55: UserWarning: This figure was using constrained_layout==True, but that is incompatible with subplots_adjust and or tight_layout: setting constrained_layout==False. 
 :   fig.subplots_adjust(wspace = .02, hspace = -.2)
 : Warning: discarding the 'bbox_inches' argument in 'savefig_kwargs' as it may cause frame size to vary, which is inappropriate for animation.
 : done
-[[file:./.ob-jupyter/af907c35fcd6d373a875bbd08f34d88629fcb04a.png]]
+[[file:./.ob-jupyter/46b0a1f5162d63306f3a962d280c9d05707c9862.png]]
 :END:
 
 
