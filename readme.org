@@ -21,7 +21,7 @@ Powered by
 * Quickstart  
 
 Current  versions are  developed on  ~linux~. It  is known  that compiling  with
-cython on mac is  difficult due to the ~gcc`` compiler  being replaced with ~clang~
+cython on mac is  difficult due to the ~gcc~ compiler  being replaced with ~clang~
 on apple.  This toolbox  depends on  ~openmp~ and this  could cause  problems on
 ~apple~. 
 
@@ -64,6 +64,9 @@ ax.set_title("Ising model with random initial condition", fontsize = 21)
 ax.axis('equal')
 fig.show()
 #+end_src
+
+#+RESULTS:
+: None
 
 #+attr_html: :alt  :align center :class img
 [[file:./banner/ising_example.png]]
