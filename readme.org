@@ -2,7 +2,7 @@
 Welcome to Plexsim.
 
 Fast and general toolbox for simulation of complex adaptive systems written in cython.
-*N.b.* this is a work in progress. Please see the [[Quickstart]] guide below.
+*N.b.* this is a work in progress. Please see the [[*Quickstart]] guide below.
 
 #+attr_html: :alt  :align center :class img
 [[file:./banner/new_banner.gif]]
