@@ -255,11 +255,11 @@ print('done')
 
 #+RESULTS:
 :RESULTS:
-: <ipython-input-117-83863b272bd6>:52: UserWarning: This figure was using constrained_layout==True, but that is incompatible with subplots_adjust and or tight_layout: setting constrained_layout==False. 
+: <ipython-input-118-d0bcaf7fadbc>:52: UserWarning: This figure was using constrained_layout==True, but that is incompatible with subplots_adjust and or tight_layout: setting constrained_layout==False. 
 :   fig.subplots_adjust(wspace = .02, hspace = -.2)
 : Warning: discarding the 'bbox_inches' argument in 'savefig_kwargs' as it may cause frame size to vary, which is inappropriate for animation.
 : done
-[[file:./.ob-jupyter/20d003fcd7a4901959117f68a9e0c2d500d6d01d.png]]
+[[file:./.ob-jupyter/e15c18fd43ce030897060ce58b6a388b37994eff.png]]
 :END:
 
 
