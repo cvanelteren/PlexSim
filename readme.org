@@ -1,7 +1,7 @@
 
 Welcome to Plexsim.
 Fast and general toolbox for simulation of complex adaptive systems written in cython.
-_N.b._ this is a work in progress. Please see the [[Quickstart]]qguide below.
+_N.b._ this is a work in progress. Please see the [[Quickstart]] guide below.
 
 [[file:/banner/Plexsim_banner.gif]]
 * Installing
@@ -61,10 +61,7 @@ fig.show()
 #+end_src
 
 #+RESULTS:
-:RESULTS:
-#+attr_org: :width 442
-[[file:figures/ising.png]]
-:END:
+[[file:./.ob-jupyter/6d2f649f779157d2cac9231169b6e1b2a2c05b9b.png]]
 #+attr_html: :alt  :align left :class img
 
 
@@ -97,7 +94,7 @@ fig.show()
 #+RESULTS:
 :RESULTS:
 #+attr_org: :width 306
-[[file:./.ob-jupyter/7288dae433f91006857914b091d9fb111239e0ae.png]]
+[[file:./.ob-jupyter/32f13938d18ebc72dd7c0557823d72464380a5cb.png]]
 :END:
 
 
