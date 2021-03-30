@@ -58,20 +58,29 @@ m = models.Ising(graph = g, t = temperature)
 pos = {i: np.array(eval(i)) for i in m.graph.nodes()}
 # create color map for the possible states of the model
 colors = plt.cm.viridis(np.linspace(0, 1, m.nStates))
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(constrained_layout = 1, figsize = (5, 5))
 nx.draw(m.graph, pos = pos, ax = ax,
         node_color = colors[m.states.astype(int)],
         node_size = 20)
 
 C = "#ADC3D1"
 fc = '#16161D'
+ax.margins(0.05)
 ax.set_title("Ising model with random initial condition", fontsize = 21,
              color = C)
-ax.axis('equal')
-
+#ax.axis('equal')
+ax.set_ylabel("Node",  labelpad = 1, color = C)
+ax.set_xlabel("Node", color = C)
+for i in "left right bottom top".split():
+    ax.spines[i].set_visible(False)
+ax.axis(True)
+ax.set_facecolor(fc)
 fig.set_facecolor(fc)
 fig.show()
 #+end_src
+
+#+RESULTS:
+[[file:banner/ising_example.png]]
 
 
 
@@ -95,9 +104,9 @@ for idx, axi in zip(spacing, ax.flat):
     axi.margins(0)
     axi.set_title(f'T = {idx}', color = C)
     
-    axi.set_xlabel("Node", color = C)
     axi.set_facecolor(fc)
     axi.set_ylabel("Node",  labelpad = -5, color = C)
+    axi.set_xlabel("Node", color = C)
     
     for i in "left right bottom top".split():
         axi.spines[i].set_visible(False)
