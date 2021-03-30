@@ -1,35 +1,36 @@
-#+options:  tic: nill
+#+options: num:nil
 Welcome to Plexsim.
 Fast and general toolbox for simulation of complex adaptive systems written in cython.
-_N.b._ this is a work in progress. Please see the [[Quickstart]] guide below.
+*N.b.* this is a work in progress. Please see the [[Quickstart]] guide below.
 
-#+attr_html: :alt  :align left :class gif
-[[./banner/Plexsim_banner.gif][test]]
-
+#+attr_html: :alt  :align center :class img
+[[file:./banner/banner.gif]]
 
 * Installing
-- Clone the repo `git clone git@github.com:cvanelteren/PlexSim.git && cd Plexsim`
+- Clone the repo ~git clone git@github.com:cvanelteren/PlexSim.git && cd Plexsim~
 - Install the requirements
   - As an env ~conda create env --file environment.yml~
   - In an existing environment ~conda env update~
-- `python setup.py install`
+- ~python setup.py install~
   
 * License
 PlexSim is released under the GNU-GPLv3 license
 
 Powered by 
-[[file:/banner/cython_logo.svg]]
 
 * Quickstart  
-Current  versions are  developed on  `linux`. It  is known  that compiling  with
-cython on mac is  difficult due to the `gcc` compiler  being replaced with `clang`
-on apple.  This toolbox  depends on  `openmp` and this  could cause  problems on
-`apple`. 
+
+Current  versions are  developed on  ~linux~. It  is known  that compiling  with
+cython on mac is  difficult due to the ~gcc`` compiler  being replaced with ~clang~
+on apple.  This toolbox  depends on  ~openmp~ and this  could cause  problems on
+~apple~. 
+
+
 ** Setting up the model
-Plexsim  relies on  `networkx`  to  create a  graphical  structure  on which  to
-simulate models.  Various models  are available  in `plexsim.models`.  Below the
+Plexsim  relies on  ~networkx~ to  create a  graphical  structure  on which  to
+simulate models.  Various models  are available  in ~plexsim.models~.  Below the
 Ising model is used
-#+begin_src jupyter-python :exports both
+#+begin_src jupyter-python :exports both :file banner/ising_example.png
 from matplotlib import style; style.use("seaborn-poster".split())
 import numpy as np, os, sys, networkx as nx, warnings, matplotlib.pyplot as plt
 warnings.simplefilter("ignore")
@@ -56,21 +57,17 @@ pos = {i: np.array(eval(i)) for i in m.graph.nodes()}
 # create color map for the possible states of the model
 colors = plt.cm.viridis(np.linspace(0, 1, m.nStates))
 fig, ax = plt.subplots()
-nx.draw(m.graph, pos = pos, ax = ax, node_color = colors[m.states.astype(int)],
+nx.draw(m.graph, pos = pos, ax = ax,
+        node_color = colors[m.states.astype(int)],
         node_size = 20)
 ax.set_title("Ising model with random initial condition", fontsize = 21)
 ax.axis('equal')
 fig.show()
 #+end_src
 
-#+RESULTS:
-[[file:./.ob-jupyter/2b22dd3695c88e69d8d727b6ad0afb18c700ce6b.png]]
-#+attr_html: :alt  :align left :class img
-
-
 
 ** Simulation 
-#+begin_src jupyter-python :exports both 
+#+begin_src jupyter-python :exports both :file banner/ising_time_example.png
 n = int(1e2) # simulation steps
 m.reset() # reset model to random condition
 sim_results = m.simulate(n)
@@ -95,18 +92,11 @@ fig.show()
 #+end_src
 
 #+RESULTS:
-:RESULTS:
-#+attr_org: :width 306
-[[file:./.ob-jupyter/32f13938d18ebc72dd7c0557823d72464380a5cb.png]]
-:END:
-
+[[file:banner/ising_time_example.png]]
 
 ** Other parameters
 The documentation is  a work in progress.  Please check out the  source code for
 different models.
-
-
-
 
 * Notes
 Cannot have static pyobjects, this causes a segfault in pybind11. 
