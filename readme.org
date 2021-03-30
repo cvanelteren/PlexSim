@@ -33,7 +33,7 @@ Powered by
 Plexsim  relies on  ~networkx~ to  create a  graphical  structure  on which  to
 simulate models.  Various models  are available  in ~plexsim.models~.  Below the
 Ising model is used
-#+begin_src python  :file banner/ising_example.png
+#+begin_src jupyter-python  :file banner/ising_example.png
 from matplotlib import style; style.use("seaborn-poster".split())
 import numpy as np, os, sys, networkx as nx, warnings, matplotlib.pyplot as plt
 warnings.simplefilter("ignore")
@@ -52,6 +52,7 @@ settings = dict(graph = g,  # graph for the model
                 updateType = 'async',#the update buffers are not independent, use sync for dependency(default)
                 )
 m = models.Ising(graph = g, t = temperature)
+
 
 
 # create coords an visualize grid with periodic bounds
@@ -75,13 +76,15 @@ ax.set_xlabel("Node", color = C)
 for i in "left right bottom top".split():
     ax.spines[i].set_visible(False)
 ax.axis(True)
+ax.set_xticks([])
+ax.set_yticks([])
 ax.set_facecolor(fc)
 fig.set_facecolor(fc)
 fig.show()
 #+end_src
 
 #+RESULTS:
-: None
+[[file:banner/ising_example.png]]
 
 #+attr_html: :alt  :align center :class img
 [[file:./banner/ising_example.png]]
