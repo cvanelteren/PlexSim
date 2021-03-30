@@ -33,7 +33,7 @@ Powered by
 Plexsim  relies on  ~networkx~ to  create a  graphical  structure  on which  to
 simulate models.  Various models  are available  in ~plexsim.models~.  Below the
 Ising model is used
-#+begin_src jupyter-python  :file banner/ising_example.png
+#+begin_src python  :file banner/ising_example.png
 from matplotlib import style; style.use("seaborn-poster".split())
 import numpy as np, os, sys, networkx as nx, warnings, matplotlib.pyplot as plt
 warnings.simplefilter("ignore")
@@ -118,6 +118,7 @@ fig.show()
 #+end_src
 
 #+RESULTS:
+[[file:banner/ising_time_example.png]]
 
 
 #+attr_html: :alt  :align center :class img
