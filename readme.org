@@ -32,7 +32,7 @@ on apple.  This toolbox  depends on  ~openmp~ and this  could cause  problems on
 Plexsim  relies on  ~networkx~ to  create a  graphical  structure  on which  to
 simulate models.  Various models  are available  in ~plexsim.models~.  Below the
 Ising model is used
-#+begin_src jupyter-python  :file banner/ising_example.png
+#+begin_src python  :file banner/ising_example.png
 from matplotlib import style; style.use("seaborn-poster".split())
 import numpy as np, os, sys, networkx as nx, warnings, matplotlib.pyplot as plt
 warnings.simplefilter("ignore")
@@ -79,6 +79,9 @@ fig.set_facecolor(fc)
 fig.show()
 #+end_src
 
+#+RESULTS:
+: None
+
 
 
 
@@ -87,7 +90,7 @@ fig.show()
 
 
 ** Simulation 
-#+begin_src jupyter-python  :file banner/ising_time_example.png
+#+begin_src python  :file banner/ising_time_example.png
 n = int(1e2) # simulation steps
 m.reset() # reset model to random condition
 sim_results = m.simulate(n)
