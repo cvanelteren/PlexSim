@@ -72,6 +72,7 @@ def TestSuite():
 #with open('requirements.txt', 'r') as f:
 #    requirements = f.read().splitlines()
 from setuptools import find_namespace_packages, find_packages
+from sphinx.setup_command import BuildDoc
 setup(
     name                        = "plexsim",
     author                      = "Casper van Elteren",
@@ -88,6 +89,8 @@ setup(
     data_files                  = data_files,
     packages                    = find_packages(where = "plexsim"),
     install_requires            = "cython numpy networkx".split(),
+    cmdclass                    = dict(build_sphinx = BuildDoc),
+    command_options             = dict(source_dir = ('setup.py', 'doc')),
     ext_modules                 = cythonize(
                                         exts,
                                         compiler_directives = cdirectives,

@@ -198,17 +198,15 @@ cdef class RandomGenerator:
         return
 
 
-    
-
-
 cdef class Adjacency:
-   def __init__(self, object graph):
-        """
-        Constructs adj matrix using structs
+   """
+    Constructs adj matrix using structs
 
-        intput:
-            :nx.Graph or nx.DiGraph: graph
-        """
+    intput:
+        :nx.Graph or nx.DiGraph: graph
+   """
+   def __init__(self, object graph):
+
         # check if graph has weights or states assigned and or nudges
         # note does not check all combinations
         # input validation / construct adj lists
@@ -326,20 +324,46 @@ cdef public class Model [object PyModel, type PyModel_t]:
                  **kwargs,\
                  ):
         """
-        General class for the models
-        It defines the expected methods for the model; this can be expanded
-        to suite your personal needs but the methods defined here need are relied on
-        by the rest of the package.
+        Base type for all models. This should hold all the minimial required information for building a model.
+        Should not be instantiated directly
+        :param \
+                         graph: Structure of the system.
+        :type: networkx graph. 
 
-        It translates the networkx graph into c++ unordered_map map for speed
+        :param \
+                         agentStates:  np.ndarray containing possible states agent can assume, defaults to np.array([0, 1])\
+        :type: np.ndarray
 
-        kwargs should at least have:
-            :graph: a networkx graph
-            :agentStates: the states that the agents can assume [default = [0,1]]
-            :updateType: how to sample the state space (default async)
-            :nudgeType: the type of nudge used (default: constant)
-            :memorySize: use memory dynamics (default 0)
-       """
+        :param \
+                         nudgeType:  allow nudging of node states, defaults to 'constant'
+        :type: string
+
+        :param \
+                         updateType:  'async' or 'sync'. Async is equivalent to :sampleSize; glauber updates.
+        In contrast, 'async' has two "indepdendent" buffers. The two variants can have effect your simulation results.
+        Defaults to 'async'
+        :type: string
+        :param \
+                         nudges:  dict containing which nodes to nudge; keys can be tuples,  values are floats.
+        :type: dict
+        :param \
+                         seed: random number generator seed, defaults to  current time
+        :type: int 
+        :param \
+                         memorySize: size of memory to consider, defaults to 0.
+        :type: int 
+        :param \
+                         kNudges:  
+        :param \
+                         memento:  exponential decay rate of memerory effect.
+        :type: double 
+        :param p_recomb: 
+        :param \
+                         rules:  ignore 
+        :param \
+                         **kwargs: 
+        :param \: 
+        """
         # use current time as seed for rng
         self._rng = RandomGenerator(seed = seed)
          
@@ -963,6 +987,9 @@ cdef class Logmap(Model):
                  agentStates = np.arange(2, dtype = np.double),\
                  **kwargs,\
                  ):
+        """Logistic map
+:graph: test
+        """
         super(Logmap, self).__init__(**locals())
         self.r = r
         self.alpha = alpha
@@ -1181,6 +1208,13 @@ cdef class ValueNetwork(Potts):
         
 
 cdef class Potts(Model):
+    """
+        Potts model
+
+        default inputs see :Model:
+        Additional inputs
+        :delta: a modifier for how much the previous memory sizes influence the next state
+    """
     def __init__(self, \
                  graph,\
                  t = 1,\
@@ -1188,13 +1222,7 @@ cdef class Potts(Model):
                  delta       = 0, \
                  p_recomb    = 0.,
                  **kwargs):
-        """
-        Potts model
-
-        default inputs see :Model:
-        Additional inputs
-        :delta: a modifier for how much the previous memory sizes influence the next state
-        """
+    
         #print(kwargs, locals())
 
         super(Potts, self).__init__(\
@@ -2090,8 +2118,6 @@ cdef class Percolation(Model):
 cdef class Bonabeau(Model):
     """
     Bonabeau model in hierarchy formation
-
-    
     """
     def __init__(self, graph,\
                  agentStates = np.array([0, 1]),\
