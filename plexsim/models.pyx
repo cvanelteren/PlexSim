@@ -45,10 +45,19 @@ timespec, CLOCK_REALTIME
 # from sampler cimport Sampler # mersenne sampler
 
 cdef class MCMC:
+    """
+    Random number generator class
+        :param \
+                         RandomGenerator rng: 
+        :param \
+                         double p_recomb:  genetic algorithm recombination probability\
+                        :type: float
+    """
     def __init__(self, \
                  RandomGenerator rng,\
                  double p_recomb = 1,\
                  ):
+        
         self.rng = rng
         self.p_recomb = p_recomb
 
@@ -201,7 +210,6 @@ cdef class RandomGenerator:
 cdef class Adjacency:
    """
     Constructs adj matrix using structs
-
     intput:
         :nx.Graph or nx.DiGraph: graph
    """
@@ -309,6 +317,38 @@ cdef class Rules:
 
 
 cdef public class Model [object PyModel, type PyModel_t]:
+    """
+    Base type for all models. This should hold all the minimial required information for building a model.
+    Should not be instantiated directly
+
+    :param \
+                        graph: Structure of the system. :type: nx.Graph
+    :param \
+                        agentStates:  np.ndarray containing possible states agent can assume, defaults to np.array([0, 1]).
+    :param \
+                        nudgeType:  allow nudging of node states, defaults to 'constant'
+    :param \
+            updateType: 'async' or  'sync'. Async is equivalent to :sampleSize;
+                        glauber   updates.  In   contrast,   'async'  has   two
+                        "indepdendent" buffers. The two variants can have effect
+                        your simulation results. Defaults to 'async'
+    :param \
+                        nudges:  dict containing which nodes to nudge; keys can be tuples,  values are floats.
+    :param \
+                        seed: random number generator seed, defaults to  current time
+    :param \
+                        memorySize: size of memory to consider, defaults to 0.
+    :param \
+                        kNudges:  
+    :param \
+                        memento:  exponential decay rate of memerory effect.
+    :param\
+                    p_recomb: ignore
+    :param \
+                        rules:  ignore 
+    :param \
+                        **kwargs:  Ignore
+    """
     def __init__(self,\
                  graph       = nx.path_graph(1),\
                  agentStates = np.array([0], dtype = np.int),\
@@ -323,47 +363,7 @@ cdef public class Model [object PyModel, type PyModel_t]:
                  rules       = nx.Graph(),\
                  **kwargs,\
                  ):
-        """
-        Base type for all models. This should hold all the minimial required information for building a model.
-        Should not be instantiated directly
-        :param \
-                         graph: Structure of the system.
-        :type: networkx graph. 
 
-        :param \
-                         agentStates:  np.ndarray containing possible states agent can assume, defaults to np.array([0, 1])\
-        :type: np.ndarray
-
-        :param \
-                         nudgeType:  allow nudging of node states, defaults to 'constant'
-        :type: string
-
-        :param \
-                         updateType:  'async' or 'sync'. Async is equivalent to :sampleSize; glauber updates.
-        In contrast, 'async' has two "indepdendent" buffers. The two variants can have effect your simulation results.
-        Defaults to 'async'
-        :type: string
-        :param \
-                         nudges:  dict containing which nodes to nudge; keys can be tuples,  values are floats.
-        :type: dict
-        :param \
-                         seed: random number generator seed, defaults to  current time
-        :type: int 
-        :param \
-                         memorySize: size of memory to consider, defaults to 0.
-        :type: int 
-        :param \
-                         kNudges:  
-        :param \
-                         memento:  exponential decay rate of memerory effect.
-        :type: double 
-        :param p_recomb: 
-        :param \
-                         rules:  ignore 
-        :param \
-                         **kwargs: 
-        :param \: 
-        """
         # use current time as seed for rng
         self._rng = RandomGenerator(seed = seed)
          
@@ -409,11 +409,18 @@ cdef public class Model [object PyModel, type PyModel_t]:
        
 
     cpdef double rand(self, size_t n):
+        """
+        draw random number [0, 1]
+        """
         for i in range(n):
             self._rng.rand()
         return 0.
 
     cdef state_t[::1]  _updateState(self, node_id_t[::1] nodesToUpdate) nogil:
+        """
+        :param nodesToTupdate: list containing node ids to update
+        returns: new system state 
+        """
         cdef NudgesBackup* backup = new NudgesBackup()
         # updating nodes
         cdef node_id_t node
@@ -555,7 +562,6 @@ cdef public class Model [object PyModel, type PyModel_t]:
     cpdef public state_t[::1] updateState(self, node_id_t[::1] nodesToUpdate):
         """
         General state updater wrapper
-        I
         """
         return self._updateState(nodesToUpdate)
 
@@ -625,6 +631,12 @@ cdef public class Model [object PyModel, type PyModel_t]:
         self._nudges.clear()
 
     cpdef np.ndarray simulate(self, size_t samples):
+        """"
+        :param samples: number of samples to simulate
+        :type: int 
+        returns:
+            np.ndarray containing the system states to simulate 
+        """
         cdef:
             state_t[:, ::1] results = np.zeros((samples, self.adj._nNodes), dtype = np.double)
             # int sampleSize = 1 if self._updateType == 'single' else self.adj._nNodes
@@ -988,7 +1000,7 @@ cdef class Logmap(Model):
                  **kwargs,\
                  ):
         """Logistic map
-:graph: test
+        :graph: test
         """
         super(Logmap, self).__init__(**locals())
         self.r = r
@@ -1094,6 +1106,7 @@ cdef class ValueNetwork(Potts):
     @property 
     def pat(self):
         return self.paths
+
     cdef double _energy(self, node_id_t node) nogil:
         """
         """
@@ -1349,11 +1362,8 @@ cdef class Potts(Model):
             self._newstates[node] = proposal
         return
 
-
-
     cdef double _hamiltonian(self, state_t x, state_t  y) nogil:
         return cos(2 * pi  * ( x - y ) * self._z)
-
 
     cdef double magnetize_(self, Model mod, size_t n, double t):
         # setup simulation
@@ -1434,10 +1444,17 @@ cdef class Potts(Model):
             return results
 
     @property
-    def delta(self): return self._delta
+    def delta(self):
+        """
+        """
+        return self._delta
 
     @property
-    def H(self): return self._H.base
+    def H(self):
+        """
+        External magnetic field
+        """
+        return self._H.base
 
     @H.setter
     def H(self, value):
@@ -1446,7 +1463,11 @@ cdef class Potts(Model):
             self._H[idx] = v
 
     @property
-    def beta(self): return self._beta
+    def beta(self):
+        """
+        Shortcut for 1/T
+        """
+        return self._beta
 
     @beta.setter
     def beta(self, value):
@@ -1454,6 +1475,9 @@ cdef class Potts(Model):
 
     @property
     def t(self):
+        """
+        Temperature
+        """
         return self._t
 
     @t.setter
@@ -1464,6 +1488,29 @@ cdef class Potts(Model):
 #TODO: bug in the alpha coupler...doesnt differ from original code but doesn't
 #work the same way?
 cdef class Prisoner(Potts):
+    """
+    Prisoner dilemma model on a graph
+
+    :param graph: Structure of the graph see Model\
+    :param \
+                        agentStates: 
+    :param \
+                        t: level of noise in the system (Gibbs distribution)
+    :param \
+                        T: level of temptation to defect [0, 1], defaults to 1
+    :param \
+                        R: level of reward to defect [0, 1], defaults to 1
+    :param \
+                        P: level of punishment to defect [0, 1], defaults to 0
+    :param \
+                        S: level of suckers' payout to defect [0, 1], defaults to 0
+    :param \
+                        hierarchy:  external magnetic field that would enforce hierarchy
+    :param \
+                        p_recomb: see model 
+    :param \
+                        alpha: discounting factor of how much to listen to a neighbor, default to 0
+    """
     def __init__(self, graph,\
                  agentStates = np.arange(2),\
                  t = 1.0,\
@@ -1474,7 +1521,29 @@ cdef class Prisoner(Potts):
                  hierarchy = None,
                  p_recomb = None,
                  alpha = 0., **kwargs):
+        """
+        Prisoner dilemma model on a graph
 
+        :param graph: Structure of the graph see Model\
+        :param \
+                            agentStates: 
+        :param \
+                            t: level of noise in the system (Gibbs distribution)
+        :param \
+                            T: level of temptation to defect [0, 1], defaults to 1
+        :param \
+                            R: level of reward to defect [0, 1], defaults to 1
+        :param \
+                            P: level of punishment to defect [0, 1], defaults to 0
+        :param \
+                            S: level of suckers' payout to defect [0, 1], defaults to 0
+        :param \
+                            hierarchy:  external magnetic field that would enforce hierarchy
+        :param \
+                            p_recomb: see model 
+        :param \
+                            alpha: discounting factor of how much to listen to a neighbor, default to 0
+        """
         super(Prisoner, self).__init__(**locals(), **kwargs)
 
         self.T = T # temptation
@@ -1605,35 +1674,56 @@ cdef class Prisoner(Potts):
 
     # boiler-plate...
     @property
-    def alpha(self): return self._alpha
+    def alpha(self):
+        """
+        Coupling coefficient property
+        """
+        return self._alpha
 
     @alpha.setter
     def alpha(self, value):
         self._alpha = self._setter(value)
 
     @property
-    def P(self): return self._P
+    def P(self):
+        """
+        Punishment property (double)
+        """
+        return self._P
 
     @P.setter
     def P(self, value):
         self._P = self._setter(value)
 
     @property
-    def R(self): return self._R
+    def R(self):
+        """
+        Reward property
+        """
+        return self._R
 
     @R.setter
     def R(self, value):
+     
         self._R = self._setter(value)
 
     @property
-    def S(self): return self._S
+    def S(self):
+        """
+        Suckers' payout property
+        """
+        return self._S
 
     @S.setter
     def S(self, value):
         self._S = self._setter(value)
 
     @property
-    def T(self) : return self._T
+    def T(self) :
+        """
+        Temptation property
+        """
+        return self._T
 
     @T.setter
     def T(self, value):
@@ -1643,6 +1733,20 @@ cdef class Prisoner(Potts):
 
 
 cdef class Pottsis(Potts):
+    """Novel implementation of SIS model using energy functions\
+        :param \
+                         graph: 
+        :param \
+                         beta: 
+        :param \
+                         eta: 
+        :param \
+                         mu: 
+        :param \
+                         **kwargs: 
+        :returns: 
+
+    """
     def __init__(self, \
                  graph, \
                  beta = 1, \
@@ -1650,6 +1754,7 @@ cdef class Pottsis(Potts):
                  mu   = .1, \
                  **kwargs):
 
+        
         super(Pottsis, self).__init__(graph = graph,\
                                       **kwargs)
         self.mu = mu
@@ -1768,14 +1873,15 @@ def sigmoidOpt(x, params, match):
 
 # TODO: system coupling is updated instantaneously which is in contradiction with the sync update rule
 cdef class Bornholdt(Potts):
+    """
+    Implementation of Bornholdt model (2000)
+    Ising-like dynamics with a global magnetiztion dynamic
+    """
     def __init__(self,\
                  graph, \
                  double alpha = 1,\
                  **kwargs):
-        """
-        Implementation of Bornholdt model (2000)
-        Ising-like dynamics with a global magnetiztion dynamic
-        """
+
         self.alpha = alpha
         super(Bornholdt, self).__init__(graph = graph, **kwargs)
 
@@ -1833,7 +1939,11 @@ cdef class Bornholdt(Potts):
         else:
             raise ValueError("Input not recognized")
     @property
-    def alpha(self): return self._alpha
+    def alpha(self):
+        """
+        Global coupling constant
+        """
+        return self._alpha
 
     @alpha.setter
     def alpha(self, value):
@@ -1843,6 +1953,15 @@ cdef class Bornholdt(Potts):
 
 
 cdef class AB(Model):
+    """
+    Voter AB model
+
+    :param graph: 
+        :param \
+                    zealots:  dict of zealots to include (people that cannot be convinced), defaults to 0
+        :param \
+                         **kwargs: 
+    """
     def __init__(self, graph, zealots = dict(),\
                  **kwargs):
         kwargs['agentStates'] = np.arange(3) # a, ab, b
@@ -1912,21 +2031,7 @@ cdef class AB(Model):
 
 
 cdef class SIRS(Model):
-    def __init__(self, graph, \
-                 agentStates = np.array([0, 1, 2], dtype = np.double),\
-                 beta = 1,\
-                 mu = 1,\
-                 nu = 0,\
-                 kappa = 0,\
-                 **kwargs):
-        super(SIRS, self).__init__(**locals())
-        self.beta  = beta
-        self.mu    = mu
-        self.nu    = nu
-        self.kappa = kappa
-        self.init_random()
-
-        """
+    """
         SIR model inspired by Youssef & Scolio (2011)
         The article describes an individual approach to SIR modelling which canonically uses a mean-field approximation.
         In mean-field approximatinos nodes are assumed to have 'homogeneous mixing', i.e. a node is able to receive information
@@ -1952,7 +2057,21 @@ cdef class SIRS(Model):
 
 
         Todo: the sir model currently describes a final end-state. We can model it that we just assume distributions
-        """
+    """
+    def __init__(self, graph, \
+                 agentStates = np.array([0, 1, 2], dtype = np.double),\
+                 beta = 1,\
+                 mu = 1,\
+                 nu = 0,\
+                 kappa = 0,\
+                 **kwargs):
+        super(SIRS, self).__init__(**locals())
+        self.beta  = beta
+        self.mu    = mu
+        self.nu    = nu
+        self.kappa = kappa
+        self.init_random()
+      
 
     cdef float _checkNeighbors(self, node_id_t node) nogil:
         """
@@ -2117,7 +2236,7 @@ cdef class Percolation(Model):
 
 cdef class Bonabeau(Model):
     """
-    Bonabeau model in hierarchy formation
+    Bonabeau model in hierarchy formation updated using heat bath equation
     """
     def __init__(self, graph,\
                  agentStates = np.array([0, 1]),\
@@ -2139,6 +2258,7 @@ cdef class Bonabeau(Model):
         if thisState == 0:
             return
 
+        # get random neighbor
         cdef size_t idx = <size_t> (self._rng._rand() * self.adj._adj[node].neighbors.size())
         neighbor = self.adj._adj[node].neighbors.begin()
         for i in range(idx):
@@ -2150,6 +2270,7 @@ cdef class Bonabeau(Model):
             node_id_t neighborPosition = deref(neighbor).first
             state_t thatState     = self._states[neighborPosition]
             double p
+        # 
         if thatState:
             p = self._hamiltonian(self._weight[node], self._weight[neighborPosition])
             # won fight
@@ -2172,13 +2293,20 @@ cdef class Bonabeau(Model):
 
     @property
     def eta(self):
+        """
+        coefficient for sigmoid curve
+        """
         return self._eta
     @eta.setter
     def eta(self,value):
         self._eta = value
 
     @property
-    def weight(self): return self._weight.base
+    def weight(self):
+        """
+        return weights between nodes
+        """
+        return self._weight.base
 
 
 cdef class CCA(Model):
