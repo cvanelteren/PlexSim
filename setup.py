@@ -9,7 +9,7 @@ from subprocess import run
 add = []
 compiler = 'g++'
 optFlag  = '-Ofast'
-cppv     = '17'
+cppv     = '20'
 
 flags = f'{optFlag} -march=native -std=c++{cppv} -flto '\
         '-frename-registers -funroll-loops -fno-wrapv '\
@@ -73,27 +73,35 @@ def TestSuite():
 #    requirements = f.read().splitlines()
 from setuptools import find_namespace_packages, find_packages
 from sphinx.setup_command import BuildDoc
+name    = "plexsim"
+version = "2.0"
+
+sphinx = dict(project = ("setup.py", name),
+              version = ("setup.py", version),
+              source_dir = ("setup.py", "docs/source"),
+              #build_dir = ("setup.py", "docs/build"),
+              )
 setup(
-    name                        = "plexsim",
-    author                      = "Casper van Elteren",
-    author_email                = "caspervanelteren@gmail.com",
-    url                         = "cvanelteren.githubio.io",
-    version                     = "2.0",
-    zip_safe                    = False,
-    # package_dir                 = {"" : "plexsim"},
-    # package_data                = {
+    name                 = name,
+    author               = "Casper van Elteren",
+    author_email         = "caspervanelteren@gmail.com",
+    url                  = "cvanelteren.githubio.io",
+    version              = version,
+    zip_safe             = False,
+    # package_dir        = {"" : "plexsim"},
+    # package_data       = {
         # "" : "*.pyx *.pxd".split(),
         # "plexsim" : "plexsim/*pyx plexsim/*pxd".split(),
                     # },
-    include_package_data        = True,
-    data_files                  = data_files,
-    packages                    = find_packages(where = "plexsim"),
-    install_requires            = "cython numpy networkx".split(),
-    cmdclass                    = dict(build_sphinx = BuildDoc),
-    command_options             = dict(source_dir = ('setup.py', 'doc')),
-    ext_modules                 = cythonize(
-                                        exts,
-                                        compiler_directives = cdirectives,
-                                        nthreads            = mp.cpu_count(),
+    include_package_data = True,
+    data_files           = data_files,
+    packages             = find_packages(where = "plexsim"),
+    install_requires     = "cython numpy networkx".split(),
+    cmdclass             = dict(build_sphinx = BuildDoc),
+    command_options      = dict(build_sphinx = sphinx),
+    ext_modules          = cythonize(
+                            exts,
+                            compiler_directives = cdirectives,
+                            nthreads            = mp.cpu_count(),
     ),
 )
