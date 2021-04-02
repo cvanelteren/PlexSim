@@ -4,7 +4,7 @@ Welcome to Plexsim.
 Fast and general  toolbox for simulation of complex adaptive  systems written in
 cython.   *N.b.*   this    is   a   work   in   progress.    Docs   are   hosted
 [[https://cvanelteren.github.io/PlexSim/][here]],      please       see      the
-[[#quickstart][Quickstart]] guide below.
+[[https://cvanelteren.github.io/Plexqim/build/html/quickstart.html][quickstart]] in the docs.
 
 
 #+attr_html: :alt  :align center :class img
@@ -28,8 +28,6 @@ Powered by
 #+attr_html: :alt  :align right :class img
 [[file:./docs/figures/cython_logo.svg]]
 
-* Quickstart
-#+include: docs/source/quickstart.org
 * Notes
 Cannot have static pyobjects, this causes a segfault in pybind11. 
 Use atexit for cleaning them up.
