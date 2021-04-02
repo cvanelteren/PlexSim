@@ -10,14 +10,19 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import os
-import sys
+import os, sys
+from subprocess import call
 #sys.path.insert(0, os.path.abspath('../../plexsim'))
-for root, dir, files in os.walk('../../build/'):
+#
+commands = []
+for root, dir, files in os.walk('./'):
     for file in files:
         if file.endswith(".so"):
             sys.path.insert(0, root)
-print(sys.path)
+        if file.endswith(".org"):
+            output = file.rstrip(".org")
+            command = f"pandoc {file} -o {output}.rst".split()
+            call(command)
 
 
 # -- Project information -----------------------------------------------------
