@@ -14,7 +14,6 @@ Please note that the documentation is a work in progress and is as of yet not co
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
    modules
 .. automodule:: plexsim
    :members:
