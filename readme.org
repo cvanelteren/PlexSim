@@ -8,7 +8,7 @@ cython.   *N.b.*   this    is   a   work   in   progress.    Docs   are   hosted
 
 
 #+attr_html: :alt  :align center :class img
-[[file:./banner/new_banner.gif]]
+[[file:./docs/figures/new_banner.gif]]
 
 * Installation
 - Clone the repo ~git clone git@github.com:cvanelteren/PlexSim.git && cd Plexsim~
@@ -26,8 +26,8 @@ PlexSim is released under the GNU-GPLv3 license
 
 Powered by
 #+attr_html: :alt  :align right :class img
-[[file:./banner/cython_logo.svg]]
-
+[[file:./docs/figures/cython_logo.svg]]
+    
 * Quickstart  
 :properties:
 :custom_id: quickstart
@@ -90,7 +90,7 @@ fig.show()
 [[file:banner/ising_example.png]]
 
 #+attr_html: :alt  :align center :class img
-[[file:./banner/ising_example.png]]
+[[file:./docs/figures/ising_example.png]]
 
 ** Simulation 
 #+begin_src python  :file banner/ising_time_example.png
@@ -125,7 +125,7 @@ fig.show()
 
 
 #+attr_html: :alt  :align center :class img
-[[file:./banner/ising_time_example.png]]
+[[file:./docs/figures/ising_time_example.png]]
 
 ** Other parameters
 The documentation is  a work in progress.  Please check out the  source code for
