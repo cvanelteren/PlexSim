@@ -14,7 +14,6 @@
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="plexsim" href="modules.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -42,19 +41,6 @@
 <dt id="plexsim.models.AB">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">plexsim.models.</span></code><code class="sig-name descname"><span class="pre">AB</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zealots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">dict()</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.AB" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#plexsim.models.Model" title="plexsim.models.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.Model</span></code></a></p>
-<p>Voter AB model</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>graph</strong> – <dl class="field-list simple">
-<dt class="field-odd">param                     zealots</dt>
-<dd class="field-odd"><p>dict of zealots to include (people that cannot be convinced), defaults to 0</p>
-</dd>
-<dt class="field-even">param                          <a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs</dt>
-<dd class="field-even"><p></p></dd>
-</dl>
-</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py class">
@@ -62,6 +48,7 @@
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">plexsim.models.</span></code><code class="sig-name descname"><span class="pre">Adjacency</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.Adjacency" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Constructs adj matrix using structs
+!
 intput:</p>
 <blockquote>
 <div><dl class="field-list simple">
@@ -76,18 +63,16 @@ intput:</p>
 <dt id="plexsim.models.Bonabeau">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">plexsim.models.</span></code><code class="sig-name descname"><span class="pre">Bonabeau</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.array([0,</span> <span class="pre">1])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.Bonabeau" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#plexsim.models.Model" title="plexsim.models.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.Model</span></code></a></p>
-<p>Bonabeau model in hierarchy formation updated using heat bath equation</p>
+<p>Bonabeau model in hierarchy formation</p>
 <dl class="py attribute">
 <dt id="plexsim.models.Bonabeau.eta">
 <code class="sig-name descname"><span class="pre">eta</span></code><a class="headerlink" href="#plexsim.models.Bonabeau.eta" title="Permalink to this definition">¶</a></dt>
-<dd><p>coefficient for sigmoid curve</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py attribute">
 <dt id="plexsim.models.Bonabeau.weight">
 <code class="sig-name descname"><span class="pre">weight</span></code><a class="headerlink" href="#plexsim.models.Bonabeau.weight" title="Permalink to this definition">¶</a></dt>
-<dd><p>return weights between nodes</p>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -100,8 +85,7 @@ Ising-like dynamics with a global magnetiztion dynamic</p>
 <dl class="py attribute">
 <dt id="plexsim.models.Bornholdt.alpha">
 <code class="sig-name descname"><span class="pre">alpha</span></code><a class="headerlink" href="#plexsim.models.Bornholdt.alpha" title="Permalink to this definition">¶</a></dt>
-<dd><p>Global coupling constant</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py attribute">
 <dt id="plexsim.models.Bornholdt.system_mag">
@@ -377,14 +361,12 @@ Additional inputs
 <dl class="py attribute">
 <dt id="plexsim.models.Potts.H">
 <code class="sig-name descname"><span class="pre">H</span></code><a class="headerlink" href="#plexsim.models.Potts.H" title="Permalink to this definition">¶</a></dt>
-<dd><p>External magnetic field</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py attribute">
 <dt id="plexsim.models.Potts.beta">
 <code class="sig-name descname"><span class="pre">beta</span></code><a class="headerlink" href="#plexsim.models.Potts.beta" title="Permalink to this definition">¶</a></dt>
-<dd><p>Shortcut for 1/T</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py attribute">
 <dt id="plexsim.models.Potts.delta">
@@ -430,8 +412,7 @@ Input:</p>
 <dl class="py attribute">
 <dt id="plexsim.models.Potts.t">
 <code class="sig-name descname"><span class="pre">t</span></code><a class="headerlink" href="#plexsim.models.Potts.t" title="Permalink to this definition">¶</a></dt>
-<dd><p>Temperature</p>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -443,7 +424,7 @@ Input:</p>
 :param                          beta:
 :param                          eta:
 :param                          mu:
-:param                          <a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs:
+:param                          <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs:
 :returns:</p>
 <dl class="py attribute">
 <dt id="plexsim.models.Pottsis.beta">
@@ -485,31 +466,30 @@ Input:</p>
 <dl class="py attribute">
 <dt id="plexsim.models.Prisoner.P">
 <code class="sig-name descname"><span class="pre">P</span></code><a class="headerlink" href="#plexsim.models.Prisoner.P" title="Permalink to this definition">¶</a></dt>
-<dd><p>Punishment property (double)</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py attribute">
 <dt id="plexsim.models.Prisoner.R">
 <code class="sig-name descname"><span class="pre">R</span></code><a class="headerlink" href="#plexsim.models.Prisoner.R" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reward property</p>
+<dd><p>Sets reward property</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="plexsim.models.Prisoner.S">
 <code class="sig-name descname"><span class="pre">S</span></code><a class="headerlink" href="#plexsim.models.Prisoner.S" title="Permalink to this definition">¶</a></dt>
-<dd><p>Suckers’ payout property</p>
+<dd><p>Sets suckers’ payout</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="plexsim.models.Prisoner.T">
 <code class="sig-name descname"><span class="pre">T</span></code><a class="headerlink" href="#plexsim.models.Prisoner.T" title="Permalink to this definition">¶</a></dt>
-<dd><p>Temptation property</p>
+<dd><p>Se the temptation value</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="plexsim.models.Prisoner.alpha">
 <code class="sig-name descname"><span class="pre">alpha</span></code><a class="headerlink" href="#plexsim.models.Prisoner.alpha" title="Permalink to this definition">¶</a></dt>
-<dd><p>Coupling coefficient property</p>
+<dd><p>Set coupling coefficient with neighbors</p>
 </dd></dl>
 
 <dl class="py method">
@@ -676,21 +656,11 @@ S —-&gt; I —-&gt; R —-&gt; S</p>
 
 
 <h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">plexsim</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">plexsim package</a></li>
-</ul>
-</li>
-</ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-  <li><a href="modules.html">plexsim</a><ul>
-      <li>Previous: <a href="modules.html" title="previous chapter">plexsim</a></li>
-  </ul></li>
   </ul></li>
 </ul>
 </div>
