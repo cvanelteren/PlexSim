@@ -6,7 +6,7 @@
 Welcome to Plexsim's documentation!
 ===================================
 
-Please note that the documentation is a work in progress and is as of yet not complete. Contributions are welcome ;-)!
+Please note that the documentation is a work in progress and is as of yet not complete. Contributions are welcome |:wink:|!
 
 .. image:: ../figures/new_banner.gif
 
