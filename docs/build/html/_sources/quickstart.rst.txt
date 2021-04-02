@@ -27,7 +27,7 @@ Below the Ising model is used
                    sampleSize = len(g), #how many nodes to update per simulation step (default)
                    updateType = 'async',#the update buffers are not independent, use sync for dependency(default)
                    )
-   m = models.Ising(graph = g, t = temperature)
+   m = models.Ising(**settings)
 
 
 
