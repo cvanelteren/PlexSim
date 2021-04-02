@@ -11,19 +11,11 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os, sys
-from subprocess import call
 #sys.path.insert(0, os.path.abspath('../../plexsim'))
-#
-commands = []
-for root, dir, files in os.walk('./'):
-    for file in files:
-        if file.endswith(".so"):
-            sys.path.insert(0, root)
-        if file.endswith(".org"):
-            output = file.rstrip(".org")
-            command = f"pandoc {file} -o {output}.rst".split()
-            call(command)
+from subprocess import call
 
+print(os.path.abspath(os.curdir))
+os.system("./convert-org.py")
 
 # -- Project information -----------------------------------------------------
 

@@ -2,7 +2,6 @@
 :properties:
 :custom_id: quickstart
 :end:
-
 * Quickstart
 ** Setting up the model
 Plexsim  relies on  ~networkx~ to  create a  graphical  structure  on which  to
@@ -102,3 +101,4 @@ fig.show()
 ** Other parameters
 The documentation is  a work in progress.  Please check out the  source code for
 different models.
+

@@ -1,0 +1,4 @@
+test
+====
+
+.. image:: ./../figures/banner.gif
