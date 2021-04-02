@@ -1,8 +1,9 @@
 #+options: num:nil
-* Quickstart  
 :properties:
 :custom_id: quickstart
 :end:
+
+* Quickstart
 ** Setting up the model
 Plexsim  relies on  ~networkx~ to  create a  graphical  structure  on which  to
 simulate models.  Various models  are available  in ~plexsim.models~.  Below the
