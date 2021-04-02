@@ -4,7 +4,7 @@ Welcome to Plexsim.
 Fast and general  toolbox for simulation of complex adaptive  systems written in
 cython.   *N.b.*   this    is   a   work   in   progress.    Docs   are   hosted
 [[https://cvanelteren.github.io/PlexSim/][here]],      please       see      the
-[[https://cvanelteren.github.io/Plexqim/build/html/quickstart.html][quickstart]] in the docs.
+[[https://cvanelteren.github.io/PlexSim/build/html/quickstart.html][quickstart]] in the docs.
 
 
 #+attr_html: :alt  :align center :class img
