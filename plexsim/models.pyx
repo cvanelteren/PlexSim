@@ -2033,8 +2033,8 @@ cdef class AB(Model):
 cdef class SIRS(Model):
     """
         SIR model inspired by Youssef & Scolio (2011)
-        The article describes an individual approach to SIR modelling which canonically uses a mean-field approximation.
-        In mean-field approximatinos nodes are assumed to have 'homogeneous mixing', i.e. a node is able to receive information
+        The article describes an individual approach to SIR modeling which canonically uses a mean-field approximation.
+        In mean-field approximations nodes are assumed to have 'homogeneous mixing', i.e. a node is able to receive information
         from the entire network. The individual approach emphasizes the importance of local connectivity motifs in
         spreading dynamics of any process.
 
@@ -2237,6 +2237,7 @@ cdef class Percolation(Model):
 cdef class Bonabeau(Model):
     """
     Bonabeau model in hierarchy formation updated using heat bath equation
+    based on Bonabeau et al. 1995
     """
     def __init__(self, graph,\
                  agentStates = np.array([0, 1]),\
@@ -2310,14 +2311,15 @@ cdef class Bonabeau(Model):
 
 
 cdef class CCA(Model):
+     """
+        Circular cellular automaton
+    """
     def __init__(self, \
                  graph,\
                  threshold = 0.,\
                  agentStates = np.array([0, 1, 2], dtype = np.double),\
                  **kwargs):
-        """
-        Circular cellular automaton
-        """
+   
 
         super(CCA, self).__init__(**locals())
 
@@ -2327,7 +2329,6 @@ cdef class CCA(Model):
         """
         Rule : evolve if the state of the neigbhors exceed a threshold
         """
-
         cdef:
             long neighbor
             long nNeighbors = self.adj._adj[node].neighbors.size()
