@@ -60,7 +60,7 @@ fig.show()
 #+RESULTS:
 [[file:banner/ising_example.png]]
 
-#+attr_html: :alt  :align center :class img
+#+attr_html: :alt ising_example  :align center
 [[file:./..//figures/ising_example.png]]
 
 ** Simulation 
@@ -95,7 +95,7 @@ fig.show()
 [[file:banner/ising_time_example.png]]
 
 
-#+attr_html: :alt  :align center :class img
+#+attr_html: :alt  :align center
 [[file:./../figures/ising_time_example.png]]
 
 ** Other parameters
