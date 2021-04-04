@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>&lt;no title&gt; &#8212; Plexsim 3.0 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Casper van Elteren</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Quickstart
+<code class="docutils literal notranslate"><span class="pre">========</span></code></p>
+<p>Setting up the model</p>
+<hr class="docutils" />
+<p>Plexsim relies on ``networkx`` to create a graphical structure on which
+to simulate models. Various models are available in ``plexsim.models``.
+Below the Ising model is used</p>
+<p>.. code:: python</p>
+<p>from matplotlib import style; style.use(“seaborn-poster”.split())
+import numpy as np, os, sys, networkx as nx, warnings, matplotlib.pyplot as plt
+warnings.simplefilter(“ignore”)</p>
+<p>from plexsim import models</p>
+<p>g = nx.grid<sub>graph</sub>((64, 64), periodic = 1)</p>
+<p>temperature = 2.5</p>
+<dl class="simple">
+<dt>settings = dict(graph = g,  # graph for the model</dt><dd><p>t = temperature, #temperature for the Ising model
+sampleSize = len(g), #how many nodes to update per simulation step (default)
+updateType = ’async’,#the update buffers are not independent, use sync for dependency(default)
+)</p>
+</dd>
+</dl>
+<p>m = models.Ising(**settings)</p>
+<p>pos = {i: np.array(eval(i)) for i in m.graph.nodes()}</p>
+<p>colors = plt.cm.viridis(np.linspace(0, 1, m.nStates))
+fig, ax = plt.subplots(constrained<sub>layout</sub>= 1, figsize = (5, 5))
+nx.draw(m.graph, pos = pos, ax = ax,</p>
+<blockquote>
+<div><p>node<sub>color</sub>= colors[m.states.astype(int)],
+node<sub>size</sub>= 20)</p>
+</div></blockquote>
+<p>C = “#ADC3D1”
+fc = ’#16161D’
+ax.margins(0.05)
+ax.set<sub>title</sub>(“Ising model with random initial condition”, fontsize = 21,</p>
+<blockquote>
+<div><p>color = C)</p>
+</div></blockquote>
+<p>#ax.axis(’equal’)
+ax.set<sub>ylabel</sub>(“Node”,  labelpad = 1, color = C)
+ax.set<sub>xlabel</sub>(“Node”, color = C)
+for i in “left right bottom top”.split():</p>
+<blockquote>
+<div><p>ax.spines[i].set<sub>visible</sub>(False)</p>
+</div></blockquote>
+<p>ax.axis(True)
+ax.set<sub>xticks</sub>([])
+ax.set<sub>yticks</sub>([])
+ax.set<sub>facecolor</sub>(fc)
+fig.set<sub>facecolor</sub>(fc)
+fig.show()</p>
+<p>.. raw:: org</p>
+<p>.. image:: ./..//figures/ising<sub>example.png</sub></p>
+<p>Simulation</p>
+<hr class="docutils" />
+<p>.. code:: python</p>
+<p>n = int(1e2) # simulation steps
+m.reset() # reset model to random condition
+sim<sub>results</sub>= m.simulate(n)</p>
+<p>spacing = np.linspace(0, n, 4, endpoint = False).astype(int)
+fig, ax = plt.subplots(2, 2, figsize = (10,10), constrained<sub>layout</sub>= 1)
+for idx, axi in zip(spacing, ax.flat):</p>
+<blockquote>
+<div><p>tmp = sim<sub>results</sub>[idx]
+nx.draw(m.graph, pos = pos, ax = axi, node<sub>color</sub>= colors[tmp.astype(int)],</p>
+<blockquote>
+<div><p>node<sub>size</sub>= 5)</p>
+</div></blockquote>
+<p>axi.axis(’equal’); axi.axis(True); axi.grid(False)
+axi.margins(0)
+axi.set<sub>title</sub>(f’T = {idx}’, color = C)</p>
+</div></blockquote>
+<p>axi.set<sub>facecolor</sub>(fc)
+axi.set<sub>ylabel</sub>(“Node”,  labelpad = -5, color = C)
+axi.set<sub>xlabel</sub>(“Node”, color = C)</p>
+<dl class="simple">
+<dt>for i in “left right bottom top”.split():</dt><dd><p>axi.spines[i].set<sub>visible</sub>(False)</p>
+</dd>
+</dl>
+<p>fig.subplots<sub>adjust</sub>(wspace = .05, hspace = .4)
+fig.set<sub>facecolor</sub>(fc)
+fig.show()</p>
+<p>.. raw:: org</p>
+<p>.. image:: ./../figures/ising<sub>time</sub><sub>example.png</sub></p>
+<p>Other parameters</p>
+<hr class="docutils" />
+<p>The documentation is a work in progress. Please check out the source
+code for different models.</p>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Plexsim</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">plexsim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Casper van Elteren.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/quickstart.rst.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
