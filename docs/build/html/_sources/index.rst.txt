@@ -17,6 +17,7 @@ Please note that the documentation is a work in progress and is as of yet not co
 
    modules
    quickstart
+   models
 
 .. include:: ./quickstart.rst
 
