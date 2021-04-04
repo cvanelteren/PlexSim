@@ -12,7 +12,7 @@ for root, dir, files in os.walk('.'):
             file = os.path.join(root, file)
             target = os.path.join(root, f"{output}.rst")
             tmp = os.path.join(root, "../", f"{output}.rst")
-            command = f"pandoc {file} -o {tmp}".split()
+            command = f"pandoc {file} -t rst -o {tmp}".split()
             call(command)
             overwrite = False
             filecmp.clear_cache()
@@ -32,6 +32,3 @@ for root, dir, files in os.walk('.'):
                 print(f"File is new, copying {tmp} to {target}")
                 os.system(f"mv {tmp} {target}")
 
-
-
-                    
