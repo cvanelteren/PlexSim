@@ -1,7 +1,5 @@
     :Author: Casper van Elteren
 
-.. contents::
-
 
 
 Models

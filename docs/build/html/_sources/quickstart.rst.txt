@@ -67,6 +67,8 @@ Ising model is used
     fig.show()
 
 .. image:: ./..//figures/ising_example.png
+    :alt: ising_example
+    :align: center
 
 Simulation
 ~~~~~~~~~~
@@ -100,6 +102,7 @@ Simulation
 
 
 .. image:: ./../figures/ising_time_example.png
+    :align: center
 
 Other parameters
 ~~~~~~~~~~~~~~~~
