@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>test &#8212; Plexsim 3.0 documentation</title>
+    <title>&lt;no title&gt; &#8212; Plexsim 3.0 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -30,10 +30,440 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="test">
-<h1>test<a class="headerlink" href="#test" title="Permalink to this headline">¶</a></h1>
-<img alt="_images/banner.gif" src="_images/banner.gif" />
-</div>
+  <dl>
+<dt>(lambda</dt><dd><p>(p status)
+(let</p>
+<blockquote>
+<div><blockquote>
+<div><dl class="simple">
+<dt>((proc-buffer</dt><dd><p>(process-buffer p)))</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl>
+<dt>(when</dt><dd><blockquote>
+<div><dl class="simple">
+<dt>(eq</dt><dd><p>(process-status p)
+‘exit)</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl>
+<dt>(unwind-protect</dt><dd><blockquote>
+<div><dl>
+<dt>(if</dt><dd><blockquote>
+<div><dl>
+<dt>(zerop</dt><dd><p>(process-exit-status p))</p>
+</dd>
+<dt>(unwind-protect</dt><dd><blockquote>
+<div><dl>
+<dt>(let</dt><dd><blockquote>
+<div><dl>
+<dt>((results</dt><dd><dl>
+<dt>(with-current-buffer proc-buffer</dt><dd><dl class="simple">
+<dt>(goto-char</dt><dd><p>(point-max))</p>
+</dd>
+</dl>
+<p>(backward-sexp)
+(read</p>
+<blockquote>
+<div><p>(current-buffer)))))</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<dl>
+<dt>(funcall</dt><dd><dl>
+<dt>(lambda</dt><dd><p>(output)
+(with-current-buffer</p>
+<blockquote>
+<div><blockquote>
+<div><p>(get-buffer-create “<em>Org RST Export</em>”)</p>
+</div></blockquote>
+<p>(erase-buffer)
+(setq buffer-file-coding-system ‘undecided-unix)
+(insert output)
+(goto-char</p>
+<blockquote>
+<div><p>(point-min))</p>
+</div></blockquote>
+<dl class="simple">
+<dt>(org-export-add-to-stack</dt><dd><p>(current-buffer)
+‘rst)</p>
+</dd>
+<dt>(ignore-errors</dt><dd><dl class="simple">
+<dt>(funcall</dt><dd><dl class="simple">
+<dt>#[0 “300 207”</dt><dd><p>[rst-mode]
+1]))))</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+<p>results))</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>(unless org-export-async-debug</dt><dd><dl class="simple">
+<dt>(and</dt><dd><p>(get-buffer proc-buffer)
+(kill-buffer proc-buffer))))</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<p>(org-export-add-to-stack proc-buffer nil p)
+(ding)
+(message “Process <a href="#id1"><span class="problematic" id="id2">`</span></a>%s’ exited abnormally” p))</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>(unless org-export-async-debug</dt><dd><p>(delete-file “/tmp/org-export-processz9ipLx”))))))</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+<dt>(lambda</dt><dd><p>(p status)
+(let</p>
+<blockquote>
+<div><blockquote>
+<div><dl class="simple">
+<dt>((proc-buffer</dt><dd><p>(process-buffer p)))</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl>
+<dt>(when</dt><dd><blockquote>
+<div><dl class="simple">
+<dt>(eq</dt><dd><p>(process-status p)
+‘exit)</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl>
+<dt>(unwind-protect</dt><dd><blockquote>
+<div><dl>
+<dt>(if</dt><dd><blockquote>
+<div><dl>
+<dt>(zerop</dt><dd><p>(process-exit-status p))</p>
+</dd>
+<dt>(unwind-protect</dt><dd><blockquote>
+<div><dl>
+<dt>(let</dt><dd><blockquote>
+<div><dl>
+<dt>((results</dt><dd><dl>
+<dt>(with-current-buffer proc-buffer</dt><dd><dl class="simple">
+<dt>(goto-char</dt><dd><p>(point-max))</p>
+</dd>
+</dl>
+<p>(backward-sexp)
+(read</p>
+<blockquote>
+<div><p>(current-buffer)))))</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<dl>
+<dt>(funcall</dt><dd><dl>
+<dt>(lambda</dt><dd><p>(output)
+(with-current-buffer</p>
+<blockquote>
+<div><blockquote>
+<div><p>(get-buffer-create “<em>Org RST Export</em>”)</p>
+</div></blockquote>
+<p>(erase-buffer)
+(setq buffer-file-coding-system ‘undecided-unix)
+(insert output)
+(goto-char</p>
+<blockquote>
+<div><p>(point-min))</p>
+</div></blockquote>
+<dl class="simple">
+<dt>(org-export-add-to-stack</dt><dd><p>(current-buffer)
+‘rst)</p>
+</dd>
+<dt>(ignore-errors</dt><dd><dl class="simple">
+<dt>(funcall</dt><dd><dl class="simple">
+<dt>#[0 “300 207”</dt><dd><p>[rst-mode]
+1]))))</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+<p>results))</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>(unless org-export-async-debug</dt><dd><dl class="simple">
+<dt>(and</dt><dd><p>(get-buffer proc-buffer)
+(kill-buffer proc-buffer))))</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<p>(org-export-add-to-stack proc-buffer nil p)
+(ding)
+(message “Process <a href="#id3"><span class="problematic" id="id4">`</span></a>%s’ exited abnormally” p))</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>(unless org-export-async-debug</dt><dd><p>(delete-file “/tmp/org-export-processHJULXa”))))))</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+<dt>(lambda</dt><dd><p>(p status)
+(let</p>
+<blockquote>
+<div><blockquote>
+<div><dl class="simple">
+<dt>((proc-buffer</dt><dd><p>(process-buffer p)))</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl>
+<dt>(when</dt><dd><blockquote>
+<div><dl class="simple">
+<dt>(eq</dt><dd><p>(process-status p)
+‘exit)</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl>
+<dt>(unwind-protect</dt><dd><blockquote>
+<div><dl>
+<dt>(if</dt><dd><blockquote>
+<div><dl>
+<dt>(zerop</dt><dd><p>(process-exit-status p))</p>
+</dd>
+<dt>(unwind-protect</dt><dd><blockquote>
+<div><dl>
+<dt>(let</dt><dd><blockquote>
+<div><dl>
+<dt>((results</dt><dd><dl>
+<dt>(with-current-buffer proc-buffer</dt><dd><dl class="simple">
+<dt>(goto-char</dt><dd><p>(point-max))</p>
+</dd>
+</dl>
+<p>(backward-sexp)
+(read</p>
+<blockquote>
+<div><p>(current-buffer)))))</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<dl>
+<dt>(funcall</dt><dd><dl>
+<dt>(lambda</dt><dd><p>(output)
+(with-current-buffer</p>
+<blockquote>
+<div><blockquote>
+<div><p>(get-buffer-create “<em>Org RST Export</em>”)</p>
+</div></blockquote>
+<p>(erase-buffer)
+(setq buffer-file-coding-system ‘undecided-unix)
+(insert output)
+(goto-char</p>
+<blockquote>
+<div><p>(point-min))</p>
+</div></blockquote>
+<dl class="simple">
+<dt>(org-export-add-to-stack</dt><dd><p>(current-buffer)
+‘rst)</p>
+</dd>
+<dt>(ignore-errors</dt><dd><dl class="simple">
+<dt>(funcall</dt><dd><dl class="simple">
+<dt>#[0 “300 207”</dt><dd><p>[rst-mode]
+1]))))</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+<p>results))</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>(unless org-export-async-debug</dt><dd><dl class="simple">
+<dt>(and</dt><dd><p>(get-buffer proc-buffer)
+(kill-buffer proc-buffer))))</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<p>(org-export-add-to-stack proc-buffer nil p)
+(ding)
+(message “Process <a href="#id5"><span class="problematic" id="id6">`</span></a>%s’ exited abnormally” p))</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>(unless org-export-async-debug</dt><dd><p>(delete-file “/tmp/org-export-processxos0KH”))))))</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+<dt>(lambda</dt><dd><p>(p status)
+(let</p>
+<blockquote>
+<div><blockquote>
+<div><dl class="simple">
+<dt>((proc-buffer</dt><dd><p>(process-buffer p)))</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl>
+<dt>(when</dt><dd><blockquote>
+<div><dl class="simple">
+<dt>(eq</dt><dd><p>(process-status p)
+‘exit)</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl>
+<dt>(unwind-protect</dt><dd><blockquote>
+<div><dl>
+<dt>(if</dt><dd><blockquote>
+<div><dl>
+<dt>(zerop</dt><dd><p>(process-exit-status p))</p>
+</dd>
+<dt>(unwind-protect</dt><dd><blockquote>
+<div><dl>
+<dt>(let</dt><dd><blockquote>
+<div><dl>
+<dt>((results</dt><dd><dl>
+<dt>(with-current-buffer proc-buffer</dt><dd><dl class="simple">
+<dt>(goto-char</dt><dd><p>(point-max))</p>
+</dd>
+</dl>
+<p>(backward-sexp)
+(read</p>
+<blockquote>
+<div><p>(current-buffer)))))</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<dl>
+<dt>(funcall</dt><dd><dl>
+<dt>(lambda</dt><dd><p>(output)
+(with-current-buffer</p>
+<blockquote>
+<div><blockquote>
+<div><p>(get-buffer-create “<em>Org RST Export</em>”)</p>
+</div></blockquote>
+<p>(erase-buffer)
+(setq buffer-file-coding-system ‘undecided-unix)
+(insert output)
+(goto-char</p>
+<blockquote>
+<div><p>(point-min))</p>
+</div></blockquote>
+<dl class="simple">
+<dt>(org-export-add-to-stack</dt><dd><p>(current-buffer)
+‘rst)</p>
+</dd>
+<dt>(ignore-errors</dt><dd><dl class="simple">
+<dt>(funcall</dt><dd><dl class="simple">
+<dt>#[0 “300 207”</dt><dd><p>[rst-mode]
+1]))))</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+<p>results))</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>(unless org-export-async-debug</dt><dd><dl class="simple">
+<dt>(and</dt><dd><p>(get-buffer proc-buffer)
+(kill-buffer proc-buffer))))</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<p>(org-export-add-to-stack proc-buffer nil p)
+(ding)
+(message “Process <a href="#id7"><span class="problematic" id="id8">`</span></a>%s’ exited abnormally” p))</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>(unless org-export-async-debug</dt><dd><p>(delete-file “/tmp/org-export-processnN6f1a”))))))</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
 
 
           </div>
@@ -55,7 +485,6 @@
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">plexsim</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
 </ul>
 
 <div class="relations">
