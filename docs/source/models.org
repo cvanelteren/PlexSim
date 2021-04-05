@@ -1,4 +1,4 @@
-#+options: num:nil
+#+options: num:nil toc:nil
 * Models
 Under construction |:construction:|.
 ** Ising model
