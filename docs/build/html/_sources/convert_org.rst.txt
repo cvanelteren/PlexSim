@@ -1,0 +1,6 @@
+    :Author: Casper van Elteren
+
+.. contents::
+
+echo :math:`1
+emacs -u "`(id -un)“ --batch --eval ’(load user-init-file)’ $0 -f org-rst-export-to-rst
