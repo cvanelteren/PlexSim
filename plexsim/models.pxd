@@ -430,3 +430,17 @@ cdef class ValueNetwork(Potts):
     cdef double probability(self, state_t state, node_id_t node) nogil
     cdef double _hamiltonian(self, state_t x, state_t  y) nogil
    
+
+cdef class Cycledelic(Model):
+    cdef:
+        double predation
+        double competition
+        double diffusion
+    cdef state_t[:, ::1] coloring
+    cdef vector[state_t] update_coloring(self, state_t[::1] colors, node_id_t node) nogil
+
+cdef class CycledelicAgent(Model):
+    cdef:
+        double predation
+        double mobility
+        double reproduction
