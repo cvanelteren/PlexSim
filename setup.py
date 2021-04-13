@@ -75,7 +75,8 @@ from setuptools import find_namespace_packages, find_packages
 from sphinx.setup_command import BuildDoc
 name    = "plexsim"
 version = "2.0"
-
+packages = find_packages(include = ["plexsim", "plexsim.*"])
+print(">", packages)
 sphinx = dict(project = ("setup.py", name),
               version = ("setup.py", version),
               source_dir = ("setup.py", "docs/source"),
@@ -95,7 +96,7 @@ setup(
                     # },
     include_package_data = True,
     data_files           = data_files,
-    packages             = find_packages(where = "plexsim"),
+    packages             = packages, 
     install_requires     = "cython numpy networkx".split(),
     cmdclass             = dict(build_sphinx = BuildDoc),
     command_options      = dict(build_sphinx = sphinx),
