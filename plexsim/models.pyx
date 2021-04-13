@@ -30,6 +30,7 @@ from cpython.mem cimport PyMem_Malloc, PyMem_Realloc, PyMem_Free
 from libc.math cimport exp, log, cos, pi, lround, fabs, isnan, signbit
 
 from pyprind import ProgBar
+#from alive_progress import alive_bar
 import multiprocessing as mp
 
 cdef extern from "<algorithm>" namespace "std" nogil:
@@ -1057,8 +1058,18 @@ cdef class ValueNetwork(Potts):
          
         #e = [(u, v) for u, v, d in rules.edges(data = True) if dict(d).get('weight', 1) > 0]
         #r = nx.from_edgelist(e)
+        #
+        self.bounded_rational = bounded_rational
         self.setup_values(bounded_rational)
 
+
+    @property
+    def bounded_rational(self):
+        return self._bounded_rational
+    @bounded_rational.setter
+    def bounded_rational(self, value):
+        assert 1 <= value <= len(self.rules)
+        self._bounded_rational = int(value)
 
     cpdef vector[double] siteEnergy(self, state_t[::1] states):
         cdef:
@@ -1083,29 +1094,35 @@ cdef class ValueNetwork(Potts):
         #mod.states[:] = mod.agentStates[0]
         # calculate phase and susceptibility
         res = mod.simulate(n)  
-        res = np.array([mod.siteEnergy(i) for i in res]).mean()
+        #res = np.array([mod.siteEnergy(i) for i in res]).mean()
+        res = np.array([mod.check_vn(i) for i in res]).mean(1)
         #phase = np.real(np.exp(2 * np.pi * np.complex(0, 1) * res)).mean()
         return res
 
     #construct shortest path among nodes
+    cpdef void compute_node_path(self, node_id_t node):
+        cdef str node_label = self.adj.rmapping[node]
+        cdef size_t path_counter = 0
+        for other in self.graph:
+            # idx acts as dummy merely counting the seperate unique paths
+            for path in nx.all_simple_paths(self.graph, node_label, other, cutoff = self._bounded_rational):
+                # add the non-local influences
+                # note the node_label is the start node here; ignore that in future reference
+                self.paths[node][path_counter] = [self.adj.mapping[str(i)] for i in path]
+                path_counter += 1
+        return 
     
     cpdef void setup_values(self, int bounded_rational = 1):
         #pr = ProgBar(len(self.graph))
         # store the paths
         self.paths.clear()
-        cdef size_t path_counter
-        for node in self.graph:
-            node_label = self.adj.mapping[node]
-
-            path_counter = 0
-            for other in self.graph:
-                # idx acts as dummy merely counting the seperate unique paths
-                for path in nx.all_simple_paths(self.graph, node, other, cutoff = bounded_rational):
-                    # add the non-local influences
-                    # note the node_label is the start node here; ignore that in future reference
-                    self.paths[node_label][path_counter] = [self.adj.mapping[str(i)] for i in path]
-                    path_counter += 1
-       #     pr.update()
+        import pyprind as pr
+        cdef object pb = pr.ProgBar(len(self.graph))
+        cdef size_t i, n = self.adj._nNodes
+        for i in prange(0, n, nogil = 1):
+            with gil:
+                self.compute_node_path(i)
+                pb.update()
         return
         
     
@@ -1113,6 +1130,63 @@ cdef class ValueNetwork(Potts):
     @property 
     def pat(self):
         return self.paths
+
+    cpdef state_t[::1] check_vn(self, state_t[::1] state):
+        cdef state_t[::1] output = np.zeros(self.nNodes)
+        for node in range(self.nNodes):
+            output[node] = self._match_trees(node)
+        return output
+            
+    cdef double _match_trees(self, node_id_t node) nogil:
+        """"
+        Performs tree matching
+        """
+
+        # loop vars
+        cdef state_t* states = self._states # alias
+        cdef unordered_map[size_t, vector[node_id_t]] consider_nodes = self.paths[node]
+        cdef size_t neighbor_other
+        cdef state_t state_other
+        cdef double counter = 0
+
+        cdef:
+            state_t start 
+            rule_t rule_pair
+            size_t j
+
+        # path to check
+        cdef vector[node_id_t] path
+        # holds bottom-up value chain
+        cdef unordered_map[state_t, size_t] checker
+        
+        jt = consider_nodes.begin()
+        while jt != consider_nodes.end():
+            # reset tmp value chain
+            checker.clear()
+            path = deref(jt).second
+            start = states[node]
+            # color node
+            checker[start] = 1
+            # traverse the tree
+            for j in range(1, path.size()):
+                # get neighbor
+                neighbor = path[j]
+                state_other = states[neighbor]
+                rule_pair = self._rules._check_rules(start, state_other)
+                # if rule found
+                if rule_pair.first:
+                    # check the weight and see if state is finishing a chain
+                    if rule_pair.second.second > 0 and checker.find(state_other) == checker.end():
+                        # color node
+                        checker[state_other] = 1
+                    else:
+                        break
+                # move pair up
+                start = state_other
+            counter += checker.size() / <double>(self._bounded_rational)
+            post(jt)
+        return counter
+
 
     cdef double _energy(self, node_id_t node) nogil:
         """
@@ -1143,49 +1217,12 @@ cdef class ValueNetwork(Potts):
         # only get nodes based on distance it can reach based on the value network
         # current state as proposal
         cdef state_t proposal = self._states[node]
-        cdef unordered_map[size_t, vector[node_id_t]] consider_nodes = self.paths[node]
-
-        cdef size_t neighbor_other
-        cdef state_t state_other
-        cdef double counter = 0
-
-        # path to check
-        cdef vector[node_id_t] path
-        # holds bottom-up value chain
-        cdef unordered_map[state_t, size_t] checker
-
+        
         cdef:
             state_t start 
             rule_t rule_pair
-            size_t jdx, j
-
-        jt = consider_nodes.begin()
-        while jt != consider_nodes.end():
-            # reset tmp value chain
-            checker.clear()
-            path = deref(jt).second
-            start = states[node]
-            # color node
-            checker[start] = 1
-            # traverse the tree
-            for j in range(1, path.size()):
-                # get neighbor
-                neighbor = path[j]
-                state_other = states[neighbor]
-                rule_pair = self._rules._check_rules(start, state_other)
-                # if rule found
-                if rule_pair.first:
-                    # check the weight and see if state is finishing a chain
-                    if rule_pair.second.second > 0 and checker.find(state_other) == checker.end():
-                        # color node
-                        checker[state_other] = 1
-                    else:
-                        break
-                # move pair up
-                start = state_other
-            counter += checker.size() / <double>(self._nStates)
-            post(jt)
-
+            size_t j
+        cdef double counter = self._match_trees(node)
         it = self.adj._adj[node].neighbors.begin() 
         while it != self.adj._adj[node].neighbors.end():
             weight   = deref(it).second
@@ -1440,7 +1477,7 @@ cdef class Potts(Model):
                 tmptr = tmpHolder[tid].ptr
                 with gil:
                     results[0, ni] = self.magnetize_(<Model> tmptr, n, temps[ni])
-                    pbar.update(1)
+                    pbar.update()
                 
 
             results[1, :] = np.abs(np.gradient(results[0, :], temps, edge_order = 1))

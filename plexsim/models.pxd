@@ -416,14 +416,18 @@ cdef class CCA(Model):
 cdef class ValueNetwork(Potts):
     # pivate props
     cdef:
+       size_t _bounded_rational
        # holds nodes to consider
-        unordered_map[node_id_t, unordered_map[size_t, vector[node_id_t]]] paths
-        #unordered_map[node_id_t, vector[vector[node_id_t]]] paths
-        #unordered_map[node_id_t, unordered_map[state_t, vector[node_id_t]]] paths
-        #unordered_map[node_id_t, Connections] paths
-        # holds distance to range to be mapped
-        unordered_map[state_t, size_t] distance_converter
+       unordered_map[node_id_t, unordered_map[size_t, vector[node_id_t]]] paths
+       #unordered_map[node_id_t, vector[vector[node_id_t]]] paths
+       #unordered_map[node_id_t, unordered_map[state_t, vector[node_id_t]]] paths
+       #unordered_map[node_id_t, Connections] paths
+       # holds distance to range to be mapped
+       unordered_map[state_t, size_t] distance_converter
 
+    cdef double _match_trees(self, node_id_t node) nogil
+    cpdef void compute_node_path(self, node_id_t node)
+    cpdef state_t[::1] check_vn(self, state_t[::1] state)
     cpdef void setup_values(self, int bounded_rational=*)
     cdef void _step(self, node_id_t node) nogil
     cdef double _energy(self, node_id_t node) nogil
