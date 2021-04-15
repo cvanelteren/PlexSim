@@ -425,15 +425,33 @@ cdef class ValueNetwork(Potts):
        # holds distance to range to be mapped
        unordered_map[state_t, size_t] distance_converter
 
-    cdef double _match_trees(self, node_id_t node) nogil
+    cpdef void setup_values(self, int bounded_rational=*)
     cpdef void compute_node_path(self, node_id_t node)
     cpdef state_t[::1] check_vn(self, state_t[::1] state)
-    cpdef void setup_values(self, int bounded_rational=*)
+
+    cdef double _match_trees(self, node_id_t node) nogil
     cdef void _step(self, node_id_t node) nogil
     cdef double _energy(self, node_id_t node) nogil
     cdef double probability(self, state_t state, node_id_t node) nogil
     cdef double _hamiltonian(self, state_t x, state_t  y) nogil
    
+cdef class ValueNetworkNP(Potts):
+    # hold states at some distance in the rule graph
+    cdef:
+        unordered_map[state_t, unordered_map[size_t, vector[state_t]]] paths_rules
+        unordered_map[node_id_t, unordered_map[double, vector[node_id_t]]] paths
+        double _alpha
+        size_t _bounded_rational
+
+    cpdef void setup_values(self, int bounded_rational=*)
+    cpdef void compute_node_path(self, node_id_t node)
+    cpdef void setup_rule_paths(self)
+
+    cdef double _match_trees(self, node_id_t node) nogil
+    cdef void _step(self, node_id_t node) nogil
+    cdef double _energy(self, node_id_t node) nogil
+    cdef double probability(self, state_t state, node_id_t node) nogil
+    cdef double _hamiltonian(self, state_t x, state_t  y) nogil
 
 cdef class Cycledelic(Model):
     cdef:

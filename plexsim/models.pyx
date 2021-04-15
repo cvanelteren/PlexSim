@@ -11,7 +11,7 @@ cimport cython
 import numpy as np
 cimport numpy as np
 import networkx as nx, functools, time
-import copy
+import copy, sys, os
 
 cimport cython, openmp
 from cython.parallel cimport parallel, prange, threadid
@@ -959,14 +959,11 @@ cdef public class Model [object PyModel, type PyModel_t]:
         for tid in range(nThreads):
             # ref counter increase
             m =  self.__deepcopy__(self.get_settings())
+            #m = new Model(*m.ptr)
             # HACK: fix this
             # m.mcmc._p_recomb = self.mcmc._p_recomb
             # force resed
-            spawn.push_back( PyObjectHolder(\
-                                        # <PyObject*> m\
-                                        m.ptr
-                                        )
-                             )
+            spawn.push_back( PyObjectHolder(m.ptr) )
 
         return spawn
 
@@ -1043,6 +1040,187 @@ cdef class Logmap(Model):
     def alpha(self, value):
         self._alpha = value
 
+cdef class ValueNetworkNP(Potts):
+
+    def __init__(self, graph,
+                 rules, 
+                 t = 1,
+                 bounded_rational = 1,
+                 agentStates = np.arange(0, 2, dtype = np.double),
+                 alpha = 1,
+                 **kwargs
+                 ):
+        super(ValueNetworkNP, self).__init__(graph = graph,
+                                     agentStates = agentStates,
+                                     rules = rules,
+                                     **kwargs)
+
+        self.bounded_rational = bounded_rational
+        self.alpha = alpha
+        self.setup_rule_paths()
+        self.setup_values()
+
+
+    @property
+    def test(self):
+        print(self.paths)
+        print(self.paths_rules)
+    #construct shortest path among nodes
+    cpdef void compute_node_path(self, node_id_t node):
+        cdef str node_label = self.adj.rmapping[node]
+        cdef size_t path_counter = 0
+        # idx acts as dummy merely counting the seperate unique paths
+        sp = nx.single_source_shortest_path_length(self.graph, node_label, cutoff = self._bounded_rational)
+        for other, distance in sp.items():
+            # add the non-local influences
+            # note the node_label is the start node here; ignore that in future reference
+            node_other = self.adj.mapping[str(other)]
+            distance = float(distance)
+            self.paths[node][distance].push_back(node_other) 
+            path_counter += 1
+        return 
+    
+    cpdef void setup_values(self, int bounded_rational = 1):
+        #pr = ProgBar(len(self.graph))
+        # store the paths
+        self.paths.clear()
+        import pyprind as pr
+        cdef object pb = pr.ProgBar(len(self.graph))
+        cdef size_t i, n = self.adj._nNodes
+        for i in prange(0, n, nogil = 1):
+            with gil:
+                self.compute_node_path(i)
+                pb.update()
+        return
+    cpdef void setup_rule_paths(self):
+        self.paths_rules.clear()
+        # idx acts as dummy merely counting the seperate unique paths
+        for state in self._rules.rules:
+            paths = nx.single_source_shortest_path_length(self._rules.rules,
+                                state, cutoff = self._bounded_rational)
+            # values hold the other states
+            for state_other, distance in paths.items():
+                #state = <state_t>(state)
+                # state_other = <state_t>(state_other)
+                self.paths_rules[state][distance].push_back(state_other)
+        return
+
+    @property
+    def bounded_rational(self):
+        return self._bounded_rational
+    @bounded_rational.setter
+    def bounded_rational(self, value):
+        assert 1 <= value <= len(self.rules)
+        self._bounded_rational = int(value)
+    @property
+    def alpha (self):
+        return self._alpha
+    @alpha.setter
+    def alpha(self, value):
+        self._alpha = value
+
+    cdef double _energy(self, node_id_t node) nogil:
+        """
+        """
+        cdef:
+            size_t neighbors = self.adj._adj[node].neighbors.size()
+            state_t* states = self._states # alias
+            size_t  neighbor, neighboridx
+            double weight # TODO: remove delta
+
+            double energy  = self._H[node] * self._states[node]
+
+        if self._nudges.find(node) != self._nudges.end():
+            energy += self._nudges[node] * self._states[node]
+
+
+        # compute the energy
+        cdef:
+            pair[bint, pair[state_t, double]] rule;
+            double update
+            MemoizeUnit memop
+
+        cdef size_t idx
+
+        #TODO: cleanup
+        # get the distance to consider based on current state
+        #cdef size_t distance = self.distance_converter[proposal]
+        # only get nodes based on distance it can reach based on the value network
+        # current state as proposal
+        cdef state_t proposal = self._states[node]
+        
+        cdef:
+            state_t start 
+            rule_t rule_pair
+            size_t j
+
+        energy = self._match_trees(node)
+
+        cdef size_t mi
+        # TODO: move to separate function
+        for mi in range(self._memorySize):
+            energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
+        return energy 
+
+
+    cdef double _match_trees(self, node_id_t node) nogil:
+        """"
+        Performs tree matching
+        """
+
+        # loop vars
+        cdef state_t* states = self._states # alias
+        cdef unordered_map[double, vector[node_id_t]] consider_nodes = self.paths[node]
+
+        cdef:
+            rule_t rule_pair
+            size_t idx, r
+
+        # path to check
+        cdef vector[node_id_t] path
+        # holds bottom-up value chain
+        cdef vector[node_id_t] nodes_to_consider
+        cdef vector[state_t] possible_states_at_distance
+        cdef double tmp, update
+
+        # acquire current node state
+        cdef state_t neighbor_state, state_at_distance, node_state = states[node]
+        
+        cdef double counter = 0
+        for r in range(1, self._bounded_rational + 1):
+            nodes_to_consider = self.paths[node][r]
+            # set energy addition
+            tmp = 0
+            possible_states_at_distance = self.paths_rules[node_state][r]
+            for idx in range(nodes_to_consider.size()):
+                neighbor = nodes_to_consider[idx]
+                neighbor_state = states[neighbor]
+                # check the possible states at distance x
+                # 
+                update = -1
+                for jdx in range(possible_states_at_distance.size()):
+                    # obtain state
+                    state_at_distance = possible_states_at_distance[jdx]
+                    if neighbor_state == state_at_distance:
+                        update = 1
+            # add weighted effect of neighbors of neighbors
+            counter += update * exp(-self._alpha * r)
+        return counter
+
+    cdef double  magnetize_(self, Model mod, size_t n, double t):
+        # setup simulation
+        cdef double Z = 1 / <double> self._nStates  
+        mod.t         =  t
+        # calculate phase and susceptibility
+        #mod.reset()
+        mod.states[:] = mod.agentStates[0]
+        res = mod.simulate(n) 
+        res = np.array([mod.check_vn(i) for i in res]).mean()
+        #res = np.array([mod.siteEnergy(i) for i in res]).mean()
+        return res
+        #return np.array([self.siteEnergy(i) for i in res]).mean()
+        #return np.abs(np.real(np.exp(2 * np.pi * np.complex(0, 1) * res)).mean())
+
 cdef class ValueNetwork(Potts):
     def __init__(self, graph,
                  rules, 
@@ -1090,22 +1268,27 @@ cdef class ValueNetwork(Potts):
      
     cdef double  magnetize_(self, Model mod, size_t n, double t):
         # setup simulation
+        cdef double Z = 1 / <double> self._nStates  
         mod.t         =  t
-        #mod.states[:] = mod.agentStates[0]
         # calculate phase and susceptibility
-        res = mod.simulate(n)  
+        #mod.reset()
+        mod.states[:] = mod.agentStates[0]
+        res = mod.simulate(n) 
         #res = np.array([mod.siteEnergy(i) for i in res]).mean()
-        res = np.array([mod.check_vn(i) for i in res]).mean(1)
-        #phase = np.real(np.exp(2 * np.pi * np.complex(0, 1) * res)).mean()
+        res = np.array([mod.check_vn(i).base for i in res]).mean()
         return res
+        #return np.array([self.siteEnergy(i) for i in res]).mean()
+        #return np.abs(np.real(np.exp(2 * np.pi * np.complex(0, 1) * res)).mean())
+        #return res
 
     #construct shortest path among nodes
     cpdef void compute_node_path(self, node_id_t node):
         cdef str node_label = self.adj.rmapping[node]
         cdef size_t path_counter = 0
+        cdef str other
         for other in self.graph:
             # idx acts as dummy merely counting the seperate unique paths
-            for path in nx.all_simple_paths(self.graph, node_label, other, cutoff = self._bounded_rational):
+            for path in nx.all_simple_paths(self.graph, node_label, other, cutoff = len(self._rules.rules)):
                 # add the non-local influences
                 # note the node_label is the start node here; ignore that in future reference
                 self.paths[node][path_counter] = [self.adj.mapping[str(i)] for i in path]
@@ -1133,8 +1316,14 @@ cdef class ValueNetwork(Potts):
 
     cpdef state_t[::1] check_vn(self, state_t[::1] state):
         cdef state_t[::1] output = np.zeros(self.nNodes)
-        for node in range(self.nNodes):
+        cdef state_t* ptr = self._states
+        self._states = &state[0]
+        cdef tmp = self._bounded_rational
+        self._bounded_rational = len(self._rules.rules)
+        for node in range(self.adj._nNodes):
             output[node] = self._match_trees(node)
+        self._states = ptr
+        self._bounded_rational = tmp
         return output
             
     cdef double _match_trees(self, node_id_t node) nogil:
@@ -1164,26 +1353,27 @@ cdef class ValueNetwork(Potts):
             # reset tmp value chain
             checker.clear()
             path = deref(jt).second
-            start = states[node]
-            # color node
-            checker[start] = 1
-            # traverse the tree
-            for j in range(1, path.size()):
-                # get neighbor
-                neighbor = path[j]
-                state_other = states[neighbor]
-                rule_pair = self._rules._check_rules(start, state_other)
-                # if rule found
-                if rule_pair.first:
-                    # check the weight and see if state is finishing a chain
-                    if rule_pair.second.second > 0 and checker.find(state_other) == checker.end():
-                        # color node
-                        checker[state_other] = 1
-                    else:
-                        break
-                # move pair up
-                start = state_other
-            counter += checker.size() / <double>(self._bounded_rational)
+            if path.size() <= self._bounded_rational:
+                start = states[node]
+                # color node
+                checker[start] = 1
+                # traverse the tree
+                for j in range(1, path.size()):
+                    # get neighbor
+                    neighbor = path[j]
+                    state_other = states[neighbor]
+                    rule_pair = self._rules._check_rules(start, state_other)
+                    # if rule found
+                    if rule_pair.first:
+                        # check the weight and see if state is finishing a chain
+                        if rule_pair.second.second > 0 and checker.find(state_other) == checker.end():
+                            # color node
+                            checker[state_other] = 1
+                        else:
+                            break
+                    # move pair up
+                    start = state_other
+                counter += (checker.size() - 1) / <double>(self._bounded_rational)
             post(jt)
         return counter
 
@@ -1257,8 +1447,6 @@ cdef class ValueNetwork(Potts):
 
         self._states[node] = tmp
         return p
-
-
 
     # default update TODO remove this
     cdef double _hamiltonian(self, state_t x, state_t  y) nogil:
@@ -1462,22 +1650,26 @@ cdef class Potts(Model):
             cdef:
                 int tid
                 double Z = 1/ <double> self._nStates
-                SpawnVec  tmpHolder = self._spawn(threads)
+                #SpawnVec  tmpHolder = self._spawn(threads)
                 PyObject* tmptr
                 Model     tmpMod
 
             print("Magnetizing temperatures")
             pbar = ProgBar(N)
-            for ni in prange(N, \
-                    nogil       = True,\
-                    num_threads =  threads,\
-                    schedule    = 'static'):
-                tid = threadid()
+
+            # for ni in prange(N, \
+            #         nogil       = True,\
+            #         num_threads =  threads,\
+            #         schedule    = 'static'):
+
+            for ni in range(N):
+                #tid = threadid()
                 # get model
-                tmptr = tmpHolder[tid].ptr
-                with gil:
-                    results[0, ni] = self.magnetize_(<Model> tmptr, n, temps[ni])
-                    pbar.update()
+                #tmptr = tmpHolder[tid].ptr
+                results[0, ni] = self.magnetize_(<Model> self.ptr, n, temps[ni])
+                #with gil:
+                #    results[0, ni] = self.magnetize_(<Model> tmptr, n, temps[ni])
+                #    pbar.update()
                 
 
             results[1, :] = np.abs(np.gradient(results[0, :], temps, edge_order = 1))
