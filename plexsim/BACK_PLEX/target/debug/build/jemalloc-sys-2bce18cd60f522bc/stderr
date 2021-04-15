@@ -1,0 +1,95 @@
+../jemalloc/src/malloc_io.c: In function ‘malloc_vsnprintf’:
+../jemalloc/src/malloc_io.c:369:2: warning: case label value exceeds maximum value for type
+  369 |  case '?' | 0x80:      \
+      |  ^~~~
+../jemalloc/src/malloc_io.c:581:5: note: in expansion of macro ‘GET_ARG_NUMERIC’
+  581 |     GET_ARG_NUMERIC(val, 'p');
+      |     ^~~~~~~~~~~~~~~
+../jemalloc/src/malloc_io.c:387:2: warning: case label value exceeds maximum value for type
+  387 |  case 'j' | 0x80:      \
+      |  ^~~~
+../jemalloc/src/malloc_io.c:581:5: note: in expansion of macro ‘GET_ARG_NUMERIC’
+  581 |     GET_ARG_NUMERIC(val, 'p');
+      |     ^~~~~~~~~~~~~~~
+../jemalloc/src/malloc_io.c:375:2: warning: case label value exceeds maximum value for type
+  375 |  case 'l' | 0x80:      \
+      |  ^~~~
+../jemalloc/src/malloc_io.c:581:5: note: in expansion of macro ‘GET_ARG_NUMERIC’
+  581 |     GET_ARG_NUMERIC(val, 'p');
+      |     ^~~~~~~~~~~~~~~
+../jemalloc/src/malloc_io.c:381:2: warning: case label value exceeds maximum value for type
+  381 |  case 'q' | 0x80:      \
+      |  ^~~~
+../jemalloc/src/malloc_io.c:581:5: note: in expansion of macro ‘GET_ARG_NUMERIC’
+  581 |     GET_ARG_NUMERIC(val, 'p');
+      |     ^~~~~~~~~~~~~~~
+../jemalloc/src/malloc_io.c:396:2: warning: case label value exceeds maximum value for type
+  396 |  case 'z' | 0x80:      \
+      |  ^~~~
+../jemalloc/src/malloc_io.c:581:5: note: in expansion of macro ‘GET_ARG_NUMERIC’
+  581 |     GET_ARG_NUMERIC(val, 'p');
+      |     ^~~~~~~~~~~~~~~
+../jemalloc/src/malloc_io.c: In function ‘_rjem_je_malloc_vsnprintf’:
+../jemalloc/src/malloc_io.c:369:2: warning: case label value exceeds maximum value for type
+  369 |  case '?' | 0x80:      \
+      |  ^~~~
+../jemalloc/src/malloc_io.c:581:5: note: in expansion of macro ‘GET_ARG_NUMERIC’
+  581 |     GET_ARG_NUMERIC(val, 'p');
+      |     ^~~~~~~~~~~~~~~
+../jemalloc/src/malloc_io.c:387:2: warning: case label value exceeds maximum value for type
+  387 |  case 'j' | 0x80:      \
+      |  ^~~~
+../jemalloc/src/malloc_io.c:581:5: note: in expansion of macro ‘GET_ARG_NUMERIC’
+  581 |     GET_ARG_NUMERIC(val, 'p');
+      |     ^~~~~~~~~~~~~~~
+../jemalloc/src/malloc_io.c:375:2: warning: case label value exceeds maximum value for type
+  375 |  case 'l' | 0x80:      \
+      |  ^~~~
+../jemalloc/src/malloc_io.c:581:5: note: in expansion of macro ‘GET_ARG_NUMERIC’
+  581 |     GET_ARG_NUMERIC(val, 'p');
+      |     ^~~~~~~~~~~~~~~
+../jemalloc/src/malloc_io.c:381:2: warning: case label value exceeds maximum value for type
+  381 |  case 'q' | 0x80:      \
+      |  ^~~~
+../jemalloc/src/malloc_io.c:581:5: note: in expansion of macro ‘GET_ARG_NUMERIC’
+  581 |     GET_ARG_NUMERIC(val, 'p');
+      |     ^~~~~~~~~~~~~~~
+../jemalloc/src/malloc_io.c:396:2: warning: case label value exceeds maximum value for type
+  396 |  case 'z' | 0x80:      \
+      |  ^~~~
+../jemalloc/src/malloc_io.c:581:5: note: in expansion of macro ‘GET_ARG_NUMERIC’
+  581 |     GET_ARG_NUMERIC(val, 'p');
+      |     ^~~~~~~~~~~~~~~
+../jemalloc/src/malloc_io.c: In function ‘_rjem_je_malloc_vsnprintf’:
+../jemalloc/src/malloc_io.c:369:2: warning: case label value exceeds maximum value for type
+  369 |  case '?' | 0x80:      \
+      |  ^~~~
+../jemalloc/src/malloc_io.c:581:5: note: in expansion of macro ‘GET_ARG_NUMERIC’
+  581 |     GET_ARG_NUMERIC(val, 'p');
+      |     ^~~~~~~~~~~~~~~
+../jemalloc/src/malloc_io.c:387:2: warning: case label value exceeds maximum value for type
+  387 |  case 'j' | 0x80:      \
+      |  ^~~~
+../jemalloc/src/malloc_io.c:581:5: note: in expansion of macro ‘GET_ARG_NUMERIC’
+  581 |     GET_ARG_NUMERIC(val, 'p');
+      |     ^~~~~~~~~~~~~~~
+../jemalloc/src/malloc_io.c:375:2: warning: case label value exceeds maximum value for type
+  375 |  case 'l' | 0x80:      \
+      |  ^~~~
+../jemalloc/src/malloc_io.c:581:5: note: in expansion of macro ‘GET_ARG_NUMERIC’
+  581 |     GET_ARG_NUMERIC(val, 'p');
+      |     ^~~~~~~~~~~~~~~
+../jemalloc/src/malloc_io.c:381:2: warning: case label value exceeds maximum value for type
+  381 |  case 'q' | 0x80:      \
+      |  ^~~~
+../jemalloc/src/malloc_io.c:581:5: note: in expansion of macro ‘GET_ARG_NUMERIC’
+  581 |     GET_ARG_NUMERIC(val, 'p');
+      |     ^~~~~~~~~~~~~~~
+../jemalloc/src/malloc_io.c:396:2: warning: case label value exceeds maximum value for type
+  396 |  case 'z' | 0x80:      \
+      |  ^~~~
+../jemalloc/src/malloc_io.c:581:5: note: in expansion of macro ‘GET_ARG_NUMERIC’
+  581 |     GET_ARG_NUMERIC(val, 'p');
+      |     ^~~~~~~~~~~~~~~
+ar: `u' modifier ignored since `D' is the default (see `U')
+ar: `u' modifier ignored since `D' is the default (see `U')
