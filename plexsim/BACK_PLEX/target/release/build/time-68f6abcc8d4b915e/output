@@ -1,0 +1,7 @@
+cargo:rustc-cfg=std
+cargo:rustc-cfg=v01_deprecated_api
+cargo:rustc-cfg=supports_non_exhaustive
+cargo:rustc-cfg=const_num_abs
+cargo:rustc-cfg=instant_checked_ops
+cargo:rustc-cfg=nonzero_signed
+cargo:rustc-cfg=use_trait_as_underscore
