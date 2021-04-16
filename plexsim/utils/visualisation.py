@@ -63,15 +63,19 @@ class GraphAnimation:
                                 xycoords = "axes fraction", fontsize = 27)
         turnoff_spines(ax)
         ax.grid(False)
-    def add_rule_graph(self, rules, ax, cmap):
+
+    @staticmethod
+    def add_rule_graph(rules, ax, cmap):
         # add value network
         pos = nx.circular_layout(rules)
         C = cmap(np.linspace(0, 1, len(rules),endpoint = 0))
         nx.draw_networkx_nodes(rules, ax = ax, pos = pos, node_color = C)
         for x in [(np.greater, 'solid'), (np.less, 'dashed')]:
             operator, ls = x
-            e = [(i, j) for i, j, d in rules.edges(data = True) if operator(dict(d).get('weight', 1), 0) ]
-            nx.draw_networkx_edges(rules, ax = ax, edgelist = e, style = ls, pos = pos)
+            e = [(i, j) for i, j, d in rules.edges(data = True)
+                 if operator(dict(d).get('weight', 1), 0) ]
+            nx.draw_networkx_edges(rules, ax = ax,
+                                   edgelist = e, style = ls, pos = pos)
             
         turnoff_spines(ax)
         ax.margins(.3)
