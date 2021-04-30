@@ -1,10 +1,11 @@
+name: plexsim
 channels:
   - conda-forge
 dependencies:
   - numpy
   - networkx
   - scipy
-  - Cython
+  - cython==3.0a6
   - scikit-learn
   - pyprind
   - pybind11

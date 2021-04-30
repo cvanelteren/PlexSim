@@ -1,4 +1,4 @@
-# distutils: language=c++
+##distutils: language=c++
 ## cython: profile = True
 ## cython: linetrace = True
 ## distutils: define_macros=CYTHON_TRACE_NOGIL=1
@@ -2155,7 +2155,7 @@ cdef class Bornholdt(Potts):
         # compute proposal
         self._states[node] = proposal
         energy = self._energy(node)
-        delta  = energy - abs(self._hamiltonian(proposal, systemInfluence))
+        delta  = energy - fabs(self._hamiltonian(proposal, systemInfluence))
         p      = exp(self._beta * delta)
 
         self._states[node] = backup_state

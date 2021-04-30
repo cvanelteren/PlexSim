@@ -76,7 +76,7 @@ from sphinx.setup_command import BuildDoc
 name    = "plexsim"
 version = "2.0"
 packages = find_packages(include = ["plexsim", "plexsim.*"])
-print(">", packages)
+
 sphinx = dict(project = ("setup.py", name),
               version = ("setup.py", version),
               source_dir = ("setup.py", "docs/source"),
@@ -89,11 +89,11 @@ setup(
     url                  = "cvanelteren.githubio.io",
     version              = version,
     zip_safe             = False,
-    # package_dir        = {"" : "plexsim"},
-    # package_data       = {
-        # "" : "*.pyx *.pxd".split(),
-        # "plexsim" : "plexsim/*pyx plexsim/*pxd".split(),
-                    # },
+    #package_dir        = {"" : "plexsim"},
+    package_data       = {
+        "" : "*.pyx *.pxd".split(),
+     #  "plexsim" : "plexsim/*pyx plexsim/*pxd".split(),
+                     },
     include_package_data = True,
     data_files           = data_files,
     packages             = packages, 
