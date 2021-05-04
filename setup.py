@@ -82,6 +82,8 @@ sphinx = dict(project = ("setup.py", name),
               source_dir = ("setup.py", "docs/source"),
               #build_dir = ("setup.py", "docs/build"),
               )
+# future me note: sometimes headers are not included; clean the dist and build folders
+# and rebuild
 setup(
     name                 = name,
     author               = "Casper van Elteren",

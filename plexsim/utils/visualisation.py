@@ -101,6 +101,16 @@ class GraphAnimation:
         self.text.set_text(f"T={idx}")
         return self._h.axes.collections
 
+    def gen_panel(self, n_panels = 3, **kwargs):
+        time_idx = np.linspace(0, self.time_data.size, n_panels, 0).astype(int)
+        fig, ax = plt.subplots(1, n_panels, constrained_layout = 1)
+        for axi, idx in zip(ax, time_idx):
+            self.setup(axi, **kwargs)
+            axi.set_title(f"T = {idx}")
+        fig.show()
+        return fig
+
+
 def create_grid_layout(g):
     pos = {i : np.array(i) for i in g.nodes()}
     return pos

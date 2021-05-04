@@ -1237,6 +1237,7 @@ cdef class ValueNetwork(Potts):
         #e = [(u, v) for u, v, d in rules.edges(data = True) if dict(d).get('weight', 1) > 0]
         #r = nx.from_edgelist(e)
         #
+        self.verbose = False
         self.bounded_rational = bounded_rational
         self.setup_values(bounded_rational)
 
@@ -1299,13 +1300,17 @@ cdef class ValueNetwork(Potts):
         #pr = ProgBar(len(self.graph))
         # store the paths
         self.paths.clear()
-        import pyprind as pr
-        cdef object pb = pr.ProgBar(len(self.graph))
+        cdef object pb
+
+        if self.verbose:
+            import pyprind as pr
+            pb = pr.ProgBar(len(self.graph))
         cdef size_t i, n = self.adj._nNodes
         for i in prange(0, n, nogil = 1):
             with gil:
                 self.compute_node_path(i)
-                pb.update()
+                if self.verbose:
+                    pb.update()
         return
         
     
@@ -1316,13 +1321,18 @@ cdef class ValueNetwork(Potts):
 
     cpdef state_t[::1] check_vn(self, state_t[::1] state):
         cdef state_t[::1] output = np.zeros(self.nNodes)
+        # store pointer
         cdef state_t* ptr = self._states
+        # point to data
         self._states = &state[0]
         cdef tmp = self._bounded_rational
+        # reset bounded rational to include entire value network
         self._bounded_rational = len(self._rules.rules)
         for node in range(self.adj._nNodes):
             output[node] = self._match_trees(node)
+        # reset pointer
         self._states = ptr
+        # reset bounded_rationality
         self._bounded_rational = tmp
         return output
             
