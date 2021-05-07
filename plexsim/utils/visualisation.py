@@ -18,10 +18,9 @@ def turnoff_spines(ax):
         ax.spines[i].set_visible(False)
 
 class GraphAnimation:
-    def __init__(self, graph, time_data):
+    def __init__(self, graph, time_data, n = 1):
         self.graph = graph
         self.time_data = time_data
-        n = np.unique(time_data.flat).size
         try:
             import cmasher as cmr
             self.colors = discrete_cmap(n, 'cmr.pride')
@@ -31,7 +30,8 @@ class GraphAnimation:
     def setup(self, ax = None, layout = None,
               rules = None,
               node_kwargs = dict(),
-              edge_kwargs = dict()):
+              edge_kwargs = dict(),
+              labels = dict()):
         if ax is None:
             fig, ax = plt.subplots()
         if layout is None:
@@ -48,6 +48,8 @@ class GraphAnimation:
         self._h = nx.draw_networkx_nodes(self.graph, pos, 
                             node_color = C, ax = ax,
                             **node_kwargs)
+        nx.draw_networkx_labels(self.graph, pos, ax = ax, **labels)
+            
         
         nx.draw_networkx_edges(self.graph, pos, ax = ax,
                                **edge_kwargs)

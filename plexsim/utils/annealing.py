@@ -1,11 +1,15 @@
 import numpy as np
-def annealing(m, theta = 0.1, rate = .01):
-    m.reset()
-    m.t = 100000
+def annealing(m, theta = 0.1, rate = .01, reset = True,
+              verbose = False):
+    if reset:
+        m.reset()
+    m.t = 1000000
     current = m.states.copy()
     best = np.sum(m.siteEnergy(current))
+    if verbose:
+        print(f"Starting with {best}")
+    # counter for cooling
     k = 0
-    print(f"Starting with {best}")
     while m.t > theta:
         # reset state to current
         m.states = current.copy()
@@ -17,12 +21,12 @@ def annealing(m, theta = 0.1, rate = .01):
         if proposal < best:
             current = m.states.copy()
             best = proposal
-            print(f"Best is now {best}")
+            if verbose:
+                print(f"Best is now {best}")
         # anneal
         t = (1 + (proposal - best) / (proposal + 1))
         t *=  cooling(m.t, k, rate) 
         m.t = abs(t) 
-        
         k += 1
         if not k % 100 :
             if k > 1e5:
