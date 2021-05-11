@@ -113,8 +113,6 @@ def check_df(queue, n, m, path = [], vp_path = [], results = [],
     :param results: output. List of 2. First index contained completed value networks, second index contains branch options
     :param verbose: print intermediate step for heavy debugging!
     """
-    # print("Returning")
-    # for plotting ignore
     if queue:
         # get current node
         from_node, current = queue.pop()
