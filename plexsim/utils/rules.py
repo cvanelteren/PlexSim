@@ -104,7 +104,14 @@ def check_endpoint(s, m, vp_path) -> bool:
 def check_df(queue, n, m, path = [], vp_path = [], results = [], 
              verbose = False):
     """
-    Find coloring on Value Network
+    :param queue: edge queue, start with (node, node)
+    :param n: number of edges in the rule graph
+    :param m: model
+    :param path: monitors edges visited in social network
+    :param vp_path: monitors edges visited in value network
+    :param results: output. List of 2. First index contained completed value networks, second index contains branch options
+    :param verbose: print intermediate step for heavy debugging!
+
     """
     # print("Returning")
     # for plotting ignore
