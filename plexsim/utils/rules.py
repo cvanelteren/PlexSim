@@ -24,9 +24,10 @@ def create_rule_full(rule, connection_weight_other = -1,
     return g
 
 
-def check_doubles(path, results):
+def check_doubles(path, results) -> None:
     """
     Don't allow for double edges
+    Adds path inplace if it does not occur in results
     """
     add = True
     if path:
@@ -38,9 +39,9 @@ def check_doubles(path, results):
         if add and  path:
             results[0].append(path.copy())
 
-def merge(results, n):
+def merge(results, n) -> None:
     """
-    Merge paths from branches
+    Merge paths from branches inplace
     """
     # attempt to merge branches
     merged = []
@@ -102,7 +103,7 @@ def check_endpoint(s, m, vp_path) -> bool:
     return fail
 
 def check_df(queue, n, m, path = [], vp_path = [], results = [], 
-             verbose = False):
+             verbose = False) -> list:
     """
     :param queue: edge queue, start with (node, node)
     :param n: number of edges in the rule graph
@@ -111,7 +112,6 @@ def check_df(queue, n, m, path = [], vp_path = [], results = [],
     :param vp_path: monitors edges visited in value network
     :param results: output. List of 2. First index contained completed value networks, second index contains branch options
     :param verbose: print intermediate step for heavy debugging!
-
     """
     # print("Returning")
     # for plotting ignore
