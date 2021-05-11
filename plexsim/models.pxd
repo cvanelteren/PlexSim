@@ -413,6 +413,16 @@ cdef class CCA(Model):
 
     cdef void _step(self, node_id_t node) nogil
 
+# cdef class ValueNetworkR(Potts):
+#     # list properties
+#     cdef:
+#         size_t _bounded_rational
+
+#     cdef vector[vector[node_id_t[2]]]  _find_vc(self,
+#             vector[node_id_t] queue, vector[node_id_t[2]] path,
+#             vector[state_t[2]] vp, vector[vector[node_id_t[2]]] results) nogil
+
+#     cdef double _check_vn(self, node_id_t node) nogil
 cdef class ValueNetwork(Potts):
     # pivate props
     cdef:

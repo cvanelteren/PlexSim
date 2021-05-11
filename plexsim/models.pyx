@@ -1221,6 +1221,141 @@ cdef class ValueNetworkNP(Potts):
         #return np.array([self.siteEnergy(i) for i in res]).mean()
         #return np.abs(np.real(np.exp(2 * np.pi * np.complex(0, 1) * res)).mean())
 
+
+# cdef class ValueNetworkR(Potts):
+#     def __init__(self, graph,
+#                  rules, 
+#                  t = 1,
+#                  bounded_rational = 1,
+#                  agentStates = np.arange(0, 2, dtype = np.double),
+#                  **kwargs
+#                  ):
+#         super(ValueNetwork, self).__init__(graph = graph,
+#                                      agentStates = agentStates,
+#                                      rules = rules,
+#                                      **kwargs)
+         
+#         #e = [(u, v) for u, v, d in rules.edges(data = True) if dict(d).get('weight', 1) > 0]
+#         #r = nx.from_edgelist(e)
+#         #
+#         self.bounded_rational = bounded_rational
+
+#     cdef vector[vector[node_id_t[2]]] _find_vc(self,
+#                 vector[node_id_t] queue, vector[node_id_t[2]] path,
+#                  vector[state_t[2]] vp, vector[vector[node_id_t[2]]] results) nogil:
+
+#         # branch parameters
+#         cdef:
+#             node_id_t current # current node
+#             state_t s # current state 
+#             node_id_t other # neighbor node
+#             state_t ss # state of other
+#             Neighbors *neighbors  # neighbors current node
+#             node_id_t[2] edge  
+#             state_t[2] edge_state 
+#             bint continue_branch # step into new branch
+#             rule_t rule
+#         # continue with queue
+#         if queue.size():
+#             current = queue.back()
+#             queue.pop_back()
+#             s =  self._states[current]
+#             neighbors = &self.adj._adj[current].neighbors
+
+#             # continue in side branch
+#             it = neighbors.begin()
+#             while it != neighbors.end():
+#                 other = deref(it).first
+#                 ss = self._states[other]
+#                 # remain order
+#                 # prevents duplicates, i.e. (1, 2) == (2, 1)
+#                 # for undirected graphs only(!)
+#                 if s > ss:
+#                     swap(s, ss)
+#                 if current > other:
+#                     swap(current, other)
+#                 # create proposal edge
+#                 edge = (current, other)
+#                 edge_state = (s, ss)
+
+#                 # check if edge exists
+#                 # if path[edge] == False:
+#                     # queue.push_back(other)
+
+#                 # check for loops
+#                 if path.size():
+#                     # loop found
+#                     if edge == path.back():
+#                         # move to next neghbor
+#                         continue
+#                 # value network not being completed
+#                 # move on to neighbor
+#                 rule = self._rules._check_rules(s,ss)
+#                 if rule.first:
+#                     if rule.second.second <= 0:
+#                         # move to next neighbor
+#                         continue
+#                 # if state edge not in state path
+#                 # and edge not in path
+#                 # continue in branch
+#                 continue_branch = True
+#                 for i in range(path.size()):
+#                     if vp[i] == edge_state:
+#                         continue_branch =  False
+#                         break
+#                     if path[i] == edge:
+#                         continue_branch = False
+#                         break
+
+#                 if continue_branch:
+#                     queue.push_back(other)
+#                     # TODO: make this cleaner
+#                     # move it to top of enter function?
+
+#                     # step into branch
+#                     path.push_back(edge)
+#                     vp.push_back(edge_state)
+#                     # result found or not
+#                     self._find_vc(queue, path, vp, results)
+#                     # remove option 
+#                     path.pop_back()
+#                     vp.pop_back()
+#                 post(it)
+                        
+
+#         cdef bint add = False
+#         if path.size() == self._bounded_rational:
+#             # check for duplicate paths
+#             if results.size():
+#                 add = False
+#                 for i in range(results.size()):
+#                     continue
+#                     # get set
+#             # if results are empty push path
+#             else:
+#                 add = True
+#         if add:
+#             results.push_back(path)
+#         return results
+            
+                
+
+#     cdef double _check_vn(self, node_id_t node) nogil:
+#         cdef vector[vector[node_id_t[2]]] results
+#         cdef vector[node_id_t[2]] path
+#         cdef vector[state_t[2]] vp
+#         cdef vector[node_id_t] queue 
+#         queue.push_back(node)
+#         results = self._find_vc(queue, path, vp, results)
+#         return results.size()
+
+#     def check_vn(self, node_id_t node):
+#         return self._check_vn(node)
+    
+        
+        
+
+
 cdef class ValueNetwork(Potts):
     def __init__(self, graph,
                  rules, 
@@ -1287,9 +1422,10 @@ cdef class ValueNetwork(Potts):
         cdef str node_label = self.adj.rmapping[node]
         cdef size_t path_counter = 0
         cdef str other
+        cdef size_t cutoff = self._bounded_rational
         for other in self.graph:
             # idx acts as dummy merely counting the seperate unique paths
-            for path in nx.all_simple_paths(self.graph, node_label, other, cutoff = len(self._rules.rules)):
+            for path in nx.all_simple_paths(self.graph, node_label, other, cutoff = cutoff):
                 # add the non-local influences
                 # note the node_label is the start node here; ignore that in future reference
                 self.paths[node][path_counter] = [self.adj.mapping[str(i)] for i in path]
@@ -1336,6 +1472,7 @@ cdef class ValueNetwork(Potts):
         self._bounded_rational = tmp
         return output
             
+        
     cdef double _match_trees(self, node_id_t node) nogil:
         """"
         Performs tree matching
