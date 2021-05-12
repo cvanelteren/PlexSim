@@ -444,6 +444,16 @@ cdef class ValueNetwork(Potts):
     cdef double _energy(self, node_id_t node) nogil
     cdef double probability(self, state_t state, node_id_t node) nogil
     cdef double _hamiltonian(self, state_t x, state_t  y) nogil
+
+    # logic for checking completed vn
+    cpdef bint check_endpoint(self, state_t s, list vp_path)
+    cpdef list check_df(self, list queue, list path = *,
+                        list vp_path = *,
+                        list results = *, 
+                        bint verbose = *)
+    # merge branches
+    cpdef void merge(self, list results)
+    cpdef void check_doubles(self, list path, list results)
    
 cdef class ValueNetworkNP(Potts):
     # hold states at some distance in the rule graph
