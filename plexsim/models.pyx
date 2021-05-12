@@ -1420,7 +1420,7 @@ cdef class ValueNetwork(Potts):
         mod.states[:] = mod.agentStates[0]
         res = mod.simulate(n) 
         #res = np.array([mod.siteEnergy(i) for i in res]).mean()
-        res = np.array([mod.check_vn(i).base for i in res]).mean()
+        res = np.array([mod.siteEnergy(i) for i in res]).mean()
         return res
         #return np.array([self.siteEnergy(i) for i in res]).mean()
         #return np.abs(np.real(np.exp(2 * np.pi * np.complex(0, 1) * res)).mean())
@@ -1500,41 +1500,45 @@ cdef class ValueNetwork(Potts):
         """
         Merge paths from branches inplace
         """
+        # skip edge case
+        if len(results[1]) < 2:
+            return
         # attempt to merge branches
         merged = []
         # go through all the combinations in the options
         for idx, opti in enumerate(results[1]):
             for jdx, optj in enumerate(results[1]):
                 # prevent self-comparison and double comparison
-                if idx < jdx:
-                    # compare matched edges
-                    idxs, vpi = opti
-                    jdxs, vpj = optj
-                    # if the overlap is zero then the branches are valid
-                    # and should be merged
-                    # (not sure if this is necessary)
-                    J = True
-                    a = vpi
-                    b = vpj
-                    if len(vpi) > len(vpj):
-                        a, b = b,a
-                    for i in a:
-                        # if the rule edge already exists
-                        # ignore the option
-                        if i in b or i[::-1] in b:
-                            J = False
-                    # add if no overlap is found
-                    if J:
-                        # merging
-                        print(f"Merging {vpi} with {vpj}")
-                        proposal = [idxs.copy(), vpi.copy()]
-                        for x, y in zip(jdxs, vpj):
-                            proposal[0].append(x)
-                            proposal[1].append(y)
-                    # copy
-                    else:
-                        # print('copying')
-                        proposal = [idxs.copy(), vpi.copy()]
+                # compare matched edges
+                idxs, vpi = opti
+                jdxs, vpj = optj
+                # if the overlap is zero then the branches are valid
+                # and should be merged
+                # (not sure if this is necessary)
+                J = True
+                a = vpi
+                b = vpj
+                if len(vpi) > len(vpj):
+                    a, b = b, a
+                for i in a:
+                    # if the rule edge already exists
+                    # ignore the option
+                    if i in b or i[::-1] in b:
+                        J = False
+                # add if no overlap is found
+                if J:
+                    # merging
+                    #print(f"Merging {vpi} with {vpj}")
+                    proposals = [[idxs.copy(), vpi.copy()]]
+                    for x, y in zip(jdxs, vpj):
+                        proposals[0][0].append(x)
+                        proposals[0][1].append(y)
+                # copy
+                else:
+                    # print('copying')
+                    proposals = [[idxs.copy(), vpi.copy()],
+                                [jdxs.copy(), vpj.copy()]]
+                for proposal in proposals:
                     # check if its done
                     if len(proposal) == self._bounded_rational:
                         # prevent double results
@@ -1595,11 +1599,11 @@ cdef class ValueNetwork(Potts):
 
             # check if no options left in rule graph
             if self.check_endpoint(s, vp_path):
-                if verbose:
-                    print("At an end point")
                 option = [[[from_node, current]],
                           [[self.states[from_node], self.states[current]]]]
                 results[1].append(option)
+                if verbose:
+                    print(f"At an end point, pushing {option}")
                 return results
 
             # check neighbors
@@ -1622,12 +1626,14 @@ cdef class ValueNetwork(Potts):
                 if e not in path and e[::-1] not in path:
                     if ev not in vp_path and ev[::-1] not in vp_path:
                         if verbose:
-                            print(f"checking {e} at {current} with {other} at path {path}")
+                            print(f"checking edge {e} path is {path}")
                         queue.append(e)
                         # get branch options
                         for option in self.check_df(queue, path.copy(), vp_path.copy(),
                                                results.copy(), verbose)[1]:
                             results[1].append(option.copy())
+                            if verbose:
+                                print(f"Retrieved {option}")
                     # move to next
                     else:
                         continue
@@ -1636,21 +1642,30 @@ cdef class ValueNetwork(Potts):
                     continue
         # attempt merge
         self.merge(results)  
+        this_option = [[from_node, current],
+                    [self.states[from_node], self.states[current]]]
+
+
         # TODO self edges are ignored --> add check for negativity
-        if from_node != current:
-            this_option = [[from_node, current],
-                        [self.states[from_node], self.states[current]]]
-            for idx, merged in enumerate(results[1]):
-                # they cannot be in the already present path
-                if this_option[1] not in merged[1] and this_option[1][::-1] not in merged[1]: 
+        # no edge is checked after this point, all done above
+        # this causes a fail on the start node that should have a negative weight
+        for idx, merged in enumerate(results[1]):
+            if verbose:
+                print(f"{idx} Considering merging {this_option} with {merged} {vp_path}")
+            # they cannot be in the already present path
+            if this_option[1] not in merged[1] and this_option[1][::-1] not in merged[1]: 
+                # start point is a self edge
+                # only add if the weight is actually positive
+                if self.rules[this_option[1][0]][this_option[1][1]]['weight'] > 0: 
+                    # construct proposals
                     merged[0].append(this_option[0])
                     merged[1].append(this_option[1])
-                if len(merged[1]) == self._bounded_rational:
-                    # remove from option list
-                    results[1].pop(idx)
-                    self.check_doubles(merged[0].copy(), results)
-                    if verbose:
-                        print(f'adding results {merged[0]} {self.bounded_rational} vp = {merged[1]}')
+            if len(merged[1]) == self._bounded_rational:
+                # remove from option list
+                results[1].pop(idx)
+                self.check_doubles(merged[0].copy(), results)
+                if verbose:
+                    print(f'adding results {merged[0]} {self.bounded_rational} vp = {merged[1]}')
 
         # check if the solution is correct
         if len(vp_path) == self._bounded_rational:
