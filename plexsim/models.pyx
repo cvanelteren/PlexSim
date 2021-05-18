@@ -1377,21 +1377,22 @@ cdef class ValueNetwork(Potts):
         #r = nx.from_edgelist(e)
         #
         self.verbose = False
-        if bounded_rational == -1:
-            tmp = [True for k, v in
-                   nx.get_edge_attributes(self.rules, 'weight').items() if v > 0]
-            bounded_rational = len(tmp)
         self.bounded_rational = bounded_rational
 
         # self.setup_values(bounded_rational)
-
 
     @property
     def bounded_rational(self):
         return self._bounded_rational
     @bounded_rational.setter
     def bounded_rational(self, value):
-        assert 1 <= value <= len(self.rules)
+        # default value to full edges
+        if value == -1:
+            tmp = [True for k, v in
+                   nx.get_edge_attributes(self.rules, 'weight').items() if v > 0]
+            value = len(tmp)
+        else:
+            assert 1 <= value <= len(self.rules)
         self._bounded_rational = int(value)
 
     cpdef vector[double] siteEnergy(self, state_t[::1] states):
@@ -1425,7 +1426,7 @@ cdef class ValueNetwork(Potts):
         #return np.array([self.siteEnergy(i) for i in res]).mean()
         #return np.abs(np.real(np.exp(2 * np.pi * np.complex(0, 1) * res)).mean())
         #return res
-
+    #deprecated
     #construct shortest path among nodes
     cpdef void compute_node_path(self, node_id_t node):
         cdef str node_label = self.adj.rmapping[node]
@@ -1440,7 +1441,7 @@ cdef class ValueNetwork(Potts):
                 self.paths[node][path_counter] = [self.adj.mapping[str(i)] for i in path]
                 path_counter += 1
         return 
-    
+    # deprecated
     cpdef void setup_values(self, int bounded_rational = 1):
         #pr = ProgBar(len(self.graph))
         # store the paths
@@ -1458,12 +1459,13 @@ cdef class ValueNetwork(Potts):
                     pb.update()
         return
         
-    
+     # deprecated
     # TODO tmp
     @property 
     def pat(self):
         return self.paths
 
+    # deprecated
     cpdef state_t[::1] check_vn(self, state_t[::1] state):
         cdef state_t[::1] output = np.zeros(self.nNodes)
         # store pointer
@@ -1760,22 +1762,24 @@ cdef class ValueNetwork(Potts):
             rule_t rule_pair
             size_t j
         # cdef double counter = self._match_trees(node)
-        # it = self.adj._adj[node].neighbors.begin() 
-        # while it != self.adj._adj[node].neighbors.end():
-        #     weight   = deref(it).second
-        #     neighbor = deref(it).first
-        #     # check rules
-        #     rule = self._rules._check_rules(proposal, states[neighbor])
-        #     # update using rule
-        #     if rule.first:
-        #         update = rule.second.second
-        #     # normal potts
-        #     elif neighbor == self.adj._nNodes + 1:
-        #         update = weight 
-        #     else:
-        #         update = weight * self._hamiltonian(proposal, states[neighbor])
-        #     energy += update
-        #     post(it)
+
+        # local update
+        it = self.adj._adj[node].neighbors.begin()
+        while it != self.adj._adj[node].neighbors.end():
+            weight   = deref(it).second
+            neighbor = deref(it).first
+            # check rules
+            rule = self._rules._check_rules(proposal, states[neighbor])
+            # update using rule
+            if rule.first:
+                update = rule.second.second
+            # normal potts
+            elif neighbor == self.adj._nNodes + 1:
+                update = weight
+            else:
+                update = weight * self._hamiltonian(proposal, states[neighbor])
+            energy += update
+            post(it)
         
         with gil:
             energy +=  len(self.check_df([[node, node]], path = [], vp_path = [],
@@ -2004,26 +2008,26 @@ cdef class Potts(Model):
             cdef:
                 int tid
                 double Z = 1/ <double> self._nStates
-                #SpawnVec  tmpHolder = self._spawn(threads)
+                SpawnVec  tmpHolder = self._spawn(threads)
                 PyObject* tmptr
                 Model     tmpMod
 
             print("Magnetizing temperatures")
             pbar = ProgBar(N)
 
-            # for ni in prange(N, \
-            #         nogil       = True,\
-            #         num_threads =  threads,\
-            #         schedule    = 'static'):
+            for ni in prange(N, \
+                    nogil       = True,\
+                    num_threads =  threads,\
+                    schedule    = 'static'):
 
-            for ni in range(N):
-                #tid = threadid()
+            # for ni in range(N):
+                tid = threadid()
                 # get model
-                #tmptr = tmpHolder[tid].ptr
-                results[0, ni] = self.magnetize_(<Model> self.ptr, n, temps[ni])
-                #with gil:
-                #    results[0, ni] = self.magnetize_(<Model> tmptr, n, temps[ni])
-                #    pbar.update()
+                tmptr = tmpHolder[tid].ptr
+                # results[0, ni] = self.magnetize_(<Model> tmptr, n, temps[ni])
+                with gil:
+                   results[0, ni] = self.magnetize_(<Model> tmptr, n, temps[ni])
+                   pbar.update()
                 
 
             results[1, :] = np.abs(np.gradient(results[0, :], temps, edge_order = 1))
