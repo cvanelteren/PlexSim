@@ -1,6 +1,7 @@
 #ifndef models_base
 #define models_base
 
+#include "types.hpp"
 #include <math.h>
 
 #include "xtensor-blas/xlinalg.hpp"
@@ -14,7 +15,9 @@
 #include "xtensor/xstrided_view.hpp"
 
 // should contain the atomic unit of computation
-class Node {
+// define crtp inheritance for node dynamics
+template <typename node_base> class Node {
+public:
   Node(id_t name);
   id_t name;
   void update();
@@ -23,18 +26,21 @@ class Node {
 typedef xt::xarray xar;
 typedef std::unordered_map<size_t, Node> Nodes;
 
-class NodeGraph : Node {
+class NodeGraph : public Node<NodeGraph> {
+public:
   NodeGraph(size_t node);
   std::vector<Node> neighbors;
 };
 
-class Models {
-
+// implement using composition
+class Model {
 public:
   // props
   Nodes nodes;
+
   // funcs
   void update(xar<size_t> nodes);
+
   void reset();
 };
 
