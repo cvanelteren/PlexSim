@@ -18,4 +18,7 @@ typedef std::string id_t;
 
 // typedef xt::xarray xar;
 typedef std::unordered_map<id_t, Node> Nodes;
+
+typedef std::unordered_map<id_t, std::unordered_map<id_t, double>> adj_t;
+
 #endif

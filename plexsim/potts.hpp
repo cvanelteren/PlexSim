@@ -3,6 +3,7 @@
 
 #include "config.hpp"
 #include "model.hpp"
+#include "sampler.hpp"
 #include "types.hpp"
 
 // helper functions
@@ -21,11 +22,21 @@ public:
 
   // discrete states
   DiscreteState dynamic;
-  Adjacency adj;
+  std::vector<Node<T>> neighbors;
 
   // funcs
-  PottsNode();
   PottsNode(Config config);
   double get_energy(state_t);
+  void reset();
+  state_t sample_proposal();
 };
+
+class Potts : public Model<Potts> {
+public:
+  std::vector<*state_t> state;
+  std::vector<*state_t> new_state;
+
+  Potts::Potts(py::dict config);
+  void update(xar<id_t> nodes);
+}
 #endif
