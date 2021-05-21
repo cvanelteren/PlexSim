@@ -8,7 +8,7 @@
 // helper functions
 double hamiltonian(state_t x, state_t y);
 
-class PottsNode : public Node<NodeGraph>, Node<NodeDiscrete> {
+class PottsNode : public Node<PottsNode> {
 public:
   // temperature
   double t;
@@ -17,7 +17,12 @@ public:
   // external magnetic field
   double H;
   // random number generator
-  Sampler rng;
+  Sampler *rng;
+
+  // discrete states
+  DiscreteState dynamic;
+  Adjacency adj;
+
   // funcs
   PottsNode();
   PottsNode(Config config);

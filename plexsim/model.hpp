@@ -6,6 +6,7 @@
 
 #include "sampler.hpp"
 
+// TODO remove the CRTP here for composition
 // should contain the atomic unit of computation
 // define crtp inheritance for node dynamics
 template <typename node_base> class Node {
@@ -16,14 +17,14 @@ public:
 };
 
 // node class that operates on graphs
-class NodeGraph : public Node<NodeGraph> {
+class Adjacency {
 public:
-  NodeGraph(size_t node);
   std::vector<Node> neighbors;
 };
 
 // Node class with discrete dynamics
-class NodeDiscrete : public Node<NodeDiscrete> {
+class DiscreteState {
+public:
   state_t agentStates;
   state_t state;
   Sampler rng;
