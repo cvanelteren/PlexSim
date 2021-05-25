@@ -6,7 +6,7 @@
 #include "Python.h"
 struct PyModel;
 
-/* "plexsim/models.pxd":217
+/* "plexsim/models.pxd":20
  * 
  * 
  * cdef public class Model [object PyModel, type PyModel_t]:             # <<<<<<<<<<<<<<
@@ -18,9 +18,9 @@ struct PyModel {
   struct __pyx_vtabstruct_7plexsim_6models_Model *__pyx_vtab;
   PyObject *ptr;
   __Pyx_memviewslice _Model__states;
-  __pyx_t_7plexsim_6models_state_t *_states;
+  __pyx_t_7plexsim_5types_state_t *_states;
   __Pyx_memviewslice _Model__newstates;
-  __pyx_t_7plexsim_6models_state_t *_newstates;
+  __pyx_t_7plexsim_5types_state_t *_newstates;
   int _last_written;
   int _use_mcmc;
   __Pyx_memviewslice _agentStates;
@@ -30,14 +30,13 @@ struct PyModel {
   PyObject *_updateType;
   PyObject *_nudgeType;
   size_t _sampleSize;
-  __pyx_t_7plexsim_6models_Nudges _nudges;
+  __pyx_t_7plexsim_5types_Nudges _nudges;
   double _kNudges;
   size_t _nStates;
   double _z;
-  struct __pyx_obj_7plexsim_6models_Rules *_rules;
-  struct __pyx_obj_7plexsim_6models_Adjacency *adj;
-  struct __pyx_obj_7plexsim_6models_RandomGenerator *_rng;
-  struct __pyx_obj_7plexsim_6models_MCMC *_mcmc;
+  struct __pyx_obj_7plexsim_5rules_Rules *_rules;
+  struct __pyx_obj_7plexsim_9adjacency_Adjacency *adj;
+  struct __pyx_obj_7plexsim_7sampler_RandomGenerator *_rng;
   PyObject *__dict__;
 };
 
