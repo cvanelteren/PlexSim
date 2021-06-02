@@ -16,45 +16,42 @@ Ising model is used
 
 .. code:: python
 
-    from matplotlib import style; style.use("seaborn-poster".split())
-    import numpy as np, os, sys, networkx as nx, warnings, matplotlib.pyplot as plt
-    warnings.simplefilter("ignore")
+    from matplotlib import style
 
+    style.use("seaborn-poster".split())
+    import numpy as np, os, sys, networkx as nx, warnings, matplotlib.pyplot as plt
+
+    warnings.simplefilter("ignore")
     from plexsim import models
 
     # init lattice graph with periodic bounds
-    g = nx.grid_graph((64, 64), periodic = 1)
+    g = nx.grid_graph((64, 64), periodic=1)
     # create an ising model
     temperature = 2.5
 
     # async with sampleSize > 1, can be seen as sampleSize of glauberupdates in 1 simulation step
-    settings = dict(graph = g,  # graph for the model
-                    t = temperature, #temperature for the Ising model
-                    sampleSize = len(g), #how many nodes to update per simulation step (default)
-                    updateType = 'async',#the update buffers are not independent, use sync for dependency(default)
-                    )
+    settings = dict(
+        graph=g,  # graph for the model
+        t=temperature,  # temperature for the Ising model
+        sampleSize=len(g),  # how many nodes to update per simulation step (default)
+        updateType="async",  # the update buffers are not independent, use sync for dependency(default)
+    )
     m = models.Ising(**settings)
-
-
-
     # create coords an visualize grid with periodic bounds
     # leverage the fact that grid returns tuples of coordinates
     pos = {i: np.array(eval(i)) for i in m.graph.nodes()}
     # create color map for the possible states of the model
     colors = plt.cm.viridis(np.linspace(0, 1, m.nStates))
-    fig, ax = plt.subplots(constrained_layout = 1, figsize = (5, 5))
-    nx.draw(m.graph, pos = pos, ax = ax,
-            node_color = colors[m.states.astype(int)],
-            node_size = 20)
+    fig, ax = plt.subplots(constrained_layout=1, figsize=(5, 5))
+    nx.draw(m.graph, pos=pos, ax=ax, node_color=colors[m.states.astype(int)], node_size=20)
 
     C = "#ADC3D1"
-    fc = '#16161D'
+    fc = "#16161D"
     ax.margins(0.05)
-    ax.set_title("Ising model with random initial condition", fontsize = 21,
-                 color = C)
-    #ax.axis('equal')
-    ax.set_ylabel("Node",  labelpad = 1, color = C)
-    ax.set_xlabel("Node", color = C)
+    ax.set_title("Ising model with random initial condition", fontsize=21, color=C)
+    # ax.axis('equal')
+    ax.set_ylabel("Node", labelpad=1, color=C)
+    ax.set_xlabel("Node", color=C)
     for i in "left right bottom top".split():
         ax.spines[i].set_visible(False)
     ax.axis(True)

@@ -10,21 +10,15 @@ Please note that the documentation is a work in progress and is as of yet not co
 
 .. image:: ../figures/new_banner.gif
 
+.. autosummary::
+   :toctree: _modules
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   modules
    quickstart
-   models
-
-.. include:: ./quickstart.rst
-
-.. automodule:: plexsim
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   glossary
 
 
 Indices and tables
