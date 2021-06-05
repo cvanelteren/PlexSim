@@ -3,14 +3,20 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
+        "define_macros": [
+            [
+                "NPY_NO_DEPRECATED_API",
+                "NPY_1_7_API_VERSION"
+            ]
+        ],
         "depends": [
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/arrayobject.h",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/arrayscalars.h",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarrayobject.h",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarraytypes.h",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ufuncobject.h",
-            "plexsim/lib/pyobjectholder.cpp",
-            "plexsim/lib/pyobjectholder.hpp"
+            "plexsim/include/pyobjectholder.cpp",
+            "plexsim/include/pyobjectholder.hpp"
         ],
         "extra_compile_args": [
             "-Ofast",
@@ -31,8 +37,10 @@
             "-std=c++20"
         ],
         "include_dirs": [
+            "plexsim/include/",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include",
-            "."
+            ".",
+            "plexsim/include"
         ],
         "language": "c++",
         "libraries": [
@@ -908,8 +916,8 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include <unordered_map>
 #include <unordered_set>
 #include "pythread.h"
-#include "plexsim/lib/pyobjectholder.cpp"
-#include "plexsim/lib/pyobjectholder.hpp"
+#include "plexsim/include/pyobjectholder.cpp"
+#include "plexsim/include/pyobjectholder.hpp"
 #include "math.h"
 #include <random>
 #include <algorithm>
@@ -11947,7 +11955,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
       }
   }
 
-  /* "plexsim/models/value_network.pyx":412
+  /* "plexsim/models/value_network.pyx":413
  *         cdef size_t mi
  *         # TODO: move to separate function
  *         for mi in range(self._memorySize):             # <<<<<<<<<<<<<<
@@ -11959,7 +11967,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
   for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
     __pyx_v_mi = __pyx_t_15;
 
-    /* "plexsim/models/value_network.pyx":413
+    /* "plexsim/models/value_network.pyx":414
  *         # TODO: move to separate function
  *         for mi in range(self._memorySize):
  *             energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])             # <<<<<<<<<<<<<<
@@ -11971,7 +11979,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
     __pyx_v_energy = (__pyx_v_energy + (exp((__pyx_v_mi * __pyx_v_self->__pyx_base.__pyx_base._memento)) * ((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._hamiltonian(((struct __pyx_obj_7plexsim_6models_5potts_Potts *)__pyx_v_self), (__pyx_v_states[__pyx_v_node]), (*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=1 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ (__pyx_v_self->__pyx_base.__pyx_base._memory.data + __pyx_t_16 * __pyx_v_self->__pyx_base.__pyx_base._memory.strides[0]) )) + __pyx_t_2)) ))))));
   }
 
-  /* "plexsim/models/value_network.pyx":414
+  /* "plexsim/models/value_network.pyx":415
  *         for mi in range(self._memorySize):
  *             energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
  *         return energy             # <<<<<<<<<<<<<<
@@ -12010,7 +12018,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network.pyx":420
+/* "plexsim/models/value_network.pyx":421
  * 
  * 
  *     cdef double probability(self, state_t state, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -12024,7 +12032,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
   double __pyx_v_p;
   double __pyx_r;
 
-  /* "plexsim/models/value_network.pyx":421
+  /* "plexsim/models/value_network.pyx":422
  * 
  *     cdef double probability(self, state_t state, node_id_t node) nogil:
  *         cdef state_t tmp = self._states[node]             # <<<<<<<<<<<<<<
@@ -12033,7 +12041,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
  */
   __pyx_v_tmp = (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]);
 
-  /* "plexsim/models/value_network.pyx":422
+  /* "plexsim/models/value_network.pyx":423
  *     cdef double probability(self, state_t state, node_id_t node) nogil:
  *         cdef state_t tmp = self._states[node]
  *         self._states[node] = state             # <<<<<<<<<<<<<<
@@ -12042,7 +12050,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
  */
   (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]) = __pyx_v_state;
 
-  /* "plexsim/models/value_network.pyx":424
+  /* "plexsim/models/value_network.pyx":425
  *         self._states[node] = state
  *         cdef:
  *             double energy = self._energy(node)             # <<<<<<<<<<<<<<
@@ -12051,7 +12059,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
  */
   __pyx_v_energy = ((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._energy(((struct __pyx_obj_7plexsim_6models_5potts_Potts *)__pyx_v_self), __pyx_v_node);
 
-  /* "plexsim/models/value_network.pyx":425
+  /* "plexsim/models/value_network.pyx":426
  *         cdef:
  *             double energy = self._energy(node)
  *             double p = exp(self._beta * energy)             # <<<<<<<<<<<<<<
@@ -12060,7 +12068,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
  */
   __pyx_v_p = exp((__pyx_v_self->__pyx_base._beta * __pyx_v_energy));
 
-  /* "plexsim/models/value_network.pyx":427
+  /* "plexsim/models/value_network.pyx":428
  *             double p = exp(self._beta * energy)
  * 
  *         self._states[node] = tmp             # <<<<<<<<<<<<<<
@@ -12069,7 +12077,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
  */
   (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]) = __pyx_v_tmp;
 
-  /* "plexsim/models/value_network.pyx":428
+  /* "plexsim/models/value_network.pyx":429
  * 
  *         self._states[node] = tmp
  *         return p             # <<<<<<<<<<<<<<
@@ -12079,7 +12087,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
   __pyx_r = __pyx_v_p;
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network.pyx":420
+  /* "plexsim/models/value_network.pyx":421
  * 
  * 
  *     cdef double probability(self, state_t state, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -12092,7 +12100,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network.pyx":431
+/* "plexsim/models/value_network.pyx":432
  * 
  *     # default update TODO remove this
  *     cdef double _hamiltonian(self, state_t x, state_t  y) nogil:             # <<<<<<<<<<<<<<
@@ -12103,7 +12111,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
 static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__hamiltonian(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_x, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_y) {
   double __pyx_r;
 
-  /* "plexsim/models/value_network.pyx":432
+  /* "plexsim/models/value_network.pyx":433
  *     # default update TODO remove this
  *     cdef double _hamiltonian(self, state_t x, state_t  y) nogil:
  *         return cos(2 * pi  * ( x - y ) * self._z)             # <<<<<<<<<<<<<<
@@ -12113,7 +12121,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__hamiltoni
   __pyx_r = cos((((2.0 * M_PI) * (__pyx_v_x - __pyx_v_y)) * __pyx_v_self->__pyx_base.__pyx_base._z));
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network.pyx":431
+  /* "plexsim/models/value_network.pyx":432
  * 
  *     # default update TODO remove this
  *     cdef double _hamiltonian(self, state_t x, state_t  y) nogil:             # <<<<<<<<<<<<<<
@@ -12126,7 +12134,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__hamiltoni
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network.pyx":434
+/* "plexsim/models/value_network.pyx":435
  *         return cos(2 * pi  * ( x - y ) * self._z)
  * 
  *     cdef void _step(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -12140,7 +12148,7 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
   double __pyx_v_p;
   int __pyx_t_1;
 
-  /* "plexsim/models/value_network.pyx":436
+  /* "plexsim/models/value_network.pyx":437
  *     cdef void _step(self, node_id_t node) nogil:
  *         cdef:
  *             state_t proposal = self._sample_proposal()             # <<<<<<<<<<<<<<
@@ -12149,7 +12157,7 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
  */
   __pyx_v_proposal = ((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base._sample_proposal(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
-  /* "plexsim/models/value_network.pyx":437
+  /* "plexsim/models/value_network.pyx":438
  *         cdef:
  *             state_t proposal = self._sample_proposal()
  *             state_t cur_state= self._states[node]             # <<<<<<<<<<<<<<
@@ -12158,7 +12166,7 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
  */
   __pyx_v_cur_state = (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]);
 
-  /* "plexsim/models/value_network.pyx":438
+  /* "plexsim/models/value_network.pyx":439
  *             state_t proposal = self._sample_proposal()
  *             state_t cur_state= self._states[node]
  *             double p     = self.probability(proposal, node) / \             # <<<<<<<<<<<<<<
@@ -12167,7 +12175,7 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
  */
   __pyx_v_p = (((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_proposal, __pyx_v_node) / ((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_cur_state, __pyx_v_node));
 
-  /* "plexsim/models/value_network.pyx":440
+  /* "plexsim/models/value_network.pyx":441
  *             double p     = self.probability(proposal, node) / \
  *                 self.probability(cur_state, node)
  *         if self._rng._rand () < p:             # <<<<<<<<<<<<<<
@@ -12177,7 +12185,7 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
   __pyx_t_1 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base.__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base.__pyx_base._rng) < __pyx_v_p) != 0);
   if (__pyx_t_1) {
 
-    /* "plexsim/models/value_network.pyx":441
+    /* "plexsim/models/value_network.pyx":442
  *                 self.probability(cur_state, node)
  *         if self._rng._rand () < p:
  *             self._newstates[node] = proposal             # <<<<<<<<<<<<<<
@@ -12186,7 +12194,7 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
  */
     (__pyx_v_self->__pyx_base.__pyx_base._newstates[__pyx_v_node]) = __pyx_v_proposal;
 
-    /* "plexsim/models/value_network.pyx":440
+    /* "plexsim/models/value_network.pyx":441
  *             double p     = self.probability(proposal, node) / \
  *                 self.probability(cur_state, node)
  *         if self._rng._rand () < p:             # <<<<<<<<<<<<<<
@@ -12195,7 +12203,7 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
  */
   }
 
-  /* "plexsim/models/value_network.pyx":442
+  /* "plexsim/models/value_network.pyx":443
  *         if self._rng._rand () < p:
  *             self._newstates[node] = proposal
  *         return             # <<<<<<<<<<<<<<
@@ -12204,7 +12212,7 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
  */
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network.pyx":434
+  /* "plexsim/models/value_network.pyx":435
  *         return cos(2 * pi  * ( x - y ) * self._z)
  * 
  *     cdef void _step(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<

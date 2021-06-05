@@ -51,9 +51,10 @@ for (root, dirs, files) in os.walk(baseDir):
             ex = Extension(
                 extName,
                 sources=sources,
-                include_dirs=[nums, "."],
+                include_dirs=[nums, ".", "plexsim/include"],
                 libraries=["stdc++"],
                 extra_compile_args=flags.split(),
+                define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
                 extra_link_args=[
                     "-fopenmp",
                     f"-std=c++{cppv}",
@@ -62,6 +63,7 @@ for (root, dirs, files) in os.walk(baseDir):
                 + add,
             )
             exts.append(ex)
+
 
 # exts = [
 #     Extension(
@@ -96,6 +98,22 @@ cdirectives = dict(
 import unittest
 
 
+def find_pxd(base) -> list:
+    """
+    package pxd files
+    """
+    data_files = []
+    for root, dirs, files in os.walk(base):
+        for file in files:
+            if file.split(".")[-1] in "cpp hpp h c pxd".split():
+                # base     = os.path.basename(base)
+                file = os.path.join(root, file)
+                print(root, file)
+                data_files.append([root, [file]])
+
+    return data_files
+
+
 def TestSuite():
     test_loader = unittest.TestLoader()
     test_suite = test_loader.discover(
@@ -104,6 +122,7 @@ def TestSuite():
     return test_suite
 
 
+package_data = find_pxd("plexsim")
 # with open('requirements.txt', 'r') as f:
 #    requirements = f.read().splitlines()
 from setuptools import find_namespace_packages, find_packages
@@ -123,6 +142,7 @@ sphinx = dict(
 )
 # future me note: sometimes headers are not included; clean the dist and build folders
 # and rebuild
+#
 setup(
     name=name,
     author="Casper van Elteren",
@@ -136,7 +156,8 @@ setup(
         #  "plexsim" : "plexsim/*pyx plexsim/*pxd".split(),
     },
     include_package_data=True,
-    data_files=data_files,
+    # data_files=data_files,
+    data_files=package_data,
     packages=packages,
     install_requires="cython numpy networkx".split(),
     cmdclass=dict(build_sphinx=BuildDoc),

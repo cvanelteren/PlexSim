@@ -1,3 +1,4 @@
+
 * Banner animation
 ** Setup
 #+begin_src jupyter-python
@@ -309,12 +310,60 @@ anim.save(
 )
 print("done")
 #+end_src
+* networkx tryout
+#+begin_src jupyter-python
+import matplotlib.pyplot as plt, cmasher as cmr
+import numpy as np, os, sys, networkx as nx, warnings
+from plexsim import models
+from plexsim.utils.rules import create_rule_full
+# from imi import infcy
+warnings.simplefilter("ignore"); plt.style.use("fivethirtyeight spooky".split())
+
+g = nx.path_graph(3)
+r = create_rule_full(g, self_weight = -1)
+
+coordinates = np.random.rand(50,  2)
+velocities = np.random.randn(*coordinates.shape)
+m = models.MagneticBoids(coordinates, velocities, g, r,
+                         agentStates = np.arange(len(r)),
+                         boid_radius = 0,
+                         radius = 0)
+
+
+# m = models.Potts(g)
+from plexsim.utils.visualisation import GraphAnimation
+
+time_data = {}
+for t in range(100):
+    m.simulate(1)
+
+    time_data[t] = dict(states = m.states.copy(),
+                         coordinates = m.coordinates.copy(),
+                         adj = m.adj.adj.copy())
+
+    # time_data[t] = dict(states = m.states.copy())
+
+from matplotlib import animation
+fig, ax = plt.subplots()
+nk = dict(node_size = 19)
+ca = GraphAnimation(m.graph, time_data, m.nStates)
+ca.setup(ax, node_kwargs=nk, edge_kwargs = dict(edge_color = "lightgray"))
+f = np.linspace(0, 100, 30, 0).astype(int)
+
+from functools import partial
+ani = animation.FuncAnimation(fig, ca.animate, frames = f, fargs = (False,))
+
+ani.save("./test_2.mp4")
+
+fig.show()
+
+ca.animate(50, 1)
+
+
+#+end_src
 
 #+RESULTS:
-: <ipython-input-18-88ba6fde2e7a>:64: UserWarning: Style includes a parameter, 'backend', that is not related to style.  Ignoring
-:   plt.style.use("spooky")
-: <ipython-input-18-88ba6fde2e7a>:151: UserWarning: This figure was using constrained_layout, but that is incompatible with subplots_adjust and/or tight_layout; disabling constrained_layout.
-:   fig.subplots_adjust(wspace=0.02, hspace=0.2)
-
-
-
+:RESULTS:
+| <matplotlib.collections.PathCollection | at | 0x7f27c21ea700> |
+[[file:./.ob-jupyter/59798c9deb9b7624824a04da3f8ad5bb00ba1cdf.png]]
+:END:
