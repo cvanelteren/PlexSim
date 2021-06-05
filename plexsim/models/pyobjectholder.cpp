@@ -3,9 +3,15 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
+        "define_macros": [
+            [
+                "NPY_NO_DEPRECATED_API",
+                "NPY_1_7_API_VERSION"
+            ]
+        ],
         "depends": [
-            "plexsim/lib/pyobjectholder.cpp",
-            "plexsim/lib/pyobjectholder.hpp"
+            "plexsim/include/pyobjectholder.cpp",
+            "plexsim/include/pyobjectholder.hpp"
         ],
         "extra_compile_args": [
             "-Ofast",
@@ -26,8 +32,10 @@
             "-std=c++20"
         ],
         "include_dirs": [
+            "plexsim/include/",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include",
-            "."
+            ".",
+            "plexsim/include"
         ],
         "language": "c++",
         "libraries": [
@@ -874,12 +882,12 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include <string.h>
 #include <stdio.h>
 #include "pythread.h"
-#include "plexsim/lib/pyobjectholder.cpp"
+#include "plexsim/include/pyobjectholder.cpp"
 #include "ios"
 #include "new"
 #include "stdexcept"
 #include "typeinfo"
-#include "plexsim/lib/pyobjectholder.hpp"
+#include "plexsim/include/pyobjectholder.hpp"
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */
@@ -2424,7 +2432,7 @@ if (!__Pyx_RefNanny) {
   #endif
 
   /* "plexsim/models/pyobjectholder.pyx":1
-             # <<<<<<<<<<<<<<
+ * ##distutils: sources = "plexsim/lib/pyobjectholder.cpp"             # <<<<<<<<<<<<<<
  */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);

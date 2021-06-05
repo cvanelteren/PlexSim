@@ -29,7 +29,7 @@ cdef class Potts(Model):
                  p_recomb    = None,
                  **kwargs):
 
-        #print(kwargs, locals())
+        print(kwargs, locals())
 
         super(Potts, self).__init__(\
                                     graph = graph,\

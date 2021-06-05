@@ -1,8 +1,9 @@
 cimport cython, numpy as np
-import numpy as np
 from cython.operator cimport dereference as deref
 from cython.operator cimport preincrement as prei
 from cython.operator cimport postincrement as post
+
+import numpy as np
 
 cdef class Percolation(Model):
     def __init__(self, graph, p = 1, \

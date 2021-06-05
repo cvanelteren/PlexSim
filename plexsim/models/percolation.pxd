@@ -1,5 +1,5 @@
 from plexsim.models.types cimport *
-from plexsim.models.base cimport Model
+from plexsim.models.base cimport *
 
 cdef class Percolation(Model):
     cdef:

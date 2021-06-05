@@ -20,9 +20,15 @@ def turnoff_spines(ax):
 
 
 class GraphAnimation:
-    def __init__(self, graph, time_data, n=1):
+    def __init__(self, graph: object, time_data: dict, n=1):
         self.graph = graph
+
+        # lazy conversion
+        if isinstance(time_data, np.ndarray):
+            time_data = {idx: {"states": i} for idx, i in enumerate(time_data)}
         self.time_data = time_data
+
+        # loading colors
         try:
             import cmasher as cmr
 
@@ -30,7 +36,7 @@ class GraphAnimation:
         except:
             self.colors = discrete_cmap(n, "tab20c")
 
-        if len(time_data.shape) == 3:
+        if len(time_data[0]["states"]) == 3:
             self.colors = None
 
     def setup(
@@ -38,6 +44,7 @@ class GraphAnimation:
         ax=None,
         layout=None,
         rules=None,
+        bounds=None,
         node_kwargs=dict(),
         edge_kwargs=dict(),
         labels=dict(),
@@ -56,33 +63,58 @@ class GraphAnimation:
         elif isinstance(layout, dict):
             pos = layout
 
+        # add bounding box
+        if bounds is not None:
+            self.add_bb(ax, bounds)
+
         # allow for special case of colors in 3rd dimension
         # get colors
         if self.colors is None:
-            C = self.time_data[0]
+            C = self.time_data[0]["states"]
         else:
-            C = self.colors(self.time_data[0].astype(int))
+            C = self.colors(self.time_data[0]["states"].astype(int))
 
         # animation object
-        self._h = nx.draw_networkx_nodes(
+        self._nodes = nx.draw_networkx_nodes(
             self.graph, pos, node_color=C, ax=ax, **node_kwargs
         )
-        nx.draw_networkx_labels(self.graph, pos, ax=ax, **labels)
 
-        nx.draw_networkx_edges(self.graph, pos, ax=ax, **edge_kwargs)
+        # add node labels
+        if labels:
+            nx.draw_networkx_labels(self.graph, pos, ax=ax, **labels)
+
+        # draw edges
+        self._connections = nx.draw_networkx_edges(
+            self.graph, pos, ax=ax, **edge_kwargs
+        )
         # add rule graph
         if rules is not None:
             inx = ax.inset_axes((1, 0.25, 0.5, 0.5))
             self.add_rule_graph(rules, inx, self.colors)
 
-            # inx = ax.inset_axes((1, .5, .5, .5))
-            # self.add_rule_igraph(rules, inx, self.colors)
         # add time indicator
         self.text = ax.annotate(
             "", (0, 1), va="bottom", ha="left", xycoords="axes fraction", fontsize=27
         )
         turnoff_spines(ax)
         ax.grid(False)
+
+    def add_bb(self, ax, bounds):
+        """add boundings box"""
+        from matplotlib import patches
+
+        boundary = patches.Rectangle(
+            (bounds[0], bounds[0]),
+            bounds[1] - bounds[0],
+            bounds[1] - bounds[0],
+            facecolor="none",
+            alpha=0.1,
+            edgecolor="k",
+            lw=5,
+            zorder=1,
+        )
+        ax.add_collection(boundary)
+        return
 
     @staticmethod
     def add_rule_graph(rules, ax, cmap):
@@ -115,13 +147,36 @@ class GraphAnimation:
         ax.axis("off")
         # ax.margins(.5)
 
-    def animate(self, idx):
-        c = self.time_data[idx].astype(int)
+    def animate(self, idx, edges=False):
+        c = self.time_data.get(idx)["states"].astype(int)
+
+        # update colors
         if not self.colors is None:
             c = [self.colors(i) for i in c]
-        self._h.set_color(c)
+        self._nodes.set_color(c)
+        # update time text
         self.text.set_text(f"T={idx}")
-        return self._h.axes.collections
+
+        # update edges
+        if edges:
+            coordinates = self.time_data[idx].get("coordinates")
+            adj = self.time_data[idx].get("adj")
+            # recompute adjacency
+            paths = np.array(
+                [
+                    [m.coordinates[x], m.coordinates[y]]
+                    for x in adj
+                    for y in adj[x].neighbors
+                ]
+            )
+
+            # recenter the nodes
+            self._nodes.set_offsets(coordinates)
+            # set paths
+            self._connections.set_paths(paths)
+            return [self._nodes, self._connections]
+        # return axes objects for blittting
+        return [self._nodes]
 
     def gen_panel(self, n_panels=3, **kwargs):
         time_idx = np.linspace(0, self.time_data.size, n_panels, 0).astype(int)

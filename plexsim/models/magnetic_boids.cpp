@@ -3,14 +3,20 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
+        "define_macros": [
+            [
+                "NPY_NO_DEPRECATED_API",
+                "NPY_1_7_API_VERSION"
+            ]
+        ],
         "depends": [
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/arrayobject.h",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/arrayscalars.h",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarrayobject.h",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarraytypes.h",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ufuncobject.h",
-            "plexsim/lib/pyobjectholder.cpp",
-            "plexsim/lib/pyobjectholder.hpp"
+            "plexsim/include/pyobjectholder.cpp",
+            "plexsim/include/pyobjectholder.hpp"
         ],
         "extra_compile_args": [
             "-Ofast",
@@ -31,8 +37,10 @@
             "-std=c++20"
         ],
         "include_dirs": [
+            "plexsim/include/",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include",
-            "."
+            ".",
+            "plexsim/include"
         ],
         "language": "c++",
         "libraries": [
@@ -908,8 +916,8 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include <unordered_map>
 #include <unordered_set>
 #include "pythread.h"
-#include "plexsim/lib/pyobjectholder.cpp"
-#include "plexsim/lib/pyobjectholder.hpp"
+#include "plexsim/include/pyobjectholder.cpp"
+#include "plexsim/include/pyobjectholder.hpp"
 #include "math.h"
 #include <random>
 #include <algorithm>
