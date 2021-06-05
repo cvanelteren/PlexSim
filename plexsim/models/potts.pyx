@@ -29,7 +29,6 @@ cdef class Potts(Model):
                  p_recomb    = None,
                  **kwargs):
 
-        print(kwargs, locals())
 
         super(Potts, self).__init__(\
                                     graph = graph,\
@@ -95,6 +94,7 @@ cdef class Potts(Model):
             size_t  neighbor, neighboridx
             double weight # TODO: remove delta
 
+            # init with external magnetic field
             double energy  = self._H[node] * self._states[node]
 
         if self._nudges.find(node) != self._nudges.end():
