@@ -147,9 +147,10 @@ cdef class Potts(Model):
         # setup simulation
         cdef double Z = 1 / <double> self._nStates
         mod.t         =  t
-        mod.states[:] = mod.agentStates[0]
+        mod.states = mod.agentStates[0]
         # calculate phase and susceptibility
         res = mod.simulate(n)  * Z
+        print(res.shape)
         phase = np.real(np.exp(2 * np.pi * np.complex(0, 1) * res)).mean()
         return np.abs(phase)
 
@@ -158,6 +159,7 @@ cdef class Potts(Model):
                               np.ndarray temps  = np.logspace(-3, 2, 20),\
                               size_t n             = int(1e3),\
                               size_t burninSamples = 0,\
+                              size_t n_jobs = 0,
                               double match = -1):
             """
             Computes the magnetization as a function of temperatures
@@ -169,41 +171,45 @@ cdef class Potts(Model):
                   :temps: the temperature range as input
                   :sus:  the magnetic susceptibility
             """
+            #TODO: requires cleanup
+            # some variables are redundant or not clear what they mean
             cdef:
                 double tcopy   = self.t # store current temp
-                np.ndarray results = np.zeros((2, temps.shape[0]))
-                np.ndarray res, resi
+                double[:, ::1] results = np.zeros((2, temps.shape[0]))
+
                 int N = len(temps)
                 int ni
-                int threads = mp.cpu_count()
                 np.ndarray magres
                 list modelsPy = []
 
             # setup parallel models
             print("Spawning threads")
+            if n_jobs == 0:
+                n_jobs = mp.cpu_count()
             cdef:
                 int tid
                 double Z = 1/ <double> self._nStates
-                SpawnVec  tmpHolder = self._spawn(threads)
-                PyObject* tmptr
-                Model     tmpMod
+                SpawnVec  models = self._spawn(n_jobs)
+                PyObject* ptr
+                Model     mod
 
             print("Magnetizing temperatures")
             pbar = ProgBar(N)
 
             for ni in prange(N, \
                     nogil       = True,\
-                    num_threads =  threads,\
+                    num_threads =  n_jobs,\
                     schedule    = 'static'):
-
-            # for ni in range(N):
+                # acquire thread
                 tid = threadid()
                 # get model
-                tmptr = tmpHolder[tid].ptr
+                ptr = models[tid].ptr
                 # results[0, ni] = self.magnetize_(<Model> tmptr, n, temps[ni])
+
+                # magnetize!
                 with gil:
-                   results[0, ni] = self.magnetize_(<Model> tmptr, n, temps[ni])
-                   pbar.update()
+                    results[0, ni] = self.magnetize_((<Model> ptr), n, temps[ni])
+                    pbar.update()
 
 
             results[1, :] = np.abs(np.gradient(results[0, :], temps, edge_order = 1))

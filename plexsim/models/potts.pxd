@@ -19,10 +19,8 @@ cdef class Potts(Model):
     # update function
     cdef double _hamiltonian(self, state_t x, state_t  y) nogil
 
-    cpdef  np.ndarray magnetize(self,\
-                                np.ndarray temps  = *,\
-                                size_t n             = *,\
-                                size_t burninSamples = *,\
-                                double  match =*)
+    cpdef np.ndarray magnetize(self, np.ndarray temps = *, size_t n = *, size_t
+                               burninSamples  =  *,  size_t n_jobs  =*,  double
+                               match =*)
 
     cpdef vector[double] siteEnergy(self, state_t[::1] states)

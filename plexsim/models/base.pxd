@@ -83,6 +83,8 @@ cdef class Model:
     cpdef np.ndarray simulate(self, size_t samples)
     cpdef np.ndarray simulate_mean(self, size_t samples)
 
+
+    cpdef list spawn(self, size_t n_jobs =*)
     cdef SpawnVec _spawn(self, size_t nThreads=*)
 
     cpdef void reset(self, p =*)

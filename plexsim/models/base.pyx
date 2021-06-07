@@ -655,6 +655,15 @@ cdef class Model:
             memo = self.get_settings()
         return self.__class__(**memo)
 
+
+    # tmp for testing the parallezation
+    cpdef list spawn(self, size_t n_jobs = openmp.omp_get_num_threads()):
+        cdef SpawnVec models_ = self._spawn(n_jobs)
+        models = []
+        for thread in range(n_jobs):
+            models.append(<Model> models_[thread].ptr)
+        return models
+
     cdef SpawnVec _spawn(self, size_t nThreads = openmp.omp_get_num_threads()):
         """
         Spawn independent models
@@ -669,7 +678,7 @@ cdef class Model:
             #m = new Model(*m.ptr)
             # HACK: fix this
             # m.mcmc._p_recomb = self.mcmc._p_recomb
-            # force resed
+            # force reset
             spawn.push_back( PyObjectHolder(m.ptr) )
 
         return spawn
