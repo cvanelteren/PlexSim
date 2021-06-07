@@ -1748,8 +1748,8 @@ struct __pyx_opt_args_7plexsim_6models_5potts_5Potts_magnetize;
  *     cdef double _hamiltonian(self, state_t x, state_t  y) nogil
  * 
  *     cpdef np.ndarray magnetize(self, np.ndarray temps = *, size_t n = *, size_t             # <<<<<<<<<<<<<<
- *                                burninSamples  =  *,  size_t n_jobs  =*,  double
- *                                match =*)
+ *                                burninSamples  =  *,  size_t n_jobs  =*
+ *                                )
  */
 struct __pyx_opt_args_7plexsim_6models_5potts_5Potts_magnetize {
   int __pyx_n;
@@ -1757,7 +1757,6 @@ struct __pyx_opt_args_7plexsim_6models_5potts_5Potts_magnetize {
   size_t n;
   size_t burninSamples;
   size_t n_jobs;
-  double match;
 };
 
 /* "plexsim/models/adjacency.pxd":3

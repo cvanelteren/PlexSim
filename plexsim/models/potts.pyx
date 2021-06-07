@@ -146,11 +146,17 @@ cdef class Potts(Model):
     cdef double magnetize_(self, Model mod, size_t n, double t):
         # setup simulation
         cdef double Z = 1 / <double> self._nStates
+        cdef np.ndarray results
+        cdef double phase
+        # set temp
         mod.t         =  t
+        # reset states
         mod.states[:] = mod.agentStates[0]
-        # calculate phase and susceptibility
-        res = mod.simulate(n)  * Z
-        phase = np.real(np.exp(2 * np.pi * np.complex(0, 1) * res)).mean()
+        # sample states
+        results = mod.simulate(n)  * Z
+        # compute spin angles
+        phase = np.real(np.exp(2 * np.pi * np.complex(0, 1) * results)).mean()
+        print(phase)
         return np.abs(phase)
 
     @cython.cdivision(False)
@@ -159,7 +165,7 @@ cdef class Potts(Model):
                               size_t n             = int(1e3),\
                               size_t burninSamples = 0,\
                               size_t n_jobs = 0,
-                              double match = -1):
+                              ):
             """
             Computes the magnetization as a function of temperatures
             Input:
@@ -209,26 +215,11 @@ cdef class Potts(Model):
                 with gil:
                     results[0, ni] = self.magnetize_((<Model> ptr), n, temps[ni])
                     pbar.update()
-
-
-            results[1, :] = np.abs(np.gradient(results[0, :], temps, edge_order = 1))
-
-            # fit sigmoid
-            if match >= 0:
-                # fit sigmoid
-                from scipy import optimize
-                params, cov = optimize.curve_fit(sigmoid, temps, results[0, :], maxfev = 10_000)
-                # optimize
-                # setting matched temperature
-                critic = optimize.fmin(sigmoidOpt, \
-                                       x0 = .1,\
-                                       args = (params, match ),\
-                                       )
-                tcopy = critic
-                print(f"Sigmoid fit params {params}\nAt T={critic}")
-
+            #TODO: remove?
+            # compute susceptibility
+            results.base[1, :] = np.abs(np.gradient(results.base[0, :], temps, edge_order = 1))
             self.t = tcopy # reset temp
-            return results
+            return results.base
 
     @property
     def delta(self):
@@ -279,3 +270,22 @@ def sigmoid(x, a, b, c, d):
 @cython.binding(True)
 def sigmoidOpt(x, params, match):
     return np.abs( sigmoid(x, *params) - match )
+
+def match_temperature(match, results, temps):
+    """
+    matches temperature
+    """
+    # fit sigmoid
+    if match >= 0:
+        # fit sigmoid
+        from scipy import optimize
+        params, cov = optimize.curve_fit(sigmoid, temps, results[0, :], maxfev = 10_000)
+        # optimize
+        # setting matched temperature
+        critic = optimize.fmin(sigmoidOpt, \
+                                x0 = .1,\
+                                args = (params, match ),\
+                                )
+        tcopy = critic
+        print(f"Sigmoid fit params {params}\nAt T={critic}")
+    return tcopy
