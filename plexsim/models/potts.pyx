@@ -147,10 +147,9 @@ cdef class Potts(Model):
         # setup simulation
         cdef double Z = 1 / <double> self._nStates
         mod.t         =  t
-        mod.states = mod.agentStates[0]
+        mod.states[:] = mod.agentStates[0]
         # calculate phase and susceptibility
         res = mod.simulate(n)  * Z
-        print(res.shape)
         phase = np.real(np.exp(2 * np.pi * np.complex(0, 1) * res)).mean()
         return np.abs(phase)
 
