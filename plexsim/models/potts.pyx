@@ -156,7 +156,6 @@ cdef class Potts(Model):
         results = mod.simulate(n)  * Z
         # compute spin angles
         phase = np.real(np.exp(2 * np.pi * np.complex(0, 1) * results)).mean()
-        print(phase)
         return np.abs(phase)
 
     @cython.cdivision(False)
