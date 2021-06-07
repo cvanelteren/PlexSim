@@ -4,6 +4,7 @@ from plexsim.models.base import Model
 import subprocess, numpy as np, networkx as nx
 
 
+# TODO: add cython tests
 class TestBaseModel(ut.TestCase):
     model = Model
     agentStates = np.array([0])
@@ -121,15 +122,20 @@ class TestBaseModel(ut.TestCase):
         # self.m._remove_nudge(self, backup)
         # self.assertEqual(backup.size(), 0)
 
-    def test_spawn(self):
-        self.m.nudges = {0: 1}
-        d = self.m.__deepcopy__({})
-        self.assertEqual(self.m.nudges, d.nudges)
+    # def test_spawn(self):
+    #     self.m.nudges = {0: 1}
+    #     d = self.m.__deepcopy__({})
+    #     self.assertEqual(self.m.nudges, d.nudges)
+
+    def test_spanw(self):
+        models = self.m.spawn()
+        for model in models:
+            self.assertTrue(isinstance(model, type(self.m)))
 
 
 class TestPotts(TestBaseModel):
     model = Potts
-    agentStates = np.array([0.0, 1.0])
+    agentStates = np.array([0, 1])
     g = nx.path_graph(2)
 
     def test_updateState(self):
