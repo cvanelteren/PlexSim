@@ -698,15 +698,18 @@ cdef class Model:
         Check all the properties the model and
         check whether they are the same
         """
+        #TODO: this is likely to break in the future
+
         for name in dir(self):
             prop = getattr(self, name)
             oprop = getattr(other, name)
 
             if not name.startswith("_") and callable(prop) == False:
                 if hasattr(prop, "__iter__"):
+                    if name == 'nodeids':
+                        prop, oprop = sorted(prop), sorted(oprop)
                     for x, y in zip(prop, oprop):
                         if x != y:
-                            print(x, y)
                             return False
                 else:
                     if prop != oprop:

@@ -90,7 +90,20 @@ class TestBaseModel(ut.TestCase):
                 properties[prop] = v
         import copy
 
-        newModel = copy.deepcopy(self.m)
+        other = copy.deepcopy(self.m)
+        self.assertEqual(newModel, self.m)
+
+        # TODO: this below is now in base model
+        # for name in dir(self.m):
+        #     prop = getattr(self.m, name)
+        #     oprop = getattr(other, name)
+        #     if not name.startswith("_") and callable(prop) == False:
+        #         print(f"checking {name=} {prop} {oprop}")
+        #         if hasattr(prop, "__iter__"):
+        #             for x, y in zip(prop, oprop):
+        #                 self.assertEqual(x, y)
+        #         else:
+        #             self.assertEqual(prop, oprop)
 
         # for name, prop in properties.items():
         #     prop_copy = getattr(newModel, name)
