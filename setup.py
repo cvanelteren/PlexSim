@@ -7,16 +7,20 @@ import numpy, multiprocessing as mp, os
 import re, os
 from subprocess import run
 
+
+os.environ["CC"] = "g++-10"
+os.environ["CXX"] = "g++-10"
 add = []
-compiler = "g++"
+compiler = "g++-10"
 optFlag = "-Ofast"
 cppv = "20"
+flags = ""
 
 flags = (
     f"{optFlag} -march=native -std=c++{cppv} -flto "
     "-frename-registers -funroll-loops -fno-wrapv "
     "-fopenmp-simd -fopenmp -unused-variable -Wno-unused "
-    # "-D_GLIBCXX_USE_CXX11_ABI=0 "
+    "-D_GLIBCXX_USE_CXX11_ABI=0 "
 )
 
 # collect pyx files
@@ -39,7 +43,6 @@ for (root, dirs, files) in os.walk(baseDir):
             )  # remove extension
 
             sources = [extPath]
-            print(extName, extPath)
 
             if os.path.exists(extPath.replace("pyx", "pxd")):
                 base, f = os.path.split(fileName)
@@ -80,8 +83,8 @@ for (root, dirs, files) in os.walk(baseDir):
 #     )
 # ]
 
-print(f"data files {data_files}")
-print(f"{len(exts)} will be compiled")
+# print(f"data files {data_files}")
+# print(f"{len(exts)} will be compiled")
 
 from Cython.Compiler import Options
 
@@ -108,7 +111,7 @@ def find_pxd(base) -> list:
             if file.split(".")[-1] in "cpp hpp h c pxd".split():
                 # base     = os.path.basename(base)
                 file = os.path.join(root, file)
-                print(root, file)
+                # print(root, file)
                 data_files.append([root, [file]])
 
     return data_files
