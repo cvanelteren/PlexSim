@@ -31,7 +31,7 @@ cdef class MCMC:
     # class vars
     cdef:
         double _p_recomb
-        RandomGenerator rng
+        RandomGenerator _rng
         dict __dict__
 
     # GO algorithm

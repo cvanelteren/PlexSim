@@ -3,6 +3,12 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
+        "define_macros": [
+            [
+                "NPY_NO_DEPRECATED_API",
+                "NPY_1_7_API_VERSION"
+            ]
+        ],
         "extra_compile_args": [
             "-Ofast",
             "-march=native",
@@ -14,8 +20,7 @@
             "-fopenmp-simd",
             "-fopenmp",
             "-unused-variable",
-            "-Wno-unused",
-            "-D_GLIBCXX_USE_CXX11_ABI=0"
+            "-Wno-unused"
         ],
         "extra_link_args": [
             "-fopenmp",
@@ -23,7 +28,8 @@
         ],
         "include_dirs": [
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include",
-            "."
+            ".",
+            "plexsim/include"
         ],
         "language": "c++",
         "libraries": [

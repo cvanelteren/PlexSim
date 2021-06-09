@@ -1,4 +1,4 @@
-#distutils: lanaguage=c++
+#distutils: language=c++
 cimport cython, numpy as np
 import numpy as np
 from cython.operator cimport dereference as deref

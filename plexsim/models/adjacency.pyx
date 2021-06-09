@@ -70,5 +70,9 @@ cdef class Adjacency:
    @property
    def adj(self):
        return dict(self._adj)
+
    def __repr__(self):
         return str(self._adj)
+
+   def __eq__(self, other):
+       return self.adj == other.adj

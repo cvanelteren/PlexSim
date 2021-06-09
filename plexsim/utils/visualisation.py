@@ -20,7 +20,7 @@ def turnoff_spines(ax):
 
 
 class GraphAnimation:
-    def __init__(self, graph: object, time_data: dict, n=1):
+    def __init__(self, graph: object, time_data: dict, n=1, cmap=None):
         self.graph = graph
 
         # lazy conversion
@@ -29,14 +29,18 @@ class GraphAnimation:
         self.time_data = time_data
 
         # loading colors
-        try:
-            import cmasher as cmr
+        self.colors = None
+        if cmap is None:
+            try:
+                import cmasher as cmr
 
-            self.colors = discrete_cmap(n, "cmr.pride")
-        except:
-            self.colors = discrete_cmap(n, "tab20c")
+                self.colors = discrete_cmap(n, "cmr.pride")
+            except:
+                self.colors = discrete_cmap(n, "tab20c")
+        else:
+            self.colors = discrete_cmap(n, cmap)
 
-        if len(time_data[0]["states"]) == 3:
+        if len(time_data[0]["states"]) >= 3:
             self.colors = None
 
     def setup(
@@ -48,6 +52,7 @@ class GraphAnimation:
         node_kwargs=dict(),
         edge_kwargs=dict(),
         labels=dict(),
+        use_timer=True,
     ):
         # check if axes is given
         if ax is None:
@@ -93,9 +98,17 @@ class GraphAnimation:
             self.add_rule_graph(rules, inx, self.colors)
 
         # add time indicator
-        self.text = ax.annotate(
-            "", (0, 1), va="bottom", ha="left", xycoords="axes fraction", fontsize=27
-        )
+        if use_timer:
+            self.text = ax.annotate(
+                "",
+                (0, 1),
+                va="bottom",
+                ha="left",
+                xycoords="axes fraction",
+                fontsize=27,
+            )
+        else:
+            self.timer = None
         turnoff_spines(ax)
         ax.grid(False)
 
@@ -155,7 +168,8 @@ class GraphAnimation:
             c = [self.colors(i) for i in c]
         self._nodes.set_color(c)
         # update time text
-        self.text.set_text(f"T={idx}")
+        if self.text is not None:
+            self.text.set_text(f"T={idx}")
 
         # update edges
         if edges:

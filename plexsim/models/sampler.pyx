@@ -54,6 +54,11 @@ cdef class RandomGenerator:
             if stop == 1:
                 break
         return
+    def __eq__(self, other):
+        if other.seed == self.seed:
+            return True
+        return False
+
 cdef class MCMC:
     """
     Random number generator class
@@ -68,15 +73,20 @@ cdef class MCMC:
                  double p_recomb = 1,\
                  ):
 
-        self.rng = rng
+        self._rng = rng
         self.p_recomb = p_recomb
+
+    @property
+    def rng(self):
+        return self._rng
+
 
     cdef void step(self, node_id_t[::1] nodeids,\
                    PyObject* ptr,\
                    ) nogil:
 
 
-        cdef double rng = self.rng._rand()
+        cdef double rng = self._rng._rand()
         if rng < self._p_recomb:
         # if self.rng._rand() < self._p_recomb:
             self.recombination(nodeids, \
@@ -102,13 +112,13 @@ cdef class MCMC:
             p_cur  = (<Model> ptr).probability(currentState, nodeids[idx])
             p = p_prop / p_cur
             # p = p_prop / (p_prop + p_cur)
-            if self.rng._rand() < p:
+            if self._rng._rand() < p:
                 (<Model> ptr)._newstates[nodeids[idx]] = proposalState
         return
 
     cdef state_t _sample_proposal(self, PyObject* ptr) nogil:
         return (<Model> ptr)._agentStates[ \
-                <size_t> (self.rng._rand() * (<Model> ptr)._nStates ) ]
+                <size_t> (self._rng._rand() * (<Model> ptr)._nStates ) ]
 
     cdef void recombination(self,\
                     node_id_t[::1] nodeids,\
@@ -147,7 +157,7 @@ cdef class MCMC:
               (<Model> ptr).probability(state1, jdx)
 
             # accept
-            if self.rng._rand() < nom / den:
+            if self._rng._rand() < nom / den:
                 (<Model> ptr)._newstates[idx] = state2
                 (<Model> ptr)._newstates[jdx] = state1
             else:
@@ -166,4 +176,9 @@ cdef class MCMC:
         self._p_recomb = value
         # print(f"recomb set to {value}")
 
-
+    def __eq__(self, other):
+        if self.rng != other.rng:
+            return False
+        if self.p_recomb != other.p_recomb:
+            return False
+        return True

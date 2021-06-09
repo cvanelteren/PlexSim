@@ -29,8 +29,7 @@
             "-fopenmp-simd",
             "-fopenmp",
             "-unused-variable",
-            "-Wno-unused",
-            "-D_GLIBCXX_USE_CXX11_ABI=0"
+            "-Wno-unused"
         ],
         "extra_link_args": [
             "-fopenmp",
@@ -42,7 +41,6 @@
             ".",
             "plexsim/include"
         ],
-        "lanaguage": "c++",
         "language": "c++",
         "libraries": [
             "stdc++"
@@ -1785,7 +1783,7 @@ struct __pyx_obj_7plexsim_6models_7sampler_MCMC {
   PyObject_HEAD
   struct __pyx_vtabstruct_7plexsim_6models_7sampler_MCMC *__pyx_vtab;
   double _p_recomb;
-  struct __pyx_obj_7plexsim_6models_7sampler_RandomGenerator *rng;
+  struct __pyx_obj_7plexsim_6models_7sampler_RandomGenerator *_rng;
   PyObject *__dict__;
 };
 
@@ -22480,7 +22478,7 @@ if (!__Pyx_RefNanny) {
   #endif
 
   /* "plexsim/models/logmap.pyx":3
- * #distutils: lanaguage=c++
+ * #distutils: language=c++
  * cimport cython, numpy as np
  * import numpy as np             # <<<<<<<<<<<<<<
  * from cython.operator cimport dereference as deref
@@ -22542,7 +22540,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "plexsim/models/logmap.pyx":1
- * #distutils: lanaguage=c++             # <<<<<<<<<<<<<<
+ * #distutils: language=c++             # <<<<<<<<<<<<<<
  * cimport cython, numpy as np
  * import numpy as np
  */

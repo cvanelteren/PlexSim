@@ -24,8 +24,7 @@
             "-fopenmp-simd",
             "-fopenmp",
             "-unused-variable",
-            "-Wno-unused",
-            "-D_GLIBCXX_USE_CXX11_ABI=0"
+            "-Wno-unused"
         ],
         "extra_link_args": [
             "-fopenmp",

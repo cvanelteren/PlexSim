@@ -29,8 +29,7 @@
             "-fopenmp-simd",
             "-fopenmp",
             "-unused-variable",
-            "-Wno-unused",
-            "-D_GLIBCXX_USE_CXX11_ABI=0"
+            "-Wno-unused"
         ],
         "extra_link_args": [
             "-fopenmp",
@@ -1900,7 +1899,7 @@ struct __pyx_obj_7plexsim_6models_7sampler_MCMC {
   PyObject_HEAD
   struct __pyx_vtabstruct_7plexsim_6models_7sampler_MCMC *__pyx_vtab;
   double _p_recomb;
-  struct __pyx_obj_7plexsim_6models_7sampler_RandomGenerator *rng;
+  struct __pyx_obj_7plexsim_6models_7sampler_RandomGenerator *_rng;
   PyObject *__dict__;
 };
 

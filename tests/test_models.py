@@ -83,11 +83,27 @@ class TestBaseModel(ut.TestCase):
         self.m.sampleSize = 1
         newModel = pickle.loads(pickle.dumps(self.m))
 
+        properties = {}
+        for prop in dir(self.m):
+            if not prop.startswith("_"):
+                v = getattr(self.m, prop)
+                properties[prop] = v
         import copy
 
         newModel = copy.deepcopy(self.m)
-        for prop in "updateType nudgeType sampleSize last_written kNudges".split():
-            self.assertEqual(getattr(newModel, prop), getattr(self.m, prop))
+
+        # for name, prop in properties.items():
+        #     prop_copy = getattr(newModel, name)
+        #     print(name, prop_copy, prop)
+        #     if hasattr(prop, "__iter__"):
+        #         for x, y in zip(prop_copy, prop):
+        #             self.assertEqual(x, y)
+        #     else:
+        #         print(type(prop))
+        #         self.assertEqual(prop_copy == prop, True)
+
+        # for prop in "updateType nudgeType sampleSize last_written kNudges".split():
+        #     self.assertEqual(getattr(newModel, prop), getattr(self.m, prop))
 
     def test_nudges(self):
         nudge = 1

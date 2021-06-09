@@ -12,12 +12,21 @@ cython.   *N.b.*   this    is   a   work   in   progress.    Docs   are   hosted
 
 * Installation
 - Clone the repo ~git clone git@github.com:cvanelteren/PlexSim.git && cd Plexsim~
-- Install the requirements `pip install --file requirements.txt`
+- Install the requirements ~pip install --file requirements.txt~
   
-Current  versions are  developed on  ~linux~. It  is known  that compiling  with
-cython on mac is  difficult due to the ~gcc~ compiler  being replaced with ~clang~
-on apple. This toolbox depends on ~openmp~ and this could cause problems on 
-MacOS. 
+Current  versions are  developed on  ~linux~.
+
+* Troubleshooting
+*** Mac
+It is  known that compiling  with cython  on mac is  difficult due to  the ~gcc~
+compiler being replaced with ~clang~ on  apple. This toolbox depends on ~openmp~
+and this could cause problems on MacOS.
+
+
+*** GCC versions
+The codebase  is tested and  developed on ~gcc  = 10.2.0~; higher  versions give
+symbol errors at the time of writing.
+
 * License
 PlexSim is released under the GNU-GPLv3 license
 

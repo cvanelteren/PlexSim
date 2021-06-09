@@ -16,7 +16,7 @@ flags = (
     f"{optFlag} -march=native -std=c++{cppv} -flto "
     "-frename-registers -funroll-loops -fno-wrapv "
     "-fopenmp-simd -fopenmp -unused-variable -Wno-unused "
-    "-D_GLIBCXX_USE_CXX11_ABI=0 "
+    # "-D_GLIBCXX_USE_CXX11_ABI=0 "
 )
 
 # collect pyx files

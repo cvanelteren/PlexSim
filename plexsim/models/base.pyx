@@ -692,6 +692,30 @@ cdef class Model:
         return 1.
 
 
+    def __eq__(self, other):
+        """
+        Simple comparison check
+        Check all the properties the model and
+        check whether they are the same
+        """
+        for name in dir(self):
+            prop = getattr(self, name)
+            oprop = getattr(other, name)
+
+            if not name.startswith("_") and callable(prop) == False:
+                if hasattr(prop, "__iter__"):
+                    for x, y in zip(prop, oprop):
+                        if x != y:
+                            print(x, y)
+                            return False
+                else:
+                    if prop != oprop:
+                        print(prop, oprop)
+                        return False
+
+        return True
+
+
 cdef class ModelMC(Model):
     def __init__(self, p_recomb = 1, *args, **kwargs):
         # init base model
