@@ -151,6 +151,7 @@ setup(
     author="Casper van Elteren",
     author_email="caspervanelteren@gmail.com",
     url="cvanelteren.githubio.io",
+    download_url="https://github.com/cvanelteren/PlexSim/archive/refs/tags/v2.5.tar.gz",
     version=version,
     zip_safe=False,
     # package_dir        = {"" : "plexsim"},

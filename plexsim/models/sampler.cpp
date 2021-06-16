@@ -1545,7 +1545,7 @@ static CYTHON_INLINE __pyx_t_double_complex __pyx_t_double_complex_from_parts(do
 /*--- Type declarations ---*/
 struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency;
 struct __pyx_obj_7plexsim_6models_5rules_Rules;
-struct __pyx_obj_7plexsim_6models_4base_Model;
+struct PyModel;
 struct __pyx_obj_7plexsim_6models_7sampler_RandomGenerator;
 struct __pyx_obj_7plexsim_6models_7sampler_MCMC;
 struct __pyx_array_obj;
@@ -1772,14 +1772,14 @@ struct __pyx_obj_7plexsim_6models_5rules_Rules {
 };
 
 
-/* "plexsim/models/base.pxd":11
+/* "plexsim/models/base.pxd":10
+ * cdef extern from "<algorithm>" namespace "std" nogil:
  *     void swap[T] (T &a, T &b)
- * # cdef public class Model [object PyModel, type PyModel_t]:
- * cdef class Model:             # <<<<<<<<<<<<<<
+ * cdef public class Model [object PyModel, type PyModel_t]:             # <<<<<<<<<<<<<<
+ * # cdef class Model:
  *     """
- *     Interface for the models and serves a top of the hierarchy in the
  */
-struct __pyx_obj_7plexsim_6models_4base_Model {
+struct PyModel {
   PyObject_HEAD
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtab;
   PyObject *ptr;
@@ -1807,6 +1807,7 @@ struct __pyx_obj_7plexsim_6models_4base_Model {
   PyObject *__dict__;
 };
 
+__PYX_EXTERN_C DL_EXPORT(PyTypeObject) PyModel_t;
 
 /* "plexsim/models/sampler.pxd":16
  *         T operator()(mt19937 gen) # ignore the possibility of using other classes for "gen"
@@ -1917,36 +1918,37 @@ struct __pyx_memoryviewslice_obj {
 };
 
 
+__PYX_EXTERN_C DL_EXPORT(PyTypeObject) PyModel_t;
 
-/* "plexsim/models/base.pxd":11
+/* "plexsim/models/base.pxd":10
+ * cdef extern from "<algorithm>" namespace "std" nogil:
  *     void swap[T] (T &a, T &b)
- * # cdef public class Model [object PyModel, type PyModel_t]:
- * cdef class Model:             # <<<<<<<<<<<<<<
+ * cdef public class Model [object PyModel, type PyModel_t]:             # <<<<<<<<<<<<<<
+ * # cdef class Model:
  *     """
- *     Interface for the models and serves a top of the hierarchy in the
  */
 
 struct __pyx_vtabstruct_7plexsim_6models_4base_Model {
-  __Pyx_memviewslice (*updateState)(struct __pyx_obj_7plexsim_6models_4base_Model *, __Pyx_memviewslice, int __pyx_skip_dispatch);
-  __Pyx_memviewslice (*_updateState)(struct __pyx_obj_7plexsim_6models_4base_Model *, __Pyx_memviewslice);
-  double (*rand)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
-  void (*_apply_nudge)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *);
-  void (*_remove_nudge)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *);
-  void (*_swap_buffers)(struct __pyx_obj_7plexsim_6models_4base_Model *);
-  void (*_step)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t);
-  void (*_hebbianUpdate)(struct __pyx_obj_7plexsim_6models_4base_Model *);
-  double (*_learningFunction)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t);
-  __Pyx_memviewslice (*_sampleNodes)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t);
-  __Pyx_memviewslice (*sampleNodes)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
-  PyArrayObject *(*simulate)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
-  PyArrayObject *(*simulate_mean)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
-  PyObject *(*spawn)(struct __pyx_obj_7plexsim_6models_4base_Model *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn *__pyx_optional_args);
-  __pyx_t_7plexsim_6models_5types_SpawnVec (*_spawn)(struct __pyx_obj_7plexsim_6models_4base_Model *, struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn *__pyx_optional_args);
-  void (*reset)(struct __pyx_obj_7plexsim_6models_4base_Model *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset *__pyx_optional_args);
-  std::vector<double>  (*_nudgeShift)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, std::vector<double> );
-  void (*_swap_memory)(struct __pyx_obj_7plexsim_6models_4base_Model *);
-  __pyx_t_7plexsim_6models_5types_state_t (*_sample_proposal)(struct __pyx_obj_7plexsim_6models_4base_Model *);
-  double (*probability)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_state_t, __pyx_t_7plexsim_6models_5types_node_id_t);
+  __Pyx_memviewslice (*updateState)(struct PyModel *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  __Pyx_memviewslice (*_updateState)(struct PyModel *, __Pyx_memviewslice);
+  double (*rand)(struct PyModel *, size_t, int __pyx_skip_dispatch);
+  void (*_apply_nudge)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *);
+  void (*_remove_nudge)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *);
+  void (*_swap_buffers)(struct PyModel *);
+  void (*_step)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t);
+  void (*_hebbianUpdate)(struct PyModel *);
+  double (*_learningFunction)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t);
+  __Pyx_memviewslice (*_sampleNodes)(struct PyModel *, size_t);
+  __Pyx_memviewslice (*sampleNodes)(struct PyModel *, size_t, int __pyx_skip_dispatch);
+  PyArrayObject *(*simulate)(struct PyModel *, size_t, int __pyx_skip_dispatch);
+  PyArrayObject *(*simulate_mean)(struct PyModel *, size_t, int __pyx_skip_dispatch);
+  PyObject *(*spawn)(struct PyModel *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn *__pyx_optional_args);
+  __pyx_t_7plexsim_6models_5types_SpawnVec (*_spawn)(struct PyModel *, struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn *__pyx_optional_args);
+  void (*reset)(struct PyModel *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset *__pyx_optional_args);
+  std::vector<double>  (*_nudgeShift)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t, std::vector<double> );
+  void (*_swap_memory)(struct PyModel *);
+  __pyx_t_7plexsim_6models_5types_state_t (*_sample_proposal)(struct PyModel *);
+  double (*probability)(struct PyModel *, __pyx_t_7plexsim_6models_5types_state_t, __pyx_t_7plexsim_6models_5types_node_id_t);
 };
 static struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtabptr_7plexsim_6models_4base_Model;
 
@@ -3770,6 +3772,7 @@ typedef struct {
   PyTypeObject *__pyx_ptype_7plexsim_6models_9adjacency_Adjacency;
   PyTypeObject *__pyx_ptype_7plexsim_6models_5rules_Rules;
   PyTypeObject *__pyx_ptype_7plexsim_6models_4base_Model;
+  PyObject *PyModel_t;
   PyTypeObject *__pyx_ptype_7plexsim_6models_7sampler_RandomGenerator;
   PyObject *__pyx_type_7plexsim_6models_7sampler_RandomGenerator;
   PyTypeObject *__pyx_ptype_7plexsim_6models_7sampler_MCMC;
@@ -4004,6 +4007,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_ptype_7plexsim_6models_9adjacency_Adjacency);
   Py_CLEAR(clear_module_state->__pyx_ptype_7plexsim_6models_5rules_Rules);
   Py_CLEAR(clear_module_state->__pyx_ptype_7plexsim_6models_4base_Model);
+  Py_CLEAR(clear_module_state->PyModel_t);
   Py_CLEAR(clear_module_state->__pyx_ptype_7plexsim_6models_7sampler_RandomGenerator);
   Py_CLEAR(clear_module_state->__pyx_type_7plexsim_6models_7sampler_RandomGenerator);
   Py_CLEAR(clear_module_state->__pyx_ptype_7plexsim_6models_7sampler_MCMC);
@@ -4225,6 +4229,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_ptype_7plexsim_6models_9adjacency_Adjacency);
   Py_VISIT(traverse_module_state->__pyx_ptype_7plexsim_6models_5rules_Rules);
   Py_VISIT(traverse_module_state->__pyx_ptype_7plexsim_6models_4base_Model);
+  Py_VISIT(traverse_module_state->PyModel_t);
   Py_VISIT(traverse_module_state->__pyx_ptype_7plexsim_6models_7sampler_RandomGenerator);
   Py_VISIT(traverse_module_state->__pyx_type_7plexsim_6models_7sampler_RandomGenerator);
   Py_VISIT(traverse_module_state->__pyx_ptype_7plexsim_6models_7sampler_MCMC);
@@ -4443,6 +4448,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_ptype_7plexsim_6models_9adjacency_Adjacency __pyx_mstate_global->__pyx_ptype_7plexsim_6models_9adjacency_Adjacency
 #define __pyx_ptype_7plexsim_6models_5rules_Rules __pyx_mstate_global->__pyx_ptype_7plexsim_6models_5rules_Rules
 #define __pyx_ptype_7plexsim_6models_4base_Model __pyx_mstate_global->__pyx_ptype_7plexsim_6models_4base_Model
+#define PyModel_t __pyx_mstate_global->PyModel_t
 #define __pyx_ptype_7plexsim_6models_7sampler_RandomGenerator __pyx_mstate_global->__pyx_ptype_7plexsim_6models_7sampler_RandomGenerator
 #define __pyx_type_7plexsim_6models_7sampler_RandomGenerator __pyx_mstate_global->__pyx_type_7plexsim_6models_7sampler_RandomGenerator
 #define __pyx_ptype_7plexsim_6models_7sampler_MCMC __pyx_mstate_global->__pyx_ptype_7plexsim_6models_7sampler_MCMC
@@ -5999,7 +6005,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plex
  */
     __pyx_t_4 = __pyx_v_idx;
     if (__pyx_t_4 < 0) __pyx_t_4 += __pyx_v_nodeids.shape[0];
-    __pyx_v_currentState = (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states[(*((__pyx_t_7plexsim_6models_5types_node_id_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_node_id_t *) __pyx_v_nodeids.data) + __pyx_t_4)) )))]);
+    __pyx_v_currentState = (((struct PyModel *)__pyx_v_ptr)->_states[(*((__pyx_t_7plexsim_6models_5types_node_id_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_node_id_t *) __pyx_v_nodeids.data) + __pyx_t_4)) )))]);
 
     /* "plexsim/models/sampler.pyx":108
  *         for idx in range(len(nodeids)):
@@ -6019,7 +6025,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plex
  */
     __pyx_t_4 = __pyx_v_idx;
     if (__pyx_t_4 < 0) __pyx_t_4 += __pyx_v_nodeids.shape[0];
-    __pyx_v_p_prop = ((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr), __pyx_v_proposalState, (*((__pyx_t_7plexsim_6models_5types_node_id_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_node_id_t *) __pyx_v_nodeids.data) + __pyx_t_4)) ))));
+    __pyx_v_p_prop = ((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct PyModel *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct PyModel *)__pyx_v_ptr), __pyx_v_proposalState, (*((__pyx_t_7plexsim_6models_5types_node_id_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_node_id_t *) __pyx_v_nodeids.data) + __pyx_t_4)) ))));
 
     /* "plexsim/models/sampler.pyx":112
  *             p_prop = (<Model> ptr).probability(proposalState, nodeids[idx])
@@ -6030,7 +6036,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plex
  */
     __pyx_t_4 = __pyx_v_idx;
     if (__pyx_t_4 < 0) __pyx_t_4 += __pyx_v_nodeids.shape[0];
-    __pyx_v_p_cur = ((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr), __pyx_v_currentState, (*((__pyx_t_7plexsim_6models_5types_node_id_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_node_id_t *) __pyx_v_nodeids.data) + __pyx_t_4)) ))));
+    __pyx_v_p_cur = ((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct PyModel *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct PyModel *)__pyx_v_ptr), __pyx_v_currentState, (*((__pyx_t_7plexsim_6models_5types_node_id_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_node_id_t *) __pyx_v_nodeids.data) + __pyx_t_4)) ))));
 
     /* "plexsim/models/sampler.pyx":113
  * 
@@ -6060,7 +6066,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plex
  */
       __pyx_t_4 = __pyx_v_idx;
       if (__pyx_t_4 < 0) __pyx_t_4 += __pyx_v_nodeids.shape[0];
-      (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates[(*((__pyx_t_7plexsim_6models_5types_node_id_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_node_id_t *) __pyx_v_nodeids.data) + __pyx_t_4)) )))]) = __pyx_v_proposalState;
+      (((struct PyModel *)__pyx_v_ptr)->_newstates[(*((__pyx_t_7plexsim_6models_5types_node_id_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_node_id_t *) __pyx_v_nodeids.data) + __pyx_t_4)) )))]) = __pyx_v_proposalState;
 
       /* "plexsim/models/sampler.pyx":115
  *             p = p_prop / p_cur
@@ -6112,8 +6118,8 @@ static __pyx_t_7plexsim_6models_5types_state_t __pyx_f_7plexsim_6models_7sampler
  *                 <size_t> (self._rng._rand() * (<Model> ptr)._nStates ) ]
  * 
  */
-  __pyx_t_1 = ((size_t)(((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->_rng->__pyx_vtab)->_rand(__pyx_v_self->_rng) * ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_nStates));
-  __pyx_r = (*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_agentStates.data) + __pyx_t_1)) )));
+  __pyx_t_1 = ((size_t)(((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->_rng->__pyx_vtab)->_rand(__pyx_v_self->_rng) * ((struct PyModel *)__pyx_v_ptr)->_nStates));
+  __pyx_r = (*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) ((struct PyModel *)__pyx_v_ptr)->_agentStates.data) + __pyx_t_1)) )));
   goto __pyx_L0;
 
   /* "plexsim/models/sampler.pyx":119
@@ -6189,7 +6195,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  *         cdef state_t[::1] modified = (<Model> ptr).__states
  *         with gil:
  */
-  __pyx_t_2 = ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_Model__states;
+  __pyx_t_2 = ((struct PyModel *)__pyx_v_ptr)->_Model__states;
   __PYX_INC_MEMVIEW(&__pyx_t_2, 0);
   __pyx_v_backup = __pyx_t_2;
   __pyx_t_2.memview = NULL;
@@ -6202,7 +6208,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  *         with gil:
  *             np.random.shuffle((<Model> ptr).__states)
  */
-  __pyx_t_2 = ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_Model__states;
+  __pyx_t_2 = ((struct PyModel *)__pyx_v_ptr)->_Model__states;
   __PYX_INC_MEMVIEW(&__pyx_t_2, 0);
   __pyx_v_modified = __pyx_t_2;
   __pyx_t_2.memview = NULL;
@@ -6236,7 +6242,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
         __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_shuffle); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 140, __pyx_L4_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = __pyx_memoryview_fromslice(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_Model__states, 1, (PyObject *(*)(char *)) __pyx_memview_get_nn___pyx_t_7plexsim_6models_5types_state_t, (int (*)(char *, PyObject *)) __pyx_memview_set_nn___pyx_t_7plexsim_6models_5types_state_t, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 140, __pyx_L4_error)
+        __pyx_t_5 = __pyx_memoryview_fromslice(((struct PyModel *)__pyx_v_ptr)->_Model__states, 1, (PyObject *(*)(char *)) __pyx_memview_get_nn___pyx_t_7plexsim_6models_5types_state_t, (int (*)(char *, PyObject *)) __pyx_memview_set_nn___pyx_t_7plexsim_6models_5types_state_t, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 140, __pyx_L4_error)
         __Pyx_GOTREF(__pyx_t_5);
         __pyx_t_6 = NULL;
         __pyx_t_7 = 0;
@@ -6327,7 +6333,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  */
     __pyx_t_12 = 0;
     if (__pyx_t_12 < 0) __pyx_t_12 += __pyx_v_modified.shape[0];
-    ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states = (&(*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) __pyx_v_modified.data) + __pyx_t_12)) ))));
+    ((struct PyModel *)__pyx_v_ptr)->_states = (&(*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) __pyx_v_modified.data) + __pyx_t_12)) ))));
 
     /* "plexsim/models/sampler.pyx":147
  * 
@@ -6336,7 +6342,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  *             state2 = (<Model> ptr)._states[jdx]
  * 
  */
-    __pyx_v_state1 = (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states[__pyx_v_idx]);
+    __pyx_v_state1 = (((struct PyModel *)__pyx_v_ptr)->_states[__pyx_v_idx]);
 
     /* "plexsim/models/sampler.pyx":148
  *             (<Model> ptr)._states = &modified[0]
@@ -6345,7 +6351,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  * 
  *             # normal state
  */
-    __pyx_v_state2 = (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states[__pyx_v_jdx]);
+    __pyx_v_state2 = (((struct PyModel *)__pyx_v_ptr)->_states[__pyx_v_jdx]);
 
     /* "plexsim/models/sampler.pyx":151
  * 
@@ -6354,7 +6360,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  *               (<Model> ptr).probability(state2, jdx)
  * 
  */
-    __pyx_v_den = (((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr), __pyx_v_state1, __pyx_v_idx) * ((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr), __pyx_v_state2, __pyx_v_jdx));
+    __pyx_v_den = (((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct PyModel *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct PyModel *)__pyx_v_ptr), __pyx_v_state1, __pyx_v_idx) * ((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct PyModel *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct PyModel *)__pyx_v_ptr), __pyx_v_state2, __pyx_v_jdx));
 
     /* "plexsim/models/sampler.pyx":154
  *               (<Model> ptr).probability(state2, jdx)
@@ -6365,7 +6371,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  */
     __pyx_t_12 = 0;
     if (__pyx_t_12 < 0) __pyx_t_12 += __pyx_v_backup.shape[0];
-    ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states = (&(*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) __pyx_v_backup.data) + __pyx_t_12)) ))));
+    ((struct PyModel *)__pyx_v_ptr)->_states = (&(*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) __pyx_v_backup.data) + __pyx_t_12)) ))));
 
     /* "plexsim/models/sampler.pyx":156
  *             (<Model> ptr)._states = &backup[0]
@@ -6374,7 +6380,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  *               (<Model> ptr).probability(state1, jdx)
  * 
  */
-    __pyx_v_nom = (((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr), __pyx_v_state2, __pyx_v_idx) * ((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr), __pyx_v_state1, __pyx_v_jdx));
+    __pyx_v_nom = (((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct PyModel *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct PyModel *)__pyx_v_ptr), __pyx_v_state2, __pyx_v_idx) * ((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct PyModel *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct PyModel *)__pyx_v_ptr), __pyx_v_state1, __pyx_v_jdx));
 
     /* "plexsim/models/sampler.pyx":160
  * 
@@ -6393,7 +6399,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  *                 (<Model> ptr)._newstates[jdx] = state1
  *             else:
  */
-      (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates[__pyx_v_idx]) = __pyx_v_state2;
+      (((struct PyModel *)__pyx_v_ptr)->_newstates[__pyx_v_idx]) = __pyx_v_state2;
 
       /* "plexsim/models/sampler.pyx":162
  *             if self._rng._rand() < nom / den:
@@ -6402,7 +6408,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  *             else:
  *                 (<Model> ptr)._newstates[idx] = backup[idx]
  */
-      (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates[__pyx_v_jdx]) = __pyx_v_state1;
+      (((struct PyModel *)__pyx_v_ptr)->_newstates[__pyx_v_jdx]) = __pyx_v_state1;
 
       /* "plexsim/models/sampler.pyx":160
  * 
@@ -6423,7 +6429,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  */
     /*else*/ {
       __pyx_t_11 = __pyx_v_idx;
-      (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates[__pyx_v_idx]) = (*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) __pyx_v_backup.data) + __pyx_t_11)) )));
+      (((struct PyModel *)__pyx_v_ptr)->_newstates[__pyx_v_idx]) = (*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) __pyx_v_backup.data) + __pyx_t_11)) )));
 
       /* "plexsim/models/sampler.pyx":165
  *             else:
@@ -6433,7 +6439,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  * 
  */
       __pyx_t_11 = __pyx_v_jdx;
-      (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates[__pyx_v_jdx]) = (*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) __pyx_v_backup.data) + __pyx_t_11)) )));
+      (((struct PyModel *)__pyx_v_ptr)->_newstates[__pyx_v_jdx]) = (*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) __pyx_v_backup.data) + __pyx_t_11)) )));
     }
     __pyx_L8:;
   }
@@ -24790,11 +24796,11 @@ static int __Pyx_modinit_type_import_code(void) {
   __pyx_ptype_7plexsim_6models_5rules_Rules = __Pyx_ImportType(__pyx_t_1, "plexsim.models.rules", "Rules", sizeof(struct __pyx_obj_7plexsim_6models_5rules_Rules), __Pyx_ImportType_CheckSize_Warn);
    if (!__pyx_ptype_7plexsim_6models_5rules_Rules) __PYX_ERR(8, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("plexsim.models.base"); if (unlikely(!__pyx_t_1)) __PYX_ERR(9, 11, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("plexsim.models.base"); if (unlikely(!__pyx_t_1)) __PYX_ERR(9, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_ptype_7plexsim_6models_4base_Model = __Pyx_ImportType(__pyx_t_1, "plexsim.models.base", "Model", sizeof(struct __pyx_obj_7plexsim_6models_4base_Model), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_7plexsim_6models_4base_Model) __PYX_ERR(9, 11, __pyx_L1_error)
-  __pyx_vtabptr_7plexsim_6models_4base_Model = (struct __pyx_vtabstruct_7plexsim_6models_4base_Model*)__Pyx_GetVtable(__pyx_ptype_7plexsim_6models_4base_Model); if (unlikely(!__pyx_vtabptr_7plexsim_6models_4base_Model)) __PYX_ERR(9, 11, __pyx_L1_error)
+  __pyx_ptype_7plexsim_6models_4base_Model = __Pyx_ImportType(__pyx_t_1, "plexsim.models.base", "Model", sizeof(struct PyModel), __Pyx_ImportType_CheckSize_Warn);
+   if (!__pyx_ptype_7plexsim_6models_4base_Model) __PYX_ERR(9, 10, __pyx_L1_error)
+  __pyx_vtabptr_7plexsim_6models_4base_Model = (struct __pyx_vtabstruct_7plexsim_6models_4base_Model*)__Pyx_GetVtable(__pyx_ptype_7plexsim_6models_4base_Model); if (unlikely(!__pyx_vtabptr_7plexsim_6models_4base_Model)) __PYX_ERR(9, 10, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;
