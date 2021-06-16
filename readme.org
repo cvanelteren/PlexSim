@@ -4,11 +4,7 @@ Welcome to Plexsim.
 Fast and general  toolbox for simulation of complex adaptive  systems written in
 cython. It provides:
 
-- Fast general modeling framework for many classical dynamics including
-  - Ising model and generalizations (e.g. q-state Potts)
-  - SIR(S) graph based models
-  - Boids model
-  - Bonabeau model
+- Fast general modeling framework for many classical dynamics (see docs)
 - Readable
   - Coding  for  humans.  Leverages  cython  readability  and  allows  for  free
     development in python
