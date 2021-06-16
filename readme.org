@@ -8,14 +8,16 @@ cython. *N.b.*   this    is   a   work   in   progress.    Docs   are   hosted
 
 
 * Features
-- Graph  based computation:  simulate  traditional models,  e.g. SIR(S),  Ising,
-  Potts, Borndholdt on any type of graph
-- Dynamic  encoding: complex  systems  are complex  adaptive  systems. Both  the
-  dynamics as well as the graph can vary over time.
-- Fast: simulate many agents/elements
-- Readable: written  in cython in  yields readability.
-- Quick development: test classes can be  written in python and slowly converted
-  to fast optimized cython code.
+** Graph  based computation
+Simulate traditional models, e.g. SIR(S), Ising, Potts, Borndholdt on any type of graph
+** Dynamic  encoding
+Complex systems are complex adaptive systems. Both the dynamics as well as the graph can vary over time.
+** Fast
+Simulate many agents/elements.
+** Readable
+Written  in cython in  yields readability.
+** Quick development
+Test classes can be written in python and slowly converted to fast optimized cython code.
 
 
 
