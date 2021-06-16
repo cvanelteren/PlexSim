@@ -2,22 +2,31 @@
 Welcome to Plexsim.
 
 Fast and general  toolbox for simulation of complex adaptive  systems written in
-cython. *N.b.*   this    is   a   work   in   progress.    Docs   are   hosted
+cython. It provides:
+
+- Fast general modeling framework for many classical dynamics including
+  - Ising model and generalizations (e.g. q-state Potts)
+  - SIR(S) graph based models
+  - Boids model
+  - Bonabeau model
+- Readable
+  - Coding  for  humans.  Leverages  cython  readability  and  allows  for  free
+    development in python
+- Extensability
+  - Extensions can be written in python or cython directly
+- Quick development time
+  + quickly implement an idea in python and slowly convert the problem to cython (compiled-based)
+- Graph-based
+  - Simulate your favorite dynamics on any networks structure
+- Graph-free
+  + For  spatio-temporal models  the  framework  allows for  using  agent-based
+   simulation free of static structures
+
+
+*N.b.*   this    is   a   work   in   progress.    Docs   are   hosted
 [[https://cvanelteren.github.io/PlexSim/][here]],      please       see      the
 [[https://cvanelteren.github.io/PlexSim/build/html/quickstart.html][quickstart]] in the docs.
 
-
-* Features
-** Graph  based computation
-Simulate traditional models, e.g. SIR(S), Ising, Potts, Borndholdt on any type of graph.
-** Dynamic  encoding
-Complex systems are complex adaptive systems. Both the dynamics as well as the graph can vary over time.
-** Fast
-Simulate many agents/elements.
-** Readable
-Written  in cython in  yields readability.
-** Quick development
-Test classes can be written in python and slowly converted to fast optimized cython code.
 
 
 
