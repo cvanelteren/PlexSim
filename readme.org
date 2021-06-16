@@ -21,7 +21,7 @@ Test classes can be written in python and slowly converted to fast optimized cyt
 
 
 
-
+* Showcase
 #+attr_html: :alt  :align center :class img
 [[file:./docs/figures/new_banner.gif]]
 Example systems. Each subplot contains a lattice graph (64x64 = 4096 nodes) simulated for different dynamics. See the docs page the available models.
