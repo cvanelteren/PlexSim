@@ -26,8 +26,8 @@ cdef extern from "math.h":
     float INFINITY
 
 
-cdef public class Model [object PyModel, type PyModel_t]:
-# cdef class Model:
+# cdef public class Model [object PyModel, type PyModel_t]:
+cdef class Model:
     """
     Base type for all models. This should hold all the minimial required information for building a model.
     Should not be instantiated directly

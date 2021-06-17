@@ -19,6 +19,7 @@ from plexsim.models.logmap import Logmap
 # Elementary celullary automata
 from plexsim.models.rbn import RBN
 from plexsim.models.cca import CCA
+from plexsim.models.game_of_life import Conway
 
 # Percolation
 from plexsim.models.percolation import Percolation

@@ -1544,7 +1544,7 @@ struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency;
 struct __pyx_obj_7plexsim_6models_7sampler_RandomGenerator;
 struct __pyx_obj_7plexsim_6models_7sampler_MCMC;
 struct __pyx_obj_7plexsim_6models_5rules_Rules;
-struct PyModel;
+struct __pyx_obj_7plexsim_6models_4base_Model;
 struct __pyx_obj_7plexsim_6models_11percolation_Percolation;
 struct __pyx_array_obj;
 struct __pyx_MemviewEnum_obj;
@@ -1802,14 +1802,14 @@ struct __pyx_obj_7plexsim_6models_5rules_Rules {
 };
 
 
-/* "plexsim/models/base.pxd":10
- * cdef extern from "<algorithm>" namespace "std" nogil:
+/* "plexsim/models/base.pxd":11
  *     void swap[T] (T &a, T &b)
- * cdef public class Model [object PyModel, type PyModel_t]:             # <<<<<<<<<<<<<<
- * # cdef class Model:
+ * # cdef public class Model [object PyModel, type PyModel_t]:
+ * cdef class Model:             # <<<<<<<<<<<<<<
  *     """
+ *     Interface for the models and serves a top of the hierarchy in the
  */
-struct PyModel {
+struct __pyx_obj_7plexsim_6models_4base_Model {
   PyObject_HEAD
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtab;
   PyObject *ptr;
@@ -1837,7 +1837,6 @@ struct PyModel {
   PyObject *__dict__;
 };
 
-__PYX_EXTERN_C DL_EXPORT(PyTypeObject) PyModel_t;
 
 /* "plexsim/models/percolation.pxd":4
  * from plexsim.models.base cimport *
@@ -1847,7 +1846,7 @@ __PYX_EXTERN_C DL_EXPORT(PyTypeObject) PyModel_t;
  *         double _p
  */
 struct __pyx_obj_7plexsim_6models_11percolation_Percolation {
-  struct PyModel __pyx_base;
+  struct __pyx_obj_7plexsim_6models_4base_Model __pyx_base;
   double _p;
 };
 
@@ -1962,37 +1961,36 @@ struct __pyx_vtabstruct_7plexsim_6models_7sampler_MCMC {
 };
 static struct __pyx_vtabstruct_7plexsim_6models_7sampler_MCMC *__pyx_vtabptr_7plexsim_6models_7sampler_MCMC;
 
-__PYX_EXTERN_C DL_EXPORT(PyTypeObject) PyModel_t;
 
-/* "plexsim/models/base.pxd":10
- * cdef extern from "<algorithm>" namespace "std" nogil:
+/* "plexsim/models/base.pxd":11
  *     void swap[T] (T &a, T &b)
- * cdef public class Model [object PyModel, type PyModel_t]:             # <<<<<<<<<<<<<<
- * # cdef class Model:
+ * # cdef public class Model [object PyModel, type PyModel_t]:
+ * cdef class Model:             # <<<<<<<<<<<<<<
  *     """
+ *     Interface for the models and serves a top of the hierarchy in the
  */
 
 struct __pyx_vtabstruct_7plexsim_6models_4base_Model {
-  __Pyx_memviewslice (*updateState)(struct PyModel *, __Pyx_memviewslice, int __pyx_skip_dispatch);
-  __Pyx_memviewslice (*_updateState)(struct PyModel *, __Pyx_memviewslice);
-  double (*rand)(struct PyModel *, size_t, int __pyx_skip_dispatch);
-  void (*_apply_nudge)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *);
-  void (*_remove_nudge)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *);
-  void (*_swap_buffers)(struct PyModel *);
-  void (*_step)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t);
-  void (*_hebbianUpdate)(struct PyModel *);
-  double (*_learningFunction)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t);
-  __Pyx_memviewslice (*_sampleNodes)(struct PyModel *, size_t);
-  __Pyx_memviewslice (*sampleNodes)(struct PyModel *, size_t, int __pyx_skip_dispatch);
-  PyArrayObject *(*simulate)(struct PyModel *, size_t, int __pyx_skip_dispatch);
-  PyArrayObject *(*simulate_mean)(struct PyModel *, size_t, int __pyx_skip_dispatch);
-  PyObject *(*spawn)(struct PyModel *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn *__pyx_optional_args);
-  __pyx_t_7plexsim_6models_5types_SpawnVec (*_spawn)(struct PyModel *, struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn *__pyx_optional_args);
-  void (*reset)(struct PyModel *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset *__pyx_optional_args);
-  std::vector<double>  (*_nudgeShift)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t, std::vector<double> );
-  void (*_swap_memory)(struct PyModel *);
-  __pyx_t_7plexsim_6models_5types_state_t (*_sample_proposal)(struct PyModel *);
-  double (*probability)(struct PyModel *, __pyx_t_7plexsim_6models_5types_state_t, __pyx_t_7plexsim_6models_5types_node_id_t);
+  __Pyx_memviewslice (*updateState)(struct __pyx_obj_7plexsim_6models_4base_Model *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  __Pyx_memviewslice (*_updateState)(struct __pyx_obj_7plexsim_6models_4base_Model *, __Pyx_memviewslice);
+  double (*rand)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
+  void (*_apply_nudge)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *);
+  void (*_remove_nudge)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *);
+  void (*_swap_buffers)(struct __pyx_obj_7plexsim_6models_4base_Model *);
+  void (*_step)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t);
+  void (*_hebbianUpdate)(struct __pyx_obj_7plexsim_6models_4base_Model *);
+  double (*_learningFunction)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t);
+  __Pyx_memviewslice (*_sampleNodes)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t);
+  __Pyx_memviewslice (*sampleNodes)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
+  PyArrayObject *(*simulate)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
+  PyArrayObject *(*simulate_mean)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
+  PyObject *(*spawn)(struct __pyx_obj_7plexsim_6models_4base_Model *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn *__pyx_optional_args);
+  __pyx_t_7plexsim_6models_5types_SpawnVec (*_spawn)(struct __pyx_obj_7plexsim_6models_4base_Model *, struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn *__pyx_optional_args);
+  void (*reset)(struct __pyx_obj_7plexsim_6models_4base_Model *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset *__pyx_optional_args);
+  std::vector<double>  (*_nudgeShift)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, std::vector<double> );
+  void (*_swap_memory)(struct __pyx_obj_7plexsim_6models_4base_Model *);
+  __pyx_t_7plexsim_6models_5types_state_t (*_sample_proposal)(struct __pyx_obj_7plexsim_6models_4base_Model *);
+  double (*probability)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_state_t, __pyx_t_7plexsim_6models_5types_node_id_t);
 };
 static struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtabptr_7plexsim_6models_4base_Model;
 
@@ -3681,7 +3679,6 @@ typedef struct {
   PyTypeObject *__pyx_ptype_7plexsim_6models_7sampler_MCMC;
   PyTypeObject *__pyx_ptype_7plexsim_6models_5rules_Rules;
   PyTypeObject *__pyx_ptype_7plexsim_6models_4base_Model;
-  PyObject *PyModel_t;
   PyTypeObject *__pyx_ptype_7plexsim_6models_11percolation_Percolation;
   PyObject *__pyx_type_7plexsim_6models_11percolation_Percolation;
   PyTypeObject *__pyx_array_type;
@@ -3897,7 +3894,6 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_ptype_7plexsim_6models_7sampler_MCMC);
   Py_CLEAR(clear_module_state->__pyx_ptype_7plexsim_6models_5rules_Rules);
   Py_CLEAR(clear_module_state->__pyx_ptype_7plexsim_6models_4base_Model);
-  Py_CLEAR(clear_module_state->PyModel_t);
   Py_CLEAR(clear_module_state->__pyx_ptype_7plexsim_6models_11percolation_Percolation);
   Py_CLEAR(clear_module_state->__pyx_type_7plexsim_6models_11percolation_Percolation);
   Py_CLEAR(clear_module_state->__pyx_array_type);
@@ -4100,7 +4096,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_ptype_7plexsim_6models_7sampler_MCMC);
   Py_VISIT(traverse_module_state->__pyx_ptype_7plexsim_6models_5rules_Rules);
   Py_VISIT(traverse_module_state->__pyx_ptype_7plexsim_6models_4base_Model);
-  Py_VISIT(traverse_module_state->PyModel_t);
   Py_VISIT(traverse_module_state->__pyx_ptype_7plexsim_6models_11percolation_Percolation);
   Py_VISIT(traverse_module_state->__pyx_type_7plexsim_6models_11percolation_Percolation);
   Py_VISIT(traverse_module_state->__pyx_array_type);
@@ -4300,7 +4295,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_ptype_7plexsim_6models_7sampler_MCMC __pyx_mstate_global->__pyx_ptype_7plexsim_6models_7sampler_MCMC
 #define __pyx_ptype_7plexsim_6models_5rules_Rules __pyx_mstate_global->__pyx_ptype_7plexsim_6models_5rules_Rules
 #define __pyx_ptype_7plexsim_6models_4base_Model __pyx_mstate_global->__pyx_ptype_7plexsim_6models_4base_Model
-#define PyModel_t __pyx_mstate_global->PyModel_t
 #define __pyx_ptype_7plexsim_6models_11percolation_Percolation __pyx_mstate_global->__pyx_ptype_7plexsim_6models_11percolation_Percolation
 #define __pyx_type_7plexsim_6models_11percolation_Percolation __pyx_mstate_global->__pyx_type_7plexsim_6models_11percolation_Percolation
 #define __pyx_array_type __pyx_mstate_global->__pyx_array_type
@@ -21705,19 +21699,19 @@ static int __Pyx_modinit_type_init_code(void) {
   /*--- Type init code ---*/
   __pyx_t_1 = PyImport_ImportModule("plexsim.models.base"); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_ptype_7plexsim_6models_4base_Model = __Pyx_ImportType(__pyx_t_1, "plexsim.models.base", "Model", sizeof(struct PyModel), __Pyx_ImportType_CheckSize_Warn);
+  __pyx_ptype_7plexsim_6models_4base_Model = __Pyx_ImportType(__pyx_t_1, "plexsim.models.base", "Model", sizeof(struct __pyx_obj_7plexsim_6models_4base_Model), __Pyx_ImportType_CheckSize_Warn);
    if (!__pyx_ptype_7plexsim_6models_4base_Model) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_vtabptr_7plexsim_6models_4base_Model = (struct __pyx_vtabstruct_7plexsim_6models_4base_Model*)__Pyx_GetVtable(__pyx_ptype_7plexsim_6models_4base_Model); if (unlikely(!__pyx_vtabptr_7plexsim_6models_4base_Model)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_vtabptr_7plexsim_6models_11percolation_Percolation = &__pyx_vtable_7plexsim_6models_11percolation_Percolation;
   __pyx_vtable_7plexsim_6models_11percolation_Percolation.__pyx_base = *__pyx_vtabptr_7plexsim_6models_4base_Model;
-  __pyx_vtable_7plexsim_6models_11percolation_Percolation.__pyx_base._step = (void (*)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t))__pyx_f_7plexsim_6models_11percolation_11Percolation__step;
+  __pyx_vtable_7plexsim_6models_11percolation_Percolation.__pyx_base._step = (void (*)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t))__pyx_f_7plexsim_6models_11percolation_11Percolation__step;
   #if CYTHON_COMPILING_IN_LIMITED_API
   __pyx_t_2 = PyTuple_Pack(1, (PyObject *)__pyx_ptype_7plexsim_6models_4base_Model); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_type_7plexsim_6models_11percolation_Percolation = PyType_FromSpecWithBases(&__pyx_type_7plexsim_6models_11percolation_Percolation_spec, __pyx_t_2); if (unlikely(!__pyx_type_7plexsim_6models_11percolation_Percolation)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
   #else
-  __pyx_type_7plexsim_6models_11percolation_Percolation.tp_dealloc = PyModel_t.tp_dealloc;
+  __pyx_type_7plexsim_6models_11percolation_Percolation.tp_dealloc = __pyx_ptype_7plexsim_6models_4base_Model->tp_dealloc;
   __pyx_type_7plexsim_6models_11percolation_Percolation.tp_base = __pyx_ptype_7plexsim_6models_4base_Model;
   if (__Pyx_PyType_Ready(&__pyx_type_7plexsim_6models_11percolation_Percolation) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   #if PY_MAJOR_VERSION < 3

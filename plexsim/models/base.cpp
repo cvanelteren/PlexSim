@@ -1549,7 +1549,7 @@ struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency;
 struct __pyx_obj_7plexsim_6models_7sampler_RandomGenerator;
 struct __pyx_obj_7plexsim_6models_7sampler_MCMC;
 struct __pyx_obj_7plexsim_6models_5rules_Rules;
-struct PyModel;
+struct __pyx_obj_7plexsim_6models_4base_Model;
 struct __pyx_obj_7plexsim_6models_4base_ModelMC;
 struct __pyx_array_obj;
 struct __pyx_MemviewEnum_obj;
@@ -1807,14 +1807,14 @@ struct __pyx_obj_7plexsim_6models_5rules_Rules {
 };
 
 
-/* "plexsim/models/base.pxd":10
- * cdef extern from "<algorithm>" namespace "std" nogil:
+/* "plexsim/models/base.pxd":11
  *     void swap[T] (T &a, T &b)
- * cdef public class Model [object PyModel, type PyModel_t]:             # <<<<<<<<<<<<<<
- * # cdef class Model:
+ * # cdef public class Model [object PyModel, type PyModel_t]:
+ * cdef class Model:             # <<<<<<<<<<<<<<
  *     """
+ *     Interface for the models and serves a top of the hierarchy in the
  */
-struct PyModel {
+struct __pyx_obj_7plexsim_6models_4base_Model {
   PyObject_HEAD
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtab;
   PyObject *ptr;
@@ -1842,7 +1842,6 @@ struct PyModel {
   PyObject *__dict__;
 };
 
-__PYX_EXTERN_C DL_EXPORT(PyTypeObject) PyModel_t;
 
 /* "plexsim/models/base.pyx":722
  * 
@@ -1852,7 +1851,7 @@ __PYX_EXTERN_C DL_EXPORT(PyTypeObject) PyModel_t;
  *         # init base model
  */
 struct __pyx_obj_7plexsim_6models_4base_ModelMC {
-  struct PyModel __pyx_base;
+  struct __pyx_obj_7plexsim_6models_4base_Model __pyx_base;
 };
 
 
@@ -1966,37 +1965,36 @@ struct __pyx_vtabstruct_7plexsim_6models_7sampler_MCMC {
 };
 static struct __pyx_vtabstruct_7plexsim_6models_7sampler_MCMC *__pyx_vtabptr_7plexsim_6models_7sampler_MCMC;
 
-__PYX_EXTERN_C DL_EXPORT(PyTypeObject) PyModel_t;
 
-/* "plexsim/models/base.pyx":29
+/* "plexsim/models/base.pyx":30
  * 
- * 
- * cdef public class Model [object PyModel, type PyModel_t]:             # <<<<<<<<<<<<<<
- * # cdef class Model:
+ * # cdef public class Model [object PyModel, type PyModel_t]:
+ * cdef class Model:             # <<<<<<<<<<<<<<
  *     """
+ *     Base type for all models. This should hold all the minimial required information for building a model.
  */
 
 struct __pyx_vtabstruct_7plexsim_6models_4base_Model {
-  __Pyx_memviewslice (*updateState)(struct PyModel *, __Pyx_memviewslice, int __pyx_skip_dispatch);
-  __Pyx_memviewslice (*_updateState)(struct PyModel *, __Pyx_memviewslice);
-  double (*rand)(struct PyModel *, size_t, int __pyx_skip_dispatch);
-  void (*_apply_nudge)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *);
-  void (*_remove_nudge)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *);
-  void (*_swap_buffers)(struct PyModel *);
-  void (*_step)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t);
-  void (*_hebbianUpdate)(struct PyModel *);
-  double (*_learningFunction)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t);
-  __Pyx_memviewslice (*_sampleNodes)(struct PyModel *, size_t);
-  __Pyx_memviewslice (*sampleNodes)(struct PyModel *, size_t, int __pyx_skip_dispatch);
-  PyArrayObject *(*simulate)(struct PyModel *, size_t, int __pyx_skip_dispatch);
-  PyArrayObject *(*simulate_mean)(struct PyModel *, size_t, int __pyx_skip_dispatch);
-  PyObject *(*spawn)(struct PyModel *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn *__pyx_optional_args);
-  __pyx_t_7plexsim_6models_5types_SpawnVec (*_spawn)(struct PyModel *, struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn *__pyx_optional_args);
-  void (*reset)(struct PyModel *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset *__pyx_optional_args);
-  std::vector<double>  (*_nudgeShift)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t, std::vector<double> );
-  void (*_swap_memory)(struct PyModel *);
-  __pyx_t_7plexsim_6models_5types_state_t (*_sample_proposal)(struct PyModel *);
-  double (*probability)(struct PyModel *, __pyx_t_7plexsim_6models_5types_state_t, __pyx_t_7plexsim_6models_5types_node_id_t);
+  __Pyx_memviewslice (*updateState)(struct __pyx_obj_7plexsim_6models_4base_Model *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  __Pyx_memviewslice (*_updateState)(struct __pyx_obj_7plexsim_6models_4base_Model *, __Pyx_memviewslice);
+  double (*rand)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
+  void (*_apply_nudge)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *);
+  void (*_remove_nudge)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *);
+  void (*_swap_buffers)(struct __pyx_obj_7plexsim_6models_4base_Model *);
+  void (*_step)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t);
+  void (*_hebbianUpdate)(struct __pyx_obj_7plexsim_6models_4base_Model *);
+  double (*_learningFunction)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t);
+  __Pyx_memviewslice (*_sampleNodes)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t);
+  __Pyx_memviewslice (*sampleNodes)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
+  PyArrayObject *(*simulate)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
+  PyArrayObject *(*simulate_mean)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
+  PyObject *(*spawn)(struct __pyx_obj_7plexsim_6models_4base_Model *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn *__pyx_optional_args);
+  __pyx_t_7plexsim_6models_5types_SpawnVec (*_spawn)(struct __pyx_obj_7plexsim_6models_4base_Model *, struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn *__pyx_optional_args);
+  void (*reset)(struct __pyx_obj_7plexsim_6models_4base_Model *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset *__pyx_optional_args);
+  std::vector<double>  (*_nudgeShift)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, std::vector<double> );
+  void (*_swap_memory)(struct __pyx_obj_7plexsim_6models_4base_Model *);
+  __pyx_t_7plexsim_6models_5types_state_t (*_sample_proposal)(struct __pyx_obj_7plexsim_6models_4base_Model *);
+  double (*probability)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_state_t, __pyx_t_7plexsim_6models_5types_node_id_t);
 };
 static struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtabptr_7plexsim_6models_4base_Model;
 
@@ -3144,26 +3142,26 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 #endif
 
 /* #### Code section: module_declarations ### */
-static double __pyx_f_7plexsim_6models_4base_5Model_rand(struct PyModel *__pyx_v_self, size_t __pyx_v_n, int __pyx_skip_dispatch); /* proto*/
-static __Pyx_memviewslice __pyx_f_7plexsim_6models_4base_5Model__updateState(struct PyModel *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate); /* proto*/
-static void __pyx_f_7plexsim_6models_4base_5Model__apply_nudge(struct PyModel *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_NudgesBackup *__pyx_v_backup); /* proto*/
-static void __pyx_f_7plexsim_6models_4base_5Model__remove_nudge(struct PyModel *__pyx_v_self, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node, __pyx_t_7plexsim_6models_5types_NudgesBackup *__pyx_v_backup); /* proto*/
-static std::vector<double>  __pyx_f_7plexsim_6models_4base_5Model__nudgeShift(struct PyModel *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node, std::vector<double>  __pyx_v_p); /* proto*/
-static void __pyx_f_7plexsim_6models_4base_5Model__swap_memory(struct PyModel *__pyx_v_self); /* proto*/
-static void __pyx_f_7plexsim_6models_4base_5Model__swap_buffers(struct PyModel *__pyx_v_self); /* proto*/
-static __Pyx_memviewslice __pyx_f_7plexsim_6models_4base_5Model_updateState(struct PyModel *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate, int __pyx_skip_dispatch); /* proto*/
-static void __pyx_f_7plexsim_6models_4base_5Model__step(CYTHON_UNUSED struct PyModel *__pyx_v_self, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node); /* proto*/
-static __Pyx_memviewslice __pyx_f_7plexsim_6models_4base_5Model_sampleNodes(struct PyModel *__pyx_v_self, size_t __pyx_v_nSamples, int __pyx_skip_dispatch); /* proto*/
-static __Pyx_memviewslice __pyx_f_7plexsim_6models_4base_5Model__sampleNodes(struct PyModel *__pyx_v_self, size_t __pyx_v_nSamples); /* proto*/
-static void __pyx_f_7plexsim_6models_4base_5Model_reset(struct PyModel *__pyx_v_self, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset *__pyx_optional_args); /* proto*/
-static PyArrayObject *__pyx_f_7plexsim_6models_4base_5Model_simulate(struct PyModel *__pyx_v_self, size_t __pyx_v_samples, int __pyx_skip_dispatch); /* proto*/
-static PyArrayObject *__pyx_f_7plexsim_6models_4base_5Model_simulate_mean(struct PyModel *__pyx_v_self, size_t __pyx_v_samples, int __pyx_skip_dispatch); /* proto*/
-static void __pyx_f_7plexsim_6models_4base_5Model__hebbianUpdate(CYTHON_UNUSED struct PyModel *__pyx_v_self); /* proto*/
-static double __pyx_f_7plexsim_6models_4base_5Model__learningFunction(CYTHON_UNUSED struct PyModel *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_xi, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_xj); /* proto*/
-static __pyx_t_7plexsim_6models_5types_state_t __pyx_f_7plexsim_6models_4base_5Model__sample_proposal(struct PyModel *__pyx_v_self); /* proto*/
-static PyObject *__pyx_f_7plexsim_6models_4base_5Model_spawn(struct PyModel *__pyx_v_self, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn *__pyx_optional_args); /* proto*/
-static __pyx_t_7plexsim_6models_5types_SpawnVec __pyx_f_7plexsim_6models_4base_5Model__spawn(struct PyModel *__pyx_v_self, struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn *__pyx_optional_args); /* proto*/
-static double __pyx_f_7plexsim_6models_4base_5Model_probability(CYTHON_UNUSED struct PyModel *__pyx_v_self, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_state_t __pyx_v_state, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node); /* proto*/
+static double __pyx_f_7plexsim_6models_4base_5Model_rand(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, size_t __pyx_v_n, int __pyx_skip_dispatch); /* proto*/
+static __Pyx_memviewslice __pyx_f_7plexsim_6models_4base_5Model__updateState(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate); /* proto*/
+static void __pyx_f_7plexsim_6models_4base_5Model__apply_nudge(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_NudgesBackup *__pyx_v_backup); /* proto*/
+static void __pyx_f_7plexsim_6models_4base_5Model__remove_nudge(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node, __pyx_t_7plexsim_6models_5types_NudgesBackup *__pyx_v_backup); /* proto*/
+static std::vector<double>  __pyx_f_7plexsim_6models_4base_5Model__nudgeShift(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node, std::vector<double>  __pyx_v_p); /* proto*/
+static void __pyx_f_7plexsim_6models_4base_5Model__swap_memory(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto*/
+static void __pyx_f_7plexsim_6models_4base_5Model__swap_buffers(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto*/
+static __Pyx_memviewslice __pyx_f_7plexsim_6models_4base_5Model_updateState(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate, int __pyx_skip_dispatch); /* proto*/
+static void __pyx_f_7plexsim_6models_4base_5Model__step(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node); /* proto*/
+static __Pyx_memviewslice __pyx_f_7plexsim_6models_4base_5Model_sampleNodes(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, size_t __pyx_v_nSamples, int __pyx_skip_dispatch); /* proto*/
+static __Pyx_memviewslice __pyx_f_7plexsim_6models_4base_5Model__sampleNodes(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, size_t __pyx_v_nSamples); /* proto*/
+static void __pyx_f_7plexsim_6models_4base_5Model_reset(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset *__pyx_optional_args); /* proto*/
+static PyArrayObject *__pyx_f_7plexsim_6models_4base_5Model_simulate(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, size_t __pyx_v_samples, int __pyx_skip_dispatch); /* proto*/
+static PyArrayObject *__pyx_f_7plexsim_6models_4base_5Model_simulate_mean(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, size_t __pyx_v_samples, int __pyx_skip_dispatch); /* proto*/
+static void __pyx_f_7plexsim_6models_4base_5Model__hebbianUpdate(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto*/
+static double __pyx_f_7plexsim_6models_4base_5Model__learningFunction(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_xi, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_xj); /* proto*/
+static __pyx_t_7plexsim_6models_5types_state_t __pyx_f_7plexsim_6models_4base_5Model__sample_proposal(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto*/
+static PyObject *__pyx_f_7plexsim_6models_4base_5Model_spawn(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn *__pyx_optional_args); /* proto*/
+static __pyx_t_7plexsim_6models_5types_SpawnVec __pyx_f_7plexsim_6models_4base_5Model__spawn(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn *__pyx_optional_args); /* proto*/
+static double __pyx_f_7plexsim_6models_4base_5Model_probability(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_state_t __pyx_v_state, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node); /* proto*/
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_7ndarray_4base_base(PyArrayObject *__pyx_v_self); /* proto*/
 static CYTHON_INLINE PyArray_Descr *__pyx_f_5numpy_7ndarray_5descr_descr(PyArrayObject *__pyx_v_self); /* proto*/
 static CYTHON_INLINE int __pyx_f_5numpy_7ndarray_4ndim_ndim(PyArrayObject *__pyx_v_self); /* proto*/
@@ -3973,51 +3971,51 @@ static PyObject *__pyx_n_s_zeros;
 static PyObject *__pyx_n_s_zip;
 #endif
 /* #### Code section: decls ### */
-static int __pyx_pf_7plexsim_6models_4base_5Model___init__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_graph, PyObject *__pyx_v_agentStates, PyObject *__pyx_v_nudgeType, PyObject *__pyx_v_updateType, PyObject *__pyx_v_nudges, PyObject *__pyx_v_seed, PyObject *__pyx_v_memorySize, PyObject *__pyx_v_kNudges, PyObject *__pyx_v_memento, PyObject *__pyx_v_p_recomb, PyObject *__pyx_v_rules, PyObject *__pyx_v_kwargs); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_2rand(struct PyModel *__pyx_v_self, size_t __pyx_v_n); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_4updateState(struct PyModel *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6sampleNodes(struct PyModel *__pyx_v_self, size_t __pyx_v_nSamples); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_8reset(struct PyModel *__pyx_v_self, PyObject *__pyx_v_p); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_10removeAllNudges(struct PyModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_12simulate(struct PyModel *__pyx_v_self, size_t __pyx_v_samples); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_14simulate_mean(struct PyModel *__pyx_v_self, size_t __pyx_v_samples); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_5rules___get__(struct PyModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_8p_recomb___get__(struct PyModel *__pyx_v_self); /* proto */
-static int __pyx_pf_7plexsim_6models_4base_5Model_8p_recomb_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_3rng___get__(struct PyModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_5graph___get__(struct PyModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6nNodes___get__(struct PyModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_4mcmc___get__(struct PyModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_10memorySize___get__(struct PyModel *__pyx_v_self); /* proto */
-static int __pyx_pf_7plexsim_6models_4base_5Model_10memorySize_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_7memento___get__(struct PyModel *__pyx_v_self); /* proto */
-static int __pyx_pf_7plexsim_6models_4base_5Model_7memento_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_val); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_7kNudges___get__(struct PyModel *__pyx_v_self); /* proto */
-static int __pyx_pf_7plexsim_6models_4base_5Model_7kNudges_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_12last_written___get__(struct PyModel *__pyx_v_self); /* proto */
-static int __pyx_pf_7plexsim_6models_4base_5Model_12last_written_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6memory___get__(struct PyModel *__pyx_v_self); /* proto */
-static int __pyx_pf_7plexsim_6models_4base_5Model_6memory_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_10sampleSize___get__(struct PyModel *__pyx_v_self); /* proto */
-static int __pyx_pf_7plexsim_6models_4base_5Model_10sampleSize_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_11agentStates___get__(struct PyModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_3adj___get__(struct PyModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6states___get__(struct PyModel *__pyx_v_self); /* proto */
-static int __pyx_pf_7plexsim_6models_4base_5Model_6states_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_10updateType___get__(struct PyModel *__pyx_v_self); /* proto */
-static int __pyx_pf_7plexsim_6models_4base_5Model_10updateType_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_9nudgeType___get__(struct PyModel *__pyx_v_self); /* proto */
-static int __pyx_pf_7plexsim_6models_4base_5Model_9nudgeType_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_7nodeids___get__(struct PyModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6nudges___get__(struct PyModel *__pyx_v_self); /* proto */
-static int __pyx_pf_7plexsim_6models_4base_5Model_6nudges_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_vals); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_7nStates___get__(struct PyModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_9newstates___get__(struct PyModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_16get_settings(struct PyModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_18__reduce__(struct PyModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_20__deepcopy__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_memo); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_22spawn(struct PyModel *__pyx_v_self, size_t __pyx_v_n_jobs); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_24__eq__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_other); /* proto */
+static int __pyx_pf_7plexsim_6models_4base_5Model___init__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_graph, PyObject *__pyx_v_agentStates, PyObject *__pyx_v_nudgeType, PyObject *__pyx_v_updateType, PyObject *__pyx_v_nudges, PyObject *__pyx_v_seed, PyObject *__pyx_v_memorySize, PyObject *__pyx_v_kNudges, PyObject *__pyx_v_memento, PyObject *__pyx_v_p_recomb, PyObject *__pyx_v_rules, PyObject *__pyx_v_kwargs); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_2rand(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, size_t __pyx_v_n); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_4updateState(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6sampleNodes(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, size_t __pyx_v_nSamples); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_8reset(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_p); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_10removeAllNudges(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_12simulate(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, size_t __pyx_v_samples); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_14simulate_mean(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, size_t __pyx_v_samples); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_5rules___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_8p_recomb___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static int __pyx_pf_7plexsim_6models_4base_5Model_8p_recomb_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_3rng___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_5graph___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6nNodes___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_4mcmc___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_10memorySize___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static int __pyx_pf_7plexsim_6models_4base_5Model_10memorySize_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_7memento___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static int __pyx_pf_7plexsim_6models_4base_5Model_7memento_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_val); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_7kNudges___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static int __pyx_pf_7plexsim_6models_4base_5Model_7kNudges_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_12last_written___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static int __pyx_pf_7plexsim_6models_4base_5Model_12last_written_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6memory___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static int __pyx_pf_7plexsim_6models_4base_5Model_6memory_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_10sampleSize___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static int __pyx_pf_7plexsim_6models_4base_5Model_10sampleSize_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_11agentStates___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_3adj___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6states___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static int __pyx_pf_7plexsim_6models_4base_5Model_6states_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_10updateType___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static int __pyx_pf_7plexsim_6models_4base_5Model_10updateType_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_9nudgeType___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static int __pyx_pf_7plexsim_6models_4base_5Model_9nudgeType_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_7nodeids___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6nudges___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static int __pyx_pf_7plexsim_6models_4base_5Model_6nudges_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_vals); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_7nStates___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_9newstates___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_16get_settings(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_18__reduce__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_20__deepcopy__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_memo); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_22spawn(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, size_t __pyx_v_n_jobs); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_24__eq__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_other); /* proto */
 static int __pyx_pf_7plexsim_6models_4base_7ModelMC___init__(struct __pyx_obj_7plexsim_6models_4base_ModelMC *__pyx_v_self, PyObject *__pyx_v_p_recomb, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs); /* proto */
 static PyObject *__pyx_pf_7plexsim_6models_4base_rebuild(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cls, PyObject *__pyx_v_kwargs); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
@@ -4162,7 +4160,7 @@ typedef struct {
   PyTypeObject *__pyx_ptype_7plexsim_6models_7sampler_MCMC;
   PyTypeObject *__pyx_ptype_7plexsim_6models_5rules_Rules;
   PyTypeObject *__pyx_ptype_7plexsim_6models_4base_Model;
-  PyObject *PyModel_t;
+  PyObject *__pyx_type_7plexsim_6models_4base_Model;
   PyTypeObject *__pyx_ptype_7plexsim_6models_4base_ModelMC;
   PyObject *__pyx_type_7plexsim_6models_4base_ModelMC;
   PyTypeObject *__pyx_array_type;
@@ -4498,7 +4496,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_ptype_7plexsim_6models_7sampler_MCMC);
   Py_CLEAR(clear_module_state->__pyx_ptype_7plexsim_6models_5rules_Rules);
   Py_CLEAR(clear_module_state->__pyx_ptype_7plexsim_6models_4base_Model);
-  Py_CLEAR(clear_module_state->PyModel_t);
+  Py_CLEAR(clear_module_state->__pyx_type_7plexsim_6models_4base_Model);
   Py_CLEAR(clear_module_state->__pyx_ptype_7plexsim_6models_4base_ModelMC);
   Py_CLEAR(clear_module_state->__pyx_type_7plexsim_6models_4base_ModelMC);
   Py_CLEAR(clear_module_state->__pyx_array_type);
@@ -4821,7 +4819,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_ptype_7plexsim_6models_7sampler_MCMC);
   Py_VISIT(traverse_module_state->__pyx_ptype_7plexsim_6models_5rules_Rules);
   Py_VISIT(traverse_module_state->__pyx_ptype_7plexsim_6models_4base_Model);
-  Py_VISIT(traverse_module_state->PyModel_t);
+  Py_VISIT(traverse_module_state->__pyx_type_7plexsim_6models_4base_Model);
   Py_VISIT(traverse_module_state->__pyx_ptype_7plexsim_6models_4base_ModelMC);
   Py_VISIT(traverse_module_state->__pyx_type_7plexsim_6models_4base_ModelMC);
   Py_VISIT(traverse_module_state->__pyx_array_type);
@@ -5141,7 +5139,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_ptype_7plexsim_6models_7sampler_MCMC __pyx_mstate_global->__pyx_ptype_7plexsim_6models_7sampler_MCMC
 #define __pyx_ptype_7plexsim_6models_5rules_Rules __pyx_mstate_global->__pyx_ptype_7plexsim_6models_5rules_Rules
 #define __pyx_ptype_7plexsim_6models_4base_Model __pyx_mstate_global->__pyx_ptype_7plexsim_6models_4base_Model
-#define PyModel_t __pyx_mstate_global->PyModel_t
+#define __pyx_type_7plexsim_6models_4base_Model __pyx_mstate_global->__pyx_type_7plexsim_6models_4base_Model
 #define __pyx_ptype_7plexsim_6models_4base_ModelMC __pyx_mstate_global->__pyx_ptype_7plexsim_6models_4base_ModelMC
 #define __pyx_type_7plexsim_6models_4base_ModelMC __pyx_mstate_global->__pyx_type_7plexsim_6models_4base_ModelMC
 #define __pyx_array_type __pyx_mstate_global->__pyx_array_type
@@ -5651,7 +5649,7 @@ static int __pyx_pw_7plexsim_6models_4base_5Model_1__init__(PyObject *__pyx_v_se
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model___init__(((struct PyModel *)__pyx_v_self), __pyx_v_graph, __pyx_v_agentStates, __pyx_v_nudgeType, __pyx_v_updateType, __pyx_v_nudges, __pyx_v_seed, __pyx_v_memorySize, __pyx_v_kNudges, __pyx_v_memento, __pyx_v_p_recomb, __pyx_v_rules, __pyx_v_kwargs);
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model___init__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_graph, __pyx_v_agentStates, __pyx_v_nudgeType, __pyx_v_updateType, __pyx_v_nudges, __pyx_v_seed, __pyx_v_memorySize, __pyx_v_kNudges, __pyx_v_memento, __pyx_v_p_recomb, __pyx_v_rules, __pyx_v_kwargs);
 
   /* "plexsim/models/base.pyx":63
  *                         **kwargs:  Ignore
@@ -5667,7 +5665,7 @@ static int __pyx_pw_7plexsim_6models_4base_5Model_1__init__(PyObject *__pyx_v_se
   return __pyx_r;
 }
 
-static int __pyx_pf_7plexsim_6models_4base_5Model___init__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_graph, PyObject *__pyx_v_agentStates, PyObject *__pyx_v_nudgeType, PyObject *__pyx_v_updateType, PyObject *__pyx_v_nudges, PyObject *__pyx_v_seed, PyObject *__pyx_v_memorySize, PyObject *__pyx_v_kNudges, PyObject *__pyx_v_memento, PyObject *__pyx_v_p_recomb, PyObject *__pyx_v_rules, PyObject *__pyx_v_kwargs) {
+static int __pyx_pf_7plexsim_6models_4base_5Model___init__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_graph, PyObject *__pyx_v_agentStates, PyObject *__pyx_v_nudgeType, PyObject *__pyx_v_updateType, PyObject *__pyx_v_nudges, PyObject *__pyx_v_seed, PyObject *__pyx_v_memorySize, PyObject *__pyx_v_kNudges, PyObject *__pyx_v_memento, PyObject *__pyx_v_p_recomb, PyObject *__pyx_v_rules, PyObject *__pyx_v_kwargs) {
   PyObject *__pyx_v_states = NULL;
   int __pyx_r;
   __Pyx_RefNannyDeclarations
@@ -6165,7 +6163,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static double __pyx_f_7plexsim_6models_4base_5Model_rand(struct PyModel *__pyx_v_self, size_t __pyx_v_n, int __pyx_skip_dispatch) {
+static double __pyx_f_7plexsim_6models_4base_5Model_rand(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, size_t __pyx_v_n, int __pyx_skip_dispatch) {
   CYTHON_UNUSED size_t __pyx_v_i;
   double __pyx_r;
   __Pyx_RefNannyDeclarations
@@ -6361,14 +6359,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_2rand(((struct PyModel *)__pyx_v_self), __pyx_v_n);
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_2rand(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_n);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_2rand(struct PyModel *__pyx_v_self, size_t __pyx_v_n) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_2rand(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, size_t __pyx_v_n) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -6402,7 +6400,7 @@ static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_2rand(struct PyModel *__
  *         :param nodesToTupdate: list containing node ids to update
  */
 
-static __Pyx_memviewslice __pyx_f_7plexsim_6models_4base_5Model__updateState(struct PyModel *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate) {
+static __Pyx_memviewslice __pyx_f_7plexsim_6models_4base_5Model__updateState(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate) {
   __pyx_t_7plexsim_6models_5types_NudgesBackup *__pyx_v_backup;
   __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node;
   __Pyx_memviewslice __pyx_r = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -6634,7 +6632,7 @@ static __Pyx_memviewslice __pyx_f_7plexsim_6models_4base_5Model__updateState(str
  * 
  */
 
-static void __pyx_f_7plexsim_6models_4base_5Model__apply_nudge(struct PyModel *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_NudgesBackup *__pyx_v_backup) {
+static void __pyx_f_7plexsim_6models_4base_5Model__apply_nudge(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_NudgesBackup *__pyx_v_backup) {
   __pyx_t_7plexsim_6models_5types_weight_t __pyx_v_weight;
   CYTHON_UNUSED int __pyx_v_jdx;
   __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_target;
@@ -6795,7 +6793,7 @@ static void __pyx_f_7plexsim_6models_4base_5Model__apply_nudge(struct PyModel *_
  *         """
  */
 
-static void __pyx_f_7plexsim_6models_4base_5Model__remove_nudge(struct PyModel *__pyx_v_self, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node, __pyx_t_7plexsim_6models_5types_NudgesBackup *__pyx_v_backup) {
+static void __pyx_f_7plexsim_6models_4base_5Model__remove_nudge(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node, __pyx_t_7plexsim_6models_5types_NudgesBackup *__pyx_v_backup) {
   CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_neighbor;
   __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_nudge_id;
   std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,struct __pyx_t_7plexsim_6models_5types_NodeBackup> ::iterator __pyx_v_it;
@@ -6927,7 +6925,7 @@ static void __pyx_f_7plexsim_6models_4base_5Model__remove_nudge(struct PyModel *
  *         _nudge = self._nudges.find(node)
  */
 
-static std::vector<double>  __pyx_f_7plexsim_6models_4base_5Model__nudgeShift(struct PyModel *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node, std::vector<double>  __pyx_v_p) {
+static std::vector<double>  __pyx_f_7plexsim_6models_4base_5Model__nudgeShift(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node, std::vector<double>  __pyx_v_p) {
   std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,__pyx_t_7plexsim_6models_5types_state_t> ::iterator __pyx_v__nudge;
   size_t __pyx_v_idx;
   double __pyx_v_nudge;
@@ -7072,7 +7070,7 @@ static std::vector<double>  __pyx_f_7plexsim_6models_4base_5Model__nudgeShift(st
  *         cdef size_t mi, node
  */
 
-static void __pyx_f_7plexsim_6models_4base_5Model__swap_memory(struct PyModel *__pyx_v_self) {
+static void __pyx_f_7plexsim_6models_4base_5Model__swap_memory(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   size_t __pyx_v_mi;
   size_t __pyx_v_node;
   size_t __pyx_t_1;
@@ -7237,7 +7235,7 @@ if (unlikely((__pyx_memoryview_copy_contents(__pyx_t_10, __pyx_t_11, 1, 1, 0) < 
  *         Update state buffers
  */
 
-static void __pyx_f_7plexsim_6models_4base_5Model__swap_buffers(struct PyModel *__pyx_v_self) {
+static void __pyx_f_7plexsim_6models_4base_5Model__swap_buffers(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
 
   /* "plexsim/models/base.pyx":268
  *         This function is intended to allow for custom buffers update
@@ -7293,7 +7291,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static __Pyx_memviewslice __pyx_f_7plexsim_6models_4base_5Model_updateState(struct PyModel *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate, int __pyx_skip_dispatch) {
+static __Pyx_memviewslice __pyx_f_7plexsim_6models_4base_5Model_updateState(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate, int __pyx_skip_dispatch) {
   __Pyx_memviewslice __pyx_r = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7475,14 +7473,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_4updateState(((struct PyModel *)__pyx_v_self), __pyx_v_nodesToUpdate);
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_4updateState(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_nodesToUpdate);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_4updateState(struct PyModel *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_4updateState(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodesToUpdate) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -7522,7 +7520,7 @@ static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_4updateState(struct PyMo
  * 
  */
 
-static void __pyx_f_7plexsim_6models_4base_5Model__step(CYTHON_UNUSED struct PyModel *__pyx_v_self, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node) {
+static void __pyx_f_7plexsim_6models_4base_5Model__step(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node) {
 
   /* "plexsim/models/base.pyx":280
  * 
@@ -7560,7 +7558,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static __Pyx_memviewslice __pyx_f_7plexsim_6models_4base_5Model_sampleNodes(struct PyModel *__pyx_v_self, size_t __pyx_v_nSamples, int __pyx_skip_dispatch) {
+static __Pyx_memviewslice __pyx_f_7plexsim_6models_4base_5Model_sampleNodes(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, size_t __pyx_v_nSamples, int __pyx_skip_dispatch) {
   __Pyx_memviewslice __pyx_r = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7742,14 +7740,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_6sampleNodes(((struct PyModel *)__pyx_v_self), __pyx_v_nSamples);
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_6sampleNodes(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_nSamples);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6sampleNodes(struct PyModel *__pyx_v_self, size_t __pyx_v_nSamples) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6sampleNodes(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, size_t __pyx_v_nSamples) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -7788,7 +7786,7 @@ static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6sampleNodes(struct PyMo
  *         """
  */
 
-static __Pyx_memviewslice __pyx_f_7plexsim_6models_4base_5Model__sampleNodes(struct PyModel *__pyx_v_self, size_t __pyx_v_nSamples) {
+static __Pyx_memviewslice __pyx_f_7plexsim_6models_4base_5Model__sampleNodes(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, size_t __pyx_v_nSamples) {
   size_t __pyx_v_sampleSize;
   size_t __pyx_v_start;
   size_t __pyx_v_j;
@@ -8089,7 +8087,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static void __pyx_f_7plexsim_6models_4base_5Model_reset(struct PyModel *__pyx_v_self, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset *__pyx_optional_args) {
+static void __pyx_f_7plexsim_6models_4base_5Model_reset(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset *__pyx_optional_args) {
   PyObject *__pyx_v_p = ((PyObject *)Py_None);
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -8396,14 +8394,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_8reset(((struct PyModel *)__pyx_v_self), __pyx_v_p);
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_8reset(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_p);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_8reset(struct PyModel *__pyx_v_self, PyObject *__pyx_v_p) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_8reset(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_p) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset __pyx_t_1;
@@ -8468,14 +8466,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   if (unlikely(__pyx_nargs > 0)) {
     __Pyx_RaiseArgtupleInvalid("removeAllNudges", 1, 0, 0, __pyx_nargs); return NULL;}
   if (unlikely(__pyx_kwds) && __Pyx_NumKwargs_FASTCALL(__pyx_kwds) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "removeAllNudges", 0))) return NULL;
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_10removeAllNudges(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_10removeAllNudges(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_10removeAllNudges(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_10removeAllNudges(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("removeAllNudges", 0);
@@ -8519,7 +8517,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyArrayObject *__pyx_f_7plexsim_6models_4base_5Model_simulate(struct PyModel *__pyx_v_self, size_t __pyx_v_samples, int __pyx_skip_dispatch) {
+static PyArrayObject *__pyx_f_7plexsim_6models_4base_5Model_simulate(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, size_t __pyx_v_samples, int __pyx_skip_dispatch) {
   __Pyx_memviewslice __pyx_v_results = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_r = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_v_i;
@@ -8926,14 +8924,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_12simulate(((struct PyModel *)__pyx_v_self), __pyx_v_samples);
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_12simulate(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_samples);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_12simulate(struct PyModel *__pyx_v_self, size_t __pyx_v_samples) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_12simulate(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, size_t __pyx_v_samples) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -8974,7 +8972,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyArrayObject *__pyx_f_7plexsim_6models_4base_5Model_simulate_mean(struct PyModel *__pyx_v_self, size_t __pyx_v_samples, int __pyx_skip_dispatch) {
+static PyArrayObject *__pyx_f_7plexsim_6models_4base_5Model_simulate_mean(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, size_t __pyx_v_samples, int __pyx_skip_dispatch) {
   __Pyx_memviewslice __pyx_v_results = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_v_i;
   PyArrayObject *__pyx_r = NULL;
@@ -9393,14 +9391,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_14simulate_mean(((struct PyModel *)__pyx_v_self), __pyx_v_samples);
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_14simulate_mean(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_samples);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_14simulate_mean(struct PyModel *__pyx_v_self, size_t __pyx_v_samples) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_14simulate_mean(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, size_t __pyx_v_samples) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -9434,7 +9432,7 @@ static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_14simulate_mean(struct P
  *         Hebbian learning rule that will strengthen similar
  */
 
-static void __pyx_f_7plexsim_6models_4base_5Model__hebbianUpdate(CYTHON_UNUSED struct PyModel *__pyx_v_self) {
+static void __pyx_f_7plexsim_6models_4base_5Model__hebbianUpdate(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_hebbianUpdate", 0);
 
@@ -9468,7 +9466,7 @@ static void __pyx_f_7plexsim_6models_4base_5Model__hebbianUpdate(CYTHON_UNUSED s
  *         From Ito & Kaneko 2002
  */
 
-static double __pyx_f_7plexsim_6models_4base_5Model__learningFunction(CYTHON_UNUSED struct PyModel *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_xi, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_xj) {
+static double __pyx_f_7plexsim_6models_4base_5Model__learningFunction(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_xi, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_xj) {
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_learningFunction", 0);
@@ -9505,7 +9503,7 @@ static double __pyx_f_7plexsim_6models_4base_5Model__learningFunction(CYTHON_UNU
  * 
  */
 
-static __pyx_t_7plexsim_6models_5types_state_t __pyx_f_7plexsim_6models_4base_5Model__sample_proposal(struct PyModel *__pyx_v_self) {
+static __pyx_t_7plexsim_6models_5types_state_t __pyx_f_7plexsim_6models_4base_5Model__sample_proposal(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   __pyx_t_7plexsim_6models_5types_state_t __pyx_r;
   size_t __pyx_t_1;
 
@@ -9548,14 +9546,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_5rules_1__get__(PyObject
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_5rules___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_5rules___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_5rules___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_5rules___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -9612,14 +9610,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_8p_recomb_1__get__(PyObj
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_8p_recomb___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_8p_recomb___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_8p_recomb___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_8p_recomb___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -9676,14 +9674,14 @@ static int __pyx_pw_7plexsim_6models_4base_5Model_8p_recomb_3__set__(PyObject *_
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_8p_recomb_2__set__(((struct PyModel *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_8p_recomb_2__set__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_7plexsim_6models_4base_5Model_8p_recomb_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7plexsim_6models_4base_5Model_8p_recomb_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -9764,14 +9762,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_3rng_1__get__(PyObject *
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_3rng___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_3rng___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_3rng___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_3rng___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__", 0);
@@ -9818,14 +9816,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_5graph_1__get__(PyObject
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_5graph___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_5graph___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_5graph___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_5graph___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -9882,14 +9880,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_6nNodes_1__get__(PyObjec
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_6nNodes___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_6nNodes___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6nNodes___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6nNodes___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -9946,14 +9944,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_4mcmc_1__get__(PyObject 
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_4mcmc___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_4mcmc___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_4mcmc___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_4mcmc___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__", 0);
@@ -10000,14 +9998,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_10memorySize_1__get__(Py
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_10memorySize___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_10memorySize___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_10memorySize___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_10memorySize___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -10064,14 +10062,14 @@ static int __pyx_pw_7plexsim_6models_4base_5Model_10memorySize_3__set__(PyObject
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_10memorySize_2__set__(((struct PyModel *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_10memorySize_2__set__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_7plexsim_6models_4base_5Model_10memorySize_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7plexsim_6models_4base_5Model_10memorySize_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -10159,14 +10157,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_7memento_1__get__(PyObje
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_7memento___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_7memento___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_7memento___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_7memento___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -10223,14 +10221,14 @@ static int __pyx_pw_7plexsim_6models_4base_5Model_7memento_3__set__(PyObject *__
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_7memento_2__set__(((struct PyModel *)__pyx_v_self), ((PyObject *)__pyx_v_val));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_7memento_2__set__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), ((PyObject *)__pyx_v_val));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_7plexsim_6models_4base_5Model_7memento_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_val) {
+static int __pyx_pf_7plexsim_6models_4base_5Model_7memento_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_val) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -10381,14 +10379,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_7kNudges_1__get__(PyObje
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_7kNudges___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_7kNudges___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_7kNudges___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_7kNudges___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -10445,14 +10443,14 @@ static int __pyx_pw_7plexsim_6models_4base_5Model_7kNudges_3__set__(PyObject *__
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_7kNudges_2__set__(((struct PyModel *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_7kNudges_2__set__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_7plexsim_6models_4base_5Model_7kNudges_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7plexsim_6models_4base_5Model_7kNudges_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
@@ -10505,14 +10503,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_12last_written_1__get__(
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_12last_written___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_12last_written___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_12last_written___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_12last_written___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -10569,14 +10567,14 @@ static int __pyx_pw_7plexsim_6models_4base_5Model_12last_written_3__set__(PyObje
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_12last_written_2__set__(((struct PyModel *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_12last_written_2__set__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_7plexsim_6models_4base_5Model_12last_written_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7plexsim_6models_4base_5Model_12last_written_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -10629,14 +10627,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_6memory_1__get__(PyObjec
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_6memory___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_6memory___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6memory___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6memory___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -10698,14 +10696,14 @@ static int __pyx_pw_7plexsim_6models_4base_5Model_6memory_3__set__(PyObject *__p
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_6memory_2__set__(((struct PyModel *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_6memory_2__set__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_7plexsim_6models_4base_5Model_6memory_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7plexsim_6models_4base_5Model_6memory_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -10784,14 +10782,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_10sampleSize_1__get__(Py
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_10sampleSize___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_10sampleSize___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_10sampleSize___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_10sampleSize___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -10848,14 +10846,14 @@ static int __pyx_pw_7plexsim_6models_4base_5Model_10sampleSize_3__set__(PyObject
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_10sampleSize_2__set__(((struct PyModel *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_10sampleSize_2__set__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_7plexsim_6models_4base_5Model_10sampleSize_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7plexsim_6models_4base_5Model_10sampleSize_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -11062,14 +11060,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_11agentStates_1__get__(P
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_11agentStates___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_11agentStates___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_11agentStates___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_11agentStates___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -11131,14 +11129,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_3adj_1__get__(PyObject *
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_3adj___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_3adj___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_3adj___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_3adj___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__", 0);
@@ -11185,14 +11183,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_6states_1__get__(PyObjec
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_6states___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_6states___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6states___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6states___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -11296,14 +11294,14 @@ static int __pyx_pw_7plexsim_6models_4base_5Model_6states_3__set__(PyObject *__p
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_6states_2__set__(((struct PyModel *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_6states_2__set__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_7plexsim_6models_4base_5Model_6states_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7plexsim_6models_4base_5Model_6states_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_value) {
   size_t __pyx_v_i;
   PyObject *__pyx_v_val = NULL;
   size_t __pyx_v_node;
@@ -11711,14 +11709,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_10updateType_1__get__(Py
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_10updateType___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_10updateType___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_10updateType___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_10updateType___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__", 0);
@@ -11765,14 +11763,14 @@ static int __pyx_pw_7plexsim_6models_4base_5Model_10updateType_3__set__(PyObject
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_10updateType_2__set__(((struct PyModel *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_10updateType_2__set__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_7plexsim_6models_4base_5Model_10updateType_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7plexsim_6models_4base_5Model_10updateType_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_value) {
   PyObject *__pyx_v_re = NULL;
   PyObject *__pyx_v_pattern = NULL;
   int __pyx_r;
@@ -12219,14 +12217,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_9nudgeType_1__get__(PyOb
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_9nudgeType___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_9nudgeType___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_9nudgeType___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_9nudgeType___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__", 0);
@@ -12273,14 +12271,14 @@ static int __pyx_pw_7plexsim_6models_4base_5Model_9nudgeType_3__set__(PyObject *
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_9nudgeType_2__set__(((struct PyModel *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_9nudgeType_2__set__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_7plexsim_6models_4base_5Model_9nudgeType_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7plexsim_6models_4base_5Model_9nudgeType_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_value) {
   CYTHON_UNUSED PyObject *__pyx_v_DEFAULT = NULL;
   int __pyx_r;
   __Pyx_RefNannyDeclarations
@@ -12391,14 +12389,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_7nodeids_1__get__(PyObje
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_7nodeids___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_7nodeids___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_7nodeids___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_7nodeids___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -12460,14 +12458,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_6nudges_1__get__(PyObjec
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_6nudges___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_6nudges___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6nudges___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_6nudges___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -12524,14 +12522,14 @@ static int __pyx_pw_7plexsim_6models_4base_5Model_6nudges_3__set__(PyObject *__p
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_6nudges_2__set__(((struct PyModel *)__pyx_v_self), ((PyObject *)__pyx_v_vals));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_6nudges_2__set__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), ((PyObject *)__pyx_v_vals));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_7plexsim_6models_4base_5Model_6nudges_2__set__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_vals) {
+static int __pyx_pf_7plexsim_6models_4base_5Model_6nudges_2__set__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_vals) {
   PyObject *__pyx_v_k = NULL;
   PyObject *__pyx_v_v = NULL;
   PyObject *__pyx_v_idx = NULL;
@@ -12754,14 +12752,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_7nStates_1__get__(PyObje
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_7nStates___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_7nStates___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_7nStates___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_7nStates___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -12818,14 +12816,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_9newstates_1__get__(PyOb
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_9newstates___get__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_9newstates___get__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_9newstates___get__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_9newstates___get__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -12949,14 +12947,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   if (unlikely(__pyx_nargs > 0)) {
     __Pyx_RaiseArgtupleInvalid("get_settings", 1, 0, 0, __pyx_nargs); return NULL;}
   if (unlikely(__pyx_kwds) && __Pyx_NumKwargs_FASTCALL(__pyx_kwds) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "get_settings", 0))) return NULL;
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_16get_settings(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_16get_settings(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_16get_settings(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_16get_settings(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_v_kwargs = NULL;
   PyObject *__pyx_v_dumps = NULL;
   PyObject *__pyx_v_k = NULL;
@@ -13284,14 +13282,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   if (unlikely(__pyx_nargs > 0)) {
     __Pyx_RaiseArgtupleInvalid("__reduce__", 1, 0, 0, __pyx_nargs); return NULL;}
   if (unlikely(__pyx_kwds) && __Pyx_NumKwargs_FASTCALL(__pyx_kwds) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__reduce__", 0))) return NULL;
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_18__reduce__(((struct PyModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_18__reduce__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_18__reduce__(struct PyModel *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_18__reduce__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -13465,14 +13463,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_20__deepcopy__(((struct PyModel *)__pyx_v_self), __pyx_v_memo);
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_20__deepcopy__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_memo);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_20__deepcopy__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_memo) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_20__deepcopy__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_memo) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
@@ -13605,7 +13603,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyObject *__pyx_f_7plexsim_6models_4base_5Model_spawn(struct PyModel *__pyx_v_self, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn *__pyx_optional_args) {
+static PyObject *__pyx_f_7plexsim_6models_4base_5Model_spawn(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn *__pyx_optional_args) {
   size_t __pyx_v_n_jobs = __pyx_k__12;
   __pyx_t_7plexsim_6models_5types_SpawnVec __pyx_v_models_;
   PyObject *__pyx_v_models = NULL;
@@ -13851,14 +13849,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_22spawn(((struct PyModel *)__pyx_v_self), __pyx_v_n_jobs);
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_22spawn(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_n_jobs);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_22spawn(struct PyModel *__pyx_v_self, size_t __pyx_v_n_jobs) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_22spawn(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, size_t __pyx_v_n_jobs) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -13895,11 +13893,11 @@ static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_22spawn(struct PyModel *
  *         Spawn independent models
  */
 
-static __pyx_t_7plexsim_6models_5types_SpawnVec __pyx_f_7plexsim_6models_4base_5Model__spawn(struct PyModel *__pyx_v_self, struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn *__pyx_optional_args) {
+static __pyx_t_7plexsim_6models_5types_SpawnVec __pyx_f_7plexsim_6models_4base_5Model__spawn(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn *__pyx_optional_args) {
   size_t __pyx_v_nThreads = __pyx_k__13;
   CYTHON_UNUSED int __pyx_v_tid;
   __pyx_t_7plexsim_6models_5types_SpawnVec __pyx_v_spawn;
-  struct PyModel *__pyx_v_m = 0;
+  struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_m = 0;
   __pyx_t_7plexsim_6models_5types_SpawnVec __pyx_r;
   __Pyx_RefNannyDeclarations
   size_t __pyx_t_1;
@@ -13986,7 +13984,7 @@ static __pyx_t_7plexsim_6models_5types_SpawnVec __pyx_f_7plexsim_6models_4base_5
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
     if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_7plexsim_6models_4base_Model))))) __PYX_ERR(0, 677, __pyx_L1_error)
-    __Pyx_XDECREF_SET(__pyx_v_m, ((struct PyModel *)__pyx_t_4));
+    __Pyx_XDECREF_SET(__pyx_v_m, ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_t_4));
     __pyx_t_4 = 0;
 
     /* "plexsim/models/base.pyx":682
@@ -14045,7 +14043,7 @@ static __pyx_t_7plexsim_6models_5types_SpawnVec __pyx_f_7plexsim_6models_4base_5
  *                             node_id_t node\
  */
 
-static double __pyx_f_7plexsim_6models_4base_5Model_probability(CYTHON_UNUSED struct PyModel *__pyx_v_self, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_state_t __pyx_v_state, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node) {
+static double __pyx_f_7plexsim_6models_4base_5Model_probability(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_state_t __pyx_v_state, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node) {
   double __pyx_r;
 
   /* "plexsim/models/base.pyx":692
@@ -14090,14 +14088,14 @@ static PyObject *__pyx_pw_7plexsim_6models_4base_5Model_25__eq__(PyObject *__pyx
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__eq__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_24__eq__(((struct PyModel *)__pyx_v_self), ((PyObject *)__pyx_v_other));
+  __pyx_r = __pyx_pf_7plexsim_6models_4base_5Model_24__eq__(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), ((PyObject *)__pyx_v_other));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_24__eq__(struct PyModel *__pyx_v_self, PyObject *__pyx_v_other) {
+static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_24__eq__(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self, PyObject *__pyx_v_other) {
   PyObject *__pyx_v_name = NULL;
   PyObject *__pyx_v_prop = NULL;
   PyObject *__pyx_v_oprop = NULL;
@@ -29996,7 +29994,7 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
 static struct __pyx_vtabstruct_7plexsim_6models_4base_Model __pyx_vtable_7plexsim_6models_4base_Model;
 
 static PyObject *__pyx_tp_new_7plexsim_6models_4base_Model(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
-  struct PyModel *p;
+  struct __pyx_obj_7plexsim_6models_4base_Model *p;
   PyObject *o;
   #if CYTHON_COMPILING_IN_LIMITED_API
   allocfunc alloc_func = (allocfunc)PyType_GetSlot(t, Py_tp_alloc);
@@ -30009,7 +30007,7 @@ static PyObject *__pyx_tp_new_7plexsim_6models_4base_Model(PyTypeObject *t, CYTH
   }
   if (unlikely(!o)) return 0;
   #endif
-  p = ((struct PyModel *)o);
+  p = ((struct __pyx_obj_7plexsim_6models_4base_Model *)o);
   p->__pyx_vtab = __pyx_vtabptr_7plexsim_6models_4base_Model;
   new((void*)&(p->_nudges)) __pyx_t_7plexsim_6models_5types_Nudges();
   p->_updateType = ((PyObject*)Py_None); Py_INCREF(Py_None);
@@ -30034,7 +30032,7 @@ static PyObject *__pyx_tp_new_7plexsim_6models_4base_Model(PyTypeObject *t, CYTH
 
 #if !CYTHON_COMPILING_IN_LIMITED_API
 static void __pyx_tp_dealloc_7plexsim_6models_4base_Model(PyObject *o) {
-  struct PyModel *p = (struct PyModel *)o;
+  struct __pyx_obj_7plexsim_6models_4base_Model *p = (struct __pyx_obj_7plexsim_6models_4base_Model *)o;
   #if CYTHON_USE_TP_FINALIZE
   if (unlikely((PY_VERSION_HEX >= 0x03080000 || __Pyx_PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE)) && Py_TYPE(o)->tp_finalize) && !_PyGC_FINALIZED(o)) {
     if (PyObject_CallFinalizerFromDealloc(o)) return;
@@ -30064,7 +30062,7 @@ static void __pyx_tp_dealloc_7plexsim_6models_4base_Model(PyObject *o) {
 
 static int __pyx_tp_traverse_7plexsim_6models_4base_Model(PyObject *o, visitproc v, void *a) {
   int e;
-  struct PyModel *p = (struct PyModel *)o;
+  struct __pyx_obj_7plexsim_6models_4base_Model *p = (struct __pyx_obj_7plexsim_6models_4base_Model *)o;
   if (p->_rules) {
     e = (*v)(((PyObject *)p->_rules), a); if (e) return e;
   }
@@ -30085,7 +30083,7 @@ static int __pyx_tp_traverse_7plexsim_6models_4base_Model(PyObject *o, visitproc
 
 static int __pyx_tp_clear_7plexsim_6models_4base_Model(PyObject *o) {
   PyObject* tmp;
-  struct PyModel *p = (struct PyModel *)o;
+  struct __pyx_obj_7plexsim_6models_4base_Model *p = (struct __pyx_obj_7plexsim_6models_4base_Model *)o;
   tmp = ((PyObject*)p->_rules);
   p->_rules = ((struct __pyx_obj_7plexsim_6models_5rules_Rules *)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(tmp);
@@ -30105,7 +30103,7 @@ static int __pyx_tp_clear_7plexsim_6models_4base_Model(PyObject *o) {
 }
 
 static PyObject *__pyx___dict__getter_7plexsim_6models_4base_Model(PyObject *o, CYTHON_UNUSED void *x) {
-  struct PyModel *p = (struct PyModel *)o;
+  struct __pyx_obj_7plexsim_6models_4base_Model *p = (struct __pyx_obj_7plexsim_6models_4base_Model *)o;
   if (unlikely(!p->__dict__)){
     p->__dict__ = PyDict_New();
   }
@@ -30363,7 +30361,7 @@ static struct PyGetSetDef __pyx_getsets_7plexsim_6models_4base_Model[] = {
   {0, 0, 0, 0, 0}
 };
 #if CYTHON_COMPILING_IN_LIMITED_API
-static PyType_Slot PyModel_t_slots[] = {
+static PyType_Slot __pyx_type_7plexsim_6models_4base_Model_slots[] = {
   {Py_tp_getattro, (void *)PyObject_GenericGetAttr},
   {Py_tp_doc, (void *)PyDoc_STR("Model(graph=nx.path_graph(1), agentStates=np.array([0], dtype=np.int), nudgeType='constant', updateType='async', nudges={}, seed=None, memorySize=0, kNudges=1, memento=0, p_recomb=None, rules=nx.Graph(), **kwargs)\n\n    Base type for all models. This should hold all the minimial required information for building a model.\n    Should not be instantiated directly\n\n    :param                         graph: Structure of the system. :type: nx.Graph\n    :param                         agentStates:  np.ndarray containing possible states agent can assume, defaults to np.array([0, 1]).\n    :param                         nudgeType:  allow nudging of node states, defaults to 'constant'\n    :param             updateType: 'async' or  'sync'. Async is equivalent to :sampleSize;\n                        glauber   updates.  In   contrast,   'async'  has   two\n                        \"indepdendent\" buffers. The two variants can have effect\n                        your simulation results. Defaults to 'async'\n    :param                         nudges:  dict containing which nodes to nudge; keys can be tuples,  values are floats.\n    :param                         seed: random number generator seed, defaults to  current time\n    :param                         memorySize: size of memory to consider, defaults to 0.\n    :param                         kNudges:  \n    :param                         memento:  exponential decay rate of memerory effect.\n    :param                    p_recomb: ignore\n    :param                         rules:  ignore \n    :param                         **kwargs:  Ignore\n    ")},
   {Py_tp_traverse, (void *)__pyx_tp_traverse_7plexsim_6models_4base_Model},
@@ -30371,24 +30369,24 @@ static PyType_Slot PyModel_t_slots[] = {
   {Py_tp_richcompare, (void *)__pyx_tp_richcompare_7plexsim_6models_4base_Model},
   {Py_tp_methods, (void *)__pyx_methods_7plexsim_6models_4base_Model},
   {Py_tp_getset, (void *)__pyx_getsets_7plexsim_6models_4base_Model},
-  {Py_tp_dictoffset, (void *)offsetof(struct PyModel, __dict__)},
+  {Py_tp_dictoffset, (void *)offsetof(struct __pyx_obj_7plexsim_6models_4base_Model, __dict__)},
   {Py_tp_init, (void *)__pyx_pw_7plexsim_6models_4base_5Model_1__init__},
   {Py_tp_new, (void *)__pyx_tp_new_7plexsim_6models_4base_Model},
   {0, 0},
 };
-static PyType_Spec PyModel_t_spec = {
+static PyType_Spec __pyx_type_7plexsim_6models_4base_Model_spec = {
   "plexsim.models.base.Model",
-  sizeof(struct PyModel),
+  sizeof(struct __pyx_obj_7plexsim_6models_4base_Model),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC,
-  PyModel_t_slots,
+  __pyx_type_7plexsim_6models_4base_Model_slots,
 };
 #else
 
-DL_EXPORT(PyTypeObject) PyModel_t = {
+static PyTypeObject __pyx_type_7plexsim_6models_4base_Model = {
   PyVarObject_HEAD_INIT(0, 0)
   "plexsim.models.base.""Model", /*tp_name*/
-  sizeof(struct PyModel), /*tp_basicsize*/
+  sizeof(struct __pyx_obj_7plexsim_6models_4base_Model), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_7plexsim_6models_4base_Model, /*tp_dealloc*/
   #if PY_VERSION_HEX < 0x030800b4
@@ -30430,7 +30428,7 @@ DL_EXPORT(PyTypeObject) PyModel_t = {
   0, /*tp_dict*/
   0, /*tp_descr_get*/
   0, /*tp_descr_set*/
-  offsetof(struct PyModel, __dict__), /*tp_dictoffset*/
+  offsetof(struct __pyx_obj_7plexsim_6models_4base_Model, __dict__), /*tp_dictoffset*/
   __pyx_pw_7plexsim_6models_4base_5Model_1__init__, /*tp_init*/
   0, /*tp_alloc*/
   __pyx_tp_new_7plexsim_6models_4base_Model, /*tp_new*/
@@ -32515,37 +32513,37 @@ static int __Pyx_modinit_type_init_code(void) {
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
   __pyx_vtabptr_7plexsim_6models_4base_Model = &__pyx_vtable_7plexsim_6models_4base_Model;
-  __pyx_vtable_7plexsim_6models_4base_Model.updateState = (__Pyx_memviewslice (*)(struct PyModel *, __Pyx_memviewslice, int __pyx_skip_dispatch))__pyx_f_7plexsim_6models_4base_5Model_updateState;
-  __pyx_vtable_7plexsim_6models_4base_Model._updateState = (__Pyx_memviewslice (*)(struct PyModel *, __Pyx_memviewslice))__pyx_f_7plexsim_6models_4base_5Model__updateState;
-  __pyx_vtable_7plexsim_6models_4base_Model.rand = (double (*)(struct PyModel *, size_t, int __pyx_skip_dispatch))__pyx_f_7plexsim_6models_4base_5Model_rand;
-  __pyx_vtable_7plexsim_6models_4base_Model._apply_nudge = (void (*)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *))__pyx_f_7plexsim_6models_4base_5Model__apply_nudge;
-  __pyx_vtable_7plexsim_6models_4base_Model._remove_nudge = (void (*)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *))__pyx_f_7plexsim_6models_4base_5Model__remove_nudge;
-  __pyx_vtable_7plexsim_6models_4base_Model._swap_buffers = (void (*)(struct PyModel *))__pyx_f_7plexsim_6models_4base_5Model__swap_buffers;
-  __pyx_vtable_7plexsim_6models_4base_Model._step = (void (*)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t))__pyx_f_7plexsim_6models_4base_5Model__step;
-  __pyx_vtable_7plexsim_6models_4base_Model._hebbianUpdate = (void (*)(struct PyModel *))__pyx_f_7plexsim_6models_4base_5Model__hebbianUpdate;
-  __pyx_vtable_7plexsim_6models_4base_Model._learningFunction = (double (*)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t))__pyx_f_7plexsim_6models_4base_5Model__learningFunction;
-  __pyx_vtable_7plexsim_6models_4base_Model._sampleNodes = (__Pyx_memviewslice (*)(struct PyModel *, size_t))__pyx_f_7plexsim_6models_4base_5Model__sampleNodes;
-  __pyx_vtable_7plexsim_6models_4base_Model.sampleNodes = (__Pyx_memviewslice (*)(struct PyModel *, size_t, int __pyx_skip_dispatch))__pyx_f_7plexsim_6models_4base_5Model_sampleNodes;
-  __pyx_vtable_7plexsim_6models_4base_Model.simulate = (PyArrayObject *(*)(struct PyModel *, size_t, int __pyx_skip_dispatch))__pyx_f_7plexsim_6models_4base_5Model_simulate;
-  __pyx_vtable_7plexsim_6models_4base_Model.simulate_mean = (PyArrayObject *(*)(struct PyModel *, size_t, int __pyx_skip_dispatch))__pyx_f_7plexsim_6models_4base_5Model_simulate_mean;
-  __pyx_vtable_7plexsim_6models_4base_Model.spawn = (PyObject *(*)(struct PyModel *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn *__pyx_optional_args))__pyx_f_7plexsim_6models_4base_5Model_spawn;
-  __pyx_vtable_7plexsim_6models_4base_Model._spawn = (__pyx_t_7plexsim_6models_5types_SpawnVec (*)(struct PyModel *, struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn *__pyx_optional_args))__pyx_f_7plexsim_6models_4base_5Model__spawn;
-  __pyx_vtable_7plexsim_6models_4base_Model.reset = (void (*)(struct PyModel *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset *__pyx_optional_args))__pyx_f_7plexsim_6models_4base_5Model_reset;
-  __pyx_vtable_7plexsim_6models_4base_Model._nudgeShift = (std::vector<double>  (*)(struct PyModel *, __pyx_t_7plexsim_6models_5types_node_id_t, std::vector<double> ))__pyx_f_7plexsim_6models_4base_5Model__nudgeShift;
-  __pyx_vtable_7plexsim_6models_4base_Model._swap_memory = (void (*)(struct PyModel *))__pyx_f_7plexsim_6models_4base_5Model__swap_memory;
-  __pyx_vtable_7plexsim_6models_4base_Model._sample_proposal = (__pyx_t_7plexsim_6models_5types_state_t (*)(struct PyModel *))__pyx_f_7plexsim_6models_4base_5Model__sample_proposal;
-  __pyx_vtable_7plexsim_6models_4base_Model.probability = (double (*)(struct PyModel *, __pyx_t_7plexsim_6models_5types_state_t, __pyx_t_7plexsim_6models_5types_node_id_t))__pyx_f_7plexsim_6models_4base_5Model_probability;
+  __pyx_vtable_7plexsim_6models_4base_Model.updateState = (__Pyx_memviewslice (*)(struct __pyx_obj_7plexsim_6models_4base_Model *, __Pyx_memviewslice, int __pyx_skip_dispatch))__pyx_f_7plexsim_6models_4base_5Model_updateState;
+  __pyx_vtable_7plexsim_6models_4base_Model._updateState = (__Pyx_memviewslice (*)(struct __pyx_obj_7plexsim_6models_4base_Model *, __Pyx_memviewslice))__pyx_f_7plexsim_6models_4base_5Model__updateState;
+  __pyx_vtable_7plexsim_6models_4base_Model.rand = (double (*)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch))__pyx_f_7plexsim_6models_4base_5Model_rand;
+  __pyx_vtable_7plexsim_6models_4base_Model._apply_nudge = (void (*)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *))__pyx_f_7plexsim_6models_4base_5Model__apply_nudge;
+  __pyx_vtable_7plexsim_6models_4base_Model._remove_nudge = (void (*)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *))__pyx_f_7plexsim_6models_4base_5Model__remove_nudge;
+  __pyx_vtable_7plexsim_6models_4base_Model._swap_buffers = (void (*)(struct __pyx_obj_7plexsim_6models_4base_Model *))__pyx_f_7plexsim_6models_4base_5Model__swap_buffers;
+  __pyx_vtable_7plexsim_6models_4base_Model._step = (void (*)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t))__pyx_f_7plexsim_6models_4base_5Model__step;
+  __pyx_vtable_7plexsim_6models_4base_Model._hebbianUpdate = (void (*)(struct __pyx_obj_7plexsim_6models_4base_Model *))__pyx_f_7plexsim_6models_4base_5Model__hebbianUpdate;
+  __pyx_vtable_7plexsim_6models_4base_Model._learningFunction = (double (*)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t))__pyx_f_7plexsim_6models_4base_5Model__learningFunction;
+  __pyx_vtable_7plexsim_6models_4base_Model._sampleNodes = (__Pyx_memviewslice (*)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t))__pyx_f_7plexsim_6models_4base_5Model__sampleNodes;
+  __pyx_vtable_7plexsim_6models_4base_Model.sampleNodes = (__Pyx_memviewslice (*)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch))__pyx_f_7plexsim_6models_4base_5Model_sampleNodes;
+  __pyx_vtable_7plexsim_6models_4base_Model.simulate = (PyArrayObject *(*)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch))__pyx_f_7plexsim_6models_4base_5Model_simulate;
+  __pyx_vtable_7plexsim_6models_4base_Model.simulate_mean = (PyArrayObject *(*)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch))__pyx_f_7plexsim_6models_4base_5Model_simulate_mean;
+  __pyx_vtable_7plexsim_6models_4base_Model.spawn = (PyObject *(*)(struct __pyx_obj_7plexsim_6models_4base_Model *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn *__pyx_optional_args))__pyx_f_7plexsim_6models_4base_5Model_spawn;
+  __pyx_vtable_7plexsim_6models_4base_Model._spawn = (__pyx_t_7plexsim_6models_5types_SpawnVec (*)(struct __pyx_obj_7plexsim_6models_4base_Model *, struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn *__pyx_optional_args))__pyx_f_7plexsim_6models_4base_5Model__spawn;
+  __pyx_vtable_7plexsim_6models_4base_Model.reset = (void (*)(struct __pyx_obj_7plexsim_6models_4base_Model *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset *__pyx_optional_args))__pyx_f_7plexsim_6models_4base_5Model_reset;
+  __pyx_vtable_7plexsim_6models_4base_Model._nudgeShift = (std::vector<double>  (*)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, std::vector<double> ))__pyx_f_7plexsim_6models_4base_5Model__nudgeShift;
+  __pyx_vtable_7plexsim_6models_4base_Model._swap_memory = (void (*)(struct __pyx_obj_7plexsim_6models_4base_Model *))__pyx_f_7plexsim_6models_4base_5Model__swap_memory;
+  __pyx_vtable_7plexsim_6models_4base_Model._sample_proposal = (__pyx_t_7plexsim_6models_5types_state_t (*)(struct __pyx_obj_7plexsim_6models_4base_Model *))__pyx_f_7plexsim_6models_4base_5Model__sample_proposal;
+  __pyx_vtable_7plexsim_6models_4base_Model.probability = (double (*)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_state_t, __pyx_t_7plexsim_6models_5types_node_id_t))__pyx_f_7plexsim_6models_4base_5Model_probability;
   #if CYTHON_COMPILING_IN_LIMITED_API
-  PyModel_t = PyType_FromSpec(&PyModel_t_spec); if (unlikely(!PyModel_t)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_type_7plexsim_6models_4base_Model = PyType_FromSpec(&__pyx_type_7plexsim_6models_4base_Model_spec); if (unlikely(!__pyx_type_7plexsim_6models_4base_Model)) __PYX_ERR(0, 30, __pyx_L1_error)
   #else
-  if (__Pyx_PyType_Ready(&PyModel_t) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
+  if (__Pyx_PyType_Ready(&__pyx_type_7plexsim_6models_4base_Model) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
   #if PY_MAJOR_VERSION < 3
-  PyModel_t.tp_print = 0;
+  __pyx_type_7plexsim_6models_4base_Model.tp_print = 0;
   #endif
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&PyModel_t, "__eq__"); if (unlikely(!wrapper)) __PYX_ERR(0, 29, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_7plexsim_6models_4base_Model, "__eq__"); if (unlikely(!wrapper)) __PYX_ERR(0, 30, __pyx_L1_error)
     if (__Pyx_IS_TYPE(wrapper, &PyWrapperDescr_Type)) {
       __pyx_wrapperbase_7plexsim_6models_4base_5Model_24__eq__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_7plexsim_6models_4base_5Model_24__eq__.doc = __pyx_doc_7plexsim_6models_4base_5Model_24__eq__;
@@ -32554,20 +32552,20 @@ static int __Pyx_modinit_type_init_code(void) {
   }
   #endif
   #if CYTHON_COMPILING_IN_LIMITED_API
-  if (__Pyx_SetVtable(PyModel_t, __pyx_vtabptr_7plexsim_6models_4base_Model) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_7plexsim_6models_4base_Model, __pyx_vtabptr_7plexsim_6models_4base_Model) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
   #else
-  if (__Pyx_SetVtable(PyModel_t.tp_dict, __pyx_vtabptr_7plexsim_6models_4base_Model) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
-  if (__Pyx_MergeVtables(&PyModel_t) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_7plexsim_6models_4base_Model.tp_dict, __pyx_vtabptr_7plexsim_6models_4base_Model) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
+  if (__Pyx_MergeVtables(&__pyx_type_7plexsim_6models_4base_Model) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
   #endif
   #if CYTHON_COMPILING_IN_LIMITED_API
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Model, PyModel_t) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Model, __pyx_type_7plexsim_6models_4base_Model) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
   #else
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Model, (PyObject *)&PyModel_t) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Model, (PyObject *)&__pyx_type_7plexsim_6models_4base_Model) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
   #endif
   #if CYTHON_COMPILING_IN_LIMITED_API
-  __pyx_ptype_7plexsim_6models_4base_Model = (PyTypeObject *)PyModel_t;
+  __pyx_ptype_7plexsim_6models_4base_Model = (PyTypeObject *)__pyx_type_7plexsim_6models_4base_Model;
   #else
-  __pyx_ptype_7plexsim_6models_4base_Model = &PyModel_t;
+  __pyx_ptype_7plexsim_6models_4base_Model = &__pyx_type_7plexsim_6models_4base_Model;
   #endif
   __pyx_vtabptr_7plexsim_6models_4base_ModelMC = &__pyx_vtable_7plexsim_6models_4base_ModelMC;
   __pyx_vtable_7plexsim_6models_4base_ModelMC.__pyx_base = *__pyx_vtabptr_7plexsim_6models_4base_Model;

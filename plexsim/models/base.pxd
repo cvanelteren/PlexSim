@@ -7,8 +7,8 @@ from plexsim.models.rules cimport Rules
 
 cdef extern from "<algorithm>" namespace "std" nogil:
     void swap[T] (T &a, T &b)
-cdef public class Model [object PyModel, type PyModel_t]:
-# cdef class Model:
+# cdef public class Model [object PyModel, type PyModel_t]:
+cdef class Model:
     """
     Interface for the models and serves a top of the hierarchy in the
     class structure

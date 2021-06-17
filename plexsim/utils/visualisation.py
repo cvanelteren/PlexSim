@@ -40,7 +40,7 @@ class GraphAnimation:
         else:
             self.colors = discrete_cmap(n, cmap)
 
-        if len(time_data[0]["states"]) >= 3:
+        if len(self.time_data[0]["states"].shape) == 2:
             self.colors = None
 
     def setup(
