@@ -6,9 +6,11 @@ cimport numpy as np
 import numpy as np
 
 cdef class Conway(Model):
-    def __init__(self, object graph, size_t threshold = 3):
+    def __init__(self, object graph, size_t threshold = 3,
+                 **kwargs):
         s = np.arange(2)
-        super(Conway, self).__init__(graph = graph, agentStates = s)
+        super(Conway, self).__init__(graph = graph, agentStates = s,
+                                     **kwargs)
         self.threshold = threshold
     @property
     def threshold(self):
@@ -24,7 +26,7 @@ cdef class Conway(Model):
             counter += self._states[deref(it).first]
             post(it)
         # deal with alive nodes
-        if self._states[node]:
+        if self._states[node] == 1:
             # goldey lock zone
             if self._threshold-1 <= counter <= self._threshold:
                 self._newstates[node] = 1

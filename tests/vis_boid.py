@@ -173,6 +173,7 @@ def prog(fn, n):
     pb.update()
 
 
+debug = 1
 if debug:
     counter = 0
     while True:

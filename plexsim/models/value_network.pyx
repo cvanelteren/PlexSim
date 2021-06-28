@@ -150,18 +150,60 @@ cdef class ValueNetwork(Potts):
         if merged:
             results[1] = merged
 
-    cpdef bint check_endpoint(self, state_t s, list vp_path):
-        """
-        Check if an end point is reached
-        """
+    cdef void _merge(self, crawler_t crawler, bint verbose) nogil:
+        # not enough options to merge
+        if crawler.options.size() < 2:
+            return
+        # copy current options
+        # write back at the end of merge attempts
+        cdef vector[set[edge_t]] options crawler.options.copy()
+
+        # loop variables
+        cdef size_t idx, jdx
+        cdef set[edge_t] opti, optj, proposal
+        cdef bint merging
+
+        # start merge
+        cdef bint can_merge = True
+        while can_merge:
+            can_merge = False
+            for idx in range(options.size()):
+                for jdx in range(options.size()):
+                    if idx < jdx:
+                        opti = options[idx]
+                        optj = options[jdx]
+                        merging = True
+                        if set_intersection(opti,optj).size():
+                            merging = False
+
+                        proposal = opti
+                        if merging:
+                            proposal = set_union(opti, optj)
+                        if proposal not in merged:
+                            if proposal.size() == self._bounded_rational:
+                                self._check_doubles(crawler, verbose)
+                            else:
+                                options.push_back(proposal.copy())
+                                can_merge = True
+        if options.size():
+            crawler.options = options
+        return
+
+
+    cdef bint _check_endpoint(self, crawler_t crawler, bint verbose):
         # update paths
-        fail = True
-        for ss in  self.rules.neighbors(s):
-            if self.rules[s][ss]['weight'] > 0:
-                if [s, ss] not in vp_path:
+        cdef bint fail = True
+
+
+        it = self.rules._adj[s].neighbors.begin()
+        while it != self.rules._adj[s].neighbors.end():
+            if deref(it).second > 0:
+                if [s, deref(it).first] not in vp_path:
                     fail = False
-        # print(f"Failing {fail} {s} {list(m.rules.neighbors(s))} {vp_path}")
+                    break()
+            post(it)
         return fail
+
 
     cpdef bint _traverse(self, list proposal, list option):
         cdef dict seen = {}
@@ -181,8 +223,6 @@ cdef class ValueNetwork(Potts):
                 return True
             else:
                 return False
-
-
         if len(seen) == len(option):
             return True
         else:
@@ -199,6 +239,97 @@ cdef class ValueNetwork(Potts):
                 options.pop(idx)
                 if verbose:
                     print(f"Popping option {option} with prop {proposal}")
+
+
+    cpdef list check_df(self, node_id_t start, bint verbose = False):
+        cdef Crawler explorer = Crawler(start, self._bounded_rational, verbose)
+        self._check_df(explorer)
+        return explorer.results
+
+    cdef crawler_t _check_df(self, Crawler crawler) nogil:
+        cdef EdgeColor current_edge, proposal_edge, option
+        cdef size_t idx
+        if crawler.queue.size():
+            current_edge = crawler.queue.pop_back()
+            if current_edge.current.name != current_edge.other.name:
+                crawler.path.push_back(current_edge)
+
+            # steps:
+            # 1. check end points
+            # 2. check neighbors
+            # 3. check branch
+            # 4. check merge
+            if crawler.verbose:
+                with gil:
+                    print(f"checking edge {e} path is {path}")
+                    print(f"At {current}")
+                    print(f"Path : {path}")
+                    print(f"Vp_path : {vp_path}")
+                    print(f"Options: {results[1]}")
+                    print(f"Results: {results[0]}")
+            # 1. check endpoints
+            if self._check_endpoints(crawler):
+                crawler.options.push_back(current_edge)
+                if crawler.verbose:
+                    with gil:
+                        print(f"At end point, pushing {current_edge}")
+                # pop the path from current path
+                if crawler.path.size():
+                    crawler.path.pop_back()
+                return crawler
+
+
+            # create new proposal edge
+            proposal_edge.current.name = current_edge.current.name
+            proposal_edge.current.state = current_edge.current.state
+
+            # 2. check neighbors
+            it = self.adj._adj[current_edge.current.name].neighbors.begin()
+            while it != self.adj._adj[current_edge.current.name].neighbors.end():
+                proposal_edge.other.name = deref(it).first
+                proposal_edge.other.state = self._states[deref(it).first]
+                if deref(it).first == current_edge.other.name:
+                    if verbose:
+                        with gil:
+                            print("Found node already in path (cycle)")
+                    continue
+                # check if branch is valid
+                if self.rules._adj[current_edge.current.state][deref(it).first] <= 0:
+                    if crawler.verbose:
+                        with gil:
+                            print("negative weight found")
+                    continue
+                # 3. step into brach
+                if proposal_edge not in crawler.path:
+                    crawler.queue.push_back(proposal_edge)
+                    self._check_df(crawler, verbose)
+
+            # 4. merge options
+            if self.rules._adj[current_edge.current.state][current_edge.other.state] > 0:
+                if current_edge not in crawler.options:
+                    crawler.options.push_back(current_edge)
+
+            crawler.merge_options()
+            for idx in range(crawler.options.size()):
+                if crawler.options[idx].size() == self._bounded_rational:
+                    option = crawler[idx]
+                    crawler.options.erase(idx)
+                    self._check_doubles(crawler, verbose)
+                    if verbose:
+                        with gil:
+                            print(f'adding results {option[0]} {self.bounded_rational} vp = {option[1]}')
+
+        # check if path contains solution
+        if crawler.path.size() == self._bouded_rational:
+            self._check_doubles(crawler, verbose)
+            if crawler.verbose:
+                with gil:
+                    print('added path', results)
+
+        # reduce path length
+        if crawler.path.size():
+            crawler.path.pop_back()
+        return crawler
 
 
     cpdef list check_df(self, list queue, list path = [],
