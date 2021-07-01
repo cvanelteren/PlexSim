@@ -4,6 +4,7 @@ cimport cython
 from cython.operator cimport dereference as deref, postincrement as post
 import networkx as nx
 
+from plexsim.models.adjacency cimport Adjacency
 cdef class Rules(Adjacency):
     def __init__(self, object graph):
         super().__init__(graph)

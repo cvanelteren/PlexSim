@@ -154,6 +154,7 @@ cdef class Model:
         else:
             return self.__states
 
+    # TODO make this separate
     cdef void _apply_nudge(self, node_id_t node,\
                            NudgesBackup* backup) nogil:
 

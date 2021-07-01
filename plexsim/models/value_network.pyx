@@ -91,162 +91,51 @@ cdef class ValueNetwork(Potts):
                 results[0].append(path.copy())
         return add
 
-    cpdef void merge(self, list results, bint verbose = False):
+    cdef bint _check_endpoint(self, state_t current_state, Crawler crawler):
+        """"
+        Checks the endpoint of the value network
+        @param: current_state, double state of the edge looking towards its neighbors
+        @param: crawler, crawler_t, crawler object (see header)
         """
-        Merge paths from branches inplace
-        """
-        # skip edge case
-        if len(results[1]) < 2:
-            return
-        # attempt to merge branches
-        # merged = [[], []]
-        # merged = []
-        merged = results[1].copy()
-        # go through all the combinations in the options
-        can_merge = True
-
-        # set to false
-        # will be set to true if a merge is found
-        if verbose:
-            print("staring merge")
-        while can_merge:
-            can_merge = False
-            # print(f"Merging {merged}")
-            for idx, opti in enumerate(merged):
-                for jdx, optj in enumerate(merged):
-                    if idx < jdx:
-                        # prevent self-comparison and double comparison
-                        # compare matched edges
-                        idxs, vpi = opti; jdxs, vpj = optj
-                        # if the overlap is zero then the branches are valid
-                        # and should be merged
-                        # (not sure if this is necessary)
-                        J = True; a, b = vpi, vpj
-                        if len(vpi) > len(vpj):
-                            a, b = b, a
-                        for i in a:
-                            # if the rule edge already exists
-                            # ignore the option
-                            if i in b or i[::-1] in b:
-                                J = False
-                        # add if no overlap is found
-                        if J:
-                            # merging
-                            # print(f"Merging {vpi} with {vpj}")
-                            proposal = [idxs.copy(), vpi.copy()]
-                            for x, y in zip(jdxs, vpj):
-                                proposal[0].append(x)
-                                proposal[1].append(y)
-
-                            if proposal not in merged:
-                                if len(proposal[0]) == self._bounded_rational:
-                                    self.check_doubles(proposal[0], results)
-                                else:
-                                    merged.append(proposal.copy())
-                                    can_merge = True
-
-        if verbose:
-            print("left merge")
-        if merged:
-            results[1] = merged
-
-    cdef void _merge(self, crawler_t crawler, bint verbose) nogil:
-        # not enough options to merge
-        if crawler.options.size() < 2:
-            return
-        # copy current options
-        # write back at the end of merge attempts
-        cdef vector[set[edge_t]] options crawler.options.copy()
-
-        # loop variables
-        cdef size_t idx, jdx
-        cdef set[edge_t] opti, optj, proposal
-        cdef bint merging
-
-        # start merge
-        cdef bint can_merge = True
-        while can_merge:
-            can_merge = False
-            for idx in range(options.size()):
-                for jdx in range(options.size()):
-                    if idx < jdx:
-                        opti = options[idx]
-                        optj = options[jdx]
-                        merging = True
-                        if set_intersection(opti,optj).size():
-                            merging = False
-
-                        proposal = opti
-                        if merging:
-                            proposal = set_union(opti, optj)
-                        if proposal not in merged:
-                            if proposal.size() == self._bounded_rational:
-                                self._check_doubles(crawler, verbose)
-                            else:
-                                options.push_back(proposal.copy())
-                                can_merge = True
-        if options.size():
-            crawler.options = options
-        return
-
-
-    cdef bint _check_endpoint(self, crawler_t crawler, bint verbose):
         # update paths
-        cdef bint fail = True
-
-
-        it = self.rules._adj[s].neighbors.begin()
-        while it != self.rules._adj[s].neighbors.end():
-            if deref(it).second > 0:
-                if [s, deref(it).first] not in vp_path:
-                    fail = False
-                    break()
-            post(it)
-        return fail
-
-
-    cpdef bint _traverse(self, list proposal, list option):
-        cdef dict seen = {}
-        cdef list edge
-
-        cdef bint traverse = True
-        while traverse:
-            traverse = False
-            for edge in option:
-                # traverse up
-                if edge[0] in list(self.adj._adj[proposal[1]].neighbors):
-                    if tuple(edge) not in seen:
-                        seen[tuple(edge)] = 1
-                        traverse = True
-                        proposal = edge
-            if traverse:
-                return True
-            else:
-                return False
-        if len(seen) == len(option):
-            return True
-        else:
-            return False
-
-
-    cpdef void check_traversal(self, list proposal, list options,
-                               bint verbose = False):
-        cdef list option
         cdef size_t idx
-        for idx, option in enumerate(options):
-            # print(proposal, option)
-            if not self._traverse(proposal.copy()[0], option[0]):
-                options.pop(idx)
-                if verbose:
-                    print(f"Popping option {option} with prop {proposal}")
+        cdef size_t other_state
+        cdef double weight_edge
+
+        it = self.rules._adj[current_state].neighbors.begin()
+
+        # count frequency of end point occurence
+        cdef size_t counter = 0
+        while it != self.rules._adj[current_state].neighbors.end():
+            other_state = deref(it).first
+            weight_edge = deref(it).second
+            if weight_edge > 0:
+                # traverse path and find the edge
+                # TODO: smartify this with set operation?
+                for idx in range(crawler.path.size()):
+                    # check if the value edge exists
+                    if current_state == crawler.path[idx].current.state:
+                        if other_state == crawler.path[idx].other.state:
+                            counter += 1
+                    # check if reverse of value edge exists
+                    if current_state == crawler.path[idx].other.state:
+                        if other_state == crawler.path[idx].current.state:
+                            counter += 1
+            post(it)
+        cdef bint is_endpoint = False
+        if counter == self.rules._adj[s].neighbors.size():
+            end_point = True
+        return end_point
 
 
     cpdef list check_df(self, node_id_t start, bint verbose = False):
-        cdef Crawler explorer = Crawler(start, self._bounded_rational, verbose)
+        cdef Crawler explorer = Crawler(start,
+                                        self._bounded_rational,
+                                        verbose)
         self._check_df(explorer)
         return explorer.results
 
-    cdef crawler_t _check_df(self, Crawler crawler) nogil:
+    cdef Crawler _check_df(self, Crawler crawler) nogil:
         cdef EdgeColor current_edge, proposal_edge, option
         cdef size_t idx
         if crawler.queue.size():
@@ -309,22 +198,22 @@ cdef class ValueNetwork(Potts):
                 if current_edge not in crawler.options:
                     crawler.options.push_back(current_edge)
 
+            # merge options
             crawler.merge_options()
-            for idx in range(crawler.options.size()):
-                if crawler.options[idx].size() == self._bounded_rational:
-                    option = crawler[idx]
-                    crawler.options.erase(idx)
-                    self._check_doubles(crawler, verbose)
-                    if verbose:
-                        with gil:
-                            print(f'adding results {option[0]} {self.bounded_rational} vp = {option[1]}')
 
-        # check if path contains solution
+            # I believe this is not needed
+            # for idx in range(crawler.options.size()):
+            #     if crawler.options[idx].size() == self._bounded_rational:
+            #         option = crawler[idx]
+            #         crawler.options.erase(idx)
+            #         self._check_doubles(crawler, verbose)
+            #         if verbose:
+            #             with gil:
+            #                 print(f'adding results {option[0]} {self.bounded_rational} vp = {option[1]}')
+
+        # check if current path contains solution
         if crawler.path.size() == self._bouded_rational:
-            self._check_doubles(crawler, verbose)
-            if crawler.verbose:
-                with gil:
-                    print('added path', results)
+            crawler.add_result(crawler.path)
 
         # reduce path length
         if crawler.path.size():
@@ -332,162 +221,6 @@ cdef class ValueNetwork(Potts):
         return crawler
 
 
-    cpdef list check_df(self, list queue, list path = [],
-                        list vp_path = [],
-                        list results = [],
-                        bint verbose = False):
-        """
-        :param queue: edge queue, start with (node, node)
-        :param n: number of edges in the rule graph
-        :param m: model
-        :param path: monitors edges visited in social network
-        :param vp_path: monitors edges visited in value network
-        :param results: output. List of 2. First index contained completed value networks, second index contains branch options
-        :param verbose: print intermediate step for heavy debugging!
-        """
-        cdef str node
-        cdef node_id_t from_node, current
-        cdef state_t s, ss
-        cdef list e, ev, option
-        if queue:
-            # get current node
-            from_node, current = queue.pop()
-            node = self.adj.rmapping[current]
-            # empty local options
-            # results[1] = []
-            s = self.states[current]
-            # check only if difference
-            #
-            e = [current, from_node]
-            if current != from_node:
-                path.append(e)
-                vp_path.append([self.states[current], self.states[from_node]])
-
-            if verbose:
-                print(f"checking edge {e} path is {path}")
-
-            # logging
-            if verbose:
-                print(f"At {current}")
-                print(f"Path : {path}")
-                print(f"Vp_path : {vp_path}")
-                print(f"Options: {results[1]}")
-                print(f"Results: {results[0]}")
-
-
-            # check if no options left in rule graph
-            if self.check_endpoint(s, vp_path):
-                option = [
-                    [ sorted([from_node, current]) ],
-                    [ sorted([self.states[from_node], self.states[current]]) ]
-                    ]
-                results[1].append(option)
-                if verbose:
-                    print(f"At an end point, pushing {option}")
-
-                # pop path
-                if len(path):
-                    path.pop()
-                    vp_path.pop()
-
-                return results
-
-            # check neighbors
-            for neigh in self.graph.neighbors(node):
-                other = self.adj.mapping[neigh]
-                ss = self.states[other]
-                # prevent going back
-                if other == from_node:
-                    if verbose: print("found node already in path (cycle)")
-                    continue
-                # check if branch is valid
-                if self.rules[s][ss]['weight'] <= 0:
-                    if verbose: print('negative weight')
-                    continue
-                # construct proposals
-                e = [current, other]
-                ev = [s, ss]
-
-                # step into branch
-                if e not in path and e[::-1] not in path:
-                    if ev not in vp_path and ev[::-1] not in vp_path:
-                        queue.append(e)
-                        # get branch options
-                        self.check_df(queue, path,
-                                                vp_path,
-                                                results,
-                                                verbose)
-
-                        # for option in self.check_df(queue, path,
-                        #                         vp_path,
-                        #                         results,
-                        #                         verbose)[1]:
-                        #     results[1].append(option.copy())
-
-                            # if verbose:
-                                # print(f"Retrieved {option}")
-                    # move to next
-                    else:
-                        continue
-                # move to next
-                else:
-                    continue
-            # attempt merge
-
-            option = [
-                    [ sorted([from_node, current]) ],
-                    [ sorted([self.states[from_node], self.states[current]]) ]
-                    ]
-
-            if self.rules[option[1][0][0]][option[1][0][1]]['weight'] > 0:
-                # self.check_traversal(option[0], results[1],
-                                     # verbose)
-                if option not in results[1]:
-                    results[1].append(option)
-
-            self.merge(results, verbose)
-            # TODO self edges are ignored --> add check for negativity
-            # no edge is checked after this point, all done above
-            # this causes a fail on the start node that should have a negative weight
-            for idx, option in enumerate(results[1]):
-                if len(option[1]) == self._bounded_rational:
-                    # remove from option list
-                    results[1].pop(idx)
-                    self.check_doubles(option[0].copy(), results, verbose)
-                    if verbose:
-                        print(f'adding results {option[0]} {self.bounded_rational} vp = {option[1]}')
-
-
-            # for idx, merged in enumerate(results[1]):
-            #     if verbose:
-            #         print(f"{idx} Considering merging {this_option} with {merged} {vp_path}")
-            #     # they cannot be in the already present path
-            #     if this_option[1] not in merged[1] and this_option[1][::-1] not in merged[1]:
-            #         # start point is a self edge
-            #         # only add if the weight is actually positive
-            #         if self.rules[this_option[1][0]][this_option[1][1]]['weight'] > 0:
-            #             # construct proposals
-            #             merged[0].append(this_option[0])
-            #             merged[1].append(this_option[1])
-            #             if verbose:
-            #                 print(f"{idx} merged {this_option} yielding {merged}")
-            #     if len(merged[1]) == self._bounded_rational:
-            #         # remove from option list
-            #         results[1].pop(idx)
-            #         self.check_doubles(merged[0].copy(), results)
-            #         if verbose:
-            #             print(f'adding results {merged[0]} {self.bounded_rational} vp = {merged[1]}')
-
-        # check if the solution is correct
-        if len(vp_path) == self._bounded_rational:
-            self.check_doubles(path.copy(), results)
-            if verbose: print('added path', results)
-
-        if len(path):
-            path.pop()
-            vp_path.pop()
-
-        return results
 
     cdef double _energy(self, node_id_t node) nogil:
         """

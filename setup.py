@@ -8,10 +8,10 @@ import re, os
 from subprocess import run
 
 
-os.environ["CC"] = "g++-10"
-os.environ["CXX"] = "g++-10"
-add = []
 compiler = "g++-10"
+os.environ["CC"] = compiler
+os.environ["CXX"] = compiler
+add = []
 optFlag = "-Ofast"
 cppv = "20"
 flags = ""

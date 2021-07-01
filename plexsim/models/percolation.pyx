@@ -6,6 +6,17 @@ from cython.operator cimport postincrement as post
 import numpy as np
 
 cdef class Percolation(Model):
+    """"
+    Percolation model. Each bond (edge) can percolate with probability p
+
+    Paramaters
+    ----------
+    p: double
+        probabililty of bond percolation
+
+    agentStates: np.ndarray
+        States of each vertex/node 1 indicates occupied, 0 is empty
+    """
     def __init__(self, graph, p = 1, \
                  agentStates = np.array([0, 1], dtype = np.double), \
                 **kwargs):

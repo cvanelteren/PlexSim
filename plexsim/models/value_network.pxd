@@ -1,5 +1,5 @@
 from plexsim.models.potts cimport *
-from libcpp.set cimport set
+from libcpp.set cimport set as cset
 
 cdef extern from "<algorithm>" namespace "std":
     Iter find_if[Iter, Func](Iter first, Iter last, Func pred)
@@ -9,21 +9,39 @@ cdef extern from "<algorithm>" namespace "std":
                             Iter first2, Iter last2,
                             Iter result)
 
-cdef struct color_node:
-    node_id_t name
-    state_t state
-   
-cdef struct edge_t:
-    color_node current
-    color_node other
+cdef extern from "plexsim/include/crawler.hpp":
+    # holds vertex color and id
+    cdef cppclass ColorNode:
+        ColorNode() except+
+        ColorNode(size_t name, double state) except+
+        size_t name
+        state_t state
 
-cdef struct crawler_t:
-    vector[edge_t] queue
-    set[edge_t] path
+    # holds edge of colored vertices
+    cdef cppclass EdgeColor:
+        EdgeColor() except+
+        EdgeColor(ColorNode current, ColorNode other) except+
+        ColorNode current
+        ColorNode Other
 
-    vector[set[edge_t]] results
-    vector[set[edge_t]] options
-    bint verbose 
+    # crawls accros and finds patterns
+    cdef cppclass Crawler:
+        Crawler() except+
+        Crawler(size_t start, size_t bounded_rational) except+
+        Crawler(size_t start, size_t bounded_rational, bint verbose) except+
+
+        vector[EdgeColor] queue
+        cset[EdgeColor] path
+        vector[cset[EdgeColor]] results
+        vector[cset[EdgeColor]] options
+
+        bint verbose
+        size_t bounded_rational
+
+        void merge_options()
+        void add_result(cset[EdgeColor])
+
+
 
 cdef class ValueNetwork(Potts):
     # pivate props
@@ -43,18 +61,18 @@ cdef class ValueNetwork(Potts):
     cdef double _hamiltonian(self, state_t x, state_t  y) nogil
 
     # logic for checking completed vn
-    cpdef bint check_endpoint(self, state_t s, list vp_path)
-    cpdef list check_df(self, list queue, list path = *,
-                        list vp_path = *,
-                        list results = *, 
-                        bint verbose = *)
+    # cpdef bint check_endpoint(self, state_t s, list vp_path)
+    cpdef list check_df(self, node_id_t start, bint verbose =*)
+
+    cdef Crawler _check_df(self, Crawler crawler) nogil
     # merge branches
-    cpdef void merge(self, list results, bint verbose =*)
     cpdef bint check_doubles(self, list path, list results,
                              bint verbose =*)
 
-    cpdef bint _traverse(self, list proposal, list option)
-    cpdef void check_traversal(self, list proposal, list options, bint verbose =*)
+    cdef bint _check_endpoint(self, state_t current_state, Crawler crawler)
+
+    # cpdef bint _traverse(self, list proposal, list option)
+    # cpdef void check_traversal(self, list proposal, list options, bint verbose =*)
 
 
 # cdef class ValueNetworkNP(Potts):

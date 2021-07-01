@@ -1,13 +1,13 @@
 #distutils: language=c++
 from plexsim.models.types cimport *
 from libcpp.unordered_map cimport unordered_map
-cdef class Rules:
+from plexsim.models.adjacency cimport Adjacency
+cdef class Rules(Adjacency):
     """
     Special type of overriding dynamics in a model.
     Creates a layered-structure where part of the model is
     updated according to fixed rules.
     """
-    cdef dict __dict__
     #properties
     # cdef multimap[state_t, pair[state_t, double]] _rules
     cdef unordered_map[state_t, unordered_map[state_t, double]] _rules
