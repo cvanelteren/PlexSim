@@ -53,9 +53,7 @@ class TestRecursionCrawl(ut.TestCase):
         tmp = []
         for node_label, node in m.adj.mapping.items():
             queue = [[node, node]]
-            crawl, options = m.check_df(
-                queue, path=[], vp_path=[], results=[[], []], verbose=0
-            )
+            crawl = m.check_df(node, verbose=1)
             # if len(crawl) == 1:
 
             print(f"solution: {crawl} {len(crawl)}")
@@ -66,45 +64,8 @@ class TestRecursionCrawl(ut.TestCase):
             # try:
             self.assertTrue(
                 assignment,
-                f"assignment was {assignment} with {crawl} and {options}",
+                f"assignment was {assignment} with {crawl}",
             )
-
-            # except:
-            #     queue = [[node, node]]
-            #     crawl, options = m.check_df(
-            #         queue, path=[], vp_path=[], results=[[], []], verbose=1
-            #     )
-
-            # if len(crawl) == False:
-
-            # crawl, options = m.check_df(
-            #     queue, path=[], vp_path=[], results=[[], []], verbose=1
-            # )
 
             crawls.append(assignment)
             tmp.append((crawl, options))
-
-        # if not all(crawls):
-        # print("-" * 32 + "\n")
-        # print(f"Crawling results {crawls}")
-        # print(m.adj.rmapping, m.bounded_rational)
-        # for idx, crawl in enumerate(crawls):
-        #     if crawl == False:
-        #         r, o = tmp[idx]
-        #         print(f"Node {idx}, found {len(r)} with options {len(o)}")
-        #         print("Listing results")
-        #         for ri in r:
-        #             print(ri)
-        #         print("Listing options")
-        #         for opt in o:
-        #             print(opt)
-
-        #         queue = [[node, node]]
-        #         crawl, options = m.check_df(
-        #             queue, path=[], vp_path=[], results=[[], []], verbose=1
-        #         )
-
-        # fig, ax = plt.subplots(figsize=(2, 2), constrained_layout=1)
-        # ga = GraphAnimation(m.graph, m.states.reshape(1, -1), m.nStates)
-        # ga.setup(ax=ax, labels=dict(font_color="white"), rules=m.rules)
-        # plt.show(block=1)

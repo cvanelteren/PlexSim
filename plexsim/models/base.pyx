@@ -407,7 +407,7 @@ cdef class Model:
     #####
     @property
     def rules(self):
-        return self._rules.rules
+        return self._rules.graph
     @property
     def p_recomb(self):
         return self._mcmc._p_recomb

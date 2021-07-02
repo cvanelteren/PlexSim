@@ -1688,16 +1688,16 @@ struct __pyx_t_7plexsim_6models_5types_Connection {
   __pyx_t_7plexsim_6models_5types_Neighbors neighbors;
 };
 
-/* "plexsim/models/types.pxd":49
- *     Neighbors neighbors
+/* "plexsim/models/types.pxd":50
  *     # Weights  weights
+ * 
  * ctypedef unordered_map[node_id_t, Connection] Connections             # <<<<<<<<<<<<<<
  * 
  * 
  */
 typedef std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,struct __pyx_t_7plexsim_6models_5types_Connection>  __pyx_t_7plexsim_6models_5types_Connections;
 
-/* "plexsim/models/types.pxd":54
+/* "plexsim/models/types.pxd":55
  * 
  * # ctypedef unordered_set[state_t] MemoizeUnit
  * ctypedef pair[state_t, state_t] MemoizeUnit             # <<<<<<<<<<<<<<
@@ -1795,14 +1795,15 @@ struct __pyx_obj_7plexsim_6models_7sampler_MCMC {
 
 /* "plexsim/models/rules.pxd":5
  * from libcpp.unordered_map cimport unordered_map
- * from plexsim.models.adjacency cimport Adjacency
- * cdef class Rules(Adjacency):             # <<<<<<<<<<<<<<
+ * # from plexsim.models.adjacency cimport Adjacency
+ * cdef class Rules:             # <<<<<<<<<<<<<<
  *     """
  *     Special type of overriding dynamics in a model.
  */
 struct __pyx_obj_7plexsim_6models_5rules_Rules {
-  struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency __pyx_base;
-  std::unordered_map<__pyx_t_7plexsim_6models_5types_state_t,std::unordered_map<__pyx_t_7plexsim_6models_5types_state_t,double> >  _rules;
+  PyObject_HEAD
+  std::unordered_map<__pyx_t_7plexsim_6models_5types_state_t,std::unordered_map<__pyx_t_7plexsim_6models_5types_state_t,double> >  _adj;
+  PyObject *__dict__;
 };
 
 
@@ -9535,7 +9536,7 @@ static __pyx_t_7plexsim_6models_5types_state_t __pyx_f_7plexsim_6models_4base_5M
  *     #####
  *     @property             # <<<<<<<<<<<<<<
  *     def rules(self):
- *         return self._rules.rules
+ *         return self._rules.graph
  */
 
 /* Python wrapper */
@@ -9564,12 +9565,12 @@ static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_5rules___get__(struct __
   /* "plexsim/models/base.pyx":410
  *     @property
  *     def rules(self):
- *         return self._rules.rules             # <<<<<<<<<<<<<<
+ *         return self._rules.graph             # <<<<<<<<<<<<<<
  *     @property
  *     def p_recomb(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->_rules), __pyx_n_s_rules); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 410, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->_rules), __pyx_n_s_graph); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 410, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -9580,7 +9581,7 @@ static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_5rules___get__(struct __
  *     #####
  *     @property             # <<<<<<<<<<<<<<
  *     def rules(self):
- *         return self._rules.rules
+ *         return self._rules.graph
  */
 
   /* function exit code */
@@ -9596,7 +9597,7 @@ static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_5rules___get__(struct __
 
 /* "plexsim/models/base.pyx":411
  *     def rules(self):
- *         return self._rules.rules
+ *         return self._rules.graph
  *     @property             # <<<<<<<<<<<<<<
  *     def p_recomb(self):
  *         return self._mcmc._p_recomb
@@ -9641,7 +9642,7 @@ static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_8p_recomb___get__(struct
 
   /* "plexsim/models/base.pyx":411
  *     def rules(self):
- *         return self._rules.rules
+ *         return self._rules.graph
  *     @property             # <<<<<<<<<<<<<<
  *     def p_recomb(self):
  *         return self._mcmc._p_recomb

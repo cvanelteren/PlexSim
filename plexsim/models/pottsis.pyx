@@ -57,8 +57,8 @@ cdef class Pottsis(Potts):
             neighbor = deref(it).first
             # check rules
             # update using rule
-            if fabs(self._rules._rules[proposal][states[neighbor]]) > 0:
-                update = rule.second.first
+            if fabs(self._rules._adj[proposal][states[neighbor]]) > 0:
+                update = self._rules._adj[proposal][states[neighbor]]
             # normal potts
             else:
                 #update = weight * self._hamiltonian(proposal, states[neighbor])

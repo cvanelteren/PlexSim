@@ -1684,16 +1684,16 @@ struct __pyx_t_7plexsim_6models_5types_Connection {
   __pyx_t_7plexsim_6models_5types_Neighbors neighbors;
 };
 
-/* "plexsim/models/types.pxd":49
- *     Neighbors neighbors
+/* "plexsim/models/types.pxd":50
  *     # Weights  weights
+ * 
  * ctypedef unordered_map[node_id_t, Connection] Connections             # <<<<<<<<<<<<<<
  * 
  * 
  */
 typedef std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,struct __pyx_t_7plexsim_6models_5types_Connection>  __pyx_t_7plexsim_6models_5types_Connections;
 
-/* "plexsim/models/types.pxd":54
+/* "plexsim/models/types.pxd":55
  * 
  * # ctypedef unordered_set[state_t] MemoizeUnit
  * ctypedef pair[state_t, state_t] MemoizeUnit             # <<<<<<<<<<<<<<
@@ -1791,14 +1791,15 @@ struct __pyx_obj_7plexsim_6models_7sampler_MCMC {
 
 /* "plexsim/models/rules.pxd":5
  * from libcpp.unordered_map cimport unordered_map
- * from plexsim.models.adjacency cimport Adjacency
- * cdef class Rules(Adjacency):             # <<<<<<<<<<<<<<
+ * # from plexsim.models.adjacency cimport Adjacency
+ * cdef class Rules:             # <<<<<<<<<<<<<<
  *     """
  *     Special type of overriding dynamics in a model.
  */
 struct __pyx_obj_7plexsim_6models_5rules_Rules {
-  struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency __pyx_base;
-  std::unordered_map<__pyx_t_7plexsim_6models_5types_state_t,std::unordered_map<__pyx_t_7plexsim_6models_5types_state_t,double> >  _rules;
+  PyObject_HEAD
+  std::unordered_map<__pyx_t_7plexsim_6models_5types_state_t,std::unordered_map<__pyx_t_7plexsim_6models_5types_state_t,double> >  _adj;
+  PyObject *__dict__;
 };
 
 

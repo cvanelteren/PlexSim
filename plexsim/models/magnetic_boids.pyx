@@ -125,7 +125,7 @@ cdef class MagneticBoids(ValueNetwork):
             neighbor = deref(it).first
             weight = deref(it).second
             # update positions
-            update = self._rules._rules[self._states[node]][self._states[neighbor]]
+            update = self._rules._adj[self._states[node]][self._states[neighbor]]
             distance_weight = 0
             for idx in range(2):
                 # compute alignment

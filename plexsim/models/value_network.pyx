@@ -1,9 +1,12 @@
 import networkx as nx, numpy as np
 cimport numpy as np, cython
 from cython.parallel cimport parallel, prange, threadid
-from cython.operator cimport dereference as deref, preincrement, postincrement as post
+from cython.operator cimport dereference as deref, postincrement as post
 from libc.math cimport exp, cos, pi
 from libcpp.set cimport set as cset
+
+cdef extern from "<iterator>" namespace "std":
+    void advance(Iter, size_t n)
 
 cdef class ValueNetwork(Potts):
     def __init__(self, graph,
@@ -91,7 +94,7 @@ cdef class ValueNetwork(Potts):
                 results[0].append(path.copy())
         return add
 
-    cdef bint _check_endpoint(self, state_t current_state, Crawler crawler):
+    cdef bint _check_endpoint(self, state_t current_state, Crawler *crawler) nogil:
         """"
         Checks the endpoint of the value network
         @param: current_state, double state of the edge looking towards its neighbors
@@ -99,47 +102,63 @@ cdef class ValueNetwork(Potts):
         """
         # update paths
         cdef size_t idx
-        cdef size_t other_state
+        cdef state_t other_state
         cdef double weight_edge
 
-        it = self.rules._adj[current_state].neighbors.begin()
 
         # count frequency of end point occurence
         cdef size_t counter = 0
-        while it != self.rules._adj[current_state].neighbors.end():
+
+        it = self._rules._adj[current_state].begin()
+        while it != self._rules._adj[current_state].end():
             other_state = deref(it).first
             weight_edge = deref(it).second
             if weight_edge > 0:
                 # traverse path and find the edge
                 # TODO: smartify this with set operation?
-                for idx in range(crawler.path.size()):
+                jt = crawler.path.begin()
+                while jt != crawler.path.end():
                     # check if the value edge exists
-                    if current_state == crawler.path[idx].current.state:
-                        if other_state == crawler.path[idx].other.state:
+                    if current_state == deref(jt).current.state:
+                        if other_state == deref(jt).other.state:
                             counter += 1
                     # check if reverse of value edge exists
-                    if current_state == crawler.path[idx].other.state:
-                        if other_state == crawler.path[idx].current.state:
+                    if current_state == deref(jt).other.state:
+                        if other_state == deref(jt).current.state:
                             counter += 1
+                    post(jt)
             post(it)
         cdef bint is_endpoint = False
-        if counter == self.rules._adj[s].neighbors.size():
+        if counter == self._rules._adj[current_state].size():
             end_point = True
         return end_point
 
 
     cpdef list check_df(self, node_id_t start, bint verbose = False):
-        cdef Crawler explorer = Crawler(start,
+        cdef Crawler *explorer = new Crawler(start,
                                         self._bounded_rational,
                                         verbose)
         self._check_df(explorer)
-        return explorer.results
+        cdef list results = []
+        for idx in range(explorer.results.size()):
+            it = explorer.results[idx].begin()
 
-    cdef Crawler _check_df(self, Crawler crawler) nogil:
-        cdef EdgeColor current_edge, proposal_edge, option
+            results.append([])
+            while it != explorer.results[idx].end():
+                e = [deref(it).current.name, deref(it).other.name]
+                ev = [deref(it).current.state, deref(it).other.state]
+                results[-1].append((e, ev))
+                post(it)
+        return results
+
+    cdef Crawler* _check_df(self, Crawler *crawler) nogil:
+        cdef EdgeColor current_edge
+        cdef EdgeColor proposal_edge = EdgeColor()
+        cdef vector[EdgeColor] option
         cdef size_t idx
         if crawler.queue.size():
-            current_edge = crawler.queue.pop_back()
+            current_edge = crawler.queue.back()
+            crawler.queue.pop_back()
             if current_edge.current.name != current_edge.other.name:
                 crawler.path.push_back(current_edge)
 
@@ -148,20 +167,31 @@ cdef class ValueNetwork(Potts):
             # 2. check neighbors
             # 3. check branch
             # 4. check merge
-            if crawler.verbose:
-                with gil:
-                    print(f"checking edge {e} path is {path}")
-                    print(f"At {current}")
-                    print(f"Path : {path}")
-                    print(f"Vp_path : {vp_path}")
-                    print(f"Options: {results[1]}")
-                    print(f"Results: {results[0]}")
+
+            # if crawler.verbose:
+            #     with gil:
+            #         print(f"checking edge {e} path is {path}")
+            #         print(f"At {current}")
+            #         print(f"Path : {path}")
+            #         print(f"Vp_path : {vp_path}")
+            #         print(f"Options: {results[1]}")
+            #         print(f"Results: {results[0]}")
+
             # 1. check endpoints
-            if self._check_endpoints(crawler):
-                crawler.options.push_back(current_edge)
+
+            if self._check_endpoint(current_edge.current.state, crawler):
+                option.push_back(current_edge)
+                crawler.options.push_back(option)
                 if crawler.verbose:
                     with gil:
-                        print(f"At end point, pushing {current_edge}")
+                        print(f"At end point, pushing: ")
+                        print(f" {current_edge.current.name=}")
+                        print(f" {current_edge.other.name=}")
+
+                        print(f" {current_edge.current.state=}")
+                        print(f" {current_edge.other.state=}")
+
+
                 # pop the path from current path
                 if crawler.path.size():
                     crawler.path.pop_back()
@@ -178,25 +208,26 @@ cdef class ValueNetwork(Potts):
                 proposal_edge.other.name = deref(it).first
                 proposal_edge.other.state = self._states[deref(it).first]
                 if deref(it).first == current_edge.other.name:
-                    if verbose:
+                    if crawler.verbose:
                         with gil:
                             print("Found node already in path (cycle)")
                     continue
                 # check if branch is valid
-                if self.rules._adj[current_edge.current.state][deref(it).first] <= 0:
+                if self._rules._adj[current_edge.current.state][deref(it).first] <= 0:
                     if crawler.verbose:
                         with gil:
                             print("negative weight found")
                     continue
                 # 3. step into brach
-                if proposal_edge not in crawler.path:
+                if crawler.in_path(proposal_edge) == False:
                     crawler.queue.push_back(proposal_edge)
-                    self._check_df(crawler, verbose)
+                    self._check_df(crawler)
 
             # 4. merge options
-            if self.rules._adj[current_edge.current.state][current_edge.other.state] > 0:
-                if current_edge not in crawler.options:
-                    crawler.options.push_back(current_edge)
+            if self._rules._adj[current_edge.current.state][current_edge.other.state] > 0:
+                if not crawler.in_path(current_edge):
+                    option.push_back(current_edge)
+                    crawler.options.push_back(option)
 
             # merge options
             crawler.merge_options()
@@ -212,7 +243,7 @@ cdef class ValueNetwork(Potts):
             #                 print(f'adding results {option[0]} {self.bounded_rational} vp = {option[1]}')
 
         # check if current path contains solution
-        if crawler.path.size() == self._bouded_rational:
+        if crawler.path.size() == self._bounded_rational:
             crawler.add_result(crawler.path)
 
         # reduce path length
@@ -263,12 +294,12 @@ cdef class ValueNetwork(Potts):
             weight   = deref(it).second
             neighbor = deref(it).first
             # check rules
-            energy += self._rules._rules[proposal][states[neighbor]]
+            energy += self._rules._adj[proposal][states[neighbor]]
             post(it)
 
-        with gil:
-            energy +=  len(self.check_df([[node, node]], path = [], vp_path = [],
-                                        results= [[], []], verbose = False)[0])
+        cdef Crawler *crawler = new Crawler(node, self._bounded_rational)
+        crawler = self._check_df(crawler)
+        energy += crawler.results.size()
 
 
 

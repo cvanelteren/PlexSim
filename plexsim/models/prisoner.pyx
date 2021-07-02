@@ -107,8 +107,8 @@ cdef class Prisoner(Potts):
             neighbor = deref(it).first
             # check rules
             # update using rule
-            if fabs(self._rules._rules[proposal][states[neighbor]]):
-                update = rule.second.second
+            if fabs(self._rules._adj[proposal][states[neighbor]]):
+                update = self._rules._adj[proposal][states[neighbor]]
             # normal potts
             else:
                 update = weight * self._hamiltonian(proposal, states[neighbor])

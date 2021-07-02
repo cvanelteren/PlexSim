@@ -11158,11 +11158,14 @@ docs/figures/ising_time_example.png
 docs/figures/new_banner.gif
 docs/figures/new_banner2.webm
 docs/figures/test.py
+docs/figures/test_2.mp4
 docs/figures/.ipynb_checkpoints/AB model-checkpoint.ipynb
 docs/figures/.ipynb_checkpoints/Cpp models-checkpoint.ipynb
 docs/figures/.ipynb_checkpoints/PlexSim_banner-checkpoint.ipynb
 docs/figures/.ipynb_checkpoints/Untitled-checkpoint.ipynb
+docs/figures/.ob-jupyter/1f2670409ebdc59abcc0a27fd736cf3eca3702d6.png
 docs/figures/.ob-jupyter/28ab290be1adeb10f2b624432f64edc7d59f1e8b.png
+docs/figures/.ob-jupyter/59798c9deb9b7624824a04da3f8ad5bb00ba1cdf.png
 docs/source/conf.py
 docs/source/convert-org.py
 docs/source/glossary.org
@@ -11197,6 +11200,8 @@ plexsim.egg-info/not-zip-safe
 plexsim.egg-info/requires.txt
 plexsim.egg-info/top_level.txt
 plexsim/__pycache__/__init__.cpython-39.pyc
+plexsim/include/crawler.cpp
+plexsim/include/crawler.hpp
 plexsim/include/mt19937.h
 plexsim/include/pyobjectholder.cpp
 plexsim/include/pyobjectholder.hpp
@@ -11289,10 +11294,12 @@ plexsim/utils/__pycache__/rules.cpython-39.pyc
 tests/__init__.py
 tests/flight_test.webm
 tests/sample.png
+tests/test_conway.py
 tests/test_models.py
 tests/test_particular.py
 tests/test_valuenetwork.py
 tests/vis_boid.py
+tests/__pycache__/test_models.cpython-39.pyc
 tests/__pycache__/test_valuenetwork.cpython-39.pyc
 tests/old_tryouts/CMakeLists.txt
 tests/old_tryouts/Cargo.lock

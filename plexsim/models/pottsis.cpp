@@ -1686,16 +1686,16 @@ struct __pyx_t_7plexsim_6models_5types_Connection {
   __pyx_t_7plexsim_6models_5types_Neighbors neighbors;
 };
 
-/* "plexsim/models/types.pxd":49
- *     Neighbors neighbors
+/* "plexsim/models/types.pxd":50
  *     # Weights  weights
+ * 
  * ctypedef unordered_map[node_id_t, Connection] Connections             # <<<<<<<<<<<<<<
  * 
  * 
  */
 typedef std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,struct __pyx_t_7plexsim_6models_5types_Connection>  __pyx_t_7plexsim_6models_5types_Connections;
 
-/* "plexsim/models/types.pxd":54
+/* "plexsim/models/types.pxd":55
  * 
  * # ctypedef unordered_set[state_t] MemoizeUnit
  * ctypedef pair[state_t, state_t] MemoizeUnit             # <<<<<<<<<<<<<<
@@ -1809,14 +1809,15 @@ struct __pyx_obj_7plexsim_6models_7sampler_MCMC {
 
 /* "plexsim/models/rules.pxd":5
  * from libcpp.unordered_map cimport unordered_map
- * from plexsim.models.adjacency cimport Adjacency
- * cdef class Rules(Adjacency):             # <<<<<<<<<<<<<<
+ * # from plexsim.models.adjacency cimport Adjacency
+ * cdef class Rules:             # <<<<<<<<<<<<<<
  *     """
  *     Special type of overriding dynamics in a model.
  */
 struct __pyx_obj_7plexsim_6models_5rules_Rules {
-  struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency __pyx_base;
-  std::unordered_map<__pyx_t_7plexsim_6models_5types_state_t,std::unordered_map<__pyx_t_7plexsim_6models_5types_state_t,double> >  _rules;
+  PyObject_HEAD
+  std::unordered_map<__pyx_t_7plexsim_6models_5types_state_t,std::unordered_map<__pyx_t_7plexsim_6models_5types_state_t,double> >  _adj;
+  PyObject *__dict__;
 };
 
 
@@ -4779,7 +4780,6 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
   size_t __pyx_v_neighbor;
   CYTHON_UNUSED double __pyx_v_weight;
   double __pyx_v_energy;
-  std::pair<int,std::pair<__pyx_t_7plexsim_6models_5types_state_t,double> >  __pyx_v_rule;
   double __pyx_v_update;
   std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,__pyx_t_7plexsim_6models_5types_weight_t> ::iterator __pyx_v_it;
   __pyx_t_7plexsim_6models_5types_state_t __pyx_v_proposal;
@@ -4790,7 +4790,6 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
   __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_2;
   int __pyx_t_3;
   __pyx_t_7plexsim_6models_5types_weight_t __pyx_t_4;
-  __pyx_t_7plexsim_6models_5types_state_t __pyx_t_5;
 
   /* "plexsim/models/pottsis.pyx":38
  *         """
@@ -4882,28 +4881,27 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
     /* "plexsim/models/pottsis.pyx":60
  *             # check rules
  *             # update using rule
- *             if fabs(self._rules._rules[proposal][states[neighbor]]) > 0:             # <<<<<<<<<<<<<<
- *                 update = rule.second.first
+ *             if fabs(self._rules._adj[proposal][states[neighbor]]) > 0:             # <<<<<<<<<<<<<<
+ *                 update = self._rules._adj[proposal][states[neighbor]]
  *             # normal potts
  */
-    __pyx_t_3 = ((fabs(((__pyx_v_self->__pyx_base.__pyx_base._rules->_rules[__pyx_v_proposal])[(__pyx_v_states[__pyx_v_neighbor])])) > 0.0) != 0);
+    __pyx_t_3 = ((fabs(((__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[__pyx_v_proposal])[(__pyx_v_states[__pyx_v_neighbor])])) > 0.0) != 0);
     if (__pyx_t_3) {
 
       /* "plexsim/models/pottsis.pyx":61
  *             # update using rule
- *             if fabs(self._rules._rules[proposal][states[neighbor]]) > 0:
- *                 update = rule.second.first             # <<<<<<<<<<<<<<
+ *             if fabs(self._rules._adj[proposal][states[neighbor]]) > 0:
+ *                 update = self._rules._adj[proposal][states[neighbor]]             # <<<<<<<<<<<<<<
  *             # normal potts
  *             else:
  */
-      __pyx_t_5 = __pyx_v_rule.second.first;
-      __pyx_v_update = __pyx_t_5;
+      __pyx_v_update = ((__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[__pyx_v_proposal])[(__pyx_v_states[__pyx_v_neighbor])]);
 
       /* "plexsim/models/pottsis.pyx":60
  *             # check rules
  *             # update using rule
- *             if fabs(self._rules._rules[proposal][states[neighbor]]) > 0:             # <<<<<<<<<<<<<<
- *                 update = rule.second.first
+ *             if fabs(self._rules._adj[proposal][states[neighbor]]) > 0:             # <<<<<<<<<<<<<<
+ *                 update = self._rules._adj[proposal][states[neighbor]]
  *             # normal potts
  */
       goto __pyx_L5;

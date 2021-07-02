@@ -46,6 +46,7 @@ cdef struct Connection:
     # unordered_map[node_id_t, weight_t] neighbors
     Neighbors neighbors
     # Weights  weights
+
 ctypedef unordered_map[node_id_t, Connection] Connections
 
 

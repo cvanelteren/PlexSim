@@ -15,6 +15,7 @@
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarrayobject.h",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarraytypes.h",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ufuncobject.h",
+            "plexsim/include/crawler.cpp",
             "plexsim/include/crawler.hpp",
             "plexsim/include/pyobjectholder.cpp",
             "plexsim/include/pyobjectholder.hpp"
@@ -924,6 +925,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include <algorithm>
 #include <set>
 #include "plexsim/include/crawler.hpp"
+#include "plexsim/include/crawler.cpp"
 #include <math.h>
 #include <stdlib.h>
 #include "pystate.h"
@@ -1691,16 +1693,16 @@ struct __pyx_t_7plexsim_6models_5types_Connection {
   __pyx_t_7plexsim_6models_5types_Neighbors neighbors;
 };
 
-/* "plexsim/models/types.pxd":49
- *     Neighbors neighbors
+/* "plexsim/models/types.pxd":50
  *     # Weights  weights
+ * 
  * ctypedef unordered_map[node_id_t, Connection] Connections             # <<<<<<<<<<<<<<
  * 
  * 
  */
 typedef std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,struct __pyx_t_7plexsim_6models_5types_Connection>  __pyx_t_7plexsim_6models_5types_Connections;
 
-/* "plexsim/models/types.pxd":54
+/* "plexsim/models/types.pxd":55
  * 
  * # ctypedef unordered_set[state_t] MemoizeUnit
  * ctypedef pair[state_t, state_t] MemoizeUnit             # <<<<<<<<<<<<<<
@@ -1766,20 +1768,20 @@ struct __pyx_opt_args_7plexsim_6models_5potts_5Potts_magnetize {
 struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_df;
 struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_doubles;
 
-/* "plexsim/models/value_network.pxd":65
+/* "plexsim/models/value_network.pxd":62
  *     # logic for checking completed vn
  *     # cpdef bint check_endpoint(self, state_t s, list vp_path)
  *     cpdef list check_df(self, node_id_t start, bint verbose =*)             # <<<<<<<<<<<<<<
  * 
- *     cdef Crawler _check_df(self, Crawler crawler) nogil
+ *     cdef Crawler* _check_df(self, Crawler *crawler) nogil
  */
 struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_df {
   int __pyx_n;
   int verbose;
 };
 
-/* "plexsim/models/value_network.pxd":69
- *     cdef Crawler _check_df(self, Crawler crawler) nogil
+/* "plexsim/models/value_network.pxd":66
+ *     cdef Crawler* _check_df(self, Crawler *crawler) nogil
  *     # merge branches
  *     cpdef bint check_doubles(self, list path, list results,             # <<<<<<<<<<<<<<
  *                              bint verbose =*)
@@ -1840,14 +1842,15 @@ struct __pyx_obj_7plexsim_6models_7sampler_MCMC {
 
 /* "plexsim/models/rules.pxd":5
  * from libcpp.unordered_map cimport unordered_map
- * from plexsim.models.adjacency cimport Adjacency
- * cdef class Rules(Adjacency):             # <<<<<<<<<<<<<<
+ * # from plexsim.models.adjacency cimport Adjacency
+ * cdef class Rules:             # <<<<<<<<<<<<<<
  *     """
  *     Special type of overriding dynamics in a model.
  */
 struct __pyx_obj_7plexsim_6models_5rules_Rules {
-  struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency __pyx_base;
-  std::unordered_map<__pyx_t_7plexsim_6models_5types_state_t,std::unordered_map<__pyx_t_7plexsim_6models_5types_state_t,double> >  _rules;
+  PyObject_HEAD
+  std::unordered_map<__pyx_t_7plexsim_6models_5types_state_t,std::unordered_map<__pyx_t_7plexsim_6models_5types_state_t,double> >  _adj;
+  PyObject *__dict__;
 };
 
 
@@ -1902,7 +1905,7 @@ struct __pyx_obj_7plexsim_6models_5potts_Potts {
 };
 
 
-/* "plexsim/models/value_network.pxd":46
+/* "plexsim/models/value_network.pxd":50
  * 
  * 
  * cdef class ValueNetwork(Potts):             # <<<<<<<<<<<<<<
@@ -1912,8 +1915,6 @@ struct __pyx_obj_7plexsim_6models_5potts_Potts {
 struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork {
   struct __pyx_obj_7plexsim_6models_5potts_Potts __pyx_base;
   size_t _bounded_rational;
-  std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,std::unordered_map<size_t,std::vector<__pyx_t_7plexsim_6models_5types_node_id_t> > >  paths;
-  std::unordered_map<__pyx_t_7plexsim_6models_5types_state_t,size_t>  distance_converter;
 };
 
 
@@ -2101,7 +2102,7 @@ struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts {
 static struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *__pyx_vtabptr_7plexsim_6models_5potts_Potts;
 
 
-/* "plexsim/models/value_network.pxd":46
+/* "plexsim/models/value_network.pxd":50
  * 
  * 
  * cdef class ValueNetwork(Potts):             # <<<<<<<<<<<<<<
@@ -2112,9 +2113,9 @@ static struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *__pyx_vtabptr_7ple
 struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork {
   struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts __pyx_base;
   PyObject *(*check_df)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, __pyx_t_7plexsim_6models_5types_node_id_t, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_df *__pyx_optional_args);
-  Crawler (*_check_df)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, Crawler);
+  Crawler *(*_check_df)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, Crawler *);
   int (*check_doubles)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, PyObject *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_doubles *__pyx_optional_args);
-  int (*_check_endpoint)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, __pyx_t_7plexsim_6models_5types_state_t, Crawler);
+  int (*_check_endpoint)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, __pyx_t_7plexsim_6models_5types_state_t, Crawler *);
 };
 static struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *__pyx_vtabptr_7plexsim_6models_13value_network_ValueNetwork;
 
@@ -6053,7 +6054,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
  *             neighbor = deref(it).first
  *             weight = deref(it).second             # <<<<<<<<<<<<<<
  *             # update positions
- *             update = self._rules._rules[self._states[node]][self._states[neighbor]]
+ *             update = self._rules._adj[self._states[node]][self._states[neighbor]]
  */
     __pyx_t_4 = (*__pyx_v_it).second;
     __pyx_v_weight = __pyx_t_4;
@@ -6061,15 +6062,15 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
     /* "plexsim/models/magnetic_boids.pyx":128
  *             weight = deref(it).second
  *             # update positions
- *             update = self._rules._rules[self._states[node]][self._states[neighbor]]             # <<<<<<<<<<<<<<
+ *             update = self._rules._adj[self._states[node]][self._states[neighbor]]             # <<<<<<<<<<<<<<
  *             distance_weight = 0
  *             for idx in range(2):
  */
-    __pyx_v_update = ((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rules->_rules[(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node])])[(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_neighbor])]);
+    __pyx_v_update = ((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rules->_adj[(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node])])[(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_neighbor])]);
 
     /* "plexsim/models/magnetic_boids.pyx":129
  *             # update positions
- *             update = self._rules._rules[self._states[node]][self._states[neighbor]]
+ *             update = self._rules._adj[self._states[node]][self._states[neighbor]]
  *             distance_weight = 0             # <<<<<<<<<<<<<<
  *             for idx in range(2):
  *                 # compute alignment
@@ -6077,7 +6078,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
     __pyx_v_distance_weight = 0.0;
 
     /* "plexsim/models/magnetic_boids.pyx":130
- *             update = self._rules._rules[self._states[node]][self._states[neighbor]]
+ *             update = self._rules._adj[self._states[node]][self._states[neighbor]]
  *             distance_weight = 0
  *             for idx in range(2):             # <<<<<<<<<<<<<<
  *                 # compute alignment

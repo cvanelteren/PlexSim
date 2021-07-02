@@ -1,6 +1,5 @@
 #include "crawler.hpp"
-#include <algorithm>
-#include <iostream>
+
 ColorNode::ColorNode(){};
 
 ColorNode::ColorNode(size_t name, double state) {
@@ -13,6 +12,12 @@ EdgeColor::EdgeColor(){};
 EdgeColor::EdgeColor(ColorNode current, ColorNode other) {
   this->current = current;
   this->other = other;
+}
+
+EdgeColor::EdgeColor(size_t name, size_t name_other, double name_state,
+                     double other_state) {
+  this->current = ColorNode(name, name_state);
+  this->other = ColorNode(name_other, other_state);
 }
 
 bool EdgeColor::operator=(const EdgeColor &other) const {
@@ -28,7 +33,6 @@ void EdgeColor::print() const {
   std::cout << this->other.state << std::endl;
 }
 
-// general bool
 bool operator<(const EdgeColor &current, const EdgeColor &other) {
   return (current.current.name < other.current.name);
 }
@@ -56,7 +60,7 @@ Crawler::Crawler(size_t start, size_t bouned_rational, bool verbose)
   this->verbose = verbose;
 }
 
-void Crawler::add_result(std::set<EdgeColor> option) {
+void Crawler::add_result(std::vector<EdgeColor> option) {
   bool add = true;
   if (option.size()) {
     if (std::find(this->results.begin(), this->results.end(), option) !=
@@ -64,6 +68,11 @@ void Crawler::add_result(std::set<EdgeColor> option) {
       this->results.push_back(option);
     }
   }
+}
+
+bool Crawler::in_path(EdgeColor option) {
+  return (std::find(this->path.begin(), this->path.end(), option) !=
+          this->path.end());
 }
 
 void Crawler::merge_options() {
@@ -74,7 +83,7 @@ void Crawler::merge_options() {
   bool can_merge = true;
   bool merge_option = false;
 
-  std::set<EdgeColor> opti, optj, option;
+  std::vector<EdgeColor> opti, optj, option;
   while (can_merge) {
     can_merge = false;
     // check all combinations
@@ -120,7 +129,7 @@ void Crawler::merge_options() {
       }
     }
   }
-  // put options back in place
+  // put options back in plac
   if (to_merge.size()) {
     this->options = to_merge;
   }
