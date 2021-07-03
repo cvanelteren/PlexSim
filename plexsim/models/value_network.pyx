@@ -3,10 +3,14 @@ cimport numpy as np, cython
 from cython.parallel cimport parallel, prange, threadid
 from cython.operator cimport dereference as deref, postincrement as post
 from libc.math cimport exp, cos, pi
+
 from libcpp.set cimport set as cset
 
 cdef extern from "<iterator>" namespace "std":
     void advance(Iter, size_t n)
+
+cdef extern from "<algorithm>" namespace "std" nogil:
+    void swap[T] (T &a, T &b)
 
 cdef class ValueNetwork(Potts):
     def __init__(self, graph,
@@ -130,66 +134,77 @@ cdef class ValueNetwork(Potts):
             post(it)
         cdef bint is_endpoint = False
         if counter == self._rules._adj[current_state].size():
-            end_point = True
-        return end_point
+            is_endpoint = True
+
+        return is_endpoint
 
 
     cpdef list check_df(self, node_id_t start, bint verbose = False):
-        cdef Crawler *explorer = new Crawler(start,
+        cdef Crawler *crawler = new Crawler(start,
+                                             self._states[start],
                                         self._bounded_rational,
                                         verbose)
-        self._check_df(explorer)
+        crawler = self._check_df(crawler)
         cdef list results = []
-        for idx in range(explorer.results.size()):
-            it = explorer.results[idx].begin()
 
+        # cdef cset[cset[EdgeColor]].iterator it = crawler.results.begin()
+        # cdef cset[EdgeColor].iterator jt
+
+        cdef vector[vector[EdgeColor]].iterator it = crawler.results.begin()
+        cdef vector[EdgeColor].iterator jt
+
+        while it != crawler.results.end():
+            jt = deref(it).begin()
             results.append([])
-            while it != explorer.results[idx].end():
-                e = [deref(it).current.name, deref(it).other.name]
-                ev = [deref(it).current.state, deref(it).other.state]
+            while jt != deref(it).end():
+                e = [deref(jt).current.name, deref(jt).other.name]
+                ev = [deref(jt).current.state, deref(jt).other.state]
                 results[-1].append((e, ev))
-                post(it)
+                post(jt)
+            post(it)
+        del crawler
         return results
 
     cdef Crawler* _check_df(self, Crawler *crawler) nogil:
-        cdef EdgeColor current_edge
-        cdef EdgeColor proposal_edge = EdgeColor()
+        """
+           # steps:
+           # 1. check end points
+           # 2. check neighbors
+           # 3. check branch
+           # 4. check merge
+
+        """
+        cdef EdgeColor *current_edge
+        cdef EdgeColor *proposal_edge = new EdgeColor()
         cdef vector[EdgeColor] option
+        cdef double edge_weight
         cdef size_t idx
         if crawler.queue.size():
-            current_edge = crawler.queue.back()
+            # pop the queue
+            current_edge = &crawler.queue.back()
             crawler.queue.pop_back()
+            if crawler.verbose:
+                with gil:
+                    print(f"{current_edge.current.name=}")
+                    print(f"{current_edge.other.name=}")
+                    print(f"{current_edge.current.state=}")
+                    print(f"{current_edge.other.state=}")
+
             if current_edge.current.name != current_edge.other.name:
-                crawler.path.push_back(current_edge)
-
-            # steps:
-            # 1. check end points
-            # 2. check neighbors
-            # 3. check branch
-            # 4. check merge
-
-            # if crawler.verbose:
-            #     with gil:
-            #         print(f"checking edge {e} path is {path}")
-            #         print(f"At {current}")
-            #         print(f"Path : {path}")
-            #         print(f"Vp_path : {vp_path}")
-            #         print(f"Options: {results[1]}")
-            #         print(f"Results: {results[0]}")
+                crawler.path.push_back(deref(current_edge))
 
             # 1. check endpoints
-
             if self._check_endpoint(current_edge.current.state, crawler):
-                option.push_back(current_edge)
+                option.push_back(deref(current_edge))
                 crawler.options.push_back(option)
-                if crawler.verbose:
-                    with gil:
-                        print(f"At end point, pushing: ")
-                        print(f" {current_edge.current.name=}")
-                        print(f" {current_edge.other.name=}")
 
-                        print(f" {current_edge.current.state=}")
-                        print(f" {current_edge.other.state=}")
+                # if crawler.verbose:
+                #     with gil:
+                #         print(f"At end point, pushing: ")
+                #         print(f" {current_edge.current.name=}")
+                #         print(f" {current_edge.other.name=}")
+                #         print(f" {current_edge.current.state=}")
+                #         print(f" {current_edge.other.state=}")
 
 
                 # pop the path from current path
@@ -199,50 +214,89 @@ cdef class ValueNetwork(Potts):
 
 
             # create new proposal edge
-            proposal_edge.current.name = current_edge.current.name
-            proposal_edge.current.state = current_edge.current.state
+            # proposal_edge.current.name = current_edge.current.name
+            # proposal_edge.current.state = current_edge.current.state
+
+            proposal_edge.current.name = current_edge.other.name
+            proposal_edge.current.state = current_edge.other.state
 
             # 2. check neighbors
             it = self.adj._adj[current_edge.current.name].neighbors.begin()
             while it != self.adj._adj[current_edge.current.name].neighbors.end():
+
                 proposal_edge.other.name = deref(it).first
                 proposal_edge.other.state = self._states[deref(it).first]
+                # proposal_edge.other.name = current_edge.current.name
+                # proposal_edge.other.state = current_edge.current.state
+
+                # if deref(it).first < current_edge.current.name:
+                #     proposal_edge.current.name = deref(it).first
+                #     proposal_edge.current.state = self._states[deref(it).first]
+
+                #     proposal_edge.other.name = current_edge.current.name
+                #     proposal_edge.other.state = current_edge.current.state
+
+                # else:
+                #     proposal_edge.other.name = deref(it).first
+                #     proposal_edge.other.state = self._states[deref(it).first]
+
+                #     proposal_edge.current.name = current_edge.current.name
+                #     proposal_edge.current.state = current_edge.current.state
+
+                if crawler.verbose:
+                    with gil:
+                        print(f"At {proposal_edge.current.name=}")
+                        print(f"Checking {proposal_edge.other.name=}")
+                        crawler.print()
+
                 if deref(it).first == current_edge.other.name:
                     if crawler.verbose:
                         with gil:
                             print("Found node already in path (cycle)")
-                    continue
+
                 # check if branch is valid
-                if self._rules._adj[current_edge.current.state][deref(it).first] <= 0:
-                    if crawler.verbose:
-                        with gil:
-                            print("negative weight found")
-                    continue
+                edge_weight = self._rules._adj[current_edge.current.state][deref(it).first]
                 # 3. step into brach
-                if crawler.in_path(proposal_edge) == False:
-                    crawler.queue.push_back(proposal_edge)
-                    self._check_df(crawler)
+                if edge_weight > 0:
+                    if not crawler.in_path(deref(proposal_edge)):
+                        if crawler.verbose:
+                            with gil:
+                                print("Pushing")
+                                print(f"{proposal_edge.current.name=}")
+                                print(f"{proposal_edge.other.name=}")
+                        crawler.queue.push_back(deref(proposal_edge))
+                        self._check_df(crawler)
+
+                post(it) # never forget :)
 
             # 4. merge options
-            if self._rules._adj[current_edge.current.state][current_edge.other.state] > 0:
-                if not crawler.in_path(current_edge):
-                    option.push_back(current_edge)
+            edge_weight = self._rules._adj[current_edge.current.state][current_edge.other.state]
+
+            if edge_weight > 0:
+                if not crawler.in_options(deref(current_edge)):
+
+                    option.clear()
+                    option.push_back(deref(current_edge))
                     crawler.options.push_back(option)
+
+                    if crawler.verbose:
+                        with gil:
+                            print(f"{edge_weight=}")
 
             # merge options
             crawler.merge_options()
-
-            # I believe this is not needed
-            # for idx in range(crawler.options.size()):
-            #     if crawler.options[idx].size() == self._bounded_rational:
-            #         option = crawler[idx]
-            #         crawler.options.erase(idx)
-            #         self._check_doubles(crawler, verbose)
-            #         if verbose:
-            #             with gil:
-            #                 print(f'adding results {option[0]} {self.bounded_rational} vp = {option[1]}')
+            if crawler.verbose:
+                with gil:
+                    print("done merging")
+                    print(f"{crawler.results.size()=}")
+                    print(f"{crawler.options.size()=}")
 
         # check if current path contains solution
+        if crawler.verbose:
+            with gil:
+                print(f"{crawler.path.size()=} {self._bounded_rational=}")
+                crawler.print()
+
         if crawler.path.size() == self._bounded_rational:
             crawler.add_result(crawler.path)
 
@@ -297,7 +351,7 @@ cdef class ValueNetwork(Potts):
             energy += self._rules._adj[proposal][states[neighbor]]
             post(it)
 
-        cdef Crawler *crawler = new Crawler(node, self._bounded_rational)
+        cdef Crawler *crawler = new Crawler(node, self._states[node], self._bounded_rational)
         crawler = self._check_df(crawler)
         energy += crawler.results.size()
 
@@ -337,317 +391,3 @@ cdef class ValueNetwork(Potts):
             self._newstates[node] = proposal
         return
 
-# cdef class ValueNetworkNP(Potts):
-
-#     def __init__(self, graph,
-#                  rules,
-#                  t = 1,
-#                  bounded_rational = 1,
-#                  agentStates = np.arange(0, 2, dtype = np.double),
-#                  alpha = 1,
-#                  **kwargs
-#                  ):
-#         super(ValueNetworkNP, self).__init__(graph = graph,
-#                                      agentStates = agentStates,
-#                                      rules = rules,
-#                                      **kwargs)
-
-#         self.bounded_rational = bounded_rational
-#         self.alpha = alpha
-#         self.setup_rule_paths()
-#         self.setup_values()
-
-
-#     @property
-#     def test(self):
-#         print(self.paths)
-#         print(self.paths_rules)
-#     #construct shortest path among nodes
-#     cpdef void compute_node_path(self, node_id_t node):
-#         cdef str node_label = self.adj.rmapping[node]
-#         cdef size_t path_counter = 0
-#         # idx acts as dummy merely counting the seperate unique paths
-#         sp = nx.single_source_shortest_path_length(self.graph, node_label, cutoff = self._bounded_rational)
-#         for other, distance in sp.items():
-#             # add the non-local influences
-#             # note the node_label is the start node here; ignore that in future reference
-#             node_other = self.adj.mapping[str(other)]
-#             distance = float(distance)
-#             self.paths[node][distance].push_back(node_other)
-#             path_counter += 1
-#         return
-
-#     cpdef void setup_values(self, int bounded_rational = 1):
-#         #pr = ProgBar(len(self.graph))
-#         # store the paths
-#         self.paths.clear()
-#         import pyprind as pr
-#         cdef object pb = pr.ProgBar(len(self.graph))
-#         cdef size_t i, n = self.adj._nNodes
-#         for i in prange(0, n, nogil = 1):
-#             with gil:
-#                 self.compute_node_path(i)
-#                 pb.update()
-#         return
-#     cpdef void setup_rule_paths(self):
-#         self.paths_rules.clear()
-#         # idx acts as dummy merely counting the seperate unique paths
-#         for state in self._rules.rules:
-#             paths = nx.single_source_shortest_path_length(self._rules.rules,
-#                                 state, cutoff = self._bounded_rational)
-#             # values hold the other states
-#             for state_other, distance in paths.items():
-#                 #state = <state_t>(state)
-#                 # state_other = <state_t>(state_other)
-#                 self.paths_rules[state][distance].push_back(state_other)
-#         return
-
-#     @property
-#     def bounded_rational(self):
-#         return self._bounded_rational
-#     @bounded_rational.setter
-#     def bounded_rational(self, value):
-#         assert 1 <= value <= len(self.rules)
-#         self._bounded_rational = int(value)
-#     @property
-#     def alpha (self):
-#         return self._alpha
-#     @alpha.setter
-#     def alpha(self, value):
-#         self._alpha = value
-
-#     cdef double _energy(self, node_id_t node) nogil:
-#         """
-#         """
-#         cdef:
-#             size_t neighbors = self.adj._adj[node].neighbors.size()
-#             state_t* states = self._states # alias
-#             size_t  neighbor, neighboridx
-#             double weight # TODO: remove delta
-
-#             double energy  = self._H[node] * self._states[node]
-
-#         if self._nudges.find(node) != self._nudges.end():
-#             energy += self._nudges[node] * self._states[node]
-
-
-#         # compute the energy
-#         cdef:
-#             pair[bint, pair[state_t, double]] rule;
-#             double update
-#             MemoizeUnit memop
-
-#         cdef size_t idx
-
-#         #TODO: cleanup
-#         # get the distance to consider based on current state
-#         #cdef size_t distance = self.distance_converter[proposal]
-#         # only get nodes based on distance it can reach based on the value network
-#         # current state as proposal
-#         cdef state_t proposal = self._states[node]
-
-#         cdef:
-#             state_t start
-#             rule_t rule_pair
-#             size_t j
-
-#         energy = self._match_trees(node)
-#         # energy = +self._match_trees(node)
-
-#         cdef size_t mi
-#         # TODO: move to separate function
-#         for mi in range(self._memorySize):
-#             energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
-#         return energy
-
-
-
-
-#     # deprecated
-#     cdef double _match_trees(self, node_id_t node) nogil:
-#         """"
-#         Performs tree matching
-#         """
-
-#         # loop vars
-#         cdef state_t* states = self._states # alias
-#         cdef unordered_map[double, vector[node_id_t]] consider_nodes = self.paths[node]
-
-#         cdef:
-#             rule_t rule_pair
-#             size_t idx, r
-
-#         # path to check
-#         cdef vector[node_id_t] path
-#         # holds bottom-up value chain
-#         cdef vector[node_id_t] nodes_to_consider
-#         cdef vector[state_t] possible_states_at_distance
-#         cdef double tmp, update
-
-#         # acquire current node state
-#         cdef state_t neighbor_state, state_at_distance, node_state = states[node]
-
-#         cdef double counter = 0
-#         for r in range(1, self._bounded_rational + 1):
-#             nodes_to_consider = self.paths[node][r]
-#             # set energy addition
-#             tmp = 0
-#             possible_states_at_distance = self.paths_rules[node_state][r]
-#             for idx in range(nodes_to_consider.size()):
-#                 neighbor = nodes_to_consider[idx]
-#                 neighbor_state = states[neighbor]
-#                 # check the possible states at distance x
-#                 #
-#                 update = -1
-#                 for jdx in range(possible_states_at_distance.size()):
-#                     # obtain state
-#                     state_at_distance = possible_states_at_distance[jdx]
-#                     if neighbor_state == state_at_distance:
-#                         update = 1
-#             # add weighted effect of neighbors of neighbors
-#             counter += update * exp(-self._alpha * r)
-#         return counter
-
-#     cdef double  magnetize_(self, Model mod, size_t n, double t):
-#         # setup simulation
-#         cdef double Z = 1 / <double> self._nStates
-#         mod.t         =  t
-#         # calculate phase and susceptibility
-#         #mod.reset()
-#         mod.states[:] = mod.agentStates[0]
-#         res = mod.simulate(n)
-#         res = np.array([mod.check_vn(i) for i in res]).mean()
-#         #res = np.array([mod.siteEnergy(i) for i in res]).mean()
-#         return res
-#         #return np.array([self.siteEnergy(i) for i in res]).mean()
-#         #return np.abs(np.real(np.exp(2 * np.pi * np.complex(0, 1) * res)).mean())
-
-# cdef class ValueNetworkR(Potts):
-#     def __init__(self, graph,
-#                  rules,
-#                  t = 1,
-#                  bounded_rational = 1,
-#                  agentStates = np.arange(0, 2, dtype = np.double),
-#                  **kwargs
-#                  ):
-#         super(ValueNetwork, self).__init__(graph = graph,
-#                                      agentStates = agentStates,
-#                                      rules = rules,
-#                                      **kwargs)
-
-#         #e = [(u, v) for u, v, d in rules.edges(data = True) if dict(d).get('weight', 1) > 0]
-#         #r = nx.from_edgelist(e)
-#         #
-#         self.bounded_rational = bounded_rational
-
-#     cdef vector[vector[node_id_t[2]]] _find_vc(self,
-#                 vector[node_id_t] queue, vector[node_id_t[2]] path,
-#                  vector[state_t[2]] vp, vector[vector[node_id_t[2]]] results) nogil:
-
-#         # branch parameters
-#         cdef:
-#             node_id_t current # current node
-#             state_t s # current state
-#             node_id_t other # neighbor node
-#             state_t ss # state of other
-#             Neighbors *neighbors  # neighbors current node
-#             node_id_t[2] edge
-#             state_t[2] edge_state
-#             bint continue_branch # step into new branch
-#             rule_t rule
-#         # continue with queue
-#         if queue.size():
-#             current = queue.back()
-#             queue.pop_back()
-#             s =  self._states[current]
-#             neighbors = &self.adj._adj[current].neighbors
-
-#             # continue in side branch
-#             it = neighbors.begin()
-#             while it != neighbors.end():
-#                 other = deref(it).first
-#                 ss = self._states[other]
-#                 # remain order
-#                 # prevents duplicates, i.e. (1, 2) == (2, 1)
-#                 # for undirected graphs only(!)
-#                 if s > ss:
-#                     swap(s, ss)
-#                 if current > other:
-#                     swap(current, other)
-#                 # create proposal edge
-#                 edge = (current, other)
-#                 edge_state = (s, ss)
-
-#                 # check if edge exists
-#                 # if path[edge] == False:
-#                     # queue.push_back(other)
-
-#                 # check for loops
-#                 if path.size():
-#                     # loop found
-#                     if edge == path.back():
-#                         # move to next neghbor
-#                         continue
-#                 # value network not being completed
-#                 # move on to neighbor
-#                 rule = self._rules._check_rules(s,ss)
-#                 if rule.first:
-#                     if rule.second.second <= 0:
-#                         # move to next neighbor
-#                         continue
-#                 # if state edge not in state path
-#                 # and edge not in path
-#                 # continue in branch
-#                 continue_branch = True
-#                 for i in range(path.size()):
-#                     if vp[i] == edge_state:
-#                         continue_branch =  False
-#                         break
-#                     if path[i] == edge:
-#                         continue_branch = False
-#                         break
-
-#                 if continue_branch:
-#                     queue.push_back(other)
-#                     # TODO: make this cleaner
-#                     # move it to top of enter function?
-
-#                     # step into branch
-#                     path.push_back(edge)
-#                     vp.push_back(edge_state)
-#                     # result found or not
-#                     self._find_vc(queue, path, vp, results)
-#                     # remove option
-#                     path.pop_back()
-#                     vp.pop_back()
-#                 post(it)
-
-
-#         cdef bint add = False
-#         if path.size() == self._bounded_rational:
-#             # check for duplicate paths
-#             if results.size():
-#                 add = False
-#                 for i in range(results.size()):
-#                     continue
-#                     # get set
-#             # if results are empty push path
-#             else:
-#                 add = True
-#         if add:
-#             results.push_back(path)
-#         return results
-
-
-
-#     cdef double _check_vn(self, node_id_t node) nogil:
-#         cdef vector[vector[node_id_t[2]]] results
-#         cdef vector[node_id_t[2]] path
-#         cdef vector[state_t[2]] vp
-#         cdef vector[node_id_t] queue
-#         queue.push_back(node)
-#         results = self._find_vc(queue, path, vp, results)
-#         return results.size()
-
-#     def check_vn(self, node_id_t node):
-#         return self._check_vn(node)

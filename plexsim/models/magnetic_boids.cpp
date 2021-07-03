@@ -1768,7 +1768,7 @@ struct __pyx_opt_args_7plexsim_6models_5potts_5Potts_magnetize {
 struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_df;
 struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_doubles;
 
-/* "plexsim/models/value_network.pxd":62
+/* "plexsim/models/value_network.pxd":67
  *     # logic for checking completed vn
  *     # cpdef bint check_endpoint(self, state_t s, list vp_path)
  *     cpdef list check_df(self, node_id_t start, bint verbose =*)             # <<<<<<<<<<<<<<
@@ -1780,7 +1780,7 @@ struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_df {
   int verbose;
 };
 
-/* "plexsim/models/value_network.pxd":66
+/* "plexsim/models/value_network.pxd":71
  *     cdef Crawler* _check_df(self, Crawler *crawler) nogil
  *     # merge branches
  *     cpdef bint check_doubles(self, list path, list results,             # <<<<<<<<<<<<<<
@@ -1905,7 +1905,7 @@ struct __pyx_obj_7plexsim_6models_5potts_Potts {
 };
 
 
-/* "plexsim/models/value_network.pxd":50
+/* "plexsim/models/value_network.pxd":55
  * 
  * 
  * cdef class ValueNetwork(Potts):             # <<<<<<<<<<<<<<
@@ -2102,7 +2102,7 @@ struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts {
 static struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *__pyx_vtabptr_7plexsim_6models_5potts_Potts;
 
 
-/* "plexsim/models/value_network.pxd":50
+/* "plexsim/models/value_network.pxd":55
  * 
  * 
  * cdef class ValueNetwork(Potts):             # <<<<<<<<<<<<<<

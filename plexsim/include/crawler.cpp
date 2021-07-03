@@ -34,7 +34,10 @@ void EdgeColor::print() const {
 }
 
 bool operator<(const EdgeColor &current, const EdgeColor &other) {
-  return (current.current.name < other.current.name);
+  if (current.current.name == other.current.name) {
+    return current.other.name < other.other.name;
+  } else
+    return current.current.name < other.current.name;
 }
 
 bool operator==(const EdgeColor &current, const EdgeColor &other) {
@@ -44,46 +47,87 @@ bool operator==(const EdgeColor &current, const EdgeColor &other) {
           (current.other.name == other.other.name));
 }
 
-Crawler::Crawler(size_t start, size_t bounded_rational) {
+Crawler::Crawler(size_t start, double state, size_t bounded_rational) {
   this->bounded_rational = bounded_rational;
   this->queue.push_back(
-      EdgeColor(ColorNode(start, start), ColorNode(start, start)));
+      EdgeColor(ColorNode(start, state), ColorNode(start, state)));
 
   // default
   this->verbose = false;
 }
 
-Crawler::Crawler(size_t start, size_t bouned_rational, bool verbose)
-    : Crawler(start, bounded_rational) {
+Crawler::Crawler(size_t start, double state, size_t bouned_rational,
+                 bool verbose)
+    : Crawler(start, state, bounded_rational) {
 
   // override default
   this->verbose = verbose;
 }
 
+// TODO make results sets so that unique paths are only in there
 void Crawler::add_result(std::vector<EdgeColor> option) {
-  bool add = true;
   if (option.size()) {
-    if (std::find(this->results.begin(), this->results.end(), option) !=
-        this->results.end()) {
+    // std::set<EdgeColor> tmp = std::set<EdgeColor>(option.begin(),
+    // option.end());
+    //
+    bool add = true;
+    std::set<EdgeColor> overlap;
+    for (auto result : this->results) {
+      for (auto edge : option) {
+        if (this->in_path(edge)) {
+          add = false;
+          break;
+        }
+      }
+      if (add == false) {
+        break;
+      }
+    }
+    if (add) {
       this->results.push_back(option);
+      // this->results.insert(tmp);
     }
   }
 }
 
+bool Crawler::in_options(EdgeColor option) {
+  std::vector<EdgeColor> vopt = {option};
+  for (auto opt : this->options) {
+    if (opt == vopt) {
+      return true;
+    }
+  }
+  return false;
+}
+
 bool Crawler::in_path(EdgeColor option) {
-  return (std::find(this->path.begin(), this->path.end(), option) !=
-          this->path.end());
+  return this->in_path(option, this->path);
+}
+
+bool Crawler::in_path(EdgeColor option, std::vector<EdgeColor> path) {
+  auto a = std::find(path.begin(), path.end(), option) != path.end();
+  return a;
+  // std::swap(option.current, option.other);
+
+  // auto b = std::find(path.begin(), path.end(), option) != path.end();
+  //
+  // std::swap(option.current, option.other);
+  // return (a || b ? true : false);
 }
 
 void Crawler::merge_options() {
-  if (this->results.size() < 2)
+  if (this->options.size() < 2) {
+    printf("returning\n");
     return;
+  }
 
-  auto to_merge = this->options;
+  std::vector<std::vector<EdgeColor>> to_merge = this->options;
   bool can_merge = true;
   bool merge_option = false;
 
-  std::vector<EdgeColor> opti, optj, option;
+  std::vector<EdgeColor> opti, optj;
+  std::set<EdgeColor> option;
+
   while (can_merge) {
     can_merge = false;
     // check all combinations
@@ -99,7 +143,7 @@ void Crawler::merge_options() {
           // check intersection
           // if intersection then options are not unique
           set_intersection(opti.begin(), opti.end(), optj.begin(), optj.end(),
-                           option.begin());
+                           std::inserter(option, option.begin()));
 
           // reset merge to true
           merge_option = true;
@@ -108,19 +152,46 @@ void Crawler::merge_options() {
           if (option.size() > 0)
             merge_option = false;
 
+          printf("merging %d \n", merge_option);
+          printf("can_merge %d \n", can_merge);
+          printf("option size %d \n", option.size());
+          auto it = option.begin();
+          while (it != option.end()) {
+            printf("%ld %ld\n", (*it).current.name, (*it).other.name);
+            it++;
+          }
+
+          auto kt = to_merge.begin();
+          while (kt != to_merge.end()) {
+            auto jt = (*kt).begin();
+            printf("option\n");
+            while (jt != (*kt).end()) {
+              printf("%ld %ld\n", jt->current.name, jt->other.name);
+              jt++;
+            }
+            kt++;
+          }
+
           if (merge_option) {
             // clear intermitten results
             option.clear();
             // create the union
             set_union(opti.begin(), opti.end(), optj.begin(), optj.end(),
-                      option.begin());
+                      std::inserter(option, option.begin()));
             // check if option already exists
-            if (std::find(to_merge.begin(), to_merge.end(), option) !=
+            if (std::find(
+                    to_merge.begin(), to_merge.end(),
+                    std::vector<EdgeColor>(option.begin(), option.end())) ==
                 to_merge.end()) {
-              if (option.size() == this->bounded_rational)
-                this->add_result(option);
-              else {
-                to_merge.push_back(option);
+
+              // if solution add to solution
+              // else add to option list
+              if (option.size() == this->bounded_rational) {
+                this->add_result(
+                    std::vector<EdgeColor>(option.begin(), option.end()));
+              } else {
+                to_merge.push_back(
+                    std::vector<EdgeColor>(option.begin(), option.end()));
                 can_merge = true;
               }
             }
@@ -129,8 +200,54 @@ void Crawler::merge_options() {
       }
     }
   }
+
   // put options back in plac
   if (to_merge.size()) {
     this->options = to_merge;
   }
+}
+
+void Crawler::print() {
+  printf("Printing path");
+  for (auto ec : this->path) {
+    printf("\n Edge %ld %ld \n", ec.current.name, ec.other.name);
+  }
+  printf("\n");
+
+  printf("Printing results\n");
+  auto it = this->results.begin();
+  std::vector<EdgeColor>::iterator jt;
+  // got through all the solutions
+  while (it != this->results.end()) {
+    printf("------------------\n");
+    // each solution print path
+    jt = (*it).begin();
+    while (jt != (*it).end()) {
+      printf("Edge %ld %ld \n", jt->current.name, jt->other.name);
+      jt++;
+    }
+    printf("------------------\n");
+    it++;
+  }
+
+  printf("Printing options\n");
+  it = this->options.begin();
+  while (it != this->options.end()) {
+    jt = (*it).begin();
+    printf("------------------\n");
+    while (jt != (*it).end()) {
+      printf("Edge %ld %ld \n", jt->current.name, jt->other.name);
+      jt++;
+    }
+    printf("------------------\n");
+    it++;
+  }
+  // for (auto i = 0; i < this->results.size(); i++) {
+  //   printf("Results %d", i);
+  //   for (auto ec : this->results[i]) {
+  //     printf("\n Edge %ld %ld \n", ec.current.name, ec.other.name);
+  //   }
+  // }
+
+  printf("\n");
 }

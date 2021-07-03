@@ -38,13 +38,14 @@ bool operator==(const EdgeColor &current, const EdgeColor &other);
 
 class Crawler {
 public:
-  Crawler(size_t start, size_t bounded_rational);
-  Crawler(size_t start, size_t bounded_rational, bool verbose);
+  Crawler(size_t start, double state, size_t bounded_rational);
+  Crawler(size_t start, double state, size_t bounded_rational, bool verbose);
 
   std::vector<EdgeColor> queue;
   std::vector<EdgeColor> path;
 
   std::vector<std::vector<EdgeColor>> results;
+  // std::set<std::set<EdgeColor>> results;
   std::vector<std::vector<EdgeColor>> options;
 
   bool verbose;
@@ -52,7 +53,12 @@ public:
 
   void merge_options();
   bool in_path(EdgeColor);
+  bool in_path(EdgeColor, std::vector<EdgeColor>);
+
+  bool in_options(EdgeColor option);
+
   void add_result(std::vector<EdgeColor>);
+  void print();
 };
 
 #endif

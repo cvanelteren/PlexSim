@@ -11206,6 +11206,7 @@ plexsim/include/mt19937.h
 plexsim/include/pyobjectholder.cpp
 plexsim/include/pyobjectholder.hpp
 plexsim/include/test.cpp
+plexsim/include/test_crawler.cpp
 plexsim/include/vfastexp.h
 plexsim/models/__init__.py
 plexsim/models/ab.cpp
@@ -11333,6 +11334,12 @@ tests/old_tryouts/test_pickle.c
 tests/old_tryouts/test_pickle.pyx
 tests/old_tryouts/test_rust
 tests/old_tryouts/test_xtensor.cpp
+tests/plexsim.egg-info/PKG-INFO
+tests/plexsim.egg-info/SOURCES.txt
+tests/plexsim.egg-info/dependency_links.txt
+tests/plexsim.egg-info/not-zip-safe
+tests/plexsim.egg-info/requires.txt
+tests/plexsim.egg-info/top_level.txt
 tests/target/.rustc_info.json
 tests/target/debug/.cargo-lock
 tests/target/debug/test_rust

@@ -14,7 +14,7 @@ cdef extern from "plexsim/include/crawler.hpp":
     # holds vertex color and id
     cdef cppclass ColorNode:
         ColorNode() nogil except+
-        ColorNode(size_t name, double state) nogil except+
+        ColorNode(state_t name, double state) nogil except+
         size_t name
         state_t state
 
@@ -28,11 +28,12 @@ cdef extern from "plexsim/include/crawler.hpp":
     # crawls accros and finds patterns
     cdef cppclass Crawler:
         Crawler() nogil except+
-        Crawler(size_t start, size_t bounded_rational) nogil except+
-        Crawler(size_t start, size_t bounded_rational, bint verbose) nogil except+
+        Crawler(node_id_t start, state_t state, size_t bounded_rational) nogil except+
+        Crawler(node_id_t  start, state_t state, size_t bounded_rational, bint verbose) nogil except+
 
         vector[EdgeColor] queue
         vector[EdgeColor] path
+        # cset[cset[EdgeColor]] results
         vector[vector[EdgeColor]] results
         vector[vector[EdgeColor]] options
 
@@ -41,7 +42,11 @@ cdef extern from "plexsim/include/crawler.hpp":
 
         void merge_options() nogil
         bint in_path(EdgeColor option) nogil
+        # bint in_path(EdgeColor option, vector[EdgeColor] path) nogil
+
+        bint in_options(EdgeColor option) nogil
         void add_result(vector[EdgeColor]) nogil
+        void print() nogil
 
 cdef extern from "plexsim/include/crawler.cpp":
     pass
