@@ -65,7 +65,7 @@ int main() {
   //   printf("%ld\t%ld\n", e.current.name, e.other.name);
   // }
 
-  Crawler crawler = Crawler(0, 1.0, 3, 1);
+  Crawler crawler = Crawler(0, 1.0, 30, 1);
   // crawler.path = a;
   // printf("%d", crawler.in_path(raa));
 
@@ -83,6 +83,14 @@ int main() {
   crawler.print();
   printf("done");
 
+  std::set<EdgeColor> overlap;
+  std::set_union(c.begin(), c.end(), b.begin(), b.end(),
+                 std::inserter(overlap, overlap.begin()));
+
+  std::set_union(overlap.begin(), overlap.end(), a.begin(), a.end(),
+                 std::inserter(overlap, overlap.begin()));
+  crawler.print(std::vector<EdgeColor>(overlap.begin(), overlap.end()));
+  printf("Overlap %ld", overlap.size());
   // union
   // it = set_union(a.begin(), a.end(), b.begin(), b.end(), d.begin());
   // d.resize(it - d.begin());

@@ -59,6 +59,7 @@ public:
 
   void add_result(std::vector<EdgeColor>);
   void print();
+  void print(std::vector<EdgeColor>);
 };
 
 #endif
