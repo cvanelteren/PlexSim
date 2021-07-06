@@ -1,4 +1,4 @@
 docs/* linguist-documentation
 BACK_PLEX/* linguist-documentation
-*.pyx linguist-language=Cython
+*.pyx linguist-language=C++
 *.pxd linguist-language=C++
