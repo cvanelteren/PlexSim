@@ -1,1 +1,0 @@
-{"rustc":14420027189279859095,"features":"[\"default\", \"proc-macro\"]","target":5822405929374872038,"profile":13722395012923589842,"path":194253901976037575,"deps":[[16649713645279079575,"proc_macro2",false,1966559741937097446]],"local":[{"CheckDepInfo":{"dep_info":"debug/.fingerprint/quote-25fd0e804de82445/dep-lib-quote"}}],"rustflags":[],"metadata":2717943770976187624}
