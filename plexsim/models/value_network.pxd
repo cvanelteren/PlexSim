@@ -25,6 +25,8 @@ cdef extern from "plexsim/include/crawler.hpp":
         ColorNode current
         ColorNode other
 
+        EdgeColor sort() nogil
+
     # crawls accros and finds patterns
     cdef cppclass Crawler:
         Crawler() nogil except+

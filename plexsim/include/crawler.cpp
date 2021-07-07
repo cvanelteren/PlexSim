@@ -33,6 +33,15 @@ void EdgeColor::print() const {
   std::cout << this->other.state << std::endl;
 }
 
+EdgeColor EdgeColor::sort() {
+  auto newec = EdgeColor(this->current, this->other);
+  if (newec.other.name < newec.current.name)
+    std::swap(newec.other.name, newec.current.name);
+  if (newec.other.state < newec.current.state)
+    std::swap(newec.other.state, newec.current.state);
+  return newec;
+}
+
 bool operator<(const EdgeColor &current, const EdgeColor &other) {
   if (current.current.name == other.current.name) {
     return current.other.name < other.other.name;
@@ -66,11 +75,12 @@ Crawler::Crawler(size_t start, double state, size_t bouned_rational,
 
 // TODO make results sets so that unique paths are only in there
 void Crawler::add_result(std::vector<EdgeColor> option) {
+  bool add;
   if (option.size()) {
     // std::set<EdgeColor> tmp = std::set<EdgeColor>(option.begin(),
     // option.end());
     //
-    bool add = true;
+    add = true;
     std::set<EdgeColor> overlap;
     for (auto result : this->results) {
       for (auto edge : option) {
@@ -83,7 +93,7 @@ void Crawler::add_result(std::vector<EdgeColor> option) {
         break;
       }
     }
-    if (add) {
+    if (add == true) {
       this->results.push_back(option);
       // this->results.insert(tmp);
     }
@@ -158,9 +168,6 @@ void Crawler::merge_options() {
           //   merge_option = false;
           // }
 
-          printf("Here\n");
-          this->print(std::vector<EdgeColor>(option.begin(), option.end()));
-
           // if (option.size() == 0) {
           //   this->print(opti);
           //   this->print(optj);
@@ -183,7 +190,7 @@ void Crawler::merge_options() {
               if (option.size() == this->bounded_rational) {
                 this->add_result(
                     std::vector<EdgeColor>(option.begin(), option.end()));
-              } else {
+              } else if (option.size() < this->bounded_rational) {
                 to_merge.push_back(
                     std::vector<EdgeColor>(option.begin(), option.end()));
                 can_merge = true;
@@ -200,8 +207,6 @@ void Crawler::merge_options() {
     this->options = to_merge;
   }
 }
-// TODO insert sorted into options and results
-Crawler::insert_sorted(std::vector<EdgeColor> option){};
 
 void Crawler::print(std::vector<EdgeColor> path) {
   printf("Option\n");

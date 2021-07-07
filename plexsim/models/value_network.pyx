@@ -195,7 +195,7 @@ cdef class ValueNetwork(Potts):
 
             # 1. check endpoints
             if self._check_endpoint(current_edge.current.state, crawler):
-                option.push_back(deref(current_edge))
+                option.push_back(deref(current_edge).sort())
                 crawler.options.push_back(option)
 
                 # if crawler.verbose:
@@ -214,18 +214,21 @@ cdef class ValueNetwork(Potts):
 
 
             # create new proposal edge
-            # proposal_edge.current.name = current_edge.current.name
-            # proposal_edge.current.state = current_edge.current.state
+            proposal_edge.other.name = current_edge.current.name
+            proposal_edge.other.state = current_edge.current.state
 
-            proposal_edge.current.name = current_edge.other.name
-            proposal_edge.current.state = current_edge.other.state
+            # proposal_edge.current.name = current_edge.other.name
+            # proposal_edge.current.state = current_edge.other.state
 
             # 2. check neighbors
             it = self.adj._adj[current_edge.current.name].neighbors.begin()
             while it != self.adj._adj[current_edge.current.name].neighbors.end():
 
-                proposal_edge.other.name = deref(it).first
-                proposal_edge.other.state = self._states[deref(it).first]
+                # proposal_edge.other.name = deref(it).first
+                # proposal_edge.other.state = self._states[deref(it).first]
+
+                proposal_edge.current.name = deref(it).first
+                proposal_edge.current.state = self._states[deref(it).first]
                 # proposal_edge.other.name = current_edge.current.name
                 # proposal_edge.other.state = current_edge.current.state
 
@@ -273,10 +276,9 @@ cdef class ValueNetwork(Potts):
             edge_weight = self._rules._adj[current_edge.current.state][current_edge.other.state]
 
             if edge_weight > 0:
-                if not crawler.in_options(deref(current_edge)):
-
+                if not crawler.in_options(deref(current_edge).sort()):
                     option.clear()
-                    option.push_back(deref(current_edge))
+                    option.push_back(deref(current_edge).sort())
                     crawler.options.push_back(option)
 
                     if crawler.verbose:
@@ -285,6 +287,9 @@ cdef class ValueNetwork(Potts):
 
             # merge options
             crawler.merge_options()
+            with gil:
+                import time
+                time.sleep(.1)
             if crawler.verbose:
                 with gil:
                     print("done merging")

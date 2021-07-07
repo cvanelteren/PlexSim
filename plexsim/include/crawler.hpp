@@ -28,6 +28,8 @@ public:
   ColorNode other;
 
   void print() const;
+  EdgeColor sort();
+
   bool operator=(const EdgeColor &other) const;
 };
 

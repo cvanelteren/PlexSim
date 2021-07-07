@@ -21,6 +21,12 @@ class TestRecursionCrawl(ut.TestCase):
         for k, v in ConnectedSimpleGraphs().generate(5).items():
             [self.graphs.append(vi) for vi in v]
 
+    def test_specific(self, graph: nx.Graph):
+        r = create_rule_full(graph, self_weight=-1)
+        S = np.arange(len(r))
+        m = self.model(graph, rules=r, agentStates=S)
+        self.__test_crawl_single(m, target=1, verbose=1)
+
     # @ut.skip
     def test_crawls_true_positive(self):
         for graph in self.graphs:
@@ -56,10 +62,10 @@ class TestRecursionCrawl(ut.TestCase):
         crawls = []
         tmp = []
 
-        fig, ax = plt.subplots()
-        nx.draw(m.graph, ax=ax, with_labels=1)
-        fig.show()
-        plt.show()
+        # fig, ax = plt.subplots()
+        # nx.draw(m.graph, ax=ax, with_labels=1)
+        # fig.show()
+        # plt.show()
 
         for node_label, node in m.adj.mapping.items():
             crawl = m.check_df(node, verbose=verbose)
