@@ -21,12 +21,6 @@ class TestRecursionCrawl(ut.TestCase):
         for k, v in ConnectedSimpleGraphs().generate(5).items():
             [self.graphs.append(vi) for vi in v]
 
-    def test_specific(self, graph: nx.Graph):
-        r = create_rule_full(graph, self_weight=-1)
-        S = np.arange(len(r))
-        m = self.model(graph, rules=r, agentStates=S)
-        self.__test_crawl_single(m, target=1, verbose=1)
-
     # @ut.skip
     def test_crawls_true_positive(self):
         for graph in self.graphs:
@@ -49,7 +43,7 @@ class TestRecursionCrawl(ut.TestCase):
 
             # set state -> social network matches the value network
             m.states = S[0]
-            self.__test_crawl_single(m, target=0, verbose=1)
+            self.__test_crawl_single(m, target=0, verbose=0)
 
     def __test_crawl_single(self, m, target, verbose=False):
 
@@ -68,7 +62,8 @@ class TestRecursionCrawl(ut.TestCase):
         # plt.show()
 
         for node_label, node in m.adj.mapping.items():
-            crawl = m.check_df(node, verbose=verbose)
+            # crawl = m.check_df(node, verbose=verbose)
+            crawl = m.check_df(node)
 
             if verbose:
                 print(f"solution: {crawl} {len(crawl)}")
@@ -84,3 +79,7 @@ class TestRecursionCrawl(ut.TestCase):
 
             crawls.append(assignment)
             # tmp.append((crawl, options))
+
+
+if __name__ == "__main__":
+    ut.main()
