@@ -241,6 +241,9 @@ plexsim/models/types.pxd
 plexsim/models/value_network.cpp
 plexsim/models/value_network.pxd
 plexsim/models/value_network.pyx
+plexsim/models/value_network2.cpp
+plexsim/models/value_network2.pxd
+plexsim/models/value_network2.pyx
 plexsim/models/__pycache__/__init__.cpython-39.pyc
 plexsim/utils/__init__.py
 plexsim/utils/annealing.py
@@ -254,14 +257,17 @@ plexsim/utils/__pycache__/graph.cpython-39.pyc
 plexsim/utils/__pycache__/rules.cpython-39.pyc
 tests/__init__.py
 tests/flight_test.webm
+tests/main
 tests/sample.png
 tests/test_conway.py
 tests/test_crawler.cpp
 tests/test_models.py
 tests/test_particular.py
+tests/test_triangle.py
 tests/test_valuenetwork.py
 tests/vis_boid.py
 tests/__pycache__/test_models.cpython-39.pyc
+tests/__pycache__/test_triangle.cpython-39.pyc
 tests/__pycache__/test_valuenetwork.cpython-39.pyc
 tests/old_tryouts/CMakeLists.txt
 tests/old_tryouts/Cargo.lock

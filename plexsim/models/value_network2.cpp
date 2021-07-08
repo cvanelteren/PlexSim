@@ -15,8 +15,6 @@
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarrayobject.h",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarraytypes.h",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ufuncobject.h",
-            "plexsim/include/crawler.cpp",
-            "plexsim/include/crawler.hpp",
             "plexsim/include/pyobjectholder.cpp",
             "plexsim/include/pyobjectholder.hpp"
         ],
@@ -48,12 +46,12 @@
         "libraries": [
             "stdc++"
         ],
-        "name": "plexsim.models.value_network",
+        "name": "plexsim.models.value_network2",
         "sources": [
-            "plexsim/models/value_network.pyx"
+            "plexsim/models/value_network2.pyx"
         ]
     },
-    "module_name": "plexsim.models.value_network"
+    "module_name": "plexsim.models.value_network2"
 }
 END: Cython Metadata */
 
@@ -879,8 +877,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__plexsim__models__value_network
-#define __PYX_HAVE_API__plexsim__models__value_network
+#define __PYX_HAVE__plexsim__models__value_network2
+#define __PYX_HAVE_API__plexsim__models__value_network2
 /* Early includes */
 #include <string.h>
 #include <stdio.h>
@@ -920,10 +918,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include <random>
 #include <algorithm>
 #include <set>
-#include "plexsim/include/crawler.hpp"
-#include "plexsim/include/crawler.cpp"
 #include <math.h>
-#include <iterator>
 #include <stdlib.h>
 #include "pystate.h"
 #ifdef _OPENMP
@@ -1169,7 +1164,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "plexsim/models/value_network.pyx",
+  "plexsim/models/value_network2.pyx",
   "stringsource",
   "__init__.cython-30.pxd",
   "contextvars.pxd",
@@ -1550,7 +1545,7 @@ struct __pyx_obj_7plexsim_6models_7sampler_MCMC;
 struct __pyx_obj_7plexsim_6models_5rules_Rules;
 struct __pyx_obj_7plexsim_6models_4base_Model;
 struct __pyx_obj_7plexsim_6models_5potts_Potts;
-struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork;
+struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork;
 struct __pyx_array_obj;
 struct __pyx_MemviewEnum_obj;
 struct __pyx_memoryview_obj;
@@ -1760,29 +1755,113 @@ struct __pyx_opt_args_7plexsim_6models_5potts_5Potts_magnetize {
   size_t burninSamples;
   size_t n_jobs;
 };
-struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_df;
-struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_doubles;
+struct __pyx_t_7plexsim_6models_14value_network2_color_node;
+struct __pyx_t_7plexsim_6models_14value_network2_edge_t;
+struct __pyx_t_7plexsim_6models_14value_network2_crawler_t;
+struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_df;
+struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork__check_df;
+struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_merge;
+struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_doubles;
+struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_traversal;
 
-/* "plexsim/models/value_network.pxd":72
- *     # logic for checking completed vn
- *     # cpdef bint check_endpoint(self, state_t s, list vp_path)
- *     cpdef list check_df(self, node_id_t start, bint verbose =*)             # <<<<<<<<<<<<<<
+/* "plexsim/models/value_network2.pxd":12
+ *                             Iter result)
  * 
- *     cdef Crawler* _check_df(self, Crawler *crawler) nogil
+ * cdef struct color_node:             # <<<<<<<<<<<<<<
+ *     node_id_t name
+ *     state_t state
  */
-struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_df {
+struct __pyx_t_7plexsim_6models_14value_network2_color_node {
+  __pyx_t_7plexsim_6models_5types_node_id_t name;
+  __pyx_t_7plexsim_6models_5types_state_t state;
+};
+
+/* "plexsim/models/value_network2.pxd":16
+ *     state_t state
+ * 
+ * cdef struct edge_t:             # <<<<<<<<<<<<<<
+ *     color_node current
+ *     color_node other
+ */
+struct __pyx_t_7plexsim_6models_14value_network2_edge_t {
+  struct __pyx_t_7plexsim_6models_14value_network2_color_node current;
+  struct __pyx_t_7plexsim_6models_14value_network2_color_node other;
+};
+
+/* "plexsim/models/value_network2.pxd":20
+ *     color_node other
+ * 
+ * cdef struct crawler_t:             # <<<<<<<<<<<<<<
+ *     vector[edge_t] queue
+ *     set[edge_t] path
+ */
+struct __pyx_t_7plexsim_6models_14value_network2_crawler_t {
+  std::vector<struct __pyx_t_7plexsim_6models_14value_network2_edge_t>  queue;
+  std::set<struct __pyx_t_7plexsim_6models_14value_network2_edge_t>  path;
+  std::vector<std::set<struct __pyx_t_7plexsim_6models_14value_network2_edge_t> >  results;
+  std::vector<std::set<struct __pyx_t_7plexsim_6models_14value_network2_edge_t> >  options;
+  int verbose;
+};
+
+/* "plexsim/models/value_network2.pxd":47
+ *     # logic for checking completed vn
+ *     cpdef bint check_endpoint(self, state_t s, list vp_path)
+ *     cpdef list check_df(self, node_id_t start, bint verbose =*)             # <<<<<<<<<<<<<<
+ *     cpdef list _check_df(self, list queue, list path = *,
+ *                         list vp_path = *,
+ */
+struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_df {
   int __pyx_n;
   int verbose;
 };
 
-/* "plexsim/models/value_network.pxd":76
- *     cdef Crawler* _check_df(self, Crawler *crawler) nogil
+/* "plexsim/models/value_network2.pxd":48
+ *     cpdef bint check_endpoint(self, state_t s, list vp_path)
+ *     cpdef list check_df(self, node_id_t start, bint verbose =*)
+ *     cpdef list _check_df(self, list queue, list path = *,             # <<<<<<<<<<<<<<
+ *                         list vp_path = *,
+ *                         list results = *,
+ */
+struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork__check_df {
+  int __pyx_n;
+  PyObject *path;
+  PyObject *vp_path;
+  PyObject *results;
+  int verbose;
+};
+
+/* "plexsim/models/value_network2.pxd":53
+ *                         bint verbose = *)
  *     # merge branches
+ *     cpdef void merge(self, list results, bint verbose =*)             # <<<<<<<<<<<<<<
+ *     cpdef bint check_doubles(self, list path, list results,
+ *                              bint verbose =*)
+ */
+struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_merge {
+  int __pyx_n;
+  int verbose;
+};
+
+/* "plexsim/models/value_network2.pxd":54
+ *     # merge branches
+ *     cpdef void merge(self, list results, bint verbose =*)
  *     cpdef bint check_doubles(self, list path, list results,             # <<<<<<<<<<<<<<
  *                              bint verbose =*)
  * 
  */
-struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_doubles {
+struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_doubles {
+  int __pyx_n;
+  int verbose;
+};
+
+/* "plexsim/models/value_network2.pxd":58
+ * 
+ *     cpdef bint _traverse(self, list proposal, list option)
+ *     cpdef void check_traversal(self, list proposal, list options, bint verbose =*)             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_traversal {
   int __pyx_n;
   int verbose;
 };
@@ -1900,16 +1979,18 @@ struct __pyx_obj_7plexsim_6models_5potts_Potts {
 };
 
 
-/* "plexsim/models/value_network.pxd":60
- * 
+/* "plexsim/models/value_network2.pxd":28
+ *     bint verbose
  * 
  * cdef class ValueNetwork(Potts):             # <<<<<<<<<<<<<<
  *     # pivate props
  *     cdef:
  */
-struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork {
+struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork {
   struct __pyx_obj_7plexsim_6models_5potts_Potts __pyx_base;
   size_t _bounded_rational;
+  std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,std::unordered_map<size_t,std::vector<__pyx_t_7plexsim_6models_5types_node_id_t> > >  paths;
+  std::unordered_map<__pyx_t_7plexsim_6models_5types_state_t,size_t>  distance_converter;
 };
 
 
@@ -2077,22 +2158,25 @@ struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts {
 static struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *__pyx_vtabptr_7plexsim_6models_5potts_Potts;
 
 
-/* "plexsim/models/value_network.pyx":15
- *     void swap[T] (T &a, T &b)
+/* "plexsim/models/value_network2.pyx":8
+ * from libcpp.set cimport set as cset
  * 
  * cdef class ValueNetwork(Potts):             # <<<<<<<<<<<<<<
  *     def __init__(self, graph,
  *                  rules,
  */
 
-struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork {
+struct __pyx_vtabstruct_7plexsim_6models_14value_network2_ValueNetwork {
   struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts __pyx_base;
-  PyObject *(*check_df)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, __pyx_t_7plexsim_6models_5types_node_id_t, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_df *__pyx_optional_args);
-  Crawler *(*_check_df)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, Crawler *);
-  int (*check_doubles)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, PyObject *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_doubles *__pyx_optional_args);
-  int (*_check_endpoint)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, __pyx_t_7plexsim_6models_5types_state_t, Crawler *);
+  int (*check_endpoint)(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *, __pyx_t_7plexsim_6models_5types_state_t, PyObject *, int __pyx_skip_dispatch);
+  PyObject *(*check_df)(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *, __pyx_t_7plexsim_6models_5types_node_id_t, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_df *__pyx_optional_args);
+  PyObject *(*_check_df)(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork__check_df *__pyx_optional_args);
+  void (*merge)(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_merge *__pyx_optional_args);
+  int (*check_doubles)(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *, PyObject *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_doubles *__pyx_optional_args);
+  int (*_traverse)(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *, PyObject *, PyObject *, int __pyx_skip_dispatch);
+  void (*check_traversal)(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *, PyObject *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_traversal *__pyx_optional_args);
 };
-static struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *__pyx_vtabptr_7plexsim_6models_13value_network_ValueNetwork;
+static struct __pyx_vtabstruct_7plexsim_6models_14value_network2_ValueNetwork *__pyx_vtabptr_7plexsim_6models_14value_network2_ValueNetwork;
 
 
 /* "View.MemoryView":109
@@ -2641,24 +2725,54 @@ static PyObject* __Pyx__CallUnboundCMethod0(__Pyx_CachedCFunction* cfunc, PyObje
         __Pyx__ArgTypeTest(obj, type, name, exact))
 static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact);
 
+/* PyIntBinop.proto */
+#if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, int inplace, int zerodivision_check);
+#else
+#define __Pyx_PyInt_AddObjC(op1, op2, intval, inplace, zerodivision_check)\
+    (inplace ? PyNumber_InPlaceAdd(op1, op2) : PyNumber_Add(op1, op2))
+#endif
+
 /* RaiseUnexpectedTypeError.proto */
 static int __Pyx_RaiseUnexpectedTypeError(const char *expected, PyObject *obj);
 
-/* PyObjectFormatAndDecref.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyObject_FormatSimpleAndDecref(PyObject* s, PyObject* f);
-static CYTHON_INLINE PyObject* __Pyx_PyObject_FormatAndDecref(PyObject* s, PyObject* f);
+/* SetItemInt.proto */
+#define __Pyx_SetItemInt(o, i, v, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_SetItemInt_Fast(o, (Py_ssize_t)i, v, is_list, wraparound, boundscheck) :\
+    (is_list ? (PyErr_SetString(PyExc_IndexError, "list assignment index out of range"), -1) :\
+               __Pyx_SetItemInt_Generic(o, to_py_func(i), v)))
+static int __Pyx_SetItemInt_Generic(PyObject *o, PyObject *j, PyObject *v);
+static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObject *v,
+                                               int is_list, int wraparound, int boundscheck);
 
-/* GCCDiagnostics.proto */
-#if defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6))
-#define __Pyx_HAS_GCC_DIAGNOSTIC
+/* PyDictContains.proto */
+static CYTHON_INLINE int __Pyx_PyDict_ContainsTF(PyObject* item, PyObject* dict, int eq) {
+    int result = PyDict_Contains(dict, item);
+    return unlikely(result < 0) ? result : (result == (eq == Py_EQ));
+}
+
+/* pop.proto */
+static CYTHON_INLINE PyObject* __Pyx__PyObject_Pop(PyObject* L);
+#if CYTHON_USE_PYLIST_INTERNALS && CYTHON_ASSUME_SAFE_MACROS
+static CYTHON_INLINE PyObject* __Pyx_PyList_Pop(PyObject* L);
+#define __Pyx_PyObject_Pop(L) (likely(PyList_CheckExact(L)) ?\
+    __Pyx_PyList_Pop(L) : __Pyx__PyObject_Pop(L))
+#else
+#define __Pyx_PyList_Pop(L)  __Pyx__PyObject_Pop(L)
+#define __Pyx_PyObject_Pop(L)  __Pyx__PyObject_Pop(L)
 #endif
 
-/* BuildPyUnicode.proto */
-static PyObject* __Pyx_PyUnicode_BuildFromAscii(Py_ssize_t ulength, char* chars, int clength,
-                                                int prepend_sign, char padding_char);
-
-/* CIntToPyUnicode.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyUnicode_From_size_t(size_t value, Py_ssize_t width, char padding_char, char format_char);
+/* DictGetItem.proto */
+#if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
+static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key);
+#define __Pyx_PyObject_Dict_GetItem(obj, name)\
+    (likely(PyDict_CheckExact(obj)) ?\
+     __Pyx_PyDict_GetItem(obj, name) : PyObject_GetItem(obj, name))
+#else
+#define __Pyx_PyDict_GetItem(d, key) PyObject_GetItem(d, key)
+#define __Pyx_PyObject_Dict_GetItem(obj, name)  PyObject_GetItem(obj, name)
+#endif
 
 /* KeywordStringCheck.proto */
 static int __Pyx_CheckKeywordStrings(PyObject *kw, const char* function_name, int kw_allowed);
@@ -2686,6 +2800,15 @@ static int __Pyx__GetException(PyThreadState *tstate, PyObject **type, PyObject 
 #else
 static int __Pyx_GetException(PyObject **type, PyObject **value, PyObject **tb);
 #endif
+
+/* GCCDiagnostics.proto */
+#if defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6))
+#define __Pyx_HAS_GCC_DIAGNOSTIC
+#endif
+
+/* BuildPyUnicode.proto */
+static PyObject* __Pyx_PyUnicode_BuildFromAscii(Py_ssize_t ulength, char* chars, int clength,
+                                                int prepend_sign, char padding_char);
 
 /* CIntToPyUnicode.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyUnicode_From_int(int value, Py_ssize_t width, char padding_char, char format_char);
@@ -2753,16 +2876,6 @@ static CYTHON_INLINE int __Pyx_PyErr_GivenExceptionMatches2(PyObject *err, PyObj
 #define __Pyx_PyException_Check(obj) __Pyx_TypeCheck(obj, PyExc_Exception)
 
 static CYTHON_UNUSED int __pyx_memoryview_getbuffer(PyObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /*proto*/
-/* SetItemInt.proto */
-#define __Pyx_SetItemInt(o, i, v, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_SetItemInt_Fast(o, (Py_ssize_t)i, v, is_list, wraparound, boundscheck) :\
-    (is_list ? (PyErr_SetString(PyExc_IndexError, "list assignment index out of range"), -1) :\
-               __Pyx_SetItemInt_Generic(o, to_py_func(i), v)))
-static int __Pyx_SetItemInt_Generic(PyObject *o, PyObject *j, PyObject *v);
-static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObject *v,
-                                               int is_list, int wraparound, int boundscheck);
-
 /* RaiseUnboundLocalError.proto */
 static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname);
 
@@ -2774,6 +2887,9 @@ static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
 
 /* HasAttr.proto */
 static CYTHON_INLINE int __Pyx_HasAttr(PyObject *, PyObject *);
+
+/* CallNextTpDealloc.proto */
+static void __Pyx_call_next_tp_dealloc(PyObject* obj, destructor current_tp_dealloc);
 
 /* CallNextTpTraverse.proto */
 static int __Pyx_call_next_tp_traverse(PyObject* obj, visitproc v, void *a, traverseproc current_tp_traverse);
@@ -2984,6 +3100,9 @@ static void __pyx_insert_code_object(int code_line, PyCodeObject* code_object);
 static void __Pyx_AddTraceback(const char *funcname, int c_line,
                                int py_line, const char *filename);
 
+/* None.proto */
+#include <new>
+
 #if PY_MAJOR_VERSION < 3
     static int __Pyx_GetBuffer(PyObject *obj, Py_buffer *view, int flags);
     static void __Pyx_ReleaseBuffer(Py_buffer *view);
@@ -3188,9 +3307,6 @@ static void __Pyx_CppExn2PyErr() {
     #endif
 #endif
 
-/* None.proto */
-#include <new>
-
 /* MemviewSliceCopyTemplate.proto */
 static __Pyx_memviewslice
 __pyx_memoryview_copy_new_contig(const __Pyx_memviewslice *from_mvs,
@@ -3266,16 +3382,19 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 #endif
 
 /* #### Code section: module_declarations ### */
-static std::vector<double>  __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_siteEnergy(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __Pyx_memviewslice __pyx_v_states, int __pyx_skip_dispatch); /* proto*/
-static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_magnetize_(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_mod, size_t __pyx_v_n, double __pyx_v_t); /* proto*/
-static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_results, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_doubles *__pyx_optional_args); /* proto*/
-static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__check_endpoint(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_current_state, Crawler *__pyx_v_crawler); /* proto*/
-static PyObject *__pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_df(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_start, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_df *__pyx_optional_args); /* proto*/
-static Crawler *__pyx_f_7plexsim_6models_13value_network_12ValueNetwork__check_df(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, Crawler *__pyx_v_crawler); /* proto*/
-static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node); /* proto*/
-static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probability(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_state, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node); /* proto*/
-static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__hamiltonian(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_x, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_y); /* proto*/
-static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node); /* proto*/
+static std::vector<double>  __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_siteEnergy(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, __Pyx_memviewslice __pyx_v_states, int __pyx_skip_dispatch); /* proto*/
+static double __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_magnetize_(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_mod, size_t __pyx_v_n, double __pyx_v_t); /* proto*/
+static int __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_check_doubles(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_results, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_doubles *__pyx_optional_args); /* proto*/
+static void __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_merge(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_results, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_merge *__pyx_optional_args); /* proto*/
+static int __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_check_endpoint(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_s, PyObject *__pyx_v_vp_path, int __pyx_skip_dispatch); /* proto*/
+static int __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork__traverse(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_proposal, PyObject *__pyx_v_option, int __pyx_skip_dispatch); /* proto*/
+static void __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_check_traversal(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_proposal, PyObject *__pyx_v_options, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_traversal *__pyx_optional_args); /* proto*/
+static PyObject *__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_check_df(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_start, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_df *__pyx_optional_args); /* proto*/
+static PyObject *__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork__check_df(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_queue, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork__check_df *__pyx_optional_args); /* proto*/
+static double __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork__energy(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node); /* proto*/
+static double __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_probability(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_state, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node); /* proto*/
+static double __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork__hamiltonian(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_x, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_y); /* proto*/
+static void __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork__step(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node); /* proto*/
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_7ndarray_4base_base(PyArrayObject *__pyx_v_self); /* proto*/
 static CYTHON_INLINE PyArray_Descr *__pyx_f_5numpy_7ndarray_5descr_descr(PyArrayObject *__pyx_v_self); /* proto*/
 static CYTHON_INLINE int __pyx_f_5numpy_7ndarray_4ndim_ndim(PyArrayObject *__pyx_v_self); /* proto*/
@@ -3566,9 +3685,9 @@ static PyTypeObject *__pyx_ptype_7plexsim_6models_5potts_Potts = 0;
 #if !CYTHON_USE_MODULE_STATE
 #endif
 
-/* Module declarations from "plexsim.models.value_network" */
+/* Module declarations from "plexsim.models.value_network2" */
 #if !CYTHON_USE_MODULE_STATE
-static PyTypeObject *__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork = 0;
+static PyTypeObject *__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork = 0;
 static PyTypeObject *__pyx_array_type = 0;
 static PyTypeObject *__pyx_MemviewEnum_type = 0;
 static PyTypeObject *__pyx_memoryview_type = 0;
@@ -3583,6 +3702,10 @@ static int __pyx_memoryview_thread_locks_used;
 static PyThread_type_lock __pyx_memoryview_thread_locks[8];
 static std::vector<double>  __pyx_convert_vector_from_py_double(PyObject *); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_double(std::vector<double>  const &); /*proto*/
+static PyObject *__pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_node_id_t(std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  const &); /*proto*/
+static PyObject *__pyx_convert_unordered_map_to_py_size_t____std_3a__3a_vector_3c___pyx_t_7plexsim_6models_5types_node_id_t_3e___(std::unordered_map<size_t,std::vector<__pyx_t_7plexsim_6models_5types_node_id_t> >  const &); /*proto*/
+static PyObject *__pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t____std_3a__3a_unordered_map_3c_size_t_2c_std_3a__3a_vector_3c___pyx_t_7plexsim_6models_5types_node_id_t_3e____3e___(std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,std::unordered_map<size_t,std::vector<__pyx_t_7plexsim_6models_5types_node_id_t> > >  const &); /*proto*/
+static PyObject *__pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t______pyx_t_7plexsim_6models_5types_weight_t(std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,__pyx_t_7plexsim_6models_5types_weight_t>  const &); /*proto*/
 static int __pyx_array_allocate_buffer(struct __pyx_array_obj *); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char *, char *); /*proto*/
 static void *__pyx_align_pointer(void *, size_t); /*proto*/
@@ -3621,45 +3744,53 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *, 
 /* #### Code section: typeinfo ### */
 static __Pyx_TypeInfo __Pyx_TypeInfo_nn___pyx_t_7plexsim_6models_5types_state_t = { "state_t", NULL, sizeof(__pyx_t_7plexsim_6models_5types_state_t), { 0 }, 0, 'R', 0, 0 };
 /* #### Code section: before_global_var ### */
-#define __Pyx_MODULE_NAME "plexsim.models.value_network"
-extern int __pyx_module_is_main_plexsim__models__value_network;
-int __pyx_module_is_main_plexsim__models__value_network = 0;
+#define __Pyx_MODULE_NAME "plexsim.models.value_network2"
+extern int __pyx_module_is_main_plexsim__models__value_network2;
+int __pyx_module_is_main_plexsim__models__value_network2 = 0;
 
-/* Implementation of "plexsim.models.value_network" */
+/* Implementation of "plexsim.models.value_network2" */
 /* #### Code section: global_var ### */
 static PyObject *__pyx_builtin_super;
 static PyObject *__pyx_builtin_AssertionError;
 static PyObject *__pyx_builtin_range;
 static PyObject *__pyx_builtin_all;
 static PyObject *__pyx_builtin_print;
+static PyObject *__pyx_builtin_enumerate;
+static PyObject *__pyx_builtin_zip;
 static PyObject *__pyx_builtin_TypeError;
 static PyObject *__pyx_builtin_ImportError;
 static PyObject *__pyx_builtin_MemoryError;
 static PyObject *__pyx_builtin_ValueError;
-static PyObject *__pyx_builtin_enumerate;
 static PyObject *__pyx_builtin_Ellipsis;
 static PyObject *__pyx_builtin_id;
 static PyObject *__pyx_builtin_IndexError;
 /* #### Code section: string_decls ### */
 static const char __pyx_k_O[] = "O";
 static const char __pyx_k_c[] = "c";
+static const char __pyx_k_s[] = "s";
 static const char __pyx_k_t[] = "t";
+static const char __pyx_k_At[] = "At ";
 static const char __pyx_k_gc[] = "gc";
 static const char __pyx_k_id[] = "id";
 static const char __pyx_k_np[] = "np";
 static const char __pyx_k_nx[] = "nx";
 static const char __pyx_k_to[] = " to ";
-static const char __pyx_k__13[] = ": ";
-static const char __pyx_k__14[] = ".";
-static const char __pyx_k__15[] = "*";
-static const char __pyx_k__17[] = "'";
-static const char __pyx_k__18[] = ")";
-static const char __pyx_k__39[] = "?";
+static const char __pyx_k_vp[] = " vp = ";
+static const char __pyx_k__11[] = " ";
+static const char __pyx_k__14[] = ": ";
+static const char __pyx_k__15[] = ".";
+static const char __pyx_k__16[] = "*";
+static const char __pyx_k__18[] = "'";
+static const char __pyx_k__19[] = ")";
+static const char __pyx_k__52[] = "?";
 static const char __pyx_k_all[] = "all";
 static const char __pyx_k_and[] = " and ";
 static const char __pyx_k_got[] = " (got ";
 static const char __pyx_k_new[] = "__new__";
 static const char __pyx_k_obj[] = "obj";
+static const char __pyx_k_pop[] = "pop";
+static const char __pyx_k_zip[] = "zip";
+static const char __pyx_k_Path[] = "Path : ";
 static const char __pyx_k_base[] = "base";
 static const char __pyx_k_copy[] = "copy";
 static const char __pyx_k_dict[] = "__dict__";
@@ -3685,9 +3816,10 @@ static const char __pyx_k_error[] = "error";
 static const char __pyx_k_flags[] = "flags";
 static const char __pyx_k_graph[] = "graph";
 static const char __pyx_k_items[] = "items";
+static const char __pyx_k_merge[] = "merge";
 static const char __pyx_k_numpy[] = "numpy";
-static const char __pyx_k_paths[] = "paths";
 static const char __pyx_k_print[] = "print";
+static const char __pyx_k_queue[] = "queue";
 static const char __pyx_k_range[] = "range";
 static const char __pyx_k_rules[] = "rules";
 static const char __pyx_k_shape[] = "shape";
@@ -3702,6 +3834,7 @@ static const char __pyx_k_encode[] = "encode";
 static const char __pyx_k_format[] = "format";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_name_2[] = "__name__";
+static const char __pyx_k_option[] = "option";
 static const char __pyx_k_pickle[] = "pickle";
 static const char __pyx_k_reduce[] = "__reduce__";
 static const char __pyx_k_states[] = "states";
@@ -3709,80 +3842,97 @@ static const char __pyx_k_struct[] = "struct";
 static const char __pyx_k_unpack[] = "unpack";
 static const char __pyx_k_update[] = "update";
 static const char __pyx_k_weight[] = "weight";
+static const char __pyx_k_Options[] = "Options: ";
+static const char __pyx_k_Results[] = "Results: ";
+static const char __pyx_k_Vp_path[] = "Vp_path : ";
 static const char __pyx_k_disable[] = "disable";
 static const char __pyx_k_fortran[] = "fortran";
+static const char __pyx_k_mapping[] = "mapping";
 static const char __pyx_k_memview[] = "memview";
+static const char __pyx_k_options[] = "options";
+static const char __pyx_k_path_is[] = " path is ";
 static const char __pyx_k_results[] = "results";
 static const char __pyx_k_verbose[] = "verbose";
+static const char __pyx_k_vp_path[] = "vp_path";
 static const char __pyx_k_Ellipsis[] = "Ellipsis";
 static const char __pyx_k_check_df[] = "check_df";
 static const char __pyx_k_getstate[] = "__getstate__";
 static const char __pyx_k_itemsize[] = "itemsize";
 static const char __pyx_k_networkx[] = "networkx";
+static const char __pyx_k_proposal[] = "proposal";
 static const char __pyx_k_pyx_type[] = "__pyx_type";
+static const char __pyx_k_rmapping[] = "rmapping";
 static const char __pyx_k_setstate[] = "__setstate__";
+static const char __pyx_k_traverse[] = "_traverse";
 static const char __pyx_k_TypeError[] = "TypeError";
 static const char __pyx_k_enumerate[] = "enumerate";
 static const char __pyx_k_isenabled[] = "isenabled";
+static const char __pyx_k_neighbors[] = "neighbors";
 static const char __pyx_k_pyx_state[] = "__pyx_state";
 static const char __pyx_k_reduce_ex[] = "__reduce_ex__";
+static const char __pyx_k_with_prop[] = " with prop ";
 static const char __pyx_k_IndexError[] = "IndexError";
 static const char __pyx_k_ValueError[] = "ValueError";
+static const char __pyx_k_added_path[] = "added path";
+static const char __pyx_k_check_df_2[] = "_check_df";
+static const char __pyx_k_left_merge[] = "left merge";
 static const char __pyx_k_pyx_result[] = "__pyx_result";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_siteEnergy[] = "siteEnergy";
-static const char __pyx_k_At_endpoint[] = "At endpoint";
 static const char __pyx_k_ImportError[] = "ImportError";
 static const char __pyx_k_MemoryError[] = "MemoryError";
 static const char __pyx_k_PickleError[] = "PickleError";
 static const char __pyx_k_agentStates[] = "agentStates";
 static const char __pyx_k_ValueNetwork[] = "ValueNetwork";
-static const char __pyx_k_done_merging[] = "done merging";
 static const char __pyx_k_initializing[] = "_initializing";
 static const char __pyx_k_is_coroutine[] = "_is_coroutine";
 static const char __pyx_k_pyx_checksum[] = "__pyx_checksum";
 static const char __pyx_k_stringsource[] = "stringsource";
 static const char __pyx_k_check_doubles[] = "check_doubles";
+static const char __pyx_k_checking_edge[] = "checking edge ";
 static const char __pyx_k_class_getitem[] = "__class_getitem__";
 static const char __pyx_k_pyx_getbuffer[] = "__pyx_getbuffer";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
+static const char __pyx_k_staring_merge[] = "staring merge";
 static const char __pyx_k_AssertionError[] = "AssertionError";
-static const char __pyx_k_Inserting_edge[] = "Inserting edge:";
-static const char __pyx_k_Current_edge_is[] = "Current edge is:";
+static const char __pyx_k_Popping_option[] = "Popping option ";
+static const char __pyx_k_adding_results[] = "adding results ";
+static const char __pyx_k_check_endpoint[] = "check_endpoint";
 static const char __pyx_k_View_MemoryView[] = "View.MemoryView";
 static const char __pyx_k_allocate_buffer[] = "allocate_buffer";
+static const char __pyx_k_check_traversal[] = "check_traversal";
 static const char __pyx_k_dtype_is_object[] = "dtype_is_object";
+static const char __pyx_k_negative_weight[] = "negative weight";
 static const char __pyx_k_pyx_PickleError[] = "__pyx_PickleError";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
 static const char __pyx_k_bounded_rational[] = "bounded_rational";
-static const char __pyx_k_Going_into_branch[] = "Going into branch";
-static const char __pyx_k_crawler_path_size[] = "crawler.path.size()=";
 static const char __pyx_k_pyx_unpickle_Enum[] = "__pyx_unpickle_Enum";
+static const char __pyx_k_ValueNetwork_merge[] = "ValueNetwork.merge";
 static const char __pyx_k_asyncio_coroutines[] = "asyncio.coroutines";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_strided_and_direct[] = "<strided and direct>";
 static const char __pyx_k_get_edge_attributes[] = "get_edge_attributes";
-static const char __pyx_k_Pushing_current_edge[] = "Pushing current edge:";
-static const char __pyx_k_crawler_options_size[] = "crawler.options.size()=";
-static const char __pyx_k_crawler_results_size[] = "crawler.results.size()=";
 static const char __pyx_k_strided_and_indirect[] = "<strided and indirect>";
 static const char __pyx_k_Invalid_shape_in_axis[] = "Invalid shape in axis ";
 static const char __pyx_k_ValueNetwork_check_df[] = "ValueNetwork.check_df";
 static const char __pyx_k_contiguous_and_direct[] = "<contiguous and direct>";
 static const char __pyx_k_Cannot_index_with_type[] = "Cannot index with type '";
 static const char __pyx_k_MemoryView_of_r_object[] = "<MemoryView of %r object>";
+static const char __pyx_k_ValueNetwork__check_df[] = "ValueNetwork._check_df";
+static const char __pyx_k_ValueNetwork__traverse[] = "ValueNetwork._traverse";
+static const char __pyx_k_At_an_end_point_pushing[] = "At an end point, pushing ";
 static const char __pyx_k_MemoryView_of_r_at_0x_x[] = "<MemoryView of %r at 0x%x>";
 static const char __pyx_k_ValueNetwork_siteEnergy[] = "ValueNetwork.siteEnergy";
 static const char __pyx_k_contiguous_and_indirect[] = "<contiguous and indirect>";
 static const char __pyx_k_Dimension_d_is_not_direct[] = "Dimension %d is not direct";
-static const char __pyx_k_Found_negative_edge_weight[] = "Found negative edge_weight=";
 static const char __pyx_k_Index_out_of_bounds_axis_d[] = "Index out of bounds (axis %d)";
 static const char __pyx_k_ValueNetwork_check_doubles[] = "ValueNetwork.check_doubles";
 static const char __pyx_k_Step_may_not_be_zero_axis_d[] = "Step may not be zero (axis %d)";
+static const char __pyx_k_ValueNetwork_check_endpoint[] = "ValueNetwork.check_endpoint";
 static const char __pyx_k_itemsize_0_for_cython_array[] = "itemsize <= 0 for cython.array";
 static const char __pyx_k_ValueNetwork___reduce_cython[] = "ValueNetwork.__reduce_cython__";
-static const char __pyx_k_plexsim_models_value_network[] = "plexsim.models.value_network";
-static const char __pyx_k_At_proposal_edge_current_name[] = "At proposal_edge.current.name=";
+static const char __pyx_k_ValueNetwork_check_traversal[] = "ValueNetwork.check_traversal";
+static const char __pyx_k_plexsim_models_value_network2[] = "plexsim.models.value_network2";
 static const char __pyx_k_unable_to_allocate_array_data[] = "unable to allocate array data.";
 static const char __pyx_k_ValueNetwork___setstate_cython[] = "ValueNetwork.__setstate_cython__";
 static const char __pyx_k_strided_and_direct_or_indirect[] = "<strided and direct or indirect>";
@@ -3793,55 +3943,51 @@ static const char __pyx_k_Can_only_create_a_buffer_that_is[] = "Can only create 
 static const char __pyx_k_Cannot_assign_to_read_only_memor[] = "Cannot assign to read-only memoryview";
 static const char __pyx_k_Cannot_create_writable_memory_vi[] = "Cannot create writable memory view from read-only memoryview";
 static const char __pyx_k_Cannot_transpose_memoryview_with[] = "Cannot transpose memoryview with indirect dimensions";
-static const char __pyx_k_Checking_proposal_edge_other_nam[] = "Checking proposal_edge.other.name=";
 static const char __pyx_k_Empty_shape_tuple_for_cython_arr[] = "Empty shape tuple for cython.array";
-static const char __pyx_k_Found_node_already_in_path_cycle[] = "Found node already in path (cycle)";
 static const char __pyx_k_Incompatible_checksums_s_vs_0x6a[] = "Incompatible checksums (%s vs 0x6ae9995 = (name))";
 static const char __pyx_k_Indirect_dimensions_not_supporte[] = "Indirect dimensions not supported";
 static const char __pyx_k_Invalid_mode_expected_c_or_fortr[] = "Invalid mode, expected 'c' or 'fortran', got ";
 static const char __pyx_k_Out_of_bounds_on_buffer_access_a[] = "Out of bounds on buffer access (axis ";
 static const char __pyx_k_Unable_to_convert_item_to_object[] = "Unable to convert item to object";
+static const char __pyx_k_found_node_already_in_path_cycle[] = "found node already in path (cycle)";
 static const char __pyx_k_got_differing_extents_in_dimensi[] = "got differing extents in dimension ";
 static const char __pyx_k_no_default___reduce___due_to_non[] = "no default __reduce__ due to non-trivial __cinit__";
 static const char __pyx_k_numpy_core_umath_failed_to_impor[] = "numpy.core.umath failed to import";
-static const char __pyx_k_plexsim_models_value_network_pyx[] = "plexsim/models/value_network.pyx";
+static const char __pyx_k_plexsim_models_value_network2_py[] = "plexsim/models/value_network2.pyx";
 static const char __pyx_k_self__newstates_self__states_sel[] = "self._newstates,self._states,self.ptr cannot be converted to a Python object for pickling";
 static const char __pyx_k_unable_to_allocate_shape_and_str[] = "unable to allocate shape and strides.";
 #if !CYTHON_USE_MODULE_STATE
 static PyObject *__pyx_n_s_ASCII;
 static PyObject *__pyx_kp_s_All_dimensions_preceding_dimensi;
 static PyObject *__pyx_n_s_AssertionError;
-static PyObject *__pyx_kp_s_At_endpoint;
-static PyObject *__pyx_kp_u_At_proposal_edge_current_name;
+static PyObject *__pyx_kp_u_At;
+static PyObject *__pyx_kp_u_At_an_end_point_pushing;
 static PyObject *__pyx_kp_s_Buffer_view_does_not_expose_stri;
 static PyObject *__pyx_kp_s_Can_only_create_a_buffer_that_is;
 static PyObject *__pyx_kp_s_Cannot_assign_to_read_only_memor;
 static PyObject *__pyx_kp_s_Cannot_create_writable_memory_vi;
 static PyObject *__pyx_kp_u_Cannot_index_with_type;
 static PyObject *__pyx_kp_s_Cannot_transpose_memoryview_with;
-static PyObject *__pyx_kp_u_Checking_proposal_edge_other_nam;
-static PyObject *__pyx_kp_s_Current_edge_is;
 static PyObject *__pyx_kp_s_Dimension_d_is_not_direct;
 static PyObject *__pyx_n_s_Ellipsis;
 static PyObject *__pyx_kp_s_Empty_shape_tuple_for_cython_arr;
-static PyObject *__pyx_kp_u_Found_negative_edge_weight;
-static PyObject *__pyx_kp_s_Found_node_already_in_path_cycle;
-static PyObject *__pyx_kp_s_Going_into_branch;
 static PyObject *__pyx_n_s_ImportError;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x6a;
 static PyObject *__pyx_n_s_IndexError;
 static PyObject *__pyx_kp_s_Index_out_of_bounds_axis_d;
 static PyObject *__pyx_kp_s_Indirect_dimensions_not_supporte;
-static PyObject *__pyx_kp_s_Inserting_edge;
 static PyObject *__pyx_kp_u_Invalid_mode_expected_c_or_fortr;
 static PyObject *__pyx_kp_u_Invalid_shape_in_axis;
 static PyObject *__pyx_n_s_MemoryError;
 static PyObject *__pyx_kp_s_MemoryView_of_r_at_0x_x;
 static PyObject *__pyx_kp_s_MemoryView_of_r_object;
 static PyObject *__pyx_n_b_O;
+static PyObject *__pyx_kp_u_Options;
 static PyObject *__pyx_kp_u_Out_of_bounds_on_buffer_access_a;
+static PyObject *__pyx_kp_u_Path;
 static PyObject *__pyx_n_s_PickleError;
-static PyObject *__pyx_kp_u_Pushing_current_edge;
+static PyObject *__pyx_kp_u_Popping_option;
+static PyObject *__pyx_kp_u_Results;
 static PyObject *__pyx_kp_s_Step_may_not_be_zero_axis_d;
 static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_kp_s_Unable_to_convert_item_to_object;
@@ -3849,17 +3995,26 @@ static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_ValueNetwork;
 static PyObject *__pyx_n_s_ValueNetwork___reduce_cython;
 static PyObject *__pyx_n_s_ValueNetwork___setstate_cython;
+static PyObject *__pyx_n_s_ValueNetwork__check_df;
+static PyObject *__pyx_n_s_ValueNetwork__traverse;
 static PyObject *__pyx_n_s_ValueNetwork_check_df;
 static PyObject *__pyx_n_s_ValueNetwork_check_doubles;
+static PyObject *__pyx_n_s_ValueNetwork_check_endpoint;
+static PyObject *__pyx_n_s_ValueNetwork_check_traversal;
+static PyObject *__pyx_n_s_ValueNetwork_merge;
 static PyObject *__pyx_n_s_ValueNetwork_siteEnergy;
 static PyObject *__pyx_n_s_View_MemoryView;
-static PyObject *__pyx_kp_u__13;
+static PyObject *__pyx_kp_u_Vp_path;
+static PyObject *__pyx_kp_u__11;
 static PyObject *__pyx_kp_u__14;
-static PyObject *__pyx_n_s__15;
-static PyObject *__pyx_kp_u__17;
+static PyObject *__pyx_kp_u__15;
+static PyObject *__pyx_n_s__16;
 static PyObject *__pyx_kp_u__18;
-static PyObject *__pyx_n_s__39;
+static PyObject *__pyx_kp_u__19;
+static PyObject *__pyx_n_s__52;
+static PyObject *__pyx_kp_s_added_path;
 static PyObject *__pyx_kp_u_adding;
+static PyObject *__pyx_kp_u_adding_results;
 static PyObject *__pyx_n_s_agentStates;
 static PyObject *__pyx_n_s_all;
 static PyObject *__pyx_n_s_allocate_buffer;
@@ -3873,19 +4028,19 @@ static PyObject *__pyx_n_s_bounded_rational;
 static PyObject *__pyx_n_s_c;
 static PyObject *__pyx_n_u_c;
 static PyObject *__pyx_n_s_check_df;
+static PyObject *__pyx_n_s_check_df_2;
 static PyObject *__pyx_n_s_check_doubles;
+static PyObject *__pyx_n_s_check_endpoint;
+static PyObject *__pyx_n_s_check_traversal;
+static PyObject *__pyx_kp_u_checking_edge;
 static PyObject *__pyx_n_s_class;
 static PyObject *__pyx_n_s_class_getitem;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_kp_s_contiguous_and_direct;
 static PyObject *__pyx_kp_s_contiguous_and_indirect;
 static PyObject *__pyx_n_s_copy;
-static PyObject *__pyx_kp_u_crawler_options_size;
-static PyObject *__pyx_kp_u_crawler_path_size;
-static PyObject *__pyx_kp_u_crawler_results_size;
 static PyObject *__pyx_n_s_dict;
 static PyObject *__pyx_kp_u_disable;
-static PyObject *__pyx_kp_s_done_merging;
 static PyObject *__pyx_n_s_double;
 static PyObject *__pyx_n_s_dtype;
 static PyObject *__pyx_n_s_dtype_is_object;
@@ -3897,6 +4052,7 @@ static PyObject *__pyx_n_s_flags;
 static PyObject *__pyx_n_s_format;
 static PyObject *__pyx_n_s_fortran;
 static PyObject *__pyx_n_u_fortran;
+static PyObject *__pyx_kp_s_found_node_already_in_path_cycle;
 static PyObject *__pyx_kp_u_gc;
 static PyObject *__pyx_n_s_get_edge_attributes;
 static PyObject *__pyx_n_s_getstate;
@@ -3912,13 +4068,18 @@ static PyObject *__pyx_kp_u_isenabled;
 static PyObject *__pyx_n_s_items;
 static PyObject *__pyx_n_s_itemsize;
 static PyObject *__pyx_kp_s_itemsize_0_for_cython_array;
+static PyObject *__pyx_kp_s_left_merge;
 static PyObject *__pyx_n_s_main;
+static PyObject *__pyx_n_s_mapping;
 static PyObject *__pyx_n_s_mean;
 static PyObject *__pyx_n_s_memview;
+static PyObject *__pyx_n_s_merge;
 static PyObject *__pyx_n_s_mode;
 static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_name_2;
 static PyObject *__pyx_n_s_ndim;
+static PyObject *__pyx_kp_s_negative_weight;
+static PyObject *__pyx_n_s_neighbors;
 static PyObject *__pyx_n_s_networkx;
 static PyObject *__pyx_n_s_new;
 static PyObject *__pyx_kp_s_no_default___reduce___due_to_non;
@@ -3928,13 +4089,17 @@ static PyObject *__pyx_kp_s_numpy_core_multiarray_failed_to;
 static PyObject *__pyx_kp_s_numpy_core_umath_failed_to_impor;
 static PyObject *__pyx_n_s_nx;
 static PyObject *__pyx_n_s_obj;
+static PyObject *__pyx_n_s_option;
+static PyObject *__pyx_n_s_options;
 static PyObject *__pyx_n_s_pack;
 static PyObject *__pyx_n_s_path;
-static PyObject *__pyx_n_s_paths;
+static PyObject *__pyx_kp_u_path_is;
 static PyObject *__pyx_n_s_pickle;
-static PyObject *__pyx_n_s_plexsim_models_value_network;
-static PyObject *__pyx_kp_s_plexsim_models_value_network_pyx;
+static PyObject *__pyx_n_s_plexsim_models_value_network2;
+static PyObject *__pyx_kp_s_plexsim_models_value_network2_py;
+static PyObject *__pyx_n_s_pop;
 static PyObject *__pyx_n_s_print;
+static PyObject *__pyx_n_s_proposal;
 static PyObject *__pyx_n_s_pyx_PickleError;
 static PyObject *__pyx_n_s_pyx_checksum;
 static PyObject *__pyx_n_s_pyx_getbuffer;
@@ -3943,12 +4108,15 @@ static PyObject *__pyx_n_s_pyx_state;
 static PyObject *__pyx_n_s_pyx_type;
 static PyObject *__pyx_n_s_pyx_unpickle_Enum;
 static PyObject *__pyx_n_s_pyx_vtable;
+static PyObject *__pyx_n_s_queue;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_reduce;
 static PyObject *__pyx_n_s_reduce_cython;
 static PyObject *__pyx_n_s_reduce_ex;
 static PyObject *__pyx_n_s_results;
+static PyObject *__pyx_n_s_rmapping;
 static PyObject *__pyx_n_s_rules;
+static PyObject *__pyx_n_s_s;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_kp_s_self__newstates_self__states_sel;
 static PyObject *__pyx_n_s_setstate;
@@ -3957,6 +4125,7 @@ static PyObject *__pyx_n_s_shape;
 static PyObject *__pyx_n_s_siteEnergy;
 static PyObject *__pyx_n_s_size;
 static PyObject *__pyx_n_s_spec;
+static PyObject *__pyx_kp_s_staring_merge;
 static PyObject *__pyx_n_s_start;
 static PyObject *__pyx_n_s_states;
 static PyObject *__pyx_n_s_step;
@@ -3970,23 +4139,33 @@ static PyObject *__pyx_n_s_super;
 static PyObject *__pyx_n_s_t;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_kp_u_to;
+static PyObject *__pyx_n_s_traverse;
 static PyObject *__pyx_kp_s_unable_to_allocate_array_data;
 static PyObject *__pyx_kp_s_unable_to_allocate_shape_and_str;
 static PyObject *__pyx_n_s_unpack;
 static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_s_verbose;
+static PyObject *__pyx_kp_u_vp;
+static PyObject *__pyx_n_s_vp_path;
 static PyObject *__pyx_n_s_weight;
+static PyObject *__pyx_kp_u_with_prop;
+static PyObject *__pyx_n_s_zip;
 #endif
 /* #### Code section: decls ### */
-static int __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork___init__(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_graph, PyObject *__pyx_v_rules, PyObject *__pyx_v_t, PyObject *__pyx_v_bounded_rational, PyObject *__pyx_v_agentStates, PyObject *__pyx_v_kwargs); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16bounded_rational___get__(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self); /* proto */
-static int __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16bounded_rational_2__set__(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_2siteEnergy(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __Pyx_memviewslice __pyx_v_states); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_3pat___get__(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_4check_doubles(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_results, int __pyx_v_verbose); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_6check_df(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_start, int __pyx_v_verbose); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_8__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_10__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
+static int __pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork___init__(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_graph, PyObject *__pyx_v_rules, PyObject *__pyx_v_t, PyObject *__pyx_v_bounded_rational, PyObject *__pyx_v_agentStates, PyObject *__pyx_v_kwargs); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_16bounded_rational___get__(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self); /* proto */
+static int __pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_16bounded_rational_2__set__(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_2siteEnergy(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, __Pyx_memviewslice __pyx_v_states); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_3pat___get__(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_4check_doubles(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_results, int __pyx_v_verbose); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_6merge(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_results, int __pyx_v_verbose); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_8check_endpoint(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_s, PyObject *__pyx_v_vp_path); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_10_traverse(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_proposal, PyObject *__pyx_v_option); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_12check_traversal(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_proposal, PyObject *__pyx_v_options, int __pyx_v_verbose); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_14check_df(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_start, int __pyx_v_verbose); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_16_check_df(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_queue, PyObject *__pyx_v_path, PyObject *__pyx_v_vp_path, PyObject *__pyx_v_results, int __pyx_v_verbose); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_18__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_20__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(struct __pyx_array_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_array___pyx_pf_15View_dot_MemoryView_5array_4__dealloc__(struct __pyx_array_obj *__pyx_v_self); /* proto */
@@ -4028,12 +4207,13 @@ static void __pyx_memoryviewslice___pyx_pf_15View_dot_MemoryView_16_memoryviewsl
 static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_tp_new_7plexsim_6models_13value_network_ValueNetwork(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_7plexsim_6models_14value_network2_ValueNetwork(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_array(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_Enum(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_memoryview(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new__memoryviewslice(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static __Pyx_CachedCFunction __pyx_umethod_PyList_Type_copy = {0, 0, 0, 0, 0};
+static __Pyx_CachedCFunction __pyx_umethod_PyList_Type_pop = {0, 0, 0, 0, 0};
 #if !CYTHON_USE_MODULE_STATE
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
@@ -4043,38 +4223,50 @@ static PyObject *__pyx_int_neg_1;
 #endif
 #if !CYTHON_USE_MODULE_STATE
 static PyObject *__pyx_k_;
+static PyObject *__pyx_k__6;
+static PyObject *__pyx_k__7;
+static PyObject *__pyx_k__8;
 static PyObject *__pyx_slice__2;
 static PyObject *__pyx_slice__3;
 static PyObject *__pyx_tuple__4;
 static PyObject *__pyx_tuple__5;
-static PyObject *__pyx_tuple__6;
-static PyObject *__pyx_tuple__7;
-static PyObject *__pyx_tuple__8;
 static PyObject *__pyx_tuple__9;
 static PyObject *__pyx_tuple__10;
-static PyObject *__pyx_tuple__11;
 static PyObject *__pyx_tuple__12;
-static PyObject *__pyx_tuple__16;
-static PyObject *__pyx_tuple__19;
+static PyObject *__pyx_tuple__13;
+static PyObject *__pyx_tuple__17;
 static PyObject *__pyx_tuple__20;
-static PyObject *__pyx_tuple__22;
-static PyObject *__pyx_tuple__24;
+static PyObject *__pyx_tuple__21;
+static PyObject *__pyx_tuple__23;
 static PyObject *__pyx_tuple__25;
-static PyObject *__pyx_tuple__27;
+static PyObject *__pyx_tuple__26;
 static PyObject *__pyx_tuple__28;
-static PyObject *__pyx_tuple__30;
-static PyObject *__pyx_tuple__32;
+static PyObject *__pyx_tuple__29;
+static PyObject *__pyx_tuple__31;
 static PyObject *__pyx_tuple__33;
-static PyObject *__pyx_tuple__34;
 static PyObject *__pyx_tuple__35;
 static PyObject *__pyx_tuple__36;
-static PyObject *__pyx_tuple__37;
-static PyObject *__pyx_codeobj__21;
-static PyObject *__pyx_codeobj__23;
-static PyObject *__pyx_codeobj__26;
-static PyObject *__pyx_codeobj__29;
-static PyObject *__pyx_codeobj__31;
-static PyObject *__pyx_codeobj__38;
+static PyObject *__pyx_tuple__38;
+static PyObject *__pyx_tuple__39;
+static PyObject *__pyx_tuple__41;
+static PyObject *__pyx_tuple__43;
+static PyObject *__pyx_tuple__45;
+static PyObject *__pyx_tuple__46;
+static PyObject *__pyx_tuple__47;
+static PyObject *__pyx_tuple__48;
+static PyObject *__pyx_tuple__49;
+static PyObject *__pyx_tuple__50;
+static PyObject *__pyx_codeobj__22;
+static PyObject *__pyx_codeobj__24;
+static PyObject *__pyx_codeobj__27;
+static PyObject *__pyx_codeobj__30;
+static PyObject *__pyx_codeobj__32;
+static PyObject *__pyx_codeobj__34;
+static PyObject *__pyx_codeobj__37;
+static PyObject *__pyx_codeobj__40;
+static PyObject *__pyx_codeobj__42;
+static PyObject *__pyx_codeobj__44;
+static PyObject *__pyx_codeobj__51;
 #endif
 /* #### Code section: late_includes ### */
 /* #### Code section: module_state ### */
@@ -4116,8 +4308,8 @@ typedef struct {
   PyTypeObject *__pyx_ptype_7plexsim_6models_5rules_Rules;
   PyTypeObject *__pyx_ptype_7plexsim_6models_4base_Model;
   PyTypeObject *__pyx_ptype_7plexsim_6models_5potts_Potts;
-  PyTypeObject *__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork;
-  PyObject *__pyx_type_7plexsim_6models_13value_network_ValueNetwork;
+  PyTypeObject *__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork;
+  PyObject *__pyx_type_7plexsim_6models_14value_network2_ValueNetwork;
   PyTypeObject *__pyx_array_type;
   PyObject *__pyx_type___pyx_array;
   PyTypeObject *__pyx_MemviewEnum_type;
@@ -4129,37 +4321,34 @@ typedef struct {
   PyObject *__pyx_n_s_ASCII;
   PyObject *__pyx_kp_s_All_dimensions_preceding_dimensi;
   PyObject *__pyx_n_s_AssertionError;
-  PyObject *__pyx_kp_s_At_endpoint;
-  PyObject *__pyx_kp_u_At_proposal_edge_current_name;
+  PyObject *__pyx_kp_u_At;
+  PyObject *__pyx_kp_u_At_an_end_point_pushing;
   PyObject *__pyx_kp_s_Buffer_view_does_not_expose_stri;
   PyObject *__pyx_kp_s_Can_only_create_a_buffer_that_is;
   PyObject *__pyx_kp_s_Cannot_assign_to_read_only_memor;
   PyObject *__pyx_kp_s_Cannot_create_writable_memory_vi;
   PyObject *__pyx_kp_u_Cannot_index_with_type;
   PyObject *__pyx_kp_s_Cannot_transpose_memoryview_with;
-  PyObject *__pyx_kp_u_Checking_proposal_edge_other_nam;
-  PyObject *__pyx_kp_s_Current_edge_is;
   PyObject *__pyx_kp_s_Dimension_d_is_not_direct;
   PyObject *__pyx_n_s_Ellipsis;
   PyObject *__pyx_kp_s_Empty_shape_tuple_for_cython_arr;
-  PyObject *__pyx_kp_u_Found_negative_edge_weight;
-  PyObject *__pyx_kp_s_Found_node_already_in_path_cycle;
-  PyObject *__pyx_kp_s_Going_into_branch;
   PyObject *__pyx_n_s_ImportError;
   PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x6a;
   PyObject *__pyx_n_s_IndexError;
   PyObject *__pyx_kp_s_Index_out_of_bounds_axis_d;
   PyObject *__pyx_kp_s_Indirect_dimensions_not_supporte;
-  PyObject *__pyx_kp_s_Inserting_edge;
   PyObject *__pyx_kp_u_Invalid_mode_expected_c_or_fortr;
   PyObject *__pyx_kp_u_Invalid_shape_in_axis;
   PyObject *__pyx_n_s_MemoryError;
   PyObject *__pyx_kp_s_MemoryView_of_r_at_0x_x;
   PyObject *__pyx_kp_s_MemoryView_of_r_object;
   PyObject *__pyx_n_b_O;
+  PyObject *__pyx_kp_u_Options;
   PyObject *__pyx_kp_u_Out_of_bounds_on_buffer_access_a;
+  PyObject *__pyx_kp_u_Path;
   PyObject *__pyx_n_s_PickleError;
-  PyObject *__pyx_kp_u_Pushing_current_edge;
+  PyObject *__pyx_kp_u_Popping_option;
+  PyObject *__pyx_kp_u_Results;
   PyObject *__pyx_kp_s_Step_may_not_be_zero_axis_d;
   PyObject *__pyx_n_s_TypeError;
   PyObject *__pyx_kp_s_Unable_to_convert_item_to_object;
@@ -4167,17 +4356,26 @@ typedef struct {
   PyObject *__pyx_n_s_ValueNetwork;
   PyObject *__pyx_n_s_ValueNetwork___reduce_cython;
   PyObject *__pyx_n_s_ValueNetwork___setstate_cython;
+  PyObject *__pyx_n_s_ValueNetwork__check_df;
+  PyObject *__pyx_n_s_ValueNetwork__traverse;
   PyObject *__pyx_n_s_ValueNetwork_check_df;
   PyObject *__pyx_n_s_ValueNetwork_check_doubles;
+  PyObject *__pyx_n_s_ValueNetwork_check_endpoint;
+  PyObject *__pyx_n_s_ValueNetwork_check_traversal;
+  PyObject *__pyx_n_s_ValueNetwork_merge;
   PyObject *__pyx_n_s_ValueNetwork_siteEnergy;
   PyObject *__pyx_n_s_View_MemoryView;
-  PyObject *__pyx_kp_u__13;
+  PyObject *__pyx_kp_u_Vp_path;
+  PyObject *__pyx_kp_u__11;
   PyObject *__pyx_kp_u__14;
-  PyObject *__pyx_n_s__15;
-  PyObject *__pyx_kp_u__17;
+  PyObject *__pyx_kp_u__15;
+  PyObject *__pyx_n_s__16;
   PyObject *__pyx_kp_u__18;
-  PyObject *__pyx_n_s__39;
+  PyObject *__pyx_kp_u__19;
+  PyObject *__pyx_n_s__52;
+  PyObject *__pyx_kp_s_added_path;
   PyObject *__pyx_kp_u_adding;
+  PyObject *__pyx_kp_u_adding_results;
   PyObject *__pyx_n_s_agentStates;
   PyObject *__pyx_n_s_all;
   PyObject *__pyx_n_s_allocate_buffer;
@@ -4191,19 +4389,19 @@ typedef struct {
   PyObject *__pyx_n_s_c;
   PyObject *__pyx_n_u_c;
   PyObject *__pyx_n_s_check_df;
+  PyObject *__pyx_n_s_check_df_2;
   PyObject *__pyx_n_s_check_doubles;
+  PyObject *__pyx_n_s_check_endpoint;
+  PyObject *__pyx_n_s_check_traversal;
+  PyObject *__pyx_kp_u_checking_edge;
   PyObject *__pyx_n_s_class;
   PyObject *__pyx_n_s_class_getitem;
   PyObject *__pyx_n_s_cline_in_traceback;
   PyObject *__pyx_kp_s_contiguous_and_direct;
   PyObject *__pyx_kp_s_contiguous_and_indirect;
   PyObject *__pyx_n_s_copy;
-  PyObject *__pyx_kp_u_crawler_options_size;
-  PyObject *__pyx_kp_u_crawler_path_size;
-  PyObject *__pyx_kp_u_crawler_results_size;
   PyObject *__pyx_n_s_dict;
   PyObject *__pyx_kp_u_disable;
-  PyObject *__pyx_kp_s_done_merging;
   PyObject *__pyx_n_s_double;
   PyObject *__pyx_n_s_dtype;
   PyObject *__pyx_n_s_dtype_is_object;
@@ -4215,6 +4413,7 @@ typedef struct {
   PyObject *__pyx_n_s_format;
   PyObject *__pyx_n_s_fortran;
   PyObject *__pyx_n_u_fortran;
+  PyObject *__pyx_kp_s_found_node_already_in_path_cycle;
   PyObject *__pyx_kp_u_gc;
   PyObject *__pyx_n_s_get_edge_attributes;
   PyObject *__pyx_n_s_getstate;
@@ -4230,13 +4429,18 @@ typedef struct {
   PyObject *__pyx_n_s_items;
   PyObject *__pyx_n_s_itemsize;
   PyObject *__pyx_kp_s_itemsize_0_for_cython_array;
+  PyObject *__pyx_kp_s_left_merge;
   PyObject *__pyx_n_s_main;
+  PyObject *__pyx_n_s_mapping;
   PyObject *__pyx_n_s_mean;
   PyObject *__pyx_n_s_memview;
+  PyObject *__pyx_n_s_merge;
   PyObject *__pyx_n_s_mode;
   PyObject *__pyx_n_s_name;
   PyObject *__pyx_n_s_name_2;
   PyObject *__pyx_n_s_ndim;
+  PyObject *__pyx_kp_s_negative_weight;
+  PyObject *__pyx_n_s_neighbors;
   PyObject *__pyx_n_s_networkx;
   PyObject *__pyx_n_s_new;
   PyObject *__pyx_kp_s_no_default___reduce___due_to_non;
@@ -4246,13 +4450,17 @@ typedef struct {
   PyObject *__pyx_kp_s_numpy_core_umath_failed_to_impor;
   PyObject *__pyx_n_s_nx;
   PyObject *__pyx_n_s_obj;
+  PyObject *__pyx_n_s_option;
+  PyObject *__pyx_n_s_options;
   PyObject *__pyx_n_s_pack;
   PyObject *__pyx_n_s_path;
-  PyObject *__pyx_n_s_paths;
+  PyObject *__pyx_kp_u_path_is;
   PyObject *__pyx_n_s_pickle;
-  PyObject *__pyx_n_s_plexsim_models_value_network;
-  PyObject *__pyx_kp_s_plexsim_models_value_network_pyx;
+  PyObject *__pyx_n_s_plexsim_models_value_network2;
+  PyObject *__pyx_kp_s_plexsim_models_value_network2_py;
+  PyObject *__pyx_n_s_pop;
   PyObject *__pyx_n_s_print;
+  PyObject *__pyx_n_s_proposal;
   PyObject *__pyx_n_s_pyx_PickleError;
   PyObject *__pyx_n_s_pyx_checksum;
   PyObject *__pyx_n_s_pyx_getbuffer;
@@ -4261,12 +4469,15 @@ typedef struct {
   PyObject *__pyx_n_s_pyx_type;
   PyObject *__pyx_n_s_pyx_unpickle_Enum;
   PyObject *__pyx_n_s_pyx_vtable;
+  PyObject *__pyx_n_s_queue;
   PyObject *__pyx_n_s_range;
   PyObject *__pyx_n_s_reduce;
   PyObject *__pyx_n_s_reduce_cython;
   PyObject *__pyx_n_s_reduce_ex;
   PyObject *__pyx_n_s_results;
+  PyObject *__pyx_n_s_rmapping;
   PyObject *__pyx_n_s_rules;
+  PyObject *__pyx_n_s_s;
   PyObject *__pyx_n_s_self;
   PyObject *__pyx_kp_s_self__newstates_self__states_sel;
   PyObject *__pyx_n_s_setstate;
@@ -4275,6 +4486,7 @@ typedef struct {
   PyObject *__pyx_n_s_siteEnergy;
   PyObject *__pyx_n_s_size;
   PyObject *__pyx_n_s_spec;
+  PyObject *__pyx_kp_s_staring_merge;
   PyObject *__pyx_n_s_start;
   PyObject *__pyx_n_s_states;
   PyObject *__pyx_n_s_step;
@@ -4288,50 +4500,67 @@ typedef struct {
   PyObject *__pyx_n_s_t;
   PyObject *__pyx_n_s_test;
   PyObject *__pyx_kp_u_to;
+  PyObject *__pyx_n_s_traverse;
   PyObject *__pyx_kp_s_unable_to_allocate_array_data;
   PyObject *__pyx_kp_s_unable_to_allocate_shape_and_str;
   PyObject *__pyx_n_s_unpack;
   PyObject *__pyx_n_s_update;
   PyObject *__pyx_n_s_verbose;
+  PyObject *__pyx_kp_u_vp;
+  PyObject *__pyx_n_s_vp_path;
   PyObject *__pyx_n_s_weight;
+  PyObject *__pyx_kp_u_with_prop;
+  PyObject *__pyx_n_s_zip;
   PyObject *__pyx_int_0;
   PyObject *__pyx_int_1;
   PyObject *__pyx_int_2;
   PyObject *__pyx_int_112105877;
   PyObject *__pyx_int_neg_1;
   PyObject *__pyx_k_;
+  PyObject *__pyx_k__6;
+  PyObject *__pyx_k__7;
+  PyObject *__pyx_k__8;
   PyObject *__pyx_slice__2;
   PyObject *__pyx_slice__3;
   PyObject *__pyx_tuple__4;
   PyObject *__pyx_tuple__5;
-  PyObject *__pyx_tuple__6;
-  PyObject *__pyx_tuple__7;
-  PyObject *__pyx_tuple__8;
   PyObject *__pyx_tuple__9;
   PyObject *__pyx_tuple__10;
-  PyObject *__pyx_tuple__11;
   PyObject *__pyx_tuple__12;
-  PyObject *__pyx_tuple__16;
-  PyObject *__pyx_tuple__19;
+  PyObject *__pyx_tuple__13;
+  PyObject *__pyx_tuple__17;
   PyObject *__pyx_tuple__20;
-  PyObject *__pyx_tuple__22;
-  PyObject *__pyx_tuple__24;
+  PyObject *__pyx_tuple__21;
+  PyObject *__pyx_tuple__23;
   PyObject *__pyx_tuple__25;
-  PyObject *__pyx_tuple__27;
+  PyObject *__pyx_tuple__26;
   PyObject *__pyx_tuple__28;
-  PyObject *__pyx_tuple__30;
-  PyObject *__pyx_tuple__32;
+  PyObject *__pyx_tuple__29;
+  PyObject *__pyx_tuple__31;
   PyObject *__pyx_tuple__33;
-  PyObject *__pyx_tuple__34;
   PyObject *__pyx_tuple__35;
   PyObject *__pyx_tuple__36;
-  PyObject *__pyx_tuple__37;
-  PyObject *__pyx_codeobj__21;
-  PyObject *__pyx_codeobj__23;
-  PyObject *__pyx_codeobj__26;
-  PyObject *__pyx_codeobj__29;
-  PyObject *__pyx_codeobj__31;
-  PyObject *__pyx_codeobj__38;
+  PyObject *__pyx_tuple__38;
+  PyObject *__pyx_tuple__39;
+  PyObject *__pyx_tuple__41;
+  PyObject *__pyx_tuple__43;
+  PyObject *__pyx_tuple__45;
+  PyObject *__pyx_tuple__46;
+  PyObject *__pyx_tuple__47;
+  PyObject *__pyx_tuple__48;
+  PyObject *__pyx_tuple__49;
+  PyObject *__pyx_tuple__50;
+  PyObject *__pyx_codeobj__22;
+  PyObject *__pyx_codeobj__24;
+  PyObject *__pyx_codeobj__27;
+  PyObject *__pyx_codeobj__30;
+  PyObject *__pyx_codeobj__32;
+  PyObject *__pyx_codeobj__34;
+  PyObject *__pyx_codeobj__37;
+  PyObject *__pyx_codeobj__40;
+  PyObject *__pyx_codeobj__42;
+  PyObject *__pyx_codeobj__44;
+  PyObject *__pyx_codeobj__51;
 } __pyx_mstate;
 
 #ifdef __cplusplus
@@ -4389,8 +4618,8 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_ptype_7plexsim_6models_5rules_Rules);
   Py_CLEAR(clear_module_state->__pyx_ptype_7plexsim_6models_4base_Model);
   Py_CLEAR(clear_module_state->__pyx_ptype_7plexsim_6models_5potts_Potts);
-  Py_CLEAR(clear_module_state->__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork);
-  Py_CLEAR(clear_module_state->__pyx_type_7plexsim_6models_13value_network_ValueNetwork);
+  Py_CLEAR(clear_module_state->__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork);
+  Py_CLEAR(clear_module_state->__pyx_type_7plexsim_6models_14value_network2_ValueNetwork);
   Py_CLEAR(clear_module_state->__pyx_array_type);
   Py_CLEAR(clear_module_state->__pyx_type___pyx_array);
   Py_CLEAR(clear_module_state->__pyx_MemviewEnum_type);
@@ -4402,37 +4631,34 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_ASCII);
   Py_CLEAR(clear_module_state->__pyx_kp_s_All_dimensions_preceding_dimensi);
   Py_CLEAR(clear_module_state->__pyx_n_s_AssertionError);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_At_endpoint);
-  Py_CLEAR(clear_module_state->__pyx_kp_u_At_proposal_edge_current_name);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_At);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_At_an_end_point_pushing);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Buffer_view_does_not_expose_stri);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Can_only_create_a_buffer_that_is);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Cannot_assign_to_read_only_memor);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Cannot_create_writable_memory_vi);
   Py_CLEAR(clear_module_state->__pyx_kp_u_Cannot_index_with_type);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Cannot_transpose_memoryview_with);
-  Py_CLEAR(clear_module_state->__pyx_kp_u_Checking_proposal_edge_other_nam);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_Current_edge_is);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Dimension_d_is_not_direct);
   Py_CLEAR(clear_module_state->__pyx_n_s_Ellipsis);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Empty_shape_tuple_for_cython_arr);
-  Py_CLEAR(clear_module_state->__pyx_kp_u_Found_negative_edge_weight);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_Found_node_already_in_path_cycle);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_Going_into_branch);
   Py_CLEAR(clear_module_state->__pyx_n_s_ImportError);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Incompatible_checksums_s_vs_0x6a);
   Py_CLEAR(clear_module_state->__pyx_n_s_IndexError);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Index_out_of_bounds_axis_d);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Indirect_dimensions_not_supporte);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_Inserting_edge);
   Py_CLEAR(clear_module_state->__pyx_kp_u_Invalid_mode_expected_c_or_fortr);
   Py_CLEAR(clear_module_state->__pyx_kp_u_Invalid_shape_in_axis);
   Py_CLEAR(clear_module_state->__pyx_n_s_MemoryError);
   Py_CLEAR(clear_module_state->__pyx_kp_s_MemoryView_of_r_at_0x_x);
   Py_CLEAR(clear_module_state->__pyx_kp_s_MemoryView_of_r_object);
   Py_CLEAR(clear_module_state->__pyx_n_b_O);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_Options);
   Py_CLEAR(clear_module_state->__pyx_kp_u_Out_of_bounds_on_buffer_access_a);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_Path);
   Py_CLEAR(clear_module_state->__pyx_n_s_PickleError);
-  Py_CLEAR(clear_module_state->__pyx_kp_u_Pushing_current_edge);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_Popping_option);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_Results);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Step_may_not_be_zero_axis_d);
   Py_CLEAR(clear_module_state->__pyx_n_s_TypeError);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Unable_to_convert_item_to_object);
@@ -4440,17 +4666,26 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_ValueNetwork);
   Py_CLEAR(clear_module_state->__pyx_n_s_ValueNetwork___reduce_cython);
   Py_CLEAR(clear_module_state->__pyx_n_s_ValueNetwork___setstate_cython);
+  Py_CLEAR(clear_module_state->__pyx_n_s_ValueNetwork__check_df);
+  Py_CLEAR(clear_module_state->__pyx_n_s_ValueNetwork__traverse);
   Py_CLEAR(clear_module_state->__pyx_n_s_ValueNetwork_check_df);
   Py_CLEAR(clear_module_state->__pyx_n_s_ValueNetwork_check_doubles);
+  Py_CLEAR(clear_module_state->__pyx_n_s_ValueNetwork_check_endpoint);
+  Py_CLEAR(clear_module_state->__pyx_n_s_ValueNetwork_check_traversal);
+  Py_CLEAR(clear_module_state->__pyx_n_s_ValueNetwork_merge);
   Py_CLEAR(clear_module_state->__pyx_n_s_ValueNetwork_siteEnergy);
   Py_CLEAR(clear_module_state->__pyx_n_s_View_MemoryView);
-  Py_CLEAR(clear_module_state->__pyx_kp_u__13);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_Vp_path);
+  Py_CLEAR(clear_module_state->__pyx_kp_u__11);
   Py_CLEAR(clear_module_state->__pyx_kp_u__14);
-  Py_CLEAR(clear_module_state->__pyx_n_s__15);
-  Py_CLEAR(clear_module_state->__pyx_kp_u__17);
+  Py_CLEAR(clear_module_state->__pyx_kp_u__15);
+  Py_CLEAR(clear_module_state->__pyx_n_s__16);
   Py_CLEAR(clear_module_state->__pyx_kp_u__18);
-  Py_CLEAR(clear_module_state->__pyx_n_s__39);
+  Py_CLEAR(clear_module_state->__pyx_kp_u__19);
+  Py_CLEAR(clear_module_state->__pyx_n_s__52);
+  Py_CLEAR(clear_module_state->__pyx_kp_s_added_path);
   Py_CLEAR(clear_module_state->__pyx_kp_u_adding);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_adding_results);
   Py_CLEAR(clear_module_state->__pyx_n_s_agentStates);
   Py_CLEAR(clear_module_state->__pyx_n_s_all);
   Py_CLEAR(clear_module_state->__pyx_n_s_allocate_buffer);
@@ -4464,19 +4699,19 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_c);
   Py_CLEAR(clear_module_state->__pyx_n_u_c);
   Py_CLEAR(clear_module_state->__pyx_n_s_check_df);
+  Py_CLEAR(clear_module_state->__pyx_n_s_check_df_2);
   Py_CLEAR(clear_module_state->__pyx_n_s_check_doubles);
+  Py_CLEAR(clear_module_state->__pyx_n_s_check_endpoint);
+  Py_CLEAR(clear_module_state->__pyx_n_s_check_traversal);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_checking_edge);
   Py_CLEAR(clear_module_state->__pyx_n_s_class);
   Py_CLEAR(clear_module_state->__pyx_n_s_class_getitem);
   Py_CLEAR(clear_module_state->__pyx_n_s_cline_in_traceback);
   Py_CLEAR(clear_module_state->__pyx_kp_s_contiguous_and_direct);
   Py_CLEAR(clear_module_state->__pyx_kp_s_contiguous_and_indirect);
   Py_CLEAR(clear_module_state->__pyx_n_s_copy);
-  Py_CLEAR(clear_module_state->__pyx_kp_u_crawler_options_size);
-  Py_CLEAR(clear_module_state->__pyx_kp_u_crawler_path_size);
-  Py_CLEAR(clear_module_state->__pyx_kp_u_crawler_results_size);
   Py_CLEAR(clear_module_state->__pyx_n_s_dict);
   Py_CLEAR(clear_module_state->__pyx_kp_u_disable);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_done_merging);
   Py_CLEAR(clear_module_state->__pyx_n_s_double);
   Py_CLEAR(clear_module_state->__pyx_n_s_dtype);
   Py_CLEAR(clear_module_state->__pyx_n_s_dtype_is_object);
@@ -4488,6 +4723,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_format);
   Py_CLEAR(clear_module_state->__pyx_n_s_fortran);
   Py_CLEAR(clear_module_state->__pyx_n_u_fortran);
+  Py_CLEAR(clear_module_state->__pyx_kp_s_found_node_already_in_path_cycle);
   Py_CLEAR(clear_module_state->__pyx_kp_u_gc);
   Py_CLEAR(clear_module_state->__pyx_n_s_get_edge_attributes);
   Py_CLEAR(clear_module_state->__pyx_n_s_getstate);
@@ -4503,13 +4739,18 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_items);
   Py_CLEAR(clear_module_state->__pyx_n_s_itemsize);
   Py_CLEAR(clear_module_state->__pyx_kp_s_itemsize_0_for_cython_array);
+  Py_CLEAR(clear_module_state->__pyx_kp_s_left_merge);
   Py_CLEAR(clear_module_state->__pyx_n_s_main);
+  Py_CLEAR(clear_module_state->__pyx_n_s_mapping);
   Py_CLEAR(clear_module_state->__pyx_n_s_mean);
   Py_CLEAR(clear_module_state->__pyx_n_s_memview);
+  Py_CLEAR(clear_module_state->__pyx_n_s_merge);
   Py_CLEAR(clear_module_state->__pyx_n_s_mode);
   Py_CLEAR(clear_module_state->__pyx_n_s_name);
   Py_CLEAR(clear_module_state->__pyx_n_s_name_2);
   Py_CLEAR(clear_module_state->__pyx_n_s_ndim);
+  Py_CLEAR(clear_module_state->__pyx_kp_s_negative_weight);
+  Py_CLEAR(clear_module_state->__pyx_n_s_neighbors);
   Py_CLEAR(clear_module_state->__pyx_n_s_networkx);
   Py_CLEAR(clear_module_state->__pyx_n_s_new);
   Py_CLEAR(clear_module_state->__pyx_kp_s_no_default___reduce___due_to_non);
@@ -4519,13 +4760,17 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_kp_s_numpy_core_umath_failed_to_impor);
   Py_CLEAR(clear_module_state->__pyx_n_s_nx);
   Py_CLEAR(clear_module_state->__pyx_n_s_obj);
+  Py_CLEAR(clear_module_state->__pyx_n_s_option);
+  Py_CLEAR(clear_module_state->__pyx_n_s_options);
   Py_CLEAR(clear_module_state->__pyx_n_s_pack);
   Py_CLEAR(clear_module_state->__pyx_n_s_path);
-  Py_CLEAR(clear_module_state->__pyx_n_s_paths);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_path_is);
   Py_CLEAR(clear_module_state->__pyx_n_s_pickle);
-  Py_CLEAR(clear_module_state->__pyx_n_s_plexsim_models_value_network);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_plexsim_models_value_network_pyx);
+  Py_CLEAR(clear_module_state->__pyx_n_s_plexsim_models_value_network2);
+  Py_CLEAR(clear_module_state->__pyx_kp_s_plexsim_models_value_network2_py);
+  Py_CLEAR(clear_module_state->__pyx_n_s_pop);
   Py_CLEAR(clear_module_state->__pyx_n_s_print);
+  Py_CLEAR(clear_module_state->__pyx_n_s_proposal);
   Py_CLEAR(clear_module_state->__pyx_n_s_pyx_PickleError);
   Py_CLEAR(clear_module_state->__pyx_n_s_pyx_checksum);
   Py_CLEAR(clear_module_state->__pyx_n_s_pyx_getbuffer);
@@ -4534,12 +4779,15 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_pyx_type);
   Py_CLEAR(clear_module_state->__pyx_n_s_pyx_unpickle_Enum);
   Py_CLEAR(clear_module_state->__pyx_n_s_pyx_vtable);
+  Py_CLEAR(clear_module_state->__pyx_n_s_queue);
   Py_CLEAR(clear_module_state->__pyx_n_s_range);
   Py_CLEAR(clear_module_state->__pyx_n_s_reduce);
   Py_CLEAR(clear_module_state->__pyx_n_s_reduce_cython);
   Py_CLEAR(clear_module_state->__pyx_n_s_reduce_ex);
   Py_CLEAR(clear_module_state->__pyx_n_s_results);
+  Py_CLEAR(clear_module_state->__pyx_n_s_rmapping);
   Py_CLEAR(clear_module_state->__pyx_n_s_rules);
+  Py_CLEAR(clear_module_state->__pyx_n_s_s);
   Py_CLEAR(clear_module_state->__pyx_n_s_self);
   Py_CLEAR(clear_module_state->__pyx_kp_s_self__newstates_self__states_sel);
   Py_CLEAR(clear_module_state->__pyx_n_s_setstate);
@@ -4548,6 +4796,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_siteEnergy);
   Py_CLEAR(clear_module_state->__pyx_n_s_size);
   Py_CLEAR(clear_module_state->__pyx_n_s_spec);
+  Py_CLEAR(clear_module_state->__pyx_kp_s_staring_merge);
   Py_CLEAR(clear_module_state->__pyx_n_s_start);
   Py_CLEAR(clear_module_state->__pyx_n_s_states);
   Py_CLEAR(clear_module_state->__pyx_n_s_step);
@@ -4561,50 +4810,67 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_t);
   Py_CLEAR(clear_module_state->__pyx_n_s_test);
   Py_CLEAR(clear_module_state->__pyx_kp_u_to);
+  Py_CLEAR(clear_module_state->__pyx_n_s_traverse);
   Py_CLEAR(clear_module_state->__pyx_kp_s_unable_to_allocate_array_data);
   Py_CLEAR(clear_module_state->__pyx_kp_s_unable_to_allocate_shape_and_str);
   Py_CLEAR(clear_module_state->__pyx_n_s_unpack);
   Py_CLEAR(clear_module_state->__pyx_n_s_update);
   Py_CLEAR(clear_module_state->__pyx_n_s_verbose);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_vp);
+  Py_CLEAR(clear_module_state->__pyx_n_s_vp_path);
   Py_CLEAR(clear_module_state->__pyx_n_s_weight);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_with_prop);
+  Py_CLEAR(clear_module_state->__pyx_n_s_zip);
   Py_CLEAR(clear_module_state->__pyx_int_0);
   Py_CLEAR(clear_module_state->__pyx_int_1);
   Py_CLEAR(clear_module_state->__pyx_int_2);
   Py_CLEAR(clear_module_state->__pyx_int_112105877);
   Py_CLEAR(clear_module_state->__pyx_int_neg_1);
   Py_CLEAR(clear_module_state->__pyx_k_);
+  Py_CLEAR(clear_module_state->__pyx_k__6);
+  Py_CLEAR(clear_module_state->__pyx_k__7);
+  Py_CLEAR(clear_module_state->__pyx_k__8);
   Py_CLEAR(clear_module_state->__pyx_slice__2);
   Py_CLEAR(clear_module_state->__pyx_slice__3);
   Py_CLEAR(clear_module_state->__pyx_tuple__4);
   Py_CLEAR(clear_module_state->__pyx_tuple__5);
-  Py_CLEAR(clear_module_state->__pyx_tuple__6);
-  Py_CLEAR(clear_module_state->__pyx_tuple__7);
-  Py_CLEAR(clear_module_state->__pyx_tuple__8);
   Py_CLEAR(clear_module_state->__pyx_tuple__9);
   Py_CLEAR(clear_module_state->__pyx_tuple__10);
-  Py_CLEAR(clear_module_state->__pyx_tuple__11);
   Py_CLEAR(clear_module_state->__pyx_tuple__12);
-  Py_CLEAR(clear_module_state->__pyx_tuple__16);
-  Py_CLEAR(clear_module_state->__pyx_tuple__19);
+  Py_CLEAR(clear_module_state->__pyx_tuple__13);
+  Py_CLEAR(clear_module_state->__pyx_tuple__17);
   Py_CLEAR(clear_module_state->__pyx_tuple__20);
-  Py_CLEAR(clear_module_state->__pyx_tuple__22);
-  Py_CLEAR(clear_module_state->__pyx_tuple__24);
+  Py_CLEAR(clear_module_state->__pyx_tuple__21);
+  Py_CLEAR(clear_module_state->__pyx_tuple__23);
   Py_CLEAR(clear_module_state->__pyx_tuple__25);
-  Py_CLEAR(clear_module_state->__pyx_tuple__27);
+  Py_CLEAR(clear_module_state->__pyx_tuple__26);
   Py_CLEAR(clear_module_state->__pyx_tuple__28);
-  Py_CLEAR(clear_module_state->__pyx_tuple__30);
-  Py_CLEAR(clear_module_state->__pyx_tuple__32);
+  Py_CLEAR(clear_module_state->__pyx_tuple__29);
+  Py_CLEAR(clear_module_state->__pyx_tuple__31);
   Py_CLEAR(clear_module_state->__pyx_tuple__33);
-  Py_CLEAR(clear_module_state->__pyx_tuple__34);
   Py_CLEAR(clear_module_state->__pyx_tuple__35);
   Py_CLEAR(clear_module_state->__pyx_tuple__36);
-  Py_CLEAR(clear_module_state->__pyx_tuple__37);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__21);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__23);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__26);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__29);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__31);
-  Py_CLEAR(clear_module_state->__pyx_codeobj__38);
+  Py_CLEAR(clear_module_state->__pyx_tuple__38);
+  Py_CLEAR(clear_module_state->__pyx_tuple__39);
+  Py_CLEAR(clear_module_state->__pyx_tuple__41);
+  Py_CLEAR(clear_module_state->__pyx_tuple__43);
+  Py_CLEAR(clear_module_state->__pyx_tuple__45);
+  Py_CLEAR(clear_module_state->__pyx_tuple__46);
+  Py_CLEAR(clear_module_state->__pyx_tuple__47);
+  Py_CLEAR(clear_module_state->__pyx_tuple__48);
+  Py_CLEAR(clear_module_state->__pyx_tuple__49);
+  Py_CLEAR(clear_module_state->__pyx_tuple__50);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__22);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__24);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__27);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__30);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__32);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__34);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__37);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__40);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__42);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__44);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__51);
   return 0;
 }
 #endif
@@ -4649,8 +4915,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_ptype_7plexsim_6models_5rules_Rules);
   Py_VISIT(traverse_module_state->__pyx_ptype_7plexsim_6models_4base_Model);
   Py_VISIT(traverse_module_state->__pyx_ptype_7plexsim_6models_5potts_Potts);
-  Py_VISIT(traverse_module_state->__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork);
-  Py_VISIT(traverse_module_state->__pyx_type_7plexsim_6models_13value_network_ValueNetwork);
+  Py_VISIT(traverse_module_state->__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork);
+  Py_VISIT(traverse_module_state->__pyx_type_7plexsim_6models_14value_network2_ValueNetwork);
   Py_VISIT(traverse_module_state->__pyx_array_type);
   Py_VISIT(traverse_module_state->__pyx_type___pyx_array);
   Py_VISIT(traverse_module_state->__pyx_MemviewEnum_type);
@@ -4662,37 +4928,34 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_ASCII);
   Py_VISIT(traverse_module_state->__pyx_kp_s_All_dimensions_preceding_dimensi);
   Py_VISIT(traverse_module_state->__pyx_n_s_AssertionError);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_At_endpoint);
-  Py_VISIT(traverse_module_state->__pyx_kp_u_At_proposal_edge_current_name);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_At);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_At_an_end_point_pushing);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Buffer_view_does_not_expose_stri);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Can_only_create_a_buffer_that_is);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Cannot_assign_to_read_only_memor);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Cannot_create_writable_memory_vi);
   Py_VISIT(traverse_module_state->__pyx_kp_u_Cannot_index_with_type);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Cannot_transpose_memoryview_with);
-  Py_VISIT(traverse_module_state->__pyx_kp_u_Checking_proposal_edge_other_nam);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_Current_edge_is);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Dimension_d_is_not_direct);
   Py_VISIT(traverse_module_state->__pyx_n_s_Ellipsis);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Empty_shape_tuple_for_cython_arr);
-  Py_VISIT(traverse_module_state->__pyx_kp_u_Found_negative_edge_weight);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_Found_node_already_in_path_cycle);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_Going_into_branch);
   Py_VISIT(traverse_module_state->__pyx_n_s_ImportError);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Incompatible_checksums_s_vs_0x6a);
   Py_VISIT(traverse_module_state->__pyx_n_s_IndexError);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Index_out_of_bounds_axis_d);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Indirect_dimensions_not_supporte);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_Inserting_edge);
   Py_VISIT(traverse_module_state->__pyx_kp_u_Invalid_mode_expected_c_or_fortr);
   Py_VISIT(traverse_module_state->__pyx_kp_u_Invalid_shape_in_axis);
   Py_VISIT(traverse_module_state->__pyx_n_s_MemoryError);
   Py_VISIT(traverse_module_state->__pyx_kp_s_MemoryView_of_r_at_0x_x);
   Py_VISIT(traverse_module_state->__pyx_kp_s_MemoryView_of_r_object);
   Py_VISIT(traverse_module_state->__pyx_n_b_O);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_Options);
   Py_VISIT(traverse_module_state->__pyx_kp_u_Out_of_bounds_on_buffer_access_a);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_Path);
   Py_VISIT(traverse_module_state->__pyx_n_s_PickleError);
-  Py_VISIT(traverse_module_state->__pyx_kp_u_Pushing_current_edge);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_Popping_option);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_Results);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Step_may_not_be_zero_axis_d);
   Py_VISIT(traverse_module_state->__pyx_n_s_TypeError);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Unable_to_convert_item_to_object);
@@ -4700,17 +4963,26 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_ValueNetwork);
   Py_VISIT(traverse_module_state->__pyx_n_s_ValueNetwork___reduce_cython);
   Py_VISIT(traverse_module_state->__pyx_n_s_ValueNetwork___setstate_cython);
+  Py_VISIT(traverse_module_state->__pyx_n_s_ValueNetwork__check_df);
+  Py_VISIT(traverse_module_state->__pyx_n_s_ValueNetwork__traverse);
   Py_VISIT(traverse_module_state->__pyx_n_s_ValueNetwork_check_df);
   Py_VISIT(traverse_module_state->__pyx_n_s_ValueNetwork_check_doubles);
+  Py_VISIT(traverse_module_state->__pyx_n_s_ValueNetwork_check_endpoint);
+  Py_VISIT(traverse_module_state->__pyx_n_s_ValueNetwork_check_traversal);
+  Py_VISIT(traverse_module_state->__pyx_n_s_ValueNetwork_merge);
   Py_VISIT(traverse_module_state->__pyx_n_s_ValueNetwork_siteEnergy);
   Py_VISIT(traverse_module_state->__pyx_n_s_View_MemoryView);
-  Py_VISIT(traverse_module_state->__pyx_kp_u__13);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_Vp_path);
+  Py_VISIT(traverse_module_state->__pyx_kp_u__11);
   Py_VISIT(traverse_module_state->__pyx_kp_u__14);
-  Py_VISIT(traverse_module_state->__pyx_n_s__15);
-  Py_VISIT(traverse_module_state->__pyx_kp_u__17);
+  Py_VISIT(traverse_module_state->__pyx_kp_u__15);
+  Py_VISIT(traverse_module_state->__pyx_n_s__16);
   Py_VISIT(traverse_module_state->__pyx_kp_u__18);
-  Py_VISIT(traverse_module_state->__pyx_n_s__39);
+  Py_VISIT(traverse_module_state->__pyx_kp_u__19);
+  Py_VISIT(traverse_module_state->__pyx_n_s__52);
+  Py_VISIT(traverse_module_state->__pyx_kp_s_added_path);
   Py_VISIT(traverse_module_state->__pyx_kp_u_adding);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_adding_results);
   Py_VISIT(traverse_module_state->__pyx_n_s_agentStates);
   Py_VISIT(traverse_module_state->__pyx_n_s_all);
   Py_VISIT(traverse_module_state->__pyx_n_s_allocate_buffer);
@@ -4724,19 +4996,19 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_c);
   Py_VISIT(traverse_module_state->__pyx_n_u_c);
   Py_VISIT(traverse_module_state->__pyx_n_s_check_df);
+  Py_VISIT(traverse_module_state->__pyx_n_s_check_df_2);
   Py_VISIT(traverse_module_state->__pyx_n_s_check_doubles);
+  Py_VISIT(traverse_module_state->__pyx_n_s_check_endpoint);
+  Py_VISIT(traverse_module_state->__pyx_n_s_check_traversal);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_checking_edge);
   Py_VISIT(traverse_module_state->__pyx_n_s_class);
   Py_VISIT(traverse_module_state->__pyx_n_s_class_getitem);
   Py_VISIT(traverse_module_state->__pyx_n_s_cline_in_traceback);
   Py_VISIT(traverse_module_state->__pyx_kp_s_contiguous_and_direct);
   Py_VISIT(traverse_module_state->__pyx_kp_s_contiguous_and_indirect);
   Py_VISIT(traverse_module_state->__pyx_n_s_copy);
-  Py_VISIT(traverse_module_state->__pyx_kp_u_crawler_options_size);
-  Py_VISIT(traverse_module_state->__pyx_kp_u_crawler_path_size);
-  Py_VISIT(traverse_module_state->__pyx_kp_u_crawler_results_size);
   Py_VISIT(traverse_module_state->__pyx_n_s_dict);
   Py_VISIT(traverse_module_state->__pyx_kp_u_disable);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_done_merging);
   Py_VISIT(traverse_module_state->__pyx_n_s_double);
   Py_VISIT(traverse_module_state->__pyx_n_s_dtype);
   Py_VISIT(traverse_module_state->__pyx_n_s_dtype_is_object);
@@ -4748,6 +5020,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_format);
   Py_VISIT(traverse_module_state->__pyx_n_s_fortran);
   Py_VISIT(traverse_module_state->__pyx_n_u_fortran);
+  Py_VISIT(traverse_module_state->__pyx_kp_s_found_node_already_in_path_cycle);
   Py_VISIT(traverse_module_state->__pyx_kp_u_gc);
   Py_VISIT(traverse_module_state->__pyx_n_s_get_edge_attributes);
   Py_VISIT(traverse_module_state->__pyx_n_s_getstate);
@@ -4763,13 +5036,18 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_items);
   Py_VISIT(traverse_module_state->__pyx_n_s_itemsize);
   Py_VISIT(traverse_module_state->__pyx_kp_s_itemsize_0_for_cython_array);
+  Py_VISIT(traverse_module_state->__pyx_kp_s_left_merge);
   Py_VISIT(traverse_module_state->__pyx_n_s_main);
+  Py_VISIT(traverse_module_state->__pyx_n_s_mapping);
   Py_VISIT(traverse_module_state->__pyx_n_s_mean);
   Py_VISIT(traverse_module_state->__pyx_n_s_memview);
+  Py_VISIT(traverse_module_state->__pyx_n_s_merge);
   Py_VISIT(traverse_module_state->__pyx_n_s_mode);
   Py_VISIT(traverse_module_state->__pyx_n_s_name);
   Py_VISIT(traverse_module_state->__pyx_n_s_name_2);
   Py_VISIT(traverse_module_state->__pyx_n_s_ndim);
+  Py_VISIT(traverse_module_state->__pyx_kp_s_negative_weight);
+  Py_VISIT(traverse_module_state->__pyx_n_s_neighbors);
   Py_VISIT(traverse_module_state->__pyx_n_s_networkx);
   Py_VISIT(traverse_module_state->__pyx_n_s_new);
   Py_VISIT(traverse_module_state->__pyx_kp_s_no_default___reduce___due_to_non);
@@ -4779,13 +5057,17 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_kp_s_numpy_core_umath_failed_to_impor);
   Py_VISIT(traverse_module_state->__pyx_n_s_nx);
   Py_VISIT(traverse_module_state->__pyx_n_s_obj);
+  Py_VISIT(traverse_module_state->__pyx_n_s_option);
+  Py_VISIT(traverse_module_state->__pyx_n_s_options);
   Py_VISIT(traverse_module_state->__pyx_n_s_pack);
   Py_VISIT(traverse_module_state->__pyx_n_s_path);
-  Py_VISIT(traverse_module_state->__pyx_n_s_paths);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_path_is);
   Py_VISIT(traverse_module_state->__pyx_n_s_pickle);
-  Py_VISIT(traverse_module_state->__pyx_n_s_plexsim_models_value_network);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_plexsim_models_value_network_pyx);
+  Py_VISIT(traverse_module_state->__pyx_n_s_plexsim_models_value_network2);
+  Py_VISIT(traverse_module_state->__pyx_kp_s_plexsim_models_value_network2_py);
+  Py_VISIT(traverse_module_state->__pyx_n_s_pop);
   Py_VISIT(traverse_module_state->__pyx_n_s_print);
+  Py_VISIT(traverse_module_state->__pyx_n_s_proposal);
   Py_VISIT(traverse_module_state->__pyx_n_s_pyx_PickleError);
   Py_VISIT(traverse_module_state->__pyx_n_s_pyx_checksum);
   Py_VISIT(traverse_module_state->__pyx_n_s_pyx_getbuffer);
@@ -4794,12 +5076,15 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_pyx_type);
   Py_VISIT(traverse_module_state->__pyx_n_s_pyx_unpickle_Enum);
   Py_VISIT(traverse_module_state->__pyx_n_s_pyx_vtable);
+  Py_VISIT(traverse_module_state->__pyx_n_s_queue);
   Py_VISIT(traverse_module_state->__pyx_n_s_range);
   Py_VISIT(traverse_module_state->__pyx_n_s_reduce);
   Py_VISIT(traverse_module_state->__pyx_n_s_reduce_cython);
   Py_VISIT(traverse_module_state->__pyx_n_s_reduce_ex);
   Py_VISIT(traverse_module_state->__pyx_n_s_results);
+  Py_VISIT(traverse_module_state->__pyx_n_s_rmapping);
   Py_VISIT(traverse_module_state->__pyx_n_s_rules);
+  Py_VISIT(traverse_module_state->__pyx_n_s_s);
   Py_VISIT(traverse_module_state->__pyx_n_s_self);
   Py_VISIT(traverse_module_state->__pyx_kp_s_self__newstates_self__states_sel);
   Py_VISIT(traverse_module_state->__pyx_n_s_setstate);
@@ -4808,6 +5093,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_siteEnergy);
   Py_VISIT(traverse_module_state->__pyx_n_s_size);
   Py_VISIT(traverse_module_state->__pyx_n_s_spec);
+  Py_VISIT(traverse_module_state->__pyx_kp_s_staring_merge);
   Py_VISIT(traverse_module_state->__pyx_n_s_start);
   Py_VISIT(traverse_module_state->__pyx_n_s_states);
   Py_VISIT(traverse_module_state->__pyx_n_s_step);
@@ -4821,50 +5107,67 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_t);
   Py_VISIT(traverse_module_state->__pyx_n_s_test);
   Py_VISIT(traverse_module_state->__pyx_kp_u_to);
+  Py_VISIT(traverse_module_state->__pyx_n_s_traverse);
   Py_VISIT(traverse_module_state->__pyx_kp_s_unable_to_allocate_array_data);
   Py_VISIT(traverse_module_state->__pyx_kp_s_unable_to_allocate_shape_and_str);
   Py_VISIT(traverse_module_state->__pyx_n_s_unpack);
   Py_VISIT(traverse_module_state->__pyx_n_s_update);
   Py_VISIT(traverse_module_state->__pyx_n_s_verbose);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_vp);
+  Py_VISIT(traverse_module_state->__pyx_n_s_vp_path);
   Py_VISIT(traverse_module_state->__pyx_n_s_weight);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_with_prop);
+  Py_VISIT(traverse_module_state->__pyx_n_s_zip);
   Py_VISIT(traverse_module_state->__pyx_int_0);
   Py_VISIT(traverse_module_state->__pyx_int_1);
   Py_VISIT(traverse_module_state->__pyx_int_2);
   Py_VISIT(traverse_module_state->__pyx_int_112105877);
   Py_VISIT(traverse_module_state->__pyx_int_neg_1);
   Py_VISIT(traverse_module_state->__pyx_k_);
+  Py_VISIT(traverse_module_state->__pyx_k__6);
+  Py_VISIT(traverse_module_state->__pyx_k__7);
+  Py_VISIT(traverse_module_state->__pyx_k__8);
   Py_VISIT(traverse_module_state->__pyx_slice__2);
   Py_VISIT(traverse_module_state->__pyx_slice__3);
   Py_VISIT(traverse_module_state->__pyx_tuple__4);
   Py_VISIT(traverse_module_state->__pyx_tuple__5);
-  Py_VISIT(traverse_module_state->__pyx_tuple__6);
-  Py_VISIT(traverse_module_state->__pyx_tuple__7);
-  Py_VISIT(traverse_module_state->__pyx_tuple__8);
   Py_VISIT(traverse_module_state->__pyx_tuple__9);
   Py_VISIT(traverse_module_state->__pyx_tuple__10);
-  Py_VISIT(traverse_module_state->__pyx_tuple__11);
   Py_VISIT(traverse_module_state->__pyx_tuple__12);
-  Py_VISIT(traverse_module_state->__pyx_tuple__16);
-  Py_VISIT(traverse_module_state->__pyx_tuple__19);
+  Py_VISIT(traverse_module_state->__pyx_tuple__13);
+  Py_VISIT(traverse_module_state->__pyx_tuple__17);
   Py_VISIT(traverse_module_state->__pyx_tuple__20);
-  Py_VISIT(traverse_module_state->__pyx_tuple__22);
-  Py_VISIT(traverse_module_state->__pyx_tuple__24);
+  Py_VISIT(traverse_module_state->__pyx_tuple__21);
+  Py_VISIT(traverse_module_state->__pyx_tuple__23);
   Py_VISIT(traverse_module_state->__pyx_tuple__25);
-  Py_VISIT(traverse_module_state->__pyx_tuple__27);
+  Py_VISIT(traverse_module_state->__pyx_tuple__26);
   Py_VISIT(traverse_module_state->__pyx_tuple__28);
-  Py_VISIT(traverse_module_state->__pyx_tuple__30);
-  Py_VISIT(traverse_module_state->__pyx_tuple__32);
+  Py_VISIT(traverse_module_state->__pyx_tuple__29);
+  Py_VISIT(traverse_module_state->__pyx_tuple__31);
   Py_VISIT(traverse_module_state->__pyx_tuple__33);
-  Py_VISIT(traverse_module_state->__pyx_tuple__34);
   Py_VISIT(traverse_module_state->__pyx_tuple__35);
   Py_VISIT(traverse_module_state->__pyx_tuple__36);
-  Py_VISIT(traverse_module_state->__pyx_tuple__37);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__21);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__23);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__26);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__29);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__31);
-  Py_VISIT(traverse_module_state->__pyx_codeobj__38);
+  Py_VISIT(traverse_module_state->__pyx_tuple__38);
+  Py_VISIT(traverse_module_state->__pyx_tuple__39);
+  Py_VISIT(traverse_module_state->__pyx_tuple__41);
+  Py_VISIT(traverse_module_state->__pyx_tuple__43);
+  Py_VISIT(traverse_module_state->__pyx_tuple__45);
+  Py_VISIT(traverse_module_state->__pyx_tuple__46);
+  Py_VISIT(traverse_module_state->__pyx_tuple__47);
+  Py_VISIT(traverse_module_state->__pyx_tuple__48);
+  Py_VISIT(traverse_module_state->__pyx_tuple__49);
+  Py_VISIT(traverse_module_state->__pyx_tuple__50);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__22);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__24);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__27);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__30);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__32);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__34);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__37);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__40);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__42);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__44);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__51);
   return 0;
 }
 #endif
@@ -4906,8 +5209,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_ptype_7plexsim_6models_5rules_Rules __pyx_mstate_global->__pyx_ptype_7plexsim_6models_5rules_Rules
 #define __pyx_ptype_7plexsim_6models_4base_Model __pyx_mstate_global->__pyx_ptype_7plexsim_6models_4base_Model
 #define __pyx_ptype_7plexsim_6models_5potts_Potts __pyx_mstate_global->__pyx_ptype_7plexsim_6models_5potts_Potts
-#define __pyx_ptype_7plexsim_6models_13value_network_ValueNetwork __pyx_mstate_global->__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork
-#define __pyx_type_7plexsim_6models_13value_network_ValueNetwork __pyx_mstate_global->__pyx_type_7plexsim_6models_13value_network_ValueNetwork
+#define __pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork __pyx_mstate_global->__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork
+#define __pyx_type_7plexsim_6models_14value_network2_ValueNetwork __pyx_mstate_global->__pyx_type_7plexsim_6models_14value_network2_ValueNetwork
 #define __pyx_array_type __pyx_mstate_global->__pyx_array_type
 #define __pyx_type___pyx_array __pyx_mstate_global->__pyx_type___pyx_array
 #define __pyx_MemviewEnum_type __pyx_mstate_global->__pyx_MemviewEnum_type
@@ -4919,37 +5222,34 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_ASCII __pyx_mstate_global->__pyx_n_s_ASCII
 #define __pyx_kp_s_All_dimensions_preceding_dimensi __pyx_mstate_global->__pyx_kp_s_All_dimensions_preceding_dimensi
 #define __pyx_n_s_AssertionError __pyx_mstate_global->__pyx_n_s_AssertionError
-#define __pyx_kp_s_At_endpoint __pyx_mstate_global->__pyx_kp_s_At_endpoint
-#define __pyx_kp_u_At_proposal_edge_current_name __pyx_mstate_global->__pyx_kp_u_At_proposal_edge_current_name
+#define __pyx_kp_u_At __pyx_mstate_global->__pyx_kp_u_At
+#define __pyx_kp_u_At_an_end_point_pushing __pyx_mstate_global->__pyx_kp_u_At_an_end_point_pushing
 #define __pyx_kp_s_Buffer_view_does_not_expose_stri __pyx_mstate_global->__pyx_kp_s_Buffer_view_does_not_expose_stri
 #define __pyx_kp_s_Can_only_create_a_buffer_that_is __pyx_mstate_global->__pyx_kp_s_Can_only_create_a_buffer_that_is
 #define __pyx_kp_s_Cannot_assign_to_read_only_memor __pyx_mstate_global->__pyx_kp_s_Cannot_assign_to_read_only_memor
 #define __pyx_kp_s_Cannot_create_writable_memory_vi __pyx_mstate_global->__pyx_kp_s_Cannot_create_writable_memory_vi
 #define __pyx_kp_u_Cannot_index_with_type __pyx_mstate_global->__pyx_kp_u_Cannot_index_with_type
 #define __pyx_kp_s_Cannot_transpose_memoryview_with __pyx_mstate_global->__pyx_kp_s_Cannot_transpose_memoryview_with
-#define __pyx_kp_u_Checking_proposal_edge_other_nam __pyx_mstate_global->__pyx_kp_u_Checking_proposal_edge_other_nam
-#define __pyx_kp_s_Current_edge_is __pyx_mstate_global->__pyx_kp_s_Current_edge_is
 #define __pyx_kp_s_Dimension_d_is_not_direct __pyx_mstate_global->__pyx_kp_s_Dimension_d_is_not_direct
 #define __pyx_n_s_Ellipsis __pyx_mstate_global->__pyx_n_s_Ellipsis
 #define __pyx_kp_s_Empty_shape_tuple_for_cython_arr __pyx_mstate_global->__pyx_kp_s_Empty_shape_tuple_for_cython_arr
-#define __pyx_kp_u_Found_negative_edge_weight __pyx_mstate_global->__pyx_kp_u_Found_negative_edge_weight
-#define __pyx_kp_s_Found_node_already_in_path_cycle __pyx_mstate_global->__pyx_kp_s_Found_node_already_in_path_cycle
-#define __pyx_kp_s_Going_into_branch __pyx_mstate_global->__pyx_kp_s_Going_into_branch
 #define __pyx_n_s_ImportError __pyx_mstate_global->__pyx_n_s_ImportError
 #define __pyx_kp_s_Incompatible_checksums_s_vs_0x6a __pyx_mstate_global->__pyx_kp_s_Incompatible_checksums_s_vs_0x6a
 #define __pyx_n_s_IndexError __pyx_mstate_global->__pyx_n_s_IndexError
 #define __pyx_kp_s_Index_out_of_bounds_axis_d __pyx_mstate_global->__pyx_kp_s_Index_out_of_bounds_axis_d
 #define __pyx_kp_s_Indirect_dimensions_not_supporte __pyx_mstate_global->__pyx_kp_s_Indirect_dimensions_not_supporte
-#define __pyx_kp_s_Inserting_edge __pyx_mstate_global->__pyx_kp_s_Inserting_edge
 #define __pyx_kp_u_Invalid_mode_expected_c_or_fortr __pyx_mstate_global->__pyx_kp_u_Invalid_mode_expected_c_or_fortr
 #define __pyx_kp_u_Invalid_shape_in_axis __pyx_mstate_global->__pyx_kp_u_Invalid_shape_in_axis
 #define __pyx_n_s_MemoryError __pyx_mstate_global->__pyx_n_s_MemoryError
 #define __pyx_kp_s_MemoryView_of_r_at_0x_x __pyx_mstate_global->__pyx_kp_s_MemoryView_of_r_at_0x_x
 #define __pyx_kp_s_MemoryView_of_r_object __pyx_mstate_global->__pyx_kp_s_MemoryView_of_r_object
 #define __pyx_n_b_O __pyx_mstate_global->__pyx_n_b_O
+#define __pyx_kp_u_Options __pyx_mstate_global->__pyx_kp_u_Options
 #define __pyx_kp_u_Out_of_bounds_on_buffer_access_a __pyx_mstate_global->__pyx_kp_u_Out_of_bounds_on_buffer_access_a
+#define __pyx_kp_u_Path __pyx_mstate_global->__pyx_kp_u_Path
 #define __pyx_n_s_PickleError __pyx_mstate_global->__pyx_n_s_PickleError
-#define __pyx_kp_u_Pushing_current_edge __pyx_mstate_global->__pyx_kp_u_Pushing_current_edge
+#define __pyx_kp_u_Popping_option __pyx_mstate_global->__pyx_kp_u_Popping_option
+#define __pyx_kp_u_Results __pyx_mstate_global->__pyx_kp_u_Results
 #define __pyx_kp_s_Step_may_not_be_zero_axis_d __pyx_mstate_global->__pyx_kp_s_Step_may_not_be_zero_axis_d
 #define __pyx_n_s_TypeError __pyx_mstate_global->__pyx_n_s_TypeError
 #define __pyx_kp_s_Unable_to_convert_item_to_object __pyx_mstate_global->__pyx_kp_s_Unable_to_convert_item_to_object
@@ -4957,17 +5257,26 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_ValueNetwork __pyx_mstate_global->__pyx_n_s_ValueNetwork
 #define __pyx_n_s_ValueNetwork___reduce_cython __pyx_mstate_global->__pyx_n_s_ValueNetwork___reduce_cython
 #define __pyx_n_s_ValueNetwork___setstate_cython __pyx_mstate_global->__pyx_n_s_ValueNetwork___setstate_cython
+#define __pyx_n_s_ValueNetwork__check_df __pyx_mstate_global->__pyx_n_s_ValueNetwork__check_df
+#define __pyx_n_s_ValueNetwork__traverse __pyx_mstate_global->__pyx_n_s_ValueNetwork__traverse
 #define __pyx_n_s_ValueNetwork_check_df __pyx_mstate_global->__pyx_n_s_ValueNetwork_check_df
 #define __pyx_n_s_ValueNetwork_check_doubles __pyx_mstate_global->__pyx_n_s_ValueNetwork_check_doubles
+#define __pyx_n_s_ValueNetwork_check_endpoint __pyx_mstate_global->__pyx_n_s_ValueNetwork_check_endpoint
+#define __pyx_n_s_ValueNetwork_check_traversal __pyx_mstate_global->__pyx_n_s_ValueNetwork_check_traversal
+#define __pyx_n_s_ValueNetwork_merge __pyx_mstate_global->__pyx_n_s_ValueNetwork_merge
 #define __pyx_n_s_ValueNetwork_siteEnergy __pyx_mstate_global->__pyx_n_s_ValueNetwork_siteEnergy
 #define __pyx_n_s_View_MemoryView __pyx_mstate_global->__pyx_n_s_View_MemoryView
-#define __pyx_kp_u__13 __pyx_mstate_global->__pyx_kp_u__13
+#define __pyx_kp_u_Vp_path __pyx_mstate_global->__pyx_kp_u_Vp_path
+#define __pyx_kp_u__11 __pyx_mstate_global->__pyx_kp_u__11
 #define __pyx_kp_u__14 __pyx_mstate_global->__pyx_kp_u__14
-#define __pyx_n_s__15 __pyx_mstate_global->__pyx_n_s__15
-#define __pyx_kp_u__17 __pyx_mstate_global->__pyx_kp_u__17
+#define __pyx_kp_u__15 __pyx_mstate_global->__pyx_kp_u__15
+#define __pyx_n_s__16 __pyx_mstate_global->__pyx_n_s__16
 #define __pyx_kp_u__18 __pyx_mstate_global->__pyx_kp_u__18
-#define __pyx_n_s__39 __pyx_mstate_global->__pyx_n_s__39
+#define __pyx_kp_u__19 __pyx_mstate_global->__pyx_kp_u__19
+#define __pyx_n_s__52 __pyx_mstate_global->__pyx_n_s__52
+#define __pyx_kp_s_added_path __pyx_mstate_global->__pyx_kp_s_added_path
 #define __pyx_kp_u_adding __pyx_mstate_global->__pyx_kp_u_adding
+#define __pyx_kp_u_adding_results __pyx_mstate_global->__pyx_kp_u_adding_results
 #define __pyx_n_s_agentStates __pyx_mstate_global->__pyx_n_s_agentStates
 #define __pyx_n_s_all __pyx_mstate_global->__pyx_n_s_all
 #define __pyx_n_s_allocate_buffer __pyx_mstate_global->__pyx_n_s_allocate_buffer
@@ -4981,19 +5290,19 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_c __pyx_mstate_global->__pyx_n_s_c
 #define __pyx_n_u_c __pyx_mstate_global->__pyx_n_u_c
 #define __pyx_n_s_check_df __pyx_mstate_global->__pyx_n_s_check_df
+#define __pyx_n_s_check_df_2 __pyx_mstate_global->__pyx_n_s_check_df_2
 #define __pyx_n_s_check_doubles __pyx_mstate_global->__pyx_n_s_check_doubles
+#define __pyx_n_s_check_endpoint __pyx_mstate_global->__pyx_n_s_check_endpoint
+#define __pyx_n_s_check_traversal __pyx_mstate_global->__pyx_n_s_check_traversal
+#define __pyx_kp_u_checking_edge __pyx_mstate_global->__pyx_kp_u_checking_edge
 #define __pyx_n_s_class __pyx_mstate_global->__pyx_n_s_class
 #define __pyx_n_s_class_getitem __pyx_mstate_global->__pyx_n_s_class_getitem
 #define __pyx_n_s_cline_in_traceback __pyx_mstate_global->__pyx_n_s_cline_in_traceback
 #define __pyx_kp_s_contiguous_and_direct __pyx_mstate_global->__pyx_kp_s_contiguous_and_direct
 #define __pyx_kp_s_contiguous_and_indirect __pyx_mstate_global->__pyx_kp_s_contiguous_and_indirect
 #define __pyx_n_s_copy __pyx_mstate_global->__pyx_n_s_copy
-#define __pyx_kp_u_crawler_options_size __pyx_mstate_global->__pyx_kp_u_crawler_options_size
-#define __pyx_kp_u_crawler_path_size __pyx_mstate_global->__pyx_kp_u_crawler_path_size
-#define __pyx_kp_u_crawler_results_size __pyx_mstate_global->__pyx_kp_u_crawler_results_size
 #define __pyx_n_s_dict __pyx_mstate_global->__pyx_n_s_dict
 #define __pyx_kp_u_disable __pyx_mstate_global->__pyx_kp_u_disable
-#define __pyx_kp_s_done_merging __pyx_mstate_global->__pyx_kp_s_done_merging
 #define __pyx_n_s_double __pyx_mstate_global->__pyx_n_s_double
 #define __pyx_n_s_dtype __pyx_mstate_global->__pyx_n_s_dtype
 #define __pyx_n_s_dtype_is_object __pyx_mstate_global->__pyx_n_s_dtype_is_object
@@ -5005,6 +5314,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_format __pyx_mstate_global->__pyx_n_s_format
 #define __pyx_n_s_fortran __pyx_mstate_global->__pyx_n_s_fortran
 #define __pyx_n_u_fortran __pyx_mstate_global->__pyx_n_u_fortran
+#define __pyx_kp_s_found_node_already_in_path_cycle __pyx_mstate_global->__pyx_kp_s_found_node_already_in_path_cycle
 #define __pyx_kp_u_gc __pyx_mstate_global->__pyx_kp_u_gc
 #define __pyx_n_s_get_edge_attributes __pyx_mstate_global->__pyx_n_s_get_edge_attributes
 #define __pyx_n_s_getstate __pyx_mstate_global->__pyx_n_s_getstate
@@ -5020,13 +5330,18 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_items __pyx_mstate_global->__pyx_n_s_items
 #define __pyx_n_s_itemsize __pyx_mstate_global->__pyx_n_s_itemsize
 #define __pyx_kp_s_itemsize_0_for_cython_array __pyx_mstate_global->__pyx_kp_s_itemsize_0_for_cython_array
+#define __pyx_kp_s_left_merge __pyx_mstate_global->__pyx_kp_s_left_merge
 #define __pyx_n_s_main __pyx_mstate_global->__pyx_n_s_main
+#define __pyx_n_s_mapping __pyx_mstate_global->__pyx_n_s_mapping
 #define __pyx_n_s_mean __pyx_mstate_global->__pyx_n_s_mean
 #define __pyx_n_s_memview __pyx_mstate_global->__pyx_n_s_memview
+#define __pyx_n_s_merge __pyx_mstate_global->__pyx_n_s_merge
 #define __pyx_n_s_mode __pyx_mstate_global->__pyx_n_s_mode
 #define __pyx_n_s_name __pyx_mstate_global->__pyx_n_s_name
 #define __pyx_n_s_name_2 __pyx_mstate_global->__pyx_n_s_name_2
 #define __pyx_n_s_ndim __pyx_mstate_global->__pyx_n_s_ndim
+#define __pyx_kp_s_negative_weight __pyx_mstate_global->__pyx_kp_s_negative_weight
+#define __pyx_n_s_neighbors __pyx_mstate_global->__pyx_n_s_neighbors
 #define __pyx_n_s_networkx __pyx_mstate_global->__pyx_n_s_networkx
 #define __pyx_n_s_new __pyx_mstate_global->__pyx_n_s_new
 #define __pyx_kp_s_no_default___reduce___due_to_non __pyx_mstate_global->__pyx_kp_s_no_default___reduce___due_to_non
@@ -5036,13 +5351,17 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_kp_s_numpy_core_umath_failed_to_impor __pyx_mstate_global->__pyx_kp_s_numpy_core_umath_failed_to_impor
 #define __pyx_n_s_nx __pyx_mstate_global->__pyx_n_s_nx
 #define __pyx_n_s_obj __pyx_mstate_global->__pyx_n_s_obj
+#define __pyx_n_s_option __pyx_mstate_global->__pyx_n_s_option
+#define __pyx_n_s_options __pyx_mstate_global->__pyx_n_s_options
 #define __pyx_n_s_pack __pyx_mstate_global->__pyx_n_s_pack
 #define __pyx_n_s_path __pyx_mstate_global->__pyx_n_s_path
-#define __pyx_n_s_paths __pyx_mstate_global->__pyx_n_s_paths
+#define __pyx_kp_u_path_is __pyx_mstate_global->__pyx_kp_u_path_is
 #define __pyx_n_s_pickle __pyx_mstate_global->__pyx_n_s_pickle
-#define __pyx_n_s_plexsim_models_value_network __pyx_mstate_global->__pyx_n_s_plexsim_models_value_network
-#define __pyx_kp_s_plexsim_models_value_network_pyx __pyx_mstate_global->__pyx_kp_s_plexsim_models_value_network_pyx
+#define __pyx_n_s_plexsim_models_value_network2 __pyx_mstate_global->__pyx_n_s_plexsim_models_value_network2
+#define __pyx_kp_s_plexsim_models_value_network2_py __pyx_mstate_global->__pyx_kp_s_plexsim_models_value_network2_py
+#define __pyx_n_s_pop __pyx_mstate_global->__pyx_n_s_pop
 #define __pyx_n_s_print __pyx_mstate_global->__pyx_n_s_print
+#define __pyx_n_s_proposal __pyx_mstate_global->__pyx_n_s_proposal
 #define __pyx_n_s_pyx_PickleError __pyx_mstate_global->__pyx_n_s_pyx_PickleError
 #define __pyx_n_s_pyx_checksum __pyx_mstate_global->__pyx_n_s_pyx_checksum
 #define __pyx_n_s_pyx_getbuffer __pyx_mstate_global->__pyx_n_s_pyx_getbuffer
@@ -5051,12 +5370,15 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_pyx_type __pyx_mstate_global->__pyx_n_s_pyx_type
 #define __pyx_n_s_pyx_unpickle_Enum __pyx_mstate_global->__pyx_n_s_pyx_unpickle_Enum
 #define __pyx_n_s_pyx_vtable __pyx_mstate_global->__pyx_n_s_pyx_vtable
+#define __pyx_n_s_queue __pyx_mstate_global->__pyx_n_s_queue
 #define __pyx_n_s_range __pyx_mstate_global->__pyx_n_s_range
 #define __pyx_n_s_reduce __pyx_mstate_global->__pyx_n_s_reduce
 #define __pyx_n_s_reduce_cython __pyx_mstate_global->__pyx_n_s_reduce_cython
 #define __pyx_n_s_reduce_ex __pyx_mstate_global->__pyx_n_s_reduce_ex
 #define __pyx_n_s_results __pyx_mstate_global->__pyx_n_s_results
+#define __pyx_n_s_rmapping __pyx_mstate_global->__pyx_n_s_rmapping
 #define __pyx_n_s_rules __pyx_mstate_global->__pyx_n_s_rules
+#define __pyx_n_s_s __pyx_mstate_global->__pyx_n_s_s
 #define __pyx_n_s_self __pyx_mstate_global->__pyx_n_s_self
 #define __pyx_kp_s_self__newstates_self__states_sel __pyx_mstate_global->__pyx_kp_s_self__newstates_self__states_sel
 #define __pyx_n_s_setstate __pyx_mstate_global->__pyx_n_s_setstate
@@ -5065,6 +5387,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_siteEnergy __pyx_mstate_global->__pyx_n_s_siteEnergy
 #define __pyx_n_s_size __pyx_mstate_global->__pyx_n_s_size
 #define __pyx_n_s_spec __pyx_mstate_global->__pyx_n_s_spec
+#define __pyx_kp_s_staring_merge __pyx_mstate_global->__pyx_kp_s_staring_merge
 #define __pyx_n_s_start __pyx_mstate_global->__pyx_n_s_start
 #define __pyx_n_s_states __pyx_mstate_global->__pyx_n_s_states
 #define __pyx_n_s_step __pyx_mstate_global->__pyx_n_s_step
@@ -5078,54 +5401,71 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_t __pyx_mstate_global->__pyx_n_s_t
 #define __pyx_n_s_test __pyx_mstate_global->__pyx_n_s_test
 #define __pyx_kp_u_to __pyx_mstate_global->__pyx_kp_u_to
+#define __pyx_n_s_traverse __pyx_mstate_global->__pyx_n_s_traverse
 #define __pyx_kp_s_unable_to_allocate_array_data __pyx_mstate_global->__pyx_kp_s_unable_to_allocate_array_data
 #define __pyx_kp_s_unable_to_allocate_shape_and_str __pyx_mstate_global->__pyx_kp_s_unable_to_allocate_shape_and_str
 #define __pyx_n_s_unpack __pyx_mstate_global->__pyx_n_s_unpack
 #define __pyx_n_s_update __pyx_mstate_global->__pyx_n_s_update
 #define __pyx_n_s_verbose __pyx_mstate_global->__pyx_n_s_verbose
+#define __pyx_kp_u_vp __pyx_mstate_global->__pyx_kp_u_vp
+#define __pyx_n_s_vp_path __pyx_mstate_global->__pyx_n_s_vp_path
 #define __pyx_n_s_weight __pyx_mstate_global->__pyx_n_s_weight
+#define __pyx_kp_u_with_prop __pyx_mstate_global->__pyx_kp_u_with_prop
+#define __pyx_n_s_zip __pyx_mstate_global->__pyx_n_s_zip
 #define __pyx_int_0 __pyx_mstate_global->__pyx_int_0
 #define __pyx_int_1 __pyx_mstate_global->__pyx_int_1
 #define __pyx_int_2 __pyx_mstate_global->__pyx_int_2
 #define __pyx_int_112105877 __pyx_mstate_global->__pyx_int_112105877
 #define __pyx_int_neg_1 __pyx_mstate_global->__pyx_int_neg_1
 #define __pyx_k_ __pyx_mstate_global->__pyx_k_
+#define __pyx_k__6 __pyx_mstate_global->__pyx_k__6
+#define __pyx_k__7 __pyx_mstate_global->__pyx_k__7
+#define __pyx_k__8 __pyx_mstate_global->__pyx_k__8
 #define __pyx_slice__2 __pyx_mstate_global->__pyx_slice__2
 #define __pyx_slice__3 __pyx_mstate_global->__pyx_slice__3
 #define __pyx_tuple__4 __pyx_mstate_global->__pyx_tuple__4
 #define __pyx_tuple__5 __pyx_mstate_global->__pyx_tuple__5
-#define __pyx_tuple__6 __pyx_mstate_global->__pyx_tuple__6
-#define __pyx_tuple__7 __pyx_mstate_global->__pyx_tuple__7
-#define __pyx_tuple__8 __pyx_mstate_global->__pyx_tuple__8
 #define __pyx_tuple__9 __pyx_mstate_global->__pyx_tuple__9
 #define __pyx_tuple__10 __pyx_mstate_global->__pyx_tuple__10
-#define __pyx_tuple__11 __pyx_mstate_global->__pyx_tuple__11
 #define __pyx_tuple__12 __pyx_mstate_global->__pyx_tuple__12
-#define __pyx_tuple__16 __pyx_mstate_global->__pyx_tuple__16
-#define __pyx_tuple__19 __pyx_mstate_global->__pyx_tuple__19
+#define __pyx_tuple__13 __pyx_mstate_global->__pyx_tuple__13
+#define __pyx_tuple__17 __pyx_mstate_global->__pyx_tuple__17
 #define __pyx_tuple__20 __pyx_mstate_global->__pyx_tuple__20
-#define __pyx_tuple__22 __pyx_mstate_global->__pyx_tuple__22
-#define __pyx_tuple__24 __pyx_mstate_global->__pyx_tuple__24
+#define __pyx_tuple__21 __pyx_mstate_global->__pyx_tuple__21
+#define __pyx_tuple__23 __pyx_mstate_global->__pyx_tuple__23
 #define __pyx_tuple__25 __pyx_mstate_global->__pyx_tuple__25
-#define __pyx_tuple__27 __pyx_mstate_global->__pyx_tuple__27
+#define __pyx_tuple__26 __pyx_mstate_global->__pyx_tuple__26
 #define __pyx_tuple__28 __pyx_mstate_global->__pyx_tuple__28
-#define __pyx_tuple__30 __pyx_mstate_global->__pyx_tuple__30
-#define __pyx_tuple__32 __pyx_mstate_global->__pyx_tuple__32
+#define __pyx_tuple__29 __pyx_mstate_global->__pyx_tuple__29
+#define __pyx_tuple__31 __pyx_mstate_global->__pyx_tuple__31
 #define __pyx_tuple__33 __pyx_mstate_global->__pyx_tuple__33
-#define __pyx_tuple__34 __pyx_mstate_global->__pyx_tuple__34
 #define __pyx_tuple__35 __pyx_mstate_global->__pyx_tuple__35
 #define __pyx_tuple__36 __pyx_mstate_global->__pyx_tuple__36
-#define __pyx_tuple__37 __pyx_mstate_global->__pyx_tuple__37
-#define __pyx_codeobj__21 __pyx_mstate_global->__pyx_codeobj__21
-#define __pyx_codeobj__23 __pyx_mstate_global->__pyx_codeobj__23
-#define __pyx_codeobj__26 __pyx_mstate_global->__pyx_codeobj__26
-#define __pyx_codeobj__29 __pyx_mstate_global->__pyx_codeobj__29
-#define __pyx_codeobj__31 __pyx_mstate_global->__pyx_codeobj__31
-#define __pyx_codeobj__38 __pyx_mstate_global->__pyx_codeobj__38
+#define __pyx_tuple__38 __pyx_mstate_global->__pyx_tuple__38
+#define __pyx_tuple__39 __pyx_mstate_global->__pyx_tuple__39
+#define __pyx_tuple__41 __pyx_mstate_global->__pyx_tuple__41
+#define __pyx_tuple__43 __pyx_mstate_global->__pyx_tuple__43
+#define __pyx_tuple__45 __pyx_mstate_global->__pyx_tuple__45
+#define __pyx_tuple__46 __pyx_mstate_global->__pyx_tuple__46
+#define __pyx_tuple__47 __pyx_mstate_global->__pyx_tuple__47
+#define __pyx_tuple__48 __pyx_mstate_global->__pyx_tuple__48
+#define __pyx_tuple__49 __pyx_mstate_global->__pyx_tuple__49
+#define __pyx_tuple__50 __pyx_mstate_global->__pyx_tuple__50
+#define __pyx_codeobj__22 __pyx_mstate_global->__pyx_codeobj__22
+#define __pyx_codeobj__24 __pyx_mstate_global->__pyx_codeobj__24
+#define __pyx_codeobj__27 __pyx_mstate_global->__pyx_codeobj__27
+#define __pyx_codeobj__30 __pyx_mstate_global->__pyx_codeobj__30
+#define __pyx_codeobj__32 __pyx_mstate_global->__pyx_codeobj__32
+#define __pyx_codeobj__34 __pyx_mstate_global->__pyx_codeobj__34
+#define __pyx_codeobj__37 __pyx_mstate_global->__pyx_codeobj__37
+#define __pyx_codeobj__40 __pyx_mstate_global->__pyx_codeobj__40
+#define __pyx_codeobj__42 __pyx_mstate_global->__pyx_codeobj__42
+#define __pyx_codeobj__44 __pyx_mstate_global->__pyx_codeobj__44
+#define __pyx_codeobj__51 __pyx_mstate_global->__pyx_codeobj__51
 #endif
 /* #### Code section: module_code ### */
 
-/* "plexsim/models/value_network.pyx":16
+/* "plexsim/models/value_network2.pyx":9
  * 
  * cdef class ValueNetwork(Potts):
  *     def __init__(self, graph,             # <<<<<<<<<<<<<<
@@ -5134,8 +5474,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
  */
 
 /* Python wrapper */
-static int __pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static int __pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_graph = 0;
   PyObject *__pyx_v_rules = 0;
   PyObject *__pyx_v_t = 0;
@@ -5182,40 +5522,40 @@ static int __pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_1__init__(Py
       switch (__pyx_nargs) {
         case  0:
         if (likely((values[0] = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_graph)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 16, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 9, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
         if (likely((values[1] = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_rules)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 16, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 9, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 5, 1); __PYX_ERR(0, 16, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 5, 1); __PYX_ERR(0, 9, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_t);
           if (value) { values[2] = value; kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 16, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 9, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_bounded_rational);
           if (value) { values[3] = value; kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 16, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 9, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_agentStates);
           if (value) { values[4] = value; kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 16, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 9, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, __pyx_v_kwargs, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 16, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, __pyx_v_kwargs, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 9, __pyx_L3_error)
       }
     } else {
       switch (__pyx_nargs) {
@@ -5239,14 +5579,14 @@ static int __pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_1__init__(Py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 5, __pyx_nargs); __PYX_ERR(0, 16, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 5, __pyx_nargs); __PYX_ERR(0, 9, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
-  __Pyx_AddTraceback("plexsim.models.value_network.ValueNetwork.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork___init__(((struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self), __pyx_v_graph, __pyx_v_rules, __pyx_v_t, __pyx_v_bounded_rational, __pyx_v_agentStates, __pyx_v_kwargs);
+  __pyx_r = __pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork___init__(((struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self), __pyx_v_graph, __pyx_v_rules, __pyx_v_t, __pyx_v_bounded_rational, __pyx_v_agentStates, __pyx_v_kwargs);
 
   /* function exit code */
   __Pyx_DECREF(__pyx_v_kwargs);
@@ -5254,7 +5594,7 @@ static int __pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_1__init__(Py
   return __pyx_r;
 }
 
-static int __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork___init__(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_graph, PyObject *__pyx_v_rules, PyObject *__pyx_v_t, PyObject *__pyx_v_bounded_rational, PyObject *__pyx_v_agentStates, PyObject *__pyx_v_kwargs) {
+static int __pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork___init__(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_graph, PyObject *__pyx_v_rules, PyObject *__pyx_v_t, PyObject *__pyx_v_bounded_rational, PyObject *__pyx_v_agentStates, PyObject *__pyx_v_kwargs) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -5265,101 +5605,101 @@ static int __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork___init__(str
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "plexsim/models/value_network.pyx":23
+  /* "plexsim/models/value_network2.pyx":16
  *                  **kwargs
  *                  ):
  *         super(ValueNetwork, self).__init__(graph = graph,             # <<<<<<<<<<<<<<
  *                                      agentStates = agentStates,
  *                                      rules = rules,
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF((PyObject *)__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork);
-  __Pyx_GIVEREF((PyObject *)__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork);
-  PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork));
+  __Pyx_INCREF((PyObject *)__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork);
+  __Pyx_GIVEREF((PyObject *)__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork);
+  PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork));
   __Pyx_INCREF((PyObject *)__pyx_v_self);
   __Pyx_GIVEREF((PyObject *)__pyx_v_self);
   PyTuple_SET_ITEM(__pyx_t_1, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_graph, __pyx_v_graph) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_graph, __pyx_v_graph) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
 
-  /* "plexsim/models/value_network.pyx":24
+  /* "plexsim/models/value_network2.pyx":17
  *                  ):
  *         super(ValueNetwork, self).__init__(graph = graph,
  *                                      agentStates = agentStates,             # <<<<<<<<<<<<<<
  *                                      rules = rules,
  *                                      t = t,
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_agentStates, __pyx_v_agentStates) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_agentStates, __pyx_v_agentStates) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
 
-  /* "plexsim/models/value_network.pyx":25
+  /* "plexsim/models/value_network2.pyx":18
  *         super(ValueNetwork, self).__init__(graph = graph,
  *                                      agentStates = agentStates,
  *                                      rules = rules,             # <<<<<<<<<<<<<<
  *                                      t = t,
  *                                      **kwargs)
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_rules, __pyx_v_rules) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_rules, __pyx_v_rules) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
 
-  /* "plexsim/models/value_network.pyx":26
+  /* "plexsim/models/value_network2.pyx":19
  *                                      agentStates = agentStates,
  *                                      rules = rules,
  *                                      t = t,             # <<<<<<<<<<<<<<
  *                                      **kwargs)
  * 
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_t, __pyx_v_t) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_t, __pyx_v_t) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
   __pyx_t_2 = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "plexsim/models/value_network.pyx":27
+  /* "plexsim/models/value_network2.pyx":20
  *                                      rules = rules,
  *                                      t = t,
  *                                      **kwargs)             # <<<<<<<<<<<<<<
  * 
  *         self.verbose = False
  */
-  if (__Pyx_MergeKeywords(__pyx_t_2, __pyx_v_kwargs) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
+  if (__Pyx_MergeKeywords(__pyx_t_2, __pyx_v_kwargs) < 0) __PYX_ERR(0, 20, __pyx_L1_error)
 
-  /* "plexsim/models/value_network.pyx":23
+  /* "plexsim/models/value_network2.pyx":16
  *                  **kwargs
  *                  ):
  *         super(ValueNetwork, self).__init__(graph = graph,             # <<<<<<<<<<<<<<
  *                                      agentStates = agentStates,
  *                                      rules = rules,
  */
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "plexsim/models/value_network.pyx":29
+  /* "plexsim/models/value_network2.pyx":22
  *                                      **kwargs)
  * 
  *         self.verbose = False             # <<<<<<<<<<<<<<
  *         self.bounded_rational = bounded_rational
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_verbose, Py_False) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_verbose, Py_False) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
 
-  /* "plexsim/models/value_network.pyx":30
+  /* "plexsim/models/value_network2.pyx":23
  * 
  *         self.verbose = False
  *         self.bounded_rational = bounded_rational             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_bounded_rational, __pyx_v_bounded_rational) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_bounded_rational, __pyx_v_bounded_rational) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
 
-  /* "plexsim/models/value_network.pyx":16
+  /* "plexsim/models/value_network2.pyx":9
  * 
  * cdef class ValueNetwork(Potts):
  *     def __init__(self, graph,             # <<<<<<<<<<<<<<
@@ -5374,14 +5714,14 @@ static int __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork___init__(str
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("plexsim.models.value_network.ValueNetwork.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network.pyx":32
+/* "plexsim/models/value_network2.pyx":25
  *         self.bounded_rational = bounded_rational
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5390,20 +5730,20 @@ static int __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork___init__(str
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_16bounded_rational_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_16bounded_rational_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_16bounded_rational_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_16bounded_rational_1__get__(PyObject *__pyx_v_self) {
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues = __Pyx_KwValues_VARARGS(__pyx_args, __pyx_nargs);
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16bounded_rational___get__(((struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_16bounded_rational___get__(((struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16bounded_rational___get__(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_16bounded_rational___get__(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -5412,7 +5752,7 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16boun
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/value_network.pyx":34
+  /* "plexsim/models/value_network2.pyx":27
  *     @property
  *     def bounded_rational(self):
  *         return self._bounded_rational             # <<<<<<<<<<<<<<
@@ -5420,13 +5760,13 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16boun
  *     def bounded_rational(self, value):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->_bounded_rational); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->_bounded_rational); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network.pyx":32
+  /* "plexsim/models/value_network2.pyx":25
  *         self.bounded_rational = bounded_rational
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5437,7 +5777,7 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16boun
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("plexsim.models.value_network.ValueNetwork.bounded_rational.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.bounded_rational.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -5445,7 +5785,7 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16boun
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network.pyx":35
+/* "plexsim/models/value_network2.pyx":28
  *     def bounded_rational(self):
  *         return self._bounded_rational
  *     @bounded_rational.setter             # <<<<<<<<<<<<<<
@@ -5454,20 +5794,20 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16boun
  */
 
 /* Python wrapper */
-static int __pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_16bounded_rational_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_16bounded_rational_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_16bounded_rational_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_16bounded_rational_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues = __Pyx_KwValues_VARARGS(__pyx_args, __pyx_nargs);
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16bounded_rational_2__set__(((struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_16bounded_rational_2__set__(((struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16bounded_rational_2__set__(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_16bounded_rational_2__set__(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_value) {
   PyObject *__pyx_v_tmp = NULL;
   CYTHON_UNUSED PyObject *__pyx_7genexpr__pyx_v_k = NULL;
   PyObject *__pyx_7genexpr__pyx_v_v = NULL;
@@ -5491,20 +5831,20 @@ static int __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16bounded_ra
   __Pyx_RefNannySetupContext("__set__", 0);
   __Pyx_INCREF(__pyx_v_value);
 
-  /* "plexsim/models/value_network.pyx":38
+  /* "plexsim/models/value_network2.pyx":31
  *     def bounded_rational(self, value):
  *         # default value to full edges
  *         if value == -1:             # <<<<<<<<<<<<<<
  *             tmp = [True for k, v in
  *                    nx.get_edge_attributes(self.rules, 'weight').items() if v > 0]
  */
-  __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_v_value, __pyx_int_neg_1, -1L, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_v_value, __pyx_int_neg_1, -1L, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_2 < 0))) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_2 < 0))) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_2) {
 
-    /* "plexsim/models/value_network.pyx":39
+    /* "plexsim/models/value_network2.pyx":32
  *         # default value to full edges
  *         if value == -1:
  *             tmp = [True for k, v in             # <<<<<<<<<<<<<<
@@ -5512,23 +5852,23 @@ static int __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16bounded_ra
  *             value = len(tmp)
  */
     { /* enter inner scope */
-      __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L6_error)
+      __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_1);
       __pyx_t_4 = 0;
 
-      /* "plexsim/models/value_network.pyx":40
+      /* "plexsim/models/value_network2.pyx":33
  *         if value == -1:
  *             tmp = [True for k, v in
  *                    nx.get_edge_attributes(self.rules, 'weight').items() if v > 0]             # <<<<<<<<<<<<<<
  *             value = len(tmp)
  *         else:
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_nx); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 40, __pyx_L6_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_nx); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 33, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_get_edge_attributes); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 40, __pyx_L6_error)
+      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_get_edge_attributes); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 33, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rules); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 40, __pyx_L6_error)
+      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rules); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 33, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_8);
       __pyx_t_10 = NULL;
       __pyx_t_11 = 0;
@@ -5547,23 +5887,23 @@ static int __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16bounded_ra
         __pyx_t_7 = __Pyx_PyObject_FastCall(__pyx_t_9, __pyx_callargs+1-__pyx_t_11, 2+__pyx_t_11);
         __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-        if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 40, __pyx_L6_error)
+        if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 33, __pyx_L6_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       }
       if (unlikely(__pyx_t_7 == Py_None)) {
         PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "items");
-        __PYX_ERR(0, 40, __pyx_L6_error)
+        __PYX_ERR(0, 33, __pyx_L6_error)
       }
 
-      /* "plexsim/models/value_network.pyx":39
+      /* "plexsim/models/value_network2.pyx":32
  *         # default value to full edges
  *         if value == -1:
  *             tmp = [True for k, v in             # <<<<<<<<<<<<<<
  *                    nx.get_edge_attributes(self.rules, 'weight').items() if v > 0]
  *             value = len(tmp)
  */
-      __pyx_t_9 = __Pyx_dict_iterator(__pyx_t_7, 0, __pyx_n_s_items, (&__pyx_t_5), (&__pyx_t_6)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 40, __pyx_L6_error)
+      __pyx_t_9 = __Pyx_dict_iterator(__pyx_t_7, 0, __pyx_n_s_items, (&__pyx_t_5), (&__pyx_t_6)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 33, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_XDECREF(__pyx_t_3);
@@ -5571,7 +5911,7 @@ static int __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16bounded_ra
       __pyx_t_9 = 0;
       while (1) {
 
-        /* "plexsim/models/value_network.pyx":40
+        /* "plexsim/models/value_network2.pyx":33
  *         if value == -1:
  *             tmp = [True for k, v in
  *                    nx.get_edge_attributes(self.rules, 'weight').items() if v > 0]             # <<<<<<<<<<<<<<
@@ -5580,11 +5920,11 @@ static int __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16bounded_ra
  */
         __pyx_t_11 = __Pyx_dict_iter_next(__pyx_t_3, __pyx_t_5, &__pyx_t_4, &__pyx_t_9, &__pyx_t_7, NULL, __pyx_t_6);
         if (unlikely(__pyx_t_11 == 0)) break;
-        if (unlikely(__pyx_t_11 == -1)) __PYX_ERR(0, 40, __pyx_L6_error)
+        if (unlikely(__pyx_t_11 == -1)) __PYX_ERR(0, 33, __pyx_L6_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_GOTREF(__pyx_t_7);
 
-        /* "plexsim/models/value_network.pyx":39
+        /* "plexsim/models/value_network2.pyx":32
  *         # default value to full edges
  *         if value == -1:
  *             tmp = [True for k, v in             # <<<<<<<<<<<<<<
@@ -5596,28 +5936,28 @@ static int __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16bounded_ra
         __Pyx_XDECREF_SET(__pyx_7genexpr__pyx_v_v, __pyx_t_7);
         __pyx_t_7 = 0;
 
-        /* "plexsim/models/value_network.pyx":40
+        /* "plexsim/models/value_network2.pyx":33
  *         if value == -1:
  *             tmp = [True for k, v in
  *                    nx.get_edge_attributes(self.rules, 'weight').items() if v > 0]             # <<<<<<<<<<<<<<
  *             value = len(tmp)
  *         else:
  */
-        __pyx_t_7 = PyObject_RichCompare(__pyx_7genexpr__pyx_v_v, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 40, __pyx_L6_error)
-        __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely((__pyx_t_2 < 0))) __PYX_ERR(0, 40, __pyx_L6_error)
+        __pyx_t_7 = PyObject_RichCompare(__pyx_7genexpr__pyx_v_v, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 33, __pyx_L6_error)
+        __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely((__pyx_t_2 < 0))) __PYX_ERR(0, 33, __pyx_L6_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         if (__pyx_t_2) {
 
-          /* "plexsim/models/value_network.pyx":39
+          /* "plexsim/models/value_network2.pyx":32
  *         # default value to full edges
  *         if value == -1:
  *             tmp = [True for k, v in             # <<<<<<<<<<<<<<
  *                    nx.get_edge_attributes(self.rules, 'weight').items() if v > 0]
  *             value = len(tmp)
  */
-          if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)Py_True))) __PYX_ERR(0, 39, __pyx_L6_error)
+          if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)Py_True))) __PYX_ERR(0, 32, __pyx_L6_error)
 
-          /* "plexsim/models/value_network.pyx":40
+          /* "plexsim/models/value_network2.pyx":33
  *         if value == -1:
  *             tmp = [True for k, v in
  *                    nx.get_edge_attributes(self.rules, 'weight').items() if v > 0]             # <<<<<<<<<<<<<<
@@ -5639,20 +5979,20 @@ static int __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16bounded_ra
     __pyx_v_tmp = ((PyObject*)__pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "plexsim/models/value_network.pyx":41
+    /* "plexsim/models/value_network2.pyx":34
  *             tmp = [True for k, v in
  *                    nx.get_edge_attributes(self.rules, 'weight').items() if v > 0]
  *             value = len(tmp)             # <<<<<<<<<<<<<<
  *         else:
  *             assert 1 <= value <= len(self.rules)
  */
-    __pyx_t_5 = PyList_GET_SIZE(__pyx_v_tmp); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 41, __pyx_L1_error)
-    __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
+    __pyx_t_5 = PyList_GET_SIZE(__pyx_v_tmp); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 34, __pyx_L1_error)
+    __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "plexsim/models/value_network.pyx":38
+    /* "plexsim/models/value_network2.pyx":31
  *     def bounded_rational(self, value):
  *         # default value to full edges
  *         if value == -1:             # <<<<<<<<<<<<<<
@@ -5662,7 +6002,7 @@ static int __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16bounded_ra
     goto __pyx_L3;
   }
 
-  /* "plexsim/models/value_network.pyx":43
+  /* "plexsim/models/value_network2.pyx":36
  *             value = len(tmp)
  *         else:
  *             assert 1 <= value <= len(self.rules)             # <<<<<<<<<<<<<<
@@ -5672,45 +6012,45 @@ static int __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16bounded_ra
   /*else*/ {
     #ifndef CYTHON_WITHOUT_ASSERTIONS
     if (unlikely(!Py_OptimizeFlag)) {
-      __pyx_t_1 = PyObject_RichCompare(__pyx_int_1, __pyx_v_value, Py_LE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
+      __pyx_t_1 = PyObject_RichCompare(__pyx_int_1, __pyx_v_value, Py_LE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
       if (__Pyx_PyObject_IsTrue(__pyx_t_1)) {
         __Pyx_DECREF(__pyx_t_1);
-        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rules); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 43, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rules); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 36, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_5 = PyObject_Length(__pyx_t_3); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 43, __pyx_L1_error)
+        __pyx_t_5 = PyObject_Length(__pyx_t_3); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 36, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 43, __pyx_L1_error)
+        __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 36, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_1 = PyObject_RichCompare(__pyx_v_value, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
+        __pyx_t_1 = PyObject_RichCompare(__pyx_v_value, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       }
-      __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_2 < 0))) __PYX_ERR(0, 43, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_2 < 0))) __PYX_ERR(0, 36, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       if (unlikely(!__pyx_t_2)) {
         __Pyx_Raise(__pyx_builtin_AssertionError, 0, 0, 0);
-        __PYX_ERR(0, 43, __pyx_L1_error)
+        __PYX_ERR(0, 36, __pyx_L1_error)
       }
     }
     #else
-    if ((1)); else __PYX_ERR(0, 43, __pyx_L1_error)
+    if ((1)); else __PYX_ERR(0, 36, __pyx_L1_error)
     #endif
   }
   __pyx_L3:;
 
-  /* "plexsim/models/value_network.pyx":44
+  /* "plexsim/models/value_network2.pyx":37
  *         else:
  *             assert 1 <= value <= len(self.rules)
  *         self._bounded_rational = int(value)             # <<<<<<<<<<<<<<
  * 
  *     cpdef vector[double] siteEnergy(self, state_t[::1] states):
  */
-  __pyx_t_1 = __Pyx_PyNumber_Int(__pyx_v_value); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyNumber_Int(__pyx_v_value); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_12 = __Pyx_PyInt_As_size_t(__pyx_t_1); if (unlikely((__pyx_t_12 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyInt_As_size_t(__pyx_t_1); if (unlikely((__pyx_t_12 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->_bounded_rational = __pyx_t_12;
 
-  /* "plexsim/models/value_network.pyx":35
+  /* "plexsim/models/value_network2.pyx":28
  *     def bounded_rational(self):
  *         return self._bounded_rational
  *     @bounded_rational.setter             # <<<<<<<<<<<<<<
@@ -5728,7 +6068,7 @@ static int __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16bounded_ra
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
   __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_AddTraceback("plexsim.models.value_network.ValueNetwork.bounded_rational.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.bounded_rational.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_tmp);
@@ -5739,7 +6079,7 @@ static int __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16bounded_ra
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network.pyx":46
+/* "plexsim/models/value_network2.pyx":39
  *         self._bounded_rational = int(value)
  * 
  *     cpdef vector[double] siteEnergy(self, state_t[::1] states):             # <<<<<<<<<<<<<<
@@ -5747,14 +6087,14 @@ static int __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_16bounded_ra
  *             vector[double] siteEnergy = vector[double](self.adj._nNodes)
  */
 
-static PyObject *__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_3siteEnergy(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_3siteEnergy(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static std::vector<double>  __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_siteEnergy(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __Pyx_memviewslice __pyx_v_states, int __pyx_skip_dispatch) {
+static std::vector<double>  __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_siteEnergy(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, __Pyx_memviewslice __pyx_v_states, int __pyx_skip_dispatch) {
   std::vector<double>  __pyx_v_siteEnergy;
   int __pyx_v_node;
   double __pyx_v_energy;
@@ -5785,15 +6125,15 @@ static std::vector<double>  __pyx_f_7plexsim_6models_13value_network_12ValueNetw
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_typedict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_siteEnergy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_siteEnergy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       #ifdef __Pyx_CyFunction_USED
       if (!__Pyx_IsCyOrPyCFunction(__pyx_t_1)
       #else
       if (!PyCFunction_Check(__pyx_t_1)
       #endif
-              || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_3siteEnergy)) {
-        __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_states, 1, (PyObject *(*)(char *)) __pyx_memview_get_nn___pyx_t_7plexsim_6models_5types_state_t, (int (*)(char *, PyObject *)) __pyx_memview_set_nn___pyx_t_7plexsim_6models_5types_state_t, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L1_error)
+              || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_3siteEnergy)) {
+        __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_states, 1, (PyObject *(*)(char *)) __pyx_memview_get_nn___pyx_t_7plexsim_6models_5types_state_t, (int (*)(char *, PyObject *)) __pyx_memview_set_nn___pyx_t_7plexsim_6models_5types_state_t, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 39, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_4 = __pyx_t_1; __pyx_t_5 = NULL;
@@ -5813,11 +6153,11 @@ static std::vector<double>  __pyx_f_7plexsim_6models_13value_network_12ValueNetw
           __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
           __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         }
-        __pyx_t_7 = __pyx_convert_vector_from_py_double(__pyx_t_2); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L1_error)
+        __pyx_t_7 = __pyx_convert_vector_from_py_double(__pyx_t_2); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 39, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_r = __pyx_t_7;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -5836,7 +6176,7 @@ static std::vector<double>  __pyx_f_7plexsim_6models_13value_network_12ValueNetw
     #endif
   }
 
-  /* "plexsim/models/value_network.pyx":48
+  /* "plexsim/models/value_network2.pyx":41
  *     cpdef vector[double] siteEnergy(self, state_t[::1] states):
  *         cdef:
  *             vector[double] siteEnergy = vector[double](self.adj._nNodes)             # <<<<<<<<<<<<<<
@@ -5847,11 +6187,11 @@ static std::vector<double>  __pyx_f_7plexsim_6models_13value_network_12ValueNetw
     __pyx_t_7 = std::vector<double> (__pyx_v_self->__pyx_base.__pyx_base.adj->_nNodes);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(0, 48, __pyx_L1_error)
+    __PYX_ERR(0, 41, __pyx_L1_error)
   }
   __pyx_v_siteEnergy = __PYX_STD_MOVE_IF_SUPPORTED(__pyx_t_7);
 
-  /* "plexsim/models/value_network.pyx":51
+  /* "plexsim/models/value_network2.pyx":44
  *             int node
  *             double Z, energy
  *             state_t* ptr = self._states             # <<<<<<<<<<<<<<
@@ -5861,7 +6201,7 @@ static std::vector<double>  __pyx_f_7plexsim_6models_13value_network_12ValueNetw
   __pyx_t_8 = __pyx_v_self->__pyx_base.__pyx_base._states;
   __pyx_v_ptr = __pyx_t_8;
 
-  /* "plexsim/models/value_network.pyx":53
+  /* "plexsim/models/value_network2.pyx":46
  *             state_t* ptr = self._states
  *         # reset pointer to current state
  *         self._states = &states[0]             # <<<<<<<<<<<<<<
@@ -5872,7 +6212,7 @@ static std::vector<double>  __pyx_f_7plexsim_6models_13value_network_12ValueNetw
   if (__pyx_t_9 < 0) __pyx_t_9 += __pyx_v_states.shape[0];
   __pyx_v_self->__pyx_base.__pyx_base._states = (&(*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) __pyx_v_states.data) + __pyx_t_9)) ))));
 
-  /* "plexsim/models/value_network.pyx":54
+  /* "plexsim/models/value_network2.pyx":47
  *         # reset pointer to current state
  *         self._states = &states[0]
  *         energy = 0             # <<<<<<<<<<<<<<
@@ -5881,7 +6221,7 @@ static std::vector<double>  __pyx_f_7plexsim_6models_13value_network_12ValueNetw
  */
   __pyx_v_energy = 0.0;
 
-  /* "plexsim/models/value_network.pyx":55
+  /* "plexsim/models/value_network2.pyx":48
  *         self._states = &states[0]
  *         energy = 0
  *         for node in range(self.adj._nNodes):             # <<<<<<<<<<<<<<
@@ -5893,16 +6233,16 @@ static std::vector<double>  __pyx_f_7plexsim_6models_13value_network_12ValueNetw
   for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_11; __pyx_t_6+=1) {
     __pyx_v_node = __pyx_t_6;
 
-    /* "plexsim/models/value_network.pyx":57
+    /* "plexsim/models/value_network2.pyx":50
  *         for node in range(self.adj._nNodes):
  *             # Z = <double> self.adj._adj[node].neighbors.size()
  *             energy = - self._energy(node) #/ <double>(self.adj._adj[node].neighbors.size()) # just average             # <<<<<<<<<<<<<<
  *             siteEnergy[node] = energy
  *         # reset pointer to original buffer
  */
-    __pyx_v_energy = (-((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._energy(((struct __pyx_obj_7plexsim_6models_5potts_Potts *)__pyx_v_self), __pyx_v_node));
+    __pyx_v_energy = (-((struct __pyx_vtabstruct_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._energy(((struct __pyx_obj_7plexsim_6models_5potts_Potts *)__pyx_v_self), __pyx_v_node));
 
-    /* "plexsim/models/value_network.pyx":58
+    /* "plexsim/models/value_network2.pyx":51
  *             # Z = <double> self.adj._adj[node].neighbors.size()
  *             energy = - self._energy(node) #/ <double>(self.adj._adj[node].neighbors.size()) # just average
  *             siteEnergy[node] = energy             # <<<<<<<<<<<<<<
@@ -5912,7 +6252,7 @@ static std::vector<double>  __pyx_f_7plexsim_6models_13value_network_12ValueNetw
     (__pyx_v_siteEnergy[__pyx_v_node]) = __pyx_v_energy;
   }
 
-  /* "plexsim/models/value_network.pyx":60
+  /* "plexsim/models/value_network2.pyx":53
  *             siteEnergy[node] = energy
  *         # reset pointer to original buffer
  *         self._states = ptr             # <<<<<<<<<<<<<<
@@ -5921,7 +6261,7 @@ static std::vector<double>  __pyx_f_7plexsim_6models_13value_network_12ValueNetw
  */
   __pyx_v_self->__pyx_base.__pyx_base._states = __pyx_v_ptr;
 
-  /* "plexsim/models/value_network.pyx":61
+  /* "plexsim/models/value_network2.pyx":54
  *         # reset pointer to original buffer
  *         self._states = ptr
  *         return siteEnergy             # <<<<<<<<<<<<<<
@@ -5931,7 +6271,7 @@ static std::vector<double>  __pyx_f_7plexsim_6models_13value_network_12ValueNetw
   __pyx_r = __pyx_v_siteEnergy;
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network.pyx":46
+  /* "plexsim/models/value_network2.pyx":39
  *         self._bounded_rational = int(value)
  * 
  *     cpdef vector[double] siteEnergy(self, state_t[::1] states):             # <<<<<<<<<<<<<<
@@ -5946,7 +6286,7 @@ static std::vector<double>  __pyx_f_7plexsim_6models_13value_network_12ValueNetw
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_WriteUnraisable("plexsim.models.value_network.ValueNetwork.siteEnergy", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_WriteUnraisable("plexsim.models.value_network2.ValueNetwork.siteEnergy", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __Pyx_pretend_to_initialize(&__pyx_r);
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -5954,16 +6294,16 @@ static std::vector<double>  __pyx_f_7plexsim_6models_13value_network_12ValueNetw
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_3siteEnergy(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_3siteEnergy(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_7plexsim_6models_13value_network_12ValueNetwork_2siteEnergy, "ValueNetwork.siteEnergy(self, state_t[::1] states) -> vector[double]");
-static PyMethodDef __pyx_mdef_7plexsim_6models_13value_network_12ValueNetwork_3siteEnergy = {"siteEnergy", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_3siteEnergy, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_13value_network_12ValueNetwork_2siteEnergy};
-static PyObject *__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_3siteEnergy(PyObject *__pyx_v_self, 
+PyDoc_STRVAR(__pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_2siteEnergy, "ValueNetwork.siteEnergy(self, state_t[::1] states) -> vector[double]");
+static PyMethodDef __pyx_mdef_7plexsim_6models_14value_network2_12ValueNetwork_3siteEnergy = {"siteEnergy", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_3siteEnergy, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_2siteEnergy};
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_3siteEnergy(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -6000,36 +6340,36 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
       switch (__pyx_nargs) {
         case  0:
         if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_states)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 39, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "siteEnergy") < 0)) __PYX_ERR(0, 46, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "siteEnergy") < 0)) __PYX_ERR(0, 39, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
     }
-    __pyx_v_states = __Pyx_PyObject_to_MemoryviewSlice_dc_nn___pyx_t_7plexsim_6models_5types_state_t(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_states.memview)) __PYX_ERR(0, 46, __pyx_L3_error)
+    __pyx_v_states = __Pyx_PyObject_to_MemoryviewSlice_dc_nn___pyx_t_7plexsim_6models_5types_state_t(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_states.memview)) __PYX_ERR(0, 39, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("siteEnergy", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 46, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("siteEnergy", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 39, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("plexsim.models.value_network.ValueNetwork.siteEnergy", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.siteEnergy", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_2siteEnergy(((struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self), __pyx_v_states);
+  __pyx_r = __pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_2siteEnergy(((struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self), __pyx_v_states);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_2siteEnergy(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __Pyx_memviewslice __pyx_v_states) {
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_2siteEnergy(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, __Pyx_memviewslice __pyx_v_states) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -6038,7 +6378,7 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_2siteE
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("siteEnergy", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_f_7plexsim_6models_13value_network_12ValueNetwork_siteEnergy(__pyx_v_self, __pyx_v_states, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_siteEnergy(__pyx_v_self, __pyx_v_states, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6047,7 +6387,7 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_2siteE
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("plexsim.models.value_network.ValueNetwork.siteEnergy", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.siteEnergy", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_states, 1);
@@ -6056,7 +6396,7 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_2siteE
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network.pyx":63
+/* "plexsim/models/value_network2.pyx":56
  *         return siteEnergy
  * 
  *     cdef double  magnetize_(self, Model mod, size_t n, double t):             # <<<<<<<<<<<<<<
@@ -6064,7 +6404,7 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_2siteE
  *         cdef double Z = 1 / <double> self._nStates
  */
 
-static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_magnetize_(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_mod, size_t __pyx_v_n, double __pyx_v_t) {
+static double __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_magnetize_(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_mod, size_t __pyx_v_n, double __pyx_v_t) {
   CYTHON_UNUSED double __pyx_v_Z;
   PyObject *__pyx_v_res = NULL;
   PyObject *__pyx_8genexpr1__pyx_v_i = NULL;
@@ -6087,7 +6427,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_magnetize_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("magnetize_", 0);
 
-  /* "plexsim/models/value_network.pyx":65
+  /* "plexsim/models/value_network2.pyx":58
  *     cdef double  magnetize_(self, Model mod, size_t n, double t):
  *         # setup simulation
  *         cdef double Z = 1 / <double> self._nStates             # <<<<<<<<<<<<<<
@@ -6096,87 +6436,87 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_magnetize_
  */
   __pyx_v_Z = (1.0 / ((double)__pyx_v_self->__pyx_base.__pyx_base._nStates));
 
-  /* "plexsim/models/value_network.pyx":66
+  /* "plexsim/models/value_network2.pyx":59
  *         # setup simulation
  *         cdef double Z = 1 / <double> self._nStates
  *         mod.t         =  t             # <<<<<<<<<<<<<<
  *         # calculate phase and susceptibility
  *         #mod.reset()
  */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_mod), __pyx_n_s_t, __pyx_t_1) < 0) __PYX_ERR(0, 66, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_mod), __pyx_n_s_t, __pyx_t_1) < 0) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "plexsim/models/value_network.pyx":69
+  /* "plexsim/models/value_network2.pyx":62
  *         # calculate phase and susceptibility
  *         #mod.reset()
  *         mod.states[:] = mod.agentStates[0]             # <<<<<<<<<<<<<<
  *         res = mod.simulate(n)
  *         #res = np.array([mod.siteEnergy(i) for i in res]).mean()
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_mod), __pyx_n_s_agentStates); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_mod), __pyx_n_s_agentStates); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_mod), __pyx_n_s_states); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_mod), __pyx_n_s_states); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetSlice(__pyx_t_1, __pyx_t_2, 0, 0, NULL, NULL, &__pyx_slice__2, 0, 0, 1) < 0) __PYX_ERR(0, 69, __pyx_L1_error)
+  if (__Pyx_PyObject_SetSlice(__pyx_t_1, __pyx_t_2, 0, 0, NULL, NULL, &__pyx_slice__2, 0, 0, 1) < 0) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "plexsim/models/value_network.pyx":70
+  /* "plexsim/models/value_network2.pyx":63
  *         #mod.reset()
  *         mod.states[:] = mod.agentStates[0]
  *         res = mod.simulate(n)             # <<<<<<<<<<<<<<
  *         #res = np.array([mod.siteEnergy(i) for i in res]).mean()
  *         res = np.array([mod.siteEnergy(i) for i in res]).mean()
  */
-  __pyx_t_2 = ((PyObject *)((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)__pyx_v_mod->__pyx_vtab)->simulate(__pyx_v_mod, __pyx_v_n, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_t_2 = ((PyObject *)((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)__pyx_v_mod->__pyx_vtab)->simulate(__pyx_v_mod, __pyx_v_n, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_res = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "plexsim/models/value_network.pyx":72
+  /* "plexsim/models/value_network2.pyx":65
  *         res = mod.simulate(n)
  *         #res = np.array([mod.siteEnergy(i) for i in res]).mean()
  *         res = np.array([mod.siteEnergy(i) for i in res]).mean()             # <<<<<<<<<<<<<<
  *         return res
  *         #return np.array([self.siteEnergy(i) for i in res]).mean()
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_array); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_array); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   { /* enter inner scope */
-    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 72, __pyx_L5_error)
+    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 65, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_3);
     if (likely(PyList_CheckExact(__pyx_v_res)) || PyTuple_CheckExact(__pyx_v_res)) {
       __pyx_t_5 = __pyx_v_res; __Pyx_INCREF(__pyx_t_5); __pyx_t_6 = 0;
       __pyx_t_7 = NULL;
     } else {
-      __pyx_t_6 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_res); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 72, __pyx_L5_error)
+      __pyx_t_6 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_res); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_7 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 72, __pyx_L5_error)
+      __pyx_t_7 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 65, __pyx_L5_error)
     }
     for (;;) {
       if (likely(!__pyx_t_7)) {
         if (likely(PyList_CheckExact(__pyx_t_5))) {
           if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_8 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_8); __pyx_t_6++; if (unlikely((0 < 0))) __PYX_ERR(0, 72, __pyx_L5_error)
+          __pyx_t_8 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_8); __pyx_t_6++; if (unlikely((0 < 0))) __PYX_ERR(0, 65, __pyx_L5_error)
           #else
-          __pyx_t_8 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 72, __pyx_L5_error)
+          __pyx_t_8 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 65, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_8);
           #endif
         } else {
           if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_8 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_8); __pyx_t_6++; if (unlikely((0 < 0))) __PYX_ERR(0, 72, __pyx_L5_error)
+          __pyx_t_8 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_8); __pyx_t_6++; if (unlikely((0 < 0))) __PYX_ERR(0, 65, __pyx_L5_error)
           #else
-          __pyx_t_8 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 72, __pyx_L5_error)
+          __pyx_t_8 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 65, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_8);
           #endif
         }
@@ -6186,7 +6526,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_magnetize_
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 72, __pyx_L5_error)
+            else __PYX_ERR(0, 65, __pyx_L5_error)
           }
           break;
         }
@@ -6194,7 +6534,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_magnetize_
       }
       __Pyx_XDECREF_SET(__pyx_8genexpr1__pyx_v_i, __pyx_t_8);
       __pyx_t_8 = 0;
-      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_mod), __pyx_n_s_siteEnergy); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 72, __pyx_L5_error)
+      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_mod), __pyx_n_s_siteEnergy); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 65, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_9);
       __pyx_t_10 = NULL;
       __pyx_t_11 = 0;
@@ -6212,11 +6552,11 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_magnetize_
         PyObject *__pyx_callargs[2] = {__pyx_t_10, __pyx_8genexpr1__pyx_v_i};
         __pyx_t_8 = __Pyx_PyObject_FastCall(__pyx_t_9, __pyx_callargs+1-__pyx_t_11, 1+__pyx_t_11);
         __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-        if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 72, __pyx_L5_error)
+        if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 65, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       }
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_3, (PyObject*)__pyx_t_8))) __PYX_ERR(0, 72, __pyx_L5_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_3, (PyObject*)__pyx_t_8))) __PYX_ERR(0, 65, __pyx_L5_error)
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -6244,11 +6584,11 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_magnetize_
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_11, 1+__pyx_t_11);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_mean); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_mean); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = NULL;
@@ -6267,25 +6607,25 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_magnetize_
     PyObject *__pyx_callargs[1] = {__pyx_t_1, };
     __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_11, 0+__pyx_t_11);
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF_SET(__pyx_v_res, __pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "plexsim/models/value_network.pyx":73
+  /* "plexsim/models/value_network2.pyx":66
  *         #res = np.array([mod.siteEnergy(i) for i in res]).mean()
  *         res = np.array([mod.siteEnergy(i) for i in res]).mean()
  *         return res             # <<<<<<<<<<<<<<
  *         #return np.array([self.siteEnergy(i) for i in res]).mean()
  *         #return np.abs(np.real(np.exp(2 * np.pi * np.complex(0, 1) * res)).mean())
  */
-  __pyx_t_12 = __pyx_PyFloat_AsDouble(__pyx_v_res); if (unlikely((__pyx_t_12 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_t_12 = __pyx_PyFloat_AsDouble(__pyx_v_res); if (unlikely((__pyx_t_12 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 66, __pyx_L1_error)
   __pyx_r = __pyx_t_12;
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network.pyx":63
+  /* "plexsim/models/value_network2.pyx":56
  *         return siteEnergy
  * 
  *     cdef double  magnetize_(self, Model mod, size_t n, double t):             # <<<<<<<<<<<<<<
@@ -6303,7 +6643,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_magnetize_
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
   __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_WriteUnraisable("plexsim.models.value_network.ValueNetwork.magnetize_", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_WriteUnraisable("plexsim.models.value_network2.ValueNetwork.magnetize_", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_res);
@@ -6312,7 +6652,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_magnetize_
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network.pyx":79
+/* "plexsim/models/value_network2.pyx":72
  * 
  *     # TODO tmp
  *     @property             # <<<<<<<<<<<<<<
@@ -6321,20 +6661,20 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_magnetize_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_3pat_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_3pat_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_3pat_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_3pat_1__get__(PyObject *__pyx_v_self) {
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues = __Pyx_KwValues_VARARGS(__pyx_args, __pyx_nargs);
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_3pat___get__(((struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_3pat___get__(((struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_3pat___get__(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_3pat___get__(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -6343,7 +6683,7 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_3pat__
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/value_network.pyx":81
+  /* "plexsim/models/value_network2.pyx":74
  *     @property
  *     def pat(self):
  *         return self.paths             # <<<<<<<<<<<<<<
@@ -6351,13 +6691,13 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_3pat__
  *     cpdef bint check_doubles(self, list path, list results, bint verbose = False):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_paths); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t____std_3a__3a_unordered_map_3c_size_t_2c_std_3a__3a_vector_3c___pyx_t_7plexsim_6models_5types_node_id_t_3e____3e___(__pyx_v_self->paths); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network.pyx":79
+  /* "plexsim/models/value_network2.pyx":72
  * 
  *     # TODO tmp
  *     @property             # <<<<<<<<<<<<<<
@@ -6368,7 +6708,7 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_3pat__
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("plexsim.models.value_network.ValueNetwork.pat.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.pat.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6376,7 +6716,7 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_3pat__
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network.pyx":83
+/* "plexsim/models/value_network2.pyx":76
  *         return self.paths
  * 
  *     cpdef bint check_doubles(self, list path, list results, bint verbose = False):             # <<<<<<<<<<<<<<
@@ -6384,14 +6724,14 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_3pat__
  *         Don't allow for double edges
  */
 
-static PyObject *__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_5check_doubles(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_5check_doubles(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_results, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_doubles *__pyx_optional_args) {
+static int __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_check_doubles(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_results, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_doubles *__pyx_optional_args) {
   int __pyx_v_verbose = ((int)0);
   int __pyx_v_add;
   PyObject *__pyx_v_r = NULL;
@@ -6430,15 +6770,15 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_typedict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_check_doubles); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_check_doubles); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       #ifdef __Pyx_CyFunction_USED
       if (!__Pyx_IsCyOrPyCFunction(__pyx_t_1)
       #else
       if (!PyCFunction_Check(__pyx_t_1)
       #endif
-              || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_5check_doubles)) {
-        __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_v_verbose); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 83, __pyx_L1_error)
+              || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_5check_doubles)) {
+        __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_v_verbose); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 76, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_4 = __pyx_t_1; __pyx_t_5 = NULL;
@@ -6458,11 +6798,11 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
           __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_6, 3+__pyx_t_6);
           __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 83, __pyx_L1_error)
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         }
-        __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 83, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 76, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_r = __pyx_t_7;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -6481,7 +6821,7 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
     #endif
   }
 
-  /* "plexsim/models/value_network.pyx":88
+  /* "plexsim/models/value_network2.pyx":81
  *         Adds path inplace if it does not occur in results
  *         """
  *         add = True             # <<<<<<<<<<<<<<
@@ -6490,7 +6830,7 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
  */
   __pyx_v_add = 1;
 
-  /* "plexsim/models/value_network.pyx":89
+  /* "plexsim/models/value_network2.pyx":82
  *         """
  *         add = True
  *         if path:             # <<<<<<<<<<<<<<
@@ -6500,7 +6840,7 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
   __pyx_t_7 = (__pyx_v_path != Py_None)&&(PyList_GET_SIZE(__pyx_v_path) != 0);
   if (__pyx_t_7) {
 
-    /* "plexsim/models/value_network.pyx":90
+    /* "plexsim/models/value_network2.pyx":83
  *         add = True
  *         if path:
  *             for r in results[0]:             # <<<<<<<<<<<<<<
@@ -6509,32 +6849,32 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
  */
     if (unlikely(__pyx_v_results == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 90, __pyx_L1_error)
+      __PYX_ERR(0, 83, __pyx_L1_error)
     }
     if (likely(PyList_CheckExact(PyList_GET_ITEM(__pyx_v_results, 0))) || PyTuple_CheckExact(PyList_GET_ITEM(__pyx_v_results, 0))) {
       __pyx_t_1 = PyList_GET_ITEM(__pyx_v_results, 0); __Pyx_INCREF(__pyx_t_1); __pyx_t_8 = 0;
       __pyx_t_9 = NULL;
     } else {
-      __pyx_t_8 = -1; __pyx_t_1 = PyObject_GetIter(PyList_GET_ITEM(__pyx_v_results, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L1_error)
+      __pyx_t_8 = -1; __pyx_t_1 = PyObject_GetIter(PyList_GET_ITEM(__pyx_v_results, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_9 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 90, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 83, __pyx_L1_error)
     }
     for (;;) {
       if (likely(!__pyx_t_9)) {
         if (likely(PyList_CheckExact(__pyx_t_1))) {
           if (__pyx_t_8 >= PyList_GET_SIZE(__pyx_t_1)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_8); __Pyx_INCREF(__pyx_t_2); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 90, __pyx_L1_error)
+          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_8); __Pyx_INCREF(__pyx_t_2); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 83, __pyx_L1_error)
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 90, __pyx_L1_error)
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 83, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         } else {
           if (__pyx_t_8 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_8); __Pyx_INCREF(__pyx_t_2); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 90, __pyx_L1_error)
+          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_8); __Pyx_INCREF(__pyx_t_2); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 83, __pyx_L1_error)
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 90, __pyx_L1_error)
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 83, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         }
@@ -6544,7 +6884,7 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 90, __pyx_L1_error)
+            else __PYX_ERR(0, 83, __pyx_L1_error)
           }
           break;
         }
@@ -6553,7 +6893,7 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
       __Pyx_XDECREF_SET(__pyx_v_r, __pyx_t_2);
       __pyx_t_2 = 0;
 
-      /* "plexsim/models/value_network.pyx":91
+      /* "plexsim/models/value_network2.pyx":84
  *         if path:
  *             for r in results[0]:
  *                 if all([True if i in r or i[::-1] in r else False for i in path]):             # <<<<<<<<<<<<<<
@@ -6561,33 +6901,33 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
  *                     break
  */
       { /* enter inner scope */
-        __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 91, __pyx_L9_error)
+        __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 84, __pyx_L9_error)
         __Pyx_GOTREF(__pyx_t_2);
         if (unlikely(__pyx_v_path == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-          __PYX_ERR(0, 91, __pyx_L9_error)
+          __PYX_ERR(0, 84, __pyx_L9_error)
         }
         __pyx_t_4 = __pyx_v_path; __Pyx_INCREF(__pyx_t_4); __pyx_t_10 = 0;
         for (;;) {
           if (__pyx_t_10 >= PyList_GET_SIZE(__pyx_t_4)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_10); __Pyx_INCREF(__pyx_t_3); __pyx_t_10++; if (unlikely((0 < 0))) __PYX_ERR(0, 91, __pyx_L9_error)
+          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_10); __Pyx_INCREF(__pyx_t_3); __pyx_t_10++; if (unlikely((0 < 0))) __PYX_ERR(0, 84, __pyx_L9_error)
           #else
-          __pyx_t_3 = PySequence_ITEM(__pyx_t_4, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 91, __pyx_L9_error)
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_4, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 84, __pyx_L9_error)
           __Pyx_GOTREF(__pyx_t_3);
           #endif
           __Pyx_XDECREF_SET(__pyx_8genexpr2__pyx_v_i, __pyx_t_3);
           __pyx_t_3 = 0;
-          __pyx_t_11 = (__Pyx_PySequence_ContainsTF(__pyx_8genexpr2__pyx_v_i, __pyx_v_r, Py_EQ)); if (unlikely((__pyx_t_11 < 0))) __PYX_ERR(0, 91, __pyx_L9_error)
+          __pyx_t_11 = (__Pyx_PySequence_ContainsTF(__pyx_8genexpr2__pyx_v_i, __pyx_v_r, Py_EQ)); if (unlikely((__pyx_t_11 < 0))) __PYX_ERR(0, 84, __pyx_L9_error)
           __pyx_t_12 = (__pyx_t_11 != 0);
           if (!__pyx_t_12) {
           } else {
             __pyx_t_7 = __pyx_t_12;
             goto __pyx_L12_bool_binop_done;
           }
-          __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_8genexpr2__pyx_v_i, __pyx_slice__3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 91, __pyx_L9_error)
+          __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_8genexpr2__pyx_v_i, __pyx_slice__3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 84, __pyx_L9_error)
           __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_12 = (__Pyx_PySequence_ContainsTF(__pyx_t_5, __pyx_v_r, Py_EQ)); if (unlikely((__pyx_t_12 < 0))) __PYX_ERR(0, 91, __pyx_L9_error)
+          __pyx_t_12 = (__Pyx_PySequence_ContainsTF(__pyx_t_5, __pyx_v_r, Py_EQ)); if (unlikely((__pyx_t_12 < 0))) __PYX_ERR(0, 84, __pyx_L9_error)
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           __pyx_t_11 = (__pyx_t_12 != 0);
           __pyx_t_7 = __pyx_t_11;
@@ -6599,7 +6939,7 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
             __Pyx_INCREF(Py_False);
             __pyx_t_3 = Py_False;
           }
-          if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_t_3))) __PYX_ERR(0, 91, __pyx_L9_error)
+          if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_t_3))) __PYX_ERR(0, 84, __pyx_L9_error)
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         }
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -6610,14 +6950,14 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
         goto __pyx_L1_error;
         __pyx_L14_exit_scope:;
       } /* exit inner scope */
-      __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_all, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 91, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_all, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 84, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_7 < 0))) __PYX_ERR(0, 91, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_7 < 0))) __PYX_ERR(0, 84, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_7) {
 
-        /* "plexsim/models/value_network.pyx":92
+        /* "plexsim/models/value_network2.pyx":85
  *             for r in results[0]:
  *                 if all([True if i in r or i[::-1] in r else False for i in path]):
  *                     add = False             # <<<<<<<<<<<<<<
@@ -6626,7 +6966,7 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
  */
         __pyx_v_add = 0;
 
-        /* "plexsim/models/value_network.pyx":93
+        /* "plexsim/models/value_network2.pyx":86
  *                 if all([True if i in r or i[::-1] in r else False for i in path]):
  *                     add = False
  *                     break             # <<<<<<<<<<<<<<
@@ -6635,7 +6975,7 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
  */
         goto __pyx_L5_break;
 
-        /* "plexsim/models/value_network.pyx":91
+        /* "plexsim/models/value_network2.pyx":84
  *         if path:
  *             for r in results[0]:
  *                 if all([True if i in r or i[::-1] in r else False for i in path]):             # <<<<<<<<<<<<<<
@@ -6644,7 +6984,7 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
  */
       }
 
-      /* "plexsim/models/value_network.pyx":90
+      /* "plexsim/models/value_network2.pyx":83
  *         add = True
  *         if path:
  *             for r in results[0]:             # <<<<<<<<<<<<<<
@@ -6655,7 +6995,7 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
     __pyx_L5_break:;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "plexsim/models/value_network.pyx":95
+    /* "plexsim/models/value_network2.pyx":88
  *                     break
  * 
  *             if add:             # <<<<<<<<<<<<<<
@@ -6665,7 +7005,7 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
     __pyx_t_7 = (__pyx_v_add != 0);
     if (__pyx_t_7) {
 
-      /* "plexsim/models/value_network.pyx":96
+      /* "plexsim/models/value_network2.pyx":89
  * 
  *             if add:
  *                 if verbose:             # <<<<<<<<<<<<<<
@@ -6675,14 +7015,14 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
       __pyx_t_7 = (__pyx_v_verbose != 0);
       if (__pyx_t_7) {
 
-        /* "plexsim/models/value_network.pyx":97
+        /* "plexsim/models/value_network2.pyx":90
  *             if add:
  *                 if verbose:
  *                     print(f"adding {path} to {results[0]}")             # <<<<<<<<<<<<<<
  *                 results[0].append(path.copy())
  *         return add
  */
-        __pyx_t_1 = PyTuple_New(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_New(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __pyx_t_8 = 0;
         __pyx_t_13 = 127;
@@ -6690,7 +7030,7 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
         __pyx_t_8 += 7;
         __Pyx_GIVEREF(__pyx_kp_u_adding);
         PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_u_adding);
-        __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_v_path, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 97, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_v_path, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 90, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __pyx_t_13 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) > __pyx_t_13) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) : __pyx_t_13;
         __pyx_t_8 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_4);
@@ -6703,24 +7043,24 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
         PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_kp_u_to);
         if (unlikely(__pyx_v_results == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 97, __pyx_L1_error)
+          __PYX_ERR(0, 90, __pyx_L1_error)
         }
-        __pyx_t_4 = __Pyx_PyObject_FormatSimple(PyList_GET_ITEM(__pyx_v_results, 0), __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 97, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_FormatSimple(PyList_GET_ITEM(__pyx_v_results, 0), __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 90, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __pyx_t_13 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) > __pyx_t_13) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) : __pyx_t_13;
         __pyx_t_8 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_4);
         __Pyx_GIVEREF(__pyx_t_4);
         PyTuple_SET_ITEM(__pyx_t_1, 3, __pyx_t_4);
         __pyx_t_4 = 0;
-        __pyx_t_4 = __Pyx_PyUnicode_Join(__pyx_t_1, 4, __pyx_t_8, __pyx_t_13); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 97, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyUnicode_Join(__pyx_t_1, 4, __pyx_t_8, __pyx_t_13); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 90, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "plexsim/models/value_network.pyx":96
+        /* "plexsim/models/value_network2.pyx":89
  * 
  *             if add:
  *                 if verbose:             # <<<<<<<<<<<<<<
@@ -6729,7 +7069,7 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
  */
       }
 
-      /* "plexsim/models/value_network.pyx":98
+      /* "plexsim/models/value_network2.pyx":91
  *                 if verbose:
  *                     print(f"adding {path} to {results[0]}")
  *                 results[0].append(path.copy())             # <<<<<<<<<<<<<<
@@ -6738,14 +7078,14 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
  */
       if (unlikely(__pyx_v_results == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 98, __pyx_L1_error)
+        __PYX_ERR(0, 91, __pyx_L1_error)
       }
-      __pyx_t_1 = __Pyx_CallUnboundCMethod0(&__pyx_umethod_PyList_Type_copy, __pyx_v_path); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 98, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_CallUnboundCMethod0(&__pyx_umethod_PyList_Type_copy, __pyx_v_path); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_14 = __Pyx_PyObject_Append(PyList_GET_ITEM(__pyx_v_results, 0), __pyx_t_1); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 98, __pyx_L1_error)
+      __pyx_t_14 = __Pyx_PyObject_Append(PyList_GET_ITEM(__pyx_v_results, 0), __pyx_t_1); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 91, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "plexsim/models/value_network.pyx":95
+      /* "plexsim/models/value_network2.pyx":88
  *                     break
  * 
  *             if add:             # <<<<<<<<<<<<<<
@@ -6754,7 +7094,7 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
  */
     }
 
-    /* "plexsim/models/value_network.pyx":89
+    /* "plexsim/models/value_network2.pyx":82
  *         """
  *         add = True
  *         if path:             # <<<<<<<<<<<<<<
@@ -6763,17 +7103,17 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
  */
   }
 
-  /* "plexsim/models/value_network.pyx":99
+  /* "plexsim/models/value_network2.pyx":92
  *                     print(f"adding {path} to {results[0]}")
  *                 results[0].append(path.copy())
  *         return add             # <<<<<<<<<<<<<<
  * 
- *     cdef bint _check_endpoint(self, state_t current_state, Crawler *crawler) nogil:
+ *     cpdef void merge(self, list results, bint verbose = False):
  */
   __pyx_r = __pyx_v_add;
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network.pyx":83
+  /* "plexsim/models/value_network2.pyx":76
  *         return self.paths
  * 
  *     cpdef bint check_doubles(self, list path, list results, bint verbose = False):             # <<<<<<<<<<<<<<
@@ -6788,7 +7128,7 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_WriteUnraisable("plexsim.models.value_network.ValueNetwork.check_doubles", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_WriteUnraisable("plexsim.models.value_network2.ValueNetwork.check_doubles", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_r);
@@ -6798,16 +7138,16 @@ static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_5check_doubles(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_5check_doubles(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_7plexsim_6models_13value_network_12ValueNetwork_4check_doubles, "ValueNetwork.check_doubles(self, list path, list results, bool verbose=False) -> bool\n\n        Don't allow for double edges\n        Adds path inplace if it does not occur in results\n        ");
-static PyMethodDef __pyx_mdef_7plexsim_6models_13value_network_12ValueNetwork_5check_doubles = {"check_doubles", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_5check_doubles, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_13value_network_12ValueNetwork_4check_doubles};
-static PyObject *__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_5check_doubles(PyObject *__pyx_v_self, 
+PyDoc_STRVAR(__pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_4check_doubles, "ValueNetwork.check_doubles(self, list path, list results, bool verbose=False) -> bool\n\n        Don't allow for double edges\n        Adds path inplace if it does not occur in results\n        ");
+static PyMethodDef __pyx_mdef_7plexsim_6models_14value_network2_12ValueNetwork_5check_doubles = {"check_doubles", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_5check_doubles, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_4check_doubles};
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_5check_doubles(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -6850,26 +7190,26 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
       switch (__pyx_nargs) {
         case  0:
         if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_path)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 83, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 76, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
         if (likely((values[1] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_results)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 83, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 76, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("check_doubles", 0, 2, 3, 1); __PYX_ERR(0, 83, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("check_doubles", 0, 2, 3, 1); __PYX_ERR(0, 76, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_verbose);
           if (value) { values[2] = value; kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 83, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 76, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "check_doubles") < 0)) __PYX_ERR(0, 83, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "check_doubles") < 0)) __PYX_ERR(0, 76, __pyx_L3_error)
       }
     } else {
       switch (__pyx_nargs) {
@@ -6884,22 +7224,22 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
     __pyx_v_path = ((PyObject*)values[0]);
     __pyx_v_results = ((PyObject*)values[1]);
     if (values[2]) {
-      __pyx_v_verbose = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_verbose == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 83, __pyx_L3_error)
+      __pyx_v_verbose = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_verbose == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 76, __pyx_L3_error)
     } else {
       __pyx_v_verbose = ((int)0);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("check_doubles", 0, 2, 3, __pyx_nargs); __PYX_ERR(0, 83, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("check_doubles", 0, 2, 3, __pyx_nargs); __PYX_ERR(0, 76, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("plexsim.models.value_network.ValueNetwork.check_doubles", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.check_doubles", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_path), (&PyList_Type), 1, "path", 1))) __PYX_ERR(0, 83, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_results), (&PyList_Type), 1, "results", 1))) __PYX_ERR(0, 83, __pyx_L1_error)
-  __pyx_r = __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_4check_doubles(((struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self), __pyx_v_path, __pyx_v_results, __pyx_v_verbose);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_path), (&PyList_Type), 1, "path", 1))) __PYX_ERR(0, 76, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_results), (&PyList_Type), 1, "results", 1))) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_r = __pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_4check_doubles(((struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self), __pyx_v_path, __pyx_v_results, __pyx_v_verbose);
 
   /* function exit code */
   goto __pyx_L0;
@@ -6910,11 +7250,11 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_4check_doubles(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_results, int __pyx_v_verbose) {
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_4check_doubles(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_results, int __pyx_v_verbose) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_doubles __pyx_t_2;
+  struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_doubles __pyx_t_2;
   PyObject *__pyx_t_3 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -6923,8 +7263,8 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_4check
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.verbose = __pyx_v_verbose;
-  __pyx_t_1 = __pyx_vtabptr_7plexsim_6models_13value_network_ValueNetwork->check_doubles(__pyx_v_self, __pyx_v_path, __pyx_v_results, 1, &__pyx_t_2); 
-  __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_t_1 = __pyx_vtabptr_7plexsim_6models_14value_network2_ValueNetwork->check_doubles(__pyx_v_self, __pyx_v_path, __pyx_v_results, 1, &__pyx_t_2); 
+  __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
@@ -6933,7 +7273,7 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_4check
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("plexsim.models.value_network.ValueNetwork.check_doubles", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.check_doubles", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6941,330 +7281,2586 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_4check
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network.pyx":101
+/* "plexsim/models/value_network2.pyx":94
  *         return add
  * 
- *     cdef bint _check_endpoint(self, state_t current_state, Crawler *crawler) nogil:             # <<<<<<<<<<<<<<
- *         """"
- *         Checks the endpoint of the value network
+ *     cpdef void merge(self, list results, bint verbose = False):             # <<<<<<<<<<<<<<
+ *         """
+ *         Merge paths from branches inplace
  */
 
-static int __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__check_endpoint(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_current_state, Crawler *__pyx_v_crawler) {
-  __pyx_t_7plexsim_6models_5types_state_t __pyx_v_other_state;
-  double __pyx_v_weight_edge;
-  size_t __pyx_v_counter;
-  size_t __pyx_v_target;
-  std::unordered_map<__pyx_t_7plexsim_6models_5types_state_t,double> ::iterator __pyx_v_it;
-  std::vector<EdgeColor> ::iterator __pyx_v_jt;
-  int __pyx_v_is_endpoint;
-  int __pyx_r;
-  int __pyx_t_1;
-  __pyx_t_7plexsim_6models_5types_state_t __pyx_t_2;
-  double __pyx_t_3;
-
-  /* "plexsim/models/value_network.pyx":114
- * 
- *         # count frequency of end point occurence
- *         cdef size_t counter = 0             # <<<<<<<<<<<<<<
- *         cdef size_t target = 0
- * 
- */
-  __pyx_v_counter = 0;
-
-  /* "plexsim/models/value_network.pyx":115
- *         # count frequency of end point occurence
- *         cdef size_t counter = 0
- *         cdef size_t target = 0             # <<<<<<<<<<<<<<
- * 
- *         it = self._rules._adj[current_state].begin()
- */
-  __pyx_v_target = 0;
-
-  /* "plexsim/models/value_network.pyx":117
- *         cdef size_t target = 0
- * 
- *         it = self._rules._adj[current_state].begin()             # <<<<<<<<<<<<<<
- *         while it != self._rules._adj[current_state].end():
- *             other_state = deref(it).first
- */
-  __pyx_v_it = (__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[__pyx_v_current_state]).begin();
-
-  /* "plexsim/models/value_network.pyx":118
- * 
- *         it = self._rules._adj[current_state].begin()
- *         while it != self._rules._adj[current_state].end():             # <<<<<<<<<<<<<<
- *             other_state = deref(it).first
- *             weight_edge = deref(it).second
- */
-  while (1) {
-    __pyx_t_1 = ((__pyx_v_it != (__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[__pyx_v_current_state]).end()) != 0);
-    if (!__pyx_t_1) break;
-
-    /* "plexsim/models/value_network.pyx":119
- *         it = self._rules._adj[current_state].begin()
- *         while it != self._rules._adj[current_state].end():
- *             other_state = deref(it).first             # <<<<<<<<<<<<<<
- *             weight_edge = deref(it).second
- * 
- */
-    __pyx_t_2 = (*__pyx_v_it).first;
-    __pyx_v_other_state = __pyx_t_2;
-
-    /* "plexsim/models/value_network.pyx":120
- *         while it != self._rules._adj[current_state].end():
- *             other_state = deref(it).first
- *             weight_edge = deref(it).second             # <<<<<<<<<<<<<<
- * 
- *             if weight_edge > 0:
- */
-    __pyx_t_3 = (*__pyx_v_it).second;
-    __pyx_v_weight_edge = __pyx_t_3;
-
-    /* "plexsim/models/value_network.pyx":122
- *             weight_edge = deref(it).second
- * 
- *             if weight_edge > 0:             # <<<<<<<<<<<<<<
- *                 target += 1
- *                 # traverse path and find the edge
- */
-    __pyx_t_1 = ((__pyx_v_weight_edge > 0.0) != 0);
-    if (__pyx_t_1) {
-
-      /* "plexsim/models/value_network.pyx":123
- * 
- *             if weight_edge > 0:
- *                 target += 1             # <<<<<<<<<<<<<<
- *                 # traverse path and find the edge
- *                 # TODO: smartify this with set operation?
- */
-      __pyx_v_target = (__pyx_v_target + 1);
-
-      /* "plexsim/models/value_network.pyx":126
- *                 # traverse path and find the edge
- *                 # TODO: smartify this with set operation?
- *                 jt = crawler.path.begin()             # <<<<<<<<<<<<<<
- *                 while jt != crawler.path.end():
- *                     # check if the value edge exists
- */
-      __pyx_v_jt = __pyx_v_crawler->path.begin();
-
-      /* "plexsim/models/value_network.pyx":127
- *                 # TODO: smartify this with set operation?
- *                 jt = crawler.path.begin()
- *                 while jt != crawler.path.end():             # <<<<<<<<<<<<<<
- *                     # check if the value edge exists
- *                     if current_state == deref(jt).current.state:
- */
-      while (1) {
-        __pyx_t_1 = ((__pyx_v_jt != __pyx_v_crawler->path.end()) != 0);
-        if (!__pyx_t_1) break;
-
-        /* "plexsim/models/value_network.pyx":129
- *                 while jt != crawler.path.end():
- *                     # check if the value edge exists
- *                     if current_state == deref(jt).current.state:             # <<<<<<<<<<<<<<
- *                         if other_state == deref(jt).other.state:
- *                             counter += 1
- */
-        __pyx_t_1 = ((__pyx_v_current_state == (*__pyx_v_jt).current.state) != 0);
-        if (__pyx_t_1) {
-
-          /* "plexsim/models/value_network.pyx":130
- *                     # check if the value edge exists
- *                     if current_state == deref(jt).current.state:
- *                         if other_state == deref(jt).other.state:             # <<<<<<<<<<<<<<
- *                             counter += 1
- *                     # check if reverse of value edge exists
- */
-          __pyx_t_1 = ((__pyx_v_other_state == (*__pyx_v_jt).other.state) != 0);
-          if (__pyx_t_1) {
-
-            /* "plexsim/models/value_network.pyx":131
- *                     if current_state == deref(jt).current.state:
- *                         if other_state == deref(jt).other.state:
- *                             counter += 1             # <<<<<<<<<<<<<<
- *                     # check if reverse of value edge exists
- *                     if current_state == deref(jt).other.state:
- */
-            __pyx_v_counter = (__pyx_v_counter + 1);
-
-            /* "plexsim/models/value_network.pyx":130
- *                     # check if the value edge exists
- *                     if current_state == deref(jt).current.state:
- *                         if other_state == deref(jt).other.state:             # <<<<<<<<<<<<<<
- *                             counter += 1
- *                     # check if reverse of value edge exists
- */
-          }
-
-          /* "plexsim/models/value_network.pyx":129
- *                 while jt != crawler.path.end():
- *                     # check if the value edge exists
- *                     if current_state == deref(jt).current.state:             # <<<<<<<<<<<<<<
- *                         if other_state == deref(jt).other.state:
- *                             counter += 1
- */
-        }
-
-        /* "plexsim/models/value_network.pyx":133
- *                             counter += 1
- *                     # check if reverse of value edge exists
- *                     if current_state == deref(jt).other.state:             # <<<<<<<<<<<<<<
- *                         if other_state == deref(jt).current.state:
- *                             counter += 1
- */
-        __pyx_t_1 = ((__pyx_v_current_state == (*__pyx_v_jt).other.state) != 0);
-        if (__pyx_t_1) {
-
-          /* "plexsim/models/value_network.pyx":134
- *                     # check if reverse of value edge exists
- *                     if current_state == deref(jt).other.state:
- *                         if other_state == deref(jt).current.state:             # <<<<<<<<<<<<<<
- *                             counter += 1
- *                     post(jt)
- */
-          __pyx_t_1 = ((__pyx_v_other_state == (*__pyx_v_jt).current.state) != 0);
-          if (__pyx_t_1) {
-
-            /* "plexsim/models/value_network.pyx":135
- *                     if current_state == deref(jt).other.state:
- *                         if other_state == deref(jt).current.state:
- *                             counter += 1             # <<<<<<<<<<<<<<
- *                     post(jt)
- *             post(it)
- */
-            __pyx_v_counter = (__pyx_v_counter + 1);
-
-            /* "plexsim/models/value_network.pyx":134
- *                     # check if reverse of value edge exists
- *                     if current_state == deref(jt).other.state:
- *                         if other_state == deref(jt).current.state:             # <<<<<<<<<<<<<<
- *                             counter += 1
- *                     post(jt)
- */
-          }
-
-          /* "plexsim/models/value_network.pyx":133
- *                             counter += 1
- *                     # check if reverse of value edge exists
- *                     if current_state == deref(jt).other.state:             # <<<<<<<<<<<<<<
- *                         if other_state == deref(jt).current.state:
- *                             counter += 1
- */
-        }
-
-        /* "plexsim/models/value_network.pyx":136
- *                         if other_state == deref(jt).current.state:
- *                             counter += 1
- *                     post(jt)             # <<<<<<<<<<<<<<
- *             post(it)
- *         cdef bint is_endpoint = False
- */
-        (void)((__pyx_v_jt++));
-      }
-
-      /* "plexsim/models/value_network.pyx":122
- *             weight_edge = deref(it).second
- * 
- *             if weight_edge > 0:             # <<<<<<<<<<<<<<
- *                 target += 1
- *                 # traverse path and find the edge
- */
-    }
-
-    /* "plexsim/models/value_network.pyx":137
- *                             counter += 1
- *                     post(jt)
- *             post(it)             # <<<<<<<<<<<<<<
- *         cdef bint is_endpoint = False
- *         if counter == target:
- */
-    (void)((__pyx_v_it++));
-  }
-
-  /* "plexsim/models/value_network.pyx":138
- *                     post(jt)
- *             post(it)
- *         cdef bint is_endpoint = False             # <<<<<<<<<<<<<<
- *         if counter == target:
- *             is_endpoint = True
- */
-  __pyx_v_is_endpoint = 0;
-
-  /* "plexsim/models/value_network.pyx":139
- *             post(it)
- *         cdef bint is_endpoint = False
- *         if counter == target:             # <<<<<<<<<<<<<<
- *             is_endpoint = True
- *         return is_endpoint
- */
-  __pyx_t_1 = ((__pyx_v_counter == __pyx_v_target) != 0);
-  if (__pyx_t_1) {
-
-    /* "plexsim/models/value_network.pyx":140
- *         cdef bint is_endpoint = False
- *         if counter == target:
- *             is_endpoint = True             # <<<<<<<<<<<<<<
- *         return is_endpoint
- * 
- */
-    __pyx_v_is_endpoint = 1;
-
-    /* "plexsim/models/value_network.pyx":139
- *             post(it)
- *         cdef bint is_endpoint = False
- *         if counter == target:             # <<<<<<<<<<<<<<
- *             is_endpoint = True
- *         return is_endpoint
- */
-  }
-
-  /* "plexsim/models/value_network.pyx":141
- *         if counter == target:
- *             is_endpoint = True
- *         return is_endpoint             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __pyx_r = __pyx_v_is_endpoint;
-  goto __pyx_L0;
-
-  /* "plexsim/models/value_network.pyx":101
- *         return add
- * 
- *     cdef bint _check_endpoint(self, state_t current_state, Crawler *crawler) nogil:             # <<<<<<<<<<<<<<
- *         """"
- *         Checks the endpoint of the value network
- */
-
-  /* function exit code */
-  __pyx_L0:;
-  return __pyx_r;
-}
-
-/* "plexsim/models/value_network.pyx":144
- * 
- * 
- *     cpdef list check_df(self, node_id_t start, bint verbose = False):             # <<<<<<<<<<<<<<
- *         cdef Crawler *crawler = new Crawler(start,
- *                                         self._states[start],
- */
-
-static PyObject *__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_7check_df(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_7merge(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyObject *__pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_df(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_start, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_df *__pyx_optional_args) {
+static void __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_merge(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_results, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_merge *__pyx_optional_args) {
   int __pyx_v_verbose = ((int)0);
-  Crawler *__pyx_v_crawler;
+  PyObject *__pyx_v_merged = NULL;
+  int __pyx_v_can_merge;
+  PyObject *__pyx_v_idx = NULL;
+  PyObject *__pyx_v_opti = NULL;
+  PyObject *__pyx_v_jdx = NULL;
+  PyObject *__pyx_v_optj = NULL;
+  PyObject *__pyx_v_idxs = NULL;
+  PyObject *__pyx_v_vpi = NULL;
+  PyObject *__pyx_v_jdxs = NULL;
+  PyObject *__pyx_v_vpj = NULL;
+  int __pyx_v_J;
+  PyObject *__pyx_v_a = NULL;
+  PyObject *__pyx_v_b = NULL;
+  PyObject *__pyx_v_i = NULL;
+  PyObject *__pyx_v_proposal = NULL;
+  PyObject *__pyx_v_x = NULL;
+  PyObject *__pyx_v_y = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  int __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  int __pyx_t_8;
+  PyObject *(*__pyx_t_9)(PyObject *);
+  Py_ssize_t __pyx_t_10;
+  PyObject *(*__pyx_t_11)(PyObject *);
+  PyObject *__pyx_t_12 = NULL;
+  PyObject *__pyx_t_13 = NULL;
+  PyObject *(*__pyx_t_14)(PyObject *);
+  Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_16;
+  PyObject *__pyx_t_17 = NULL;
+  PyObject *__pyx_t_18 = NULL;
+  PyObject *(*__pyx_t_19)(PyObject *);
+  int __pyx_t_20;
+  int __pyx_t_21;
+  PyObject *__pyx_t_22 = NULL;
+  PyObject *__pyx_t_23 = NULL;
+  int __pyx_t_24;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("merge", 0);
+  if (__pyx_optional_args) {
+    if (__pyx_optional_args->__pyx_n > 0) {
+      __pyx_v_verbose = __pyx_optional_args->verbose;
+    }
+  }
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || __Pyx_PyType_HasFeature(Py_TYPE(((PyObject *)__pyx_v_self)), (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_typedict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_merge); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 94, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      #ifdef __Pyx_CyFunction_USED
+      if (!__Pyx_IsCyOrPyCFunction(__pyx_t_1)
+      #else
+      if (!PyCFunction_Check(__pyx_t_1)
+      #endif
+              || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_7merge)) {
+        __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_v_verbose); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 94, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_4 = __pyx_t_1; __pyx_t_5 = NULL;
+        __pyx_t_6 = 0;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
+          __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
+          if (likely(__pyx_t_5)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+            __Pyx_INCREF(__pyx_t_5);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_4, function);
+            __pyx_t_6 = 1;
+          }
+        }
+        {
+          PyObject *__pyx_callargs[3] = {__pyx_t_5, __pyx_v_results, __pyx_t_3};
+          __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_6, 2+__pyx_t_6);
+          __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 94, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        }
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_typedict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "plexsim/models/value_network2.pyx":99
+ *         """
+ *         # skip edge case
+ *         if len(results[1]) < 2:             # <<<<<<<<<<<<<<
+ *             return
+ *         # attempt to merge branches
+ */
+  if (unlikely(__pyx_v_results == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(0, 99, __pyx_L1_error)
+  }
+  __pyx_t_1 = PyList_GET_ITEM(__pyx_v_results, 1);
+  __Pyx_INCREF(__pyx_t_1);
+  __pyx_t_7 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 99, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_8 = ((__pyx_t_7 < 2) != 0);
+  if (__pyx_t_8) {
+
+    /* "plexsim/models/value_network2.pyx":100
+ *         # skip edge case
+ *         if len(results[1]) < 2:
+ *             return             # <<<<<<<<<<<<<<
+ *         # attempt to merge branches
+ *         # merged = [[], []]
+ */
+    goto __pyx_L0;
+
+    /* "plexsim/models/value_network2.pyx":99
+ *         """
+ *         # skip edge case
+ *         if len(results[1]) < 2:             # <<<<<<<<<<<<<<
+ *             return
+ *         # attempt to merge branches
+ */
+  }
+
+  /* "plexsim/models/value_network2.pyx":104
+ *         # merged = [[], []]
+ *         # merged = []
+ *         merged = results[1].copy()             # <<<<<<<<<<<<<<
+ *         # go through all the combinations in the options
+ *         can_merge = True
+ */
+  if (unlikely(__pyx_v_results == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(0, 104, __pyx_L1_error)
+  }
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(PyList_GET_ITEM(__pyx_v_results, 1), __pyx_n_s_copy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_4 = NULL;
+  __pyx_t_6 = 0;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+      __pyx_t_6 = 1;
+    }
+  }
+  {
+    PyObject *__pyx_callargs[1] = {__pyx_t_4, };
+    __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_6, 0+__pyx_t_6);
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  }
+  __pyx_v_merged = __pyx_t_1;
+  __pyx_t_1 = 0;
+
+  /* "plexsim/models/value_network2.pyx":106
+ *         merged = results[1].copy()
+ *         # go through all the combinations in the options
+ *         can_merge = True             # <<<<<<<<<<<<<<
+ * 
+ *         # set to false
+ */
+  __pyx_v_can_merge = 1;
+
+  /* "plexsim/models/value_network2.pyx":110
+ *         # set to false
+ *         # will be set to true if a merge is found
+ *         if verbose:             # <<<<<<<<<<<<<<
+ *             print("staring merge")
+ *         while can_merge:
+ */
+  __pyx_t_8 = (__pyx_v_verbose != 0);
+  if (__pyx_t_8) {
+
+    /* "plexsim/models/value_network2.pyx":111
+ *         # will be set to true if a merge is found
+ *         if verbose:
+ *             print("staring merge")             # <<<<<<<<<<<<<<
+ *         while can_merge:
+ *             can_merge = False
+ */
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "plexsim/models/value_network2.pyx":110
+ *         # set to false
+ *         # will be set to true if a merge is found
+ *         if verbose:             # <<<<<<<<<<<<<<
+ *             print("staring merge")
+ *         while can_merge:
+ */
+  }
+
+  /* "plexsim/models/value_network2.pyx":112
+ *         if verbose:
+ *             print("staring merge")
+ *         while can_merge:             # <<<<<<<<<<<<<<
+ *             can_merge = False
+ *             # print(f"Merging {merged}")
+ */
+  while (1) {
+    __pyx_t_8 = (__pyx_v_can_merge != 0);
+    if (!__pyx_t_8) break;
+
+    /* "plexsim/models/value_network2.pyx":113
+ *             print("staring merge")
+ *         while can_merge:
+ *             can_merge = False             # <<<<<<<<<<<<<<
+ *             # print(f"Merging {merged}")
+ *             for idx, opti in enumerate(merged):
+ */
+    __pyx_v_can_merge = 0;
+
+    /* "plexsim/models/value_network2.pyx":115
+ *             can_merge = False
+ *             # print(f"Merging {merged}")
+ *             for idx, opti in enumerate(merged):             # <<<<<<<<<<<<<<
+ *                 for jdx, optj in enumerate(merged):
+ *                     if idx < jdx:
+ */
+    __Pyx_INCREF(__pyx_int_0);
+    __pyx_t_1 = __pyx_int_0;
+    if (likely(PyList_CheckExact(__pyx_v_merged)) || PyTuple_CheckExact(__pyx_v_merged)) {
+      __pyx_t_2 = __pyx_v_merged; __Pyx_INCREF(__pyx_t_2); __pyx_t_7 = 0;
+      __pyx_t_9 = NULL;
+    } else {
+      __pyx_t_7 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_merged); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 115, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_9 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 115, __pyx_L1_error)
+    }
+    for (;;) {
+      if (likely(!__pyx_t_9)) {
+        if (likely(PyList_CheckExact(__pyx_t_2))) {
+          if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_2)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_4 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_7); __Pyx_INCREF(__pyx_t_4); __pyx_t_7++; if (unlikely((0 < 0))) __PYX_ERR(0, 115, __pyx_L1_error)
+          #else
+          __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 115, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          #endif
+        } else {
+          if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_7); __Pyx_INCREF(__pyx_t_4); __pyx_t_7++; if (unlikely((0 < 0))) __PYX_ERR(0, 115, __pyx_L1_error)
+          #else
+          __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 115, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          #endif
+        }
+      } else {
+        __pyx_t_4 = __pyx_t_9(__pyx_t_2);
+        if (unlikely(!__pyx_t_4)) {
+          PyObject* exc_type = PyErr_Occurred();
+          if (exc_type) {
+            if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+            else __PYX_ERR(0, 115, __pyx_L1_error)
+          }
+          break;
+        }
+        __Pyx_GOTREF(__pyx_t_4);
+      }
+      __Pyx_XDECREF_SET(__pyx_v_opti, __pyx_t_4);
+      __pyx_t_4 = 0;
+      __Pyx_INCREF(__pyx_t_1);
+      __Pyx_XDECREF_SET(__pyx_v_idx, __pyx_t_1);
+      __pyx_t_4 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 115, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_1);
+      __pyx_t_1 = __pyx_t_4;
+      __pyx_t_4 = 0;
+
+      /* "plexsim/models/value_network2.pyx":116
+ *             # print(f"Merging {merged}")
+ *             for idx, opti in enumerate(merged):
+ *                 for jdx, optj in enumerate(merged):             # <<<<<<<<<<<<<<
+ *                     if idx < jdx:
+ *                         # prevent self-comparison and double comparison
+ */
+      __Pyx_INCREF(__pyx_int_0);
+      __pyx_t_4 = __pyx_int_0;
+      if (likely(PyList_CheckExact(__pyx_v_merged)) || PyTuple_CheckExact(__pyx_v_merged)) {
+        __pyx_t_3 = __pyx_v_merged; __Pyx_INCREF(__pyx_t_3); __pyx_t_10 = 0;
+        __pyx_t_11 = NULL;
+      } else {
+        __pyx_t_10 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_v_merged); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 116, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __pyx_t_11 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 116, __pyx_L1_error)
+      }
+      for (;;) {
+        if (likely(!__pyx_t_11)) {
+          if (likely(PyList_CheckExact(__pyx_t_3))) {
+            if (__pyx_t_10 >= PyList_GET_SIZE(__pyx_t_3)) break;
+            #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+            __pyx_t_5 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_10); __Pyx_INCREF(__pyx_t_5); __pyx_t_10++; if (unlikely((0 < 0))) __PYX_ERR(0, 116, __pyx_L1_error)
+            #else
+            __pyx_t_5 = PySequence_ITEM(__pyx_t_3, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 116, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            #endif
+          } else {
+            if (__pyx_t_10 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
+            #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+            __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_10); __Pyx_INCREF(__pyx_t_5); __pyx_t_10++; if (unlikely((0 < 0))) __PYX_ERR(0, 116, __pyx_L1_error)
+            #else
+            __pyx_t_5 = PySequence_ITEM(__pyx_t_3, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 116, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            #endif
+          }
+        } else {
+          __pyx_t_5 = __pyx_t_11(__pyx_t_3);
+          if (unlikely(!__pyx_t_5)) {
+            PyObject* exc_type = PyErr_Occurred();
+            if (exc_type) {
+              if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+              else __PYX_ERR(0, 116, __pyx_L1_error)
+            }
+            break;
+          }
+          __Pyx_GOTREF(__pyx_t_5);
+        }
+        __Pyx_XDECREF_SET(__pyx_v_optj, __pyx_t_5);
+        __pyx_t_5 = 0;
+        __Pyx_INCREF(__pyx_t_4);
+        __Pyx_XDECREF_SET(__pyx_v_jdx, __pyx_t_4);
+        __pyx_t_5 = __Pyx_PyInt_AddObjC(__pyx_t_4, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 116, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_DECREF(__pyx_t_4);
+        __pyx_t_4 = __pyx_t_5;
+        __pyx_t_5 = 0;
+
+        /* "plexsim/models/value_network2.pyx":117
+ *             for idx, opti in enumerate(merged):
+ *                 for jdx, optj in enumerate(merged):
+ *                     if idx < jdx:             # <<<<<<<<<<<<<<
+ *                         # prevent self-comparison and double comparison
+ *                         # compare matched edges
+ */
+        __pyx_t_5 = PyObject_RichCompare(__pyx_v_idx, __pyx_v_jdx, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 117, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 117, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        if (__pyx_t_8) {
+
+          /* "plexsim/models/value_network2.pyx":120
+ *                         # prevent self-comparison and double comparison
+ *                         # compare matched edges
+ *                         idxs, vpi = opti; jdxs, vpj = optj             # <<<<<<<<<<<<<<
+ *                         # if the overlap is zero then the branches are valid
+ *                         # and should be merged
+ */
+          if ((likely(PyTuple_CheckExact(__pyx_v_opti))) || (PyList_CheckExact(__pyx_v_opti))) {
+            PyObject* sequence = __pyx_v_opti;
+            Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
+            if (unlikely(size != 2)) {
+              if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+              else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+              __PYX_ERR(0, 120, __pyx_L1_error)
+            }
+            #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+            if (likely(PyTuple_CheckExact(sequence))) {
+              __pyx_t_5 = PyTuple_GET_ITEM(sequence, 0); 
+              __pyx_t_12 = PyTuple_GET_ITEM(sequence, 1); 
+            } else {
+              __pyx_t_5 = PyList_GET_ITEM(sequence, 0); 
+              __pyx_t_12 = PyList_GET_ITEM(sequence, 1); 
+            }
+            __Pyx_INCREF(__pyx_t_5);
+            __Pyx_INCREF(__pyx_t_12);
+            #else
+            __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 120, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __pyx_t_12 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 120, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_12);
+            #endif
+          } else {
+            Py_ssize_t index = -1;
+            __pyx_t_13 = PyObject_GetIter(__pyx_v_opti); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 120, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_13);
+            __pyx_t_14 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_13);
+            index = 0; __pyx_t_5 = __pyx_t_14(__pyx_t_13); if (unlikely(!__pyx_t_5)) goto __pyx_L12_unpacking_failed;
+            __Pyx_GOTREF(__pyx_t_5);
+            index = 1; __pyx_t_12 = __pyx_t_14(__pyx_t_13); if (unlikely(!__pyx_t_12)) goto __pyx_L12_unpacking_failed;
+            __Pyx_GOTREF(__pyx_t_12);
+            if (__Pyx_IternextUnpackEndCheck(__pyx_t_14(__pyx_t_13), 2) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+            __pyx_t_14 = NULL;
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+            goto __pyx_L13_unpacking_done;
+            __pyx_L12_unpacking_failed:;
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+            __pyx_t_14 = NULL;
+            if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
+            __PYX_ERR(0, 120, __pyx_L1_error)
+            __pyx_L13_unpacking_done:;
+          }
+          __Pyx_XDECREF_SET(__pyx_v_idxs, __pyx_t_5);
+          __pyx_t_5 = 0;
+          __Pyx_XDECREF_SET(__pyx_v_vpi, __pyx_t_12);
+          __pyx_t_12 = 0;
+          if ((likely(PyTuple_CheckExact(__pyx_v_optj))) || (PyList_CheckExact(__pyx_v_optj))) {
+            PyObject* sequence = __pyx_v_optj;
+            Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
+            if (unlikely(size != 2)) {
+              if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+              else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+              __PYX_ERR(0, 120, __pyx_L1_error)
+            }
+            #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+            if (likely(PyTuple_CheckExact(sequence))) {
+              __pyx_t_12 = PyTuple_GET_ITEM(sequence, 0); 
+              __pyx_t_5 = PyTuple_GET_ITEM(sequence, 1); 
+            } else {
+              __pyx_t_12 = PyList_GET_ITEM(sequence, 0); 
+              __pyx_t_5 = PyList_GET_ITEM(sequence, 1); 
+            }
+            __Pyx_INCREF(__pyx_t_12);
+            __Pyx_INCREF(__pyx_t_5);
+            #else
+            __pyx_t_12 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 120, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_12);
+            __pyx_t_5 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 120, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            #endif
+          } else {
+            Py_ssize_t index = -1;
+            __pyx_t_13 = PyObject_GetIter(__pyx_v_optj); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 120, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_13);
+            __pyx_t_14 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_13);
+            index = 0; __pyx_t_12 = __pyx_t_14(__pyx_t_13); if (unlikely(!__pyx_t_12)) goto __pyx_L14_unpacking_failed;
+            __Pyx_GOTREF(__pyx_t_12);
+            index = 1; __pyx_t_5 = __pyx_t_14(__pyx_t_13); if (unlikely(!__pyx_t_5)) goto __pyx_L14_unpacking_failed;
+            __Pyx_GOTREF(__pyx_t_5);
+            if (__Pyx_IternextUnpackEndCheck(__pyx_t_14(__pyx_t_13), 2) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+            __pyx_t_14 = NULL;
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+            goto __pyx_L15_unpacking_done;
+            __pyx_L14_unpacking_failed:;
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+            __pyx_t_14 = NULL;
+            if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
+            __PYX_ERR(0, 120, __pyx_L1_error)
+            __pyx_L15_unpacking_done:;
+          }
+          __Pyx_XDECREF_SET(__pyx_v_jdxs, __pyx_t_12);
+          __pyx_t_12 = 0;
+          __Pyx_XDECREF_SET(__pyx_v_vpj, __pyx_t_5);
+          __pyx_t_5 = 0;
+
+          /* "plexsim/models/value_network2.pyx":124
+ *                         # and should be merged
+ *                         # (not sure if this is necessary)
+ *                         J = True; a, b = vpi, vpj             # <<<<<<<<<<<<<<
+ *                         if len(vpi) > len(vpj):
+ *                             a, b = b, a
+ */
+          __pyx_v_J = 1;
+          __pyx_t_5 = __pyx_v_vpi;
+          __Pyx_INCREF(__pyx_t_5);
+          __pyx_t_12 = __pyx_v_vpj;
+          __Pyx_INCREF(__pyx_t_12);
+          __Pyx_XDECREF_SET(__pyx_v_a, __pyx_t_5);
+          __pyx_t_5 = 0;
+          __Pyx_XDECREF_SET(__pyx_v_b, __pyx_t_12);
+          __pyx_t_12 = 0;
+
+          /* "plexsim/models/value_network2.pyx":125
+ *                         # (not sure if this is necessary)
+ *                         J = True; a, b = vpi, vpj
+ *                         if len(vpi) > len(vpj):             # <<<<<<<<<<<<<<
+ *                             a, b = b, a
+ *                         for i in a:
+ */
+          __pyx_t_15 = PyObject_Length(__pyx_v_vpi); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 125, __pyx_L1_error)
+          __pyx_t_16 = PyObject_Length(__pyx_v_vpj); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 125, __pyx_L1_error)
+          __pyx_t_8 = ((__pyx_t_15 > __pyx_t_16) != 0);
+          if (__pyx_t_8) {
+
+            /* "plexsim/models/value_network2.pyx":126
+ *                         J = True; a, b = vpi, vpj
+ *                         if len(vpi) > len(vpj):
+ *                             a, b = b, a             # <<<<<<<<<<<<<<
+ *                         for i in a:
+ *                             # if the rule edge already exists
+ */
+            __pyx_t_17 = __pyx_v_b;
+            __pyx_t_18 = __pyx_v_a;
+            __pyx_v_a = __pyx_t_17;
+            __pyx_t_17 = 0;
+            __pyx_v_b = __pyx_t_18;
+            __pyx_t_18 = 0;
+
+            /* "plexsim/models/value_network2.pyx":125
+ *                         # (not sure if this is necessary)
+ *                         J = True; a, b = vpi, vpj
+ *                         if len(vpi) > len(vpj):             # <<<<<<<<<<<<<<
+ *                             a, b = b, a
+ *                         for i in a:
+ */
+          }
+
+          /* "plexsim/models/value_network2.pyx":127
+ *                         if len(vpi) > len(vpj):
+ *                             a, b = b, a
+ *                         for i in a:             # <<<<<<<<<<<<<<
+ *                             # if the rule edge already exists
+ *                             # ignore the option
+ */
+          if (likely(PyList_CheckExact(__pyx_v_a)) || PyTuple_CheckExact(__pyx_v_a)) {
+            __pyx_t_12 = __pyx_v_a; __Pyx_INCREF(__pyx_t_12); __pyx_t_16 = 0;
+            __pyx_t_19 = NULL;
+          } else {
+            __pyx_t_16 = -1; __pyx_t_12 = PyObject_GetIter(__pyx_v_a); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 127, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_12);
+            __pyx_t_19 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_12); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 127, __pyx_L1_error)
+          }
+          for (;;) {
+            if (likely(!__pyx_t_19)) {
+              if (likely(PyList_CheckExact(__pyx_t_12))) {
+                if (__pyx_t_16 >= PyList_GET_SIZE(__pyx_t_12)) break;
+                #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+                __pyx_t_5 = PyList_GET_ITEM(__pyx_t_12, __pyx_t_16); __Pyx_INCREF(__pyx_t_5); __pyx_t_16++; if (unlikely((0 < 0))) __PYX_ERR(0, 127, __pyx_L1_error)
+                #else
+                __pyx_t_5 = PySequence_ITEM(__pyx_t_12, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 127, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_5);
+                #endif
+              } else {
+                if (__pyx_t_16 >= PyTuple_GET_SIZE(__pyx_t_12)) break;
+                #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+                __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_12, __pyx_t_16); __Pyx_INCREF(__pyx_t_5); __pyx_t_16++; if (unlikely((0 < 0))) __PYX_ERR(0, 127, __pyx_L1_error)
+                #else
+                __pyx_t_5 = PySequence_ITEM(__pyx_t_12, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 127, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_5);
+                #endif
+              }
+            } else {
+              __pyx_t_5 = __pyx_t_19(__pyx_t_12);
+              if (unlikely(!__pyx_t_5)) {
+                PyObject* exc_type = PyErr_Occurred();
+                if (exc_type) {
+                  if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+                  else __PYX_ERR(0, 127, __pyx_L1_error)
+                }
+                break;
+              }
+              __Pyx_GOTREF(__pyx_t_5);
+            }
+            __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_5);
+            __pyx_t_5 = 0;
+
+            /* "plexsim/models/value_network2.pyx":130
+ *                             # if the rule edge already exists
+ *                             # ignore the option
+ *                             if i in b or i[::-1] in b:             # <<<<<<<<<<<<<<
+ *                                 J = False
+ *                         # add if no overlap is found
+ */
+            __pyx_t_20 = (__Pyx_PySequence_ContainsTF(__pyx_v_i, __pyx_v_b, Py_EQ)); if (unlikely((__pyx_t_20 < 0))) __PYX_ERR(0, 130, __pyx_L1_error)
+            __pyx_t_21 = (__pyx_t_20 != 0);
+            if (!__pyx_t_21) {
+            } else {
+              __pyx_t_8 = __pyx_t_21;
+              goto __pyx_L20_bool_binop_done;
+            }
+            __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_v_i, __pyx_slice__3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 130, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __pyx_t_21 = (__Pyx_PySequence_ContainsTF(__pyx_t_5, __pyx_v_b, Py_EQ)); if (unlikely((__pyx_t_21 < 0))) __PYX_ERR(0, 130, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            __pyx_t_20 = (__pyx_t_21 != 0);
+            __pyx_t_8 = __pyx_t_20;
+            __pyx_L20_bool_binop_done:;
+            if (__pyx_t_8) {
+
+              /* "plexsim/models/value_network2.pyx":131
+ *                             # ignore the option
+ *                             if i in b or i[::-1] in b:
+ *                                 J = False             # <<<<<<<<<<<<<<
+ *                         # add if no overlap is found
+ *                         if J:
+ */
+              __pyx_v_J = 0;
+
+              /* "plexsim/models/value_network2.pyx":130
+ *                             # if the rule edge already exists
+ *                             # ignore the option
+ *                             if i in b or i[::-1] in b:             # <<<<<<<<<<<<<<
+ *                                 J = False
+ *                         # add if no overlap is found
+ */
+            }
+
+            /* "plexsim/models/value_network2.pyx":127
+ *                         if len(vpi) > len(vpj):
+ *                             a, b = b, a
+ *                         for i in a:             # <<<<<<<<<<<<<<
+ *                             # if the rule edge already exists
+ *                             # ignore the option
+ */
+          }
+          __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+
+          /* "plexsim/models/value_network2.pyx":133
+ *                                 J = False
+ *                         # add if no overlap is found
+ *                         if J:             # <<<<<<<<<<<<<<
+ *                             # merging
+ *                             # print(f"Merging {vpi} with {vpj}")
+ */
+          __pyx_t_8 = (__pyx_v_J != 0);
+          if (__pyx_t_8) {
+
+            /* "plexsim/models/value_network2.pyx":136
+ *                             # merging
+ *                             # print(f"Merging {vpi} with {vpj}")
+ *                             proposal = [idxs.copy(), vpi.copy()]             # <<<<<<<<<<<<<<
+ *                             for x, y in zip(jdxs, vpj):
+ *                                 proposal[0].append(x)
+ */
+            __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_idxs, __pyx_n_s_copy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 136, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __pyx_t_13 = NULL;
+            __pyx_t_6 = 0;
+            if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+              __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_5);
+              if (likely(__pyx_t_13)) {
+                PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+                __Pyx_INCREF(__pyx_t_13);
+                __Pyx_INCREF(function);
+                __Pyx_DECREF_SET(__pyx_t_5, function);
+                __pyx_t_6 = 1;
+              }
+            }
+            {
+              PyObject *__pyx_callargs[1] = {__pyx_t_13, };
+              __pyx_t_12 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_6, 0+__pyx_t_6);
+              __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+              if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 136, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_12);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            }
+            __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_vpi, __pyx_n_s_copy); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 136, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_13);
+            __pyx_t_22 = NULL;
+            __pyx_t_6 = 0;
+            if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
+              __pyx_t_22 = PyMethod_GET_SELF(__pyx_t_13);
+              if (likely(__pyx_t_22)) {
+                PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
+                __Pyx_INCREF(__pyx_t_22);
+                __Pyx_INCREF(function);
+                __Pyx_DECREF_SET(__pyx_t_13, function);
+                __pyx_t_6 = 1;
+              }
+            }
+            {
+              PyObject *__pyx_callargs[1] = {__pyx_t_22, };
+              __pyx_t_5 = __Pyx_PyObject_FastCall(__pyx_t_13, __pyx_callargs+1-__pyx_t_6, 0+__pyx_t_6);
+              __Pyx_XDECREF(__pyx_t_22); __pyx_t_22 = 0;
+              if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 136, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+            }
+            __pyx_t_13 = PyList_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 136, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_13);
+            __Pyx_GIVEREF(__pyx_t_12);
+            PyList_SET_ITEM(__pyx_t_13, 0, __pyx_t_12);
+            __Pyx_GIVEREF(__pyx_t_5);
+            PyList_SET_ITEM(__pyx_t_13, 1, __pyx_t_5);
+            __pyx_t_12 = 0;
+            __pyx_t_5 = 0;
+            __Pyx_XDECREF_SET(__pyx_v_proposal, ((PyObject*)__pyx_t_13));
+            __pyx_t_13 = 0;
+
+            /* "plexsim/models/value_network2.pyx":137
+ *                             # print(f"Merging {vpi} with {vpj}")
+ *                             proposal = [idxs.copy(), vpi.copy()]
+ *                             for x, y in zip(jdxs, vpj):             # <<<<<<<<<<<<<<
+ *                                 proposal[0].append(x)
+ *                                 proposal[1].append(y)
+ */
+            __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 137, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_13);
+            __Pyx_INCREF(__pyx_v_jdxs);
+            __Pyx_GIVEREF(__pyx_v_jdxs);
+            PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_v_jdxs);
+            __Pyx_INCREF(__pyx_v_vpj);
+            __Pyx_GIVEREF(__pyx_v_vpj);
+            PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_v_vpj);
+            __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_13, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 137, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+            if (likely(PyList_CheckExact(__pyx_t_5)) || PyTuple_CheckExact(__pyx_t_5)) {
+              __pyx_t_13 = __pyx_t_5; __Pyx_INCREF(__pyx_t_13); __pyx_t_16 = 0;
+              __pyx_t_19 = NULL;
+            } else {
+              __pyx_t_16 = -1; __pyx_t_13 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 137, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_13);
+              __pyx_t_19 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_13); if (unlikely(!__pyx_t_19)) __PYX_ERR(0, 137, __pyx_L1_error)
+            }
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            for (;;) {
+              if (likely(!__pyx_t_19)) {
+                if (likely(PyList_CheckExact(__pyx_t_13))) {
+                  if (__pyx_t_16 >= PyList_GET_SIZE(__pyx_t_13)) break;
+                  #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+                  __pyx_t_5 = PyList_GET_ITEM(__pyx_t_13, __pyx_t_16); __Pyx_INCREF(__pyx_t_5); __pyx_t_16++; if (unlikely((0 < 0))) __PYX_ERR(0, 137, __pyx_L1_error)
+                  #else
+                  __pyx_t_5 = PySequence_ITEM(__pyx_t_13, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 137, __pyx_L1_error)
+                  __Pyx_GOTREF(__pyx_t_5);
+                  #endif
+                } else {
+                  if (__pyx_t_16 >= PyTuple_GET_SIZE(__pyx_t_13)) break;
+                  #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+                  __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_13, __pyx_t_16); __Pyx_INCREF(__pyx_t_5); __pyx_t_16++; if (unlikely((0 < 0))) __PYX_ERR(0, 137, __pyx_L1_error)
+                  #else
+                  __pyx_t_5 = PySequence_ITEM(__pyx_t_13, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 137, __pyx_L1_error)
+                  __Pyx_GOTREF(__pyx_t_5);
+                  #endif
+                }
+              } else {
+                __pyx_t_5 = __pyx_t_19(__pyx_t_13);
+                if (unlikely(!__pyx_t_5)) {
+                  PyObject* exc_type = PyErr_Occurred();
+                  if (exc_type) {
+                    if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+                    else __PYX_ERR(0, 137, __pyx_L1_error)
+                  }
+                  break;
+                }
+                __Pyx_GOTREF(__pyx_t_5);
+              }
+              if ((likely(PyTuple_CheckExact(__pyx_t_5))) || (PyList_CheckExact(__pyx_t_5))) {
+                PyObject* sequence = __pyx_t_5;
+                Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
+                if (unlikely(size != 2)) {
+                  if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+                  else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+                  __PYX_ERR(0, 137, __pyx_L1_error)
+                }
+                #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+                if (likely(PyTuple_CheckExact(sequence))) {
+                  __pyx_t_12 = PyTuple_GET_ITEM(sequence, 0); 
+                  __pyx_t_22 = PyTuple_GET_ITEM(sequence, 1); 
+                } else {
+                  __pyx_t_12 = PyList_GET_ITEM(sequence, 0); 
+                  __pyx_t_22 = PyList_GET_ITEM(sequence, 1); 
+                }
+                __Pyx_INCREF(__pyx_t_12);
+                __Pyx_INCREF(__pyx_t_22);
+                #else
+                __pyx_t_12 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 137, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_12);
+                __pyx_t_22 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 137, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_22);
+                #endif
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              } else {
+                Py_ssize_t index = -1;
+                __pyx_t_23 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 137, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_23);
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+                __pyx_t_14 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_23);
+                index = 0; __pyx_t_12 = __pyx_t_14(__pyx_t_23); if (unlikely(!__pyx_t_12)) goto __pyx_L25_unpacking_failed;
+                __Pyx_GOTREF(__pyx_t_12);
+                index = 1; __pyx_t_22 = __pyx_t_14(__pyx_t_23); if (unlikely(!__pyx_t_22)) goto __pyx_L25_unpacking_failed;
+                __Pyx_GOTREF(__pyx_t_22);
+                if (__Pyx_IternextUnpackEndCheck(__pyx_t_14(__pyx_t_23), 2) < 0) __PYX_ERR(0, 137, __pyx_L1_error)
+                __pyx_t_14 = NULL;
+                __Pyx_DECREF(__pyx_t_23); __pyx_t_23 = 0;
+                goto __pyx_L26_unpacking_done;
+                __pyx_L25_unpacking_failed:;
+                __Pyx_DECREF(__pyx_t_23); __pyx_t_23 = 0;
+                __pyx_t_14 = NULL;
+                if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
+                __PYX_ERR(0, 137, __pyx_L1_error)
+                __pyx_L26_unpacking_done:;
+              }
+              __Pyx_XDECREF_SET(__pyx_v_x, __pyx_t_12);
+              __pyx_t_12 = 0;
+              __Pyx_XDECREF_SET(__pyx_v_y, __pyx_t_22);
+              __pyx_t_22 = 0;
+
+              /* "plexsim/models/value_network2.pyx":138
+ *                             proposal = [idxs.copy(), vpi.copy()]
+ *                             for x, y in zip(jdxs, vpj):
+ *                                 proposal[0].append(x)             # <<<<<<<<<<<<<<
+ *                                 proposal[1].append(y)
+ * 
+ */
+              __pyx_t_24 = __Pyx_PyObject_Append(PyList_GET_ITEM(__pyx_v_proposal, 0), __pyx_v_x); if (unlikely(__pyx_t_24 == ((int)-1))) __PYX_ERR(0, 138, __pyx_L1_error)
+
+              /* "plexsim/models/value_network2.pyx":139
+ *                             for x, y in zip(jdxs, vpj):
+ *                                 proposal[0].append(x)
+ *                                 proposal[1].append(y)             # <<<<<<<<<<<<<<
+ * 
+ *                             if proposal not in merged:
+ */
+              __pyx_t_24 = __Pyx_PyObject_Append(PyList_GET_ITEM(__pyx_v_proposal, 1), __pyx_v_y); if (unlikely(__pyx_t_24 == ((int)-1))) __PYX_ERR(0, 139, __pyx_L1_error)
+
+              /* "plexsim/models/value_network2.pyx":137
+ *                             # print(f"Merging {vpi} with {vpj}")
+ *                             proposal = [idxs.copy(), vpi.copy()]
+ *                             for x, y in zip(jdxs, vpj):             # <<<<<<<<<<<<<<
+ *                                 proposal[0].append(x)
+ *                                 proposal[1].append(y)
+ */
+            }
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+
+            /* "plexsim/models/value_network2.pyx":141
+ *                                 proposal[1].append(y)
+ * 
+ *                             if proposal not in merged:             # <<<<<<<<<<<<<<
+ *                                 if len(proposal[0]) == self._bounded_rational:
+ *                                     self.check_doubles(proposal[0], results)
+ */
+            __pyx_t_8 = (__Pyx_PySequence_ContainsTF(__pyx_v_proposal, __pyx_v_merged, Py_NE)); if (unlikely((__pyx_t_8 < 0))) __PYX_ERR(0, 141, __pyx_L1_error)
+            __pyx_t_20 = (__pyx_t_8 != 0);
+            if (__pyx_t_20) {
+
+              /* "plexsim/models/value_network2.pyx":142
+ * 
+ *                             if proposal not in merged:
+ *                                 if len(proposal[0]) == self._bounded_rational:             # <<<<<<<<<<<<<<
+ *                                     self.check_doubles(proposal[0], results)
+ *                                 else:
+ */
+              __pyx_t_13 = PyList_GET_ITEM(__pyx_v_proposal, 0);
+              __Pyx_INCREF(__pyx_t_13);
+              __pyx_t_16 = PyObject_Length(__pyx_t_13); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 142, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+              __pyx_t_20 = ((__pyx_t_16 == __pyx_v_self->_bounded_rational) != 0);
+              if (__pyx_t_20) {
+
+                /* "plexsim/models/value_network2.pyx":143
+ *                             if proposal not in merged:
+ *                                 if len(proposal[0]) == self._bounded_rational:
+ *                                     self.check_doubles(proposal[0], results)             # <<<<<<<<<<<<<<
+ *                                 else:
+ *                                     merged.append(proposal.copy())
+ */
+                if (!(likely(PyList_CheckExact(PyList_GET_ITEM(__pyx_v_proposal, 0)))||((PyList_GET_ITEM(__pyx_v_proposal, 0)) == Py_None) || __Pyx_RaiseUnexpectedTypeError("list", PyList_GET_ITEM(__pyx_v_proposal, 0)))) __PYX_ERR(0, 143, __pyx_L1_error)
+                __pyx_t_13 = PyList_GET_ITEM(__pyx_v_proposal, 0);
+                __Pyx_INCREF(__pyx_t_13);
+                (void)(((struct __pyx_vtabstruct_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->check_doubles(__pyx_v_self, ((PyObject*)__pyx_t_13), __pyx_v_results, 0, NULL));
+                __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+
+                /* "plexsim/models/value_network2.pyx":142
+ * 
+ *                             if proposal not in merged:
+ *                                 if len(proposal[0]) == self._bounded_rational:             # <<<<<<<<<<<<<<
+ *                                     self.check_doubles(proposal[0], results)
+ *                                 else:
+ */
+                goto __pyx_L28;
+              }
+
+              /* "plexsim/models/value_network2.pyx":145
+ *                                     self.check_doubles(proposal[0], results)
+ *                                 else:
+ *                                     merged.append(proposal.copy())             # <<<<<<<<<<<<<<
+ *                                     can_merge = True
+ * 
+ */
+              /*else*/ {
+                __pyx_t_13 = __Pyx_CallUnboundCMethod0(&__pyx_umethod_PyList_Type_copy, __pyx_v_proposal); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 145, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_13);
+                __pyx_t_24 = __Pyx_PyObject_Append(__pyx_v_merged, __pyx_t_13); if (unlikely(__pyx_t_24 == ((int)-1))) __PYX_ERR(0, 145, __pyx_L1_error)
+                __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+
+                /* "plexsim/models/value_network2.pyx":146
+ *                                 else:
+ *                                     merged.append(proposal.copy())
+ *                                     can_merge = True             # <<<<<<<<<<<<<<
+ * 
+ *         if verbose:
+ */
+                __pyx_v_can_merge = 1;
+              }
+              __pyx_L28:;
+
+              /* "plexsim/models/value_network2.pyx":141
+ *                                 proposal[1].append(y)
+ * 
+ *                             if proposal not in merged:             # <<<<<<<<<<<<<<
+ *                                 if len(proposal[0]) == self._bounded_rational:
+ *                                     self.check_doubles(proposal[0], results)
+ */
+            }
+
+            /* "plexsim/models/value_network2.pyx":133
+ *                                 J = False
+ *                         # add if no overlap is found
+ *                         if J:             # <<<<<<<<<<<<<<
+ *                             # merging
+ *                             # print(f"Merging {vpi} with {vpj}")
+ */
+          }
+
+          /* "plexsim/models/value_network2.pyx":117
+ *             for idx, opti in enumerate(merged):
+ *                 for jdx, optj in enumerate(merged):
+ *                     if idx < jdx:             # <<<<<<<<<<<<<<
+ *                         # prevent self-comparison and double comparison
+ *                         # compare matched edges
+ */
+        }
+
+        /* "plexsim/models/value_network2.pyx":116
+ *             # print(f"Merging {merged}")
+ *             for idx, opti in enumerate(merged):
+ *                 for jdx, optj in enumerate(merged):             # <<<<<<<<<<<<<<
+ *                     if idx < jdx:
+ *                         # prevent self-comparison and double comparison
+ */
+      }
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+      /* "plexsim/models/value_network2.pyx":115
+ *             can_merge = False
+ *             # print(f"Merging {merged}")
+ *             for idx, opti in enumerate(merged):             # <<<<<<<<<<<<<<
+ *                 for jdx, optj in enumerate(merged):
+ *                     if idx < jdx:
+ */
+    }
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  }
+
+  /* "plexsim/models/value_network2.pyx":148
+ *                                     can_merge = True
+ * 
+ *         if verbose:             # <<<<<<<<<<<<<<
+ *             print("left merge")
+ *         if merged:
+ */
+  __pyx_t_20 = (__pyx_v_verbose != 0);
+  if (__pyx_t_20) {
+
+    /* "plexsim/models/value_network2.pyx":149
+ * 
+ *         if verbose:
+ *             print("left merge")             # <<<<<<<<<<<<<<
+ *         if merged:
+ *             results[1] = merged
+ */
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "plexsim/models/value_network2.pyx":148
+ *                                     can_merge = True
+ * 
+ *         if verbose:             # <<<<<<<<<<<<<<
+ *             print("left merge")
+ *         if merged:
+ */
+  }
+
+  /* "plexsim/models/value_network2.pyx":150
+ *         if verbose:
+ *             print("left merge")
+ *         if merged:             # <<<<<<<<<<<<<<
+ *             results[1] = merged
+ * 
+ */
+  __pyx_t_20 = __Pyx_PyObject_IsTrue(__pyx_v_merged); if (unlikely((__pyx_t_20 < 0))) __PYX_ERR(0, 150, __pyx_L1_error)
+  if (__pyx_t_20) {
+
+    /* "plexsim/models/value_network2.pyx":151
+ *             print("left merge")
+ *         if merged:
+ *             results[1] = merged             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef bint check_endpoint(self, state_t s, list vp_path):
+ */
+    if (unlikely(__pyx_v_results == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 151, __pyx_L1_error)
+    }
+    if (unlikely((__Pyx_SetItemInt(__pyx_v_results, 1, __pyx_v_merged, long, 1, __Pyx_PyInt_From_long, 1, 0, 0) < 0))) __PYX_ERR(0, 151, __pyx_L1_error)
+
+    /* "plexsim/models/value_network2.pyx":150
+ *         if verbose:
+ *             print("left merge")
+ *         if merged:             # <<<<<<<<<<<<<<
+ *             results[1] = merged
+ * 
+ */
+  }
+
+  /* "plexsim/models/value_network2.pyx":94
+ *         return add
+ * 
+ *     cpdef void merge(self, list results, bint verbose = False):             # <<<<<<<<<<<<<<
+ *         """
+ *         Merge paths from branches inplace
+ */
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_12);
+  __Pyx_XDECREF(__pyx_t_13);
+  __Pyx_XDECREF(__pyx_t_22);
+  __Pyx_XDECREF(__pyx_t_23);
+  __Pyx_WriteUnraisable("plexsim.models.value_network2.ValueNetwork.merge", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_merged);
+  __Pyx_XDECREF(__pyx_v_idx);
+  __Pyx_XDECREF(__pyx_v_opti);
+  __Pyx_XDECREF(__pyx_v_jdx);
+  __Pyx_XDECREF(__pyx_v_optj);
+  __Pyx_XDECREF(__pyx_v_idxs);
+  __Pyx_XDECREF(__pyx_v_vpi);
+  __Pyx_XDECREF(__pyx_v_jdxs);
+  __Pyx_XDECREF(__pyx_v_vpj);
+  __Pyx_XDECREF(__pyx_v_a);
+  __Pyx_XDECREF(__pyx_v_b);
+  __Pyx_XDECREF(__pyx_v_i);
+  __Pyx_XDECREF(__pyx_v_proposal);
+  __Pyx_XDECREF(__pyx_v_x);
+  __Pyx_XDECREF(__pyx_v_y);
+  __Pyx_RefNannyFinishContext();
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_7merge(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+PyDoc_STRVAR(__pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_6merge, "ValueNetwork.merge(self, list results, bool verbose=False) -> void\n\n        Merge paths from branches inplace\n        ");
+static PyMethodDef __pyx_mdef_7plexsim_6models_14value_network2_12ValueNetwork_7merge = {"merge", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_7merge, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_6merge};
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_7merge(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+) {
   PyObject *__pyx_v_results = 0;
-  std::vector<std::vector<EdgeColor> > ::iterator __pyx_v_it;
-  std::vector<EdgeColor> ::iterator __pyx_v_jt;
-  PyObject *__pyx_v_e = NULL;
-  CYTHON_UNUSED PyObject *__pyx_v_ev = NULL;
+  int __pyx_v_verbose;
+  #if !CYTHON_METH_FASTCALL
+  CYTHON_UNUSED const Py_ssize_t __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
+  #endif
+  CYTHON_UNUSED PyObject *const *__pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("merge (wrapper)", 0);
+  {
+    #if CYTHON_USE_MODULE_STATE
+    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_results,&__pyx_n_s_verbose,0};
+    #else
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_results,&__pyx_n_s_verbose,0};
+    #endif
+    PyObject* values[2] = {0,0};
+    if (__pyx_kwds) {
+      Py_ssize_t kw_args;
+      switch (__pyx_nargs) {
+        case  2: values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = __Pyx_NumKwargs_FASTCALL(__pyx_kwds);
+      switch (__pyx_nargs) {
+        case  0:
+        if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_results)) != 0)) kw_args--;
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 94, __pyx_L3_error)
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_verbose);
+          if (value) { values[1] = value; kw_args--; }
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 94, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        const Py_ssize_t kwd_pos_args = __pyx_nargs;
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "merge") < 0)) __PYX_ERR(0, 94, __pyx_L3_error)
+      }
+    } else {
+      switch (__pyx_nargs) {
+        case  2: values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_results = ((PyObject*)values[0]);
+    if (values[1]) {
+      __pyx_v_verbose = __Pyx_PyObject_IsTrue(values[1]); if (unlikely((__pyx_v_verbose == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 94, __pyx_L3_error)
+    } else {
+      __pyx_v_verbose = ((int)0);
+    }
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("merge", 0, 1, 2, __pyx_nargs); __PYX_ERR(0, 94, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.merge", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_results), (&PyList_Type), 1, "results", 1))) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_r = __pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_6merge(((struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self), __pyx_v_results, __pyx_v_verbose);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_6merge(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_results, int __pyx_v_verbose) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_merge __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("merge", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1.__pyx_n = 1;
+  __pyx_t_1.verbose = __pyx_v_verbose;
+  __pyx_vtabptr_7plexsim_6models_14value_network2_ValueNetwork->merge(__pyx_v_self, __pyx_v_results, 1, &__pyx_t_1); 
+  __pyx_t_2 = __Pyx_void_to_None(NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.merge", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "plexsim/models/value_network2.pyx":153
+ *             results[1] = merged
+ * 
+ *     cpdef bint check_endpoint(self, state_t s, list vp_path):             # <<<<<<<<<<<<<<
+ *         """
+ *         Check if an end point is reached
+ */
+
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_9check_endpoint(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+static int __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_check_endpoint(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_s, PyObject *__pyx_v_vp_path, int __pyx_skip_dispatch) {
+  int __pyx_v_fail;
+  PyObject *__pyx_v_ss = NULL;
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  int __pyx_t_6;
+  int __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  PyObject *(*__pyx_t_9)(PyObject *);
+  __pyx_t_7plexsim_6models_5types_state_t __pyx_t_10;
+  int __pyx_t_11;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("check_endpoint", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || __Pyx_PyType_HasFeature(Py_TYPE(((PyObject *)__pyx_v_self)), (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_typedict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_check_endpoint); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      #ifdef __Pyx_CyFunction_USED
+      if (!__Pyx_IsCyOrPyCFunction(__pyx_t_1)
+      #else
+      if (!PyCFunction_Check(__pyx_t_1)
+      #endif
+              || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_9check_endpoint)) {
+        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_s); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 153, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_4 = __pyx_t_1; __pyx_t_5 = NULL;
+        __pyx_t_6 = 0;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
+          __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
+          if (likely(__pyx_t_5)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+            __Pyx_INCREF(__pyx_t_5);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_4, function);
+            __pyx_t_6 = 1;
+          }
+        }
+        {
+          PyObject *__pyx_callargs[3] = {__pyx_t_5, __pyx_t_3, __pyx_v_vp_path};
+          __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_6, 2+__pyx_t_6);
+          __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 153, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        }
+        __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 153, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_r = __pyx_t_7;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_typedict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "plexsim/models/value_network2.pyx":158
+ *         """
+ *         # update paths
+ *         fail = True             # <<<<<<<<<<<<<<
+ *         for ss in  self.rules.neighbors(s):
+ *             if self._rules._adj[s][ss] > 0:
+ */
+  __pyx_v_fail = 1;
+
+  /* "plexsim/models/value_network2.pyx":159
+ *         # update paths
+ *         fail = True
+ *         for ss in  self.rules.neighbors(s):             # <<<<<<<<<<<<<<
+ *             if self._rules._adj[s][ss] > 0:
+ *                 if [s, ss] not in vp_path:
+ */
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rules); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_neighbors); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 159, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_s); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = NULL;
+  __pyx_t_6 = 0;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __pyx_t_6 = 1;
+    }
+  }
+  {
+    PyObject *__pyx_callargs[2] = {__pyx_t_3, __pyx_t_2};
+    __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
+    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  }
+  if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
+    __pyx_t_4 = __pyx_t_1; __Pyx_INCREF(__pyx_t_4); __pyx_t_8 = 0;
+    __pyx_t_9 = NULL;
+  } else {
+    __pyx_t_8 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_9 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_4); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 159, __pyx_L1_error)
+  }
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  for (;;) {
+    if (likely(!__pyx_t_9)) {
+      if (likely(PyList_CheckExact(__pyx_t_4))) {
+        if (__pyx_t_8 >= PyList_GET_SIZE(__pyx_t_4)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_8); __Pyx_INCREF(__pyx_t_1); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 159, __pyx_L1_error)
+        #else
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_4, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 159, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        #endif
+      } else {
+        if (__pyx_t_8 >= PyTuple_GET_SIZE(__pyx_t_4)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_8); __Pyx_INCREF(__pyx_t_1); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 159, __pyx_L1_error)
+        #else
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_4, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 159, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        #endif
+      }
+    } else {
+      __pyx_t_1 = __pyx_t_9(__pyx_t_4);
+      if (unlikely(!__pyx_t_1)) {
+        PyObject* exc_type = PyErr_Occurred();
+        if (exc_type) {
+          if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+          else __PYX_ERR(0, 159, __pyx_L1_error)
+        }
+        break;
+      }
+      __Pyx_GOTREF(__pyx_t_1);
+    }
+    __Pyx_XDECREF_SET(__pyx_v_ss, __pyx_t_1);
+    __pyx_t_1 = 0;
+
+    /* "plexsim/models/value_network2.pyx":160
+ *         fail = True
+ *         for ss in  self.rules.neighbors(s):
+ *             if self._rules._adj[s][ss] > 0:             # <<<<<<<<<<<<<<
+ *                 if [s, ss] not in vp_path:
+ *                     fail = False
+ */
+    __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_v_ss); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 160, __pyx_L1_error)
+    __pyx_t_7 = ((((__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[__pyx_v_s])[__pyx_t_10]) > 0.0) != 0);
+    if (__pyx_t_7) {
+
+      /* "plexsim/models/value_network2.pyx":161
+ *         for ss in  self.rules.neighbors(s):
+ *             if self._rules._adj[s][ss] > 0:
+ *                 if [s, ss] not in vp_path:             # <<<<<<<<<<<<<<
+ *                     fail = False
+ *         # print(f"Failing {fail} {s} {list(m.rules.neighbors(s))} {vp_path}")
+ */
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_s); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 161, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 161, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyList_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
+      __Pyx_INCREF(__pyx_v_ss);
+      __Pyx_GIVEREF(__pyx_v_ss);
+      PyList_SET_ITEM(__pyx_t_2, 1, __pyx_v_ss);
+      __pyx_t_1 = 0;
+      __pyx_t_7 = (__Pyx_PySequence_ContainsTF(__pyx_t_2, __pyx_v_vp_path, Py_NE)); if (unlikely((__pyx_t_7 < 0))) __PYX_ERR(0, 161, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_11 = (__pyx_t_7 != 0);
+      if (__pyx_t_11) {
+
+        /* "plexsim/models/value_network2.pyx":162
+ *             if self._rules._adj[s][ss] > 0:
+ *                 if [s, ss] not in vp_path:
+ *                     fail = False             # <<<<<<<<<<<<<<
+ *         # print(f"Failing {fail} {s} {list(m.rules.neighbors(s))} {vp_path}")
+ *         return fail
+ */
+        __pyx_v_fail = 0;
+
+        /* "plexsim/models/value_network2.pyx":161
+ *         for ss in  self.rules.neighbors(s):
+ *             if self._rules._adj[s][ss] > 0:
+ *                 if [s, ss] not in vp_path:             # <<<<<<<<<<<<<<
+ *                     fail = False
+ *         # print(f"Failing {fail} {s} {list(m.rules.neighbors(s))} {vp_path}")
+ */
+      }
+
+      /* "plexsim/models/value_network2.pyx":160
+ *         fail = True
+ *         for ss in  self.rules.neighbors(s):
+ *             if self._rules._adj[s][ss] > 0:             # <<<<<<<<<<<<<<
+ *                 if [s, ss] not in vp_path:
+ *                     fail = False
+ */
+    }
+
+    /* "plexsim/models/value_network2.pyx":159
+ *         # update paths
+ *         fail = True
+ *         for ss in  self.rules.neighbors(s):             # <<<<<<<<<<<<<<
+ *             if self._rules._adj[s][ss] > 0:
+ *                 if [s, ss] not in vp_path:
+ */
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+  /* "plexsim/models/value_network2.pyx":164
+ *                     fail = False
+ *         # print(f"Failing {fail} {s} {list(m.rules.neighbors(s))} {vp_path}")
+ *         return fail             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef bint _traverse(self, list proposal, list option):
+ */
+  __pyx_r = __pyx_v_fail;
+  goto __pyx_L0;
+
+  /* "plexsim/models/value_network2.pyx":153
+ *             results[1] = merged
+ * 
+ *     cpdef bint check_endpoint(self, state_t s, list vp_path):             # <<<<<<<<<<<<<<
+ *         """
+ *         Check if an end point is reached
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_WriteUnraisable("plexsim.models.value_network2.ValueNetwork.check_endpoint", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_ss);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_9check_endpoint(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+PyDoc_STRVAR(__pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_8check_endpoint, "ValueNetwork.check_endpoint(self, state_t s, list vp_path) -> bool\n\n        Check if an end point is reached\n        ");
+static PyMethodDef __pyx_mdef_7plexsim_6models_14value_network2_12ValueNetwork_9check_endpoint = {"check_endpoint", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_9check_endpoint, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_8check_endpoint};
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_9check_endpoint(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+) {
+  __pyx_t_7plexsim_6models_5types_state_t __pyx_v_s;
+  PyObject *__pyx_v_vp_path = 0;
+  #if !CYTHON_METH_FASTCALL
+  CYTHON_UNUSED const Py_ssize_t __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
+  #endif
+  CYTHON_UNUSED PyObject *const *__pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("check_endpoint (wrapper)", 0);
+  {
+    #if CYTHON_USE_MODULE_STATE
+    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_s,&__pyx_n_s_vp_path,0};
+    #else
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_s,&__pyx_n_s_vp_path,0};
+    #endif
+    PyObject* values[2] = {0,0};
+    if (__pyx_kwds) {
+      Py_ssize_t kw_args;
+      switch (__pyx_nargs) {
+        case  2: values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = __Pyx_NumKwargs_FASTCALL(__pyx_kwds);
+      switch (__pyx_nargs) {
+        case  0:
+        if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_s)) != 0)) kw_args--;
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 153, __pyx_L3_error)
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_vp_path)) != 0)) kw_args--;
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 153, __pyx_L3_error)
+        else {
+          __Pyx_RaiseArgtupleInvalid("check_endpoint", 1, 2, 2, 1); __PYX_ERR(0, 153, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        const Py_ssize_t kwd_pos_args = __pyx_nargs;
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "check_endpoint") < 0)) __PYX_ERR(0, 153, __pyx_L3_error)
+      }
+    } else if (unlikely(__pyx_nargs != 2)) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+      values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
+    }
+    __pyx_v_s = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_s == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 153, __pyx_L3_error)
+    __pyx_v_vp_path = ((PyObject*)values[1]);
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("check_endpoint", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 153, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.check_endpoint", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_vp_path), (&PyList_Type), 1, "vp_path", 1))) __PYX_ERR(0, 153, __pyx_L1_error)
+  __pyx_r = __pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_8check_endpoint(((struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self), __pyx_v_s, __pyx_v_vp_path);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_8check_endpoint(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_s, PyObject *__pyx_v_vp_path) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("check_endpoint", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_check_endpoint(__pyx_v_self, __pyx_v_s, __pyx_v_vp_path, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.check_endpoint", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "plexsim/models/value_network2.pyx":166
+ *         return fail
+ * 
+ *     cpdef bint _traverse(self, list proposal, list option):             # <<<<<<<<<<<<<<
+ *         cdef dict seen = {}
+ *         cdef list edge
+ */
+
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_11_traverse(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+static int __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork__traverse(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_proposal, PyObject *__pyx_v_option, int __pyx_skip_dispatch) {
+  PyObject *__pyx_v_seen = 0;
+  PyObject *__pyx_v_edge = 0;
+  int __pyx_v_traverse;
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  int __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_8;
+  int __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("_traverse", 0);
+  __Pyx_INCREF(__pyx_v_proposal);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || __Pyx_PyType_HasFeature(Py_TYPE(((PyObject *)__pyx_v_self)), (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_typedict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_traverse); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 166, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      #ifdef __Pyx_CyFunction_USED
+      if (!__Pyx_IsCyOrPyCFunction(__pyx_t_1)
+      #else
+      if (!PyCFunction_Check(__pyx_t_1)
+      #endif
+              || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_11_traverse)) {
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        __pyx_t_5 = 0;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+            __pyx_t_5 = 1;
+          }
+        }
+        {
+          PyObject *__pyx_callargs[3] = {__pyx_t_4, __pyx_v_proposal, __pyx_v_option};
+          __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_5, 2+__pyx_t_5);
+          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 166, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        }
+        __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 166, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_r = __pyx_t_6;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_typedict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "plexsim/models/value_network2.pyx":167
+ * 
+ *     cpdef bint _traverse(self, list proposal, list option):
+ *         cdef dict seen = {}             # <<<<<<<<<<<<<<
+ *         cdef list edge
+ * 
+ */
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_seen = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "plexsim/models/value_network2.pyx":170
+ *         cdef list edge
+ * 
+ *         cdef bint traverse = True             # <<<<<<<<<<<<<<
+ *         while traverse:
+ *             traverse = False
+ */
+  __pyx_v_traverse = 1;
+
+  /* "plexsim/models/value_network2.pyx":171
+ * 
+ *         cdef bint traverse = True
+ *         while traverse:             # <<<<<<<<<<<<<<
+ *             traverse = False
+ *             for edge in option:
+ */
+  while (1) {
+    __pyx_t_6 = (__pyx_v_traverse != 0);
+    if (!__pyx_t_6) break;
+
+    /* "plexsim/models/value_network2.pyx":172
+ *         cdef bint traverse = True
+ *         while traverse:
+ *             traverse = False             # <<<<<<<<<<<<<<
+ *             for edge in option:
+ *                 # traverse up
+ */
+    __pyx_v_traverse = 0;
+
+    /* "plexsim/models/value_network2.pyx":173
+ *         while traverse:
+ *             traverse = False
+ *             for edge in option:             # <<<<<<<<<<<<<<
+ *                 # traverse up
+ *                 if edge[0] in list(self.adj._adj[proposal[1]].neighbors):
+ */
+    if (unlikely(__pyx_v_option == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
+      __PYX_ERR(0, 173, __pyx_L1_error)
+    }
+    __pyx_t_1 = __pyx_v_option; __Pyx_INCREF(__pyx_t_1); __pyx_t_7 = 0;
+    for (;;) {
+      if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_1)) break;
+      #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+      __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_7); __Pyx_INCREF(__pyx_t_2); __pyx_t_7++; if (unlikely((0 < 0))) __PYX_ERR(0, 173, __pyx_L1_error)
+      #else
+      __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 173, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      #endif
+      if (!(likely(PyList_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None) || __Pyx_RaiseUnexpectedTypeError("list", __pyx_t_2))) __PYX_ERR(0, 173, __pyx_L1_error)
+      __Pyx_XDECREF_SET(__pyx_v_edge, ((PyObject*)__pyx_t_2));
+      __pyx_t_2 = 0;
+
+      /* "plexsim/models/value_network2.pyx":175
+ *             for edge in option:
+ *                 # traverse up
+ *                 if edge[0] in list(self.adj._adj[proposal[1]].neighbors):             # <<<<<<<<<<<<<<
+ *                     if tuple(edge) not in seen:
+ *                         seen[tuple(edge)] = 1
+ */
+      if (unlikely(__pyx_v_edge == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 175, __pyx_L1_error)
+      }
+      if (unlikely(__pyx_v_proposal == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 175, __pyx_L1_error)
+      }
+      __pyx_t_8 = __Pyx_PyInt_As_size_t(PyList_GET_ITEM(__pyx_v_proposal, 1)); if (unlikely((__pyx_t_8 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 175, __pyx_L1_error)
+      __pyx_t_2 = __pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t______pyx_t_7plexsim_6models_5types_weight_t((__pyx_v_self->__pyx_base.__pyx_base.adj->_adj[__pyx_t_8]).neighbors); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 175, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_3 = __Pyx_PySequence_ListKeepNew(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 175, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_6 = (__Pyx_PySequence_ContainsTF(PyList_GET_ITEM(__pyx_v_edge, 0), __pyx_t_3, Py_EQ)); if (unlikely((__pyx_t_6 < 0))) __PYX_ERR(0, 175, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_9 = (__pyx_t_6 != 0);
+      if (__pyx_t_9) {
+
+        /* "plexsim/models/value_network2.pyx":176
+ *                 # traverse up
+ *                 if edge[0] in list(self.adj._adj[proposal[1]].neighbors):
+ *                     if tuple(edge) not in seen:             # <<<<<<<<<<<<<<
+ *                         seen[tuple(edge)] = 1
+ *                         traverse = True
+ */
+        if (unlikely(__pyx_v_edge == Py_None)) {
+          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
+          __PYX_ERR(0, 176, __pyx_L1_error)
+        }
+        __pyx_t_3 = PyList_AsTuple(__pyx_v_edge); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 176, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __pyx_t_9 = (__Pyx_PyDict_ContainsTF(__pyx_t_3, __pyx_v_seen, Py_NE)); if (unlikely((__pyx_t_9 < 0))) __PYX_ERR(0, 176, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_6 = (__pyx_t_9 != 0);
+        if (__pyx_t_6) {
+
+          /* "plexsim/models/value_network2.pyx":177
+ *                 if edge[0] in list(self.adj._adj[proposal[1]].neighbors):
+ *                     if tuple(edge) not in seen:
+ *                         seen[tuple(edge)] = 1             # <<<<<<<<<<<<<<
+ *                         traverse = True
+ *                         proposal = edge
+ */
+          if (unlikely(__pyx_v_edge == Py_None)) {
+            PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
+            __PYX_ERR(0, 177, __pyx_L1_error)
+          }
+          __pyx_t_3 = PyList_AsTuple(__pyx_v_edge); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 177, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_3);
+          if (unlikely((PyDict_SetItem(__pyx_v_seen, __pyx_t_3, __pyx_int_1) < 0))) __PYX_ERR(0, 177, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+          /* "plexsim/models/value_network2.pyx":178
+ *                     if tuple(edge) not in seen:
+ *                         seen[tuple(edge)] = 1
+ *                         traverse = True             # <<<<<<<<<<<<<<
+ *                         proposal = edge
+ *             if traverse:
+ */
+          __pyx_v_traverse = 1;
+
+          /* "plexsim/models/value_network2.pyx":179
+ *                         seen[tuple(edge)] = 1
+ *                         traverse = True
+ *                         proposal = edge             # <<<<<<<<<<<<<<
+ *             if traverse:
+ *                 return True
+ */
+          __Pyx_INCREF(__pyx_v_edge);
+          __Pyx_DECREF_SET(__pyx_v_proposal, __pyx_v_edge);
+
+          /* "plexsim/models/value_network2.pyx":176
+ *                 # traverse up
+ *                 if edge[0] in list(self.adj._adj[proposal[1]].neighbors):
+ *                     if tuple(edge) not in seen:             # <<<<<<<<<<<<<<
+ *                         seen[tuple(edge)] = 1
+ *                         traverse = True
+ */
+        }
+
+        /* "plexsim/models/value_network2.pyx":175
+ *             for edge in option:
+ *                 # traverse up
+ *                 if edge[0] in list(self.adj._adj[proposal[1]].neighbors):             # <<<<<<<<<<<<<<
+ *                     if tuple(edge) not in seen:
+ *                         seen[tuple(edge)] = 1
+ */
+      }
+
+      /* "plexsim/models/value_network2.pyx":173
+ *         while traverse:
+ *             traverse = False
+ *             for edge in option:             # <<<<<<<<<<<<<<
+ *                 # traverse up
+ *                 if edge[0] in list(self.adj._adj[proposal[1]].neighbors):
+ */
+    }
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "plexsim/models/value_network2.pyx":180
+ *                         traverse = True
+ *                         proposal = edge
+ *             if traverse:             # <<<<<<<<<<<<<<
+ *                 return True
+ *             else:
+ */
+    __pyx_t_6 = (__pyx_v_traverse != 0);
+    if (__pyx_t_6) {
+
+      /* "plexsim/models/value_network2.pyx":181
+ *                         proposal = edge
+ *             if traverse:
+ *                 return True             # <<<<<<<<<<<<<<
+ *             else:
+ *                 return False
+ */
+      __pyx_r = 1;
+      goto __pyx_L0;
+
+      /* "plexsim/models/value_network2.pyx":180
+ *                         traverse = True
+ *                         proposal = edge
+ *             if traverse:             # <<<<<<<<<<<<<<
+ *                 return True
+ *             else:
+ */
+    }
+
+    /* "plexsim/models/value_network2.pyx":183
+ *                 return True
+ *             else:
+ *                 return False             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+    /*else*/ {
+      __pyx_r = 0;
+      goto __pyx_L0;
+    }
+  }
+
+  /* "plexsim/models/value_network2.pyx":186
+ * 
+ * 
+ *         if len(seen) == len(option):             # <<<<<<<<<<<<<<
+ *             return True
+ *         else:
+ */
+  __pyx_t_7 = PyDict_Size(__pyx_v_seen); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 186, __pyx_L1_error)
+  if (unlikely(__pyx_v_option == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+    __PYX_ERR(0, 186, __pyx_L1_error)
+  }
+  __pyx_t_10 = PyList_GET_SIZE(__pyx_v_option); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 186, __pyx_L1_error)
+  __pyx_t_6 = ((__pyx_t_7 == __pyx_t_10) != 0);
+  if (__pyx_t_6) {
+
+    /* "plexsim/models/value_network2.pyx":187
+ * 
+ *         if len(seen) == len(option):
+ *             return True             # <<<<<<<<<<<<<<
+ *         else:
+ *             return False
+ */
+    __pyx_r = 1;
+    goto __pyx_L0;
+
+    /* "plexsim/models/value_network2.pyx":186
+ * 
+ * 
+ *         if len(seen) == len(option):             # <<<<<<<<<<<<<<
+ *             return True
+ *         else:
+ */
+  }
+
+  /* "plexsim/models/value_network2.pyx":189
+ *             return True
+ *         else:
+ *             return False             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  /*else*/ {
+    __pyx_r = 0;
+    goto __pyx_L0;
+  }
+
+  /* "plexsim/models/value_network2.pyx":166
+ *         return fail
+ * 
+ *     cpdef bint _traverse(self, list proposal, list option):             # <<<<<<<<<<<<<<
+ *         cdef dict seen = {}
+ *         cdef list edge
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_WriteUnraisable("plexsim.models.value_network2.ValueNetwork._traverse", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_seen);
+  __Pyx_XDECREF(__pyx_v_edge);
+  __Pyx_XDECREF(__pyx_v_proposal);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_11_traverse(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+PyDoc_STRVAR(__pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_10_traverse, "ValueNetwork._traverse(self, list proposal, list option) -> bool");
+static PyMethodDef __pyx_mdef_7plexsim_6models_14value_network2_12ValueNetwork_11_traverse = {"_traverse", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_11_traverse, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_10_traverse};
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_11_traverse(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+) {
+  PyObject *__pyx_v_proposal = 0;
+  PyObject *__pyx_v_option = 0;
+  #if !CYTHON_METH_FASTCALL
+  CYTHON_UNUSED const Py_ssize_t __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
+  #endif
+  CYTHON_UNUSED PyObject *const *__pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("_traverse (wrapper)", 0);
+  {
+    #if CYTHON_USE_MODULE_STATE
+    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_proposal,&__pyx_n_s_option,0};
+    #else
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_proposal,&__pyx_n_s_option,0};
+    #endif
+    PyObject* values[2] = {0,0};
+    if (__pyx_kwds) {
+      Py_ssize_t kw_args;
+      switch (__pyx_nargs) {
+        case  2: values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = __Pyx_NumKwargs_FASTCALL(__pyx_kwds);
+      switch (__pyx_nargs) {
+        case  0:
+        if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_proposal)) != 0)) kw_args--;
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 166, __pyx_L3_error)
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_option)) != 0)) kw_args--;
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 166, __pyx_L3_error)
+        else {
+          __Pyx_RaiseArgtupleInvalid("_traverse", 1, 2, 2, 1); __PYX_ERR(0, 166, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        const Py_ssize_t kwd_pos_args = __pyx_nargs;
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "_traverse") < 0)) __PYX_ERR(0, 166, __pyx_L3_error)
+      }
+    } else if (unlikely(__pyx_nargs != 2)) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+      values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
+    }
+    __pyx_v_proposal = ((PyObject*)values[0]);
+    __pyx_v_option = ((PyObject*)values[1]);
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("_traverse", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 166, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork._traverse", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_proposal), (&PyList_Type), 1, "proposal", 1))) __PYX_ERR(0, 166, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_option), (&PyList_Type), 1, "option", 1))) __PYX_ERR(0, 166, __pyx_L1_error)
+  __pyx_r = __pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_10_traverse(((struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self), __pyx_v_proposal, __pyx_v_option);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_10_traverse(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_proposal, PyObject *__pyx_v_option) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("_traverse", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork__traverse(__pyx_v_self, __pyx_v_proposal, __pyx_v_option, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork._traverse", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "plexsim/models/value_network2.pyx":192
+ * 
+ * 
+ *     cpdef void check_traversal(self, list proposal, list options,             # <<<<<<<<<<<<<<
+ *                                bint verbose = False):
+ *         cdef list option
+ */
+
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_13check_traversal(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+static void __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_check_traversal(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_proposal, PyObject *__pyx_v_options, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_traversal *__pyx_optional_args) {
+
+  /* "plexsim/models/value_network2.pyx":193
+ * 
+ *     cpdef void check_traversal(self, list proposal, list options,
+ *                                bint verbose = False):             # <<<<<<<<<<<<<<
+ *         cdef list option
+ *         cdef size_t idx
+ */
+  int __pyx_v_verbose = ((int)0);
+  PyObject *__pyx_v_option = 0;
+  size_t __pyx_v_idx;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  int __pyx_t_6;
+  size_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  int __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  Py_UCS4 __pyx_t_11;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("check_traversal", 0);
+  if (__pyx_optional_args) {
+    if (__pyx_optional_args->__pyx_n > 0) {
+      __pyx_v_verbose = __pyx_optional_args->verbose;
+    }
+  }
+
+  /* "plexsim/models/value_network2.pyx":192
+ * 
+ * 
+ *     cpdef void check_traversal(self, list proposal, list options,             # <<<<<<<<<<<<<<
+ *                                bint verbose = False):
+ *         cdef list option
+ */
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || __Pyx_PyType_HasFeature(Py_TYPE(((PyObject *)__pyx_v_self)), (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_typedict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_check_traversal); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 192, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      #ifdef __Pyx_CyFunction_USED
+      if (!__Pyx_IsCyOrPyCFunction(__pyx_t_1)
+      #else
+      if (!PyCFunction_Check(__pyx_t_1)
+      #endif
+              || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_13check_traversal)) {
+        __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_v_verbose); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 192, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_4 = __pyx_t_1; __pyx_t_5 = NULL;
+        __pyx_t_6 = 0;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
+          __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
+          if (likely(__pyx_t_5)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+            __Pyx_INCREF(__pyx_t_5);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_4, function);
+            __pyx_t_6 = 1;
+          }
+        }
+        {
+          PyObject *__pyx_callargs[4] = {__pyx_t_5, __pyx_v_proposal, __pyx_v_options, __pyx_t_3};
+          __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_6, 3+__pyx_t_6);
+          __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 192, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        }
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_typedict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "plexsim/models/value_network2.pyx":196
+ *         cdef list option
+ *         cdef size_t idx
+ *         for idx, option in enumerate(options):             # <<<<<<<<<<<<<<
+ *             # print(proposal, option)
+ *             if not self._traverse(proposal.copy()[0], option[0]):
+ */
+  __pyx_t_7 = 0;
+  __pyx_t_1 = __pyx_v_options; __Pyx_INCREF(__pyx_t_1); __pyx_t_8 = 0;
+  for (;;) {
+    if (__pyx_t_8 >= PyList_GET_SIZE(__pyx_t_1)) break;
+    #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_8); __Pyx_INCREF(__pyx_t_2); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 196, __pyx_L1_error)
+    #else
+    __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 196, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    #endif
+    if (!(likely(PyList_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None) || __Pyx_RaiseUnexpectedTypeError("list", __pyx_t_2))) __PYX_ERR(0, 196, __pyx_L1_error)
+    __Pyx_XDECREF_SET(__pyx_v_option, ((PyObject*)__pyx_t_2));
+    __pyx_t_2 = 0;
+    __pyx_v_idx = __pyx_t_7;
+    __pyx_t_7 = (__pyx_t_7 + 1);
+
+    /* "plexsim/models/value_network2.pyx":198
+ *         for idx, option in enumerate(options):
+ *             # print(proposal, option)
+ *             if not self._traverse(proposal.copy()[0], option[0]):             # <<<<<<<<<<<<<<
+ *                 options.pop(idx)
+ *                 if verbose:
+ */
+    __pyx_t_2 = __Pyx_CallUnboundCMethod0(&__pyx_umethod_PyList_Type_copy, __pyx_v_proposal); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 198, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 198, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    if (!(likely(PyList_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None) || __Pyx_RaiseUnexpectedTypeError("list", __pyx_t_4))) __PYX_ERR(0, 198, __pyx_L1_error)
+    if (unlikely(__pyx_v_option == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 198, __pyx_L1_error)
+    }
+    if (!(likely(PyList_CheckExact(PyList_GET_ITEM(__pyx_v_option, 0)))||((PyList_GET_ITEM(__pyx_v_option, 0)) == Py_None) || __Pyx_RaiseUnexpectedTypeError("list", PyList_GET_ITEM(__pyx_v_option, 0)))) __PYX_ERR(0, 198, __pyx_L1_error)
+    __pyx_t_2 = PyList_GET_ITEM(__pyx_v_option, 0);
+    __Pyx_INCREF(__pyx_t_2);
+    __pyx_t_9 = ((!(((struct __pyx_vtabstruct_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->_traverse(__pyx_v_self, ((PyObject*)__pyx_t_4), ((PyObject*)__pyx_t_2), 0) != 0)) != 0);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    if (__pyx_t_9) {
+
+      /* "plexsim/models/value_network2.pyx":199
+ *             # print(proposal, option)
+ *             if not self._traverse(proposal.copy()[0], option[0]):
+ *                 options.pop(idx)             # <<<<<<<<<<<<<<
+ *                 if verbose:
+ *                     print(f"Popping option {option} with prop {proposal}")
+ */
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_options, __pyx_n_s_pop); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 199, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_v_idx); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 199, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_5 = NULL;
+      __pyx_t_6 = 0;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+        __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
+        if (likely(__pyx_t_5)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+          __Pyx_INCREF(__pyx_t_5);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_4, function);
+          __pyx_t_6 = 1;
+        }
+      }
+      {
+        PyObject *__pyx_callargs[2] = {__pyx_t_5, __pyx_t_3};
+        __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
+        __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 199, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      }
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+      /* "plexsim/models/value_network2.pyx":200
+ *             if not self._traverse(proposal.copy()[0], option[0]):
+ *                 options.pop(idx)
+ *                 if verbose:             # <<<<<<<<<<<<<<
+ *                     print(f"Popping option {option} with prop {proposal}")
+ * 
+ */
+      __pyx_t_9 = (__pyx_v_verbose != 0);
+      if (__pyx_t_9) {
+
+        /* "plexsim/models/value_network2.pyx":201
+ *                 options.pop(idx)
+ *                 if verbose:
+ *                     print(f"Popping option {option} with prop {proposal}")             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+        __pyx_t_2 = PyTuple_New(4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 201, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __pyx_t_10 = 0;
+        __pyx_t_11 = 127;
+        __Pyx_INCREF(__pyx_kp_u_Popping_option);
+        __pyx_t_10 += 15;
+        __Pyx_GIVEREF(__pyx_kp_u_Popping_option);
+        PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Popping_option);
+        __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_v_option, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 201, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __pyx_t_11 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) > __pyx_t_11) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) : __pyx_t_11;
+        __pyx_t_10 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_4);
+        __Pyx_GIVEREF(__pyx_t_4);
+        PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_4);
+        __pyx_t_4 = 0;
+        __Pyx_INCREF(__pyx_kp_u_with_prop);
+        __pyx_t_10 += 11;
+        __Pyx_GIVEREF(__pyx_kp_u_with_prop);
+        PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_kp_u_with_prop);
+        __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_v_proposal, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 201, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __pyx_t_11 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) > __pyx_t_11) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) : __pyx_t_11;
+        __pyx_t_10 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_4);
+        __Pyx_GIVEREF(__pyx_t_4);
+        PyTuple_SET_ITEM(__pyx_t_2, 3, __pyx_t_4);
+        __pyx_t_4 = 0;
+        __pyx_t_4 = __Pyx_PyUnicode_Join(__pyx_t_2, 4, __pyx_t_10, __pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 201, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 201, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+        /* "plexsim/models/value_network2.pyx":200
+ *             if not self._traverse(proposal.copy()[0], option[0]):
+ *                 options.pop(idx)
+ *                 if verbose:             # <<<<<<<<<<<<<<
+ *                     print(f"Popping option {option} with prop {proposal}")
+ * 
+ */
+      }
+
+      /* "plexsim/models/value_network2.pyx":198
+ *         for idx, option in enumerate(options):
+ *             # print(proposal, option)
+ *             if not self._traverse(proposal.copy()[0], option[0]):             # <<<<<<<<<<<<<<
+ *                 options.pop(idx)
+ *                 if verbose:
+ */
+    }
+
+    /* "plexsim/models/value_network2.pyx":196
+ *         cdef list option
+ *         cdef size_t idx
+ *         for idx, option in enumerate(options):             # <<<<<<<<<<<<<<
+ *             # print(proposal, option)
+ *             if not self._traverse(proposal.copy()[0], option[0]):
+ */
+  }
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "plexsim/models/value_network2.pyx":192
+ * 
+ * 
+ *     cpdef void check_traversal(self, list proposal, list options,             # <<<<<<<<<<<<<<
+ *                                bint verbose = False):
+ *         cdef list option
+ */
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_WriteUnraisable("plexsim.models.value_network2.ValueNetwork.check_traversal", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_option);
+  __Pyx_RefNannyFinishContext();
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_13check_traversal(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+PyDoc_STRVAR(__pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_12check_traversal, "ValueNetwork.check_traversal(self, list proposal, list options, bool verbose=False) -> void");
+static PyMethodDef __pyx_mdef_7plexsim_6models_14value_network2_12ValueNetwork_13check_traversal = {"check_traversal", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_13check_traversal, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_12check_traversal};
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_13check_traversal(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+) {
+  PyObject *__pyx_v_proposal = 0;
+  PyObject *__pyx_v_options = 0;
+  int __pyx_v_verbose;
+  #if !CYTHON_METH_FASTCALL
+  CYTHON_UNUSED const Py_ssize_t __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
+  #endif
+  CYTHON_UNUSED PyObject *const *__pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("check_traversal (wrapper)", 0);
+  {
+    #if CYTHON_USE_MODULE_STATE
+    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_proposal,&__pyx_n_s_options,&__pyx_n_s_verbose,0};
+    #else
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_proposal,&__pyx_n_s_options,&__pyx_n_s_verbose,0};
+    #endif
+    PyObject* values[3] = {0,0,0};
+    if (__pyx_kwds) {
+      Py_ssize_t kw_args;
+      switch (__pyx_nargs) {
+        case  3: values[2] = __Pyx_Arg_FASTCALL(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = __Pyx_NumKwargs_FASTCALL(__pyx_kwds);
+      switch (__pyx_nargs) {
+        case  0:
+        if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_proposal)) != 0)) kw_args--;
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 192, __pyx_L3_error)
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_options)) != 0)) kw_args--;
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 192, __pyx_L3_error)
+        else {
+          __Pyx_RaiseArgtupleInvalid("check_traversal", 0, 2, 3, 1); __PYX_ERR(0, 192, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_verbose);
+          if (value) { values[2] = value; kw_args--; }
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 192, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        const Py_ssize_t kwd_pos_args = __pyx_nargs;
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "check_traversal") < 0)) __PYX_ERR(0, 192, __pyx_L3_error)
+      }
+    } else {
+      switch (__pyx_nargs) {
+        case  3: values[2] = __Pyx_Arg_FASTCALL(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
+        values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_proposal = ((PyObject*)values[0]);
+    __pyx_v_options = ((PyObject*)values[1]);
+    if (values[2]) {
+      __pyx_v_verbose = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_verbose == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 193, __pyx_L3_error)
+    } else {
+
+      /* "plexsim/models/value_network2.pyx":193
+ * 
+ *     cpdef void check_traversal(self, list proposal, list options,
+ *                                bint verbose = False):             # <<<<<<<<<<<<<<
+ *         cdef list option
+ *         cdef size_t idx
+ */
+      __pyx_v_verbose = ((int)0);
+    }
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("check_traversal", 0, 2, 3, __pyx_nargs); __PYX_ERR(0, 192, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.check_traversal", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_proposal), (&PyList_Type), 1, "proposal", 1))) __PYX_ERR(0, 192, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_options), (&PyList_Type), 1, "options", 1))) __PYX_ERR(0, 192, __pyx_L1_error)
+  __pyx_r = __pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_12check_traversal(((struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self), __pyx_v_proposal, __pyx_v_options, __pyx_v_verbose);
+
+  /* "plexsim/models/value_network2.pyx":192
+ * 
+ * 
+ *     cpdef void check_traversal(self, list proposal, list options,             # <<<<<<<<<<<<<<
+ *                                bint verbose = False):
+ *         cdef list option
+ */
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_12check_traversal(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_proposal, PyObject *__pyx_v_options, int __pyx_v_verbose) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_traversal __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("check_traversal", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1.__pyx_n = 1;
+  __pyx_t_1.verbose = __pyx_v_verbose;
+  __pyx_vtabptr_7plexsim_6models_14value_network2_ValueNetwork->check_traversal(__pyx_v_self, __pyx_v_proposal, __pyx_v_options, 1, &__pyx_t_1); 
+  __pyx_t_2 = __Pyx_void_to_None(NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 192, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.check_traversal", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "plexsim/models/value_network2.pyx":204
+ * 
+ * 
+ *     cpdef list check_df(self, node_id_t start, bint verbose = False):             # <<<<<<<<<<<<<<
+ *         print(start)
+ *         cdef list queue = [(start, start)]
+ */
+
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_15check_df(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+static PyObject *__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_check_df(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_start, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_df *__pyx_optional_args) {
+  int __pyx_v_verbose = ((int)0);
+  PyObject *__pyx_v_queue = 0;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7274,9 +9870,7 @@ static PyObject *__pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_d
   PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
   int __pyx_t_7;
-  Crawler *__pyx_t_8;
-  int __pyx_t_9;
-  int __pyx_t_10;
+  struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork__check_df __pyx_t_8;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -7295,18 +9889,18 @@ static PyObject *__pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_d
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_typedict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_check_df); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 144, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_check_df); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       #ifdef __Pyx_CyFunction_USED
       if (!__Pyx_IsCyOrPyCFunction(__pyx_t_1)
       #else
       if (!PyCFunction_Check(__pyx_t_1)
       #endif
-              || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_7check_df)) {
+              || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_15check_df)) {
         __Pyx_XDECREF(__pyx_r);
-        __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_v_start); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 144, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_v_start); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 204, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_v_verbose); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 144, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_v_verbose); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 204, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_5 = __pyx_t_1; __pyx_t_6 = NULL;
@@ -7327,11 +9921,11 @@ static PyObject *__pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_d
           __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 144, __pyx_L1_error)
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 204, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         }
-        if (!(likely(PyList_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None) || __Pyx_RaiseUnexpectedTypeError("list", __pyx_t_2))) __PYX_ERR(0, 144, __pyx_L1_error)
+        if (!(likely(PyList_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None) || __Pyx_RaiseUnexpectedTypeError("list", __pyx_t_2))) __PYX_ERR(0, 204, __pyx_L1_error)
         __pyx_r = ((PyObject*)__pyx_t_2);
         __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -7350,197 +9944,107 @@ static PyObject *__pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_d
     #endif
   }
 
-  /* "plexsim/models/value_network.pyx":145
+  /* "plexsim/models/value_network2.pyx":205
  * 
  *     cpdef list check_df(self, node_id_t start, bint verbose = False):
- *         cdef Crawler *crawler = new Crawler(start,             # <<<<<<<<<<<<<<
- *                                         self._states[start],
- *                                         self._bounded_rational,
+ *         print(start)             # <<<<<<<<<<<<<<
+ *         cdef list queue = [(start, start)]
+ *         return self._check_df(queue, path = [], vp_path = [],
  */
-  try {
-    __pyx_t_8 = new Crawler(__pyx_v_start, (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_start]), __pyx_v_self->_bounded_rational, __pyx_v_verbose);
-  } catch(...) {
-    __Pyx_CppExn2PyErr();
-    __PYX_ERR(0, 145, __pyx_L1_error)
-  }
-  __pyx_v_crawler = __pyx_t_8;
-
-  /* "plexsim/models/value_network.pyx":149
- *                                         self._bounded_rational,
- *                                         verbose)
- *         crawler = self._check_df(crawler)             # <<<<<<<<<<<<<<
- * 
- *         cdef list results = []
- */
-  __pyx_v_crawler = ((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->_check_df(__pyx_v_self, __pyx_v_crawler);
-
-  /* "plexsim/models/value_network.pyx":151
- *         crawler = self._check_df(crawler)
- * 
- *         cdef list results = []             # <<<<<<<<<<<<<<
- * 
- *         # cdef cset[cset[EdgeColor]].iterator it = crawler.results.begin()
- */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 151, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_start); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_results = ((PyObject*)__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 205, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "plexsim/models/value_network2.pyx":206
+ *     cpdef list check_df(self, node_id_t start, bint verbose = False):
+ *         print(start)
+ *         cdef list queue = [(start, start)]             # <<<<<<<<<<<<<<
+ *         return self._check_df(queue, path = [], vp_path = [],
+ *                               results = [[], []], verbose = verbose)
+ */
+  __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_start); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 206, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_start); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 206, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 206, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_GIVEREF(__pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_1);
+  __pyx_t_2 = 0;
+  __pyx_t_1 = 0;
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 206, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_5);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_t_5);
+  __pyx_t_5 = 0;
+  __pyx_v_queue = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "plexsim/models/value_network.pyx":156
- *         # cdef cset[EdgeColor].iterator jt
- * 
- *         cdef vector[vector[EdgeColor]].iterator it = crawler.results.begin()             # <<<<<<<<<<<<<<
- *         cdef vector[EdgeColor].iterator jt
- * 
- */
-  __pyx_v_it = __pyx_v_crawler->results.begin();
-
-  /* "plexsim/models/value_network.pyx":159
- *         cdef vector[EdgeColor].iterator jt
- * 
- *         while it != crawler.results.end():             # <<<<<<<<<<<<<<
- *             jt = deref(it).begin()
- *             results.append([])
- */
-  while (1) {
-    __pyx_t_9 = ((__pyx_v_it != __pyx_v_crawler->results.end()) != 0);
-    if (!__pyx_t_9) break;
-
-    /* "plexsim/models/value_network.pyx":160
- * 
- *         while it != crawler.results.end():
- *             jt = deref(it).begin()             # <<<<<<<<<<<<<<
- *             results.append([])
- *             while jt != deref(it).end():
- */
-    __pyx_v_jt = (*__pyx_v_it).begin();
-
-    /* "plexsim/models/value_network.pyx":161
- *         while it != crawler.results.end():
- *             jt = deref(it).begin()
- *             results.append([])             # <<<<<<<<<<<<<<
- *             while jt != deref(it).end():
- *                 e = [deref(jt).current.name, deref(jt).other.name]
- */
-    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 161, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_10 = __Pyx_PyList_Append(__pyx_v_results, __pyx_t_1); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 161, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-    /* "plexsim/models/value_network.pyx":162
- *             jt = deref(it).begin()
- *             results.append([])
- *             while jt != deref(it).end():             # <<<<<<<<<<<<<<
- *                 e = [deref(jt).current.name, deref(jt).other.name]
- *                 ev = [deref(jt).current.state, deref(jt).other.state]
- */
-    while (1) {
-      __pyx_t_9 = ((__pyx_v_jt != (*__pyx_v_it).end()) != 0);
-      if (!__pyx_t_9) break;
-
-      /* "plexsim/models/value_network.pyx":163
- *             results.append([])
- *             while jt != deref(it).end():
- *                 e = [deref(jt).current.name, deref(jt).other.name]             # <<<<<<<<<<<<<<
- *                 ev = [deref(jt).current.state, deref(jt).other.state]
- *                 # results[-1].append((e, ev))
- */
-      __pyx_t_1 = __Pyx_PyInt_FromSize_t((*__pyx_v_jt).current.name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 163, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_2 = __Pyx_PyInt_FromSize_t((*__pyx_v_jt).other.name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 163, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_5 = PyList_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 163, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_GIVEREF(__pyx_t_1);
-      PyList_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
-      __Pyx_GIVEREF(__pyx_t_2);
-      PyList_SET_ITEM(__pyx_t_5, 1, __pyx_t_2);
-      __pyx_t_1 = 0;
-      __pyx_t_2 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_e, ((PyObject*)__pyx_t_5));
-      __pyx_t_5 = 0;
-
-      /* "plexsim/models/value_network.pyx":164
- *             while jt != deref(it).end():
- *                 e = [deref(jt).current.name, deref(jt).other.name]
- *                 ev = [deref(jt).current.state, deref(jt).other.state]             # <<<<<<<<<<<<<<
- *                 # results[-1].append((e, ev))
- *                 results[-1].append(e)
- */
-      __pyx_t_5 = PyFloat_FromDouble((*__pyx_v_jt).current.state); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 164, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_2 = PyFloat_FromDouble((*__pyx_v_jt).other.state); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 164, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 164, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_GIVEREF(__pyx_t_5);
-      PyList_SET_ITEM(__pyx_t_1, 0, __pyx_t_5);
-      __Pyx_GIVEREF(__pyx_t_2);
-      PyList_SET_ITEM(__pyx_t_1, 1, __pyx_t_2);
-      __pyx_t_5 = 0;
-      __pyx_t_2 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_ev, ((PyObject*)__pyx_t_1));
-      __pyx_t_1 = 0;
-
-      /* "plexsim/models/value_network.pyx":166
- *                 ev = [deref(jt).current.state, deref(jt).other.state]
- *                 # results[-1].append((e, ev))
- *                 results[-1].append(e)             # <<<<<<<<<<<<<<
- *                 post(jt)
- *             post(it)
- */
-      __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_results, -1L, long, 1, __Pyx_PyInt_From_long, 1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 166, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_10 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_e); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 166, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-      /* "plexsim/models/value_network.pyx":167
- *                 # results[-1].append((e, ev))
- *                 results[-1].append(e)
- *                 post(jt)             # <<<<<<<<<<<<<<
- *             post(it)
- *         del crawler
- */
-      (void)((__pyx_v_jt++));
-    }
-
-    /* "plexsim/models/value_network.pyx":168
- *                 results[-1].append(e)
- *                 post(jt)
- *             post(it)             # <<<<<<<<<<<<<<
- *         del crawler
- *         return results
- */
-    (void)((__pyx_v_it++));
-  }
-
-  /* "plexsim/models/value_network.pyx":169
- *                 post(jt)
- *             post(it)
- *         del crawler             # <<<<<<<<<<<<<<
- *         return results
- * 
- */
-  delete __pyx_v_crawler;
-
-  /* "plexsim/models/value_network.pyx":170
- *             post(it)
- *         del crawler
- *         return results             # <<<<<<<<<<<<<<
- * 
- *     cdef Crawler* _check_df(self, Crawler *crawler) nogil:
+  /* "plexsim/models/value_network2.pyx":207
+ *         print(start)
+ *         cdef list queue = [(start, start)]
+ *         return self._check_df(queue, path = [], vp_path = [],             # <<<<<<<<<<<<<<
+ *                               results = [[], []], verbose = verbose)
+ *     cpdef list _check_df(self, list queue, list path = [],
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_results);
-  __pyx_r = __pyx_v_results;
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 207, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 207, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+
+  /* "plexsim/models/value_network2.pyx":208
+ *         cdef list queue = [(start, start)]
+ *         return self._check_df(queue, path = [], vp_path = [],
+ *                               results = [[], []], verbose = verbose)             # <<<<<<<<<<<<<<
+ *     cpdef list _check_df(self, list queue, list path = [],
+ *                         list vp_path = [],
+ */
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 208, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 208, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = PyList_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 208, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_2);
+  PyList_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_4);
+  PyList_SET_ITEM(__pyx_t_3, 1, __pyx_t_4);
+  __pyx_t_2 = 0;
+  __pyx_t_4 = 0;
+
+  /* "plexsim/models/value_network2.pyx":207
+ *         print(start)
+ *         cdef list queue = [(start, start)]
+ *         return self._check_df(queue, path = [], vp_path = [],             # <<<<<<<<<<<<<<
+ *                               results = [[], []], verbose = verbose)
+ *     cpdef list _check_df(self, list queue, list path = [],
+ */
+  __pyx_t_8.__pyx_n = 4;
+  __pyx_t_8.path = ((PyObject*)__pyx_t_1);
+  __pyx_t_8.vp_path = ((PyObject*)__pyx_t_5);
+  __pyx_t_8.results = ((PyObject*)__pyx_t_3);
+  __pyx_t_8.verbose = __pyx_v_verbose;
+  __pyx_t_4 = ((struct __pyx_vtabstruct_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->_check_df(__pyx_v_self, __pyx_v_queue, 0, &__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 207, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_r = ((PyObject*)__pyx_t_4);
+  __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network.pyx":144
+  /* "plexsim/models/value_network2.pyx":204
  * 
  * 
  *     cpdef list check_df(self, node_id_t start, bint verbose = False):             # <<<<<<<<<<<<<<
- *         cdef Crawler *crawler = new Crawler(start,
- *                                         self._states[start],
+ *         print(start)
+ *         cdef list queue = [(start, start)]
  */
 
   /* function exit code */
@@ -7551,28 +10055,26 @@ static PyObject *__pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_d
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("plexsim.models.value_network.ValueNetwork.check_df", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.check_df", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_results);
-  __Pyx_XDECREF(__pyx_v_e);
-  __Pyx_XDECREF(__pyx_v_ev);
+  __Pyx_XDECREF(__pyx_v_queue);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_7check_df(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_15check_df(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_7plexsim_6models_13value_network_12ValueNetwork_6check_df, "ValueNetwork.check_df(self, node_id_t start, bool verbose=False) -> list");
-static PyMethodDef __pyx_mdef_7plexsim_6models_13value_network_12ValueNetwork_7check_df = {"check_df", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_7check_df, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_13value_network_12ValueNetwork_6check_df};
-static PyObject *__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_7check_df(PyObject *__pyx_v_self, 
+PyDoc_STRVAR(__pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_14check_df, "ValueNetwork.check_df(self, node_id_t start, bool verbose=False) -> list");
+static PyMethodDef __pyx_mdef_7plexsim_6models_14value_network2_12ValueNetwork_15check_df = {"check_df", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_15check_df, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_14check_df};
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_15check_df(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -7612,19 +10114,19 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
       switch (__pyx_nargs) {
         case  0:
         if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_start)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 144, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 204, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_verbose);
           if (value) { values[1] = value; kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 144, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 204, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "check_df") < 0)) __PYX_ERR(0, 144, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "check_df") < 0)) __PYX_ERR(0, 204, __pyx_L3_error)
       }
     } else {
       switch (__pyx_nargs) {
@@ -7635,33 +10137,33 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_start = __Pyx_PyInt_As_size_t(values[0]); if (unlikely((__pyx_v_start == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 144, __pyx_L3_error)
+    __pyx_v_start = __Pyx_PyInt_As_size_t(values[0]); if (unlikely((__pyx_v_start == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 204, __pyx_L3_error)
     if (values[1]) {
-      __pyx_v_verbose = __Pyx_PyObject_IsTrue(values[1]); if (unlikely((__pyx_v_verbose == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 144, __pyx_L3_error)
+      __pyx_v_verbose = __Pyx_PyObject_IsTrue(values[1]); if (unlikely((__pyx_v_verbose == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 204, __pyx_L3_error)
     } else {
       __pyx_v_verbose = ((int)0);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("check_df", 0, 1, 2, __pyx_nargs); __PYX_ERR(0, 144, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("check_df", 0, 1, 2, __pyx_nargs); __PYX_ERR(0, 204, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("plexsim.models.value_network.ValueNetwork.check_df", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.check_df", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_6check_df(((struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self), __pyx_v_start, __pyx_v_verbose);
+  __pyx_r = __pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_14check_df(((struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self), __pyx_v_start, __pyx_v_verbose);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_6check_df(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_start, int __pyx_v_verbose) {
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_14check_df(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_start, int __pyx_v_verbose) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_df __pyx_t_2;
+  struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_df __pyx_t_2;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -7669,7 +10171,7 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_6check
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.verbose = __pyx_v_verbose;
-  __pyx_t_1 = __pyx_vtabptr_7plexsim_6models_13value_network_ValueNetwork->check_df(__pyx_v_self, __pyx_v_start, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __pyx_t_1 = __pyx_vtabptr_7plexsim_6models_14value_network2_ValueNetwork->check_df(__pyx_v_self, __pyx_v_start, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7678,7 +10180,7 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_6check
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("plexsim.models.value_network.ValueNetwork.check_df", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.check_df", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -7686,1413 +10188,1922 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_6check
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network.pyx":172
- *         return results
- * 
- *     cdef Crawler* _check_df(self, Crawler *crawler) nogil:             # <<<<<<<<<<<<<<
- *         """
- *         Parameters
+/* "plexsim/models/value_network2.pyx":209
+ *         return self._check_df(queue, path = [], vp_path = [],
+ *                               results = [[], []], verbose = verbose)
+ *     cpdef list _check_df(self, list queue, list path = [],             # <<<<<<<<<<<<<<
+ *                         list vp_path = [],
+ *                         list results = [],
  */
 
-static Crawler *__pyx_f_7plexsim_6models_13value_network_12ValueNetwork__check_df(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, Crawler *__pyx_v_crawler) {
-  EdgeColor __pyx_v_current_edge;
-  EdgeColor *__pyx_v_proposal_edge;
-  std::vector<EdgeColor>  __pyx_v_option;
-  double __pyx_v_edge_weight;
-  __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_neighbor_idx;
-  std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,__pyx_t_7plexsim_6models_5types_weight_t> ::iterator __pyx_v_it;
-  Crawler *__pyx_r;
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_17_check_df(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+static PyObject *__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork__check_df(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_queue, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork__check_df *__pyx_optional_args) {
+  PyObject *__pyx_v_path = __pyx_k__6;
+  PyObject *__pyx_v_vp_path = __pyx_k__7;
+  PyObject *__pyx_v_results = __pyx_k__8;
+
+  /* "plexsim/models/value_network2.pyx":212
+ *                         list vp_path = [],
+ *                         list results = [],
+ *                         bint verbose = False):             # <<<<<<<<<<<<<<
+ *         """
+ *         :param queue: edge queue, start with (node, node)
+ */
+  int __pyx_v_verbose = ((int)0);
+  PyObject *__pyx_v_node = 0;
+  __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_from_node;
+  __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_current;
+  __pyx_t_7plexsim_6models_5types_state_t __pyx_v_s;
+  __pyx_t_7plexsim_6models_5types_state_t __pyx_v_ss;
+  PyObject *__pyx_v_e = 0;
+  PyObject *__pyx_v_ev = 0;
+  PyObject *__pyx_v_option = 0;
+  PyObject *__pyx_v_neigh = NULL;
+  PyObject *__pyx_v_other = NULL;
+  PyObject *__pyx_v_idx = NULL;
+  PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  EdgeColor *__pyx_t_1;
-  int __pyx_t_2;
-  ColorNode __pyx_t_3;
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
   PyObject *__pyx_t_5 = NULL;
-  __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_6;
+  int __pyx_t_6;
+  int __pyx_t_7;
+  PyObject *(*__pyx_t_8)(PyObject *);
+  __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_9;
+  __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_10;
+  __pyx_t_7plexsim_6models_5types_state_t __pyx_t_11;
+  int __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
+  Py_UCS4 __pyx_t_14;
+  PyObject *(*__pyx_t_15)(PyObject *);
+  int __pyx_t_16;
+  int __pyx_t_17;
+  struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork__check_df __pyx_t_18;
+  struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_merge __pyx_t_19;
+  Py_ssize_t __pyx_t_20;
+  struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_doubles __pyx_t_21;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  #ifdef WITH_THREAD
-  PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-  #endif
   __Pyx_RefNannySetupContext("_check_df", 0);
-  #ifdef WITH_THREAD
-  __Pyx_PyGILState_Release(__pyx_gilstate_save);
-  #endif
-
-  /* "plexsim/models/value_network.pyx":184
- *         """
- *         cdef EdgeColor current_edge
- *         cdef EdgeColor *proposal_edge = new EdgeColor()             # <<<<<<<<<<<<<<
- *         cdef vector[EdgeColor] option
- *         cdef double edge_weight
- */
-  try {
-    __pyx_t_1 = new EdgeColor();
-  } catch(...) {
-    #ifdef WITH_THREAD
-    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-    #endif
-    __Pyx_CppExn2PyErr();
-    #ifdef WITH_THREAD
-    __Pyx_PyGILState_Release(__pyx_gilstate_save);
-    #endif
-    __PYX_ERR(0, 184, __pyx_L1_error)
-  }
-  __pyx_v_proposal_edge = __pyx_t_1;
-
-  /* "plexsim/models/value_network.pyx":189
- *         cdef size_t idx
- *         cdef node_id_t neighbor_idx
- *         if crawler.queue.size():             # <<<<<<<<<<<<<<
- *             # pop the queue
- *             current_edge.current = crawler.queue.back().current
- */
-  __pyx_t_2 = (__pyx_v_crawler->queue.size() != 0);
-  if (__pyx_t_2) {
-
-    /* "plexsim/models/value_network.pyx":191
- *         if crawler.queue.size():
- *             # pop the queue
- *             current_edge.current = crawler.queue.back().current             # <<<<<<<<<<<<<<
- *             current_edge.other   = crawler.queue.back().other
- *             crawler.queue.pop_back()
- */
-    __pyx_t_3 = __pyx_v_crawler->queue.back().current;
-    __pyx_v_current_edge.current = __PYX_STD_MOVE_IF_SUPPORTED(__pyx_t_3);
-
-    /* "plexsim/models/value_network.pyx":192
- *             # pop the queue
- *             current_edge.current = crawler.queue.back().current
- *             current_edge.other   = crawler.queue.back().other             # <<<<<<<<<<<<<<
- *             crawler.queue.pop_back()
- *             if crawler.verbose:
- */
-    __pyx_t_3 = __pyx_v_crawler->queue.back().other;
-    __pyx_v_current_edge.other = __PYX_STD_MOVE_IF_SUPPORTED(__pyx_t_3);
-
-    /* "plexsim/models/value_network.pyx":193
- *             current_edge.current = crawler.queue.back().current
- *             current_edge.other   = crawler.queue.back().other
- *             crawler.queue.pop_back()             # <<<<<<<<<<<<<<
- *             if crawler.verbose:
- *                 with gil:
- */
-    __pyx_v_crawler->queue.pop_back();
-
-    /* "plexsim/models/value_network.pyx":194
- *             current_edge.other   = crawler.queue.back().other
- *             crawler.queue.pop_back()
- *             if crawler.verbose:             # <<<<<<<<<<<<<<
- *                 with gil:
- *                     print(f"{crawler.path.size()=}")
- */
-    __pyx_t_2 = (__pyx_v_crawler->verbose != 0);
-    if (__pyx_t_2) {
-
-      /* "plexsim/models/value_network.pyx":195
- *             crawler.queue.pop_back()
- *             if crawler.verbose:
- *                 with gil:             # <<<<<<<<<<<<<<
- *                     print(f"{crawler.path.size()=}")
- *                     current_edge.print()
- */
-      {
-          #ifdef WITH_THREAD
-          PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-          #endif
-          /*try:*/ {
-
-            /* "plexsim/models/value_network.pyx":196
- *             if crawler.verbose:
- *                 with gil:
- *                     print(f"{crawler.path.size()=}")             # <<<<<<<<<<<<<<
- *                     current_edge.print()
- * 
- */
-            __pyx_t_4 = __Pyx_PyInt_FromSize_t(__pyx_v_crawler->path.size()); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 196, __pyx_L6_error)
-            __Pyx_GOTREF(__pyx_t_4);
-            __pyx_t_5 = __Pyx_PyObject_FormatSimpleAndDecref(PyObject_Repr(__pyx_t_4), __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 196, __pyx_L6_error)
-            __Pyx_GOTREF(__pyx_t_5);
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __pyx_t_4 = __Pyx_PyUnicode_Concat(__pyx_kp_u_crawler_path_size, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 196, __pyx_L6_error)
-            __Pyx_GOTREF(__pyx_t_4);
-            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 196, __pyx_L6_error)
-            __Pyx_GOTREF(__pyx_t_5);
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-            /* "plexsim/models/value_network.pyx":197
- *                 with gil:
- *                     print(f"{crawler.path.size()=}")
- *                     current_edge.print()             # <<<<<<<<<<<<<<
- * 
- *             # expand path with positive edge
- */
-            __pyx_v_current_edge.print();
+  if (__pyx_optional_args) {
+    if (__pyx_optional_args->__pyx_n > 0) {
+      __pyx_v_path = __pyx_optional_args->path;
+      if (__pyx_optional_args->__pyx_n > 1) {
+        __pyx_v_vp_path = __pyx_optional_args->vp_path;
+        if (__pyx_optional_args->__pyx_n > 2) {
+          __pyx_v_results = __pyx_optional_args->results;
+          if (__pyx_optional_args->__pyx_n > 3) {
+            __pyx_v_verbose = __pyx_optional_args->verbose;
           }
-
-          /* "plexsim/models/value_network.pyx":195
- *             crawler.queue.pop_back()
- *             if crawler.verbose:
- *                 with gil:             # <<<<<<<<<<<<<<
- *                     print(f"{crawler.path.size()=}")
- *                     current_edge.print()
- */
-          /*finally:*/ {
-            /*normal exit:*/{
-              #ifdef WITH_THREAD
-              __Pyx_PyGILState_Release(__pyx_gilstate_save);
-              #endif
-              goto __pyx_L7;
-            }
-            __pyx_L6_error: {
-              #ifdef WITH_THREAD
-              __Pyx_PyGILState_Release(__pyx_gilstate_save);
-              #endif
-              goto __pyx_L1_error;
-            }
-            __pyx_L7:;
-          }
-      }
-
-      /* "plexsim/models/value_network.pyx":194
- *             current_edge.other   = crawler.queue.back().other
- *             crawler.queue.pop_back()
- *             if crawler.verbose:             # <<<<<<<<<<<<<<
- *                 with gil:
- *                     print(f"{crawler.path.size()=}")
- */
-    }
-
-    /* "plexsim/models/value_network.pyx":200
- * 
- *             # expand path with positive edge
- *             if self._rules._adj[current_edge.current.state][current_edge.other.state] > 0:             # <<<<<<<<<<<<<<
- *                 crawler.path.push_back(current_edge)
- * 
- */
-    __pyx_t_2 = ((((__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[__pyx_v_current_edge.current.state])[__pyx_v_current_edge.other.state]) > 0.0) != 0);
-    if (__pyx_t_2) {
-
-      /* "plexsim/models/value_network.pyx":201
- *             # expand path with positive edge
- *             if self._rules._adj[current_edge.current.state][current_edge.other.state] > 0:
- *                 crawler.path.push_back(current_edge)             # <<<<<<<<<<<<<<
- * 
- *                 # option.clear()
- */
-      try {
-        __pyx_v_crawler->path.push_back(__pyx_v_current_edge);
-      } catch(...) {
-        #ifdef WITH_THREAD
-        PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-        #endif
-        __Pyx_CppExn2PyErr();
-        #ifdef WITH_THREAD
-        __Pyx_PyGILState_Release(__pyx_gilstate_save);
-        #endif
-        __PYX_ERR(0, 201, __pyx_L1_error)
-      }
-
-      /* "plexsim/models/value_network.pyx":200
- * 
- *             # expand path with positive edge
- *             if self._rules._adj[current_edge.current.state][current_edge.other.state] > 0:             # <<<<<<<<<<<<<<
- *                 crawler.path.push_back(current_edge)
- * 
- */
-    }
-
-    /* "plexsim/models/value_network.pyx":208
- * 
- *             # 1. check endpoints
- *             if self._check_endpoint(current_edge.other.state, crawler):             # <<<<<<<<<<<<<<
- *                 if crawler.verbose:
- *                     with gil:
- */
-    __pyx_t_2 = (((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->_check_endpoint(__pyx_v_self, __pyx_v_current_edge.other.state, __pyx_v_crawler) != 0);
-    if (__pyx_t_2) {
-
-      /* "plexsim/models/value_network.pyx":209
- *             # 1. check endpoints
- *             if self._check_endpoint(current_edge.other.state, crawler):
- *                 if crawler.verbose:             # <<<<<<<<<<<<<<
- *                     with gil:
- *                         print("At endpoint")
- */
-      __pyx_t_2 = (__pyx_v_crawler->verbose != 0);
-      if (__pyx_t_2) {
-
-        /* "plexsim/models/value_network.pyx":210
- *             if self._check_endpoint(current_edge.other.state, crawler):
- *                 if crawler.verbose:
- *                     with gil:             # <<<<<<<<<<<<<<
- *                         print("At endpoint")
- *                         print("Inserting edge:")
- */
-        {
-            #ifdef WITH_THREAD
-            PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-            #endif
-            /*try:*/ {
-
-              /* "plexsim/models/value_network.pyx":211
- *                 if crawler.verbose:
- *                     with gil:
- *                         print("At endpoint")             # <<<<<<<<<<<<<<
- *                         print("Inserting edge:")
- *                     current_edge.print()
- */
-              __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 211, __pyx_L12_error)
-              __Pyx_GOTREF(__pyx_t_5);
-              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-              /* "plexsim/models/value_network.pyx":212
- *                     with gil:
- *                         print("At endpoint")
- *                         print("Inserting edge:")             # <<<<<<<<<<<<<<
- *                     current_edge.print()
- * 
- */
-              __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 212, __pyx_L12_error)
-              __Pyx_GOTREF(__pyx_t_5);
-              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            }
-
-            /* "plexsim/models/value_network.pyx":210
- *             if self._check_endpoint(current_edge.other.state, crawler):
- *                 if crawler.verbose:
- *                     with gil:             # <<<<<<<<<<<<<<
- *                         print("At endpoint")
- *                         print("Inserting edge:")
- */
-            /*finally:*/ {
-              /*normal exit:*/{
-                #ifdef WITH_THREAD
-                __Pyx_PyGILState_Release(__pyx_gilstate_save);
-                #endif
-                goto __pyx_L13;
-              }
-              __pyx_L12_error: {
-                #ifdef WITH_THREAD
-                __Pyx_PyGILState_Release(__pyx_gilstate_save);
-                #endif
-                goto __pyx_L1_error;
-              }
-              __pyx_L13:;
-            }
         }
-
-        /* "plexsim/models/value_network.pyx":213
- *                         print("At endpoint")
- *                         print("Inserting edge:")
- *                     current_edge.print()             # <<<<<<<<<<<<<<
- * 
- *                 option.clear()
- */
-        __pyx_v_current_edge.print();
-
-        /* "plexsim/models/value_network.pyx":209
- *             # 1. check endpoints
- *             if self._check_endpoint(current_edge.other.state, crawler):
- *                 if crawler.verbose:             # <<<<<<<<<<<<<<
- *                     with gil:
- *                         print("At endpoint")
- */
       }
-
-      /* "plexsim/models/value_network.pyx":215
- *                     current_edge.print()
- * 
- *                 option.clear()             # <<<<<<<<<<<<<<
- *                 # add option
- *                 option.push_back(current_edge.sort())
- */
-      __pyx_v_option.clear();
-
-      /* "plexsim/models/value_network.pyx":217
- *                 option.clear()
- *                 # add option
- *                 option.push_back(current_edge.sort())             # <<<<<<<<<<<<<<
- *                 crawler.options.push_back(option)
- *                 # pop the path from current path
- */
-      try {
-        __pyx_v_option.push_back(__pyx_v_current_edge.sort());
-      } catch(...) {
-        #ifdef WITH_THREAD
-        PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-        #endif
-        __Pyx_CppExn2PyErr();
-        #ifdef WITH_THREAD
-        __Pyx_PyGILState_Release(__pyx_gilstate_save);
-        #endif
-        __PYX_ERR(0, 217, __pyx_L1_error)
-      }
-
-      /* "plexsim/models/value_network.pyx":218
- *                 # add option
- *                 option.push_back(current_edge.sort())
- *                 crawler.options.push_back(option)             # <<<<<<<<<<<<<<
- *                 # pop the path from current path
- *                 crawler.path.pop_back()
- */
-      try {
-        __pyx_v_crawler->options.push_back(__pyx_v_option);
-      } catch(...) {
-        #ifdef WITH_THREAD
-        PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-        #endif
-        __Pyx_CppExn2PyErr();
-        #ifdef WITH_THREAD
-        __Pyx_PyGILState_Release(__pyx_gilstate_save);
-        #endif
-        __PYX_ERR(0, 218, __pyx_L1_error)
-      }
-
-      /* "plexsim/models/value_network.pyx":220
- *                 crawler.options.push_back(option)
- *                 # pop the path from current path
- *                 crawler.path.pop_back()             # <<<<<<<<<<<<<<
- *                 return crawler
- * 
- */
-      __pyx_v_crawler->path.pop_back();
-
-      /* "plexsim/models/value_network.pyx":221
- *                 # pop the path from current path
- *                 crawler.path.pop_back()
- *                 return crawler             # <<<<<<<<<<<<<<
- * 
- * 
- */
-      __pyx_r = __pyx_v_crawler;
-      goto __pyx_L0;
-
-      /* "plexsim/models/value_network.pyx":208
- * 
- *             # 1. check endpoints
- *             if self._check_endpoint(current_edge.other.state, crawler):             # <<<<<<<<<<<<<<
- *                 if crawler.verbose:
- *                     with gil:
- */
     }
+  }
 
-    /* "plexsim/models/value_network.pyx":228
- *             # proposal_edge.other.state = current_edge.current.state
- * 
- *             proposal_edge.current = ColorNode(current_edge.other.name, current_edge.other.state)             # <<<<<<<<<<<<<<
- * 
- *             # 2. check neighbors
+  /* "plexsim/models/value_network2.pyx":209
+ *         return self._check_df(queue, path = [], vp_path = [],
+ *                               results = [[], []], verbose = verbose)
+ *     cpdef list _check_df(self, list queue, list path = [],             # <<<<<<<<<<<<<<
+ *                         list vp_path = [],
+ *                         list results = [],
  */
-    try {
-      __pyx_t_3 = ColorNode(__pyx_v_current_edge.other.name, __pyx_v_current_edge.other.state);
-    } catch(...) {
-      #ifdef WITH_THREAD
-      PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || __Pyx_PyType_HasFeature(Py_TYPE(((PyObject *)__pyx_v_self)), (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_typedict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __Pyx_CppExn2PyErr();
-      #ifdef WITH_THREAD
-      __Pyx_PyGILState_Release(__pyx_gilstate_save);
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_check_df_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      #ifdef __Pyx_CyFunction_USED
+      if (!__Pyx_IsCyOrPyCFunction(__pyx_t_1)
+      #else
+      if (!PyCFunction_Check(__pyx_t_1)
       #endif
+              || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_17_check_df)) {
+        __Pyx_XDECREF(__pyx_r);
+        __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_v_verbose); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 209, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_4 = __pyx_t_1; __pyx_t_5 = NULL;
+        __pyx_t_6 = 0;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
+          __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
+          if (likely(__pyx_t_5)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+            __Pyx_INCREF(__pyx_t_5);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_4, function);
+            __pyx_t_6 = 1;
+          }
+        }
+        {
+          PyObject *__pyx_callargs[6] = {__pyx_t_5, __pyx_v_queue, __pyx_v_path, __pyx_v_vp_path, __pyx_v_results, __pyx_t_3};
+          __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_6, 5+__pyx_t_6);
+          __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 209, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        }
+        if (!(likely(PyList_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None) || __Pyx_RaiseUnexpectedTypeError("list", __pyx_t_2))) __PYX_ERR(0, 209, __pyx_L1_error)
+        __pyx_r = ((PyObject*)__pyx_t_2);
+        __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_typedict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "plexsim/models/value_network2.pyx":226
+ *         cdef state_t s, ss
+ *         cdef list e, ev, option
+ *         if queue:             # <<<<<<<<<<<<<<
+ *             # get current node
+ *             from_node, current = queue.pop()
+ */
+  __pyx_t_7 = (__pyx_v_queue != Py_None)&&(PyList_GET_SIZE(__pyx_v_queue) != 0);
+  if (__pyx_t_7) {
+
+    /* "plexsim/models/value_network2.pyx":228
+ *         if queue:
+ *             # get current node
+ *             from_node, current = queue.pop()             # <<<<<<<<<<<<<<
+ *             node = self.adj.rmapping[current]
+ *             # empty local options
+ */
+    if (unlikely(__pyx_v_queue == Py_None)) {
+      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "pop");
       __PYX_ERR(0, 228, __pyx_L1_error)
     }
-    __pyx_v_proposal_edge->current = __PYX_STD_MOVE_IF_SUPPORTED(__pyx_t_3);
-
-    /* "plexsim/models/value_network.pyx":231
- * 
- *             # 2. check neighbors
- *             it = self.adj._adj[current_edge.other.name].neighbors.begin()             # <<<<<<<<<<<<<<
- *             while it != self.adj._adj[current_edge.other.name].neighbors.end():
- *                 neighbor_idx = deref(it).first
- */
-    __pyx_v_it = (__pyx_v_self->__pyx_base.__pyx_base.adj->_adj[__pyx_v_current_edge.other.name]).neighbors.begin();
-
-    /* "plexsim/models/value_network.pyx":232
- *             # 2. check neighbors
- *             it = self.adj._adj[current_edge.other.name].neighbors.begin()
- *             while it != self.adj._adj[current_edge.other.name].neighbors.end():             # <<<<<<<<<<<<<<
- *                 neighbor_idx = deref(it).first
- *                 proposal_edge.other = ColorNode(neighbor_idx, self._states[neighbor_idx])
- */
-    while (1) {
-      __pyx_t_2 = ((__pyx_v_it != (__pyx_v_self->__pyx_base.__pyx_base.adj->_adj[__pyx_v_current_edge.other.name]).neighbors.end()) != 0);
-      if (!__pyx_t_2) break;
-
-      /* "plexsim/models/value_network.pyx":233
- *             it = self.adj._adj[current_edge.other.name].neighbors.begin()
- *             while it != self.adj._adj[current_edge.other.name].neighbors.end():
- *                 neighbor_idx = deref(it).first             # <<<<<<<<<<<<<<
- *                 proposal_edge.other = ColorNode(neighbor_idx, self._states[neighbor_idx])
- * 
- */
-      __pyx_t_6 = (*__pyx_v_it).first;
-      __pyx_v_neighbor_idx = __pyx_t_6;
-
-      /* "plexsim/models/value_network.pyx":234
- *             while it != self.adj._adj[current_edge.other.name].neighbors.end():
- *                 neighbor_idx = deref(it).first
- *                 proposal_edge.other = ColorNode(neighbor_idx, self._states[neighbor_idx])             # <<<<<<<<<<<<<<
- * 
- *                 if crawler.verbose:
- */
-      try {
-        __pyx_t_3 = ColorNode(__pyx_v_neighbor_idx, (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_neighbor_idx]));
-      } catch(...) {
-        #ifdef WITH_THREAD
-        PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-        #endif
-        __Pyx_CppExn2PyErr();
-        #ifdef WITH_THREAD
-        __Pyx_PyGILState_Release(__pyx_gilstate_save);
-        #endif
-        __PYX_ERR(0, 234, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyList_Pop(__pyx_v_queue); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 228, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    if ((likely(PyTuple_CheckExact(__pyx_t_1))) || (PyList_CheckExact(__pyx_t_1))) {
+      PyObject* sequence = __pyx_t_1;
+      Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
+      if (unlikely(size != 2)) {
+        if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+        else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+        __PYX_ERR(0, 228, __pyx_L1_error)
       }
-      __pyx_v_proposal_edge->other = __PYX_STD_MOVE_IF_SUPPORTED(__pyx_t_3);
+      #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+      if (likely(PyTuple_CheckExact(sequence))) {
+        __pyx_t_2 = PyTuple_GET_ITEM(sequence, 0); 
+        __pyx_t_4 = PyTuple_GET_ITEM(sequence, 1); 
+      } else {
+        __pyx_t_2 = PyList_GET_ITEM(sequence, 0); 
+        __pyx_t_4 = PyList_GET_ITEM(sequence, 1); 
+      }
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_4);
+      #else
+      __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 228, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 228, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    } else {
+      Py_ssize_t index = -1;
+      __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 228, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_8 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_3);
+      index = 0; __pyx_t_2 = __pyx_t_8(__pyx_t_3); if (unlikely(!__pyx_t_2)) goto __pyx_L4_unpacking_failed;
+      __Pyx_GOTREF(__pyx_t_2);
+      index = 1; __pyx_t_4 = __pyx_t_8(__pyx_t_3); if (unlikely(!__pyx_t_4)) goto __pyx_L4_unpacking_failed;
+      __Pyx_GOTREF(__pyx_t_4);
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_3), 2) < 0) __PYX_ERR(0, 228, __pyx_L1_error)
+      __pyx_t_8 = NULL;
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      goto __pyx_L5_unpacking_done;
+      __pyx_L4_unpacking_failed:;
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_8 = NULL;
+      if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
+      __PYX_ERR(0, 228, __pyx_L1_error)
+      __pyx_L5_unpacking_done:;
+    }
+    __pyx_t_9 = __Pyx_PyInt_As_size_t(__pyx_t_2); if (unlikely((__pyx_t_9 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 228, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_10 = __Pyx_PyInt_As_size_t(__pyx_t_4); if (unlikely((__pyx_t_10 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 228, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_v_from_node = __pyx_t_9;
+    __pyx_v_current = __pyx_t_10;
 
-      /* "plexsim/models/value_network.pyx":236
- *                 proposal_edge.other = ColorNode(neighbor_idx, self._states[neighbor_idx])
- * 
- *                 if crawler.verbose:             # <<<<<<<<<<<<<<
- *                     with gil:
- *                         print(f"At {proposal_edge.current.name=}")
+    /* "plexsim/models/value_network2.pyx":229
+ *             # get current node
+ *             from_node, current = queue.pop()
+ *             node = self.adj.rmapping[current]             # <<<<<<<<<<<<<<
+ *             # empty local options
+ *             # results[1] = []
  */
-      __pyx_t_2 = (__pyx_v_crawler->verbose != 0);
-      if (__pyx_t_2) {
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.adj), __pyx_n_s_rmapping); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 229, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_current, __pyx_t_7plexsim_6models_5types_node_id_t, 0, __Pyx_PyInt_FromSize_t, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 229, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (!(likely(PyString_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None) || __Pyx_RaiseUnexpectedTypeError("str", __pyx_t_4))) __PYX_ERR(0, 229, __pyx_L1_error)
+    __pyx_v_node = ((PyObject*)__pyx_t_4);
+    __pyx_t_4 = 0;
 
-        /* "plexsim/models/value_network.pyx":237
- * 
- *                 if crawler.verbose:
- *                     with gil:             # <<<<<<<<<<<<<<
- *                         print(f"At {proposal_edge.current.name=}")
- *                         print(f"Checking {proposal_edge.other.name=}")
+    /* "plexsim/models/value_network2.pyx":232
+ *             # empty local options
+ *             # results[1] = []
+ *             s = self.states[current]             # <<<<<<<<<<<<<<
+ *             # check only if difference
+ *             #
  */
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_states); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 232, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_current, __pyx_t_7plexsim_6models_5types_node_id_t, 0, __Pyx_PyInt_FromSize_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 232, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_11 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 232, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_v_s = __pyx_t_11;
+
+    /* "plexsim/models/value_network2.pyx":235
+ *             # check only if difference
+ *             #
+ *             e = [current, from_node]             # <<<<<<<<<<<<<<
+ *             if current != from_node:
+ *                 path.append(e)
+ */
+    __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_current); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 235, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_4 = __Pyx_PyInt_FromSize_t(__pyx_v_from_node); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 235, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 235, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_GIVEREF(__pyx_t_1);
+    PyList_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyList_SET_ITEM(__pyx_t_2, 1, __pyx_t_4);
+    __pyx_t_1 = 0;
+    __pyx_t_4 = 0;
+    __pyx_v_e = ((PyObject*)__pyx_t_2);
+    __pyx_t_2 = 0;
+
+    /* "plexsim/models/value_network2.pyx":236
+ *             #
+ *             e = [current, from_node]
+ *             if current != from_node:             # <<<<<<<<<<<<<<
+ *                 path.append(e)
+ *                 vp_path.append([self.states[current], self.states[from_node]])
+ */
+    __pyx_t_7 = ((__pyx_v_current != __pyx_v_from_node) != 0);
+    if (__pyx_t_7) {
+
+      /* "plexsim/models/value_network2.pyx":237
+ *             e = [current, from_node]
+ *             if current != from_node:
+ *                 path.append(e)             # <<<<<<<<<<<<<<
+ *                 vp_path.append([self.states[current], self.states[from_node]])
+ * 
+ */
+      if (unlikely(__pyx_v_path == Py_None)) {
+        PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
+        __PYX_ERR(0, 237, __pyx_L1_error)
+      }
+      __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_path, __pyx_v_e); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 237, __pyx_L1_error)
+
+      /* "plexsim/models/value_network2.pyx":238
+ *             if current != from_node:
+ *                 path.append(e)
+ *                 vp_path.append([self.states[current], self.states[from_node]])             # <<<<<<<<<<<<<<
+ * 
+ *             if verbose:
+ */
+      if (unlikely(__pyx_v_vp_path == Py_None)) {
+        PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
+        __PYX_ERR(0, 238, __pyx_L1_error)
+      }
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_states); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 238, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_2, __pyx_v_current, __pyx_t_7plexsim_6models_5types_node_id_t, 0, __Pyx_PyInt_FromSize_t, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 238, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_states); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 238, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, __pyx_v_from_node, __pyx_t_7plexsim_6models_5types_node_id_t, 0, __Pyx_PyInt_FromSize_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 238, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 238, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_GIVEREF(__pyx_t_4);
+      PyList_SET_ITEM(__pyx_t_2, 0, __pyx_t_4);
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyList_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
+      __pyx_t_4 = 0;
+      __pyx_t_1 = 0;
+      __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_vp_path, __pyx_t_2); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 238, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+      /* "plexsim/models/value_network2.pyx":236
+ *             #
+ *             e = [current, from_node]
+ *             if current != from_node:             # <<<<<<<<<<<<<<
+ *                 path.append(e)
+ *                 vp_path.append([self.states[current], self.states[from_node]])
+ */
+    }
+
+    /* "plexsim/models/value_network2.pyx":240
+ *                 vp_path.append([self.states[current], self.states[from_node]])
+ * 
+ *             if verbose:             # <<<<<<<<<<<<<<
+ *                 print(f"checking edge {e} path is {path}")
+ * 
+ */
+    __pyx_t_7 = (__pyx_v_verbose != 0);
+    if (__pyx_t_7) {
+
+      /* "plexsim/models/value_network2.pyx":241
+ * 
+ *             if verbose:
+ *                 print(f"checking edge {e} path is {path}")             # <<<<<<<<<<<<<<
+ * 
+ *             # logging
+ */
+      __pyx_t_2 = PyTuple_New(4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 241, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_13 = 0;
+      __pyx_t_14 = 127;
+      __Pyx_INCREF(__pyx_kp_u_checking_edge);
+      __pyx_t_13 += 14;
+      __Pyx_GIVEREF(__pyx_kp_u_checking_edge);
+      PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_checking_edge);
+      __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_v_e, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 241, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_14 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) > __pyx_t_14) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) : __pyx_t_14;
+      __pyx_t_13 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_1);
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
+      __pyx_t_1 = 0;
+      __Pyx_INCREF(__pyx_kp_u_path_is);
+      __pyx_t_13 += 9;
+      __Pyx_GIVEREF(__pyx_kp_u_path_is);
+      PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_kp_u_path_is);
+      __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_v_path, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 241, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_14 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) > __pyx_t_14) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) : __pyx_t_14;
+      __pyx_t_13 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_1);
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyTuple_SET_ITEM(__pyx_t_2, 3, __pyx_t_1);
+      __pyx_t_1 = 0;
+      __pyx_t_1 = __Pyx_PyUnicode_Join(__pyx_t_2, 4, __pyx_t_13, __pyx_t_14); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 241, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 241, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+      /* "plexsim/models/value_network2.pyx":240
+ *                 vp_path.append([self.states[current], self.states[from_node]])
+ * 
+ *             if verbose:             # <<<<<<<<<<<<<<
+ *                 print(f"checking edge {e} path is {path}")
+ * 
+ */
+    }
+
+    /* "plexsim/models/value_network2.pyx":244
+ * 
+ *             # logging
+ *             if verbose:             # <<<<<<<<<<<<<<
+ *                 print(f"At {current}")
+ *                 print(f"Path : {path}")
+ */
+    __pyx_t_7 = (__pyx_v_verbose != 0);
+    if (__pyx_t_7) {
+
+      /* "plexsim/models/value_network2.pyx":245
+ *             # logging
+ *             if verbose:
+ *                 print(f"At {current}")             # <<<<<<<<<<<<<<
+ *                 print(f"Path : {path}")
+ *                 print(f"Vp_path : {vp_path}")
+ */
+      __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_current); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 245, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_t_2, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 245, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_2 = __Pyx_PyUnicode_Concat(__pyx_kp_u_At, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 245, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 245, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+      /* "plexsim/models/value_network2.pyx":246
+ *             if verbose:
+ *                 print(f"At {current}")
+ *                 print(f"Path : {path}")             # <<<<<<<<<<<<<<
+ *                 print(f"Vp_path : {vp_path}")
+ *                 print(f"Options: {results[1]}")
+ */
+      __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_v_path, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 246, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_2 = __Pyx_PyUnicode_Concat(__pyx_kp_u_Path, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 246, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 246, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+      /* "plexsim/models/value_network2.pyx":247
+ *                 print(f"At {current}")
+ *                 print(f"Path : {path}")
+ *                 print(f"Vp_path : {vp_path}")             # <<<<<<<<<<<<<<
+ *                 print(f"Options: {results[1]}")
+ *                 print(f"Results: {results[0]}")
+ */
+      __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_v_vp_path, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 247, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_2 = __Pyx_PyUnicode_Concat(__pyx_kp_u_Vp_path, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 247, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 247, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+      /* "plexsim/models/value_network2.pyx":248
+ *                 print(f"Path : {path}")
+ *                 print(f"Vp_path : {vp_path}")
+ *                 print(f"Options: {results[1]}")             # <<<<<<<<<<<<<<
+ *                 print(f"Results: {results[0]}")
+ * 
+ */
+      if (unlikely(__pyx_v_results == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 248, __pyx_L1_error)
+      }
+      __pyx_t_1 = __Pyx_PyObject_FormatSimple(PyList_GET_ITEM(__pyx_v_results, 1), __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 248, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_2 = __Pyx_PyUnicode_Concat(__pyx_kp_u_Options, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 248, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 248, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+      /* "plexsim/models/value_network2.pyx":249
+ *                 print(f"Vp_path : {vp_path}")
+ *                 print(f"Options: {results[1]}")
+ *                 print(f"Results: {results[0]}")             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+      if (unlikely(__pyx_v_results == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 249, __pyx_L1_error)
+      }
+      __pyx_t_1 = __Pyx_PyObject_FormatSimple(PyList_GET_ITEM(__pyx_v_results, 0), __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 249, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_2 = __Pyx_PyUnicode_Concat(__pyx_kp_u_Results, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 249, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 249, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+      /* "plexsim/models/value_network2.pyx":244
+ * 
+ *             # logging
+ *             if verbose:             # <<<<<<<<<<<<<<
+ *                 print(f"At {current}")
+ *                 print(f"Path : {path}")
+ */
+    }
+
+    /* "plexsim/models/value_network2.pyx":253
+ * 
+ *             # check if no options left in rule graph
+ *             if self.check_endpoint(s, vp_path):             # <<<<<<<<<<<<<<
+ *                 option = [
+ *                     [ sorted([from_node, current]) ],
+ */
+    __pyx_t_7 = (((struct __pyx_vtabstruct_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->check_endpoint(__pyx_v_self, __pyx_v_s, __pyx_v_vp_path, 0) != 0);
+    if (__pyx_t_7) {
+
+      /* "plexsim/models/value_network2.pyx":255
+ *             if self.check_endpoint(s, vp_path):
+ *                 option = [
+ *                     [ sorted([from_node, current]) ],             # <<<<<<<<<<<<<<
+ *                     [ sorted([self.states[from_node], self.states[current]]) ]
+ *                     ]
+ */
+      __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_from_node); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 255, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_4 = __Pyx_PyInt_FromSize_t(__pyx_v_current); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 255, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_3 = PyList_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 255, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_GIVEREF(__pyx_t_2);
+      PyList_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
+      __Pyx_GIVEREF(__pyx_t_4);
+      PyList_SET_ITEM(__pyx_t_3, 1, __pyx_t_4);
+      __pyx_t_2 = 0;
+      __pyx_t_4 = 0;
+      __pyx_t_1 = ((PyObject*)__pyx_t_3);
+      __pyx_t_3 = 0;
+      __pyx_t_12 = PyList_Sort(__pyx_t_1); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 255, __pyx_L1_error)
+      __pyx_t_3 = PyList_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 255, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyList_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
+      __pyx_t_1 = 0;
+
+      /* "plexsim/models/value_network2.pyx":256
+ *                 option = [
+ *                     [ sorted([from_node, current]) ],
+ *                     [ sorted([self.states[from_node], self.states[current]]) ]             # <<<<<<<<<<<<<<
+ *                     ]
+ *                 results[1].append(option)
+ */
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_states); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 256, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_from_node, __pyx_t_7plexsim_6models_5types_node_id_t, 0, __Pyx_PyInt_FromSize_t, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 256, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_states); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 256, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_current, __pyx_t_7plexsim_6models_5types_node_id_t, 0, __Pyx_PyInt_FromSize_t, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 256, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_4 = PyList_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 256, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_GIVEREF(__pyx_t_2);
+      PyList_SET_ITEM(__pyx_t_4, 0, __pyx_t_2);
+      __Pyx_GIVEREF(__pyx_t_5);
+      PyList_SET_ITEM(__pyx_t_4, 1, __pyx_t_5);
+      __pyx_t_2 = 0;
+      __pyx_t_5 = 0;
+      __pyx_t_1 = ((PyObject*)__pyx_t_4);
+      __pyx_t_4 = 0;
+      __pyx_t_12 = PyList_Sort(__pyx_t_1); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 256, __pyx_L1_error)
+      __pyx_t_4 = PyList_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 256, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyList_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
+      __pyx_t_1 = 0;
+
+      /* "plexsim/models/value_network2.pyx":254
+ *             # check if no options left in rule graph
+ *             if self.check_endpoint(s, vp_path):
+ *                 option = [             # <<<<<<<<<<<<<<
+ *                     [ sorted([from_node, current]) ],
+ *                     [ sorted([self.states[from_node], self.states[current]]) ]
+ */
+      __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 254, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_GIVEREF(__pyx_t_3);
+      PyList_SET_ITEM(__pyx_t_1, 0, __pyx_t_3);
+      __Pyx_GIVEREF(__pyx_t_4);
+      PyList_SET_ITEM(__pyx_t_1, 1, __pyx_t_4);
+      __pyx_t_3 = 0;
+      __pyx_t_4 = 0;
+      __pyx_v_option = ((PyObject*)__pyx_t_1);
+      __pyx_t_1 = 0;
+
+      /* "plexsim/models/value_network2.pyx":258
+ *                     [ sorted([self.states[from_node], self.states[current]]) ]
+ *                     ]
+ *                 results[1].append(option)             # <<<<<<<<<<<<<<
+ *                 if verbose:
+ *                     print(f"At an end point, pushing {option}")
+ */
+      if (unlikely(__pyx_v_results == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 258, __pyx_L1_error)
+      }
+      __pyx_t_12 = __Pyx_PyObject_Append(PyList_GET_ITEM(__pyx_v_results, 1), __pyx_v_option); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 258, __pyx_L1_error)
+
+      /* "plexsim/models/value_network2.pyx":259
+ *                     ]
+ *                 results[1].append(option)
+ *                 if verbose:             # <<<<<<<<<<<<<<
+ *                     print(f"At an end point, pushing {option}")
+ * 
+ */
+      __pyx_t_7 = (__pyx_v_verbose != 0);
+      if (__pyx_t_7) {
+
+        /* "plexsim/models/value_network2.pyx":260
+ *                 results[1].append(option)
+ *                 if verbose:
+ *                     print(f"At an end point, pushing {option}")             # <<<<<<<<<<<<<<
+ * 
+ *                 # pop path
+ */
+        __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_v_option, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 260, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __pyx_t_4 = __Pyx_PyUnicode_Concat(__pyx_kp_u_At_an_end_point_pushing, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 260, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 260, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+        /* "plexsim/models/value_network2.pyx":259
+ *                     ]
+ *                 results[1].append(option)
+ *                 if verbose:             # <<<<<<<<<<<<<<
+ *                     print(f"At an end point, pushing {option}")
+ * 
+ */
+      }
+
+      /* "plexsim/models/value_network2.pyx":263
+ * 
+ *                 # pop path
+ *                 if len(path):             # <<<<<<<<<<<<<<
+ *                     path.pop()
+ *                     vp_path.pop()
+ */
+      if (unlikely(__pyx_v_path == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+        __PYX_ERR(0, 263, __pyx_L1_error)
+      }
+      __pyx_t_13 = PyList_GET_SIZE(__pyx_v_path); if (unlikely(__pyx_t_13 == ((Py_ssize_t)-1))) __PYX_ERR(0, 263, __pyx_L1_error)
+      __pyx_t_7 = (__pyx_t_13 != 0);
+      if (__pyx_t_7) {
+
+        /* "plexsim/models/value_network2.pyx":264
+ *                 # pop path
+ *                 if len(path):
+ *                     path.pop()             # <<<<<<<<<<<<<<
+ *                     vp_path.pop()
+ * 
+ */
+        if (unlikely(__pyx_v_path == Py_None)) {
+          PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "pop");
+          __PYX_ERR(0, 264, __pyx_L1_error)
+        }
+        __pyx_t_1 = __Pyx_PyList_Pop(__pyx_v_path); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 264, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+        /* "plexsim/models/value_network2.pyx":265
+ *                 if len(path):
+ *                     path.pop()
+ *                     vp_path.pop()             # <<<<<<<<<<<<<<
+ * 
+ *                 return results
+ */
+        if (unlikely(__pyx_v_vp_path == Py_None)) {
+          PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "pop");
+          __PYX_ERR(0, 265, __pyx_L1_error)
+        }
+        __pyx_t_1 = __Pyx_PyList_Pop(__pyx_v_vp_path); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 265, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+        /* "plexsim/models/value_network2.pyx":263
+ * 
+ *                 # pop path
+ *                 if len(path):             # <<<<<<<<<<<<<<
+ *                     path.pop()
+ *                     vp_path.pop()
+ */
+      }
+
+      /* "plexsim/models/value_network2.pyx":267
+ *                     vp_path.pop()
+ * 
+ *                 return results             # <<<<<<<<<<<<<<
+ * 
+ *             # check neighbors
+ */
+      __Pyx_XDECREF(__pyx_r);
+      __Pyx_INCREF(__pyx_v_results);
+      __pyx_r = __pyx_v_results;
+      goto __pyx_L0;
+
+      /* "plexsim/models/value_network2.pyx":253
+ * 
+ *             # check if no options left in rule graph
+ *             if self.check_endpoint(s, vp_path):             # <<<<<<<<<<<<<<
+ *                 option = [
+ *                     [ sorted([from_node, current]) ],
+ */
+    }
+
+    /* "plexsim/models/value_network2.pyx":270
+ * 
+ *             # check neighbors
+ *             for neigh in self.graph.neighbors(node):             # <<<<<<<<<<<<<<
+ *                 other = self.adj.mapping[neigh]
+ *                 ss = self.states[other]
+ */
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_graph); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 270, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_neighbors); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 270, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_4 = NULL;
+    __pyx_t_6 = 0;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_4)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_4);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_3, function);
+        __pyx_t_6 = 1;
+      }
+    }
+    {
+      PyObject *__pyx_callargs[2] = {__pyx_t_4, __pyx_v_node};
+      __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
+      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 270, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    }
+    if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
+      __pyx_t_3 = __pyx_t_1; __Pyx_INCREF(__pyx_t_3); __pyx_t_13 = 0;
+      __pyx_t_15 = NULL;
+    } else {
+      __pyx_t_13 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 270, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_15 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_3); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 270, __pyx_L1_error)
+    }
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    for (;;) {
+      if (likely(!__pyx_t_15)) {
+        if (likely(PyList_CheckExact(__pyx_t_3))) {
+          if (__pyx_t_13 >= PyList_GET_SIZE(__pyx_t_3)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_13); __Pyx_INCREF(__pyx_t_1); __pyx_t_13++; if (unlikely((0 < 0))) __PYX_ERR(0, 270, __pyx_L1_error)
+          #else
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 270, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_1);
+          #endif
+        } else {
+          if (__pyx_t_13 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_13); __Pyx_INCREF(__pyx_t_1); __pyx_t_13++; if (unlikely((0 < 0))) __PYX_ERR(0, 270, __pyx_L1_error)
+          #else
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 270, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_1);
+          #endif
+        }
+      } else {
+        __pyx_t_1 = __pyx_t_15(__pyx_t_3);
+        if (unlikely(!__pyx_t_1)) {
+          PyObject* exc_type = PyErr_Occurred();
+          if (exc_type) {
+            if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+            else __PYX_ERR(0, 270, __pyx_L1_error)
+          }
+          break;
+        }
+        __Pyx_GOTREF(__pyx_t_1);
+      }
+      __Pyx_XDECREF_SET(__pyx_v_neigh, __pyx_t_1);
+      __pyx_t_1 = 0;
+
+      /* "plexsim/models/value_network2.pyx":271
+ *             # check neighbors
+ *             for neigh in self.graph.neighbors(node):
+ *                 other = self.adj.mapping[neigh]             # <<<<<<<<<<<<<<
+ *                 ss = self.states[other]
+ *                 # prevent going back
+ */
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.adj), __pyx_n_s_mapping); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 271, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_v_neigh); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 271, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_other, __pyx_t_4);
+      __pyx_t_4 = 0;
+
+      /* "plexsim/models/value_network2.pyx":272
+ *             for neigh in self.graph.neighbors(node):
+ *                 other = self.adj.mapping[neigh]
+ *                 ss = self.states[other]             # <<<<<<<<<<<<<<
+ *                 # prevent going back
+ *                 if other == from_node:
+ */
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_states); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 272, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_other); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 272, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_11 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 272, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_v_ss = __pyx_t_11;
+
+      /* "plexsim/models/value_network2.pyx":274
+ *                 ss = self.states[other]
+ *                 # prevent going back
+ *                 if other == from_node:             # <<<<<<<<<<<<<<
+ *                     if verbose: print("found node already in path (cycle)")
+ *                     continue
+ */
+      __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_from_node); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 274, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_other, __pyx_t_1, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 274, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_7 < 0))) __PYX_ERR(0, 274, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      if (__pyx_t_7) {
+
+        /* "plexsim/models/value_network2.pyx":275
+ *                 # prevent going back
+ *                 if other == from_node:
+ *                     if verbose: print("found node already in path (cycle)")             # <<<<<<<<<<<<<<
+ *                     continue
+ *                 # check if branch is valid
+ */
+        __pyx_t_7 = (__pyx_v_verbose != 0);
+        if (__pyx_t_7) {
+          __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 275, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        }
+
+        /* "plexsim/models/value_network2.pyx":276
+ *                 if other == from_node:
+ *                     if verbose: print("found node already in path (cycle)")
+ *                     continue             # <<<<<<<<<<<<<<
+ *                 # check if branch is valid
+ *                 if self.rules[s][ss]['weight'] <= 0:
+ */
+        goto __pyx_L12_continue;
+
+        /* "plexsim/models/value_network2.pyx":274
+ *                 ss = self.states[other]
+ *                 # prevent going back
+ *                 if other == from_node:             # <<<<<<<<<<<<<<
+ *                     if verbose: print("found node already in path (cycle)")
+ *                     continue
+ */
+      }
+
+      /* "plexsim/models/value_network2.pyx":278
+ *                     continue
+ *                 # check if branch is valid
+ *                 if self.rules[s][ss]['weight'] <= 0:             # <<<<<<<<<<<<<<
+ *                     if verbose: print('negative weight')
+ *                     continue
+ */
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rules); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 278, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_s); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 278, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 278, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_ss); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 278, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 278, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_4, __pyx_n_s_weight); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 278, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_4 = PyObject_RichCompare(__pyx_t_1, __pyx_int_0, Py_LE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 278, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_7 < 0))) __PYX_ERR(0, 278, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      if (__pyx_t_7) {
+
+        /* "plexsim/models/value_network2.pyx":279
+ *                 # check if branch is valid
+ *                 if self.rules[s][ss]['weight'] <= 0:
+ *                     if verbose: print('negative weight')             # <<<<<<<<<<<<<<
+ *                     continue
+ *                 # construct proposals
+ */
+        __pyx_t_7 = (__pyx_v_verbose != 0);
+        if (__pyx_t_7) {
+          __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 279, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        }
+
+        /* "plexsim/models/value_network2.pyx":280
+ *                 if self.rules[s][ss]['weight'] <= 0:
+ *                     if verbose: print('negative weight')
+ *                     continue             # <<<<<<<<<<<<<<
+ *                 # construct proposals
+ *                 e = [current, other]
+ */
+        goto __pyx_L12_continue;
+
+        /* "plexsim/models/value_network2.pyx":278
+ *                     continue
+ *                 # check if branch is valid
+ *                 if self.rules[s][ss]['weight'] <= 0:             # <<<<<<<<<<<<<<
+ *                     if verbose: print('negative weight')
+ *                     continue
+ */
+      }
+
+      /* "plexsim/models/value_network2.pyx":282
+ *                     continue
+ *                 # construct proposals
+ *                 e = [current, other]             # <<<<<<<<<<<<<<
+ *                 ev = [s, ss]
+ * 
+ */
+      __pyx_t_4 = __Pyx_PyInt_FromSize_t(__pyx_v_current); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 282, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 282, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_GIVEREF(__pyx_t_4);
+      PyList_SET_ITEM(__pyx_t_1, 0, __pyx_t_4);
+      __Pyx_INCREF(__pyx_v_other);
+      __Pyx_GIVEREF(__pyx_v_other);
+      PyList_SET_ITEM(__pyx_t_1, 1, __pyx_v_other);
+      __pyx_t_4 = 0;
+      __Pyx_DECREF_SET(__pyx_v_e, ((PyObject*)__pyx_t_1));
+      __pyx_t_1 = 0;
+
+      /* "plexsim/models/value_network2.pyx":283
+ *                 # construct proposals
+ *                 e = [current, other]
+ *                 ev = [s, ss]             # <<<<<<<<<<<<<<
+ * 
+ *                 # step into branch
+ */
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_s); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 283, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_4 = PyFloat_FromDouble(__pyx_v_ss); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 283, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_5 = PyList_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 283, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyList_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
+      __Pyx_GIVEREF(__pyx_t_4);
+      PyList_SET_ITEM(__pyx_t_5, 1, __pyx_t_4);
+      __pyx_t_1 = 0;
+      __pyx_t_4 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_ev, ((PyObject*)__pyx_t_5));
+      __pyx_t_5 = 0;
+
+      /* "plexsim/models/value_network2.pyx":286
+ * 
+ *                 # step into branch
+ *                 if e not in path and e[::-1] not in path:             # <<<<<<<<<<<<<<
+ *                     if ev not in vp_path and ev[::-1] not in vp_path:
+ *                         queue.append(e)
+ */
+      __pyx_t_16 = (__Pyx_PySequence_ContainsTF(__pyx_v_e, __pyx_v_path, Py_NE)); if (unlikely((__pyx_t_16 < 0))) __PYX_ERR(0, 286, __pyx_L1_error)
+      __pyx_t_17 = (__pyx_t_16 != 0);
+      if (__pyx_t_17) {
+      } else {
+        __pyx_t_7 = __pyx_t_17;
+        goto __pyx_L19_bool_binop_done;
+      }
+      __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_v_e, __pyx_slice__3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 286, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_17 = (__Pyx_PySequence_ContainsTF(__pyx_t_5, __pyx_v_path, Py_NE)); if (unlikely((__pyx_t_17 < 0))) __PYX_ERR(0, 286, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_16 = (__pyx_t_17 != 0);
+      __pyx_t_7 = __pyx_t_16;
+      __pyx_L19_bool_binop_done:;
+      if (__pyx_t_7) {
+
+        /* "plexsim/models/value_network2.pyx":287
+ *                 # step into branch
+ *                 if e not in path and e[::-1] not in path:
+ *                     if ev not in vp_path and ev[::-1] not in vp_path:             # <<<<<<<<<<<<<<
+ *                         queue.append(e)
+ *                         # get branch options
+ */
+        __pyx_t_16 = (__Pyx_PySequence_ContainsTF(__pyx_v_ev, __pyx_v_vp_path, Py_NE)); if (unlikely((__pyx_t_16 < 0))) __PYX_ERR(0, 287, __pyx_L1_error)
+        __pyx_t_17 = (__pyx_t_16 != 0);
+        if (__pyx_t_17) {
+        } else {
+          __pyx_t_7 = __pyx_t_17;
+          goto __pyx_L22_bool_binop_done;
+        }
+        __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_v_ev, __pyx_slice__3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 287, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_17 = (__Pyx_PySequence_ContainsTF(__pyx_t_5, __pyx_v_vp_path, Py_NE)); if (unlikely((__pyx_t_17 < 0))) __PYX_ERR(0, 287, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __pyx_t_16 = (__pyx_t_17 != 0);
+        __pyx_t_7 = __pyx_t_16;
+        __pyx_L22_bool_binop_done:;
+        if (__pyx_t_7) {
+
+          /* "plexsim/models/value_network2.pyx":288
+ *                 if e not in path and e[::-1] not in path:
+ *                     if ev not in vp_path and ev[::-1] not in vp_path:
+ *                         queue.append(e)             # <<<<<<<<<<<<<<
+ *                         # get branch options
+ *                         self._check_df(queue, path,
+ */
+          if (unlikely(__pyx_v_queue == Py_None)) {
+            PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
+            __PYX_ERR(0, 288, __pyx_L1_error)
+          }
+          __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_queue, __pyx_v_e); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 288, __pyx_L1_error)
+
+          /* "plexsim/models/value_network2.pyx":290
+ *                         queue.append(e)
+ *                         # get branch options
+ *                         self._check_df(queue, path,             # <<<<<<<<<<<<<<
+ *                                                 vp_path,
+ *                                                 results,
+ */
+          __pyx_t_18.__pyx_n = 4;
+          __pyx_t_18.path = __pyx_v_path;
+          __pyx_t_18.vp_path = __pyx_v_vp_path;
+          __pyx_t_18.results = __pyx_v_results;
+          __pyx_t_18.verbose = __pyx_v_verbose;
+          __pyx_t_5 = ((struct __pyx_vtabstruct_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->_check_df(__pyx_v_self, __pyx_v_queue, 0, &__pyx_t_18); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 290, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_5);
+          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+          /* "plexsim/models/value_network2.pyx":287
+ *                 # step into branch
+ *                 if e not in path and e[::-1] not in path:
+ *                     if ev not in vp_path and ev[::-1] not in vp_path:             # <<<<<<<<<<<<<<
+ *                         queue.append(e)
+ *                         # get branch options
+ */
+          goto __pyx_L21;
+        }
+
+        /* "plexsim/models/value_network2.pyx":305
+ *                     # move to next
+ *                     else:
+ *                         continue             # <<<<<<<<<<<<<<
+ *                 # move to next
+ *                 else:
+ */
+        /*else*/ {
+          goto __pyx_L12_continue;
+        }
+        __pyx_L21:;
+
+        /* "plexsim/models/value_network2.pyx":286
+ * 
+ *                 # step into branch
+ *                 if e not in path and e[::-1] not in path:             # <<<<<<<<<<<<<<
+ *                     if ev not in vp_path and ev[::-1] not in vp_path:
+ *                         queue.append(e)
+ */
+        goto __pyx_L18;
+      }
+
+      /* "plexsim/models/value_network2.pyx":308
+ *                 # move to next
+ *                 else:
+ *                     continue             # <<<<<<<<<<<<<<
+ *             # attempt merge
+ * 
+ */
+      /*else*/ {
+        goto __pyx_L12_continue;
+      }
+      __pyx_L18:;
+
+      /* "plexsim/models/value_network2.pyx":270
+ * 
+ *             # check neighbors
+ *             for neigh in self.graph.neighbors(node):             # <<<<<<<<<<<<<<
+ *                 other = self.adj.mapping[neigh]
+ *                 ss = self.states[other]
+ */
+      __pyx_L12_continue:;
+    }
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+    /* "plexsim/models/value_network2.pyx":312
+ * 
+ *             option = [
+ *                     [ sorted([from_node, current]) ],             # <<<<<<<<<<<<<<
+ *                     [ sorted([self.states[from_node], self.states[current]]) ]
+ *                     ]
+ */
+    __pyx_t_5 = __Pyx_PyInt_FromSize_t(__pyx_v_from_node); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 312, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_4 = __Pyx_PyInt_FromSize_t(__pyx_v_current); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 312, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 312, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_GIVEREF(__pyx_t_5);
+    PyList_SET_ITEM(__pyx_t_1, 0, __pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyList_SET_ITEM(__pyx_t_1, 1, __pyx_t_4);
+    __pyx_t_5 = 0;
+    __pyx_t_4 = 0;
+    __pyx_t_3 = ((PyObject*)__pyx_t_1);
+    __pyx_t_1 = 0;
+    __pyx_t_12 = PyList_Sort(__pyx_t_3); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 312, __pyx_L1_error)
+    __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 312, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyList_SET_ITEM(__pyx_t_1, 0, __pyx_t_3);
+    __pyx_t_3 = 0;
+
+    /* "plexsim/models/value_network2.pyx":313
+ *             option = [
+ *                     [ sorted([from_node, current]) ],
+ *                     [ sorted([self.states[from_node], self.states[current]]) ]             # <<<<<<<<<<<<<<
+ *                     ]
+ * 
+ */
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_states); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 313, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_from_node, __pyx_t_7plexsim_6models_5types_node_id_t, 0, __Pyx_PyInt_FromSize_t, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 313, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_states); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 313, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_current, __pyx_t_7plexsim_6models_5types_node_id_t, 0, __Pyx_PyInt_FromSize_t, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 313, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_4 = PyList_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 313, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_5);
+    PyList_SET_ITEM(__pyx_t_4, 0, __pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_2);
+    PyList_SET_ITEM(__pyx_t_4, 1, __pyx_t_2);
+    __pyx_t_5 = 0;
+    __pyx_t_2 = 0;
+    __pyx_t_3 = ((PyObject*)__pyx_t_4);
+    __pyx_t_4 = 0;
+    __pyx_t_12 = PyList_Sort(__pyx_t_3); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 313, __pyx_L1_error)
+    __pyx_t_4 = PyList_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 313, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyList_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
+    __pyx_t_3 = 0;
+
+    /* "plexsim/models/value_network2.pyx":311
+ *             # attempt merge
+ * 
+ *             option = [             # <<<<<<<<<<<<<<
+ *                     [ sorted([from_node, current]) ],
+ *                     [ sorted([self.states[from_node], self.states[current]]) ]
+ */
+    __pyx_t_3 = PyList_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 311, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_GIVEREF(__pyx_t_1);
+    PyList_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyList_SET_ITEM(__pyx_t_3, 1, __pyx_t_4);
+    __pyx_t_1 = 0;
+    __pyx_t_4 = 0;
+    __pyx_v_option = ((PyObject*)__pyx_t_3);
+    __pyx_t_3 = 0;
+
+    /* "plexsim/models/value_network2.pyx":316
+ *                     ]
+ * 
+ *             if self.rules[option[1][0][0]][option[1][0][1]]['weight'] > 0:             # <<<<<<<<<<<<<<
+ *                 # self.check_traversal(option[0], results[1],
+ *                                      # verbose)
+ */
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rules); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 316, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_4 = __Pyx_GetItemInt(PyList_GET_ITEM(__pyx_v_option, 1), 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 316, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_4, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 316, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 316, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = __Pyx_GetItemInt(PyList_GET_ITEM(__pyx_v_option, 1), 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 316, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 316, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 316, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_s_weight); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 316, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 316, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_7 < 0))) __PYX_ERR(0, 316, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (__pyx_t_7) {
+
+      /* "plexsim/models/value_network2.pyx":319
+ *                 # self.check_traversal(option[0], results[1],
+ *                                      # verbose)
+ *                 if option not in results[1]:             # <<<<<<<<<<<<<<
+ *                     results[1].append(option)
+ * 
+ */
+      if (unlikely(__pyx_v_results == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 319, __pyx_L1_error)
+      }
+      __pyx_t_7 = (__Pyx_PySequence_ContainsTF(__pyx_v_option, PyList_GET_ITEM(__pyx_v_results, 1), Py_NE)); if (unlikely((__pyx_t_7 < 0))) __PYX_ERR(0, 319, __pyx_L1_error)
+      __pyx_t_16 = (__pyx_t_7 != 0);
+      if (__pyx_t_16) {
+
+        /* "plexsim/models/value_network2.pyx":320
+ *                                      # verbose)
+ *                 if option not in results[1]:
+ *                     results[1].append(option)             # <<<<<<<<<<<<<<
+ * 
+ *             self.merge(results, verbose)
+ */
+        if (unlikely(__pyx_v_results == Py_None)) {
+          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+          __PYX_ERR(0, 320, __pyx_L1_error)
+        }
+        __pyx_t_12 = __Pyx_PyObject_Append(PyList_GET_ITEM(__pyx_v_results, 1), __pyx_v_option); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 320, __pyx_L1_error)
+
+        /* "plexsim/models/value_network2.pyx":319
+ *                 # self.check_traversal(option[0], results[1],
+ *                                      # verbose)
+ *                 if option not in results[1]:             # <<<<<<<<<<<<<<
+ *                     results[1].append(option)
+ * 
+ */
+      }
+
+      /* "plexsim/models/value_network2.pyx":316
+ *                     ]
+ * 
+ *             if self.rules[option[1][0][0]][option[1][0][1]]['weight'] > 0:             # <<<<<<<<<<<<<<
+ *                 # self.check_traversal(option[0], results[1],
+ *                                      # verbose)
+ */
+    }
+
+    /* "plexsim/models/value_network2.pyx":322
+ *                     results[1].append(option)
+ * 
+ *             self.merge(results, verbose)             # <<<<<<<<<<<<<<
+ *             # TODO self edges are ignored --> add check for negativity
+ *             # no edge is checked after this point, all done above
+ */
+    __pyx_t_19.__pyx_n = 1;
+    __pyx_t_19.verbose = __pyx_v_verbose;
+    ((struct __pyx_vtabstruct_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->merge(__pyx_v_self, __pyx_v_results, 0, &__pyx_t_19); 
+
+    /* "plexsim/models/value_network2.pyx":326
+ *             # no edge is checked after this point, all done above
+ *             # this causes a fail on the start node that should have a negative weight
+ *             for idx, option in enumerate(results[1]):             # <<<<<<<<<<<<<<
+ *                 if len(option[1]) == self._bounded_rational:
+ *                     # remove from option list
+ */
+    __Pyx_INCREF(__pyx_int_0);
+    __pyx_t_1 = __pyx_int_0;
+    if (unlikely(__pyx_v_results == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 326, __pyx_L1_error)
+    }
+    if (likely(PyList_CheckExact(PyList_GET_ITEM(__pyx_v_results, 1))) || PyTuple_CheckExact(PyList_GET_ITEM(__pyx_v_results, 1))) {
+      __pyx_t_3 = PyList_GET_ITEM(__pyx_v_results, 1); __Pyx_INCREF(__pyx_t_3); __pyx_t_13 = 0;
+      __pyx_t_15 = NULL;
+    } else {
+      __pyx_t_13 = -1; __pyx_t_3 = PyObject_GetIter(PyList_GET_ITEM(__pyx_v_results, 1)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 326, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_15 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_3); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 326, __pyx_L1_error)
+    }
+    for (;;) {
+      if (likely(!__pyx_t_15)) {
+        if (likely(PyList_CheckExact(__pyx_t_3))) {
+          if (__pyx_t_13 >= PyList_GET_SIZE(__pyx_t_3)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_4 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_13); __Pyx_INCREF(__pyx_t_4); __pyx_t_13++; if (unlikely((0 < 0))) __PYX_ERR(0, 326, __pyx_L1_error)
+          #else
+          __pyx_t_4 = PySequence_ITEM(__pyx_t_3, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 326, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          #endif
+        } else {
+          if (__pyx_t_13 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_13); __Pyx_INCREF(__pyx_t_4); __pyx_t_13++; if (unlikely((0 < 0))) __PYX_ERR(0, 326, __pyx_L1_error)
+          #else
+          __pyx_t_4 = PySequence_ITEM(__pyx_t_3, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 326, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          #endif
+        }
+      } else {
+        __pyx_t_4 = __pyx_t_15(__pyx_t_3);
+        if (unlikely(!__pyx_t_4)) {
+          PyObject* exc_type = PyErr_Occurred();
+          if (exc_type) {
+            if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+            else __PYX_ERR(0, 326, __pyx_L1_error)
+          }
+          break;
+        }
+        __Pyx_GOTREF(__pyx_t_4);
+      }
+      if (!(likely(PyList_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None) || __Pyx_RaiseUnexpectedTypeError("list", __pyx_t_4))) __PYX_ERR(0, 326, __pyx_L1_error)
+      __Pyx_DECREF_SET(__pyx_v_option, ((PyObject*)__pyx_t_4));
+      __pyx_t_4 = 0;
+      __Pyx_INCREF(__pyx_t_1);
+      __Pyx_XDECREF_SET(__pyx_v_idx, __pyx_t_1);
+      __pyx_t_4 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 326, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_1);
+      __pyx_t_1 = __pyx_t_4;
+      __pyx_t_4 = 0;
+
+      /* "plexsim/models/value_network2.pyx":327
+ *             # this causes a fail on the start node that should have a negative weight
+ *             for idx, option in enumerate(results[1]):
+ *                 if len(option[1]) == self._bounded_rational:             # <<<<<<<<<<<<<<
+ *                     # remove from option list
+ *                     results[1].pop(idx)
+ */
+      if (unlikely(__pyx_v_option == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 327, __pyx_L1_error)
+      }
+      __pyx_t_4 = PyList_GET_ITEM(__pyx_v_option, 1);
+      __Pyx_INCREF(__pyx_t_4);
+      __pyx_t_20 = PyObject_Length(__pyx_t_4); if (unlikely(__pyx_t_20 == ((Py_ssize_t)-1))) __PYX_ERR(0, 327, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_16 = ((__pyx_t_20 == __pyx_v_self->_bounded_rational) != 0);
+      if (__pyx_t_16) {
+
+        /* "plexsim/models/value_network2.pyx":329
+ *                 if len(option[1]) == self._bounded_rational:
+ *                     # remove from option list
+ *                     results[1].pop(idx)             # <<<<<<<<<<<<<<
+ *                     self.check_doubles(option[0].copy(), results, verbose)
+ *                     if verbose:
+ */
+        if (unlikely(__pyx_v_results == Py_None)) {
+          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+          __PYX_ERR(0, 329, __pyx_L1_error)
+        }
+        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(PyList_GET_ITEM(__pyx_v_results, 1), __pyx_n_s_pop); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 329, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __pyx_t_5 = NULL;
+        __pyx_t_6 = 0;
+        if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+          __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
+          if (likely(__pyx_t_5)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+            __Pyx_INCREF(__pyx_t_5);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_2, function);
+            __pyx_t_6 = 1;
+          }
+        }
         {
-            #ifdef WITH_THREAD
-            PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-            #endif
-            /*try:*/ {
-
-              /* "plexsim/models/value_network.pyx":238
- *                 if crawler.verbose:
- *                     with gil:
- *                         print(f"At {proposal_edge.current.name=}")             # <<<<<<<<<<<<<<
- *                         print(f"Checking {proposal_edge.other.name=}")
- * 
- */
-              __pyx_t_5 = __Pyx_PyUnicode_From_size_t(__pyx_v_proposal_edge->current.name, 0, ' ', 'd'); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 238, __pyx_L20_error)
-              __Pyx_GOTREF(__pyx_t_5);
-              __pyx_t_4 = __Pyx_PyUnicode_Concat(__pyx_kp_u_At_proposal_edge_current_name, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 238, __pyx_L20_error)
-              __Pyx_GOTREF(__pyx_t_4);
-              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-              __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 238, __pyx_L20_error)
-              __Pyx_GOTREF(__pyx_t_5);
-              __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-              /* "plexsim/models/value_network.pyx":239
- *                     with gil:
- *                         print(f"At {proposal_edge.current.name=}")
- *                         print(f"Checking {proposal_edge.other.name=}")             # <<<<<<<<<<<<<<
- * 
- *                 if proposal_edge.other.name == proposal_edge.current.name:
- */
-              __pyx_t_5 = __Pyx_PyUnicode_From_size_t(__pyx_v_proposal_edge->other.name, 0, ' ', 'd'); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 239, __pyx_L20_error)
-              __Pyx_GOTREF(__pyx_t_5);
-              __pyx_t_4 = __Pyx_PyUnicode_Concat(__pyx_kp_u_Checking_proposal_edge_other_nam, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 239, __pyx_L20_error)
-              __Pyx_GOTREF(__pyx_t_4);
-              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-              __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 239, __pyx_L20_error)
-              __Pyx_GOTREF(__pyx_t_5);
-              __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            }
-
-            /* "plexsim/models/value_network.pyx":237
- * 
- *                 if crawler.verbose:
- *                     with gil:             # <<<<<<<<<<<<<<
- *                         print(f"At {proposal_edge.current.name=}")
- *                         print(f"Checking {proposal_edge.other.name=}")
- */
-            /*finally:*/ {
-              /*normal exit:*/{
-                #ifdef WITH_THREAD
-                __Pyx_PyGILState_Release(__pyx_gilstate_save);
-                #endif
-                goto __pyx_L21;
-              }
-              __pyx_L20_error: {
-                #ifdef WITH_THREAD
-                __Pyx_PyGILState_Release(__pyx_gilstate_save);
-                #endif
-                goto __pyx_L1_error;
-              }
-              __pyx_L21:;
-            }
+          PyObject *__pyx_callargs[2] = {__pyx_t_5, __pyx_v_idx};
+          __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
+          __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+          if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 329, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         }
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-        /* "plexsim/models/value_network.pyx":236
- *                 proposal_edge.other = ColorNode(neighbor_idx, self._states[neighbor_idx])
- * 
- *                 if crawler.verbose:             # <<<<<<<<<<<<<<
- *                     with gil:
- *                         print(f"At {proposal_edge.current.name=}")
+        /* "plexsim/models/value_network2.pyx":330
+ *                     # remove from option list
+ *                     results[1].pop(idx)
+ *                     self.check_doubles(option[0].copy(), results, verbose)             # <<<<<<<<<<<<<<
+ *                     if verbose:
+ *                         print(f'adding results {option[0]} {self.bounded_rational} vp = {option[1]}')
  */
-      }
-
-      /* "plexsim/models/value_network.pyx":241
- *                         print(f"Checking {proposal_edge.other.name=}")
- * 
- *                 if proposal_edge.other.name == proposal_edge.current.name:             # <<<<<<<<<<<<<<
- *                     if crawler.verbose:
- *                         with gil:
- */
-      __pyx_t_2 = ((__pyx_v_proposal_edge->other.name == __pyx_v_proposal_edge->current.name) != 0);
-      if (__pyx_t_2) {
-
-        /* "plexsim/models/value_network.pyx":242
- * 
- *                 if proposal_edge.other.name == proposal_edge.current.name:
- *                     if crawler.verbose:             # <<<<<<<<<<<<<<
- *                         with gil:
- *                             print("Found node already in path (cycle)")
- */
-        __pyx_t_2 = (__pyx_v_crawler->verbose != 0);
-        if (__pyx_t_2) {
-
-          /* "plexsim/models/value_network.pyx":243
- *                 if proposal_edge.other.name == proposal_edge.current.name:
- *                     if crawler.verbose:
- *                         with gil:             # <<<<<<<<<<<<<<
- *                             print("Found node already in path (cycle)")
- *                     post(it)
- */
-          {
-              #ifdef WITH_THREAD
-              PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-              #endif
-              /*try:*/ {
-
-                /* "plexsim/models/value_network.pyx":244
- *                     if crawler.verbose:
- *                         with gil:
- *                             print("Found node already in path (cycle)")             # <<<<<<<<<<<<<<
- *                     post(it)
- *                     continue
- */
-                __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 244, __pyx_L27_error)
-                __Pyx_GOTREF(__pyx_t_5);
-                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-              }
-
-              /* "plexsim/models/value_network.pyx":243
- *                 if proposal_edge.other.name == proposal_edge.current.name:
- *                     if crawler.verbose:
- *                         with gil:             # <<<<<<<<<<<<<<
- *                             print("Found node already in path (cycle)")
- *                     post(it)
- */
-              /*finally:*/ {
-                /*normal exit:*/{
-                  #ifdef WITH_THREAD
-                  __Pyx_PyGILState_Release(__pyx_gilstate_save);
-                  #endif
-                  goto __pyx_L28;
-                }
-                __pyx_L27_error: {
-                  #ifdef WITH_THREAD
-                  __Pyx_PyGILState_Release(__pyx_gilstate_save);
-                  #endif
-                  goto __pyx_L1_error;
-                }
-                __pyx_L28:;
-              }
+        if (unlikely(__pyx_v_option == Py_None)) {
+          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+          __PYX_ERR(0, 330, __pyx_L1_error)
+        }
+        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(PyList_GET_ITEM(__pyx_v_option, 0), __pyx_n_s_copy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 330, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __pyx_t_5 = NULL;
+        __pyx_t_6 = 0;
+        if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+          __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
+          if (likely(__pyx_t_5)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+            __Pyx_INCREF(__pyx_t_5);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_2, function);
+            __pyx_t_6 = 1;
           }
+        }
+        {
+          PyObject *__pyx_callargs[1] = {__pyx_t_5, };
+          __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_6, 0+__pyx_t_6);
+          __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+          if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 330, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        }
+        if (!(likely(PyList_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None) || __Pyx_RaiseUnexpectedTypeError("list", __pyx_t_4))) __PYX_ERR(0, 330, __pyx_L1_error)
+        __pyx_t_21.__pyx_n = 1;
+        __pyx_t_21.verbose = __pyx_v_verbose;
+        ((struct __pyx_vtabstruct_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->check_doubles(__pyx_v_self, ((PyObject*)__pyx_t_4), __pyx_v_results, 0, &__pyx_t_21); 
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-          /* "plexsim/models/value_network.pyx":242
+        /* "plexsim/models/value_network2.pyx":331
+ *                     results[1].pop(idx)
+ *                     self.check_doubles(option[0].copy(), results, verbose)
+ *                     if verbose:             # <<<<<<<<<<<<<<
+ *                         print(f'adding results {option[0]} {self.bounded_rational} vp = {option[1]}')
  * 
- *                 if proposal_edge.other.name == proposal_edge.current.name:
- *                     if crawler.verbose:             # <<<<<<<<<<<<<<
- *                         with gil:
- *                             print("Found node already in path (cycle)")
+ */
+        __pyx_t_16 = (__pyx_v_verbose != 0);
+        if (__pyx_t_16) {
+
+          /* "plexsim/models/value_network2.pyx":332
+ *                     self.check_doubles(option[0].copy(), results, verbose)
+ *                     if verbose:
+ *                         print(f'adding results {option[0]} {self.bounded_rational} vp = {option[1]}')             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+          __pyx_t_4 = PyTuple_New(6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 332, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          __pyx_t_20 = 0;
+          __pyx_t_14 = 127;
+          __Pyx_INCREF(__pyx_kp_u_adding_results);
+          __pyx_t_20 += 15;
+          __Pyx_GIVEREF(__pyx_kp_u_adding_results);
+          PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_kp_u_adding_results);
+          if (unlikely(__pyx_v_option == Py_None)) {
+            PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+            __PYX_ERR(0, 332, __pyx_L1_error)
+          }
+          __pyx_t_2 = __Pyx_PyObject_FormatSimple(PyList_GET_ITEM(__pyx_v_option, 0), __pyx_empty_unicode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 332, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __pyx_t_14 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_2) > __pyx_t_14) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_2) : __pyx_t_14;
+          __pyx_t_20 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_2);
+          __Pyx_GIVEREF(__pyx_t_2);
+          PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_2);
+          __pyx_t_2 = 0;
+          __Pyx_INCREF(__pyx_kp_u__11);
+          __pyx_t_20 += 1;
+          __Pyx_GIVEREF(__pyx_kp_u__11);
+          PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_kp_u__11);
+          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_bounded_rational); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 332, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_t_2, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 332, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_5);
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __pyx_t_14 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) > __pyx_t_14) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) : __pyx_t_14;
+          __pyx_t_20 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_5);
+          __Pyx_GIVEREF(__pyx_t_5);
+          PyTuple_SET_ITEM(__pyx_t_4, 3, __pyx_t_5);
+          __pyx_t_5 = 0;
+          __Pyx_INCREF(__pyx_kp_u_vp);
+          __pyx_t_20 += 6;
+          __Pyx_GIVEREF(__pyx_kp_u_vp);
+          PyTuple_SET_ITEM(__pyx_t_4, 4, __pyx_kp_u_vp);
+          if (unlikely(__pyx_v_option == Py_None)) {
+            PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+            __PYX_ERR(0, 332, __pyx_L1_error)
+          }
+          __pyx_t_5 = __Pyx_PyObject_FormatSimple(PyList_GET_ITEM(__pyx_v_option, 1), __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 332, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_5);
+          __pyx_t_14 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) > __pyx_t_14) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) : __pyx_t_14;
+          __pyx_t_20 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_5);
+          __Pyx_GIVEREF(__pyx_t_5);
+          PyTuple_SET_ITEM(__pyx_t_4, 5, __pyx_t_5);
+          __pyx_t_5 = 0;
+          __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_4, 6, __pyx_t_20, __pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 332, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_5);
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 332, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+          /* "plexsim/models/value_network2.pyx":331
+ *                     results[1].pop(idx)
+ *                     self.check_doubles(option[0].copy(), results, verbose)
+ *                     if verbose:             # <<<<<<<<<<<<<<
+ *                         print(f'adding results {option[0]} {self.bounded_rational} vp = {option[1]}')
+ * 
  */
         }
 
-        /* "plexsim/models/value_network.pyx":245
- *                         with gil:
- *                             print("Found node already in path (cycle)")
- *                     post(it)             # <<<<<<<<<<<<<<
- *                     continue
- * 
- */
-        (void)((__pyx_v_it++));
-
-        /* "plexsim/models/value_network.pyx":246
- *                             print("Found node already in path (cycle)")
- *                     post(it)
- *                     continue             # <<<<<<<<<<<<<<
- * 
- *                 # check if branch is valid
- */
-        goto __pyx_L14_continue;
-
-        /* "plexsim/models/value_network.pyx":241
- *                         print(f"Checking {proposal_edge.other.name=}")
- * 
- *                 if proposal_edge.other.name == proposal_edge.current.name:             # <<<<<<<<<<<<<<
- *                     if crawler.verbose:
- *                         with gil:
+        /* "plexsim/models/value_network2.pyx":327
+ *             # this causes a fail on the start node that should have a negative weight
+ *             for idx, option in enumerate(results[1]):
+ *                 if len(option[1]) == self._bounded_rational:             # <<<<<<<<<<<<<<
+ *                     # remove from option list
+ *                     results[1].pop(idx)
  */
       }
 
-      /* "plexsim/models/value_network.pyx":249
- * 
- *                 # check if branch is valid
- *                 edge_weight = self._rules._adj[proposal_edge.current.state][proposal_edge.other.state]             # <<<<<<<<<<<<<<
- *                 # 3. step into brach
- *                 if edge_weight < 0:
- */
-      __pyx_v_edge_weight = ((__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[__pyx_v_proposal_edge->current.state])[__pyx_v_proposal_edge->other.state]);
-
-      /* "plexsim/models/value_network.pyx":251
- *                 edge_weight = self._rules._adj[proposal_edge.current.state][proposal_edge.other.state]
- *                 # 3. step into brach
- *                 if edge_weight < 0:             # <<<<<<<<<<<<<<
- *                     if crawler.verbose:
- *                         with gil:
- */
-      __pyx_t_2 = ((__pyx_v_edge_weight < 0.0) != 0);
-      if (__pyx_t_2) {
-
-        /* "plexsim/models/value_network.pyx":252
- *                 # 3. step into brach
- *                 if edge_weight < 0:
- *                     if crawler.verbose:             # <<<<<<<<<<<<<<
- *                         with gil:
- *                             print(f"Found negative {edge_weight=}")
- */
-        __pyx_t_2 = (__pyx_v_crawler->verbose != 0);
-        if (__pyx_t_2) {
-
-          /* "plexsim/models/value_network.pyx":253
- *                 if edge_weight < 0:
- *                     if crawler.verbose:
- *                         with gil:             # <<<<<<<<<<<<<<
- *                             print(f"Found negative {edge_weight=}")
- *                     post(it)
- */
-          {
-              #ifdef WITH_THREAD
-              PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-              #endif
-              /*try:*/ {
-
-                /* "plexsim/models/value_network.pyx":254
- *                     if crawler.verbose:
- *                         with gil:
- *                             print(f"Found negative {edge_weight=}")             # <<<<<<<<<<<<<<
- *                     post(it)
- *                     continue
- */
-                __pyx_t_5 = PyFloat_FromDouble(__pyx_v_edge_weight); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 254, __pyx_L34_error)
-                __Pyx_GOTREF(__pyx_t_5);
-                __pyx_t_4 = __Pyx_PyObject_FormatSimpleAndDecref(PyObject_Repr(__pyx_t_5), __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 254, __pyx_L34_error)
-                __Pyx_GOTREF(__pyx_t_4);
-                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-                __pyx_t_5 = __Pyx_PyUnicode_Concat(__pyx_kp_u_Found_negative_edge_weight, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 254, __pyx_L34_error)
-                __Pyx_GOTREF(__pyx_t_5);
-                __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-                __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 254, __pyx_L34_error)
-                __Pyx_GOTREF(__pyx_t_4);
-                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-                __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-              }
-
-              /* "plexsim/models/value_network.pyx":253
- *                 if edge_weight < 0:
- *                     if crawler.verbose:
- *                         with gil:             # <<<<<<<<<<<<<<
- *                             print(f"Found negative {edge_weight=}")
- *                     post(it)
- */
-              /*finally:*/ {
-                /*normal exit:*/{
-                  #ifdef WITH_THREAD
-                  __Pyx_PyGILState_Release(__pyx_gilstate_save);
-                  #endif
-                  goto __pyx_L35;
-                }
-                __pyx_L34_error: {
-                  #ifdef WITH_THREAD
-                  __Pyx_PyGILState_Release(__pyx_gilstate_save);
-                  #endif
-                  goto __pyx_L1_error;
-                }
-                __pyx_L35:;
-              }
-          }
-
-          /* "plexsim/models/value_network.pyx":252
- *                 # 3. step into brach
- *                 if edge_weight < 0:
- *                     if crawler.verbose:             # <<<<<<<<<<<<<<
- *                         with gil:
- *                             print(f"Found negative {edge_weight=}")
- */
-        }
-
-        /* "plexsim/models/value_network.pyx":255
- *                         with gil:
- *                             print(f"Found negative {edge_weight=}")
- *                     post(it)             # <<<<<<<<<<<<<<
- *                     continue
- * 
- */
-        (void)((__pyx_v_it++));
-
-        /* "plexsim/models/value_network.pyx":256
- *                             print(f"Found negative {edge_weight=}")
- *                     post(it)
- *                     continue             # <<<<<<<<<<<<<<
- * 
- *                 if not crawler.in_path(deref(proposal_edge)):
- */
-        goto __pyx_L14_continue;
-
-        /* "plexsim/models/value_network.pyx":251
- *                 edge_weight = self._rules._adj[proposal_edge.current.state][proposal_edge.other.state]
- *                 # 3. step into brach
- *                 if edge_weight < 0:             # <<<<<<<<<<<<<<
- *                     if crawler.verbose:
- *                         with gil:
- */
-      }
-
-      /* "plexsim/models/value_network.pyx":258
- *                     continue
- * 
- *                 if not crawler.in_path(deref(proposal_edge)):             # <<<<<<<<<<<<<<
- *                     if crawler.verbose:
- *                         with gil:
- */
-      __pyx_t_2 = ((!(__pyx_v_crawler->in_path((*__pyx_v_proposal_edge)) != 0)) != 0);
-      if (__pyx_t_2) {
-
-        /* "plexsim/models/value_network.pyx":259
- * 
- *                 if not crawler.in_path(deref(proposal_edge)):
- *                     if crawler.verbose:             # <<<<<<<<<<<<<<
- *                         with gil:
- *                             print("Going into branch")
- */
-        __pyx_t_2 = (__pyx_v_crawler->verbose != 0);
-        if (__pyx_t_2) {
-
-          /* "plexsim/models/value_network.pyx":260
- *                 if not crawler.in_path(deref(proposal_edge)):
- *                     if crawler.verbose:
- *                         with gil:             # <<<<<<<<<<<<<<
- *                             print("Going into branch")
- *                     crawler.queue.push_back(deref(proposal_edge))
- */
-          {
-              #ifdef WITH_THREAD
-              PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-              #endif
-              /*try:*/ {
-
-                /* "plexsim/models/value_network.pyx":261
- *                     if crawler.verbose:
- *                         with gil:
- *                             print("Going into branch")             # <<<<<<<<<<<<<<
- *                     crawler.queue.push_back(deref(proposal_edge))
- *                     self._check_df(crawler)
- */
-                __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 261, __pyx_L41_error)
-                __Pyx_GOTREF(__pyx_t_4);
-                __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-              }
-
-              /* "plexsim/models/value_network.pyx":260
- *                 if not crawler.in_path(deref(proposal_edge)):
- *                     if crawler.verbose:
- *                         with gil:             # <<<<<<<<<<<<<<
- *                             print("Going into branch")
- *                     crawler.queue.push_back(deref(proposal_edge))
- */
-              /*finally:*/ {
-                /*normal exit:*/{
-                  #ifdef WITH_THREAD
-                  __Pyx_PyGILState_Release(__pyx_gilstate_save);
-                  #endif
-                  goto __pyx_L42;
-                }
-                __pyx_L41_error: {
-                  #ifdef WITH_THREAD
-                  __Pyx_PyGILState_Release(__pyx_gilstate_save);
-                  #endif
-                  goto __pyx_L1_error;
-                }
-                __pyx_L42:;
-              }
-          }
-
-          /* "plexsim/models/value_network.pyx":259
- * 
- *                 if not crawler.in_path(deref(proposal_edge)):
- *                     if crawler.verbose:             # <<<<<<<<<<<<<<
- *                         with gil:
- *                             print("Going into branch")
- */
-        }
-
-        /* "plexsim/models/value_network.pyx":262
- *                         with gil:
- *                             print("Going into branch")
- *                     crawler.queue.push_back(deref(proposal_edge))             # <<<<<<<<<<<<<<
- *                     self._check_df(crawler)
- *                 post(it) # never forget :)
- */
-        try {
-          __pyx_v_crawler->queue.push_back((*__pyx_v_proposal_edge));
-        } catch(...) {
-          #ifdef WITH_THREAD
-          PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-          #endif
-          __Pyx_CppExn2PyErr();
-          #ifdef WITH_THREAD
-          __Pyx_PyGILState_Release(__pyx_gilstate_save);
-          #endif
-          __PYX_ERR(0, 262, __pyx_L1_error)
-        }
-
-        /* "plexsim/models/value_network.pyx":263
- *                             print("Going into branch")
- *                     crawler.queue.push_back(deref(proposal_edge))
- *                     self._check_df(crawler)             # <<<<<<<<<<<<<<
- *                 post(it) # never forget :)
- * 
- */
-        (void)(((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->_check_df(__pyx_v_self, __pyx_v_crawler));
-
-        /* "plexsim/models/value_network.pyx":258
- *                     continue
- * 
- *                 if not crawler.in_path(deref(proposal_edge)):             # <<<<<<<<<<<<<<
- *                     if crawler.verbose:
- *                         with gil:
- */
-      }
-
-      /* "plexsim/models/value_network.pyx":264
- *                     crawler.queue.push_back(deref(proposal_edge))
- *                     self._check_df(crawler)
- *                 post(it) # never forget :)             # <<<<<<<<<<<<<<
- * 
- * 
- */
-      (void)((__pyx_v_it++));
-      __pyx_L14_continue:;
-    }
-
-    /* "plexsim/models/value_network.pyx":267
- * 
- * 
- *             if crawler.verbose:             # <<<<<<<<<<<<<<
- *                 with gil:
- *                     print("Current edge is:")
- */
-    __pyx_t_2 = (__pyx_v_crawler->verbose != 0);
-    if (__pyx_t_2) {
-
-      /* "plexsim/models/value_network.pyx":268
- * 
- *             if crawler.verbose:
- *                 with gil:             # <<<<<<<<<<<<<<
- *                     print("Current edge is:")
- *                 current_edge.print()
- */
-      {
-          #ifdef WITH_THREAD
-          PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-          #endif
-          /*try:*/ {
-
-            /* "plexsim/models/value_network.pyx":269
- *             if crawler.verbose:
- *                 with gil:
- *                     print("Current edge is:")             # <<<<<<<<<<<<<<
- *                 current_edge.print()
- *             # 4. merge options
- */
-            __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 269, __pyx_L45_error)
-            __Pyx_GOTREF(__pyx_t_4);
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          }
-
-          /* "plexsim/models/value_network.pyx":268
- * 
- *             if crawler.verbose:
- *                 with gil:             # <<<<<<<<<<<<<<
- *                     print("Current edge is:")
- *                 current_edge.print()
- */
-          /*finally:*/ {
-            /*normal exit:*/{
-              #ifdef WITH_THREAD
-              __Pyx_PyGILState_Release(__pyx_gilstate_save);
-              #endif
-              goto __pyx_L46;
-            }
-            __pyx_L45_error: {
-              #ifdef WITH_THREAD
-              __Pyx_PyGILState_Release(__pyx_gilstate_save);
-              #endif
-              goto __pyx_L1_error;
-            }
-            __pyx_L46:;
-          }
-      }
-
-      /* "plexsim/models/value_network.pyx":270
- *                 with gil:
- *                     print("Current edge is:")
- *                 current_edge.print()             # <<<<<<<<<<<<<<
- *             # 4. merge options
- *             edge_weight = self._rules._adj[current_edge.current.state][current_edge.other.state]
- */
-      __pyx_v_current_edge.print();
-
-      /* "plexsim/models/value_network.pyx":267
- * 
- * 
- *             if crawler.verbose:             # <<<<<<<<<<<<<<
- *                 with gil:
- *                     print("Current edge is:")
+      /* "plexsim/models/value_network2.pyx":326
+ *             # no edge is checked after this point, all done above
+ *             # this causes a fail on the start node that should have a negative weight
+ *             for idx, option in enumerate(results[1]):             # <<<<<<<<<<<<<<
+ *                 if len(option[1]) == self._bounded_rational:
+ *                     # remove from option list
  */
     }
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "plexsim/models/value_network.pyx":272
- *                 current_edge.print()
- *             # 4. merge options
- *             edge_weight = self._rules._adj[current_edge.current.state][current_edge.other.state]             # <<<<<<<<<<<<<<
- *             if edge_weight > 0:
- *                 if not crawler.in_options(current_edge.sort()):
- */
-    __pyx_v_edge_weight = ((__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[__pyx_v_current_edge.current.state])[__pyx_v_current_edge.other.state]);
-
-    /* "plexsim/models/value_network.pyx":273
- *             # 4. merge options
- *             edge_weight = self._rules._adj[current_edge.current.state][current_edge.other.state]
- *             if edge_weight > 0:             # <<<<<<<<<<<<<<
- *                 if not crawler.in_options(current_edge.sort()):
- *                     option.clear()
- */
-    __pyx_t_2 = ((__pyx_v_edge_weight > 0.0) != 0);
-    if (__pyx_t_2) {
-
-      /* "plexsim/models/value_network.pyx":274
- *             edge_weight = self._rules._adj[current_edge.current.state][current_edge.other.state]
- *             if edge_weight > 0:
- *                 if not crawler.in_options(current_edge.sort()):             # <<<<<<<<<<<<<<
- *                     option.clear()
- *                     option.push_back(current_edge.sort())
- */
-      __pyx_t_2 = ((!(__pyx_v_crawler->in_options(__pyx_v_current_edge.sort()) != 0)) != 0);
-      if (__pyx_t_2) {
-
-        /* "plexsim/models/value_network.pyx":275
- *             if edge_weight > 0:
- *                 if not crawler.in_options(current_edge.sort()):
- *                     option.clear()             # <<<<<<<<<<<<<<
- *                     option.push_back(current_edge.sort())
- *                     crawler.options.push_back(option)
- */
-        __pyx_v_option.clear();
-
-        /* "plexsim/models/value_network.pyx":276
- *                 if not crawler.in_options(current_edge.sort()):
- *                     option.clear()
- *                     option.push_back(current_edge.sort())             # <<<<<<<<<<<<<<
- *                     crawler.options.push_back(option)
- * 
- */
-        try {
-          __pyx_v_option.push_back(__pyx_v_current_edge.sort());
-        } catch(...) {
-          #ifdef WITH_THREAD
-          PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-          #endif
-          __Pyx_CppExn2PyErr();
-          #ifdef WITH_THREAD
-          __Pyx_PyGILState_Release(__pyx_gilstate_save);
-          #endif
-          __PYX_ERR(0, 276, __pyx_L1_error)
-        }
-
-        /* "plexsim/models/value_network.pyx":277
- *                     option.clear()
- *                     option.push_back(current_edge.sort())
- *                     crawler.options.push_back(option)             # <<<<<<<<<<<<<<
- * 
- *                     if crawler.verbose:
- */
-        try {
-          __pyx_v_crawler->options.push_back(__pyx_v_option);
-        } catch(...) {
-          #ifdef WITH_THREAD
-          PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-          #endif
-          __Pyx_CppExn2PyErr();
-          #ifdef WITH_THREAD
-          __Pyx_PyGILState_Release(__pyx_gilstate_save);
-          #endif
-          __PYX_ERR(0, 277, __pyx_L1_error)
-        }
-
-        /* "plexsim/models/value_network.pyx":279
- *                     crawler.options.push_back(option)
- * 
- *                     if crawler.verbose:             # <<<<<<<<<<<<<<
- *                         with gil:
- *                             print(f"Pushing current edge:")
- */
-        __pyx_t_2 = (__pyx_v_crawler->verbose != 0);
-        if (__pyx_t_2) {
-
-          /* "plexsim/models/value_network.pyx":280
- * 
- *                     if crawler.verbose:
- *                         with gil:             # <<<<<<<<<<<<<<
- *                             print(f"Pushing current edge:")
- *                             current_edge.print()
- */
-          {
-              #ifdef WITH_THREAD
-              PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-              #endif
-              /*try:*/ {
-
-                /* "plexsim/models/value_network.pyx":281
- *                     if crawler.verbose:
- *                         with gil:
- *                             print(f"Pushing current edge:")             # <<<<<<<<<<<<<<
- *                             current_edge.print()
- * 
- */
-                __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 281, __pyx_L51_error)
-                __Pyx_GOTREF(__pyx_t_4);
-                __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-                /* "plexsim/models/value_network.pyx":282
- *                         with gil:
- *                             print(f"Pushing current edge:")
- *                             current_edge.print()             # <<<<<<<<<<<<<<
- * 
- *             # merge options
- */
-                __pyx_v_current_edge.print();
-              }
-
-              /* "plexsim/models/value_network.pyx":280
- * 
- *                     if crawler.verbose:
- *                         with gil:             # <<<<<<<<<<<<<<
- *                             print(f"Pushing current edge:")
- *                             current_edge.print()
- */
-              /*finally:*/ {
-                /*normal exit:*/{
-                  #ifdef WITH_THREAD
-                  __Pyx_PyGILState_Release(__pyx_gilstate_save);
-                  #endif
-                  goto __pyx_L52;
-                }
-                __pyx_L51_error: {
-                  #ifdef WITH_THREAD
-                  __Pyx_PyGILState_Release(__pyx_gilstate_save);
-                  #endif
-                  goto __pyx_L1_error;
-                }
-                __pyx_L52:;
-              }
-          }
-
-          /* "plexsim/models/value_network.pyx":279
- *                     crawler.options.push_back(option)
- * 
- *                     if crawler.verbose:             # <<<<<<<<<<<<<<
- *                         with gil:
- *                             print(f"Pushing current edge:")
- */
-        }
-
-        /* "plexsim/models/value_network.pyx":274
- *             edge_weight = self._rules._adj[current_edge.current.state][current_edge.other.state]
- *             if edge_weight > 0:
- *                 if not crawler.in_options(current_edge.sort()):             # <<<<<<<<<<<<<<
- *                     option.clear()
- *                     option.push_back(current_edge.sort())
- */
-      }
-
-      /* "plexsim/models/value_network.pyx":273
- *             # 4. merge options
- *             edge_weight = self._rules._adj[current_edge.current.state][current_edge.other.state]
- *             if edge_weight > 0:             # <<<<<<<<<<<<<<
- *                 if not crawler.in_options(current_edge.sort()):
- *                     option.clear()
- */
-    }
-
-    /* "plexsim/models/value_network.pyx":285
- * 
- *             # merge options
- *             crawler.merge_options()             # <<<<<<<<<<<<<<
- *             # add in results
- *             crawler.check_options()
- */
-    __pyx_v_crawler->merge_options();
-
-    /* "plexsim/models/value_network.pyx":287
- *             crawler.merge_options()
- *             # add in results
- *             crawler.check_options()             # <<<<<<<<<<<<<<
- * 
- *             # for idx in range(crawler.options.size()):
- */
-    __pyx_v_crawler->check_options();
-
-    /* "plexsim/models/value_network.pyx":298
- *             #         crawler.add_result(crawler.options[idx])
- * 
- *             if crawler.verbose:             # <<<<<<<<<<<<<<
- *                 with gil:
- *                     print("done merging")
- */
-    __pyx_t_2 = (__pyx_v_crawler->verbose != 0);
-    if (__pyx_t_2) {
-
-      /* "plexsim/models/value_network.pyx":299
- * 
- *             if crawler.verbose:
- *                 with gil:             # <<<<<<<<<<<<<<
- *                     print("done merging")
- *                     crawler.print()
- */
-      {
-          #ifdef WITH_THREAD
-          PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-          #endif
-          /*try:*/ {
-
-            /* "plexsim/models/value_network.pyx":300
- *             if crawler.verbose:
- *                 with gil:
- *                     print("done merging")             # <<<<<<<<<<<<<<
- *                     crawler.print()
- *                     print(f"{crawler.path.size()=}")
- */
-            __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 300, __pyx_L55_error)
-            __Pyx_GOTREF(__pyx_t_4);
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-            /* "plexsim/models/value_network.pyx":301
- *                 with gil:
- *                     print("done merging")
- *                     crawler.print()             # <<<<<<<<<<<<<<
- *                     print(f"{crawler.path.size()=}")
- *                     print(f"{crawler.results.size()=}")
- */
-            __pyx_v_crawler->print();
-
-            /* "plexsim/models/value_network.pyx":302
- *                     print("done merging")
- *                     crawler.print()
- *                     print(f"{crawler.path.size()=}")             # <<<<<<<<<<<<<<
- *                     print(f"{crawler.results.size()=}")
- *                     print(f"{crawler.options.size()=}")
- */
-            __pyx_t_4 = __Pyx_PyInt_FromSize_t(__pyx_v_crawler->path.size()); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 302, __pyx_L55_error)
-            __Pyx_GOTREF(__pyx_t_4);
-            __pyx_t_5 = __Pyx_PyObject_FormatSimpleAndDecref(PyObject_Repr(__pyx_t_4), __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 302, __pyx_L55_error)
-            __Pyx_GOTREF(__pyx_t_5);
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __pyx_t_4 = __Pyx_PyUnicode_Concat(__pyx_kp_u_crawler_path_size, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 302, __pyx_L55_error)
-            __Pyx_GOTREF(__pyx_t_4);
-            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 302, __pyx_L55_error)
-            __Pyx_GOTREF(__pyx_t_5);
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-            /* "plexsim/models/value_network.pyx":303
- *                     crawler.print()
- *                     print(f"{crawler.path.size()=}")
- *                     print(f"{crawler.results.size()=}")             # <<<<<<<<<<<<<<
- *                     print(f"{crawler.options.size()=}")
- * 
- */
-            __pyx_t_5 = __Pyx_PyInt_FromSize_t(__pyx_v_crawler->results.size()); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 303, __pyx_L55_error)
-            __Pyx_GOTREF(__pyx_t_5);
-            __pyx_t_4 = __Pyx_PyObject_FormatSimpleAndDecref(PyObject_Repr(__pyx_t_5), __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 303, __pyx_L55_error)
-            __Pyx_GOTREF(__pyx_t_4);
-            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __pyx_t_5 = __Pyx_PyUnicode_Concat(__pyx_kp_u_crawler_results_size, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 303, __pyx_L55_error)
-            __Pyx_GOTREF(__pyx_t_5);
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 303, __pyx_L55_error)
-            __Pyx_GOTREF(__pyx_t_4);
-            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-            /* "plexsim/models/value_network.pyx":304
- *                     print(f"{crawler.path.size()=}")
- *                     print(f"{crawler.results.size()=}")
- *                     print(f"{crawler.options.size()=}")             # <<<<<<<<<<<<<<
- * 
- *         # check if current path contains solution
- */
-            __pyx_t_4 = __Pyx_PyInt_FromSize_t(__pyx_v_crawler->options.size()); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 304, __pyx_L55_error)
-            __Pyx_GOTREF(__pyx_t_4);
-            __pyx_t_5 = __Pyx_PyObject_FormatSimpleAndDecref(PyObject_Repr(__pyx_t_4), __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 304, __pyx_L55_error)
-            __Pyx_GOTREF(__pyx_t_5);
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __pyx_t_4 = __Pyx_PyUnicode_Concat(__pyx_kp_u_crawler_options_size, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 304, __pyx_L55_error)
-            __Pyx_GOTREF(__pyx_t_4);
-            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 304, __pyx_L55_error)
-            __Pyx_GOTREF(__pyx_t_5);
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          }
-
-          /* "plexsim/models/value_network.pyx":299
- * 
- *             if crawler.verbose:
- *                 with gil:             # <<<<<<<<<<<<<<
- *                     print("done merging")
- *                     crawler.print()
- */
-          /*finally:*/ {
-            /*normal exit:*/{
-              #ifdef WITH_THREAD
-              __Pyx_PyGILState_Release(__pyx_gilstate_save);
-              #endif
-              goto __pyx_L56;
-            }
-            __pyx_L55_error: {
-              #ifdef WITH_THREAD
-              __Pyx_PyGILState_Release(__pyx_gilstate_save);
-              #endif
-              goto __pyx_L1_error;
-            }
-            __pyx_L56:;
-          }
-      }
-
-      /* "plexsim/models/value_network.pyx":298
- *             #         crawler.add_result(crawler.options[idx])
- * 
- *             if crawler.verbose:             # <<<<<<<<<<<<<<
- *                 with gil:
- *                     print("done merging")
- */
-    }
-
-    /* "plexsim/models/value_network.pyx":189
- *         cdef size_t idx
- *         cdef node_id_t neighbor_idx
- *         if crawler.queue.size():             # <<<<<<<<<<<<<<
- *             # pop the queue
- *             current_edge.current = crawler.queue.back().current
+    /* "plexsim/models/value_network2.pyx":226
+ *         cdef state_t s, ss
+ *         cdef list e, ev, option
+ *         if queue:             # <<<<<<<<<<<<<<
+ *             # get current node
+ *             from_node, current = queue.pop()
  */
   }
 
-  /* "plexsim/models/value_network.pyx":307
+  /* "plexsim/models/value_network2.pyx":356
  * 
- *         # check if current path contains solution
- *         if crawler.path.size() == self._bounded_rational:             # <<<<<<<<<<<<<<
- *             crawler.add_result(crawler.path)
+ *         # check if the solution is correct
+ *         if len(vp_path) == self._bounded_rational:             # <<<<<<<<<<<<<<
+ *             self.check_doubles(path.copy(), results)
+ *             if verbose: print('added path', results)
+ */
+  if (unlikely(__pyx_v_vp_path == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+    __PYX_ERR(0, 356, __pyx_L1_error)
+  }
+  __pyx_t_13 = PyList_GET_SIZE(__pyx_v_vp_path); if (unlikely(__pyx_t_13 == ((Py_ssize_t)-1))) __PYX_ERR(0, 356, __pyx_L1_error)
+  __pyx_t_16 = ((__pyx_t_13 == __pyx_v_self->_bounded_rational) != 0);
+  if (__pyx_t_16) {
+
+    /* "plexsim/models/value_network2.pyx":357
+ *         # check if the solution is correct
+ *         if len(vp_path) == self._bounded_rational:
+ *             self.check_doubles(path.copy(), results)             # <<<<<<<<<<<<<<
+ *             if verbose: print('added path', results)
  * 
  */
-  __pyx_t_2 = ((__pyx_v_crawler->path.size() == __pyx_v_self->_bounded_rational) != 0);
-  if (__pyx_t_2) {
+    __pyx_t_1 = __Pyx_CallUnboundCMethod0(&__pyx_umethod_PyList_Type_copy, __pyx_v_path); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 357, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None) || __Pyx_RaiseUnexpectedTypeError("list", __pyx_t_1))) __PYX_ERR(0, 357, __pyx_L1_error)
+    (void)(((struct __pyx_vtabstruct_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->check_doubles(__pyx_v_self, ((PyObject*)__pyx_t_1), __pyx_v_results, 0, NULL));
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "plexsim/models/value_network.pyx":308
- *         # check if current path contains solution
- *         if crawler.path.size() == self._bounded_rational:
- *             crawler.add_result(crawler.path)             # <<<<<<<<<<<<<<
+    /* "plexsim/models/value_network2.pyx":358
+ *         if len(vp_path) == self._bounded_rational:
+ *             self.check_doubles(path.copy(), results)
+ *             if verbose: print('added path', results)             # <<<<<<<<<<<<<<
  * 
- *         # reduce path length
+ *         if len(path):
  */
-    __pyx_v_crawler->add_result(__pyx_v_crawler->path);
+    __pyx_t_16 = (__pyx_v_verbose != 0);
+    if (__pyx_t_16) {
+      __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 358, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_INCREF(__pyx_kp_s_added_path);
+      __Pyx_GIVEREF(__pyx_kp_s_added_path);
+      PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_s_added_path);
+      __Pyx_INCREF(__pyx_v_results);
+      __Pyx_GIVEREF(__pyx_v_results);
+      PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_results);
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 358, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    }
 
-    /* "plexsim/models/value_network.pyx":307
+    /* "plexsim/models/value_network2.pyx":356
  * 
- *         # check if current path contains solution
- *         if crawler.path.size() == self._bounded_rational:             # <<<<<<<<<<<<<<
- *             crawler.add_result(crawler.path)
- * 
+ *         # check if the solution is correct
+ *         if len(vp_path) == self._bounded_rational:             # <<<<<<<<<<<<<<
+ *             self.check_doubles(path.copy(), results)
+ *             if verbose: print('added path', results)
  */
   }
 
-  /* "plexsim/models/value_network.pyx":311
+  /* "plexsim/models/value_network2.pyx":360
+ *             if verbose: print('added path', results)
  * 
- *         # reduce path length
- *         crawler.path.pop_back()             # <<<<<<<<<<<<<<
- *         return crawler
- * 
+ *         if len(path):             # <<<<<<<<<<<<<<
+ *             path.pop()
+ *             vp_path.pop()
  */
-  __pyx_v_crawler->path.pop_back();
+  if (unlikely(__pyx_v_path == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+    __PYX_ERR(0, 360, __pyx_L1_error)
+  }
+  __pyx_t_13 = PyList_GET_SIZE(__pyx_v_path); if (unlikely(__pyx_t_13 == ((Py_ssize_t)-1))) __PYX_ERR(0, 360, __pyx_L1_error)
+  __pyx_t_16 = (__pyx_t_13 != 0);
+  if (__pyx_t_16) {
 
-  /* "plexsim/models/value_network.pyx":312
- *         # reduce path length
- *         crawler.path.pop_back()
- *         return crawler             # <<<<<<<<<<<<<<
+    /* "plexsim/models/value_network2.pyx":361
  * 
+ *         if len(path):
+ *             path.pop()             # <<<<<<<<<<<<<<
+ *             vp_path.pop()
  * 
  */
-  __pyx_r = __pyx_v_crawler;
+    if (unlikely(__pyx_v_path == Py_None)) {
+      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "pop");
+      __PYX_ERR(0, 361, __pyx_L1_error)
+    }
+    __pyx_t_3 = __Pyx_PyList_Pop(__pyx_v_path); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 361, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+    /* "plexsim/models/value_network2.pyx":362
+ *         if len(path):
+ *             path.pop()
+ *             vp_path.pop()             # <<<<<<<<<<<<<<
+ * 
+ *         return results
+ */
+    if (unlikely(__pyx_v_vp_path == Py_None)) {
+      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "pop");
+      __PYX_ERR(0, 362, __pyx_L1_error)
+    }
+    __pyx_t_3 = __Pyx_PyList_Pop(__pyx_v_vp_path); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 362, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+    /* "plexsim/models/value_network2.pyx":360
+ *             if verbose: print('added path', results)
+ * 
+ *         if len(path):             # <<<<<<<<<<<<<<
+ *             path.pop()
+ *             vp_path.pop()
+ */
+  }
+
+  /* "plexsim/models/value_network2.pyx":364
+ *             vp_path.pop()
+ * 
+ *         return results             # <<<<<<<<<<<<<<
+ * 
+ *     cdef double _energy(self, node_id_t node) nogil:
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_results);
+  __pyx_r = __pyx_v_results;
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network.pyx":172
- *         return results
- * 
- *     cdef Crawler* _check_df(self, Crawler *crawler) nogil:             # <<<<<<<<<<<<<<
- *         """
- *         Parameters
+  /* "plexsim/models/value_network2.pyx":209
+ *         return self._check_df(queue, path = [], vp_path = [],
+ *                               results = [[], []], verbose = verbose)
+ *     cpdef list _check_df(self, list queue, list path = [],             # <<<<<<<<<<<<<<
+ *                         list vp_path = [],
+ *                         list results = [],
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  #ifdef WITH_THREAD
-  __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-  #endif
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_WriteUnraisable("plexsim.models.value_network.ValueNetwork._check_df", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork._check_df", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
-  #ifdef WITH_THREAD
-  __Pyx_PyGILState_Release(__pyx_gilstate_save);
-  #endif
   __pyx_L0:;
-  __Pyx_RefNannyFinishContextNogil()
+  __Pyx_XDECREF(__pyx_v_node);
+  __Pyx_XDECREF(__pyx_v_e);
+  __Pyx_XDECREF(__pyx_v_ev);
+  __Pyx_XDECREF(__pyx_v_option);
+  __Pyx_XDECREF(__pyx_v_neigh);
+  __Pyx_XDECREF(__pyx_v_other);
+  __Pyx_XDECREF(__pyx_v_idx);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network.pyx":316
- * 
+/* Python wrapper */
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_17_check_df(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+PyDoc_STRVAR(__pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_16_check_df, "ValueNetwork._check_df(self, list queue, list path=[], list vp_path=[], list results=[], bool verbose=False) -> list\n\n        :param queue: edge queue, start with (node, node)\n        :param n: number of edges in the rule graph\n        :param m: model\n        :param path: monitors edges visited in social network\n        :param vp_path: monitors edges visited in value network\n        :param results: output. List of 2. First index contained completed value networks, second index contains branch options\n        :param verbose: print intermediate step for heavy debugging!\n        ");
+static PyMethodDef __pyx_mdef_7plexsim_6models_14value_network2_12ValueNetwork_17_check_df = {"_check_df", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_17_check_df, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_16_check_df};
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_17_check_df(PyObject *__pyx_v_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+) {
+  PyObject *__pyx_v_queue = 0;
+  PyObject *__pyx_v_path = 0;
+  PyObject *__pyx_v_vp_path = 0;
+  PyObject *__pyx_v_results = 0;
+  int __pyx_v_verbose;
+  #if !CYTHON_METH_FASTCALL
+  CYTHON_UNUSED const Py_ssize_t __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
+  #endif
+  CYTHON_UNUSED PyObject *const *__pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("_check_df (wrapper)", 0);
+  {
+    #if CYTHON_USE_MODULE_STATE
+    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_queue,&__pyx_n_s_path,&__pyx_n_s_vp_path,&__pyx_n_s_results,&__pyx_n_s_verbose,0};
+    #else
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_queue,&__pyx_n_s_path,&__pyx_n_s_vp_path,&__pyx_n_s_results,&__pyx_n_s_verbose,0};
+    #endif
+    PyObject* values[5] = {0,0,0,0,0};
+    values[1] = __pyx_k__6;
+    values[2] = __pyx_k__7;
+    values[3] = __pyx_k__8;
+    if (__pyx_kwds) {
+      Py_ssize_t kw_args;
+      switch (__pyx_nargs) {
+        case  5: values[4] = __Pyx_Arg_FASTCALL(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = __Pyx_Arg_FASTCALL(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = __Pyx_Arg_FASTCALL(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = __Pyx_NumKwargs_FASTCALL(__pyx_kwds);
+      switch (__pyx_nargs) {
+        case  0:
+        if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_queue)) != 0)) kw_args--;
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 209, __pyx_L3_error)
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_path);
+          if (value) { values[1] = value; kw_args--; }
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 209, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_vp_path);
+          if (value) { values[2] = value; kw_args--; }
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 209, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_results);
+          if (value) { values[3] = value; kw_args--; }
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 209, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_verbose);
+          if (value) { values[4] = value; kw_args--; }
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 209, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        const Py_ssize_t kwd_pos_args = __pyx_nargs;
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "_check_df") < 0)) __PYX_ERR(0, 209, __pyx_L3_error)
+      }
+    } else {
+      switch (__pyx_nargs) {
+        case  5: values[4] = __Pyx_Arg_FASTCALL(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = __Pyx_Arg_FASTCALL(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = __Pyx_Arg_FASTCALL(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_queue = ((PyObject*)values[0]);
+    __pyx_v_path = ((PyObject*)values[1]);
+    __pyx_v_vp_path = ((PyObject*)values[2]);
+    __pyx_v_results = ((PyObject*)values[3]);
+    if (values[4]) {
+      __pyx_v_verbose = __Pyx_PyObject_IsTrue(values[4]); if (unlikely((__pyx_v_verbose == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 212, __pyx_L3_error)
+    } else {
+
+      /* "plexsim/models/value_network2.pyx":212
+ *                         list vp_path = [],
+ *                         list results = [],
+ *                         bint verbose = False):             # <<<<<<<<<<<<<<
+ *         """
+ *         :param queue: edge queue, start with (node, node)
+ */
+      __pyx_v_verbose = ((int)0);
+    }
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("_check_df", 0, 1, 5, __pyx_nargs); __PYX_ERR(0, 209, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork._check_df", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_queue), (&PyList_Type), 1, "queue", 1))) __PYX_ERR(0, 209, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_path), (&PyList_Type), 1, "path", 1))) __PYX_ERR(0, 209, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_vp_path), (&PyList_Type), 1, "vp_path", 1))) __PYX_ERR(0, 210, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_results), (&PyList_Type), 1, "results", 1))) __PYX_ERR(0, 211, __pyx_L1_error)
+  __pyx_r = __pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_16_check_df(((struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self), __pyx_v_queue, __pyx_v_path, __pyx_v_vp_path, __pyx_v_results, __pyx_v_verbose);
+
+  /* "plexsim/models/value_network2.pyx":209
+ *         return self._check_df(queue, path = [], vp_path = [],
+ *                               results = [[], []], verbose = verbose)
+ *     cpdef list _check_df(self, list queue, list path = [],             # <<<<<<<<<<<<<<
+ *                         list vp_path = [],
+ *                         list results = [],
+ */
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_16_check_df(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, PyObject *__pyx_v_queue, PyObject *__pyx_v_path, PyObject *__pyx_v_vp_path, PyObject *__pyx_v_results, int __pyx_v_verbose) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork__check_df __pyx_t_2;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("_check_df", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_2.__pyx_n = 4;
+  __pyx_t_2.path = __pyx_v_path;
+  __pyx_t_2.vp_path = __pyx_v_vp_path;
+  __pyx_t_2.results = __pyx_v_results;
+  __pyx_t_2.verbose = __pyx_v_verbose;
+  __pyx_t_1 = __pyx_vtabptr_7plexsim_6models_14value_network2_ValueNetwork->_check_df(__pyx_v_self, __pyx_v_queue, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork._check_df", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "plexsim/models/value_network2.pyx":366
+ *         return results
  * 
  *     cdef double _energy(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
  *         """
  *         """
  */
 
-static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node) {
+static double __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork__energy(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node) {
   CYTHON_UNUSED size_t __pyx_v_neighbors;
   __pyx_t_7plexsim_6models_5types_state_t *__pyx_v_states;
   size_t __pyx_v_neighbor;
@@ -9100,26 +12111,37 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
   double __pyx_v_energy;
   __pyx_t_7plexsim_6models_5types_state_t __pyx_v_proposal;
   std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,__pyx_t_7plexsim_6models_5types_weight_t> ::iterator __pyx_v_it;
-  Crawler *__pyx_v_crawler;
   size_t __pyx_v_mi;
   double __pyx_r;
+  __Pyx_RefNannyDeclarations
   __pyx_t_7plexsim_6models_5types_state_t *__pyx_t_1;
   __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_2;
   int __pyx_t_3;
   __pyx_t_7plexsim_6models_5types_weight_t __pyx_t_4;
-  Crawler *__pyx_t_5;
-  size_t __pyx_t_6;
-  size_t __pyx_t_7;
-  size_t __pyx_t_8;
-  size_t __pyx_t_9;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
+  PyObject *__pyx_t_9 = NULL;
+  PyObject *__pyx_t_10 = NULL;
+  struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork__check_df __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  size_t __pyx_t_13;
+  size_t __pyx_t_14;
+  size_t __pyx_t_15;
+  size_t __pyx_t_16;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   #ifdef WITH_THREAD
-  PyGILState_STATE __pyx_gilstate_save;
+  PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+  #endif
+  __Pyx_RefNannySetupContext("_energy", 0);
+  #ifdef WITH_THREAD
+  __Pyx_PyGILState_Release(__pyx_gilstate_save);
   #endif
 
-  /* "plexsim/models/value_network.pyx":320
+  /* "plexsim/models/value_network2.pyx":370
  *         """
  *         cdef:
  *             size_t neighbors = self.adj._adj[node].neighbors.size()             # <<<<<<<<<<<<<<
@@ -9128,7 +12150,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  */
   __pyx_v_neighbors = (__pyx_v_self->__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.size();
 
-  /* "plexsim/models/value_network.pyx":321
+  /* "plexsim/models/value_network2.pyx":371
  *         cdef:
  *             size_t neighbors = self.adj._adj[node].neighbors.size()
  *             state_t* states = self._states # alias             # <<<<<<<<<<<<<<
@@ -9138,7 +12160,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
   __pyx_t_1 = __pyx_v_self->__pyx_base.__pyx_base._states;
   __pyx_v_states = __pyx_t_1;
 
-  /* "plexsim/models/value_network.pyx":325
+  /* "plexsim/models/value_network2.pyx":375
  *             double weight # TODO: remove delta
  * 
  *             double energy  = self._H[node] * self._states[node]             # <<<<<<<<<<<<<<
@@ -9148,7 +12170,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
   __pyx_t_2 = __pyx_v_node;
   __pyx_v_energy = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base._H.data) + __pyx_t_2)) ))) * (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]));
 
-  /* "plexsim/models/value_network.pyx":327
+  /* "plexsim/models/value_network2.pyx":377
  *             double energy  = self._H[node] * self._states[node]
  * 
  *         if self._nudges.find(node) != self._nudges.end():             # <<<<<<<<<<<<<<
@@ -9158,7 +12180,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
   __pyx_t_3 = ((__pyx_v_self->__pyx_base.__pyx_base._nudges.find(__pyx_v_node) != __pyx_v_self->__pyx_base.__pyx_base._nudges.end()) != 0);
   if (__pyx_t_3) {
 
-    /* "plexsim/models/value_network.pyx":328
+    /* "plexsim/models/value_network2.pyx":378
  * 
  *         if self._nudges.find(node) != self._nudges.end():
  *             energy += self._nudges[node] * self._states[node]             # <<<<<<<<<<<<<<
@@ -9167,7 +12189,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  */
     __pyx_v_energy = (__pyx_v_energy + ((__pyx_v_self->__pyx_base.__pyx_base._nudges[__pyx_v_node]) * (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node])));
 
-    /* "plexsim/models/value_network.pyx":327
+    /* "plexsim/models/value_network2.pyx":377
  *             double energy  = self._H[node] * self._states[node]
  * 
  *         if self._nudges.find(node) != self._nudges.end():             # <<<<<<<<<<<<<<
@@ -9176,7 +12198,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  */
   }
 
-  /* "plexsim/models/value_network.pyx":344
+  /* "plexsim/models/value_network2.pyx":394
  *         # only get nodes based on distance it can reach based on the value network
  *         # current state as proposal
  *         cdef state_t proposal = self._states[node]             # <<<<<<<<<<<<<<
@@ -9185,7 +12207,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  */
   __pyx_v_proposal = (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]);
 
-  /* "plexsim/models/value_network.pyx":352
+  /* "plexsim/models/value_network2.pyx":402
  * 
  *         # local update
  *         it = self.adj._adj[node].neighbors.begin()             # <<<<<<<<<<<<<<
@@ -9194,7 +12216,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  */
   __pyx_v_it = (__pyx_v_self->__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.begin();
 
-  /* "plexsim/models/value_network.pyx":353
+  /* "plexsim/models/value_network2.pyx":403
  *         # local update
  *         it = self.adj._adj[node].neighbors.begin()
  *         while it != self.adj._adj[node].neighbors.end():             # <<<<<<<<<<<<<<
@@ -9205,7 +12227,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
     __pyx_t_3 = ((__pyx_v_it != (__pyx_v_self->__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.end()) != 0);
     if (!__pyx_t_3) break;
 
-    /* "plexsim/models/value_network.pyx":354
+    /* "plexsim/models/value_network2.pyx":404
  *         it = self.adj._adj[node].neighbors.begin()
  *         while it != self.adj._adj[node].neighbors.end():
  *             weight   = deref(it).second             # <<<<<<<<<<<<<<
@@ -9215,7 +12237,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
     __pyx_t_4 = (*__pyx_v_it).second;
     __pyx_v_weight = __pyx_t_4;
 
-    /* "plexsim/models/value_network.pyx":355
+    /* "plexsim/models/value_network2.pyx":405
  *         while it != self.adj._adj[node].neighbors.end():
  *             weight   = deref(it).second
  *             neighbor = deref(it).first             # <<<<<<<<<<<<<<
@@ -9225,7 +12247,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
     __pyx_t_2 = (*__pyx_v_it).first;
     __pyx_v_neighbor = __pyx_t_2;
 
-    /* "plexsim/models/value_network.pyx":357
+    /* "plexsim/models/value_network2.pyx":407
  *             neighbor = deref(it).first
  *             # check rules
  *             energy += self._rules._adj[proposal][states[neighbor]]             # <<<<<<<<<<<<<<
@@ -9234,80 +12256,173 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  */
     __pyx_v_energy = (__pyx_v_energy + ((__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[__pyx_v_proposal])[(__pyx_v_states[__pyx_v_neighbor])]));
 
-    /* "plexsim/models/value_network.pyx":358
+    /* "plexsim/models/value_network2.pyx":408
  *             # check rules
  *             energy += self._rules._adj[proposal][states[neighbor]]
  *             post(it)             # <<<<<<<<<<<<<<
  * 
- *         cdef Crawler *crawler = new Crawler(node, self._states[node], self._bounded_rational)
+ *         with gil:
  */
     (void)((__pyx_v_it++));
   }
 
-  /* "plexsim/models/value_network.pyx":360
+  /* "plexsim/models/value_network2.pyx":410
  *             post(it)
  * 
- *         cdef Crawler *crawler = new Crawler(node, self._states[node], self._bounded_rational)             # <<<<<<<<<<<<<<
- *         crawler = self._check_df(crawler)
- *         energy += crawler.results.size()
+ *         with gil:             # <<<<<<<<<<<<<<
+ *             energy +=  len(self._check_df([[node, node]], path = [], vp_path = [],
+ *                                         results= [[], []], verbose = False)[0])
  */
-  try {
-    __pyx_t_5 = new Crawler(__pyx_v_node, (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]), __pyx_v_self->_bounded_rational);
-  } catch(...) {
-    #ifdef WITH_THREAD
-    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-    #endif
-    __Pyx_CppExn2PyErr();
-    #ifdef WITH_THREAD
-    __Pyx_PyGILState_Release(__pyx_gilstate_save);
-    #endif
-    __PYX_ERR(0, 360, __pyx_L1_error)
+  {
+      #ifdef WITH_THREAD
+      PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+      #endif
+      /*try:*/ {
+
+        /* "plexsim/models/value_network2.pyx":411
+ * 
+ *         with gil:
+ *             energy +=  len(self._check_df([[node, node]], path = [], vp_path = [],             # <<<<<<<<<<<<<<
+ *                                         results= [[], []], verbose = False)[0])
+ * 
+ */
+        __pyx_t_5 = __Pyx_PyInt_FromSize_t(__pyx_v_node); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 411, __pyx_L7_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_6 = __Pyx_PyInt_FromSize_t(__pyx_v_node); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 411, __pyx_L7_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_7 = PyList_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 411, __pyx_L7_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __Pyx_GIVEREF(__pyx_t_5);
+        PyList_SET_ITEM(__pyx_t_7, 0, __pyx_t_5);
+        __Pyx_GIVEREF(__pyx_t_6);
+        PyList_SET_ITEM(__pyx_t_7, 1, __pyx_t_6);
+        __pyx_t_5 = 0;
+        __pyx_t_6 = 0;
+        __pyx_t_6 = PyList_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 411, __pyx_L7_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __Pyx_GIVEREF(__pyx_t_7);
+        PyList_SET_ITEM(__pyx_t_6, 0, __pyx_t_7);
+        __pyx_t_7 = 0;
+        __pyx_t_7 = PyList_New(0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 411, __pyx_L7_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 411, __pyx_L7_error)
+        __Pyx_GOTREF(__pyx_t_5);
+
+        /* "plexsim/models/value_network2.pyx":412
+ *         with gil:
+ *             energy +=  len(self._check_df([[node, node]], path = [], vp_path = [],
+ *                                         results= [[], []], verbose = False)[0])             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+        __pyx_t_8 = PyList_New(0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 412, __pyx_L7_error)
+        __Pyx_GOTREF(__pyx_t_8);
+        __pyx_t_9 = PyList_New(0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 412, __pyx_L7_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        __pyx_t_10 = PyList_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 412, __pyx_L7_error)
+        __Pyx_GOTREF(__pyx_t_10);
+        __Pyx_GIVEREF(__pyx_t_8);
+        PyList_SET_ITEM(__pyx_t_10, 0, __pyx_t_8);
+        __Pyx_GIVEREF(__pyx_t_9);
+        PyList_SET_ITEM(__pyx_t_10, 1, __pyx_t_9);
+        __pyx_t_8 = 0;
+        __pyx_t_9 = 0;
+
+        /* "plexsim/models/value_network2.pyx":411
+ * 
+ *         with gil:
+ *             energy +=  len(self._check_df([[node, node]], path = [], vp_path = [],             # <<<<<<<<<<<<<<
+ *                                         results= [[], []], verbose = False)[0])
+ * 
+ */
+        __pyx_t_11.__pyx_n = 4;
+        __pyx_t_11.path = ((PyObject*)__pyx_t_7);
+        __pyx_t_11.vp_path = ((PyObject*)__pyx_t_5);
+        __pyx_t_11.results = ((PyObject*)__pyx_t_10);
+        __pyx_t_11.verbose = 0;
+        __pyx_t_9 = ((struct __pyx_vtabstruct_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->_check_df(__pyx_v_self, ((PyObject*)__pyx_t_6), 0, &__pyx_t_11); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 411, __pyx_L7_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        if (unlikely(__pyx_t_9 == Py_None)) {
+          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+          __PYX_ERR(0, 411, __pyx_L7_error)
+        }
+
+        /* "plexsim/models/value_network2.pyx":412
+ *         with gil:
+ *             energy +=  len(self._check_df([[node, node]], path = [], vp_path = [],
+ *                                         results= [[], []], verbose = False)[0])             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+        __pyx_t_10 = PyList_GET_ITEM(__pyx_t_9, 0);
+        __Pyx_INCREF(__pyx_t_10);
+        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+        /* "plexsim/models/value_network2.pyx":411
+ * 
+ *         with gil:
+ *             energy +=  len(self._check_df([[node, node]], path = [], vp_path = [],             # <<<<<<<<<<<<<<
+ *                                         results= [[], []], verbose = False)[0])
+ * 
+ */
+        __pyx_t_12 = PyObject_Length(__pyx_t_10); if (unlikely(__pyx_t_12 == ((Py_ssize_t)-1))) __PYX_ERR(0, 411, __pyx_L7_error)
+        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __pyx_v_energy = (__pyx_v_energy + __pyx_t_12);
+      }
+
+      /* "plexsim/models/value_network2.pyx":410
+ *             post(it)
+ * 
+ *         with gil:             # <<<<<<<<<<<<<<
+ *             energy +=  len(self._check_df([[node, node]], path = [], vp_path = [],
+ *                                         results= [[], []], verbose = False)[0])
+ */
+      /*finally:*/ {
+        /*normal exit:*/{
+          #ifdef WITH_THREAD
+          __Pyx_PyGILState_Release(__pyx_gilstate_save);
+          #endif
+          goto __pyx_L8;
+        }
+        __pyx_L7_error: {
+          #ifdef WITH_THREAD
+          __Pyx_PyGILState_Release(__pyx_gilstate_save);
+          #endif
+          goto __pyx_L1_error;
+        }
+        __pyx_L8:;
+      }
   }
-  __pyx_v_crawler = __pyx_t_5;
 
-  /* "plexsim/models/value_network.pyx":361
- * 
- *         cdef Crawler *crawler = new Crawler(node, self._states[node], self._bounded_rational)
- *         crawler = self._check_df(crawler)             # <<<<<<<<<<<<<<
- *         energy += crawler.results.size()
- * 
- */
-  __pyx_v_crawler = ((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->_check_df(__pyx_v_self, __pyx_v_crawler);
-
-  /* "plexsim/models/value_network.pyx":362
- *         cdef Crawler *crawler = new Crawler(node, self._states[node], self._bounded_rational)
- *         crawler = self._check_df(crawler)
- *         energy += crawler.results.size()             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __pyx_v_energy = (__pyx_v_energy + __pyx_v_crawler->results.size());
-
-  /* "plexsim/models/value_network.pyx":368
+  /* "plexsim/models/value_network2.pyx":418
  *         cdef size_t mi
  *         # TODO: move to separate function
  *         for mi in range(self._memorySize):             # <<<<<<<<<<<<<<
  *             energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
  *         return energy
  */
-  __pyx_t_6 = __pyx_v_self->__pyx_base.__pyx_base._memorySize;
-  __pyx_t_7 = __pyx_t_6;
-  for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
-    __pyx_v_mi = __pyx_t_8;
+  __pyx_t_13 = __pyx_v_self->__pyx_base.__pyx_base._memorySize;
+  __pyx_t_14 = __pyx_t_13;
+  for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
+    __pyx_v_mi = __pyx_t_15;
 
-    /* "plexsim/models/value_network.pyx":369
+    /* "plexsim/models/value_network2.pyx":419
  *         # TODO: move to separate function
  *         for mi in range(self._memorySize):
  *             energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])             # <<<<<<<<<<<<<<
  *         return energy
  *         # try-out match trees:
  */
-    __pyx_t_9 = __pyx_v_mi;
+    __pyx_t_16 = __pyx_v_mi;
     __pyx_t_2 = __pyx_v_node;
-    __pyx_v_energy = (__pyx_v_energy + (exp((__pyx_v_mi * __pyx_v_self->__pyx_base.__pyx_base._memento)) * ((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._hamiltonian(((struct __pyx_obj_7plexsim_6models_5potts_Potts *)__pyx_v_self), (__pyx_v_states[__pyx_v_node]), (*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=1 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ (__pyx_v_self->__pyx_base.__pyx_base._memory.data + __pyx_t_9 * __pyx_v_self->__pyx_base.__pyx_base._memory.strides[0]) )) + __pyx_t_2)) ))))));
+    __pyx_v_energy = (__pyx_v_energy + (exp((__pyx_v_mi * __pyx_v_self->__pyx_base.__pyx_base._memento)) * ((struct __pyx_vtabstruct_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._hamiltonian(((struct __pyx_obj_7plexsim_6models_5potts_Potts *)__pyx_v_self), (__pyx_v_states[__pyx_v_node]), (*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=1 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ (__pyx_v_self->__pyx_base.__pyx_base._memory.data + __pyx_t_16 * __pyx_v_self->__pyx_base.__pyx_base._memory.strides[0]) )) + __pyx_t_2)) ))))));
   }
 
-  /* "plexsim/models/value_network.pyx":370
+  /* "plexsim/models/value_network2.pyx":420
  *         for mi in range(self._memorySize):
  *             energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
  *         return energy             # <<<<<<<<<<<<<<
@@ -9317,8 +12432,8 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
   __pyx_r = __pyx_v_energy;
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network.pyx":316
- * 
+  /* "plexsim/models/value_network2.pyx":366
+ *         return results
  * 
  *     cdef double _energy(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
  *         """
@@ -9330,16 +12445,23 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
   #ifdef WITH_THREAD
   __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
   #endif
-  __Pyx_WriteUnraisable("plexsim.models.value_network.ValueNetwork._energy", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_WriteUnraisable("plexsim.models.value_network2.ValueNetwork._energy", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   #ifdef WITH_THREAD
   __Pyx_PyGILState_Release(__pyx_gilstate_save);
   #endif
   __pyx_L0:;
+  __Pyx_RefNannyFinishContextNogil()
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network.pyx":376
+/* "plexsim/models/value_network2.pyx":426
  * 
  * 
  *     cdef double probability(self, state_t state, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -9347,13 +12469,13 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  *         self._states[node] = state
  */
 
-static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probability(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_state, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node) {
+static double __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_probability(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_state, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node) {
   __pyx_t_7plexsim_6models_5types_state_t __pyx_v_tmp;
   double __pyx_v_energy;
   double __pyx_v_p;
   double __pyx_r;
 
-  /* "plexsim/models/value_network.pyx":377
+  /* "plexsim/models/value_network2.pyx":427
  * 
  *     cdef double probability(self, state_t state, node_id_t node) nogil:
  *         cdef state_t tmp = self._states[node]             # <<<<<<<<<<<<<<
@@ -9362,7 +12484,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
  */
   __pyx_v_tmp = (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]);
 
-  /* "plexsim/models/value_network.pyx":378
+  /* "plexsim/models/value_network2.pyx":428
  *     cdef double probability(self, state_t state, node_id_t node) nogil:
  *         cdef state_t tmp = self._states[node]
  *         self._states[node] = state             # <<<<<<<<<<<<<<
@@ -9371,16 +12493,16 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
  */
   (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]) = __pyx_v_state;
 
-  /* "plexsim/models/value_network.pyx":380
+  /* "plexsim/models/value_network2.pyx":430
  *         self._states[node] = state
  *         cdef:
  *             double energy = self._energy(node)             # <<<<<<<<<<<<<<
  *             double p = exp(self._beta * energy)
  * 
  */
-  __pyx_v_energy = ((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._energy(((struct __pyx_obj_7plexsim_6models_5potts_Potts *)__pyx_v_self), __pyx_v_node);
+  __pyx_v_energy = ((struct __pyx_vtabstruct_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._energy(((struct __pyx_obj_7plexsim_6models_5potts_Potts *)__pyx_v_self), __pyx_v_node);
 
-  /* "plexsim/models/value_network.pyx":381
+  /* "plexsim/models/value_network2.pyx":431
  *         cdef:
  *             double energy = self._energy(node)
  *             double p = exp(self._beta * energy)             # <<<<<<<<<<<<<<
@@ -9389,7 +12511,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
  */
   __pyx_v_p = exp((__pyx_v_self->__pyx_base._beta * __pyx_v_energy));
 
-  /* "plexsim/models/value_network.pyx":383
+  /* "plexsim/models/value_network2.pyx":433
  *             double p = exp(self._beta * energy)
  * 
  *         self._states[node] = tmp             # <<<<<<<<<<<<<<
@@ -9398,7 +12520,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
  */
   (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]) = __pyx_v_tmp;
 
-  /* "plexsim/models/value_network.pyx":384
+  /* "plexsim/models/value_network2.pyx":434
  * 
  *         self._states[node] = tmp
  *         return p             # <<<<<<<<<<<<<<
@@ -9408,7 +12530,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
   __pyx_r = __pyx_v_p;
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network.pyx":376
+  /* "plexsim/models/value_network2.pyx":426
  * 
  * 
  *     cdef double probability(self, state_t state, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -9421,7 +12543,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network.pyx":387
+/* "plexsim/models/value_network2.pyx":437
  * 
  *     # default update TODO remove this
  *     cdef double _hamiltonian(self, state_t x, state_t  y) nogil:             # <<<<<<<<<<<<<<
@@ -9429,10 +12551,10 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
  * 
  */
 
-static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__hamiltonian(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_x, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_y) {
+static double __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork__hamiltonian(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_x, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_y) {
   double __pyx_r;
 
-  /* "plexsim/models/value_network.pyx":388
+  /* "plexsim/models/value_network2.pyx":438
  *     # default update TODO remove this
  *     cdef double _hamiltonian(self, state_t x, state_t  y) nogil:
  *         return cos(2 * pi  * ( x - y ) * self._z)             # <<<<<<<<<<<<<<
@@ -9442,7 +12564,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__hamiltoni
   __pyx_r = cos((((2.0 * M_PI) * (__pyx_v_x - __pyx_v_y)) * __pyx_v_self->__pyx_base.__pyx_base._z));
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network.pyx":387
+  /* "plexsim/models/value_network2.pyx":437
  * 
  *     # default update TODO remove this
  *     cdef double _hamiltonian(self, state_t x, state_t  y) nogil:             # <<<<<<<<<<<<<<
@@ -9455,7 +12577,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__hamiltoni
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network.pyx":390
+/* "plexsim/models/value_network2.pyx":440
  *         return cos(2 * pi  * ( x - y ) * self._z)
  * 
  *     cdef void _step(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -9463,22 +12585,22 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__hamiltoni
  *             state_t proposal = self._sample_proposal()
  */
 
-static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node) {
+static void __pyx_f_7plexsim_6models_14value_network2_12ValueNetwork__step(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node) {
   __pyx_t_7plexsim_6models_5types_state_t __pyx_v_proposal;
   __pyx_t_7plexsim_6models_5types_state_t __pyx_v_cur_state;
   double __pyx_v_p;
   int __pyx_t_1;
 
-  /* "plexsim/models/value_network.pyx":392
+  /* "plexsim/models/value_network2.pyx":442
  *     cdef void _step(self, node_id_t node) nogil:
  *         cdef:
  *             state_t proposal = self._sample_proposal()             # <<<<<<<<<<<<<<
  *             state_t cur_state= self._states[node]
  *             double p     = self.probability(proposal, node) / \
  */
-  __pyx_v_proposal = ((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base._sample_proposal(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
+  __pyx_v_proposal = ((struct __pyx_vtabstruct_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base._sample_proposal(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
-  /* "plexsim/models/value_network.pyx":393
+  /* "plexsim/models/value_network2.pyx":443
  *         cdef:
  *             state_t proposal = self._sample_proposal()
  *             state_t cur_state= self._states[node]             # <<<<<<<<<<<<<<
@@ -9487,16 +12609,16 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
  */
   __pyx_v_cur_state = (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]);
 
-  /* "plexsim/models/value_network.pyx":394
+  /* "plexsim/models/value_network2.pyx":444
  *             state_t proposal = self._sample_proposal()
  *             state_t cur_state= self._states[node]
  *             double p     = self.probability(proposal, node) / \             # <<<<<<<<<<<<<<
  *                 self.probability(cur_state, node)
  *         if self._rng._rand () < p:
  */
-  __pyx_v_p = (((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_proposal, __pyx_v_node) / ((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_cur_state, __pyx_v_node));
+  __pyx_v_p = (((struct __pyx_vtabstruct_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_proposal, __pyx_v_node) / ((struct __pyx_vtabstruct_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_cur_state, __pyx_v_node));
 
-  /* "plexsim/models/value_network.pyx":396
+  /* "plexsim/models/value_network2.pyx":446
  *             double p     = self.probability(proposal, node) / \
  *                 self.probability(cur_state, node)
  *         if self._rng._rand () < p:             # <<<<<<<<<<<<<<
@@ -9506,7 +12628,7 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
   __pyx_t_1 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base.__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base.__pyx_base._rng) < __pyx_v_p) != 0);
   if (__pyx_t_1) {
 
-    /* "plexsim/models/value_network.pyx":397
+    /* "plexsim/models/value_network2.pyx":447
  *                 self.probability(cur_state, node)
  *         if self._rng._rand () < p:
  *             self._newstates[node] = proposal             # <<<<<<<<<<<<<<
@@ -9515,7 +12637,7 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
  */
     (__pyx_v_self->__pyx_base.__pyx_base._newstates[__pyx_v_node]) = __pyx_v_proposal;
 
-    /* "plexsim/models/value_network.pyx":396
+    /* "plexsim/models/value_network2.pyx":446
  *             double p     = self.probability(proposal, node) / \
  *                 self.probability(cur_state, node)
  *         if self._rng._rand () < p:             # <<<<<<<<<<<<<<
@@ -9524,15 +12646,16 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
  */
   }
 
-  /* "plexsim/models/value_network.pyx":398
+  /* "plexsim/models/value_network2.pyx":448
  *         if self._rng._rand () < p:
  *             self._newstates[node] = proposal
  *         return             # <<<<<<<<<<<<<<
  * 
+ * # cdef class ValueNetworkNP(Potts):
  */
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network.pyx":390
+  /* "plexsim/models/value_network2.pyx":440
  *         return cos(2 * pi  * ( x - y ) * self._z)
  * 
  *     cdef void _step(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -9551,16 +12674,16 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_9__reduce_cython__(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_19__reduce_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_7plexsim_6models_13value_network_12ValueNetwork_8__reduce_cython__, "ValueNetwork.__reduce_cython__(self)");
-static PyMethodDef __pyx_mdef_7plexsim_6models_13value_network_12ValueNetwork_9__reduce_cython__ = {"__reduce_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_9__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_13value_network_12ValueNetwork_8__reduce_cython__};
-static PyObject *__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_9__reduce_cython__(PyObject *__pyx_v_self, 
+PyDoc_STRVAR(__pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_18__reduce_cython__, "ValueNetwork.__reduce_cython__(self)");
+static PyMethodDef __pyx_mdef_7plexsim_6models_14value_network2_12ValueNetwork_19__reduce_cython__ = {"__reduce_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_19__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_18__reduce_cython__};
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_19__reduce_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -9577,14 +12700,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   if (unlikely(__pyx_nargs > 0)) {
     __Pyx_RaiseArgtupleInvalid("__reduce_cython__", 1, 0, 0, __pyx_nargs); return NULL;}
   if (unlikely(__pyx_kwds) && __Pyx_NumKwargs_FASTCALL(__pyx_kwds) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__reduce_cython__", 0))) return NULL;
-  __pyx_r = __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_8__reduce_cython__(((struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_18__reduce_cython__(((struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_8__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self) {
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_18__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_lineno = 0;
@@ -9609,7 +12732,7 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_8__red
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("plexsim.models.value_network.ValueNetwork.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -9624,16 +12747,16 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_8__red
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_11__setstate_cython__(PyObject *__pyx_v_self, 
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_21__setstate_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_7plexsim_6models_13value_network_12ValueNetwork_10__setstate_cython__, "ValueNetwork.__setstate_cython__(self, __pyx_state)");
-static PyMethodDef __pyx_mdef_7plexsim_6models_13value_network_12ValueNetwork_11__setstate_cython__ = {"__setstate_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_11__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_13value_network_12ValueNetwork_10__setstate_cython__};
-static PyObject *__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_11__setstate_cython__(PyObject *__pyx_v_self, 
+PyDoc_STRVAR(__pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_20__setstate_cython__, "ValueNetwork.__setstate_cython__(self, __pyx_state)");
+static PyMethodDef __pyx_mdef_7plexsim_6models_14value_network2_12ValueNetwork_21__setstate_cython__ = {"__setstate_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_21__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_20__setstate_cython__};
+static PyObject *__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_21__setstate_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -9688,18 +12811,18 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("__setstate_cython__", 1, 1, 1, __pyx_nargs); __PYX_ERR(1, 3, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("plexsim.models.value_network.ValueNetwork.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_10__setstate_cython__(((struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self), __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_20__setstate_cython__(((struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *)__pyx_v_self), __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_10__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_20__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_lineno = 0;
@@ -9724,7 +12847,7 @@ static PyObject *__pyx_pf_7plexsim_6models_13value_network_12ValueNetwork_10__se
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("plexsim.models.value_network.ValueNetwork.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("plexsim.models.value_network2.ValueNetwork.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -10509,7 +13632,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 987, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 987, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -10641,7 +13764,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 993, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 993, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -10773,7 +13896,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
  * 
  * 
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 999, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 999, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -11541,6 +14664,484 @@ static PyObject *__pyx_convert_vector_to_py_double(std::vector<double>  const &_
   return __pyx_r;
 }
 
+static PyObject *__pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_node_id_t(std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  const &__pyx_v_v) {
+  PyObject *__pyx_v_o = NULL;
+  Py_ssize_t __pyx_v_i;
+  PyObject *__pyx_v_item = 0;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  size_t __pyx_t_3;
+  size_t __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_node_id_t", 0);
+
+  /* "vector.to_py":67
+ * @cname("__pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_node_id_t")
+ * cdef object __pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_node_id_t(const vector[X]& v):
+ *     if v.size() > <size_t> PY_SSIZE_T_MAX:             # <<<<<<<<<<<<<<
+ *         raise MemoryError()
+ * 
+ */
+  __pyx_t_1 = ((__pyx_v_v.size() > ((size_t)PY_SSIZE_T_MAX)) != 0);
+  if (unlikely(__pyx_t_1)) {
+
+    /* "vector.to_py":68
+ * cdef object __pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_node_id_t(const vector[X]& v):
+ *     if v.size() > <size_t> PY_SSIZE_T_MAX:
+ *         raise MemoryError()             # <<<<<<<<<<<<<<
+ * 
+ *     o = PyList_New(<Py_ssize_t> v.size())
+ */
+    PyErr_NoMemory(); __PYX_ERR(1, 68, __pyx_L1_error)
+
+    /* "vector.to_py":67
+ * @cname("__pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_node_id_t")
+ * cdef object __pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_node_id_t(const vector[X]& v):
+ *     if v.size() > <size_t> PY_SSIZE_T_MAX:             # <<<<<<<<<<<<<<
+ *         raise MemoryError()
+ * 
+ */
+  }
+
+  /* "vector.to_py":70
+ *         raise MemoryError()
+ * 
+ *     o = PyList_New(<Py_ssize_t> v.size())             # <<<<<<<<<<<<<<
+ * 
+ *     cdef Py_ssize_t i
+ */
+  __pyx_t_2 = PyList_New(((Py_ssize_t)__pyx_v_v.size())); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 70, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_v_o = ((PyObject*)__pyx_t_2);
+  __pyx_t_2 = 0;
+
+  /* "vector.to_py":75
+ *     cdef object item
+ * 
+ *     for i in range(v.size()):             # <<<<<<<<<<<<<<
+ *         item = v[i]
+ *         Py_INCREF(item)
+ */
+  __pyx_t_3 = __pyx_v_v.size();
+  __pyx_t_4 = __pyx_t_3;
+  for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
+    __pyx_v_i = __pyx_t_5;
+
+    /* "vector.to_py":76
+ * 
+ *     for i in range(v.size()):
+ *         item = v[i]             # <<<<<<<<<<<<<<
+ *         Py_INCREF(item)
+ *         PyList_SET_ITEM(o, i, item)
+ */
+    __pyx_t_2 = __Pyx_PyInt_FromSize_t((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 76, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_XDECREF_SET(__pyx_v_item, __pyx_t_2);
+    __pyx_t_2 = 0;
+
+    /* "vector.to_py":77
+ *     for i in range(v.size()):
+ *         item = v[i]
+ *         Py_INCREF(item)             # <<<<<<<<<<<<<<
+ *         PyList_SET_ITEM(o, i, item)
+ * 
+ */
+    Py_INCREF(__pyx_v_item);
+
+    /* "vector.to_py":78
+ *         item = v[i]
+ *         Py_INCREF(item)
+ *         PyList_SET_ITEM(o, i, item)             # <<<<<<<<<<<<<<
+ * 
+ *     return o
+ */
+    PyList_SET_ITEM(__pyx_v_o, __pyx_v_i, __pyx_v_item);
+  }
+
+  /* "vector.to_py":80
+ *         PyList_SET_ITEM(o, i, item)
+ * 
+ *     return o             # <<<<<<<<<<<<<<
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_o);
+  __pyx_r = __pyx_v_o;
+  goto __pyx_L0;
+
+  /* "vector.to_py":66
+ * 
+ * @cname("__pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_node_id_t")
+ * cdef object __pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_node_id_t(const vector[X]& v):             # <<<<<<<<<<<<<<
+ *     if v.size() > <size_t> PY_SSIZE_T_MAX:
+ *         raise MemoryError()
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_node_id_t", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_o);
+  __Pyx_XDECREF(__pyx_v_item);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "map.to_py":232
+ * 
+ * @cname("__pyx_convert_unordered_map_to_py_size_t____std_3a__3a_vector_3c___pyx_t_7plexsim_6models_5types_node_id_t_3e___")
+ * cdef object __pyx_convert_unordered_map_to_py_size_t____std_3a__3a_vector_3c___pyx_t_7plexsim_6models_5types_node_id_t_3e___(const map[X,Y]& s):             # <<<<<<<<<<<<<<
+ *     o = {}
+ *     cdef const map[X,Y].value_type *key_value
+ */
+
+static PyObject *__pyx_convert_unordered_map_to_py_size_t____std_3a__3a_vector_3c___pyx_t_7plexsim_6models_5types_node_id_t_3e___(std::unordered_map<size_t,std::vector<__pyx_t_7plexsim_6models_5types_node_id_t> >  const &__pyx_v_s) {
+  PyObject *__pyx_v_o = NULL;
+  std::unordered_map<size_t,std::vector<__pyx_t_7plexsim_6models_5types_node_id_t> > ::value_type const *__pyx_v_key_value;
+  std::unordered_map<size_t,std::vector<__pyx_t_7plexsim_6models_5types_node_id_t> > ::const_iterator __pyx_v_iter;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__pyx_convert_unordered_map_to_py_size_t____std_3a__3a_vector_3c___pyx_t_7plexsim_6models_5types_node_id_t_3e___", 0);
+
+  /* "map.to_py":233
+ * @cname("__pyx_convert_unordered_map_to_py_size_t____std_3a__3a_vector_3c___pyx_t_7plexsim_6models_5types_node_id_t_3e___")
+ * cdef object __pyx_convert_unordered_map_to_py_size_t____std_3a__3a_vector_3c___pyx_t_7plexsim_6models_5types_node_id_t_3e___(const map[X,Y]& s):
+ *     o = {}             # <<<<<<<<<<<<<<
+ *     cdef const map[X,Y].value_type *key_value
+ *     cdef map[X,Y].const_iterator iter = s.begin()
+ */
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 233, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_o = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "map.to_py":235
+ *     o = {}
+ *     cdef const map[X,Y].value_type *key_value
+ *     cdef map[X,Y].const_iterator iter = s.begin()             # <<<<<<<<<<<<<<
+ *     while iter != s.end():
+ *         key_value = &cython.operator.dereference(iter)
+ */
+  __pyx_v_iter = __pyx_v_s.begin();
+
+  /* "map.to_py":236
+ *     cdef const map[X,Y].value_type *key_value
+ *     cdef map[X,Y].const_iterator iter = s.begin()
+ *     while iter != s.end():             # <<<<<<<<<<<<<<
+ *         key_value = &cython.operator.dereference(iter)
+ *         o[key_value.first] = key_value.second
+ */
+  while (1) {
+    __pyx_t_2 = ((__pyx_v_iter != __pyx_v_s.end()) != 0);
+    if (!__pyx_t_2) break;
+
+    /* "map.to_py":237
+ *     cdef map[X,Y].const_iterator iter = s.begin()
+ *     while iter != s.end():
+ *         key_value = &cython.operator.dereference(iter)             # <<<<<<<<<<<<<<
+ *         o[key_value.first] = key_value.second
+ *         cython.operator.preincrement(iter)
+ */
+    __pyx_v_key_value = (&(*__pyx_v_iter));
+
+    /* "map.to_py":238
+ *     while iter != s.end():
+ *         key_value = &cython.operator.dereference(iter)
+ *         o[key_value.first] = key_value.second             # <<<<<<<<<<<<<<
+ *         cython.operator.preincrement(iter)
+ *     return o
+ */
+    __pyx_t_1 = __pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_node_id_t(__pyx_v_key_value->second); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 238, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_v_key_value->first); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 238, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    if (unlikely((PyDict_SetItem(__pyx_v_o, __pyx_t_3, __pyx_t_1) < 0))) __PYX_ERR(1, 238, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "map.to_py":239
+ *         key_value = &cython.operator.dereference(iter)
+ *         o[key_value.first] = key_value.second
+ *         cython.operator.preincrement(iter)             # <<<<<<<<<<<<<<
+ *     return o
+ * 
+ */
+    (void)((++__pyx_v_iter));
+  }
+
+  /* "map.to_py":240
+ *         o[key_value.first] = key_value.second
+ *         cython.operator.preincrement(iter)
+ *     return o             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_o);
+  __pyx_r = __pyx_v_o;
+  goto __pyx_L0;
+
+  /* "map.to_py":232
+ * 
+ * @cname("__pyx_convert_unordered_map_to_py_size_t____std_3a__3a_vector_3c___pyx_t_7plexsim_6models_5types_node_id_t_3e___")
+ * cdef object __pyx_convert_unordered_map_to_py_size_t____std_3a__3a_vector_3c___pyx_t_7plexsim_6models_5types_node_id_t_3e___(const map[X,Y]& s):             # <<<<<<<<<<<<<<
+ *     o = {}
+ *     cdef const map[X,Y].value_type *key_value
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_AddTraceback("map.to_py.__pyx_convert_unordered_map_to_py_size_t____std_3a__3a_vector_3c___pyx_t_7plexsim_6models_5types_node_id_t_3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_o);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t____std_3a__3a_unordered_map_3c_size_t_2c_std_3a__3a_vector_3c___pyx_t_7plexsim_6models_5types_node_id_t_3e____3e___(std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,std::unordered_map<size_t,std::vector<__pyx_t_7plexsim_6models_5types_node_id_t> > >  const &__pyx_v_s) {
+  PyObject *__pyx_v_o = NULL;
+  std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,std::unordered_map<size_t,std::vector<__pyx_t_7plexsim_6models_5types_node_id_t> > > ::value_type const *__pyx_v_key_value;
+  std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,std::unordered_map<size_t,std::vector<__pyx_t_7plexsim_6models_5types_node_id_t> > > ::const_iterator __pyx_v_iter;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t____std_3a__3a_unordered_map_3c_size_t_2c_std_3a__3a_vector_3c___pyx_t_7plexsim_6models_5types_node_id_t_3e____3e___", 0);
+
+  /* "map.to_py":233
+ * @cname("__pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t____std_3a__3a_unordered_map_3c_size_t_2c_std_3a__3a_vector_3c___pyx_t_7plexsim_6models_5types_node_id_t_3e____3e___")
+ * cdef object __pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t____std_3a__3a_unordered_map_3c_size_t_2c_std_3a__3a_vector_3c___pyx_t_7plexsim_6models_5types_node_id_t_3e____3e___(const map[X,Y]& s):
+ *     o = {}             # <<<<<<<<<<<<<<
+ *     cdef const map[X,Y].value_type *key_value
+ *     cdef map[X,Y].const_iterator iter = s.begin()
+ */
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 233, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_o = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "map.to_py":235
+ *     o = {}
+ *     cdef const map[X,Y].value_type *key_value
+ *     cdef map[X,Y].const_iterator iter = s.begin()             # <<<<<<<<<<<<<<
+ *     while iter != s.end():
+ *         key_value = &cython.operator.dereference(iter)
+ */
+  __pyx_v_iter = __pyx_v_s.begin();
+
+  /* "map.to_py":236
+ *     cdef const map[X,Y].value_type *key_value
+ *     cdef map[X,Y].const_iterator iter = s.begin()
+ *     while iter != s.end():             # <<<<<<<<<<<<<<
+ *         key_value = &cython.operator.dereference(iter)
+ *         o[key_value.first] = key_value.second
+ */
+  while (1) {
+    __pyx_t_2 = ((__pyx_v_iter != __pyx_v_s.end()) != 0);
+    if (!__pyx_t_2) break;
+
+    /* "map.to_py":237
+ *     cdef map[X,Y].const_iterator iter = s.begin()
+ *     while iter != s.end():
+ *         key_value = &cython.operator.dereference(iter)             # <<<<<<<<<<<<<<
+ *         o[key_value.first] = key_value.second
+ *         cython.operator.preincrement(iter)
+ */
+    __pyx_v_key_value = (&(*__pyx_v_iter));
+
+    /* "map.to_py":238
+ *     while iter != s.end():
+ *         key_value = &cython.operator.dereference(iter)
+ *         o[key_value.first] = key_value.second             # <<<<<<<<<<<<<<
+ *         cython.operator.preincrement(iter)
+ *     return o
+ */
+    __pyx_t_1 = __pyx_convert_unordered_map_to_py_size_t____std_3a__3a_vector_3c___pyx_t_7plexsim_6models_5types_node_id_t_3e___(__pyx_v_key_value->second); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 238, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_v_key_value->first); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 238, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    if (unlikely((PyDict_SetItem(__pyx_v_o, __pyx_t_3, __pyx_t_1) < 0))) __PYX_ERR(1, 238, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "map.to_py":239
+ *         key_value = &cython.operator.dereference(iter)
+ *         o[key_value.first] = key_value.second
+ *         cython.operator.preincrement(iter)             # <<<<<<<<<<<<<<
+ *     return o
+ * 
+ */
+    (void)((++__pyx_v_iter));
+  }
+
+  /* "map.to_py":240
+ *         o[key_value.first] = key_value.second
+ *         cython.operator.preincrement(iter)
+ *     return o             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_o);
+  __pyx_r = __pyx_v_o;
+  goto __pyx_L0;
+
+  /* "map.to_py":232
+ * 
+ * @cname("__pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t____std_3a__3a_unordered_map_3c_size_t_2c_std_3a__3a_vector_3c___pyx_t_7plexsim_6models_5types_node_id_t_3e____3e___")
+ * cdef object __pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t____std_3a__3a_unordered_map_3c_size_t_2c_std_3a__3a_vector_3c___pyx_t_7plexsim_6models_5types_node_id_t_3e____3e___(const map[X,Y]& s):             # <<<<<<<<<<<<<<
+ *     o = {}
+ *     cdef const map[X,Y].value_type *key_value
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_AddTraceback("map.to_py.__pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t____std_3a__3a_unordered_map_3c_size_t_2c_std_3a__3a_vector_3c___pyx_t_7plexsim_6models_5types_node_id_t_3e____3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_o);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t______pyx_t_7plexsim_6models_5types_weight_t(std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,__pyx_t_7plexsim_6models_5types_weight_t>  const &__pyx_v_s) {
+  PyObject *__pyx_v_o = NULL;
+  std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,__pyx_t_7plexsim_6models_5types_weight_t> ::value_type const *__pyx_v_key_value;
+  std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,__pyx_t_7plexsim_6models_5types_weight_t> ::const_iterator __pyx_v_iter;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t______pyx_t_7plexsim_6models_5types_weight_t", 0);
+
+  /* "map.to_py":233
+ * @cname("__pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t______pyx_t_7plexsim_6models_5types_weight_t")
+ * cdef object __pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t______pyx_t_7plexsim_6models_5types_weight_t(const map[X,Y]& s):
+ *     o = {}             # <<<<<<<<<<<<<<
+ *     cdef const map[X,Y].value_type *key_value
+ *     cdef map[X,Y].const_iterator iter = s.begin()
+ */
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 233, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_o = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "map.to_py":235
+ *     o = {}
+ *     cdef const map[X,Y].value_type *key_value
+ *     cdef map[X,Y].const_iterator iter = s.begin()             # <<<<<<<<<<<<<<
+ *     while iter != s.end():
+ *         key_value = &cython.operator.dereference(iter)
+ */
+  __pyx_v_iter = __pyx_v_s.begin();
+
+  /* "map.to_py":236
+ *     cdef const map[X,Y].value_type *key_value
+ *     cdef map[X,Y].const_iterator iter = s.begin()
+ *     while iter != s.end():             # <<<<<<<<<<<<<<
+ *         key_value = &cython.operator.dereference(iter)
+ *         o[key_value.first] = key_value.second
+ */
+  while (1) {
+    __pyx_t_2 = ((__pyx_v_iter != __pyx_v_s.end()) != 0);
+    if (!__pyx_t_2) break;
+
+    /* "map.to_py":237
+ *     cdef map[X,Y].const_iterator iter = s.begin()
+ *     while iter != s.end():
+ *         key_value = &cython.operator.dereference(iter)             # <<<<<<<<<<<<<<
+ *         o[key_value.first] = key_value.second
+ *         cython.operator.preincrement(iter)
+ */
+    __pyx_v_key_value = (&(*__pyx_v_iter));
+
+    /* "map.to_py":238
+ *     while iter != s.end():
+ *         key_value = &cython.operator.dereference(iter)
+ *         o[key_value.first] = key_value.second             # <<<<<<<<<<<<<<
+ *         cython.operator.preincrement(iter)
+ *     return o
+ */
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_key_value->second); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 238, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_v_key_value->first); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 238, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    if (unlikely((PyDict_SetItem(__pyx_v_o, __pyx_t_3, __pyx_t_1) < 0))) __PYX_ERR(1, 238, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "map.to_py":239
+ *         key_value = &cython.operator.dereference(iter)
+ *         o[key_value.first] = key_value.second
+ *         cython.operator.preincrement(iter)             # <<<<<<<<<<<<<<
+ *     return o
+ * 
+ */
+    (void)((++__pyx_v_iter));
+  }
+
+  /* "map.to_py":240
+ *         o[key_value.first] = key_value.second
+ *         cython.operator.preincrement(iter)
+ *     return o             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_o);
+  __pyx_r = __pyx_v_o;
+  goto __pyx_L0;
+
+  /* "map.to_py":232
+ * 
+ * @cname("__pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t______pyx_t_7plexsim_6models_5types_weight_t")
+ * cdef object __pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t______pyx_t_7plexsim_6models_5types_weight_t(const map[X,Y]& s):             # <<<<<<<<<<<<<<
+ *     o = {}
+ *     cdef const map[X,Y].value_type *key_value
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_AddTraceback("map.to_py.__pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t______pyx_t_7plexsim_6models_5types_weight_t", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_o);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 /* "View.MemoryView":126
  *         cdef bint dtype_is_object
  * 
@@ -11976,20 +15577,20 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_6);
       __pyx_t_6 = 0;
-      __Pyx_INCREF(__pyx_kp_u__13);
+      __Pyx_INCREF(__pyx_kp_u__14);
       __pyx_t_9 += 2;
-      __Pyx_GIVEREF(__pyx_kp_u__13);
-      PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_kp_u__13);
+      __Pyx_GIVEREF(__pyx_kp_u__14);
+      PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_kp_u__14);
       __pyx_t_6 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_v_dim, 0, ' ', 'd'); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 156, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __pyx_t_9 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_5, 3, __pyx_t_6);
       __pyx_t_6 = 0;
-      __Pyx_INCREF(__pyx_kp_u__14);
+      __Pyx_INCREF(__pyx_kp_u__15);
       __pyx_t_9 += 1;
-      __Pyx_GIVEREF(__pyx_kp_u__14);
-      PyTuple_SET_ITEM(__pyx_t_5, 4, __pyx_kp_u__14);
+      __Pyx_GIVEREF(__pyx_kp_u__15);
+      PyTuple_SET_ITEM(__pyx_t_5, 4, __pyx_kp_u__15);
       __pyx_t_6 = __Pyx_PyUnicode_Join(__pyx_t_5, 5, __pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 156, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -17285,7 +20886,7 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_10suboffsets___get_
     __Pyx_XDECREF(__pyx_r);
     __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->view.ndim); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 594, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PyNumber_Multiply(__pyx_tuple__16, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 594, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Multiply(__pyx_tuple__17, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 594, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_r = __pyx_t_3;
@@ -18945,10 +22546,10 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
         __Pyx_GIVEREF(__pyx_t_8);
         PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_8);
         __pyx_t_8 = 0;
-        __Pyx_INCREF(__pyx_kp_u__17);
+        __Pyx_INCREF(__pyx_kp_u__18);
         __pyx_t_6 += 1;
-        __Pyx_GIVEREF(__pyx_kp_u__17);
-        PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_kp_u__17);
+        __Pyx_GIVEREF(__pyx_kp_u__18);
+        PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_kp_u__18);
         __pyx_t_8 = __Pyx_PyUnicode_Join(__pyx_t_3, 3, __pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 705, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -20703,10 +24304,10 @@ static char *__pyx_pybuffer_index(Py_buffer *__pyx_v_view, char *__pyx_v_bufp, P
       __Pyx_GIVEREF(__pyx_t_5);
       PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_5);
       __pyx_t_5 = 0;
-      __Pyx_INCREF(__pyx_kp_u__18);
+      __Pyx_INCREF(__pyx_kp_u__19);
       __pyx_t_1 += 1;
-      __Pyx_GIVEREF(__pyx_kp_u__18);
-      PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_kp_u__18);
+      __Pyx_GIVEREF(__pyx_kp_u__19);
+      PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_kp_u__19);
       __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_3, 3, __pyx_t_1, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 941, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -20763,10 +24364,10 @@ static char *__pyx_pybuffer_index(Py_buffer *__pyx_v_view, char *__pyx_v_bufp, P
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_3);
     __pyx_t_3 = 0;
-    __Pyx_INCREF(__pyx_kp_u__18);
+    __Pyx_INCREF(__pyx_kp_u__19);
     __pyx_t_1 += 1;
-    __Pyx_GIVEREF(__pyx_kp_u__18);
-    PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_kp_u__18);
+    __Pyx_GIVEREF(__pyx_kp_u__19);
+    PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_kp_u__19);
     __pyx_t_3 = __Pyx_PyUnicode_Join(__pyx_t_5, 3, __pyx_t_1, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 944, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -23273,10 +26874,10 @@ static int __pyx_memoryview_err_extents(int __pyx_v_i, Py_ssize_t __pyx_v_extent
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_1, 5, __pyx_t_4);
   __pyx_t_4 = 0;
-  __Pyx_INCREF(__pyx_kp_u__18);
+  __Pyx_INCREF(__pyx_kp_u__19);
   __pyx_t_2 += 1;
-  __Pyx_GIVEREF(__pyx_kp_u__18);
-  PyTuple_SET_ITEM(__pyx_t_1, 6, __pyx_kp_u__18);
+  __Pyx_GIVEREF(__pyx_kp_u__19);
+  PyTuple_SET_ITEM(__pyx_t_1, 6, __pyx_kp_u__19);
   __pyx_t_4 = __Pyx_PyUnicode_Join(__pyx_t_1, 7, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1261, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -24969,10 +28570,10 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork __pyx_vtable_7plexsim_6models_13value_network_ValueNetwork;
+static struct __pyx_vtabstruct_7plexsim_6models_14value_network2_ValueNetwork __pyx_vtable_7plexsim_6models_14value_network2_ValueNetwork;
 
-static PyObject *__pyx_tp_new_7plexsim_6models_13value_network_ValueNetwork(PyTypeObject *t, PyObject *a, PyObject *k) {
-  struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *p;
+static PyObject *__pyx_tp_new_7plexsim_6models_14value_network2_ValueNetwork(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *p;
   #if CYTHON_COMPILING_IN_LIMITED_API
   newfunc new_func = (newfunc)PyType_GetSlot(__pyx_ptype_7plexsim_6models_5potts_Potts, Py_tp_new);
   PyObject *o = new_func(t, a, k);
@@ -24980,24 +28581,40 @@ static PyObject *__pyx_tp_new_7plexsim_6models_13value_network_ValueNetwork(PyTy
   PyObject *o = __pyx_ptype_7plexsim_6models_5potts_Potts->tp_new(t, a, k);
   #endif
   if (unlikely(!o)) return 0;
-  p = ((struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *)o);
-  p->__pyx_base.__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_7plexsim_6models_4base_Model*)__pyx_vtabptr_7plexsim_6models_13value_network_ValueNetwork;
+  p = ((struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *)o);
+  p->__pyx_base.__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_7plexsim_6models_4base_Model*)__pyx_vtabptr_7plexsim_6models_14value_network2_ValueNetwork;
+  new((void*)&(p->paths)) std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,std::unordered_map<size_t,std::vector<__pyx_t_7plexsim_6models_5types_node_id_t> > > ();
+  new((void*)&(p->distance_converter)) std::unordered_map<__pyx_t_7plexsim_6models_5types_state_t,size_t> ();
   return o;
 }
 
-static int __pyx_tp_traverse_7plexsim_6models_13value_network_ValueNetwork(PyObject *o, visitproc v, void *a) {
+static void __pyx_tp_dealloc_7plexsim_6models_14value_network2_ValueNetwork(PyObject *o) {
+  struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *p = (struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *)o;
+  #if CYTHON_USE_TP_FINALIZE
+  if (unlikely((PY_VERSION_HEX >= 0x03080000 || __Pyx_PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE)) && Py_TYPE(o)->tp_finalize) && !_PyGC_FINALIZED(o)) {
+    if (PyObject_CallFinalizerFromDealloc(o)) return;
+  }
+  #endif
+  PyObject_GC_UnTrack(o);
+  __Pyx_call_destructor(p->paths);
+  __Pyx_call_destructor(p->distance_converter);
+  PyObject_GC_Track(o);
+  if (likely(__pyx_ptype_7plexsim_6models_5potts_Potts)) __pyx_ptype_7plexsim_6models_5potts_Potts->tp_dealloc(o); else __Pyx_call_next_tp_dealloc(o, __pyx_tp_dealloc_7plexsim_6models_14value_network2_ValueNetwork);
+}
+
+static int __pyx_tp_traverse_7plexsim_6models_14value_network2_ValueNetwork(PyObject *o, visitproc v, void *a) {
   int e;
-  e = ((likely(__pyx_ptype_7plexsim_6models_5potts_Potts)) ? ((__pyx_ptype_7plexsim_6models_5potts_Potts->tp_traverse) ? __pyx_ptype_7plexsim_6models_5potts_Potts->tp_traverse(o, v, a) : 0) : __Pyx_call_next_tp_traverse(o, v, a, __pyx_tp_traverse_7plexsim_6models_13value_network_ValueNetwork)); if (e) return e;
+  e = ((likely(__pyx_ptype_7plexsim_6models_5potts_Potts)) ? ((__pyx_ptype_7plexsim_6models_5potts_Potts->tp_traverse) ? __pyx_ptype_7plexsim_6models_5potts_Potts->tp_traverse(o, v, a) : 0) : __Pyx_call_next_tp_traverse(o, v, a, __pyx_tp_traverse_7plexsim_6models_14value_network2_ValueNetwork)); if (e) return e;
   return 0;
 }
 
-static int __pyx_tp_clear_7plexsim_6models_13value_network_ValueNetwork(PyObject *o) {
-  if (likely(__pyx_ptype_7plexsim_6models_5potts_Potts)) { if (__pyx_ptype_7plexsim_6models_5potts_Potts->tp_clear) __pyx_ptype_7plexsim_6models_5potts_Potts->tp_clear(o); } else __Pyx_call_next_tp_clear(o, __pyx_tp_clear_7plexsim_6models_13value_network_ValueNetwork);
+static int __pyx_tp_clear_7plexsim_6models_14value_network2_ValueNetwork(PyObject *o) {
+  if (likely(__pyx_ptype_7plexsim_6models_5potts_Potts)) { if (__pyx_ptype_7plexsim_6models_5potts_Potts->tp_clear) __pyx_ptype_7plexsim_6models_5potts_Potts->tp_clear(o); } else __Pyx_call_next_tp_clear(o, __pyx_tp_clear_7plexsim_6models_14value_network2_ValueNetwork);
   return 0;
 }
 
-static PyObject *__pyx___dict__getter_7plexsim_6models_13value_network_ValueNetwork(PyObject *o, CYTHON_UNUSED void *x) {
-  struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *p = (struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *)o;
+static PyObject *__pyx___dict__getter_7plexsim_6models_14value_network2_ValueNetwork(PyObject *o, CYTHON_UNUSED void *x) {
+  struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *p = (struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *)o;
   if (unlikely(!p->__pyx_base.__pyx_base.__dict__)){
     p->__pyx_base.__pyx_base.__dict__ = PyDict_New();
   }
@@ -25005,13 +28622,13 @@ static PyObject *__pyx___dict__getter_7plexsim_6models_13value_network_ValueNetw
   return p->__pyx_base.__pyx_base.__dict__;
 }
 
-static PyObject *__pyx_getprop_7plexsim_6models_13value_network_12ValueNetwork_bounded_rational(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_16bounded_rational_1__get__(o);
+static PyObject *__pyx_getprop_7plexsim_6models_14value_network2_12ValueNetwork_bounded_rational(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_16bounded_rational_1__get__(o);
 }
 
-static int __pyx_setprop_7plexsim_6models_13value_network_12ValueNetwork_bounded_rational(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7plexsim_6models_14value_network2_12ValueNetwork_bounded_rational(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_16bounded_rational_3__set__(o, v);
+    return __pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_16bounded_rational_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -25019,56 +28636,57 @@ static int __pyx_setprop_7plexsim_6models_13value_network_12ValueNetwork_bounded
   }
 }
 
-static PyObject *__pyx_getprop_7plexsim_6models_13value_network_12ValueNetwork_pat(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_3pat_1__get__(o);
+static PyObject *__pyx_getprop_7plexsim_6models_14value_network2_12ValueNetwork_pat(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_3pat_1__get__(o);
 }
 
-static PyMethodDef __pyx_methods_7plexsim_6models_13value_network_ValueNetwork[] = {
-  {"__reduce_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_9__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_13value_network_12ValueNetwork_8__reduce_cython__},
-  {"__setstate_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_11__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_13value_network_12ValueNetwork_10__setstate_cython__},
+static PyMethodDef __pyx_methods_7plexsim_6models_14value_network2_ValueNetwork[] = {
+  {"__reduce_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_19__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_18__reduce_cython__},
+  {"__setstate_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_21__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_14value_network2_12ValueNetwork_20__setstate_cython__},
   {0, 0, 0, 0}
 };
 
-static struct PyGetSetDef __pyx_getsets_7plexsim_6models_13value_network_ValueNetwork[] = {
-  {(char *)"__dict__", __pyx___dict__getter_7plexsim_6models_13value_network_ValueNetwork, 0, (char *)0, 0},
-  {(char *)"bounded_rational", __pyx_getprop_7plexsim_6models_13value_network_12ValueNetwork_bounded_rational, __pyx_setprop_7plexsim_6models_13value_network_12ValueNetwork_bounded_rational, (char *)0, 0},
-  {(char *)"pat", __pyx_getprop_7plexsim_6models_13value_network_12ValueNetwork_pat, 0, (char *)0, 0},
+static struct PyGetSetDef __pyx_getsets_7plexsim_6models_14value_network2_ValueNetwork[] = {
+  {(char *)"__dict__", __pyx___dict__getter_7plexsim_6models_14value_network2_ValueNetwork, 0, (char *)0, 0},
+  {(char *)"bounded_rational", __pyx_getprop_7plexsim_6models_14value_network2_12ValueNetwork_bounded_rational, __pyx_setprop_7plexsim_6models_14value_network2_12ValueNetwork_bounded_rational, (char *)0, 0},
+  {(char *)"pat", __pyx_getprop_7plexsim_6models_14value_network2_12ValueNetwork_pat, 0, (char *)0, 0},
   {0, 0, 0, 0, 0}
 };
 #if CYTHON_USE_TYPE_SPECS
 static struct PyMemberDef __pyx_tp_members_ValueNetwork[] = {
-  {"__dictoffset__", T_PYSSIZET, offsetof(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork, __pyx_base.__pyx_base.__dict__), READONLY, NULL},
+  {"__dictoffset__", T_PYSSIZET, offsetof(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork, __pyx_base.__pyx_base.__dict__), READONLY, NULL},
   {NULL, 0, 0, 0, NULL}
 };
-static PyType_Slot __pyx_type_7plexsim_6models_13value_network_ValueNetwork_slots[] = {
+static PyType_Slot __pyx_type_7plexsim_6models_14value_network2_ValueNetwork_slots[] = {
+  {Py_tp_dealloc, (void *)__pyx_tp_dealloc_7plexsim_6models_14value_network2_ValueNetwork},
   {Py_tp_doc, (void *)PyDoc_STR("ValueNetwork(graph, rules, t=1, bounded_rational=-1, agentStates=np.arange(0, 2, dtype=np.double), **kwargs)")},
-  {Py_tp_traverse, (void *)__pyx_tp_traverse_7plexsim_6models_13value_network_ValueNetwork},
-  {Py_tp_clear, (void *)__pyx_tp_clear_7plexsim_6models_13value_network_ValueNetwork},
-  {Py_tp_methods, (void *)__pyx_methods_7plexsim_6models_13value_network_ValueNetwork},
+  {Py_tp_traverse, (void *)__pyx_tp_traverse_7plexsim_6models_14value_network2_ValueNetwork},
+  {Py_tp_clear, (void *)__pyx_tp_clear_7plexsim_6models_14value_network2_ValueNetwork},
+  {Py_tp_methods, (void *)__pyx_methods_7plexsim_6models_14value_network2_ValueNetwork},
   {Py_tp_members, (void *)__pyx_tp_members_ValueNetwork},
-  {Py_tp_getset, (void *)__pyx_getsets_7plexsim_6models_13value_network_ValueNetwork},
+  {Py_tp_getset, (void *)__pyx_getsets_7plexsim_6models_14value_network2_ValueNetwork},
   #if !CYTHON_USE_TYPE_SPECS
-  {Py_tp_dictoffset, (void *)offsetof(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork, __pyx_base.__pyx_base.__dict__)},
+  {Py_tp_dictoffset, (void *)offsetof(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork, __pyx_base.__pyx_base.__dict__)},
   #endif
-  {Py_tp_init, (void *)__pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_1__init__},
-  {Py_tp_new, (void *)__pyx_tp_new_7plexsim_6models_13value_network_ValueNetwork},
+  {Py_tp_init, (void *)__pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_1__init__},
+  {Py_tp_new, (void *)__pyx_tp_new_7plexsim_6models_14value_network2_ValueNetwork},
   {0, 0},
 };
-static PyType_Spec __pyx_type_7plexsim_6models_13value_network_ValueNetwork_spec = {
-  "plexsim.models.value_network.ValueNetwork",
-  sizeof(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork),
+static PyType_Spec __pyx_type_7plexsim_6models_14value_network2_ValueNetwork_spec = {
+  "plexsim.models.value_network2.ValueNetwork",
+  sizeof(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC,
-  __pyx_type_7plexsim_6models_13value_network_ValueNetwork_slots,
+  __pyx_type_7plexsim_6models_14value_network2_ValueNetwork_slots,
 };
 #else
 
-static PyTypeObject __pyx_type_7plexsim_6models_13value_network_ValueNetwork = {
+static PyTypeObject __pyx_type_7plexsim_6models_14value_network2_ValueNetwork = {
   PyVarObject_HEAD_INIT(0, 0)
-  "plexsim.models.value_network.""ValueNetwork", /*tp_name*/
-  sizeof(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork), /*tp_basicsize*/
+  "plexsim.models.value_network2.""ValueNetwork", /*tp_name*/
+  sizeof(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  0, /*tp_dealloc*/
+  __pyx_tp_dealloc_7plexsim_6models_14value_network2_ValueNetwork, /*tp_dealloc*/
   #if PY_VERSION_HEX < 0x030800b4
   0, /*tp_print*/
   #endif
@@ -25095,25 +28713,25 @@ static PyTypeObject __pyx_type_7plexsim_6models_13value_network_ValueNetwork = {
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
   PyDoc_STR("ValueNetwork(graph, rules, t=1, bounded_rational=-1, agentStates=np.arange(0, 2, dtype=np.double), **kwargs)"), /*tp_doc*/
-  __pyx_tp_traverse_7plexsim_6models_13value_network_ValueNetwork, /*tp_traverse*/
-  __pyx_tp_clear_7plexsim_6models_13value_network_ValueNetwork, /*tp_clear*/
+  __pyx_tp_traverse_7plexsim_6models_14value_network2_ValueNetwork, /*tp_traverse*/
+  __pyx_tp_clear_7plexsim_6models_14value_network2_ValueNetwork, /*tp_clear*/
   0, /*tp_richcompare*/
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
   0, /*tp_iternext*/
-  __pyx_methods_7plexsim_6models_13value_network_ValueNetwork, /*tp_methods*/
+  __pyx_methods_7plexsim_6models_14value_network2_ValueNetwork, /*tp_methods*/
   0, /*tp_members*/
-  __pyx_getsets_7plexsim_6models_13value_network_ValueNetwork, /*tp_getset*/
+  __pyx_getsets_7plexsim_6models_14value_network2_ValueNetwork, /*tp_getset*/
   0, /*tp_base*/
   0, /*tp_dict*/
   0, /*tp_descr_get*/
   0, /*tp_descr_set*/
   #if !CYTHON_USE_TYPE_SPECS
-  offsetof(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork, __pyx_base.__pyx_base.__dict__), /*tp_dictoffset*/
+  offsetof(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork, __pyx_base.__pyx_base.__dict__), /*tp_dictoffset*/
   #endif
-  __pyx_pw_7plexsim_6models_13value_network_12ValueNetwork_1__init__, /*tp_init*/
+  __pyx_pw_7plexsim_6models_14value_network2_12ValueNetwork_1__init__, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_7plexsim_6models_13value_network_ValueNetwork, /*tp_new*/
+  __pyx_tp_new_7plexsim_6models_14value_network2_ValueNetwork, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -25263,7 +28881,7 @@ static PyType_Slot __pyx_type___pyx_array_slots[] = {
   {0, 0},
 };
 static PyType_Spec __pyx_type___pyx_array_spec = {
-  "plexsim.models.value_network.array",
+  "plexsim.models.value_network2.array",
   sizeof(struct __pyx_array_obj),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE,
@@ -25309,7 +28927,7 @@ static PyBufferProcs __pyx_tp_as_buffer_array = {
 
 static PyTypeObject __pyx_type___pyx_array = {
   PyVarObject_HEAD_INIT(0, 0)
-  "plexsim.models.value_network.""array", /*tp_name*/
+  "plexsim.models.value_network2.""array", /*tp_name*/
   sizeof(struct __pyx_array_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_array, /*tp_dealloc*/
@@ -25448,7 +29066,7 @@ static PyType_Slot __pyx_type___pyx_MemviewEnum_slots[] = {
   {0, 0},
 };
 static PyType_Spec __pyx_type___pyx_MemviewEnum_spec = {
-  "plexsim.models.value_network.Enum",
+  "plexsim.models.value_network2.Enum",
   sizeof(struct __pyx_MemviewEnum_obj),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC,
@@ -25458,7 +29076,7 @@ static PyType_Spec __pyx_type___pyx_MemviewEnum_spec = {
 
 static PyTypeObject __pyx_type___pyx_MemviewEnum = {
   PyVarObject_HEAD_INIT(0, 0)
-  "plexsim.models.value_network.""Enum", /*tp_name*/
+  "plexsim.models.value_network2.""Enum", /*tp_name*/
   sizeof(struct __pyx_MemviewEnum_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_Enum, /*tp_dealloc*/
@@ -25731,7 +29349,7 @@ static PyType_Slot __pyx_type___pyx_memoryview_slots[] = {
   {0, 0},
 };
 static PyType_Spec __pyx_type___pyx_memoryview_spec = {
-  "plexsim.models.value_network.memoryview",
+  "plexsim.models.value_network2.memoryview",
   sizeof(struct __pyx_memoryview_obj),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC,
@@ -25777,7 +29395,7 @@ static PyBufferProcs __pyx_tp_as_buffer_memoryview = {
 
 static PyTypeObject __pyx_type___pyx_memoryview = {
   PyVarObject_HEAD_INIT(0, 0)
-  "plexsim.models.value_network.""memoryview", /*tp_name*/
+  "plexsim.models.value_network2.""memoryview", /*tp_name*/
   sizeof(struct __pyx_memoryview_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_memoryview, /*tp_dealloc*/
@@ -25927,7 +29545,7 @@ static PyType_Slot __pyx_type___pyx_memoryviewslice_slots[] = {
   {0, 0},
 };
 static PyType_Spec __pyx_type___pyx_memoryviewslice_spec = {
-  "plexsim.models.value_network._memoryviewslice",
+  "plexsim.models.value_network2._memoryviewslice",
   sizeof(struct __pyx_memoryviewslice_obj),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC,
@@ -25937,7 +29555,7 @@ static PyType_Spec __pyx_type___pyx_memoryviewslice_spec = {
 
 static PyTypeObject __pyx_type___pyx_memoryviewslice = {
   PyVarObject_HEAD_INIT(0, 0)
-  "plexsim.models.value_network.""_memoryviewslice", /*tp_name*/
+  "plexsim.models.value_network2.""_memoryviewslice", /*tp_name*/
   sizeof(struct __pyx_memoryviewslice_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc__memoryviewslice, /*tp_dealloc*/
@@ -26037,37 +29655,34 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_ASCII, sizeof(__pyx_k_ASCII), 0, 0, 1, 1},
   {0, __pyx_k_All_dimensions_preceding_dimensi, sizeof(__pyx_k_All_dimensions_preceding_dimensi), 0, 0, 1, 0},
   {0, __pyx_k_AssertionError, sizeof(__pyx_k_AssertionError), 0, 0, 1, 1},
-  {0, __pyx_k_At_endpoint, sizeof(__pyx_k_At_endpoint), 0, 0, 1, 0},
-  {0, __pyx_k_At_proposal_edge_current_name, sizeof(__pyx_k_At_proposal_edge_current_name), 0, 1, 0, 0},
+  {0, __pyx_k_At, sizeof(__pyx_k_At), 0, 1, 0, 0},
+  {0, __pyx_k_At_an_end_point_pushing, sizeof(__pyx_k_At_an_end_point_pushing), 0, 1, 0, 0},
   {0, __pyx_k_Buffer_view_does_not_expose_stri, sizeof(__pyx_k_Buffer_view_does_not_expose_stri), 0, 0, 1, 0},
   {0, __pyx_k_Can_only_create_a_buffer_that_is, sizeof(__pyx_k_Can_only_create_a_buffer_that_is), 0, 0, 1, 0},
   {0, __pyx_k_Cannot_assign_to_read_only_memor, sizeof(__pyx_k_Cannot_assign_to_read_only_memor), 0, 0, 1, 0},
   {0, __pyx_k_Cannot_create_writable_memory_vi, sizeof(__pyx_k_Cannot_create_writable_memory_vi), 0, 0, 1, 0},
   {0, __pyx_k_Cannot_index_with_type, sizeof(__pyx_k_Cannot_index_with_type), 0, 1, 0, 0},
   {0, __pyx_k_Cannot_transpose_memoryview_with, sizeof(__pyx_k_Cannot_transpose_memoryview_with), 0, 0, 1, 0},
-  {0, __pyx_k_Checking_proposal_edge_other_nam, sizeof(__pyx_k_Checking_proposal_edge_other_nam), 0, 1, 0, 0},
-  {0, __pyx_k_Current_edge_is, sizeof(__pyx_k_Current_edge_is), 0, 0, 1, 0},
   {0, __pyx_k_Dimension_d_is_not_direct, sizeof(__pyx_k_Dimension_d_is_not_direct), 0, 0, 1, 0},
   {0, __pyx_k_Ellipsis, sizeof(__pyx_k_Ellipsis), 0, 0, 1, 1},
   {0, __pyx_k_Empty_shape_tuple_for_cython_arr, sizeof(__pyx_k_Empty_shape_tuple_for_cython_arr), 0, 0, 1, 0},
-  {0, __pyx_k_Found_negative_edge_weight, sizeof(__pyx_k_Found_negative_edge_weight), 0, 1, 0, 0},
-  {0, __pyx_k_Found_node_already_in_path_cycle, sizeof(__pyx_k_Found_node_already_in_path_cycle), 0, 0, 1, 0},
-  {0, __pyx_k_Going_into_branch, sizeof(__pyx_k_Going_into_branch), 0, 0, 1, 0},
   {0, __pyx_k_ImportError, sizeof(__pyx_k_ImportError), 0, 0, 1, 1},
   {0, __pyx_k_Incompatible_checksums_s_vs_0x6a, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x6a), 0, 0, 1, 0},
   {0, __pyx_k_IndexError, sizeof(__pyx_k_IndexError), 0, 0, 1, 1},
   {0, __pyx_k_Index_out_of_bounds_axis_d, sizeof(__pyx_k_Index_out_of_bounds_axis_d), 0, 0, 1, 0},
   {0, __pyx_k_Indirect_dimensions_not_supporte, sizeof(__pyx_k_Indirect_dimensions_not_supporte), 0, 0, 1, 0},
-  {0, __pyx_k_Inserting_edge, sizeof(__pyx_k_Inserting_edge), 0, 0, 1, 0},
   {0, __pyx_k_Invalid_mode_expected_c_or_fortr, sizeof(__pyx_k_Invalid_mode_expected_c_or_fortr), 0, 1, 0, 0},
   {0, __pyx_k_Invalid_shape_in_axis, sizeof(__pyx_k_Invalid_shape_in_axis), 0, 1, 0, 0},
   {0, __pyx_k_MemoryError, sizeof(__pyx_k_MemoryError), 0, 0, 1, 1},
   {0, __pyx_k_MemoryView_of_r_at_0x_x, sizeof(__pyx_k_MemoryView_of_r_at_0x_x), 0, 0, 1, 0},
   {0, __pyx_k_MemoryView_of_r_object, sizeof(__pyx_k_MemoryView_of_r_object), 0, 0, 1, 0},
   {0, __pyx_k_O, sizeof(__pyx_k_O), 0, 0, 0, 1},
+  {0, __pyx_k_Options, sizeof(__pyx_k_Options), 0, 1, 0, 0},
   {0, __pyx_k_Out_of_bounds_on_buffer_access_a, sizeof(__pyx_k_Out_of_bounds_on_buffer_access_a), 0, 1, 0, 0},
+  {0, __pyx_k_Path, sizeof(__pyx_k_Path), 0, 1, 0, 0},
   {0, __pyx_k_PickleError, sizeof(__pyx_k_PickleError), 0, 0, 1, 1},
-  {0, __pyx_k_Pushing_current_edge, sizeof(__pyx_k_Pushing_current_edge), 0, 1, 0, 0},
+  {0, __pyx_k_Popping_option, sizeof(__pyx_k_Popping_option), 0, 1, 0, 0},
+  {0, __pyx_k_Results, sizeof(__pyx_k_Results), 0, 1, 0, 0},
   {0, __pyx_k_Step_may_not_be_zero_axis_d, sizeof(__pyx_k_Step_may_not_be_zero_axis_d), 0, 0, 1, 0},
   {0, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {0, __pyx_k_Unable_to_convert_item_to_object, sizeof(__pyx_k_Unable_to_convert_item_to_object), 0, 0, 1, 0},
@@ -26075,17 +29690,26 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_ValueNetwork, sizeof(__pyx_k_ValueNetwork), 0, 0, 1, 1},
   {0, __pyx_k_ValueNetwork___reduce_cython, sizeof(__pyx_k_ValueNetwork___reduce_cython), 0, 0, 1, 1},
   {0, __pyx_k_ValueNetwork___setstate_cython, sizeof(__pyx_k_ValueNetwork___setstate_cython), 0, 0, 1, 1},
+  {0, __pyx_k_ValueNetwork__check_df, sizeof(__pyx_k_ValueNetwork__check_df), 0, 0, 1, 1},
+  {0, __pyx_k_ValueNetwork__traverse, sizeof(__pyx_k_ValueNetwork__traverse), 0, 0, 1, 1},
   {0, __pyx_k_ValueNetwork_check_df, sizeof(__pyx_k_ValueNetwork_check_df), 0, 0, 1, 1},
   {0, __pyx_k_ValueNetwork_check_doubles, sizeof(__pyx_k_ValueNetwork_check_doubles), 0, 0, 1, 1},
+  {0, __pyx_k_ValueNetwork_check_endpoint, sizeof(__pyx_k_ValueNetwork_check_endpoint), 0, 0, 1, 1},
+  {0, __pyx_k_ValueNetwork_check_traversal, sizeof(__pyx_k_ValueNetwork_check_traversal), 0, 0, 1, 1},
+  {0, __pyx_k_ValueNetwork_merge, sizeof(__pyx_k_ValueNetwork_merge), 0, 0, 1, 1},
   {0, __pyx_k_ValueNetwork_siteEnergy, sizeof(__pyx_k_ValueNetwork_siteEnergy), 0, 0, 1, 1},
   {0, __pyx_k_View_MemoryView, sizeof(__pyx_k_View_MemoryView), 0, 0, 1, 1},
-  {0, __pyx_k__13, sizeof(__pyx_k__13), 0, 1, 0, 0},
+  {0, __pyx_k_Vp_path, sizeof(__pyx_k_Vp_path), 0, 1, 0, 0},
+  {0, __pyx_k__11, sizeof(__pyx_k__11), 0, 1, 0, 0},
   {0, __pyx_k__14, sizeof(__pyx_k__14), 0, 1, 0, 0},
-  {0, __pyx_k__15, sizeof(__pyx_k__15), 0, 0, 1, 1},
-  {0, __pyx_k__17, sizeof(__pyx_k__17), 0, 1, 0, 0},
+  {0, __pyx_k__15, sizeof(__pyx_k__15), 0, 1, 0, 0},
+  {0, __pyx_k__16, sizeof(__pyx_k__16), 0, 0, 1, 1},
   {0, __pyx_k__18, sizeof(__pyx_k__18), 0, 1, 0, 0},
-  {0, __pyx_k__39, sizeof(__pyx_k__39), 0, 0, 1, 1},
+  {0, __pyx_k__19, sizeof(__pyx_k__19), 0, 1, 0, 0},
+  {0, __pyx_k__52, sizeof(__pyx_k__52), 0, 0, 1, 1},
+  {0, __pyx_k_added_path, sizeof(__pyx_k_added_path), 0, 0, 1, 0},
   {0, __pyx_k_adding, sizeof(__pyx_k_adding), 0, 1, 0, 0},
+  {0, __pyx_k_adding_results, sizeof(__pyx_k_adding_results), 0, 1, 0, 0},
   {0, __pyx_k_agentStates, sizeof(__pyx_k_agentStates), 0, 0, 1, 1},
   {0, __pyx_k_all, sizeof(__pyx_k_all), 0, 0, 1, 1},
   {0, __pyx_k_allocate_buffer, sizeof(__pyx_k_allocate_buffer), 0, 0, 1, 1},
@@ -26099,19 +29723,19 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_c, sizeof(__pyx_k_c), 0, 0, 1, 1},
   {0, __pyx_k_c, sizeof(__pyx_k_c), 0, 1, 0, 1},
   {0, __pyx_k_check_df, sizeof(__pyx_k_check_df), 0, 0, 1, 1},
+  {0, __pyx_k_check_df_2, sizeof(__pyx_k_check_df_2), 0, 0, 1, 1},
   {0, __pyx_k_check_doubles, sizeof(__pyx_k_check_doubles), 0, 0, 1, 1},
+  {0, __pyx_k_check_endpoint, sizeof(__pyx_k_check_endpoint), 0, 0, 1, 1},
+  {0, __pyx_k_check_traversal, sizeof(__pyx_k_check_traversal), 0, 0, 1, 1},
+  {0, __pyx_k_checking_edge, sizeof(__pyx_k_checking_edge), 0, 1, 0, 0},
   {0, __pyx_k_class, sizeof(__pyx_k_class), 0, 0, 1, 1},
   {0, __pyx_k_class_getitem, sizeof(__pyx_k_class_getitem), 0, 0, 1, 1},
   {0, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {0, __pyx_k_contiguous_and_direct, sizeof(__pyx_k_contiguous_and_direct), 0, 0, 1, 0},
   {0, __pyx_k_contiguous_and_indirect, sizeof(__pyx_k_contiguous_and_indirect), 0, 0, 1, 0},
   {0, __pyx_k_copy, sizeof(__pyx_k_copy), 0, 0, 1, 1},
-  {0, __pyx_k_crawler_options_size, sizeof(__pyx_k_crawler_options_size), 0, 1, 0, 0},
-  {0, __pyx_k_crawler_path_size, sizeof(__pyx_k_crawler_path_size), 0, 1, 0, 0},
-  {0, __pyx_k_crawler_results_size, sizeof(__pyx_k_crawler_results_size), 0, 1, 0, 0},
   {0, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
   {0, __pyx_k_disable, sizeof(__pyx_k_disable), 0, 1, 0, 0},
-  {0, __pyx_k_done_merging, sizeof(__pyx_k_done_merging), 0, 0, 1, 0},
   {0, __pyx_k_double, sizeof(__pyx_k_double), 0, 0, 1, 1},
   {0, __pyx_k_dtype, sizeof(__pyx_k_dtype), 0, 0, 1, 1},
   {0, __pyx_k_dtype_is_object, sizeof(__pyx_k_dtype_is_object), 0, 0, 1, 1},
@@ -26123,6 +29747,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
   {0, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 0, 1, 1},
   {0, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 1, 0, 1},
+  {0, __pyx_k_found_node_already_in_path_cycle, sizeof(__pyx_k_found_node_already_in_path_cycle), 0, 0, 1, 0},
   {0, __pyx_k_gc, sizeof(__pyx_k_gc), 0, 1, 0, 0},
   {0, __pyx_k_get_edge_attributes, sizeof(__pyx_k_get_edge_attributes), 0, 0, 1, 1},
   {0, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
@@ -26138,13 +29763,18 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_items, sizeof(__pyx_k_items), 0, 0, 1, 1},
   {0, __pyx_k_itemsize, sizeof(__pyx_k_itemsize), 0, 0, 1, 1},
   {0, __pyx_k_itemsize_0_for_cython_array, sizeof(__pyx_k_itemsize_0_for_cython_array), 0, 0, 1, 0},
+  {0, __pyx_k_left_merge, sizeof(__pyx_k_left_merge), 0, 0, 1, 0},
   {0, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
+  {0, __pyx_k_mapping, sizeof(__pyx_k_mapping), 0, 0, 1, 1},
   {0, __pyx_k_mean, sizeof(__pyx_k_mean), 0, 0, 1, 1},
   {0, __pyx_k_memview, sizeof(__pyx_k_memview), 0, 0, 1, 1},
+  {0, __pyx_k_merge, sizeof(__pyx_k_merge), 0, 0, 1, 1},
   {0, __pyx_k_mode, sizeof(__pyx_k_mode), 0, 0, 1, 1},
   {0, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
   {0, __pyx_k_name_2, sizeof(__pyx_k_name_2), 0, 0, 1, 1},
   {0, __pyx_k_ndim, sizeof(__pyx_k_ndim), 0, 0, 1, 1},
+  {0, __pyx_k_negative_weight, sizeof(__pyx_k_negative_weight), 0, 0, 1, 0},
+  {0, __pyx_k_neighbors, sizeof(__pyx_k_neighbors), 0, 0, 1, 1},
   {0, __pyx_k_networkx, sizeof(__pyx_k_networkx), 0, 0, 1, 1},
   {0, __pyx_k_new, sizeof(__pyx_k_new), 0, 0, 1, 1},
   {0, __pyx_k_no_default___reduce___due_to_non, sizeof(__pyx_k_no_default___reduce___due_to_non), 0, 0, 1, 0},
@@ -26154,13 +29784,17 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_numpy_core_umath_failed_to_impor, sizeof(__pyx_k_numpy_core_umath_failed_to_impor), 0, 0, 1, 0},
   {0, __pyx_k_nx, sizeof(__pyx_k_nx), 0, 0, 1, 1},
   {0, __pyx_k_obj, sizeof(__pyx_k_obj), 0, 0, 1, 1},
+  {0, __pyx_k_option, sizeof(__pyx_k_option), 0, 0, 1, 1},
+  {0, __pyx_k_options, sizeof(__pyx_k_options), 0, 0, 1, 1},
   {0, __pyx_k_pack, sizeof(__pyx_k_pack), 0, 0, 1, 1},
   {0, __pyx_k_path, sizeof(__pyx_k_path), 0, 0, 1, 1},
-  {0, __pyx_k_paths, sizeof(__pyx_k_paths), 0, 0, 1, 1},
+  {0, __pyx_k_path_is, sizeof(__pyx_k_path_is), 0, 1, 0, 0},
   {0, __pyx_k_pickle, sizeof(__pyx_k_pickle), 0, 0, 1, 1},
-  {0, __pyx_k_plexsim_models_value_network, sizeof(__pyx_k_plexsim_models_value_network), 0, 0, 1, 1},
-  {0, __pyx_k_plexsim_models_value_network_pyx, sizeof(__pyx_k_plexsim_models_value_network_pyx), 0, 0, 1, 0},
+  {0, __pyx_k_plexsim_models_value_network2, sizeof(__pyx_k_plexsim_models_value_network2), 0, 0, 1, 1},
+  {0, __pyx_k_plexsim_models_value_network2_py, sizeof(__pyx_k_plexsim_models_value_network2_py), 0, 0, 1, 0},
+  {0, __pyx_k_pop, sizeof(__pyx_k_pop), 0, 0, 1, 1},
   {0, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
+  {0, __pyx_k_proposal, sizeof(__pyx_k_proposal), 0, 0, 1, 1},
   {0, __pyx_k_pyx_PickleError, sizeof(__pyx_k_pyx_PickleError), 0, 0, 1, 1},
   {0, __pyx_k_pyx_checksum, sizeof(__pyx_k_pyx_checksum), 0, 0, 1, 1},
   {0, __pyx_k_pyx_getbuffer, sizeof(__pyx_k_pyx_getbuffer), 0, 0, 1, 1},
@@ -26169,12 +29803,15 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_pyx_type, sizeof(__pyx_k_pyx_type), 0, 0, 1, 1},
   {0, __pyx_k_pyx_unpickle_Enum, sizeof(__pyx_k_pyx_unpickle_Enum), 0, 0, 1, 1},
   {0, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
+  {0, __pyx_k_queue, sizeof(__pyx_k_queue), 0, 0, 1, 1},
   {0, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {0, __pyx_k_reduce, sizeof(__pyx_k_reduce), 0, 0, 1, 1},
   {0, __pyx_k_reduce_cython, sizeof(__pyx_k_reduce_cython), 0, 0, 1, 1},
   {0, __pyx_k_reduce_ex, sizeof(__pyx_k_reduce_ex), 0, 0, 1, 1},
   {0, __pyx_k_results, sizeof(__pyx_k_results), 0, 0, 1, 1},
+  {0, __pyx_k_rmapping, sizeof(__pyx_k_rmapping), 0, 0, 1, 1},
   {0, __pyx_k_rules, sizeof(__pyx_k_rules), 0, 0, 1, 1},
+  {0, __pyx_k_s, sizeof(__pyx_k_s), 0, 0, 1, 1},
   {0, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {0, __pyx_k_self__newstates_self__states_sel, sizeof(__pyx_k_self__newstates_self__states_sel), 0, 0, 1, 0},
   {0, __pyx_k_setstate, sizeof(__pyx_k_setstate), 0, 0, 1, 1},
@@ -26183,6 +29820,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_siteEnergy, sizeof(__pyx_k_siteEnergy), 0, 0, 1, 1},
   {0, __pyx_k_size, sizeof(__pyx_k_size), 0, 0, 1, 1},
   {0, __pyx_k_spec, sizeof(__pyx_k_spec), 0, 0, 1, 1},
+  {0, __pyx_k_staring_merge, sizeof(__pyx_k_staring_merge), 0, 0, 1, 0},
   {0, __pyx_k_start, sizeof(__pyx_k_start), 0, 0, 1, 1},
   {0, __pyx_k_states, sizeof(__pyx_k_states), 0, 0, 1, 1},
   {0, __pyx_k_step, sizeof(__pyx_k_step), 0, 0, 1, 1},
@@ -26196,47 +29834,49 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_t, sizeof(__pyx_k_t), 0, 0, 1, 1},
   {0, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {0, __pyx_k_to, sizeof(__pyx_k_to), 0, 1, 0, 0},
+  {0, __pyx_k_traverse, sizeof(__pyx_k_traverse), 0, 0, 1, 1},
   {0, __pyx_k_unable_to_allocate_array_data, sizeof(__pyx_k_unable_to_allocate_array_data), 0, 0, 1, 0},
   {0, __pyx_k_unable_to_allocate_shape_and_str, sizeof(__pyx_k_unable_to_allocate_shape_and_str), 0, 0, 1, 0},
   {0, __pyx_k_unpack, sizeof(__pyx_k_unpack), 0, 0, 1, 1},
   {0, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
   {0, __pyx_k_verbose, sizeof(__pyx_k_verbose), 0, 0, 1, 1},
+  {0, __pyx_k_vp, sizeof(__pyx_k_vp), 0, 1, 0, 0},
+  {0, __pyx_k_vp_path, sizeof(__pyx_k_vp_path), 0, 0, 1, 1},
   {0, __pyx_k_weight, sizeof(__pyx_k_weight), 0, 0, 1, 1},
+  {0, __pyx_k_with_prop, sizeof(__pyx_k_with_prop), 0, 1, 0, 0},
+  {0, __pyx_k_zip, sizeof(__pyx_k_zip), 0, 0, 1, 1},
   #else
   {&__pyx_n_s_ASCII, __pyx_k_ASCII, sizeof(__pyx_k_ASCII), 0, 0, 1, 1},
   {&__pyx_kp_s_All_dimensions_preceding_dimensi, __pyx_k_All_dimensions_preceding_dimensi, sizeof(__pyx_k_All_dimensions_preceding_dimensi), 0, 0, 1, 0},
   {&__pyx_n_s_AssertionError, __pyx_k_AssertionError, sizeof(__pyx_k_AssertionError), 0, 0, 1, 1},
-  {&__pyx_kp_s_At_endpoint, __pyx_k_At_endpoint, sizeof(__pyx_k_At_endpoint), 0, 0, 1, 0},
-  {&__pyx_kp_u_At_proposal_edge_current_name, __pyx_k_At_proposal_edge_current_name, sizeof(__pyx_k_At_proposal_edge_current_name), 0, 1, 0, 0},
+  {&__pyx_kp_u_At, __pyx_k_At, sizeof(__pyx_k_At), 0, 1, 0, 0},
+  {&__pyx_kp_u_At_an_end_point_pushing, __pyx_k_At_an_end_point_pushing, sizeof(__pyx_k_At_an_end_point_pushing), 0, 1, 0, 0},
   {&__pyx_kp_s_Buffer_view_does_not_expose_stri, __pyx_k_Buffer_view_does_not_expose_stri, sizeof(__pyx_k_Buffer_view_does_not_expose_stri), 0, 0, 1, 0},
   {&__pyx_kp_s_Can_only_create_a_buffer_that_is, __pyx_k_Can_only_create_a_buffer_that_is, sizeof(__pyx_k_Can_only_create_a_buffer_that_is), 0, 0, 1, 0},
   {&__pyx_kp_s_Cannot_assign_to_read_only_memor, __pyx_k_Cannot_assign_to_read_only_memor, sizeof(__pyx_k_Cannot_assign_to_read_only_memor), 0, 0, 1, 0},
   {&__pyx_kp_s_Cannot_create_writable_memory_vi, __pyx_k_Cannot_create_writable_memory_vi, sizeof(__pyx_k_Cannot_create_writable_memory_vi), 0, 0, 1, 0},
   {&__pyx_kp_u_Cannot_index_with_type, __pyx_k_Cannot_index_with_type, sizeof(__pyx_k_Cannot_index_with_type), 0, 1, 0, 0},
   {&__pyx_kp_s_Cannot_transpose_memoryview_with, __pyx_k_Cannot_transpose_memoryview_with, sizeof(__pyx_k_Cannot_transpose_memoryview_with), 0, 0, 1, 0},
-  {&__pyx_kp_u_Checking_proposal_edge_other_nam, __pyx_k_Checking_proposal_edge_other_nam, sizeof(__pyx_k_Checking_proposal_edge_other_nam), 0, 1, 0, 0},
-  {&__pyx_kp_s_Current_edge_is, __pyx_k_Current_edge_is, sizeof(__pyx_k_Current_edge_is), 0, 0, 1, 0},
   {&__pyx_kp_s_Dimension_d_is_not_direct, __pyx_k_Dimension_d_is_not_direct, sizeof(__pyx_k_Dimension_d_is_not_direct), 0, 0, 1, 0},
   {&__pyx_n_s_Ellipsis, __pyx_k_Ellipsis, sizeof(__pyx_k_Ellipsis), 0, 0, 1, 1},
   {&__pyx_kp_s_Empty_shape_tuple_for_cython_arr, __pyx_k_Empty_shape_tuple_for_cython_arr, sizeof(__pyx_k_Empty_shape_tuple_for_cython_arr), 0, 0, 1, 0},
-  {&__pyx_kp_u_Found_negative_edge_weight, __pyx_k_Found_negative_edge_weight, sizeof(__pyx_k_Found_negative_edge_weight), 0, 1, 0, 0},
-  {&__pyx_kp_s_Found_node_already_in_path_cycle, __pyx_k_Found_node_already_in_path_cycle, sizeof(__pyx_k_Found_node_already_in_path_cycle), 0, 0, 1, 0},
-  {&__pyx_kp_s_Going_into_branch, __pyx_k_Going_into_branch, sizeof(__pyx_k_Going_into_branch), 0, 0, 1, 0},
   {&__pyx_n_s_ImportError, __pyx_k_ImportError, sizeof(__pyx_k_ImportError), 0, 0, 1, 1},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0x6a, __pyx_k_Incompatible_checksums_s_vs_0x6a, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x6a), 0, 0, 1, 0},
   {&__pyx_n_s_IndexError, __pyx_k_IndexError, sizeof(__pyx_k_IndexError), 0, 0, 1, 1},
   {&__pyx_kp_s_Index_out_of_bounds_axis_d, __pyx_k_Index_out_of_bounds_axis_d, sizeof(__pyx_k_Index_out_of_bounds_axis_d), 0, 0, 1, 0},
   {&__pyx_kp_s_Indirect_dimensions_not_supporte, __pyx_k_Indirect_dimensions_not_supporte, sizeof(__pyx_k_Indirect_dimensions_not_supporte), 0, 0, 1, 0},
-  {&__pyx_kp_s_Inserting_edge, __pyx_k_Inserting_edge, sizeof(__pyx_k_Inserting_edge), 0, 0, 1, 0},
   {&__pyx_kp_u_Invalid_mode_expected_c_or_fortr, __pyx_k_Invalid_mode_expected_c_or_fortr, sizeof(__pyx_k_Invalid_mode_expected_c_or_fortr), 0, 1, 0, 0},
   {&__pyx_kp_u_Invalid_shape_in_axis, __pyx_k_Invalid_shape_in_axis, sizeof(__pyx_k_Invalid_shape_in_axis), 0, 1, 0, 0},
   {&__pyx_n_s_MemoryError, __pyx_k_MemoryError, sizeof(__pyx_k_MemoryError), 0, 0, 1, 1},
   {&__pyx_kp_s_MemoryView_of_r_at_0x_x, __pyx_k_MemoryView_of_r_at_0x_x, sizeof(__pyx_k_MemoryView_of_r_at_0x_x), 0, 0, 1, 0},
   {&__pyx_kp_s_MemoryView_of_r_object, __pyx_k_MemoryView_of_r_object, sizeof(__pyx_k_MemoryView_of_r_object), 0, 0, 1, 0},
   {&__pyx_n_b_O, __pyx_k_O, sizeof(__pyx_k_O), 0, 0, 0, 1},
+  {&__pyx_kp_u_Options, __pyx_k_Options, sizeof(__pyx_k_Options), 0, 1, 0, 0},
   {&__pyx_kp_u_Out_of_bounds_on_buffer_access_a, __pyx_k_Out_of_bounds_on_buffer_access_a, sizeof(__pyx_k_Out_of_bounds_on_buffer_access_a), 0, 1, 0, 0},
+  {&__pyx_kp_u_Path, __pyx_k_Path, sizeof(__pyx_k_Path), 0, 1, 0, 0},
   {&__pyx_n_s_PickleError, __pyx_k_PickleError, sizeof(__pyx_k_PickleError), 0, 0, 1, 1},
-  {&__pyx_kp_u_Pushing_current_edge, __pyx_k_Pushing_current_edge, sizeof(__pyx_k_Pushing_current_edge), 0, 1, 0, 0},
+  {&__pyx_kp_u_Popping_option, __pyx_k_Popping_option, sizeof(__pyx_k_Popping_option), 0, 1, 0, 0},
+  {&__pyx_kp_u_Results, __pyx_k_Results, sizeof(__pyx_k_Results), 0, 1, 0, 0},
   {&__pyx_kp_s_Step_may_not_be_zero_axis_d, __pyx_k_Step_may_not_be_zero_axis_d, sizeof(__pyx_k_Step_may_not_be_zero_axis_d), 0, 0, 1, 0},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {&__pyx_kp_s_Unable_to_convert_item_to_object, __pyx_k_Unable_to_convert_item_to_object, sizeof(__pyx_k_Unable_to_convert_item_to_object), 0, 0, 1, 0},
@@ -26244,17 +29884,26 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ValueNetwork, __pyx_k_ValueNetwork, sizeof(__pyx_k_ValueNetwork), 0, 0, 1, 1},
   {&__pyx_n_s_ValueNetwork___reduce_cython, __pyx_k_ValueNetwork___reduce_cython, sizeof(__pyx_k_ValueNetwork___reduce_cython), 0, 0, 1, 1},
   {&__pyx_n_s_ValueNetwork___setstate_cython, __pyx_k_ValueNetwork___setstate_cython, sizeof(__pyx_k_ValueNetwork___setstate_cython), 0, 0, 1, 1},
+  {&__pyx_n_s_ValueNetwork__check_df, __pyx_k_ValueNetwork__check_df, sizeof(__pyx_k_ValueNetwork__check_df), 0, 0, 1, 1},
+  {&__pyx_n_s_ValueNetwork__traverse, __pyx_k_ValueNetwork__traverse, sizeof(__pyx_k_ValueNetwork__traverse), 0, 0, 1, 1},
   {&__pyx_n_s_ValueNetwork_check_df, __pyx_k_ValueNetwork_check_df, sizeof(__pyx_k_ValueNetwork_check_df), 0, 0, 1, 1},
   {&__pyx_n_s_ValueNetwork_check_doubles, __pyx_k_ValueNetwork_check_doubles, sizeof(__pyx_k_ValueNetwork_check_doubles), 0, 0, 1, 1},
+  {&__pyx_n_s_ValueNetwork_check_endpoint, __pyx_k_ValueNetwork_check_endpoint, sizeof(__pyx_k_ValueNetwork_check_endpoint), 0, 0, 1, 1},
+  {&__pyx_n_s_ValueNetwork_check_traversal, __pyx_k_ValueNetwork_check_traversal, sizeof(__pyx_k_ValueNetwork_check_traversal), 0, 0, 1, 1},
+  {&__pyx_n_s_ValueNetwork_merge, __pyx_k_ValueNetwork_merge, sizeof(__pyx_k_ValueNetwork_merge), 0, 0, 1, 1},
   {&__pyx_n_s_ValueNetwork_siteEnergy, __pyx_k_ValueNetwork_siteEnergy, sizeof(__pyx_k_ValueNetwork_siteEnergy), 0, 0, 1, 1},
   {&__pyx_n_s_View_MemoryView, __pyx_k_View_MemoryView, sizeof(__pyx_k_View_MemoryView), 0, 0, 1, 1},
-  {&__pyx_kp_u__13, __pyx_k__13, sizeof(__pyx_k__13), 0, 1, 0, 0},
+  {&__pyx_kp_u_Vp_path, __pyx_k_Vp_path, sizeof(__pyx_k_Vp_path), 0, 1, 0, 0},
+  {&__pyx_kp_u__11, __pyx_k__11, sizeof(__pyx_k__11), 0, 1, 0, 0},
   {&__pyx_kp_u__14, __pyx_k__14, sizeof(__pyx_k__14), 0, 1, 0, 0},
-  {&__pyx_n_s__15, __pyx_k__15, sizeof(__pyx_k__15), 0, 0, 1, 1},
-  {&__pyx_kp_u__17, __pyx_k__17, sizeof(__pyx_k__17), 0, 1, 0, 0},
+  {&__pyx_kp_u__15, __pyx_k__15, sizeof(__pyx_k__15), 0, 1, 0, 0},
+  {&__pyx_n_s__16, __pyx_k__16, sizeof(__pyx_k__16), 0, 0, 1, 1},
   {&__pyx_kp_u__18, __pyx_k__18, sizeof(__pyx_k__18), 0, 1, 0, 0},
-  {&__pyx_n_s__39, __pyx_k__39, sizeof(__pyx_k__39), 0, 0, 1, 1},
+  {&__pyx_kp_u__19, __pyx_k__19, sizeof(__pyx_k__19), 0, 1, 0, 0},
+  {&__pyx_n_s__52, __pyx_k__52, sizeof(__pyx_k__52), 0, 0, 1, 1},
+  {&__pyx_kp_s_added_path, __pyx_k_added_path, sizeof(__pyx_k_added_path), 0, 0, 1, 0},
   {&__pyx_kp_u_adding, __pyx_k_adding, sizeof(__pyx_k_adding), 0, 1, 0, 0},
+  {&__pyx_kp_u_adding_results, __pyx_k_adding_results, sizeof(__pyx_k_adding_results), 0, 1, 0, 0},
   {&__pyx_n_s_agentStates, __pyx_k_agentStates, sizeof(__pyx_k_agentStates), 0, 0, 1, 1},
   {&__pyx_n_s_all, __pyx_k_all, sizeof(__pyx_k_all), 0, 0, 1, 1},
   {&__pyx_n_s_allocate_buffer, __pyx_k_allocate_buffer, sizeof(__pyx_k_allocate_buffer), 0, 0, 1, 1},
@@ -26268,19 +29917,19 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 0, 1, 1},
   {&__pyx_n_u_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 1, 0, 1},
   {&__pyx_n_s_check_df, __pyx_k_check_df, sizeof(__pyx_k_check_df), 0, 0, 1, 1},
+  {&__pyx_n_s_check_df_2, __pyx_k_check_df_2, sizeof(__pyx_k_check_df_2), 0, 0, 1, 1},
   {&__pyx_n_s_check_doubles, __pyx_k_check_doubles, sizeof(__pyx_k_check_doubles), 0, 0, 1, 1},
+  {&__pyx_n_s_check_endpoint, __pyx_k_check_endpoint, sizeof(__pyx_k_check_endpoint), 0, 0, 1, 1},
+  {&__pyx_n_s_check_traversal, __pyx_k_check_traversal, sizeof(__pyx_k_check_traversal), 0, 0, 1, 1},
+  {&__pyx_kp_u_checking_edge, __pyx_k_checking_edge, sizeof(__pyx_k_checking_edge), 0, 1, 0, 0},
   {&__pyx_n_s_class, __pyx_k_class, sizeof(__pyx_k_class), 0, 0, 1, 1},
   {&__pyx_n_s_class_getitem, __pyx_k_class_getitem, sizeof(__pyx_k_class_getitem), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_kp_s_contiguous_and_direct, __pyx_k_contiguous_and_direct, sizeof(__pyx_k_contiguous_and_direct), 0, 0, 1, 0},
   {&__pyx_kp_s_contiguous_and_indirect, __pyx_k_contiguous_and_indirect, sizeof(__pyx_k_contiguous_and_indirect), 0, 0, 1, 0},
   {&__pyx_n_s_copy, __pyx_k_copy, sizeof(__pyx_k_copy), 0, 0, 1, 1},
-  {&__pyx_kp_u_crawler_options_size, __pyx_k_crawler_options_size, sizeof(__pyx_k_crawler_options_size), 0, 1, 0, 0},
-  {&__pyx_kp_u_crawler_path_size, __pyx_k_crawler_path_size, sizeof(__pyx_k_crawler_path_size), 0, 1, 0, 0},
-  {&__pyx_kp_u_crawler_results_size, __pyx_k_crawler_results_size, sizeof(__pyx_k_crawler_results_size), 0, 1, 0, 0},
   {&__pyx_n_s_dict, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
   {&__pyx_kp_u_disable, __pyx_k_disable, sizeof(__pyx_k_disable), 0, 1, 0, 0},
-  {&__pyx_kp_s_done_merging, __pyx_k_done_merging, sizeof(__pyx_k_done_merging), 0, 0, 1, 0},
   {&__pyx_n_s_double, __pyx_k_double, sizeof(__pyx_k_double), 0, 0, 1, 1},
   {&__pyx_n_s_dtype, __pyx_k_dtype, sizeof(__pyx_k_dtype), 0, 0, 1, 1},
   {&__pyx_n_s_dtype_is_object, __pyx_k_dtype_is_object, sizeof(__pyx_k_dtype_is_object), 0, 0, 1, 1},
@@ -26292,6 +29941,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
   {&__pyx_n_s_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 0, 1, 1},
   {&__pyx_n_u_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 1, 0, 1},
+  {&__pyx_kp_s_found_node_already_in_path_cycle, __pyx_k_found_node_already_in_path_cycle, sizeof(__pyx_k_found_node_already_in_path_cycle), 0, 0, 1, 0},
   {&__pyx_kp_u_gc, __pyx_k_gc, sizeof(__pyx_k_gc), 0, 1, 0, 0},
   {&__pyx_n_s_get_edge_attributes, __pyx_k_get_edge_attributes, sizeof(__pyx_k_get_edge_attributes), 0, 0, 1, 1},
   {&__pyx_n_s_getstate, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
@@ -26307,13 +29957,18 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_items, __pyx_k_items, sizeof(__pyx_k_items), 0, 0, 1, 1},
   {&__pyx_n_s_itemsize, __pyx_k_itemsize, sizeof(__pyx_k_itemsize), 0, 0, 1, 1},
   {&__pyx_kp_s_itemsize_0_for_cython_array, __pyx_k_itemsize_0_for_cython_array, sizeof(__pyx_k_itemsize_0_for_cython_array), 0, 0, 1, 0},
+  {&__pyx_kp_s_left_merge, __pyx_k_left_merge, sizeof(__pyx_k_left_merge), 0, 0, 1, 0},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
+  {&__pyx_n_s_mapping, __pyx_k_mapping, sizeof(__pyx_k_mapping), 0, 0, 1, 1},
   {&__pyx_n_s_mean, __pyx_k_mean, sizeof(__pyx_k_mean), 0, 0, 1, 1},
   {&__pyx_n_s_memview, __pyx_k_memview, sizeof(__pyx_k_memview), 0, 0, 1, 1},
+  {&__pyx_n_s_merge, __pyx_k_merge, sizeof(__pyx_k_merge), 0, 0, 1, 1},
   {&__pyx_n_s_mode, __pyx_k_mode, sizeof(__pyx_k_mode), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
   {&__pyx_n_s_name_2, __pyx_k_name_2, sizeof(__pyx_k_name_2), 0, 0, 1, 1},
   {&__pyx_n_s_ndim, __pyx_k_ndim, sizeof(__pyx_k_ndim), 0, 0, 1, 1},
+  {&__pyx_kp_s_negative_weight, __pyx_k_negative_weight, sizeof(__pyx_k_negative_weight), 0, 0, 1, 0},
+  {&__pyx_n_s_neighbors, __pyx_k_neighbors, sizeof(__pyx_k_neighbors), 0, 0, 1, 1},
   {&__pyx_n_s_networkx, __pyx_k_networkx, sizeof(__pyx_k_networkx), 0, 0, 1, 1},
   {&__pyx_n_s_new, __pyx_k_new, sizeof(__pyx_k_new), 0, 0, 1, 1},
   {&__pyx_kp_s_no_default___reduce___due_to_non, __pyx_k_no_default___reduce___due_to_non, sizeof(__pyx_k_no_default___reduce___due_to_non), 0, 0, 1, 0},
@@ -26323,13 +29978,17 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_numpy_core_umath_failed_to_impor, __pyx_k_numpy_core_umath_failed_to_impor, sizeof(__pyx_k_numpy_core_umath_failed_to_impor), 0, 0, 1, 0},
   {&__pyx_n_s_nx, __pyx_k_nx, sizeof(__pyx_k_nx), 0, 0, 1, 1},
   {&__pyx_n_s_obj, __pyx_k_obj, sizeof(__pyx_k_obj), 0, 0, 1, 1},
+  {&__pyx_n_s_option, __pyx_k_option, sizeof(__pyx_k_option), 0, 0, 1, 1},
+  {&__pyx_n_s_options, __pyx_k_options, sizeof(__pyx_k_options), 0, 0, 1, 1},
   {&__pyx_n_s_pack, __pyx_k_pack, sizeof(__pyx_k_pack), 0, 0, 1, 1},
   {&__pyx_n_s_path, __pyx_k_path, sizeof(__pyx_k_path), 0, 0, 1, 1},
-  {&__pyx_n_s_paths, __pyx_k_paths, sizeof(__pyx_k_paths), 0, 0, 1, 1},
+  {&__pyx_kp_u_path_is, __pyx_k_path_is, sizeof(__pyx_k_path_is), 0, 1, 0, 0},
   {&__pyx_n_s_pickle, __pyx_k_pickle, sizeof(__pyx_k_pickle), 0, 0, 1, 1},
-  {&__pyx_n_s_plexsim_models_value_network, __pyx_k_plexsim_models_value_network, sizeof(__pyx_k_plexsim_models_value_network), 0, 0, 1, 1},
-  {&__pyx_kp_s_plexsim_models_value_network_pyx, __pyx_k_plexsim_models_value_network_pyx, sizeof(__pyx_k_plexsim_models_value_network_pyx), 0, 0, 1, 0},
+  {&__pyx_n_s_plexsim_models_value_network2, __pyx_k_plexsim_models_value_network2, sizeof(__pyx_k_plexsim_models_value_network2), 0, 0, 1, 1},
+  {&__pyx_kp_s_plexsim_models_value_network2_py, __pyx_k_plexsim_models_value_network2_py, sizeof(__pyx_k_plexsim_models_value_network2_py), 0, 0, 1, 0},
+  {&__pyx_n_s_pop, __pyx_k_pop, sizeof(__pyx_k_pop), 0, 0, 1, 1},
   {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
+  {&__pyx_n_s_proposal, __pyx_k_proposal, sizeof(__pyx_k_proposal), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_PickleError, __pyx_k_pyx_PickleError, sizeof(__pyx_k_pyx_PickleError), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_checksum, __pyx_k_pyx_checksum, sizeof(__pyx_k_pyx_checksum), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_getbuffer, __pyx_k_pyx_getbuffer, sizeof(__pyx_k_pyx_getbuffer), 0, 0, 1, 1},
@@ -26338,12 +29997,15 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pyx_type, __pyx_k_pyx_type, sizeof(__pyx_k_pyx_type), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_unpickle_Enum, __pyx_k_pyx_unpickle_Enum, sizeof(__pyx_k_pyx_unpickle_Enum), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
+  {&__pyx_n_s_queue, __pyx_k_queue, sizeof(__pyx_k_queue), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_reduce, __pyx_k_reduce, sizeof(__pyx_k_reduce), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_cython, __pyx_k_reduce_cython, sizeof(__pyx_k_reduce_cython), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_ex, __pyx_k_reduce_ex, sizeof(__pyx_k_reduce_ex), 0, 0, 1, 1},
   {&__pyx_n_s_results, __pyx_k_results, sizeof(__pyx_k_results), 0, 0, 1, 1},
+  {&__pyx_n_s_rmapping, __pyx_k_rmapping, sizeof(__pyx_k_rmapping), 0, 0, 1, 1},
   {&__pyx_n_s_rules, __pyx_k_rules, sizeof(__pyx_k_rules), 0, 0, 1, 1},
+  {&__pyx_n_s_s, __pyx_k_s, sizeof(__pyx_k_s), 0, 0, 1, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_kp_s_self__newstates_self__states_sel, __pyx_k_self__newstates_self__states_sel, sizeof(__pyx_k_self__newstates_self__states_sel), 0, 0, 1, 0},
   {&__pyx_n_s_setstate, __pyx_k_setstate, sizeof(__pyx_k_setstate), 0, 0, 1, 1},
@@ -26352,6 +30014,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_siteEnergy, __pyx_k_siteEnergy, sizeof(__pyx_k_siteEnergy), 0, 0, 1, 1},
   {&__pyx_n_s_size, __pyx_k_size, sizeof(__pyx_k_size), 0, 0, 1, 1},
   {&__pyx_n_s_spec, __pyx_k_spec, sizeof(__pyx_k_spec), 0, 0, 1, 1},
+  {&__pyx_kp_s_staring_merge, __pyx_k_staring_merge, sizeof(__pyx_k_staring_merge), 0, 0, 1, 0},
   {&__pyx_n_s_start, __pyx_k_start, sizeof(__pyx_k_start), 0, 0, 1, 1},
   {&__pyx_n_s_states, __pyx_k_states, sizeof(__pyx_k_states), 0, 0, 1, 1},
   {&__pyx_n_s_step, __pyx_k_step, sizeof(__pyx_k_step), 0, 0, 1, 1},
@@ -26365,27 +30028,33 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_t, __pyx_k_t, sizeof(__pyx_k_t), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_kp_u_to, __pyx_k_to, sizeof(__pyx_k_to), 0, 1, 0, 0},
+  {&__pyx_n_s_traverse, __pyx_k_traverse, sizeof(__pyx_k_traverse), 0, 0, 1, 1},
   {&__pyx_kp_s_unable_to_allocate_array_data, __pyx_k_unable_to_allocate_array_data, sizeof(__pyx_k_unable_to_allocate_array_data), 0, 0, 1, 0},
   {&__pyx_kp_s_unable_to_allocate_shape_and_str, __pyx_k_unable_to_allocate_shape_and_str, sizeof(__pyx_k_unable_to_allocate_shape_and_str), 0, 0, 1, 0},
   {&__pyx_n_s_unpack, __pyx_k_unpack, sizeof(__pyx_k_unpack), 0, 0, 1, 1},
   {&__pyx_n_s_update, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
   {&__pyx_n_s_verbose, __pyx_k_verbose, sizeof(__pyx_k_verbose), 0, 0, 1, 1},
+  {&__pyx_kp_u_vp, __pyx_k_vp, sizeof(__pyx_k_vp), 0, 1, 0, 0},
+  {&__pyx_n_s_vp_path, __pyx_k_vp_path, sizeof(__pyx_k_vp_path), 0, 0, 1, 1},
   {&__pyx_n_s_weight, __pyx_k_weight, sizeof(__pyx_k_weight), 0, 0, 1, 1},
+  {&__pyx_kp_u_with_prop, __pyx_k_with_prop, sizeof(__pyx_k_with_prop), 0, 1, 0, 0},
+  {&__pyx_n_s_zip, __pyx_k_zip, sizeof(__pyx_k_zip), 0, 0, 1, 1},
   #endif
   {0, 0, 0, 0, 0, 0, 0}
 };
 /* #### Code section: cached_builtins ### */
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 23, __pyx_L1_error)
-  __pyx_builtin_AssertionError = __Pyx_GetBuiltinName(__pyx_n_s_AssertionError); if (!__pyx_builtin_AssertionError) __PYX_ERR(0, 43, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 55, __pyx_L1_error)
-  __pyx_builtin_all = __Pyx_GetBuiltinName(__pyx_n_s_all); if (!__pyx_builtin_all) __PYX_ERR(0, 91, __pyx_L1_error)
-  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 97, __pyx_L1_error)
+  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_builtin_AssertionError = __Pyx_GetBuiltinName(__pyx_n_s_AssertionError); if (!__pyx_builtin_AssertionError) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_builtin_all = __Pyx_GetBuiltinName(__pyx_n_s_all); if (!__pyx_builtin_all) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 115, __pyx_L1_error)
+  __pyx_builtin_zip = __Pyx_GetBuiltinName(__pyx_n_s_zip); if (!__pyx_builtin_zip) __PYX_ERR(0, 137, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 987, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 68, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 136, __pyx_L1_error)
-  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(1, 154, __pyx_L1_error)
   __pyx_builtin_Ellipsis = __Pyx_GetBuiltinName(__pyx_n_s_Ellipsis); if (!__pyx_builtin_Ellipsis) __PYX_ERR(1, 418, __pyx_L1_error)
   __pyx_builtin_id = __Pyx_GetBuiltinName(__pyx_n_s_id); if (!__pyx_builtin_id) __PYX_ERR(1, 630, __pyx_L1_error)
   __pyx_builtin_IndexError = __Pyx_GetBuiltinName(__pyx_n_s_IndexError); if (!__pyx_builtin_IndexError) __PYX_ERR(1, 941, __pyx_L1_error)
@@ -26399,102 +30068,69 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "plexsim/models/value_network.pyx":69
+  /* "plexsim/models/value_network2.pyx":62
  *         # calculate phase and susceptibility
  *         #mod.reset()
  *         mod.states[:] = mod.agentStates[0]             # <<<<<<<<<<<<<<
  *         res = mod.simulate(n)
  *         #res = np.array([mod.siteEnergy(i) for i in res]).mean()
  */
-  __pyx_slice__2 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__2)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_slice__2 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__2)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__2);
   __Pyx_GIVEREF(__pyx_slice__2);
 
-  /* "plexsim/models/value_network.pyx":91
+  /* "plexsim/models/value_network2.pyx":84
  *         if path:
  *             for r in results[0]:
  *                 if all([True if i in r or i[::-1] in r else False for i in path]):             # <<<<<<<<<<<<<<
  *                     add = False
  *                     break
  */
-  __pyx_slice__3 = PySlice_New(Py_None, Py_None, __pyx_int_neg_1); if (unlikely(!__pyx_slice__3)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_slice__3 = PySlice_New(Py_None, Py_None, __pyx_int_neg_1); if (unlikely(!__pyx_slice__3)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__3);
   __Pyx_GIVEREF(__pyx_slice__3);
 
-  /* "plexsim/models/value_network.pyx":211
- *                 if crawler.verbose:
- *                     with gil:
- *                         print("At endpoint")             # <<<<<<<<<<<<<<
- *                         print("Inserting edge:")
- *                     current_edge.print()
+  /* "plexsim/models/value_network2.pyx":111
+ *         # will be set to true if a merge is found
+ *         if verbose:
+ *             print("staring merge")             # <<<<<<<<<<<<<<
+ *         while can_merge:
+ *             can_merge = False
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_At_endpoint); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 211, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_staring_merge); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
-  /* "plexsim/models/value_network.pyx":212
- *                     with gil:
- *                         print("At endpoint")
- *                         print("Inserting edge:")             # <<<<<<<<<<<<<<
- *                     current_edge.print()
+  /* "plexsim/models/value_network2.pyx":149
  * 
+ *         if verbose:
+ *             print("left merge")             # <<<<<<<<<<<<<<
+ *         if merged:
+ *             results[1] = merged
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_Inserting_edge); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 212, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_left_merge); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 149, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "plexsim/models/value_network.pyx":244
- *                     if crawler.verbose:
- *                         with gil:
- *                             print("Found node already in path (cycle)")             # <<<<<<<<<<<<<<
- *                     post(it)
+  /* "plexsim/models/value_network2.pyx":275
+ *                 # prevent going back
+ *                 if other == from_node:
+ *                     if verbose: print("found node already in path (cycle)")             # <<<<<<<<<<<<<<
  *                     continue
+ *                 # check if branch is valid
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_Found_node_already_in_path_cycle); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 244, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__6);
-  __Pyx_GIVEREF(__pyx_tuple__6);
-
-  /* "plexsim/models/value_network.pyx":261
- *                     if crawler.verbose:
- *                         with gil:
- *                             print("Going into branch")             # <<<<<<<<<<<<<<
- *                     crawler.queue.push_back(deref(proposal_edge))
- *                     self._check_df(crawler)
- */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_Going_into_branch); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 261, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__7);
-  __Pyx_GIVEREF(__pyx_tuple__7);
-
-  /* "plexsim/models/value_network.pyx":269
- *             if crawler.verbose:
- *                 with gil:
- *                     print("Current edge is:")             # <<<<<<<<<<<<<<
- *                 current_edge.print()
- *             # 4. merge options
- */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_Current_edge_is); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 269, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
-
-  /* "plexsim/models/value_network.pyx":281
- *                     if crawler.verbose:
- *                         with gil:
- *                             print(f"Pushing current edge:")             # <<<<<<<<<<<<<<
- *                             current_edge.print()
- * 
- */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_Pushing_current_edge); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 281, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_found_node_already_in_path_cycle); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 275, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
-  /* "plexsim/models/value_network.pyx":300
- *             if crawler.verbose:
- *                 with gil:
- *                     print("done merging")             # <<<<<<<<<<<<<<
- *                     crawler.print()
- *                     print(f"{crawler.path.size()=}")
+  /* "plexsim/models/value_network2.pyx":279
+ *                 # check if branch is valid
+ *                 if self.rules[s][ss]['weight'] <= 0:
+ *                     if verbose: print('negative weight')             # <<<<<<<<<<<<<<
+ *                     continue
+ *                 # construct proposals
  */
-  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_done_merging); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 300, __pyx_L1_error)
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_negative_weight); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 279, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
 
@@ -26505,9 +30141,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(2, 987, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(2, 987, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
 
   /* "../../miniconda3/lib/python3.9/site-packages/numpy/__init__.cython-30.pxd":993
  *         _import_umath()
@@ -26516,9 +30152,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(2, 993, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__12);
-  __Pyx_GIVEREF(__pyx_tuple__12);
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(2, 993, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
 
   /* "View.MemoryView":594
  *     def suboffsets(self):
@@ -26527,75 +30163,141 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         return tuple([suboffset for suboffset in self.view.suboffsets[:self.view.ndim]])
  */
-  __pyx_tuple__16 = PyTuple_New(1); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(1, 594, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__16);
+  __pyx_tuple__17 = PyTuple_New(1); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(1, 594, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_INCREF(__pyx_int_neg_1);
   __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyTuple_SET_ITEM(__pyx_tuple__16, 0, __pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_tuple__16);
+  PyTuple_SET_ITEM(__pyx_tuple__17, 0, __pyx_int_neg_1);
+  __Pyx_GIVEREF(__pyx_tuple__17);
 
-  /* "plexsim/models/value_network.pyx":20
+  /* "plexsim/models/value_network2.pyx":13
  *                  t = 1,
  *                  bounded_rational = -1,
  *                  agentStates = np.arange(0, 2, dtype = np.double),             # <<<<<<<<<<<<<<
  *                  **kwargs
  *                  ):
  */
-  __pyx_tuple__19 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_2); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 20, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__19);
-  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_tuple__20 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_2); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__20);
+  __Pyx_GIVEREF(__pyx_tuple__20);
 
-  /* "plexsim/models/value_network.pyx":46
+  /* "plexsim/models/value_network2.pyx":39
  *         self._bounded_rational = int(value)
  * 
  *     cpdef vector[double] siteEnergy(self, state_t[::1] states):             # <<<<<<<<<<<<<<
  *         cdef:
  *             vector[double] siteEnergy = vector[double](self.adj._nNodes)
  */
-  __pyx_tuple__20 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_states); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 46, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__20);
-  __Pyx_GIVEREF(__pyx_tuple__20);
-  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_value_network_pyx, __pyx_n_s_siteEnergy, 46, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_tuple__21 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_states); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_value_network2_py, __pyx_n_s_siteEnergy, 39, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 39, __pyx_L1_error)
 
-  /* "plexsim/models/value_network.pyx":83
+  /* "plexsim/models/value_network2.pyx":76
  *         return self.paths
  * 
  *     cpdef bint check_doubles(self, list path, list results, bint verbose = False):             # <<<<<<<<<<<<<<
  *         """
  *         Don't allow for double edges
  */
-  __pyx_tuple__22 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_path, __pyx_n_s_results, __pyx_n_s_verbose); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 83, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__22);
-  __Pyx_GIVEREF(__pyx_tuple__22);
-  __pyx_codeobj__23 = (PyObject*)__Pyx_PyCode_New(4, 0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__22, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_value_network_pyx, __pyx_n_s_check_doubles, 83, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__23)) __PYX_ERR(0, 83, __pyx_L1_error)
-  __pyx_tuple__24 = PyTuple_Pack(1, Py_False); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 83, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__24);
-  __Pyx_GIVEREF(__pyx_tuple__24);
+  __pyx_tuple__23 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_path, __pyx_n_s_results, __pyx_n_s_verbose); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__23);
+  __Pyx_GIVEREF(__pyx_tuple__23);
+  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(4, 0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_value_network2_py, __pyx_n_s_check_doubles, 76, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_tuple__25 = PyTuple_Pack(1, Py_False); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__25);
+  __Pyx_GIVEREF(__pyx_tuple__25);
 
-  /* "plexsim/models/value_network.pyx":144
+  /* "plexsim/models/value_network2.pyx":94
+ *         return add
+ * 
+ *     cpdef void merge(self, list results, bint verbose = False):             # <<<<<<<<<<<<<<
+ *         """
+ *         Merge paths from branches inplace
+ */
+  __pyx_tuple__26 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_results, __pyx_n_s_verbose); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__26);
+  __Pyx_GIVEREF(__pyx_tuple__26);
+  __pyx_codeobj__27 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__26, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_value_network2_py, __pyx_n_s_merge, 94, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__27)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_tuple__28 = PyTuple_Pack(1, Py_False); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__28);
+  __Pyx_GIVEREF(__pyx_tuple__28);
+
+  /* "plexsim/models/value_network2.pyx":153
+ *             results[1] = merged
+ * 
+ *     cpdef bint check_endpoint(self, state_t s, list vp_path):             # <<<<<<<<<<<<<<
+ *         """
+ *         Check if an end point is reached
+ */
+  __pyx_tuple__29 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_s, __pyx_n_s_vp_path); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 153, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__29);
+  __Pyx_GIVEREF(__pyx_tuple__29);
+  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_value_network2_py, __pyx_n_s_check_endpoint, 153, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(0, 153, __pyx_L1_error)
+
+  /* "plexsim/models/value_network2.pyx":166
+ *         return fail
+ * 
+ *     cpdef bint _traverse(self, list proposal, list option):             # <<<<<<<<<<<<<<
+ *         cdef dict seen = {}
+ *         cdef list edge
+ */
+  __pyx_tuple__31 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_proposal, __pyx_n_s_option); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__31);
+  __Pyx_GIVEREF(__pyx_tuple__31);
+  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_value_network2_py, __pyx_n_s_traverse, 166, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 166, __pyx_L1_error)
+
+  /* "plexsim/models/value_network2.pyx":192
+ * 
+ * 
+ *     cpdef void check_traversal(self, list proposal, list options,             # <<<<<<<<<<<<<<
+ *                                bint verbose = False):
+ *         cdef list option
+ */
+  __pyx_tuple__33 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_proposal, __pyx_n_s_options, __pyx_n_s_verbose); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 192, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__33);
+  __Pyx_GIVEREF(__pyx_tuple__33);
+  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(4, 0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_value_network2_py, __pyx_n_s_check_traversal, 192, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(0, 192, __pyx_L1_error)
+  __pyx_tuple__35 = PyTuple_Pack(1, Py_False); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 192, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__35);
+  __Pyx_GIVEREF(__pyx_tuple__35);
+
+  /* "plexsim/models/value_network2.pyx":204
  * 
  * 
  *     cpdef list check_df(self, node_id_t start, bint verbose = False):             # <<<<<<<<<<<<<<
- *         cdef Crawler *crawler = new Crawler(start,
- *                                         self._states[start],
+ *         print(start)
+ *         cdef list queue = [(start, start)]
  */
-  __pyx_tuple__25 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_start, __pyx_n_s_verbose); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 144, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__25);
-  __Pyx_GIVEREF(__pyx_tuple__25);
-  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_value_network_pyx, __pyx_n_s_check_df, 144, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 144, __pyx_L1_error)
-  __pyx_tuple__27 = PyTuple_Pack(1, Py_False); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 144, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__27);
-  __Pyx_GIVEREF(__pyx_tuple__27);
+  __pyx_tuple__36 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_start, __pyx_n_s_verbose); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(0, 204, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__36);
+  __Pyx_GIVEREF(__pyx_tuple__36);
+  __pyx_codeobj__37 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__36, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_value_network2_py, __pyx_n_s_check_df, 204, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__37)) __PYX_ERR(0, 204, __pyx_L1_error)
+  __pyx_tuple__38 = PyTuple_Pack(1, Py_False); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(0, 204, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__38);
+  __Pyx_GIVEREF(__pyx_tuple__38);
+
+  /* "plexsim/models/value_network2.pyx":209
+ *         return self._check_df(queue, path = [], vp_path = [],
+ *                               results = [[], []], verbose = verbose)
+ *     cpdef list _check_df(self, list queue, list path = [],             # <<<<<<<<<<<<<<
+ *                         list vp_path = [],
+ *                         list results = [],
+ */
+  __pyx_tuple__39 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_queue, __pyx_n_s_path, __pyx_n_s_vp_path, __pyx_n_s_results, __pyx_n_s_verbose); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 209, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__39);
+  __Pyx_GIVEREF(__pyx_tuple__39);
+  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(6, 0, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_value_network2_py, __pyx_n_s_check_df_2, 209, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) __PYX_ERR(0, 209, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
  *     raise TypeError, "self._newstates,self._states,self.ptr cannot be converted to a Python object for pickling"
  * def __setstate_cython__(self, __pyx_state):
  */
-  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__28);
-  __Pyx_GIVEREF(__pyx_tuple__28);
-  __pyx_codeobj__29 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__28, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_reduce_cython, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__29)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__41);
+  __Pyx_GIVEREF(__pyx_tuple__41);
+  __pyx_codeobj__42 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_reduce_cython, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__42)) __PYX_ERR(1, 1, __pyx_L1_error)
 
   /* "(tree fragment)":3
  * def __reduce_cython__(self):
@@ -26603,10 +30305,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     raise TypeError, "self._newstates,self._states,self.ptr cannot be converted to a Python object for pickling"
  */
-  __pyx_tuple__30 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_pyx_state); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(1, 3, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__30);
-  __Pyx_GIVEREF(__pyx_tuple__30);
-  __pyx_codeobj__31 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__30, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_setstate_cython, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__31)) __PYX_ERR(1, 3, __pyx_L1_error)
+  __pyx_tuple__43 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_pyx_state); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(1, 3, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__43);
+  __Pyx_GIVEREF(__pyx_tuple__43);
+  __pyx_codeobj__44 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__43, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_setstate_cython, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__44)) __PYX_ERR(1, 3, __pyx_L1_error)
 
   /* "View.MemoryView":300
  *         return self.name
@@ -26615,9 +30317,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_tuple__32 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(1, 300, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__32);
-  __Pyx_GIVEREF(__pyx_tuple__32);
+  __pyx_tuple__45 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(1, 300, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__45);
+  __Pyx_GIVEREF(__pyx_tuple__45);
 
   /* "View.MemoryView":301
  * 
@@ -26626,9 +30328,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(1, 301, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__33);
-  __Pyx_GIVEREF(__pyx_tuple__33);
+  __pyx_tuple__46 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(1, 301, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__46);
+  __Pyx_GIVEREF(__pyx_tuple__46);
 
   /* "View.MemoryView":302
  * cdef generic = Enum("<strided and direct or indirect>")
@@ -26637,9 +30339,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__34 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(1, 302, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__34);
-  __Pyx_GIVEREF(__pyx_tuple__34);
+  __pyx_tuple__47 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(1, 302, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__47);
+  __Pyx_GIVEREF(__pyx_tuple__47);
 
   /* "View.MemoryView":305
  * 
@@ -26648,9 +30350,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_tuple__35 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(1, 305, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__35);
-  __Pyx_GIVEREF(__pyx_tuple__35);
+  __pyx_tuple__48 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(1, 305, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__48);
+  __Pyx_GIVEREF(__pyx_tuple__48);
 
   /* "View.MemoryView":306
  * 
@@ -26659,19 +30361,19 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__36 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(1, 306, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__36);
-  __Pyx_GIVEREF(__pyx_tuple__36);
+  __pyx_tuple__49 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__49)) __PYX_ERR(1, 306, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__49);
+  __Pyx_GIVEREF(__pyx_tuple__49);
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_Enum(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_tuple__37 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__37);
-  __Pyx_GIVEREF(__pyx_tuple__37);
-  __pyx_codeobj__38 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__38)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__50 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__50)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__50);
+  __Pyx_GIVEREF(__pyx_tuple__50);
+  __pyx_codeobj__51 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__50, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__51)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -26703,175 +30405,202 @@ if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1, __pyx_L1_error)
 
   __pyx_umethod_PyList_Type_copy.type = (PyObject*)&PyList_Type;
   __pyx_umethod_PyList_Type_copy.method_name = &__pyx_n_s_copy;
+  __pyx_umethod_PyList_Type_pop.type = (PyObject*)&PyList_Type;
+  __pyx_umethod_PyList_Type_pop.method_name = &__pyx_n_s_pop;
   #if CYTHON_USE_MODULE_STATE
   if (__Pyx_InitString(__pyx_string_tab[0], &__pyx_n_s_ASCII) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[1], &__pyx_kp_s_All_dimensions_preceding_dimensi) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[2], &__pyx_n_s_AssertionError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[3], &__pyx_kp_s_At_endpoint) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[4], &__pyx_kp_u_At_proposal_edge_current_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[3], &__pyx_kp_u_At) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[4], &__pyx_kp_u_At_an_end_point_pushing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[5], &__pyx_kp_s_Buffer_view_does_not_expose_stri) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[6], &__pyx_kp_s_Can_only_create_a_buffer_that_is) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[7], &__pyx_kp_s_Cannot_assign_to_read_only_memor) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[8], &__pyx_kp_s_Cannot_create_writable_memory_vi) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[9], &__pyx_kp_u_Cannot_index_with_type) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[10], &__pyx_kp_s_Cannot_transpose_memoryview_with) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[11], &__pyx_kp_u_Checking_proposal_edge_other_nam) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[12], &__pyx_kp_s_Current_edge_is) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[13], &__pyx_kp_s_Dimension_d_is_not_direct) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[14], &__pyx_n_s_Ellipsis) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[15], &__pyx_kp_s_Empty_shape_tuple_for_cython_arr) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[16], &__pyx_kp_u_Found_negative_edge_weight) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[17], &__pyx_kp_s_Found_node_already_in_path_cycle) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[18], &__pyx_kp_s_Going_into_branch) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[19], &__pyx_n_s_ImportError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[20], &__pyx_kp_s_Incompatible_checksums_s_vs_0x6a) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[21], &__pyx_n_s_IndexError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[22], &__pyx_kp_s_Index_out_of_bounds_axis_d) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[23], &__pyx_kp_s_Indirect_dimensions_not_supporte) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[24], &__pyx_kp_s_Inserting_edge) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[25], &__pyx_kp_u_Invalid_mode_expected_c_or_fortr) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[26], &__pyx_kp_u_Invalid_shape_in_axis) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[27], &__pyx_n_s_MemoryError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[28], &__pyx_kp_s_MemoryView_of_r_at_0x_x) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[29], &__pyx_kp_s_MemoryView_of_r_object) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[30], &__pyx_n_b_O) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[31], &__pyx_kp_u_Out_of_bounds_on_buffer_access_a) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[32], &__pyx_n_s_PickleError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[33], &__pyx_kp_u_Pushing_current_edge) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[34], &__pyx_kp_s_Step_may_not_be_zero_axis_d) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[35], &__pyx_n_s_TypeError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[36], &__pyx_kp_s_Unable_to_convert_item_to_object) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[37], &__pyx_n_s_ValueError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[38], &__pyx_n_s_ValueNetwork) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[39], &__pyx_n_s_ValueNetwork___reduce_cython) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[40], &__pyx_n_s_ValueNetwork___setstate_cython) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[41], &__pyx_n_s_ValueNetwork_check_df) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[42], &__pyx_n_s_ValueNetwork_check_doubles) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[43], &__pyx_n_s_ValueNetwork_siteEnergy) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[44], &__pyx_n_s_View_MemoryView) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[45], &__pyx_kp_u__13) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[46], &__pyx_kp_u__14) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[47], &__pyx_n_s__15) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[48], &__pyx_kp_u__17) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[49], &__pyx_kp_u__18) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[50], &__pyx_n_s__39) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[51], &__pyx_kp_u_adding) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[52], &__pyx_n_s_agentStates) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[53], &__pyx_n_s_all) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[54], &__pyx_n_s_allocate_buffer) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[55], &__pyx_kp_u_and) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[56], &__pyx_n_s_append) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[57], &__pyx_n_s_arange) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[58], &__pyx_n_s_array) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[59], &__pyx_n_s_asyncio_coroutines) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[60], &__pyx_n_s_base) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[61], &__pyx_n_s_bounded_rational) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[62], &__pyx_n_s_c) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[63], &__pyx_n_u_c) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[64], &__pyx_n_s_check_df) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[65], &__pyx_n_s_check_doubles) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[66], &__pyx_n_s_class) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[67], &__pyx_n_s_class_getitem) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[68], &__pyx_n_s_cline_in_traceback) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[69], &__pyx_kp_s_contiguous_and_direct) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[70], &__pyx_kp_s_contiguous_and_indirect) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[71], &__pyx_n_s_copy) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[72], &__pyx_kp_u_crawler_options_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[73], &__pyx_kp_u_crawler_path_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[74], &__pyx_kp_u_crawler_results_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[75], &__pyx_n_s_dict) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[76], &__pyx_kp_u_disable) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[77], &__pyx_kp_s_done_merging) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[78], &__pyx_n_s_double) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[79], &__pyx_n_s_dtype) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[80], &__pyx_n_s_dtype_is_object) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[81], &__pyx_kp_u_enable) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[82], &__pyx_n_s_encode) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[83], &__pyx_n_s_enumerate) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[84], &__pyx_n_s_error) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[85], &__pyx_n_s_flags) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[86], &__pyx_n_s_format) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[87], &__pyx_n_s_fortran) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[88], &__pyx_n_u_fortran) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[89], &__pyx_kp_u_gc) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[90], &__pyx_n_s_get_edge_attributes) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[91], &__pyx_n_s_getstate) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[92], &__pyx_kp_u_got) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[93], &__pyx_kp_u_got_differing_extents_in_dimensi) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[94], &__pyx_n_s_graph) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[95], &__pyx_n_s_id) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[96], &__pyx_n_s_import) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[97], &__pyx_n_s_init) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[98], &__pyx_n_s_initializing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[99], &__pyx_n_s_is_coroutine) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[100], &__pyx_kp_u_isenabled) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[101], &__pyx_n_s_items) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[102], &__pyx_n_s_itemsize) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[103], &__pyx_kp_s_itemsize_0_for_cython_array) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[104], &__pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[105], &__pyx_n_s_mean) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[106], &__pyx_n_s_memview) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[107], &__pyx_n_s_mode) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[108], &__pyx_n_s_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[109], &__pyx_n_s_name_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[110], &__pyx_n_s_ndim) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[111], &__pyx_n_s_networkx) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[112], &__pyx_n_s_new) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[113], &__pyx_kp_s_no_default___reduce___due_to_non) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[114], &__pyx_n_s_np) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[115], &__pyx_n_s_numpy) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[116], &__pyx_kp_s_numpy_core_multiarray_failed_to) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[117], &__pyx_kp_s_numpy_core_umath_failed_to_impor) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[118], &__pyx_n_s_nx) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[119], &__pyx_n_s_obj) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[120], &__pyx_n_s_pack) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[121], &__pyx_n_s_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[122], &__pyx_n_s_paths) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[123], &__pyx_n_s_pickle) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[124], &__pyx_n_s_plexsim_models_value_network) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[125], &__pyx_kp_s_plexsim_models_value_network_pyx) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[126], &__pyx_n_s_print) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[127], &__pyx_n_s_pyx_PickleError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[128], &__pyx_n_s_pyx_checksum) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[129], &__pyx_n_s_pyx_getbuffer) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[130], &__pyx_n_s_pyx_result) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[131], &__pyx_n_s_pyx_state) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[132], &__pyx_n_s_pyx_type) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[133], &__pyx_n_s_pyx_unpickle_Enum) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[134], &__pyx_n_s_pyx_vtable) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[135], &__pyx_n_s_range) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[136], &__pyx_n_s_reduce) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[137], &__pyx_n_s_reduce_cython) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[138], &__pyx_n_s_reduce_ex) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[139], &__pyx_n_s_results) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[140], &__pyx_n_s_rules) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[141], &__pyx_n_s_self) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[142], &__pyx_kp_s_self__newstates_self__states_sel) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[143], &__pyx_n_s_setstate) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[144], &__pyx_n_s_setstate_cython) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[145], &__pyx_n_s_shape) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[146], &__pyx_n_s_siteEnergy) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[147], &__pyx_n_s_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[148], &__pyx_n_s_spec) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[149], &__pyx_n_s_start) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[150], &__pyx_n_s_states) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[151], &__pyx_n_s_step) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[152], &__pyx_n_s_stop) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[153], &__pyx_kp_s_strided_and_direct) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[154], &__pyx_kp_s_strided_and_direct_or_indirect) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[155], &__pyx_kp_s_strided_and_indirect) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[156], &__pyx_kp_s_stringsource) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[157], &__pyx_n_s_struct) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[158], &__pyx_n_s_super) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[159], &__pyx_n_s_t) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[160], &__pyx_n_s_test) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[161], &__pyx_kp_u_to) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[162], &__pyx_kp_s_unable_to_allocate_array_data) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[163], &__pyx_kp_s_unable_to_allocate_shape_and_str) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[164], &__pyx_n_s_unpack) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[165], &__pyx_n_s_update) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[166], &__pyx_n_s_verbose) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[167], &__pyx_n_s_weight) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[11], &__pyx_kp_s_Dimension_d_is_not_direct) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[12], &__pyx_n_s_Ellipsis) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[13], &__pyx_kp_s_Empty_shape_tuple_for_cython_arr) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[14], &__pyx_n_s_ImportError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[15], &__pyx_kp_s_Incompatible_checksums_s_vs_0x6a) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[16], &__pyx_n_s_IndexError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[17], &__pyx_kp_s_Index_out_of_bounds_axis_d) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[18], &__pyx_kp_s_Indirect_dimensions_not_supporte) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[19], &__pyx_kp_u_Invalid_mode_expected_c_or_fortr) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[20], &__pyx_kp_u_Invalid_shape_in_axis) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[21], &__pyx_n_s_MemoryError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[22], &__pyx_kp_s_MemoryView_of_r_at_0x_x) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[23], &__pyx_kp_s_MemoryView_of_r_object) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[24], &__pyx_n_b_O) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[25], &__pyx_kp_u_Options) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[26], &__pyx_kp_u_Out_of_bounds_on_buffer_access_a) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[27], &__pyx_kp_u_Path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[28], &__pyx_n_s_PickleError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[29], &__pyx_kp_u_Popping_option) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[30], &__pyx_kp_u_Results) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[31], &__pyx_kp_s_Step_may_not_be_zero_axis_d) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[32], &__pyx_n_s_TypeError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[33], &__pyx_kp_s_Unable_to_convert_item_to_object) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[34], &__pyx_n_s_ValueError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[35], &__pyx_n_s_ValueNetwork) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[36], &__pyx_n_s_ValueNetwork___reduce_cython) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[37], &__pyx_n_s_ValueNetwork___setstate_cython) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[38], &__pyx_n_s_ValueNetwork__check_df) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[39], &__pyx_n_s_ValueNetwork__traverse) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[40], &__pyx_n_s_ValueNetwork_check_df) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[41], &__pyx_n_s_ValueNetwork_check_doubles) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[42], &__pyx_n_s_ValueNetwork_check_endpoint) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[43], &__pyx_n_s_ValueNetwork_check_traversal) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[44], &__pyx_n_s_ValueNetwork_merge) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[45], &__pyx_n_s_ValueNetwork_siteEnergy) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[46], &__pyx_n_s_View_MemoryView) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[47], &__pyx_kp_u_Vp_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[48], &__pyx_kp_u__11) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[49], &__pyx_kp_u__14) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[50], &__pyx_kp_u__15) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[51], &__pyx_n_s__16) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[52], &__pyx_kp_u__18) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[53], &__pyx_kp_u__19) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[54], &__pyx_n_s__52) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[55], &__pyx_kp_s_added_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[56], &__pyx_kp_u_adding) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[57], &__pyx_kp_u_adding_results) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[58], &__pyx_n_s_agentStates) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[59], &__pyx_n_s_all) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[60], &__pyx_n_s_allocate_buffer) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[61], &__pyx_kp_u_and) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[62], &__pyx_n_s_append) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[63], &__pyx_n_s_arange) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[64], &__pyx_n_s_array) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[65], &__pyx_n_s_asyncio_coroutines) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[66], &__pyx_n_s_base) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[67], &__pyx_n_s_bounded_rational) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[68], &__pyx_n_s_c) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[69], &__pyx_n_u_c) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[70], &__pyx_n_s_check_df) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[71], &__pyx_n_s_check_df_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[72], &__pyx_n_s_check_doubles) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[73], &__pyx_n_s_check_endpoint) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[74], &__pyx_n_s_check_traversal) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[75], &__pyx_kp_u_checking_edge) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[76], &__pyx_n_s_class) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[77], &__pyx_n_s_class_getitem) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[78], &__pyx_n_s_cline_in_traceback) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[79], &__pyx_kp_s_contiguous_and_direct) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[80], &__pyx_kp_s_contiguous_and_indirect) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[81], &__pyx_n_s_copy) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[82], &__pyx_n_s_dict) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[83], &__pyx_kp_u_disable) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[84], &__pyx_n_s_double) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[85], &__pyx_n_s_dtype) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[86], &__pyx_n_s_dtype_is_object) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[87], &__pyx_kp_u_enable) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[88], &__pyx_n_s_encode) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[89], &__pyx_n_s_enumerate) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[90], &__pyx_n_s_error) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[91], &__pyx_n_s_flags) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[92], &__pyx_n_s_format) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[93], &__pyx_n_s_fortran) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[94], &__pyx_n_u_fortran) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[95], &__pyx_kp_s_found_node_already_in_path_cycle) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[96], &__pyx_kp_u_gc) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[97], &__pyx_n_s_get_edge_attributes) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[98], &__pyx_n_s_getstate) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[99], &__pyx_kp_u_got) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[100], &__pyx_kp_u_got_differing_extents_in_dimensi) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[101], &__pyx_n_s_graph) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[102], &__pyx_n_s_id) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[103], &__pyx_n_s_import) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[104], &__pyx_n_s_init) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[105], &__pyx_n_s_initializing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[106], &__pyx_n_s_is_coroutine) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[107], &__pyx_kp_u_isenabled) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[108], &__pyx_n_s_items) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[109], &__pyx_n_s_itemsize) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[110], &__pyx_kp_s_itemsize_0_for_cython_array) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[111], &__pyx_kp_s_left_merge) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[112], &__pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[113], &__pyx_n_s_mapping) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[114], &__pyx_n_s_mean) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[115], &__pyx_n_s_memview) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[116], &__pyx_n_s_merge) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[117], &__pyx_n_s_mode) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[118], &__pyx_n_s_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[119], &__pyx_n_s_name_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[120], &__pyx_n_s_ndim) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[121], &__pyx_kp_s_negative_weight) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[122], &__pyx_n_s_neighbors) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[123], &__pyx_n_s_networkx) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[124], &__pyx_n_s_new) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[125], &__pyx_kp_s_no_default___reduce___due_to_non) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[126], &__pyx_n_s_np) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[127], &__pyx_n_s_numpy) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[128], &__pyx_kp_s_numpy_core_multiarray_failed_to) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[129], &__pyx_kp_s_numpy_core_umath_failed_to_impor) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[130], &__pyx_n_s_nx) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[131], &__pyx_n_s_obj) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[132], &__pyx_n_s_option) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[133], &__pyx_n_s_options) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[134], &__pyx_n_s_pack) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[135], &__pyx_n_s_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[136], &__pyx_kp_u_path_is) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[137], &__pyx_n_s_pickle) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[138], &__pyx_n_s_plexsim_models_value_network2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[139], &__pyx_kp_s_plexsim_models_value_network2_py) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[140], &__pyx_n_s_pop) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[141], &__pyx_n_s_print) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[142], &__pyx_n_s_proposal) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[143], &__pyx_n_s_pyx_PickleError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[144], &__pyx_n_s_pyx_checksum) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[145], &__pyx_n_s_pyx_getbuffer) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[146], &__pyx_n_s_pyx_result) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[147], &__pyx_n_s_pyx_state) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[148], &__pyx_n_s_pyx_type) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[149], &__pyx_n_s_pyx_unpickle_Enum) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[150], &__pyx_n_s_pyx_vtable) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[151], &__pyx_n_s_queue) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[152], &__pyx_n_s_range) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[153], &__pyx_n_s_reduce) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[154], &__pyx_n_s_reduce_cython) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[155], &__pyx_n_s_reduce_ex) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[156], &__pyx_n_s_results) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[157], &__pyx_n_s_rmapping) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[158], &__pyx_n_s_rules) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[159], &__pyx_n_s_s) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[160], &__pyx_n_s_self) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[161], &__pyx_kp_s_self__newstates_self__states_sel) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[162], &__pyx_n_s_setstate) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[163], &__pyx_n_s_setstate_cython) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[164], &__pyx_n_s_shape) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[165], &__pyx_n_s_siteEnergy) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[166], &__pyx_n_s_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[167], &__pyx_n_s_spec) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[168], &__pyx_kp_s_staring_merge) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[169], &__pyx_n_s_start) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[170], &__pyx_n_s_states) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[171], &__pyx_n_s_step) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[172], &__pyx_n_s_stop) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[173], &__pyx_kp_s_strided_and_direct) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[174], &__pyx_kp_s_strided_and_direct_or_indirect) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[175], &__pyx_kp_s_strided_and_indirect) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[176], &__pyx_kp_s_stringsource) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[177], &__pyx_n_s_struct) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[178], &__pyx_n_s_super) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[179], &__pyx_n_s_t) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[180], &__pyx_n_s_test) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[181], &__pyx_kp_u_to) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[182], &__pyx_n_s_traverse) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[183], &__pyx_kp_s_unable_to_allocate_array_data) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[184], &__pyx_kp_s_unable_to_allocate_shape_and_str) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[185], &__pyx_n_s_unpack) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[186], &__pyx_n_s_update) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[187], &__pyx_n_s_verbose) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[188], &__pyx_kp_u_vp) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[189], &__pyx_n_s_vp_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[190], &__pyx_n_s_weight) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[191], &__pyx_kp_u_with_prop) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[192], &__pyx_n_s_zip) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   #endif
   #if !CYTHON_USE_MODULE_STATE
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -26938,45 +30667,47 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_7plexsim_6models_5potts_Potts = __Pyx_ImportType(__pyx_t_1, "plexsim.models.potts", "Potts", sizeof(struct __pyx_obj_7plexsim_6models_5potts_Potts), __Pyx_ImportType_CheckSize_Warn);
    if (!__pyx_ptype_7plexsim_6models_5potts_Potts) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_vtabptr_7plexsim_6models_5potts_Potts = (struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts*)__Pyx_GetVtable(__pyx_ptype_7plexsim_6models_5potts_Potts); if (unlikely(!__pyx_vtabptr_7plexsim_6models_5potts_Potts)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_vtabptr_7plexsim_6models_13value_network_ValueNetwork = &__pyx_vtable_7plexsim_6models_13value_network_ValueNetwork;
-  __pyx_vtable_7plexsim_6models_13value_network_ValueNetwork.__pyx_base = *__pyx_vtabptr_7plexsim_6models_5potts_Potts;
-  __pyx_vtable_7plexsim_6models_13value_network_ValueNetwork.__pyx_base.__pyx_base._step = (void (*)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t))__pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step;
-  __pyx_vtable_7plexsim_6models_13value_network_ValueNetwork.__pyx_base.__pyx_base.probability = (double (*)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_state_t, __pyx_t_7plexsim_6models_5types_node_id_t))__pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probability;
-  __pyx_vtable_7plexsim_6models_13value_network_ValueNetwork.__pyx_base._energy = (double (*)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __pyx_t_7plexsim_6models_5types_node_id_t))__pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy;
-  __pyx_vtable_7plexsim_6models_13value_network_ValueNetwork.__pyx_base.magnetize_ = (double (*)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, double))__pyx_f_7plexsim_6models_13value_network_12ValueNetwork_magnetize_;
-  __pyx_vtable_7plexsim_6models_13value_network_ValueNetwork.__pyx_base._hamiltonian = (double (*)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __pyx_t_7plexsim_6models_5types_state_t, __pyx_t_7plexsim_6models_5types_state_t))__pyx_f_7plexsim_6models_13value_network_12ValueNetwork__hamiltonian;
-  __pyx_vtable_7plexsim_6models_13value_network_ValueNetwork.__pyx_base.siteEnergy = (std::vector<double>  (*)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __Pyx_memviewslice, int __pyx_skip_dispatch))__pyx_f_7plexsim_6models_13value_network_12ValueNetwork_siteEnergy;
-  __pyx_vtable_7plexsim_6models_13value_network_ValueNetwork.check_df = (PyObject *(*)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, __pyx_t_7plexsim_6models_5types_node_id_t, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_df *__pyx_optional_args))__pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_df;
-  __pyx_vtable_7plexsim_6models_13value_network_ValueNetwork._check_df = (Crawler *(*)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, Crawler *))__pyx_f_7plexsim_6models_13value_network_12ValueNetwork__check_df;
-  __pyx_vtable_7plexsim_6models_13value_network_ValueNetwork.check_doubles = (int (*)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, PyObject *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_doubles *__pyx_optional_args))__pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_doubles;
-  __pyx_vtable_7plexsim_6models_13value_network_ValueNetwork._check_endpoint = (int (*)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, __pyx_t_7plexsim_6models_5types_state_t, Crawler *))__pyx_f_7plexsim_6models_13value_network_12ValueNetwork__check_endpoint;
+  __pyx_vtabptr_7plexsim_6models_14value_network2_ValueNetwork = &__pyx_vtable_7plexsim_6models_14value_network2_ValueNetwork;
+  __pyx_vtable_7plexsim_6models_14value_network2_ValueNetwork.__pyx_base = *__pyx_vtabptr_7plexsim_6models_5potts_Potts;
+  __pyx_vtable_7plexsim_6models_14value_network2_ValueNetwork.__pyx_base.__pyx_base._step = (void (*)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t))__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork__step;
+  __pyx_vtable_7plexsim_6models_14value_network2_ValueNetwork.__pyx_base.__pyx_base.probability = (double (*)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_state_t, __pyx_t_7plexsim_6models_5types_node_id_t))__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_probability;
+  __pyx_vtable_7plexsim_6models_14value_network2_ValueNetwork.__pyx_base._energy = (double (*)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __pyx_t_7plexsim_6models_5types_node_id_t))__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork__energy;
+  __pyx_vtable_7plexsim_6models_14value_network2_ValueNetwork.__pyx_base.magnetize_ = (double (*)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, double))__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_magnetize_;
+  __pyx_vtable_7plexsim_6models_14value_network2_ValueNetwork.__pyx_base._hamiltonian = (double (*)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __pyx_t_7plexsim_6models_5types_state_t, __pyx_t_7plexsim_6models_5types_state_t))__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork__hamiltonian;
+  __pyx_vtable_7plexsim_6models_14value_network2_ValueNetwork.__pyx_base.siteEnergy = (std::vector<double>  (*)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __Pyx_memviewslice, int __pyx_skip_dispatch))__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_siteEnergy;
+  __pyx_vtable_7plexsim_6models_14value_network2_ValueNetwork.check_endpoint = (int (*)(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *, __pyx_t_7plexsim_6models_5types_state_t, PyObject *, int __pyx_skip_dispatch))__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_check_endpoint;
+  __pyx_vtable_7plexsim_6models_14value_network2_ValueNetwork.check_df = (PyObject *(*)(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *, __pyx_t_7plexsim_6models_5types_node_id_t, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_df *__pyx_optional_args))__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_check_df;
+  __pyx_vtable_7plexsim_6models_14value_network2_ValueNetwork._check_df = (PyObject *(*)(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork__check_df *__pyx_optional_args))__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork__check_df;
+  __pyx_vtable_7plexsim_6models_14value_network2_ValueNetwork.merge = (void (*)(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_merge *__pyx_optional_args))__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_merge;
+  __pyx_vtable_7plexsim_6models_14value_network2_ValueNetwork.check_doubles = (int (*)(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *, PyObject *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_doubles *__pyx_optional_args))__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_check_doubles;
+  __pyx_vtable_7plexsim_6models_14value_network2_ValueNetwork._traverse = (int (*)(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *, PyObject *, PyObject *, int __pyx_skip_dispatch))__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork__traverse;
+  __pyx_vtable_7plexsim_6models_14value_network2_ValueNetwork.check_traversal = (void (*)(struct __pyx_obj_7plexsim_6models_14value_network2_ValueNetwork *, PyObject *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_14value_network2_12ValueNetwork_check_traversal *__pyx_optional_args))__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_check_traversal;
   #if CYTHON_USE_TYPE_SPECS
-  __pyx_t_2 = PyTuple_Pack(1, (PyObject *)__pyx_ptype_7plexsim_6models_5potts_Potts); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_Pack(1, (PyObject *)__pyx_ptype_7plexsim_6models_5potts_Potts); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_ptype_7plexsim_6models_13value_network_ValueNetwork = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_7plexsim_6models_13value_network_ValueNetwork_spec, __pyx_t_2);
+  __pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_7plexsim_6models_14value_network2_ValueNetwork_spec, __pyx_t_2);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork)) __PYX_ERR(0, 15, __pyx_L1_error)
-  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_7plexsim_6models_13value_network_ValueNetwork_spec, __pyx_ptype_7plexsim_6models_13value_network_ValueNetwork) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
+  if (unlikely(!__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork)) __PYX_ERR(0, 8, __pyx_L1_error)
+  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_7plexsim_6models_14value_network2_ValueNetwork_spec, __pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   #else
-  __pyx_ptype_7plexsim_6models_13value_network_ValueNetwork = &__pyx_type_7plexsim_6models_13value_network_ValueNetwork;
+  __pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork = &__pyx_type_7plexsim_6models_14value_network2_ValueNetwork;
   #endif
   #if !CYTHON_COMPILING_IN_LIMITED_API
-  __pyx_ptype_7plexsim_6models_13value_network_ValueNetwork->tp_dealloc = __pyx_ptype_7plexsim_6models_5potts_Potts->tp_dealloc;
-  __pyx_ptype_7plexsim_6models_13value_network_ValueNetwork->tp_base = __pyx_ptype_7plexsim_6models_5potts_Potts;
+  __pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork->tp_base = __pyx_ptype_7plexsim_6models_5potts_Potts;
   #endif
   #if !CYTHON_USE_TYPE_SPECS
-  if (__Pyx_PyType_Ready(__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
+  if (__Pyx_PyType_Ready(__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   #endif
   #if PY_MAJOR_VERSION < 3
-  __pyx_ptype_7plexsim_6models_13value_network_ValueNetwork->tp_print = 0;
+  __pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork->tp_print = 0;
   #endif
-  if (__Pyx_SetVtable(__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork, __pyx_vtabptr_7plexsim_6models_13value_network_ValueNetwork) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork, __pyx_vtabptr_7plexsim_6models_14value_network2_ValueNetwork) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API
-  if (__Pyx_MergeVtables(__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
+  if (__Pyx_MergeVtables(__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   #endif
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ValueNetwork, (PyObject *) __pyx_ptype_7plexsim_6models_13value_network_ValueNetwork) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ValueNetwork, (PyObject *) __pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API
-  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_7plexsim_6models_13value_network_ValueNetwork) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   #endif
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
@@ -27237,10 +30968,10 @@ static int __Pyx_modinit_function_import_code(void) {
 #if PY_MAJOR_VERSION >= 3
 #if CYTHON_PEP489_MULTI_PHASE_INIT
 static PyObject* __pyx_pymod_create(PyObject *spec, PyModuleDef *def); /*proto*/
-static int __pyx_pymod_exec_value_network(PyObject* module); /*proto*/
+static int __pyx_pymod_exec_value_network2(PyObject* module); /*proto*/
 static PyModuleDef_Slot __pyx_moduledef_slots[] = {
   {Py_mod_create, (void*)__pyx_pymod_create},
-  {Py_mod_exec, (void*)__pyx_pymod_exec_value_network},
+  {Py_mod_exec, (void*)__pyx_pymod_exec_value_network2},
   {0, NULL}
 };
 #endif
@@ -27253,7 +30984,7 @@ namespace {
   #endif
   {
       PyModuleDef_HEAD_INIT,
-      "value_network",
+      "value_network2",
       0, /* m_doc */
     #if CYTHON_PEP489_MULTI_PHASE_INIT
       0, /* m_size */
@@ -27301,11 +31032,11 @@ namespace {
 
 
 #if PY_MAJOR_VERSION < 3
-__Pyx_PyMODINIT_FUNC initvalue_network(void) CYTHON_SMALL_CODE; /*proto*/
-__Pyx_PyMODINIT_FUNC initvalue_network(void)
+__Pyx_PyMODINIT_FUNC initvalue_network2(void) CYTHON_SMALL_CODE; /*proto*/
+__Pyx_PyMODINIT_FUNC initvalue_network2(void)
 #else
-__Pyx_PyMODINIT_FUNC PyInit_value_network(void) CYTHON_SMALL_CODE; /*proto*/
-__Pyx_PyMODINIT_FUNC PyInit_value_network(void)
+__Pyx_PyMODINIT_FUNC PyInit_value_network2(void) CYTHON_SMALL_CODE; /*proto*/
+__Pyx_PyMODINIT_FUNC PyInit_value_network2(void)
 #if CYTHON_PEP489_MULTI_PHASE_INIT
 {
   return PyModuleDef_Init(&__pyx_moduledef);
@@ -27386,7 +31117,7 @@ bad:
 }
 
 
-static CYTHON_SMALL_CODE int __pyx_pymod_exec_value_network(PyObject *__pyx_pyinit_module)
+static CYTHON_SMALL_CODE int __pyx_pymod_exec_value_network2(PyObject *__pyx_pyinit_module)
 #endif
 #endif
 {
@@ -27402,7 +31133,7 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_value_network(PyObject *__pyx_pyin
   #if CYTHON_PEP489_MULTI_PHASE_INIT
   if (__pyx_m) {
     if (__pyx_m == __pyx_pyinit_module) return 0;
-    PyErr_SetString(PyExc_RuntimeError, "Module 'value_network' has already been imported. Re-initialisation is not supported.");
+    PyErr_SetString(PyExc_RuntimeError, "Module 'value_network2' has already been imported. Re-initialisation is not supported.");
     return -1;
   }
   #elif PY_MAJOR_VERSION >= 3
@@ -27414,7 +31145,7 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_value_network(PyObject *__pyx_pyin
   Py_INCREF(__pyx_m);
   #else
   #if PY_MAJOR_VERSION < 3
-  __pyx_m = Py_InitModule4("value_network", __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
+  __pyx_m = Py_InitModule4("value_network2", __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
   if (unlikely(!__pyx_m)) __PYX_ERR(0, 1, __pyx_L1_error)
   #elif CYTHON_COMPILING_IN_LIMITED_API
   __pyx_t_1 = PyModule_Create(&__pyx_moduledef); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -27442,7 +31173,7 @@ if (!__Pyx_RefNanny) {
       Py_FatalError("failed to import 'refnanny' module");
 }
 #endif
-  __Pyx_RefNannySetupContext("__Pyx_PyMODINIT_FUNC PyInit_value_network(void)", 0);
+  __Pyx_RefNannySetupContext("__Pyx_PyMODINIT_FUNC PyInit_value_network2(void)", 0);
   if (__Pyx_check_binary_version() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #ifdef __Pxy_PyFrame_Initialize_Offsets
   __Pxy_PyFrame_Initialize_Offsets();
@@ -27478,14 +31209,14 @@ if (!__Pyx_RefNanny) {
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  if (__pyx_module_is_main_plexsim__models__value_network) {
+  if (__pyx_module_is_main_plexsim__models__value_network2) {
     if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name_2, __pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "plexsim.models.value_network")) {
-      if (unlikely((PyDict_SetItemString(modules, "plexsim.models.value_network", __pyx_m) < 0))) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "plexsim.models.value_network2")) {
+      if (unlikely((PyDict_SetItemString(modules, "plexsim.models.value_network2", __pyx_m) < 0))) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   #endif
@@ -27506,7 +31237,7 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "plexsim/models/value_network.pyx":1
+  /* "plexsim/models/value_network2.pyx":1
  * import networkx as nx, numpy as np             # <<<<<<<<<<<<<<
  * cimport numpy as np, cython
  * from cython.parallel cimport parallel, prange, threadid
@@ -27520,28 +31251,28 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "plexsim/models/value_network.pyx":20
+  /* "plexsim/models/value_network2.pyx":13
  *                  t = 1,
  *                  bounded_rational = -1,
  *                  agentStates = np.arange(0, 2, dtype = np.double),             # <<<<<<<<<<<<<<
  *                  **kwargs
  *                  ):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_arange); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_arange); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_double); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_double); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 20, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__19, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__20, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -27549,56 +31280,247 @@ if (!__Pyx_RefNanny) {
   __Pyx_GIVEREF(__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "plexsim/models/value_network.pyx":46
+  /* "plexsim/models/value_network2.pyx":39
  *         self._bounded_rational = int(value)
  * 
  *     cpdef vector[double] siteEnergy(self, state_t[::1] states):             # <<<<<<<<<<<<<<
  *         cdef:
  *             vector[double] siteEnergy = vector[double](self.adj._nNodes)
  */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_13value_network_12ValueNetwork_3siteEnergy, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ValueNetwork_siteEnergy, NULL, __pyx_n_s_plexsim_models_value_network, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_14value_network2_12ValueNetwork_3siteEnergy, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ValueNetwork_siteEnergy, NULL, __pyx_n_s_plexsim_models_value_network2, __pyx_d, ((PyObject *)__pyx_codeobj__22)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork->tp_dict, __pyx_n_s_siteEnergy, __pyx_t_4) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork->tp_dict, __pyx_n_s_siteEnergy, __pyx_t_4) < 0) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  PyType_Modified(__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork);
+  PyType_Modified(__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork);
 
-  /* "plexsim/models/value_network.pyx":83
+  /* "plexsim/models/value_network2.pyx":76
  *         return self.paths
  * 
  *     cpdef bint check_doubles(self, list path, list results, bint verbose = False):             # <<<<<<<<<<<<<<
  *         """
  *         Don't allow for double edges
  */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_13value_network_12ValueNetwork_5check_doubles, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ValueNetwork_check_doubles, NULL, __pyx_n_s_plexsim_models_value_network, __pyx_d, ((PyObject *)__pyx_codeobj__23)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_14value_network2_12ValueNetwork_5check_doubles, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ValueNetwork_check_doubles, NULL, __pyx_n_s_plexsim_models_value_network2, __pyx_d, ((PyObject *)__pyx_codeobj__24)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__24);
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork->tp_dict, __pyx_n_s_check_doubles, __pyx_t_4) < 0) __PYX_ERR(0, 83, __pyx_L1_error)
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__25);
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork->tp_dict, __pyx_n_s_check_doubles, __pyx_t_4) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  PyType_Modified(__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork);
+  PyType_Modified(__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork);
 
-  /* "plexsim/models/value_network.pyx":144
+  /* "plexsim/models/value_network2.pyx":94
+ *         return add
+ * 
+ *     cpdef void merge(self, list results, bint verbose = False):             # <<<<<<<<<<<<<<
+ *         """
+ *         Merge paths from branches inplace
+ */
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_14value_network2_12ValueNetwork_7merge, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ValueNetwork_merge, NULL, __pyx_n_s_plexsim_models_value_network2, __pyx_d, ((PyObject *)__pyx_codeobj__27)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__28);
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork->tp_dict, __pyx_n_s_merge, __pyx_t_4) < 0) __PYX_ERR(0, 94, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  PyType_Modified(__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork);
+
+  /* "plexsim/models/value_network2.pyx":153
+ *             results[1] = merged
+ * 
+ *     cpdef bint check_endpoint(self, state_t s, list vp_path):             # <<<<<<<<<<<<<<
+ *         """
+ *         Check if an end point is reached
+ */
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_14value_network2_12ValueNetwork_9check_endpoint, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ValueNetwork_check_endpoint, NULL, __pyx_n_s_plexsim_models_value_network2, __pyx_d, ((PyObject *)__pyx_codeobj__30)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 153, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork->tp_dict, __pyx_n_s_check_endpoint, __pyx_t_4) < 0) __PYX_ERR(0, 153, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  PyType_Modified(__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork);
+
+  /* "plexsim/models/value_network2.pyx":166
+ *         return fail
+ * 
+ *     cpdef bint _traverse(self, list proposal, list option):             # <<<<<<<<<<<<<<
+ *         cdef dict seen = {}
+ *         cdef list edge
+ */
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_14value_network2_12ValueNetwork_11_traverse, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ValueNetwork__traverse, NULL, __pyx_n_s_plexsim_models_value_network2, __pyx_d, ((PyObject *)__pyx_codeobj__32)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork->tp_dict, __pyx_n_s_traverse, __pyx_t_4) < 0) __PYX_ERR(0, 166, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  PyType_Modified(__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork);
+
+  /* "plexsim/models/value_network2.pyx":192
+ * 
+ * 
+ *     cpdef void check_traversal(self, list proposal, list options,             # <<<<<<<<<<<<<<
+ *                                bint verbose = False):
+ *         cdef list option
+ */
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_14value_network2_12ValueNetwork_13check_traversal, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ValueNetwork_check_traversal, NULL, __pyx_n_s_plexsim_models_value_network2, __pyx_d, ((PyObject *)__pyx_codeobj__34)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 192, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__35);
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork->tp_dict, __pyx_n_s_check_traversal, __pyx_t_4) < 0) __PYX_ERR(0, 192, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  PyType_Modified(__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork);
+
+  /* "plexsim/models/value_network2.pyx":204
  * 
  * 
  *     cpdef list check_df(self, node_id_t start, bint verbose = False):             # <<<<<<<<<<<<<<
- *         cdef Crawler *crawler = new Crawler(start,
- *                                         self._states[start],
+ *         print(start)
+ *         cdef list queue = [(start, start)]
  */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_13value_network_12ValueNetwork_7check_df, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ValueNetwork_check_df, NULL, __pyx_n_s_plexsim_models_value_network, __pyx_d, ((PyObject *)__pyx_codeobj__26)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_14value_network2_12ValueNetwork_15check_df, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ValueNetwork_check_df, NULL, __pyx_n_s_plexsim_models_value_network2, __pyx_d, ((PyObject *)__pyx_codeobj__37)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 204, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__27);
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork->tp_dict, __pyx_n_s_check_df, __pyx_t_4) < 0) __PYX_ERR(0, 144, __pyx_L1_error)
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__38);
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork->tp_dict, __pyx_n_s_check_df, __pyx_t_4) < 0) __PYX_ERR(0, 204, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  PyType_Modified(__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork);
+  PyType_Modified(__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork);
+
+  /* "plexsim/models/value_network2.pyx":209
+ *         return self._check_df(queue, path = [], vp_path = [],
+ *                               results = [[], []], verbose = verbose)
+ *     cpdef list _check_df(self, list queue, list path = [],             # <<<<<<<<<<<<<<
+ *                         list vp_path = [],
+ *                         list results = [],
+ */
+  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 209, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_k__6 = ((PyObject*)__pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_4);
+  __pyx_t_4 = 0;
+
+  /* "plexsim/models/value_network2.pyx":210
+ *                               results = [[], []], verbose = verbose)
+ *     cpdef list _check_df(self, list queue, list path = [],
+ *                         list vp_path = [],             # <<<<<<<<<<<<<<
+ *                         list results = [],
+ *                         bint verbose = False):
+ */
+  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 210, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_k__7 = ((PyObject*)__pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_4);
+  __pyx_t_4 = 0;
+
+  /* "plexsim/models/value_network2.pyx":211
+ *     cpdef list _check_df(self, list queue, list path = [],
+ *                         list vp_path = [],
+ *                         list results = [],             # <<<<<<<<<<<<<<
+ *                         bint verbose = False):
+ *         """
+ */
+  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 211, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_k__8 = ((PyObject*)__pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_4);
+  __pyx_t_4 = 0;
+
+  /* "plexsim/models/value_network2.pyx":209
+ *         return self._check_df(queue, path = [], vp_path = [],
+ *                               results = [[], []], verbose = verbose)
+ *     cpdef list _check_df(self, list queue, list path = [],             # <<<<<<<<<<<<<<
+ *                         list vp_path = [],
+ *                         list results = [],
+ */
+  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 209, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_k__6 = ((PyObject*)__pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_4);
+  __pyx_t_4 = 0;
+
+  /* "plexsim/models/value_network2.pyx":210
+ *                               results = [[], []], verbose = verbose)
+ *     cpdef list _check_df(self, list queue, list path = [],
+ *                         list vp_path = [],             # <<<<<<<<<<<<<<
+ *                         list results = [],
+ *                         bint verbose = False):
+ */
+  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 210, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_k__7 = ((PyObject*)__pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_4);
+  __pyx_t_4 = 0;
+
+  /* "plexsim/models/value_network2.pyx":211
+ *     cpdef list _check_df(self, list queue, list path = [],
+ *                         list vp_path = [],
+ *                         list results = [],             # <<<<<<<<<<<<<<
+ *                         bint verbose = False):
+ *         """
+ */
+  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 211, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_k__8 = ((PyObject*)__pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_4);
+  __pyx_t_4 = 0;
+
+  /* "plexsim/models/value_network2.pyx":209
+ *         return self._check_df(queue, path = [], vp_path = [],
+ *                               results = [[], []], verbose = verbose)
+ *     cpdef list _check_df(self, list queue, list path = [],             # <<<<<<<<<<<<<<
+ *                         list vp_path = [],
+ *                         list results = [],
+ */
+  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 209, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+
+  /* "plexsim/models/value_network2.pyx":210
+ *                               results = [[], []], verbose = verbose)
+ *     cpdef list _check_df(self, list queue, list path = [],
+ *                         list vp_path = [],             # <<<<<<<<<<<<<<
+ *                         list results = [],
+ *                         bint verbose = False):
+ */
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 210, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+
+  /* "plexsim/models/value_network2.pyx":211
+ *     cpdef list _check_df(self, list queue, list path = [],
+ *                         list vp_path = [],
+ *                         list results = [],             # <<<<<<<<<<<<<<
+ *                         bint verbose = False):
+ *         """
+ */
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 211, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+
+  /* "plexsim/models/value_network2.pyx":209
+ *         return self._check_df(queue, path = [], vp_path = [],
+ *                               results = [[], []], verbose = verbose)
+ *     cpdef list _check_df(self, list queue, list path = [],             # <<<<<<<<<<<<<<
+ *                         list vp_path = [],
+ *                         list results = [],
+ */
+  __pyx_t_3 = PyTuple_New(4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 209, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_t_2);
+  __Pyx_INCREF(Py_False);
+  __Pyx_GIVEREF(Py_False);
+  PyTuple_SET_ITEM(__pyx_t_3, 3, Py_False);
+  __pyx_t_4 = 0;
+  __pyx_t_1 = 0;
+  __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_14value_network2_12ValueNetwork_17_check_df, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ValueNetwork__check_df, NULL, __pyx_n_s_plexsim_models_value_network2, __pyx_d, ((PyObject *)__pyx_codeobj__40)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 209, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_2, __pyx_t_3);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork->tp_dict, __pyx_n_s_check_df_2, __pyx_t_2) < 0) __PYX_ERR(0, 209, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  PyType_Modified(__pyx_ptype_7plexsim_6models_14value_network2_ValueNetwork);
 
   /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
  *     raise TypeError, "self._newstates,self._states,self.ptr cannot be converted to a Python object for pickling"
  * def __setstate_cython__(self, __pyx_state):
  */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_13value_network_12ValueNetwork_9__reduce_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ValueNetwork___reduce_cython, NULL, __pyx_n_s_plexsim_models_value_network, __pyx_d, ((PyObject *)__pyx_codeobj__29)); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_reduce_cython, __pyx_t_4) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_14value_network2_12ValueNetwork_19__reduce_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ValueNetwork___reduce_cython, NULL, __pyx_n_s_plexsim_models_value_network2, __pyx_d, ((PyObject *)__pyx_codeobj__42)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_reduce_cython, __pyx_t_2) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "(tree fragment)":3
  * def __reduce_cython__(self):
@@ -27606,20 +31528,20 @@ if (!__Pyx_RefNanny) {
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     raise TypeError, "self._newstates,self._states,self.ptr cannot be converted to a Python object for pickling"
  */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_13value_network_12ValueNetwork_11__setstate_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ValueNetwork___setstate_cython, NULL, __pyx_n_s_plexsim_models_value_network, __pyx_d, ((PyObject *)__pyx_codeobj__31)); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 3, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_setstate_cython, __pyx_t_4) < 0) __PYX_ERR(1, 3, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_14value_network2_12ValueNetwork_21__setstate_cython__, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ValueNetwork___setstate_cython, NULL, __pyx_n_s_plexsim_models_value_network2, __pyx_d, ((PyObject *)__pyx_codeobj__44)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 3, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_setstate_cython, __pyx_t_2) < 0) __PYX_ERR(1, 3, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "plexsim/models/value_network.pyx":1
+  /* "plexsim/models/value_network2.pyx":1
  * import networkx as nx, numpy as np             # <<<<<<<<<<<<<<
  * cimport numpy as np, cython
  * from cython.parallel cimport parallel, prange, threadid
  */
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_4) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "View.MemoryView":205
  *         info.obj = self
@@ -27628,10 +31550,10 @@ if (!__Pyx_RefNanny) {
  * 
  *     def __dealloc__(array self):
  */
-  __pyx_t_4 = __pyx_capsule_create(((void *)(&__pyx_array_getbuffer)), ((char *)"getbuffer(obj, view, flags)")); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 205, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem((PyObject *)__pyx_array_type->tp_dict, __pyx_n_s_pyx_getbuffer, __pyx_t_4) < 0) __PYX_ERR(1, 205, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_2 = __pyx_capsule_create(((void *)(&__pyx_array_getbuffer)), ((char *)"getbuffer(obj, view, flags)")); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 205, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem((PyObject *)__pyx_array_type->tp_dict, __pyx_n_s_pyx_getbuffer, __pyx_t_2) < 0) __PYX_ERR(1, 205, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_array_type);
 
   /* "View.MemoryView":300
@@ -27641,12 +31563,12 @@ if (!__Pyx_RefNanny) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__32, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 300, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__45, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 300, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(generic);
-  __Pyx_DECREF_SET(generic, __pyx_t_4);
-  __Pyx_GIVEREF(__pyx_t_4);
-  __pyx_t_4 = 0;
+  __Pyx_DECREF_SET(generic, __pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_2);
+  __pyx_t_2 = 0;
 
   /* "View.MemoryView":301
  * 
@@ -27655,12 +31577,12 @@ if (!__Pyx_RefNanny) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__33, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 301, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__46, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 301, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(strided);
-  __Pyx_DECREF_SET(strided, __pyx_t_4);
-  __Pyx_GIVEREF(__pyx_t_4);
-  __pyx_t_4 = 0;
+  __Pyx_DECREF_SET(strided, __pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_2);
+  __pyx_t_2 = 0;
 
   /* "View.MemoryView":302
  * cdef generic = Enum("<strided and direct or indirect>")
@@ -27669,12 +31591,12 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__34, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 302, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__47, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 302, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(indirect);
-  __Pyx_DECREF_SET(indirect, __pyx_t_4);
-  __Pyx_GIVEREF(__pyx_t_4);
-  __pyx_t_4 = 0;
+  __Pyx_DECREF_SET(indirect, __pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_2);
+  __pyx_t_2 = 0;
 
   /* "View.MemoryView":305
  * 
@@ -27683,12 +31605,12 @@ if (!__Pyx_RefNanny) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__35, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 305, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__48, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 305, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(contiguous);
-  __Pyx_DECREF_SET(contiguous, __pyx_t_4);
-  __Pyx_GIVEREF(__pyx_t_4);
-  __pyx_t_4 = 0;
+  __Pyx_DECREF_SET(contiguous, __pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_2);
+  __pyx_t_2 = 0;
 
   /* "View.MemoryView":306
  * 
@@ -27697,12 +31619,12 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__36, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 306, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__49, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 306, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(indirect_contiguous);
-  __Pyx_DECREF_SET(indirect_contiguous, __pyx_t_4);
-  __Pyx_GIVEREF(__pyx_t_4);
-  __pyx_t_4 = 0;
+  __Pyx_DECREF_SET(indirect_contiguous, __pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_2);
+  __pyx_t_2 = 0;
 
   /* "View.MemoryView":330
  * 
@@ -27737,10 +31659,10 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_4 = __pyx_capsule_create(((void *)(&__pyx_memoryview_getbuffer)), ((char *)"getbuffer(obj, view, flags)")); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 563, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem((PyObject *)__pyx_memoryview_type->tp_dict, __pyx_n_s_pyx_getbuffer, __pyx_t_4) < 0) __PYX_ERR(1, 563, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_2 = __pyx_capsule_create(((void *)(&__pyx_memoryview_getbuffer)), ((char *)"getbuffer(obj, view, flags)")); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 563, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem((PyObject *)__pyx_memoryview_type->tp_dict, __pyx_n_s_pyx_getbuffer, __pyx_t_2) < 0) __PYX_ERR(1, 563, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_memoryview_type);
 
   /* "View.MemoryView":1007
@@ -27750,10 +31672,10 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_4 = __pyx_capsule_create(((void *)(&__pyx_memoryview_getbuffer)), ((char *)"getbuffer(obj, view, flags)")); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1007, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem((PyObject *)__pyx_memoryviewslice_type->tp_dict, __pyx_n_s_pyx_getbuffer, __pyx_t_4) < 0) __PYX_ERR(1, 1007, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_2 = __pyx_capsule_create(((void *)(&__pyx_memoryview_getbuffer)), ((char *)"getbuffer(obj, view, flags)")); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1007, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem((PyObject *)__pyx_memoryviewslice_type->tp_dict, __pyx_n_s_pyx_getbuffer, __pyx_t_2) < 0) __PYX_ERR(1, 1007, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_memoryviewslice_type);
 
   /* "(tree fragment)":1
@@ -27761,10 +31683,10 @@ if (!__Pyx_RefNanny) {
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_t_4 = PyCFunction_NewEx(&__pyx_mdef_15View_dot_MemoryView_1__pyx_unpickle_Enum, NULL, __pyx_n_s_View_MemoryView); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_Enum, __pyx_t_4) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_15View_dot_MemoryView_1__pyx_unpickle_Enum, NULL, __pyx_n_s_View_MemoryView); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_Enum, __pyx_t_2) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "(tree fragment)":11
  *         __pyx_unpickle_Enum__set_state(<Enum> __pyx_result, __pyx_state)
@@ -27784,13 +31706,13 @@ if (!__Pyx_RefNanny) {
   __Pyx_XDECREF(__pyx_t_4);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init plexsim.models.value_network", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init plexsim.models.value_network2", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     #if !CYTHON_COMPILING_IN_LIMITED_API
     Py_CLEAR(__pyx_m);
     #endif
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init plexsim.models.value_network");
+    PyErr_SetString(PyExc_ImportError, "init plexsim.models.value_network2");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -29712,6 +33634,140 @@ static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *nam
     return 0;
 }
 
+/* PyIntBinop */
+#if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, int inplace, int zerodivision_check) {
+    CYTHON_MAYBE_UNUSED_VAR(intval);
+    CYTHON_MAYBE_UNUSED_VAR(inplace);
+    CYTHON_UNUSED_VAR(zerodivision_check);
+    #if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_CheckExact(op1))) {
+        const long b = intval;
+        long x;
+        long a = PyInt_AS_LONG(op1);
+        
+            x = (long)((unsigned long)a + b);
+            if (likely((x^a) >= 0 || (x^b) >= 0))
+                return PyInt_FromLong(x);
+            return PyLong_Type.tp_as_number->nb_add(op1, op2);
+    }
+    #endif
+    #if CYTHON_USE_PYLONG_INTERNALS
+    if (likely(PyLong_CheckExact(op1))) {
+        const long b = intval;
+        long a, x;
+#ifdef HAVE_LONG_LONG
+        const PY_LONG_LONG llb = intval;
+        PY_LONG_LONG lla, llx;
+#endif
+        const digit* digits = ((PyLongObject*)op1)->ob_digit;
+        const Py_ssize_t size = Py_SIZE(op1);
+        if (unlikely(size == 0)) {
+            return __Pyx_NewRef(op2);
+        }
+        if (likely(__Pyx_sst_abs(size) <= 1)) {
+            a = likely(size) ? digits[0] : 0;
+            if (size == -1) a = -a;
+        } else {
+            switch (size) {
+                case -2:
+                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                        a = -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+                    #ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+                    #endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 2:
+                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                        a = (long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+                    #ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+                    #endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case -3:
+                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                        a = -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+                    #ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+                    #endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 3:
+                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                        a = (long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+                    #ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+                    #endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case -4:
+                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
+                        a = -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+                    #ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+                    #endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 4:
+                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
+                        a = (long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+                    #ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+                    #endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                default: return PyLong_Type.tp_as_number->nb_add(op1, op2);
+            }
+        }
+                x = a + b;
+            return PyLong_FromLong(x);
+#ifdef HAVE_LONG_LONG
+        long_long:
+                llx = lla + llb;
+            return PyLong_FromLongLong(llx);
+#endif
+        
+        
+    }
+    #endif
+    if (PyFloat_CheckExact(op1)) {
+        const long b = intval;
+#if CYTHON_COMPILING_IN_LIMITED_API
+        double a = __pyx_PyFloat_AsDouble(op1);
+#else
+        double a = PyFloat_AS_DOUBLE(op1);
+#endif
+            double result;
+            
+            PyFPE_START_PROTECT("add", return NULL)
+            result = ((double)a) + (double)b;
+            PyFPE_END_PROTECT(result)
+            return PyFloat_FromDouble(result);
+    }
+    return (inplace ? PyNumber_InPlaceAdd : PyNumber_Add)(op1, op2);
+}
+#endif
+
 /* RaiseUnexpectedTypeError */
 static int
 __Pyx_RaiseUnexpectedTypeError(const char *expected, PyObject *obj)
@@ -29723,199 +33779,104 @@ __Pyx_RaiseUnexpectedTypeError(const char *expected, PyObject *obj)
     return 0;
 }
 
-/* PyObjectFormatAndDecref */
-static CYTHON_INLINE PyObject* __Pyx_PyObject_FormatSimpleAndDecref(PyObject* s, PyObject* f) {
-    if (unlikely(!s)) return NULL;
-    if (likely(PyUnicode_CheckExact(s))) return s;
-    #if PY_MAJOR_VERSION < 3
-    if (likely(PyString_CheckExact(s))) {
-        PyObject *result = PyUnicode_FromEncodedObject(s, NULL, "strict");
-        Py_DECREF(s);
-        return result;
-    }
-    #endif
-    return __Pyx_PyObject_FormatAndDecref(s, f);
+/* SetItemInt */
+static int __Pyx_SetItemInt_Generic(PyObject *o, PyObject *j, PyObject *v) {
+    int r;
+    if (unlikely(!j)) return -1;
+    r = PyObject_SetItem(o, j, v);
+    Py_DECREF(j);
+    return r;
 }
-static CYTHON_INLINE PyObject* __Pyx_PyObject_FormatAndDecref(PyObject* s, PyObject* f) {
-    PyObject *result = PyObject_Format(s, f);
-    Py_DECREF(s);
-    return result;
-}
-
-/* CIntToDigits */
-static const char DIGIT_PAIRS_10[2*10*10+1] = {
-    "00010203040506070809"
-    "10111213141516171819"
-    "20212223242526272829"
-    "30313233343536373839"
-    "40414243444546474849"
-    "50515253545556575859"
-    "60616263646566676869"
-    "70717273747576777879"
-    "80818283848586878889"
-    "90919293949596979899"
-};
-static const char DIGIT_PAIRS_8[2*8*8+1] = {
-    "0001020304050607"
-    "1011121314151617"
-    "2021222324252627"
-    "3031323334353637"
-    "4041424344454647"
-    "5051525354555657"
-    "6061626364656667"
-    "7071727374757677"
-};
-static const char DIGITS_HEX[2*16+1] = {
-    "0123456789abcdef"
-    "0123456789ABCDEF"
-};
-
-/* BuildPyUnicode */
-static PyObject* __Pyx_PyUnicode_BuildFromAscii(Py_ssize_t ulength, char* chars, int clength,
-                                                int prepend_sign, char padding_char) {
-    PyObject *uval;
-    Py_ssize_t uoffset = ulength - clength;
-#if CYTHON_USE_UNICODE_INTERNALS
-    Py_ssize_t i;
-#if CYTHON_PEP393_ENABLED
-    void *udata;
-    uval = PyUnicode_New(ulength, 127);
-    if (unlikely(!uval)) return NULL;
-    udata = PyUnicode_DATA(uval);
-#else
-    Py_UNICODE *udata;
-    uval = PyUnicode_FromUnicode(NULL, ulength);
-    if (unlikely(!uval)) return NULL;
-    udata = PyUnicode_AS_UNICODE(uval);
-#endif
-    if (uoffset > 0) {
-        i = 0;
-        if (prepend_sign) {
-            __Pyx_PyUnicode_WRITE(PyUnicode_1BYTE_KIND, udata, 0, '-');
-            i++;
+static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObject *v, int is_list,
+                                               CYTHON_NCP_UNUSED int wraparound, CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS && CYTHON_USE_TYPE_SLOTS
+    if (is_list || PyList_CheckExact(o)) {
+        Py_ssize_t n = (!wraparound) ? i : ((likely(i >= 0)) ? i : i + PyList_GET_SIZE(o));
+        if ((!boundscheck) || likely(__Pyx_is_valid_index(n, PyList_GET_SIZE(o)))) {
+            PyObject* old = PyList_GET_ITEM(o, n);
+            Py_INCREF(v);
+            PyList_SET_ITEM(o, n, v);
+            Py_DECREF(old);
+            return 1;
         }
-        for (; i < uoffset; i++) {
-            __Pyx_PyUnicode_WRITE(PyUnicode_1BYTE_KIND, udata, i, padding_char);
+    } else {
+        PyMappingMethods *mm = Py_TYPE(o)->tp_as_mapping;
+        PySequenceMethods *sm = Py_TYPE(o)->tp_as_sequence;
+        if (mm && mm->mp_ass_subscript) {
+            int r;
+            PyObject *key = PyInt_FromSsize_t(i);
+            if (unlikely(!key)) return -1;
+            r = mm->mp_ass_subscript(o, key, v);
+            Py_DECREF(key);
+            return r;
         }
-    }
-    for (i=0; i < clength; i++) {
-        __Pyx_PyUnicode_WRITE(PyUnicode_1BYTE_KIND, udata, uoffset+i, chars[i]);
-    }
-#else
-    {
-        PyObject *sign = NULL, *padding = NULL;
-        uval = NULL;
-        if (uoffset > 0) {
-            prepend_sign = !!prepend_sign;
-            if (uoffset > prepend_sign) {
-                padding = PyUnicode_FromOrdinal(padding_char);
-                if (likely(padding) && uoffset > prepend_sign + 1) {
-                    PyObject *tmp;
-                    PyObject *repeat = PyInt_FromSize_t(uoffset - prepend_sign);
-                    if (unlikely(!repeat)) goto done_or_error;
-                    tmp = PyNumber_Multiply(padding, repeat);
-                    Py_DECREF(repeat);
-                    Py_DECREF(padding);
-                    padding = tmp;
+        if (likely(sm && sm->sq_ass_item)) {
+            if (wraparound && unlikely(i < 0) && likely(sm->sq_length)) {
+                Py_ssize_t l = sm->sq_length(o);
+                if (likely(l >= 0)) {
+                    i += l;
+                } else {
+                    if (!PyErr_ExceptionMatches(PyExc_OverflowError))
+                        return -1;
+                    PyErr_Clear();
                 }
-                if (unlikely(!padding)) goto done_or_error;
             }
-            if (prepend_sign) {
-                sign = PyUnicode_FromOrdinal('-');
-                if (unlikely(!sign)) goto done_or_error;
-            }
+            return sm->sq_ass_item(o, i, v);
         }
-        uval = PyUnicode_DecodeASCII(chars, clength, NULL);
-        if (likely(uval) && padding) {
-            PyObject *tmp = PyNumber_Add(padding, uval);
-            Py_DECREF(uval);
-            uval = tmp;
-        }
-        if (likely(uval) && sign) {
-            PyObject *tmp = PyNumber_Add(sign, uval);
-            Py_DECREF(uval);
-            uval = tmp;
-        }
-done_or_error:
-        Py_XDECREF(padding);
-        Py_XDECREF(sign);
+    }
+#else
+#if CYTHON_COMPILING_IN_PYPY
+    if (is_list || (PySequence_Check(o) && !PyDict_Check(o)))
+#else
+    if (is_list || PySequence_Check(o))
+#endif
+    {
+        return PySequence_SetItem(o, i, v);
     }
 #endif
-    return uval;
+    return __Pyx_SetItemInt_Generic(o, PyInt_FromSsize_t(i), v);
 }
 
-/* CIntToPyUnicode */
-static CYTHON_INLINE PyObject* __Pyx_PyUnicode_From_size_t(size_t value, Py_ssize_t width, char padding_char, char format_char) {
-    char digits[sizeof(size_t)*3+2];
-    char *dpos, *end = digits + sizeof(size_t)*3+2;
-    const char *hex_digits = DIGITS_HEX;
-    Py_ssize_t length, ulength;
-    int prepend_sign, last_one_off;
-    size_t remaining;
-#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wconversion"
-#endif
-    const size_t neg_one = (size_t) -1, const_zero = (size_t) 0;
-#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
-#pragma GCC diagnostic pop
-#endif
-    const int is_unsigned = neg_one > const_zero;
-    if (format_char == 'X') {
-        hex_digits += 16;
-        format_char = 'x';
+/* pop */
+static CYTHON_INLINE PyObject* __Pyx__PyObject_Pop(PyObject* L) {
+    if (__Pyx_IS_TYPE(L, &PySet_Type)) {
+        return PySet_Pop(L);
     }
-    remaining = value;
-    last_one_off = 0;
-    dpos = end;
-    do {
-        int digit_pos;
-        switch (format_char) {
-        case 'o':
-            digit_pos = abs((int)(remaining % (8*8)));
-            remaining = (size_t) (remaining / (8*8));
-            dpos -= 2;
-            *(uint16_t*)dpos = ((const uint16_t*)DIGIT_PAIRS_8)[digit_pos];
-            last_one_off = (digit_pos < 8);
-            break;
-        case 'd':
-            digit_pos = abs((int)(remaining % (10*10)));
-            remaining = (size_t) (remaining / (10*10));
-            dpos -= 2;
-            *(uint16_t*)dpos = ((const uint16_t*)DIGIT_PAIRS_10)[digit_pos];
-            last_one_off = (digit_pos < 10);
-            break;
-        case 'x':
-            *(--dpos) = hex_digits[abs((int)(remaining % 16))];
-            remaining = (size_t) (remaining / 16);
-            break;
-        default:
-            assert(0);
-            break;
-        }
-    } while (unlikely(remaining != 0));
-    assert(!last_one_off || *dpos == '0');
-    dpos += last_one_off;
-    length = end - dpos;
-    ulength = length;
-    prepend_sign = 0;
-    if (!is_unsigned && value <= neg_one) {
-        if (padding_char == ' ' || width <= length + 1) {
-            *(--dpos) = '-';
-            ++length;
-        } else {
-            prepend_sign = 1;
-        }
-        ++ulength;
-    }
-    if (width > ulength) {
-        ulength = width;
-    }
-    if (ulength == 1) {
-        return PyUnicode_FromOrdinal(*dpos);
-    }
-    return __Pyx_PyUnicode_BuildFromAscii(ulength, dpos, (int) length, prepend_sign, padding_char);
+    return __Pyx_PyObject_CallMethod0(L, __pyx_n_s_pop);
 }
+#if CYTHON_USE_PYLIST_INTERNALS && CYTHON_ASSUME_SAFE_MACROS
+static CYTHON_INLINE PyObject* __Pyx_PyList_Pop(PyObject* L) {
+    if (likely(PyList_GET_SIZE(L) > (((PyListObject*)L)->allocated >> 1))) {
+        __Pyx_SET_SIZE(L, Py_SIZE(L) - 1);
+        return PyList_GET_ITEM(L, PyList_GET_SIZE(L));
+    }
+    return __Pyx_CallUnboundCMethod0(&__pyx_umethod_PyList_Type_pop, L);
+}
+#endif
+
+/* DictGetItem */
+#if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
+static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key) {
+    PyObject *value;
+    value = PyDict_GetItemWithError(d, key);
+    if (unlikely(!value)) {
+        if (!PyErr_Occurred()) {
+            if (unlikely(PyTuple_Check(key))) {
+                PyObject* args = PyTuple_Pack(1, key);
+                if (likely(args)) {
+                    PyErr_SetObject(PyExc_KeyError, args);
+                    Py_DECREF(args);
+                }
+            } else {
+                PyErr_SetObject(PyExc_KeyError, key);
+            }
+        }
+        return NULL;
+    }
+    Py_INCREF(value);
+    return value;
+}
+#endif
 
 /* KeywordStringCheck */
 static int __Pyx_CheckKeywordStrings(
@@ -30102,6 +34063,108 @@ bad:
     Py_XDECREF(local_value);
     Py_XDECREF(local_tb);
     return -1;
+}
+
+/* CIntToDigits */
+static const char DIGIT_PAIRS_10[2*10*10+1] = {
+    "00010203040506070809"
+    "10111213141516171819"
+    "20212223242526272829"
+    "30313233343536373839"
+    "40414243444546474849"
+    "50515253545556575859"
+    "60616263646566676869"
+    "70717273747576777879"
+    "80818283848586878889"
+    "90919293949596979899"
+};
+static const char DIGIT_PAIRS_8[2*8*8+1] = {
+    "0001020304050607"
+    "1011121314151617"
+    "2021222324252627"
+    "3031323334353637"
+    "4041424344454647"
+    "5051525354555657"
+    "6061626364656667"
+    "7071727374757677"
+};
+static const char DIGITS_HEX[2*16+1] = {
+    "0123456789abcdef"
+    "0123456789ABCDEF"
+};
+
+/* BuildPyUnicode */
+static PyObject* __Pyx_PyUnicode_BuildFromAscii(Py_ssize_t ulength, char* chars, int clength,
+                                                int prepend_sign, char padding_char) {
+    PyObject *uval;
+    Py_ssize_t uoffset = ulength - clength;
+#if CYTHON_USE_UNICODE_INTERNALS
+    Py_ssize_t i;
+#if CYTHON_PEP393_ENABLED
+    void *udata;
+    uval = PyUnicode_New(ulength, 127);
+    if (unlikely(!uval)) return NULL;
+    udata = PyUnicode_DATA(uval);
+#else
+    Py_UNICODE *udata;
+    uval = PyUnicode_FromUnicode(NULL, ulength);
+    if (unlikely(!uval)) return NULL;
+    udata = PyUnicode_AS_UNICODE(uval);
+#endif
+    if (uoffset > 0) {
+        i = 0;
+        if (prepend_sign) {
+            __Pyx_PyUnicode_WRITE(PyUnicode_1BYTE_KIND, udata, 0, '-');
+            i++;
+        }
+        for (; i < uoffset; i++) {
+            __Pyx_PyUnicode_WRITE(PyUnicode_1BYTE_KIND, udata, i, padding_char);
+        }
+    }
+    for (i=0; i < clength; i++) {
+        __Pyx_PyUnicode_WRITE(PyUnicode_1BYTE_KIND, udata, uoffset+i, chars[i]);
+    }
+#else
+    {
+        PyObject *sign = NULL, *padding = NULL;
+        uval = NULL;
+        if (uoffset > 0) {
+            prepend_sign = !!prepend_sign;
+            if (uoffset > prepend_sign) {
+                padding = PyUnicode_FromOrdinal(padding_char);
+                if (likely(padding) && uoffset > prepend_sign + 1) {
+                    PyObject *tmp;
+                    PyObject *repeat = PyInt_FromSize_t(uoffset - prepend_sign);
+                    if (unlikely(!repeat)) goto done_or_error;
+                    tmp = PyNumber_Multiply(padding, repeat);
+                    Py_DECREF(repeat);
+                    Py_DECREF(padding);
+                    padding = tmp;
+                }
+                if (unlikely(!padding)) goto done_or_error;
+            }
+            if (prepend_sign) {
+                sign = PyUnicode_FromOrdinal('-');
+                if (unlikely(!sign)) goto done_or_error;
+            }
+        }
+        uval = PyUnicode_DecodeASCII(chars, clength, NULL);
+        if (likely(uval) && padding) {
+            PyObject *tmp = PyNumber_Add(padding, uval);
+            Py_DECREF(uval);
+            uval = tmp;
+        }
+        if (likely(uval) && sign) {
+            PyObject *tmp = PyNumber_Add(sign, uval);
+            Py_DECREF(uval);
+            uval = tmp;
+        }
+done_or_error:
+        Py_XDECREF(padding);
+        Py_XDECREF(sign);
+    }
+#endif
+    return uval;
 }
 
 /* CIntToPyUnicode */
@@ -30473,7 +34536,7 @@ static PyObject *__Pyx__ImportDottedModule_Lookup(PyObject *name) {
 #endif
 static PyObject *__Pyx__ImportDottedModule(PyObject *name, PyObject *parts_tuple) {
 #if PY_MAJOR_VERSION < 3
-    PyObject *module, *from_list, *star = __pyx_n_s__15;
+    PyObject *module, *from_list, *star = __pyx_n_s__16;
     CYTHON_UNUSED_VAR(parts_tuple);
     from_list = PyList_New(1);
     if (unlikely(!from_list))
@@ -30667,64 +34730,6 @@ static CYTHON_INLINE int __Pyx_PyErr_GivenExceptionMatches2(PyObject *err, PyObj
 }
 #endif
 
-/* SetItemInt */
-static int __Pyx_SetItemInt_Generic(PyObject *o, PyObject *j, PyObject *v) {
-    int r;
-    if (unlikely(!j)) return -1;
-    r = PyObject_SetItem(o, j, v);
-    Py_DECREF(j);
-    return r;
-}
-static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObject *v, int is_list,
-                                               CYTHON_NCP_UNUSED int wraparound, CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS && CYTHON_USE_TYPE_SLOTS
-    if (is_list || PyList_CheckExact(o)) {
-        Py_ssize_t n = (!wraparound) ? i : ((likely(i >= 0)) ? i : i + PyList_GET_SIZE(o));
-        if ((!boundscheck) || likely(__Pyx_is_valid_index(n, PyList_GET_SIZE(o)))) {
-            PyObject* old = PyList_GET_ITEM(o, n);
-            Py_INCREF(v);
-            PyList_SET_ITEM(o, n, v);
-            Py_DECREF(old);
-            return 1;
-        }
-    } else {
-        PyMappingMethods *mm = Py_TYPE(o)->tp_as_mapping;
-        PySequenceMethods *sm = Py_TYPE(o)->tp_as_sequence;
-        if (mm && mm->mp_ass_subscript) {
-            int r;
-            PyObject *key = PyInt_FromSsize_t(i);
-            if (unlikely(!key)) return -1;
-            r = mm->mp_ass_subscript(o, key, v);
-            Py_DECREF(key);
-            return r;
-        }
-        if (likely(sm && sm->sq_ass_item)) {
-            if (wraparound && unlikely(i < 0) && likely(sm->sq_length)) {
-                Py_ssize_t l = sm->sq_length(o);
-                if (likely(l >= 0)) {
-                    i += l;
-                } else {
-                    if (!PyErr_ExceptionMatches(PyExc_OverflowError))
-                        return -1;
-                    PyErr_Clear();
-                }
-            }
-            return sm->sq_ass_item(o, i, v);
-        }
-    }
-#else
-#if CYTHON_COMPILING_IN_PYPY
-    if (is_list || (PySequence_Check(o) && !PyDict_Check(o)))
-#else
-    if (is_list || PySequence_Check(o))
-#endif
-    {
-        return PySequence_SetItem(o, i, v);
-    }
-#endif
-    return __Pyx_SetItemInt_Generic(o, PyInt_FromSsize_t(i), v);
-}
-
 /* RaiseUnboundLocalError */
 static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname) {
     PyErr_Format(PyExc_UnboundLocalError, "local variable '%s' referenced before assignment", varname);
@@ -30768,6 +34773,17 @@ static CYTHON_INLINE int __Pyx_HasAttr(PyObject *o, PyObject *n) {
         Py_DECREF(r);
         return 1;
     }
+}
+
+/* CallNextTpDealloc */
+static void __Pyx_call_next_tp_dealloc(PyObject* obj, destructor current_tp_dealloc) {
+    PyTypeObject* type = Py_TYPE(obj);
+    while (type && type->tp_dealloc != current_tp_dealloc)
+        type = type->tp_base;
+    while (type && type->tp_dealloc == current_tp_dealloc)
+        type = type->tp_base;
+    if (type)
+        type->tp_dealloc(obj);
 }
 
 /* CallNextTpTraverse */
@@ -34795,7 +38811,7 @@ __Pyx_PyType_GetName(PyTypeObject* tp)
                                                __pyx_n_s_name_2);
     if (unlikely(name == NULL) || unlikely(!PyUnicode_Check(name))) {
         PyErr_Clear();
-        Py_XSETREF(name, __Pyx_NewRef(__pyx_n_s__39));
+        Py_XSETREF(name, __Pyx_NewRef(__pyx_n_s__52));
     }
     return name;
 }

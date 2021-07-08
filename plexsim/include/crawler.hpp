@@ -21,6 +21,7 @@ class EdgeColor {
 public:
   EdgeColor();
   EdgeColor(ColorNode current, ColorNode other);
+  // EdgeColor(const EdgeColor &);
   EdgeColor(size_t name, size_t name_other, double name_state,
             double other_state);
 
@@ -53,7 +54,13 @@ public:
   bool verbose;
   size_t bounded_rational;
 
+  // option merging
   void merge_options();
+  bool merge_option(std::vector<EdgeColor>, std::vector<EdgeColor>,
+                    std::vector<std::vector<EdgeColor>> *);
+  void check_options();
+
+  // path
   bool in_path(EdgeColor);
   bool in_path(EdgeColor, std::vector<EdgeColor>);
 

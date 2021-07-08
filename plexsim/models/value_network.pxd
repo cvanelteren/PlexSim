@@ -26,6 +26,7 @@ cdef extern from "plexsim/include/crawler.hpp":
         ColorNode other
 
         EdgeColor sort() nogil
+        void print() nogil
 
     # crawls accros and finds patterns
     cdef cppclass Crawler:
@@ -43,12 +44,14 @@ cdef extern from "plexsim/include/crawler.hpp":
         size_t bounded_rational
 
         void merge_options() nogil
+        void check_options() nogil
         bint in_path(EdgeColor option) nogil
         # bint in_path(EdgeColor option, vector[EdgeColor] path) nogil
 
         bint in_options(EdgeColor option) nogil
         void add_result(vector[EdgeColor]) nogil
         void print() nogil
+        void print(vector[EdgeColor]) nogil
 
 cdef extern from "plexsim/include/crawler.cpp":
     pass
