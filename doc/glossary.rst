@@ -104,6 +104,3 @@ specie at vertex :math:`i` is updated according to
       \frac{db_i}{dt}& = ((P  (r_i - g_i)  + b_i - C  (r_i + g_i) - b_i^2)b_i - D(\sum_{<i,j>} b_j b_i)) \delta t, \end{cases}
 
 where :math:`<i,j>` indicates the nearest neighbors of variable :math:`i`.
-
-Agent-based variant
--------------------
