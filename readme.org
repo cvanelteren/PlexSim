@@ -4,17 +4,17 @@
 Fast and general  toolbox for simulation of complex adaptive  systems written in
 cython. It provides:
 
-- Fast general modeling framework for many classical dynamics (see docs)
+- *Fast* general modeling framework for many classical dynamics (see docs)
 - Readable
   - Coding  for  humans.  Leverages  cython  readability  and  allows  for  free
     development in python
-- Extensability
+- *Extensability*
   - Extensions can be written in python or cython directly
-- Quick development time
+- *Quick development time*
   + quickly implement an idea in python and slowly convert the problem to cython (compiled-based)
-- Graph-based
+- *Graph-based*
   - Simulate your favorite dynamics on any networks structure
-- Graph-free
+- *Graph-free*
   + For  spatio-temporal models  the  framework  allows for  using  agent-based
    simulation free of static structures
 
