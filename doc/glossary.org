@@ -270,103 +270,103 @@ plot_effects(effect)
 : 
 : NameError: name 'effect' is not defined
 :END:
-* Agent-based variant
-#+begin_src python  :eval never-export :exports none
-from matplotlib import style; style.use("fivethirtyeight".split())
-import matplotlib.pyplot as plt, cmasher as cmr
-import numpy as np, os, sys, networkx as nx, warnings
-warnings.simplefilter("ignore")
+# * Agent-based variant
+# #+begin_src python  :eval never-export :exports none
+# from matplotlib import style; style.use("fivethirtyeight".split())
+# import matplotlib.pyplot as plt, cmasher as cmr
+# import numpy as np, os, sys, networkx as nx, warnings
+# warnings.simplefilter("ignore")
 
-from plexsim.models import CycledelicAgent
+# from plexsim.models import CycledelicAgent
 
-n = 100
-g = nx.grid_graph((n, n), periodic = 1)
-for node in g.nodes():
-    for i in range(-1, 2):
-        for j in range(-1, 2):
-            x, y = node
-            new = ((x + i) % n, (y + j) % n)
-            if g.has_node(new):
-                g.add_edge(new, node)
+# n = 100
+# g = nx.grid_graph((n, n), periodic = 1)
+# for node in g.nodes():
+#     for i in range(-1, 2):
+#         for j in range(-1, 2):
+#             x, y = node
+#             new = ((x + i) % n, (y + j) % n)
+#             if g.has_node(new):
+#                 g.add_edge(new, node)
 
-p, r, mob = np.array([2./1.5, 1, .05/1.5]) * .5
-m = CycledelicAgent(graph = g, mobility = mob, predation = p, reproduction = r)
-sim = m.simulate(100)
-print('done')
-#+end_src
+# p, r, mob = np.array([2./1.5, 1, .05/1.5]) * .5
+# m = CycledelicAgent(graph = g, mobility = mob, predation = p, reproduction = r)
+# sim = m.simulate(100)
+# print('done')
+# #+end_src
 
-#+RESULTS:
-: done
+# #+RESULTS:
+# : done
 
 
-#+begin_src python  :eval never-export :exports none
-from matplotlib.animation import FuncAnimation as fa
-C = '#ADC3D1'
-colors = cmr.pride(np.linspace(0, 1, m.nStates, endpoint = 0))
-def setup():
-    global fig, ax
-    pos = {i: np.array(eval(i)) for i in m.graph.nodes()}
-    print(sim.shape)
-    C = sim[0]
-    C = colors[C.astype(int)]
-    #C = norm(C)
-    artist = nx.draw_networkx_nodes(m.graph, pos, node_size = 35,
-                           node_color = C, cmap = cmr.pride, edgecolors = 'none',
-                                    linewidths = 0,
-                                    node_shape = 's')
-    ax.grid(False)
-    return [artist]
-def update(idx):
-    global ax, sim, text
-    text.set_text(f"T={idx}")
-    C = sim[idx]
-    C = colors[C.astype(int)]
-    #C = norm(C)
-    ax.collections[0].set_color(C)
-    return ax.collections
+# #+begin_src python  :eval never-export :exports none
+# from matplotlib.animation import FuncAnimation as fa
+# C = '#ADC3D1'
+# colors = cmr.pride(np.linspace(0, 1, m.nStates, endpoint = 0))
+# def setup():
+#     global fig, ax
+#     pos = {i: np.array(eval(i)) for i in m.graph.nodes()}
+#     print(sim.shape)
+#     C = sim[0]
+#     C = colors[C.astype(int)]
+#     #C = norm(C)
+#     artist = nx.draw_networkx_nodes(m.graph, pos, node_size = 35,
+#                            node_color = C, cmap = cmr.pride, edgecolors = 'none',
+#                                     linewidths = 0,
+#                                     node_shape = 's')
+#     ax.grid(False)
+#     return [artist]
+# def update(idx):
+#     global ax, sim, text
+#     text.set_text(f"T={idx}")
+#     C = sim[idx]
+#     C = colors[C.astype(int)]
+#     #C = norm(C)
+#     ax.collections[0].set_color(C)
+#     return ax.collections
 
-fig, ax = plt.subplots(figsize = (10, 10))
-text = ax.annotate("", (0, 1), xycoords = "axes fraction", color = C, fontsize = 28)
-ax.annotate("Casper van Elteren", (.7, -.05), xycoords = "axes fraction", color = C,
-            fontsize = 21)
-ax.axis('equal')
-ax.grid('off')
-ax.margins(0)
+# fig, ax = plt.subplots(figsize = (10, 10))
+# text = ax.annotate("", (0, 1), xycoords = "axes fraction", color = C, fontsize = 28)
+# ax.annotate("Casper van Elteren", (.7, -.05), xycoords = "axes fraction", color = C,
+#             fontsize = 21)
+# ax.axis('equal')
+# ax.grid('off')
+# ax.margins(0)
 
-#ax.set_facecolor('black')
-#fig.set_facecolor('black')
-for i in "left right top bottom".split():
-    ax.spines[i].set_visible(False)
+# #ax.set_facecolor('black')
+# #fig.set_facecolor('black')
+# for i in "left right top bottom".split():
+#     ax.spines[i].set_visible(False)
 
-legend = ax.annotate(f"Predation ={p:.2f}  Reproduction = {r:.2f}  Mobility = {mob:.2f}", (.5, 1.05),
-                     xycoords = "axes fraction",
-                    fontsize = 24, ha = "center", va = 'bottom')
-legend.set(color = C)
-nframes = len(sim)
-#nframes = 50
-frames = np.linspace(0, len(sim) - 1, nframes, dtype = int)
-ani = fa(fig, update, frames = frames, init_func = setup, blit = 0,
-       ) 
-print('anim saving')
-ax.set_frame_on(0)
-#ax.xaxis.set_visible(False)
-#ax.yaxis.set_visible(False)
-#fig.patch.set_alpha(0)
-ani.save("/home/casper/projects/site/content/post/rps/rock_paper_scissor_dynamics_abm.mp4",
-         fps = 23,
-         dpi = 200,
-         #codec ='png',
-         bitrate = -1,
-         savefig_kwargs= dict(facecolor ='#1c1e26')
-         )
-print('done')
+# legend = ax.annotate(f"Predation ={p:.2f}  Reproduction = {r:.2f}  Mobility = {mob:.2f}", (.5, 1.05),
+#                      xycoords = "axes fraction",
+#                     fontsize = 24, ha = "center", va = 'bottom')
+# legend.set(color = C)
+# nframes = len(sim)
+# #nframes = 50
+# frames = np.linspace(0, len(sim) - 1, nframes, dtype = int)
+# ani = fa(fig, update, frames = frames, init_func = setup, blit = 0,
+#        )
+# print('anim saving')
+# ax.set_frame_on(0)
+# #ax.xaxis.set_visible(False)
+# #ax.yaxis.set_visible(False)
+# #fig.patch.set_alpha(0)
+# ani.save("/home/casper/projects/site/content/post/rps/rock_paper_scissor_dynamics_abm.mp4",
+#          fps = 23,
+#          dpi = 200,
+#          #codec ='png',
+#          bitrate = -1,
+#          savefig_kwargs= dict(facecolor ='#1c1e26')
+#          )
+# print('done')
 
-#+end_src
+# #+end_src
 
-#+RESULTS:
-:RESULTS:
-: anim saving
-: (100, 10000)
-: done
-[[file:./.ob-jupyter/f21062686ddea5dad046488dd364f084ee52b550.png]]
-:END:
+# #+RESULTS:
+# :RESULTS:
+# : anim saving
+# : (100, 10000)
+# : done
+# [[file:./.ob-jupyter/f21062686ddea5dad046488dd364f084ee52b550.png]]
+# :END:
