@@ -450,20 +450,40 @@ cdef class Model:
         assert  0 <= value <= 1
         self._mcmc._p_recomb = value
     @property
-    def rng(self): return self._rng
+    def rng(self):
+        """
+        Returns random number generator. See Sampler.
+        """
+        return self._rng
 
     @property
-    def graph(self): return self.adj.graph
+    def graph(self):
+        """
+        Returns network interaction structure
+        """
+        return self.adj.graph
 
     @property
-    def nNodes(self): return self.adj._nNodes
+    def nNodes(self):
+        """
+        Returns number of nodes
+        """
+        return self.adj._nNodes
 
     @property
-    def mcmc(self): return self._mcmc
+    def mcmc(self):
+        """
+        Returns metropolis sampler
+        """
+        return self._mcmc
     # TODO: make class pickable
     # hence the wrappers
     @property
-    def memorySize(self): return self._memorySize
+    def memorySize(self):
+        """
+        Returns memory size
+        """
+        return self._memorySize
 
     @memorySize.setter
     def memorySize(self, value):
@@ -473,7 +493,10 @@ cdef class Model:
             self._memorysize = 0
 
     @property
-    def memento(self) : return self._memento
+    def memento(self) :
+        """
+        """
+        return self._memento
     @memento.setter
     def memento(self, val):
         if isinstance(val, int):
@@ -483,12 +506,18 @@ cdef class Model:
 
     @property
     def kNudges(self):
+        """
+        Deprecated
+        """
         return self._kNudges
     @kNudges.setter
     def kNudges(self, value):
         self._kNudges = value
     @property
     def last_written(self):
+        """
+        :noindex:
+        """
         return self._last_written
 
     @last_written.setter
@@ -496,7 +525,9 @@ cdef class Model:
         self._last_written = value
 
     @property
-    def memory(self): return self._memory.base
+    def memory(self):
+        """Returns memory buffer"""
+        return self._memory.base
 
     @memory.setter
     def memory(self, value):
@@ -517,36 +548,64 @@ cdef class Model:
         return self.adj
 
     @property
-    def states(self)    :
+    def states(self):
         if self.last_written:
             return self.__newstates.base
         else:
             return self.__states.base
     
     @property
-    def updateType(self): return self._updateType
+    def updateType(self):
+        """Returns updateType"""
+        return self._updateType
 
     @property
-    def nudgeType(self) : return self._nudgeType
+    def nudgeType(self):
+        """
+        Returns nudgeType
+        """
+        return self._nudgeType
 
     @property
-    def nodeids(self)   : return self.adj._nodeids.base
+    def nodeids(self):
+        """
+        Returns node ids
+        Note these are not sorted!
+        """
+        return self.adj._nodeids.base
 
     @property
-    def nudges(self)    : return self._nudges
+    def nudges(self):
+        """
+        Return dict of nudges
+        """
+        return self._nudges
 
     @property
-    def nNodes(self)    : return self.adj._nNodes
+    def nNodes(self):
+        """
+        Returns number of nodes in the system
+        """
+        return self.adj._nNodes
 
     @property
-    def nStates(self)   : return self._nStates
+    def nStates(self):
+        """
+        Returns size of alphabet of each agent
+        """
+        return self._nStates
 
 
     @property
-    def sampleSize(self): return self._sampleSize
+    def sampleSize(self):
+        """
+        Returns sampleSize
+        """
+        return self._sampleSize
 
     @property
-    def newstates(self) :
+    def newstates(self):
+        """:nodindex:"""
         if self.last_written:
             return self.__states.base
         else:

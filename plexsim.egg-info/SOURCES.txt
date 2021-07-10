@@ -1,6 +1,7 @@
 .gitattributes
 .gitignore
 MANIFEST.in
+Makefile
 build_docs.sh
 license.txt
 readme.org
@@ -57,7 +58,9 @@ doc/index.html
 doc/index.rst
 doc/make.bat
 doc/modules.rst
+doc/plexsim.models.rst
 doc/plexsim.rst
+doc/plexsim.utils.rst
 doc/quickstart.org
 doc/quickstart.rst
 doc/_modules/modules.rst
