@@ -2048,8 +2048,8 @@ static struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *__pyx_vtabptr_7ple
  * from cython.operator cimport dereference as deref, preincrement, postincrement as post
  * from libc.math cimport fabs, log, exp
  * cdef class Pottsis(Potts):             # <<<<<<<<<<<<<<
- *     """Novel implementation of SIS model using energy functions\
- *         :param \
+ * 
+ *     """Spin-system epidemic model
  */
 
 struct __pyx_vtabstruct_7plexsim_6models_7pottsis_Pottsis {
@@ -4560,9 +4560,9 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #endif
 /* #### Code section: module_code ### */
 
-/* "plexsim/models/pottsis.pyx":19
- * 
- *     """
+/* "plexsim/models/pottsis.pyx":29
+ *         FIXME: Add docs.
+ *         """
  *     def __init__(self, \             # <<<<<<<<<<<<<<
  *                  graph, \
  *                  beta = 1, \
@@ -4614,33 +4614,33 @@ static int __pyx_pw_7plexsim_6models_7pottsis_7Pottsis_1__init__(PyObject *__pyx
       switch (__pyx_nargs) {
         case  0:
         if (likely((values[0] = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_graph)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 19, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 29, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_beta);
           if (value) { values[1] = value; kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 19, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 29, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_eta);
           if (value) { values[2] = value; kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 19, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 29, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_mu);
           if (value) { values[3] = value; kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 19, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 29, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, __pyx_v_kwargs, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 19, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, __pyx_v_kwargs, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 29, __pyx_L3_error)
       }
     } else {
       switch (__pyx_nargs) {
@@ -4662,7 +4662,7 @@ static int __pyx_pw_7plexsim_6models_7pottsis_7Pottsis_1__init__(PyObject *__pyx
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 4, __pyx_nargs); __PYX_ERR(0, 19, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 4, __pyx_nargs); __PYX_ERR(0, 29, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
   __Pyx_AddTraceback("plexsim.models.pottsis.Pottsis.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -4688,14 +4688,14 @@ static int __pyx_pf_7plexsim_6models_7pottsis_7Pottsis___init__(struct __pyx_obj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "plexsim/models/pottsis.pyx":27
- * 
+  /* "plexsim/models/pottsis.pyx":36
+ *                  **kwargs):
  * 
  *         super(Pottsis, self).__init__(graph = graph,\             # <<<<<<<<<<<<<<
  *                                       **kwargs)
  *         self.mu = mu
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF((PyObject *)__pyx_ptype_7plexsim_6models_7pottsis_Pottsis);
   __Pyx_GIVEREF((PyObject *)__pyx_ptype_7plexsim_6models_7pottsis_Pottsis);
@@ -4703,70 +4703,70 @@ static int __pyx_pf_7plexsim_6models_7pottsis_7Pottsis___init__(struct __pyx_obj
   __Pyx_INCREF((PyObject *)__pyx_v_self);
   __Pyx_GIVEREF((PyObject *)__pyx_v_self);
   PyTuple_SET_ITEM(__pyx_t_1, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_graph, __pyx_v_graph) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_graph, __pyx_v_graph) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
   __pyx_t_2 = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "plexsim/models/pottsis.pyx":28
+  /* "plexsim/models/pottsis.pyx":37
  * 
  *         super(Pottsis, self).__init__(graph = graph,\
  *                                       **kwargs)             # <<<<<<<<<<<<<<
  *         self.mu = mu
  *         self.eta = eta
  */
-  if (__Pyx_MergeKeywords(__pyx_t_2, __pyx_v_kwargs) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
+  if (__Pyx_MergeKeywords(__pyx_t_2, __pyx_v_kwargs) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
 
-  /* "plexsim/models/pottsis.pyx":27
- * 
+  /* "plexsim/models/pottsis.pyx":36
+ *                  **kwargs):
  * 
  *         super(Pottsis, self).__init__(graph = graph,\             # <<<<<<<<<<<<<<
  *                                       **kwargs)
  *         self.mu = mu
  */
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "plexsim/models/pottsis.pyx":29
+  /* "plexsim/models/pottsis.pyx":38
  *         super(Pottsis, self).__init__(graph = graph,\
  *                                       **kwargs)
  *         self.mu = mu             # <<<<<<<<<<<<<<
  *         self.eta = eta
  *         self.beta = beta
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_mu, __pyx_v_mu) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_mu, __pyx_v_mu) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
 
-  /* "plexsim/models/pottsis.pyx":30
+  /* "plexsim/models/pottsis.pyx":39
  *                                       **kwargs)
  *         self.mu = mu
  *         self.eta = eta             # <<<<<<<<<<<<<<
  *         self.beta = beta
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_eta, __pyx_v_eta) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_eta, __pyx_v_eta) < 0) __PYX_ERR(0, 39, __pyx_L1_error)
 
-  /* "plexsim/models/pottsis.pyx":31
+  /* "plexsim/models/pottsis.pyx":40
  *         self.mu = mu
  *         self.eta = eta
  *         self.beta = beta             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_beta, __pyx_v_beta) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_beta, __pyx_v_beta) < 0) __PYX_ERR(0, 40, __pyx_L1_error)
 
-  /* "plexsim/models/pottsis.pyx":19
- * 
- *     """
+  /* "plexsim/models/pottsis.pyx":29
+ *         FIXME: Add docs.
+ *         """
  *     def __init__(self, \             # <<<<<<<<<<<<<<
  *                  graph, \
  *                  beta = 1, \
@@ -4786,7 +4786,7 @@ static int __pyx_pf_7plexsim_6models_7pottsis_7Pottsis___init__(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "plexsim/models/pottsis.pyx":34
+/* "plexsim/models/pottsis.pyx":43
  * 
  * 
  *     cdef double _energy(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -4811,7 +4811,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
   int __pyx_t_3;
   __pyx_t_7plexsim_6models_5types_weight_t __pyx_t_4;
 
-  /* "plexsim/models/pottsis.pyx":38
+  /* "plexsim/models/pottsis.pyx":47
  *         """
  *         cdef:
  *             size_t neighbors = self.adj._adj[node].neighbors.size()             # <<<<<<<<<<<<<<
@@ -4820,7 +4820,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
  */
   __pyx_v_neighbors = (__pyx_v_self->__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.size();
 
-  /* "plexsim/models/pottsis.pyx":39
+  /* "plexsim/models/pottsis.pyx":48
  *         cdef:
  *             size_t neighbors = self.adj._adj[node].neighbors.size()
  *             state_t* states = self._states # alias             # <<<<<<<<<<<<<<
@@ -4830,7 +4830,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
   __pyx_t_1 = __pyx_v_self->__pyx_base.__pyx_base._states;
   __pyx_v_states = __pyx_t_1;
 
-  /* "plexsim/models/pottsis.pyx":43
+  /* "plexsim/models/pottsis.pyx":52
  *             double weight # TODO: remove delta
  * 
  *             double energy = self._H[node]             # <<<<<<<<<<<<<<
@@ -4840,7 +4840,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
   __pyx_t_2 = __pyx_v_node;
   __pyx_v_energy = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base._H.data) + __pyx_t_2)) )));
 
-  /* "plexsim/models/pottsis.pyx":51
+  /* "plexsim/models/pottsis.pyx":60
  *             MemoizeUnit memop
  * 
  *         it = self.adj._adj[node].neighbors.begin()             # <<<<<<<<<<<<<<
@@ -4849,7 +4849,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
  */
   __pyx_v_it = (__pyx_v_self->__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.begin();
 
-  /* "plexsim/models/pottsis.pyx":53
+  /* "plexsim/models/pottsis.pyx":62
  *         it = self.adj._adj[node].neighbors.begin()
  *         cdef size_t idx
  *         cdef state_t proposal = self._sample_proposal()             # <<<<<<<<<<<<<<
@@ -4858,7 +4858,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
  */
   __pyx_v_proposal = ((struct __pyx_vtabstruct_7plexsim_6models_7pottsis_Pottsis *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base._sample_proposal(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
-  /* "plexsim/models/pottsis.pyx":54
+  /* "plexsim/models/pottsis.pyx":63
  *         cdef size_t idx
  *         cdef state_t proposal = self._sample_proposal()
  *         cdef state_t state    = states[node]             # <<<<<<<<<<<<<<
@@ -4867,7 +4867,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
  */
   __pyx_v_state = (__pyx_v_states[__pyx_v_node]);
 
-  /* "plexsim/models/pottsis.pyx":55
+  /* "plexsim/models/pottsis.pyx":64
  *         cdef state_t proposal = self._sample_proposal()
  *         cdef state_t state    = states[node]
  *         while it != self.adj._adj[node].neighbors.end():             # <<<<<<<<<<<<<<
@@ -4878,7 +4878,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
     __pyx_t_3 = ((__pyx_v_it != (__pyx_v_self->__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.end()) != 0);
     if (!__pyx_t_3) break;
 
-    /* "plexsim/models/pottsis.pyx":56
+    /* "plexsim/models/pottsis.pyx":65
  *         cdef state_t state    = states[node]
  *         while it != self.adj._adj[node].neighbors.end():
  *             weight   = deref(it).second             # <<<<<<<<<<<<<<
@@ -4888,7 +4888,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
     __pyx_t_4 = (*__pyx_v_it).second;
     __pyx_v_weight = __pyx_t_4;
 
-    /* "plexsim/models/pottsis.pyx":57
+    /* "plexsim/models/pottsis.pyx":66
  *         while it != self.adj._adj[node].neighbors.end():
  *             weight   = deref(it).second
  *             neighbor = deref(it).first             # <<<<<<<<<<<<<<
@@ -4898,7 +4898,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
     __pyx_t_2 = (*__pyx_v_it).first;
     __pyx_v_neighbor = __pyx_t_2;
 
-    /* "plexsim/models/pottsis.pyx":60
+    /* "plexsim/models/pottsis.pyx":69
  *             # check rules
  *             # update using rule
  *             if fabs(self._rules._adj[proposal][states[neighbor]]) > 0:             # <<<<<<<<<<<<<<
@@ -4908,7 +4908,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
     __pyx_t_3 = ((fabs(((__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[__pyx_v_proposal])[(__pyx_v_states[__pyx_v_neighbor])])) > 0.0) != 0);
     if (__pyx_t_3) {
 
-      /* "plexsim/models/pottsis.pyx":61
+      /* "plexsim/models/pottsis.pyx":70
  *             # update using rule
  *             if fabs(self._rules._adj[proposal][states[neighbor]]) > 0:
  *                 update = self._rules._adj[proposal][states[neighbor]]             # <<<<<<<<<<<<<<
@@ -4917,7 +4917,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
  */
       __pyx_v_update = ((__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[__pyx_v_proposal])[(__pyx_v_states[__pyx_v_neighbor])]);
 
-      /* "plexsim/models/pottsis.pyx":60
+      /* "plexsim/models/pottsis.pyx":69
  *             # check rules
  *             # update using rule
  *             if fabs(self._rules._adj[proposal][states[neighbor]]) > 0:             # <<<<<<<<<<<<<<
@@ -4927,7 +4927,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
       goto __pyx_L5;
     }
 
-    /* "plexsim/models/pottsis.pyx":65
+    /* "plexsim/models/pottsis.pyx":74
  *             else:
  *                 #update = weight * self._hamiltonian(proposal, states[neighbor])
  *                 update = states[neighbor]             # <<<<<<<<<<<<<<
@@ -4939,7 +4939,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
     }
     __pyx_L5:;
 
-    /* "plexsim/models/pottsis.pyx":66
+    /* "plexsim/models/pottsis.pyx":75
  *                 #update = weight * self._hamiltonian(proposal, states[neighbor])
  *                 update = states[neighbor]
  *             energy += update             # <<<<<<<<<<<<<<
@@ -4948,7 +4948,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
  */
     __pyx_v_energy = (__pyx_v_energy + __pyx_v_update);
 
-    /* "plexsim/models/pottsis.pyx":68
+    /* "plexsim/models/pottsis.pyx":77
  *             energy += update
  * 
  *             post(it)             # <<<<<<<<<<<<<<
@@ -4958,7 +4958,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
     (void)((__pyx_v_it++));
   }
 
-  /* "plexsim/models/pottsis.pyx":70
+  /* "plexsim/models/pottsis.pyx":79
  *             post(it)
  *         # prob of staying the same
  *         cdef double fx = (1 - self._eta)**energy             # <<<<<<<<<<<<<<
@@ -4967,7 +4967,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
  */
   __pyx_v_fx = pow(((double)(1.0 - __pyx_v_self->_eta)), __pyx_v_energy);
 
-  /* "plexsim/models/pottsis.pyx":73
+  /* "plexsim/models/pottsis.pyx":82
  * 
  *         energy = \
  *             (state - 1) * ((proposal * 2 - 1) * fx - proposal) + \             # <<<<<<<<<<<<<<
@@ -4976,7 +4976,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
  */
   __pyx_v_energy = (((__pyx_v_state - 1.0) * ((((__pyx_v_proposal * 2.0) - 1.0) * __pyx_v_fx) - __pyx_v_proposal)) + (__pyx_v_proposal * ((((-2.0 * __pyx_v_proposal) * __pyx_v_self->_mu) + __pyx_v_proposal) + __pyx_v_self->_mu)));
 
-  /* "plexsim/models/pottsis.pyx":76
+  /* "plexsim/models/pottsis.pyx":85
  *             proposal * (- 2 * proposal * self._mu + proposal + self._mu)
  * 
  *         if energy:             # <<<<<<<<<<<<<<
@@ -4986,7 +4986,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
   __pyx_t_3 = (__pyx_v_energy != 0);
   if (__pyx_t_3) {
 
-    /* "plexsim/models/pottsis.pyx":77
+    /* "plexsim/models/pottsis.pyx":86
  * 
  *         if energy:
  *             energy = log(energy)             # <<<<<<<<<<<<<<
@@ -4995,7 +4995,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
  */
     __pyx_v_energy = log(__pyx_v_energy);
 
-    /* "plexsim/models/pottsis.pyx":76
+    /* "plexsim/models/pottsis.pyx":85
  *             proposal * (- 2 * proposal * self._mu + proposal + self._mu)
  * 
  *         if energy:             # <<<<<<<<<<<<<<
@@ -5005,7 +5005,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
     goto __pyx_L6;
   }
 
-  /* "plexsim/models/pottsis.pyx":79
+  /* "plexsim/models/pottsis.pyx":88
  *             energy = log(energy)
  *         else:
  *             energy = -INFINITY             # <<<<<<<<<<<<<<
@@ -5017,7 +5017,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
   }
   __pyx_L6:;
 
-  /* "plexsim/models/pottsis.pyx":87
+  /* "plexsim/models/pottsis.pyx":96
  *         #     energy[1] -= exp(-mi * self._memento ) * self._hamiltonian(self._agentStates[testState], self._memory[mi, node])
  * 
  *         return energy             # <<<<<<<<<<<<<<
@@ -5027,7 +5027,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
   __pyx_r = __pyx_v_energy;
   goto __pyx_L0;
 
-  /* "plexsim/models/pottsis.pyx":34
+  /* "plexsim/models/pottsis.pyx":43
  * 
  * 
  *     cdef double _energy(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -5040,7 +5040,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "plexsim/models/pottsis.pyx":95
+/* "plexsim/models/pottsis.pyx":104
  *     # Need a way to solve this problem
  *     # cdef double _hamiltonian(self, state_t x, state_t y, double sum) nogil
  *     cdef double _hamiltonian(self, state_t x, state_t y) nogil:             # <<<<<<<<<<<<<<
@@ -5051,7 +5051,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__energy(struct __pyx_ob
 static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__hamiltonian(CYTHON_UNUSED struct __pyx_obj_7plexsim_6models_7pottsis_Pottsis *__pyx_v_self, CYTHON_UNUSED __pyx_t_7plexsim_6models_5types_state_t __pyx_v_x, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_y) {
   double __pyx_r;
 
-  /* "plexsim/models/pottsis.pyx":96
+  /* "plexsim/models/pottsis.pyx":105
  *     # cdef double _hamiltonian(self, state_t x, state_t y, double sum) nogil
  *     cdef double _hamiltonian(self, state_t x, state_t y) nogil:
  *         return y             # <<<<<<<<<<<<<<
@@ -5061,7 +5061,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__hamiltonian(CYTHON_UNU
   __pyx_r = __pyx_v_y;
   goto __pyx_L0;
 
-  /* "plexsim/models/pottsis.pyx":95
+  /* "plexsim/models/pottsis.pyx":104
  *     # Need a way to solve this problem
  *     # cdef double _hamiltonian(self, state_t x, state_t y, double sum) nogil
  *     cdef double _hamiltonian(self, state_t x, state_t y) nogil:             # <<<<<<<<<<<<<<
@@ -5074,7 +5074,7 @@ static double __pyx_f_7plexsim_6models_7pottsis_7Pottsis__hamiltonian(CYTHON_UNU
   return __pyx_r;
 }
 
-/* "plexsim/models/pottsis.pyx":98
+/* "plexsim/models/pottsis.pyx":107
  *         return y
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5105,7 +5105,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7pottsis_7Pottsis_3eta___get__(struct
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/pottsis.pyx":100
+  /* "plexsim/models/pottsis.pyx":109
  *     @property
  *     def eta(self):
  *         return self._eta             # <<<<<<<<<<<<<<
@@ -5113,13 +5113,13 @@ static PyObject *__pyx_pf_7plexsim_6models_7pottsis_7Pottsis_3eta___get__(struct
  *     def eta(self,value):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_eta); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_eta); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 109, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/pottsis.pyx":98
+  /* "plexsim/models/pottsis.pyx":107
  *         return y
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5138,7 +5138,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7pottsis_7Pottsis_3eta___get__(struct
   return __pyx_r;
 }
 
-/* "plexsim/models/pottsis.pyx":101
+/* "plexsim/models/pottsis.pyx":110
  *     def eta(self):
  *         return self._eta
  *     @eta.setter             # <<<<<<<<<<<<<<
@@ -5169,17 +5169,17 @@ static int __pyx_pf_7plexsim_6models_7pottsis_7Pottsis_3eta_2__set__(struct __py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "plexsim/models/pottsis.pyx":103
+  /* "plexsim/models/pottsis.pyx":112
  *     @eta.setter
  *     def eta(self,value):
  *         self._eta = value             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
-  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_value); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_value); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 112, __pyx_L1_error)
   __pyx_v_self->_eta = __pyx_t_1;
 
-  /* "plexsim/models/pottsis.pyx":101
+  /* "plexsim/models/pottsis.pyx":110
  *     def eta(self):
  *         return self._eta
  *     @eta.setter             # <<<<<<<<<<<<<<
@@ -5198,7 +5198,7 @@ static int __pyx_pf_7plexsim_6models_7pottsis_7Pottsis_3eta_2__set__(struct __py
   return __pyx_r;
 }
 
-/* "plexsim/models/pottsis.pyx":105
+/* "plexsim/models/pottsis.pyx":114
  *         self._eta = value
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5229,7 +5229,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7pottsis_7Pottsis_2mu___get__(struct 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/pottsis.pyx":107
+  /* "plexsim/models/pottsis.pyx":116
  *     @property
  *     def mu(self):
  *         return self._mu             # <<<<<<<<<<<<<<
@@ -5237,13 +5237,13 @@ static PyObject *__pyx_pf_7plexsim_6models_7pottsis_7Pottsis_2mu___get__(struct 
  *     def mu(self,value):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_mu); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_mu); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/pottsis.pyx":105
+  /* "plexsim/models/pottsis.pyx":114
  *         self._eta = value
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5262,7 +5262,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7pottsis_7Pottsis_2mu___get__(struct 
   return __pyx_r;
 }
 
-/* "plexsim/models/pottsis.pyx":108
+/* "plexsim/models/pottsis.pyx":117
  *     def mu(self):
  *         return self._mu
  *     @mu.setter             # <<<<<<<<<<<<<<
@@ -5293,17 +5293,17 @@ static int __pyx_pf_7plexsim_6models_7pottsis_7Pottsis_2mu_2__set__(struct __pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "plexsim/models/pottsis.pyx":110
+  /* "plexsim/models/pottsis.pyx":119
  *     @mu.setter
  *     def mu(self,value):
  *         self._mu = value             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
-  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_value); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_value); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 119, __pyx_L1_error)
   __pyx_v_self->_mu = __pyx_t_1;
 
-  /* "plexsim/models/pottsis.pyx":108
+  /* "plexsim/models/pottsis.pyx":117
  *     def mu(self):
  *         return self._mu
  *     @mu.setter             # <<<<<<<<<<<<<<
@@ -5322,7 +5322,7 @@ static int __pyx_pf_7plexsim_6models_7pottsis_7Pottsis_2mu_2__set__(struct __pyx
   return __pyx_r;
 }
 
-/* "plexsim/models/pottsis.pyx":112
+/* "plexsim/models/pottsis.pyx":121
  *         self._mu = value
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5353,7 +5353,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7pottsis_7Pottsis_4beta___get__(struc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/pottsis.pyx":113
+  /* "plexsim/models/pottsis.pyx":122
  * 
  *     @property
  *     def beta(self): return self._beta             # <<<<<<<<<<<<<<
@@ -5361,13 +5361,13 @@ static PyObject *__pyx_pf_7plexsim_6models_7pottsis_7Pottsis_4beta___get__(struc
  *     @beta.setter
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->__pyx_base._beta); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 113, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->__pyx_base._beta); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/pottsis.pyx":112
+  /* "plexsim/models/pottsis.pyx":121
  *         self._mu = value
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5386,7 +5386,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7pottsis_7Pottsis_4beta___get__(struc
   return __pyx_r;
 }
 
-/* "plexsim/models/pottsis.pyx":115
+/* "plexsim/models/pottsis.pyx":124
  *     def beta(self): return self._beta
  * 
  *     @beta.setter             # <<<<<<<<<<<<<<
@@ -5417,16 +5417,16 @@ static int __pyx_pf_7plexsim_6models_7pottsis_7Pottsis_4beta_2__set__(struct __p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "plexsim/models/pottsis.pyx":117
+  /* "plexsim/models/pottsis.pyx":126
  *     @beta.setter
  *     def beta(self, value):
  *         self._beta = value             # <<<<<<<<<<<<<<
  * 
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 126, __pyx_L1_error)
   __pyx_v_self->__pyx_base._beta = __pyx_t_1;
 
-  /* "plexsim/models/pottsis.pyx":115
+  /* "plexsim/models/pottsis.pyx":124
  *     def beta(self): return self._beta
  * 
  *     @beta.setter             # <<<<<<<<<<<<<<
@@ -20701,7 +20701,7 @@ static struct PyMemberDef __pyx_tp_members_Pottsis[] = {
   {NULL, 0, 0, 0, NULL}
 };
 static PyType_Slot __pyx_type_7plexsim_6models_7pottsis_Pottsis_slots[] = {
-  {Py_tp_doc, (void *)PyDoc_STR("Pottsis(graph, beta=1, eta=.2, mu=.1, **kwargs)\nNovel implementation of SIS model using energy functions        :param                          graph: \n        :param                          beta: \n        :param                          eta: \n        :param                          mu: \n        :param                          **kwargs: \n        :returns: \n\n    ")},
+  {Py_tp_doc, (void *)PyDoc_STR("Pottsis(graph, beta=1, eta=.2, mu=.1, **kwargs)\nSpin-system epidemic model\n\n        Implements  spin-system   dynamics  for  susceptible\n        infected  susceptible  dynamics.  It  is  novel  and\n        developed by Casper van Elteren (2020).\n\n        Parameters\n        ----------\n        \\ graph : nx.Graph or nx.DiGraph\n            Interaction structure\n        \\ beta : float\n            Temperature of the spin system.\n        \\ eta : float\n            Infection rate\n        \\ mu : float\n            Recovery rate\n        \\ **kwargs : dict\n            Base model settings\n\n        Examples\n        --------\n        FIXME: Add docs.\n        ")},
   {Py_tp_traverse, (void *)__pyx_tp_traverse_7plexsim_6models_7pottsis_Pottsis},
   {Py_tp_clear, (void *)__pyx_tp_clear_7plexsim_6models_7pottsis_Pottsis},
   {Py_tp_methods, (void *)__pyx_methods_7plexsim_6models_7pottsis_Pottsis},
@@ -20754,7 +20754,7 @@ static PyTypeObject __pyx_type_7plexsim_6models_7pottsis_Pottsis = {
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
-  PyDoc_STR("Pottsis(graph, beta=1, eta=.2, mu=.1, **kwargs)\nNovel implementation of SIS model using energy functions        :param                          graph: \n        :param                          beta: \n        :param                          eta: \n        :param                          mu: \n        :param                          **kwargs: \n        :returns: \n\n    "), /*tp_doc*/
+  PyDoc_STR("Pottsis(graph, beta=1, eta=.2, mu=.1, **kwargs)\nSpin-system epidemic model\n\n        Implements  spin-system   dynamics  for  susceptible\n        infected  susceptible  dynamics.  It  is  novel  and\n        developed by Casper van Elteren (2020).\n\n        Parameters\n        ----------\n        \\ graph : nx.Graph or nx.DiGraph\n            Interaction structure\n        \\ beta : float\n            Temperature of the spin system.\n        \\ eta : float\n            Infection rate\n        \\ mu : float\n            Recovery rate\n        \\ **kwargs : dict\n            Base model settings\n\n        Examples\n        --------\n        FIXME: Add docs.\n        "), /*tp_doc*/
   __pyx_tp_traverse_7plexsim_6models_7pottsis_Pottsis, /*tp_traverse*/
   __pyx_tp_clear_7plexsim_6models_7pottsis_Pottsis, /*tp_clear*/
   0, /*tp_richcompare*/
@@ -21950,7 +21950,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 };
 /* #### Code section: cached_builtins ### */
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 36, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 987, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 136, __pyx_L1_error)

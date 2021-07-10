@@ -140,8 +140,8 @@ print(packages)
 sphinx = dict(
     project=("setup.py", name),
     version=("setup.py", version),
-    source_dir=("setup.py", "docs/source"),
-    # build_dir = ("setup.py", "docs/build"),
+    source_dir=("setup.py", "doc"),
+    build_dir = ("setup.py", "./build"),
 )
 # future me note: sometimes headers are not included; clean the dist and build folders
 # and rebuild

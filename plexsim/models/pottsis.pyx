@@ -2,29 +2,30 @@ cimport cython
 from cython.operator cimport dereference as deref, preincrement, postincrement as post
 from libc.math cimport fabs, log, exp
 cdef class Pottsis(Potts):
-   """Spin-system epidemic model
 
-    Implements  spin-system   dynamics  for  susceptible
-    infected  susceptible  dynamics.  It  is  novel  and
-    developed by Casper van Elteren (2020).
+    """Spin-system epidemic model
 
-    Parameters
-    ----------
-    \ graph : nx.Graph or nx.DiGraph
-        Interaction structure
-    \ beta : float
-        Temperature of the spin system.
-    \ eta : float
-        Infection rate
-    \ mu : float
-        Recovery rate
-    \ **kwargs : dict
-        Base model settings
+        Implements  spin-system   dynamics  for  susceptible
+        infected  susceptible  dynamics.  It  is  novel  and
+        developed by Casper van Elteren (2020).
 
-    Examples
-    --------
-    FIXME: Add docs.
-    """
+        Parameters
+        ----------
+        \ graph : nx.Graph or nx.DiGraph
+            Interaction structure
+        \ beta : float
+            Temperature of the spin system.
+        \ eta : float
+            Infection rate
+        \ mu : float
+            Recovery rate
+        \ **kwargs : dict
+            Base model settings
+
+        Examples
+        --------
+        FIXME: Add docs.
+        """
     def __init__(self, \
                  graph, \
                  beta = 1, \
