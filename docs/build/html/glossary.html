@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Models &#8212; Plexsim 3.0 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="plexsim" href="modules.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Casper van Elteren</p>
+</dd>
+</dl>
+</div></blockquote>
+<div class="section" id="models">
+<h1>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h1>
+<p>Under construction 🚧.</p>
+<div class="section" id="ising-model">
+<h2>Ising model<a class="headerlink" href="#ising-model" title="Permalink to this headline">¶</a></h2>
+<p>Named  after  Ernst   Ising,  the  Ising  model  is  a   mathematical  model  of
+ferromagnetism.  It consists  of  a  set of  binary  distributed variables  that
+follows the Gibbs  distribution. Each variable updates  through nearest neighbor
+interactions where for ferromagnetic systems the lowest energy state is achieved
+by aligning the spin state with its neighbors.</p>
+<p>One of the major properties of the Ising model is the phase transition in two or
+more dimensions, i.e.  as a function of noise (temperature)  the model goes from
+an ordered phase, to an unordered phase.</p>
+<p>It has bee shown  that the Ising model falls within  the same universality class
+as  (directed) diffusion,  and it  has been  extended it  many different  fields
+including studying neural behavior, voter dynamics and so on.</p>
+</div>
+<div class="section" id="potts-model">
+<h2>Potts model<a class="headerlink" href="#potts-model" title="Permalink to this headline">¶</a></h2>
+<p>The q-Potts model generalizes the Ising model.  In the Potts model the spins are
+not binary but can take on arbitrary spin directions i.e.</p>
+<div class="math notranslate nohighlight">
+\[\theta = \frac{q_i 2 \pi}{q}\]</div>
+<p><span class="math notranslate nohighlight">\(q_i \in n = \{0, \dots, q -  1\}\)</span>. In the limit <span class="math notranslate nohighlight">\(q \rightarrow \infty\)</span> this model
+reduces to the  XY model. One particular interesting extensions  is the cellular
+Potts  model  used   to  model  static  and  kinetic   phenomena  in  biological
+morphogenesis.</p>
+</div>
+<div class="section" id="bornholdt-model">
+<h2>Bornholdt model<a class="headerlink" href="#bornholdt-model" title="Permalink to this headline">¶</a></h2>
+<p>Is an  extensions of the  traditional Ising  model used for  modeling financial
+systems. It adds a  global cost term such that each  variable “feels” the effect
+of the entire  system. This causes “shocks”  in the system similar  to an abrupt
+financial crisis. Each  variable can be given a strategy  that either aligns, or
+skews it states  according to this general magnetization. This  causes a dynamic
+between traders (variables) that either want to  be apart of the minority or the
+majority state.</p>
+</div>
+<div class="section" id="ab-voter-model">
+<h2>AB voter model<a class="headerlink" href="#ab-voter-model" title="Permalink to this headline">¶</a></h2>
+<p>todo</p>
+</div>
+<div class="section" id="sirs">
+<h2>SIRS<a class="headerlink" href="#sirs" title="Permalink to this headline">¶</a></h2>
+<p>Susceptible Infected Recovered (Susceptible) or SIRS model inspired by Youssef &amp;
+Scolio (2011) The article describes an individual approach to SIR modeling which
+canonically uses a mean-field  approximation. In mean-field approximations nodes
+are  assumed to  have  ’homogeneous mixing’,  i.e.  a node  is  able to  receive
+information  from the  entire network.  The individual  approach emphasizes  the
+importance of local connectivity motifs in spreading dynamics of any process.</p>
+</div>
+<div class="section" id="cycledelic">
+<h2>Cycledelic<a class="headerlink" href="#cycledelic" title="Permalink to this headline">¶</a></h2>
+<p>A  model  for studying  species  dynamics.  It is  based  on
+Reichenbach et al. 2007.The model was designed to understand
+the  co-existance  of  interacting species  in  a  spatially
+extended ecosystem.  Each vertex point represents  the locus
+of  three   species.  The  color  (red,   green,  blue)  are
+proportional to  the density  of the  three species  at each
+pixel (vertex point).</p>
+<p>The model produces a wide  range of different patterns based
+on three input parameters</p>
+<ul class="simple">
+<li><p>Diffusion (<span class="math notranslate nohighlight">\(D\)</span>): mobility of species.</p></li>
+<li><p>Predation (<span class="math notranslate nohighlight">\(P\)</span>): competition  between the tree different
+species.</p></li>
+<li><p>Competition (<span class="math notranslate nohighlight">\(C\)</span>): Competition among different specifies.</p></li>
+</ul>
+<p>Each  vertex  in  the  system <span class="math notranslate nohighlight">\(\sigma_i\)</span>  <span class="math notranslate nohighlight">\(\in\)</span>  <span class="math notranslate nohighlight">\(\sigma  :=\{
+\sigma_0, \dots,  \sigma_n\}\)</span> contains a  vector with the
+density  of the  three “species”,  i.e. rock (<span class="math notranslate nohighlight">\(r\)</span>),  paper
+(<span class="math notranslate nohighlight">\(g\)</span>),  or  scissor  (<span class="math notranslate nohighlight">\(b\)</span>). The  concentration  of  each
+specie at vertex <span class="math notranslate nohighlight">\(i\)</span> is updated according to</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{d \sigma_i}{dt} = \scriptstyle \begin{cases}
+  \frac{dr_i}{dt}&amp; = ((\underbrace{P  (g_i - b_i)  + r_i}\_{\textrm{predation}} - \underbrace{C  (g_i + b_i) - r_i^2}\_{\textrm{Competition}})r_i - \underbrace{D(\sum_{&lt;i,j&gt;} r_j r_i)}\_{\textrm{mobility}}) \delta t \\\\\\
+  \frac{dg_i}{dt}&amp; = ((P  (b_i - r_i)  + g_i - C  (r_i + b_i) - g_i^2)g_i - D(\sum_{&lt;i,j&gt;} g_j g_i)) \delta t \\\\\\
+  \frac{db_i}{dt}&amp; = ((P  (r_i - g_i)  + b_i - C  (r_i + g_i) - b_i^2)b_i - D(\sum_{&lt;i,j&gt;} b_j b_i)) \delta t, \end{cases}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(&lt;i,j&gt;\)</span> indicates the nearest neighbors of variable <span class="math notranslate nohighlight">\(i\)</span>.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Plexsim</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#ising-model">Ising model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#potts-model">Potts model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bornholdt-model">Bornholdt model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ab-voter-model">AB voter model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sirs">SIRS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cycledelic">Cycledelic</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">plexsim</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="quickstart.html" title="previous chapter">Quickstart</a></li>
+      <li>Next: <a href="modules.html" title="next chapter">plexsim</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Casper van Elteren.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/glossary.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
