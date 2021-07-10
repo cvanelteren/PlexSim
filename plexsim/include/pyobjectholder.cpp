@@ -5,6 +5,17 @@ PyObjectHolder::PyObjectHolder() : ptr(nullptr){};
 
 // constructor point python object
 PyObjectHolder::PyObjectHolder(PyObject *o) : ptr(o) {
+  /**
+   * @brief      Holds pointer to a python object.
+   *
+   * @details  Cython  does  not allow  for  interaction  of
+   * python objects. Cython extensions are considered python
+   * objects under OpenMP operations. This class circumvents
+   * this problem; it holds merely a pointer to the original
+   * object  and should  be unpacked  according to  its base
+   * type (see cython code).
+   *
+   */
   // acquire guard
   std::lock_guard<std::mutex> guard(ref_mutex);
   // increase ref counter

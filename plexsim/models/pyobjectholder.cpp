@@ -2429,6 +2429,8 @@ if (!__Pyx_RefNanny) {
 
   /* "plexsim/models/pyobjectholder.pyx":1
  * ##distutils: sources = "plexsim/lib/pyobjectholder.cpp"             # <<<<<<<<<<<<<<
+ * # provides binder for the cpp class. This class is used for accessing
+ * # the cython objects via separate threads.
  */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);

@@ -28,6 +28,41 @@ cdef extern from "math.h":
 
 # cdef public class Model [object PyModel, type PyModel_t]:
 cdef class Model:
+    """Base class for all modeling classes
+
+    Parameters
+    ----------
+    \ graph : nx.Graph or nx.DiGraph
+        Network structure  indicating relationship among
+        elements of the complex system
+    \ agentStates : np.ndarray
+        Discrete states that the agents can take
+    \ nudgeType : str
+        Type of nudging being used. Can be "constant" or
+        "single".
+    \ updateType : str
+        Update type  of elements of the  complex system.
+        Either "sync"  or "async" (default).  The "sync"
+        options has two independent buffers in which the
+        results  are written.  The "async"  options will
+        have no independent buffers.
+    \ nudges : dict
+        Nudge applied to a certain variable
+    \ seed : int
+        Seed for random number generator.
+    \ memorySize : int
+        Size of the memory of the system. Defaults to 0.
+    \ kNudges : int
+        Deprecated.
+    \ memento : int
+        Deprecated
+    \ p_recomb : float
+        Recombination rate of the genetic algorithm. Values are within 0, 1 (defaults to zero).
+        Non-zero values will activate the genetic algorithm.
+    \ rules: nx.Graph or nx.DiGraph
+        Network structure for rules. Only used for Value networks. Defaults to empty (not used).
+    """
+
     def __init__(self,\
                  graph       = nx.path_graph(1),\
                  agentStates = np.array([0], dtype = np.int),\
@@ -42,40 +77,6 @@ cdef class Model:
                  rules       = nx.Graph(),\
                  **kwargs,\
                  ):
-        """Base class for all modeling classes
-
-        Parameters
-        ----------
-        \ graph : nx.Graph or nx.DiGraph
-            Network structure  indicating relationship among
-            elements of the complex system
-        \ agentStates : np.ndarray
-            Discrete states that the agents can take
-        \ nudgeType : str
-            Type of nudging being used. Can be "constant" or
-            "single".
-        \ updateType : str
-            Update type  of elements of the  complex system.
-            Either "sync"  or "async" (default).  The "sync"
-            options has two independent buffers in which the
-            results  are written.  The "async"  options will
-            have no independent buffers.
-        \ nudges : dict
-            Nudge applied to a certain variable
-        \ seed : int
-            Seed for random number generator.
-        \ memorySize : int
-            Size of the memory of the system. Defaults to 0.
-        \ kNudges : int
-            Deprecated.
-        \ memento : int
-            Deprecated
-        \ p_recomb : float
-            Recombination rate of the genetic algorithm. Values are within 0, 1 (defaults to zero).
-            Non-zero values will activate the genetic algorithm.
-        \ rules: nx.Graph or nx.DiGraph
-            Network structure for rules. Only used for Value networks. Defaults to empty (not used).
-        """
 
         # use current time as seed for rng
         self._rng = RandomGenerator(seed = seed)

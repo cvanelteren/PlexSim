@@ -73,7 +73,7 @@ cdef class ValueNetwork(Potts):
 
     cdef Crawler* _check_df(self, Crawler *crawler) nogil
     # merge branches
-    cpdef bint check_doubles(self, list path, list results,
-                             bint verbose =*)
+    # cpdef bint check_doubles(self, list path, list results,
+                             # bint verbose =*)
 
     cdef bint _check_endpoint(self, state_t current_state, Crawler *crawler) nogil

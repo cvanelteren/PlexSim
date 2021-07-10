@@ -9,6 +9,9 @@
 
 // defines coloring of nodes
 class ColorNode {
+  /**
+   *@brief Vertex node holding color and a name.
+   **/
 public:
   ColorNode();
   ColorNode(size_t name, double state);
@@ -16,8 +19,12 @@ public:
   float state;
 };
 
-// holds an edge in the value network
 class EdgeColor {
+  /**@brief Edge holding color nodes.
+   *
+   * @details An edge consists  of two vertices. Each vertex
+   * holds a color and a label
+   **/
 public:
   EdgeColor();
   EdgeColor(ColorNode current, ColorNode other);
@@ -40,6 +47,19 @@ bool operator==(const EdgeColor &current, const EdgeColor &other);
 // general bool
 
 class Crawler {
+  /**
+   * @brief  Crawler object
+   *
+   * @details  The crawler  object  traverses  a graph.  The
+   * whole object merely holds solution. The actual model is
+   * implemented  in cython.  The  Crawler  is a  convenient
+   * storage  unit that  holds:  - the  current  path -  the
+   * possible  option  as   branches  (y-structures)  -  the
+   * solutions
+   *
+   * In addition,  it has a  few options that  manages these
+   * structures,   e.g.   pruning   solutions   or   merging
+   * options. */
 public:
   Crawler(size_t start, double state, size_t bounded_rational);
   Crawler(size_t start, double state, size_t bounded_rational, bool verbose);

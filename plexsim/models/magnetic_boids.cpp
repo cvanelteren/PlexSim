@@ -1762,7 +1762,6 @@ struct __pyx_opt_args_7plexsim_6models_5potts_5Potts_magnetize {
   size_t n_jobs;
 };
 struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_df;
-struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_doubles;
 
 /* "plexsim/models/value_network.pxd":72
  *     # logic for checking completed vn
@@ -1772,18 +1771,6 @@ struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_doub
  *     cdef Crawler* _check_df(self, Crawler *crawler) nogil
  */
 struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_df {
-  int __pyx_n;
-  int verbose;
-};
-
-/* "plexsim/models/value_network.pxd":76
- *     cdef Crawler* _check_df(self, Crawler *crawler) nogil
- *     # merge branches
- *     cpdef bint check_doubles(self, list path, list results,             # <<<<<<<<<<<<<<
- *                              bint verbose =*)
- * 
- */
-struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_doubles {
   int __pyx_n;
   int verbose;
 };
@@ -2109,7 +2096,6 @@ struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork {
   struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts __pyx_base;
   PyObject *(*check_df)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, __pyx_t_7plexsim_6models_5types_node_id_t, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_df *__pyx_optional_args);
   Crawler *(*_check_df)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, Crawler *);
-  int (*check_doubles)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, PyObject *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_doubles *__pyx_optional_args);
   int (*_check_endpoint)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, __pyx_t_7plexsim_6models_5types_state_t, Crawler *);
 };
 static struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *__pyx_vtabptr_7plexsim_6models_13value_network_ValueNetwork;

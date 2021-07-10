@@ -14,13 +14,29 @@ import multiprocessing as mp
 from pyprind import ProgBar
 
 cdef class Potts(Model):
-    """
-        Potts model
+    """Kinetic q-Potts model
 
-        default inputs see :Model:
-        Additional inputs
-        :delta: a modifier for how much the previous memory sizes influence the next state
+    Implements kinetic q-Potts model on arbitrary graph.
+    This model implements all the base functionality of the
+    Potts/Ising related models (e.g. Pottsis or Bornholdt).
+
+    Parameters
+    ----------
+    graph : nx.Graph or nx.DiGraph
+        Interaction structure for the spins.
+    \agentStates: np.ndarray,
+        Array giving q-states
+    \delta: int
+       A modifier for how much the memory affects the current received energy of
+    a node
+    \ **kwargs : dict
+        General settings (see Model).
+
+    Examples
+    --------
+    FIXME: Add docs.
     """
+
     def __init__(self, \
                  graph,\
                  t = 1,\
@@ -28,24 +44,6 @@ cdef class Potts(Model):
                  delta       = 0, \
                  p_recomb    = None,
                  **kwargs):
-        """Kinetic q-Potts model
-
-        Implements kinetic q-Potts model on arbitrary graph.
-
-        Parameters
-        ----------
-        graph : nx.Graph or nx.DiGraph
-            Interaction structure for the spins.
-        \agentStates: np.ndarray,
-           Array giving q-states
-        \ **kwargs : dict
-            General settings (see Model).
-
-        Examples
-        --------
-        FIXME: Add docs.
-        """
-
 
         super(Potts, self).__init__(\
                                     graph = graph,\

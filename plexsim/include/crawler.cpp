@@ -39,6 +39,17 @@ void EdgeColor::print() const {
 }
 
 EdgeColor EdgeColor::sort() {
+  /**
+   * @brief      Sorts the edgecolor for set insertion
+   *
+   * @details    All solution paths are unique, by sorting the
+   * edge we can ensure that comparison won't have to check for the
+   * reverse edge. Note that for directed graphs this method will
+   * not properly reflect the paths.
+   *
+   * FIXME: directed graphs need to be corrected
+   **/
+
   auto newec = EdgeColor(this->current, this->other);
   if (newec.other.name < newec.current.name)
     std::swap(newec.other.name, newec.current.name);
@@ -62,6 +73,7 @@ bool operator==(const EdgeColor &current, const EdgeColor &other) {
 }
 
 Crawler::Crawler(size_t start, double state, size_t bounded_rational) {
+
   this->bounded_rational = bounded_rational;
   this->queue.push_back(
       EdgeColor(ColorNode(start, state), ColorNode(start, state)));
@@ -114,6 +126,16 @@ void Crawler::add_result(std::vector<EdgeColor> option) {
 }
 
 bool Crawler::in_options(EdgeColor option) {
+  /**
+   * @brief      Confirms option is in options
+   *
+   * @details    The edge :option: is checked whether it is already present
+   * in the options.
+   *
+   * @param      proposal candidate for solution.
+   *
+   * @return     bool; true if in path, false otherwise.
+   */
   std::vector<EdgeColor> vopt = {option};
   std::vector<EdgeColor> overlap;
 
@@ -140,10 +162,33 @@ bool Crawler::in_options(EdgeColor option) {
 }
 
 bool Crawler::in_path(EdgeColor option) {
+  /**
+   * @brief      Checks if option is in path
+   *
+   * @details    Checks if the current proposal edge is in the current path
+   * of the crawler
+   *
+   * @param     Proposal candidate edge
+   *
+   * @return     true if in path, false otherwise
+   */
   return this->in_path(option, this->path);
 }
 
 bool Crawler::in_path(EdgeColor option, std::vector<EdgeColor> path) {
+  /**
+   * @brief      Checks if option is in path
+   *
+   * @details    Checks if the current proposal edge is in the current path
+   * of the crawler
+   *
+   * @param     Proposal candidate edge
+   *
+   * @param    path to check
+   *
+   * @return     true if in path, false otherwise
+   */
+
   bool a = std::find(path.begin(), path.end(), option) != path.end();
   std::swap(option.current, option.other);
 
@@ -198,6 +243,21 @@ bool Crawler::merge_option(std::vector<EdgeColor> opti,
 }
 
 void Crawler::merge_options() {
+  /**
+   * @brief  Merges  options  together to  build  path  from
+   * below.
+   *
+   * @details The crawler builds the path. If the rule graph
+   * splits,  the crawler  needs to  keep track  of possible
+   * ends that can be combined. This function merges sperate
+   * branches that are pushed in the options.
+   *
+   * FIXME: Too many options are kept that should be pruned.
+   * I  should implement  a pruning  mechanism based  on the
+   * traversability  of the  paths. The  biggest speedup  is
+   * found there.
+   *
+   */
 
   std::vector<std::vector<EdgeColor>> to_merge = this->options;
   bool can_merge = true;
@@ -281,6 +341,14 @@ void Crawler::print() {
 }
 
 void Crawler::check_options() {
+  /**
+   * @brief Removes options that are actual solutions
+   *
+   * @details Options  are pushed  as the  crawler discovers
+   * solutions. This  function removes  options that  are of
+   * target length and pushes them into the solution vector.
+   *
+   */
   // erase in reverse order
   for (int idx = this->options.size() - 1; idx >= 0; idx--) {
     if (this->verbose) {
