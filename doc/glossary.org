@@ -47,7 +47,7 @@ importance of local connectivity motifs in spreading dynamics of any process.
 
     
     
-* Cycledelic
+** Cycledelic
 A  model  for studying  species  dynamics.  It is  based  on
 Reichenbach et al. 2007.The model was designed to understand
 the  co-existance  of  interacting species  in  a  spatially
@@ -80,7 +80,7 @@ specie at vertex $i$ is updated according to
 where $<i,j>$ indicates the nearest neighbors of variable $i$.
 
 
-#+begin_src python :eval never-export
+#+begin_src python :eval never-export :exports none
 from matplotlib import style; style.use("default".split())
 import matplotlib.pyplot as plt, cmasher as cmr
 import numpy as np, os, sys, networkx as nx, warnings
@@ -107,7 +107,7 @@ colors = cmr.pride(np.linspace(0, 1, m.nStates, endpoint = 0))
 #+RESULTS:
 
 
-#+begin_src python :eval never-export
+#+begin_src python :eval never-export :exports none
 def norm(x):
     return (x - x.min(1)[:, None]) / (x.max(1)[:, None]- x.min(1)[:, None])
 def setup():
@@ -183,7 +183,7 @@ print('done')
 #+RESULTS:
 
 
-#+begin_src python :eval never-export
+#+begin_src python :eval never-export :exports none
 from tqdm import tqdm
 
 def get_effect(effect, N):
@@ -209,7 +209,7 @@ results = get_effect(effect, 1000)
 #+RESULTS:
 : 100%|██████████| 3/3 [01:49<00:00, 36.55s/it]
 
-#+begin_src python  :eval never-export
+#+begin_src python  :eval never-export :exports none
 def plot_effects(effect):
     C = '#ADC3D1'
     
@@ -271,7 +271,7 @@ plot_effects(effect)
 : NameError: name 'effect' is not defined
 :END:
 * Agent-based variant
-#+begin_src python  :eval never-export
+#+begin_src python  :eval never-export :exports none
 from matplotlib import style; style.use("fivethirtyeight".split())
 import matplotlib.pyplot as plt, cmasher as cmr
 import numpy as np, os, sys, networkx as nx, warnings
@@ -299,7 +299,7 @@ print('done')
 : done
 
 
-#+begin_src python  :eval never-export
+#+begin_src python  :eval never-export :exports none
 from matplotlib.animation import FuncAnimation as fa
 C = '#ADC3D1'
 colors = cmr.pride(np.linspace(0, 1, m.nStates, endpoint = 0))

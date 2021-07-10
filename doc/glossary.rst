@@ -108,31 +108,6 @@ where :math:`<i,j>` indicates the nearest neighbors of variable :math:`i`.
 
 .. code:: python
 
-    from matplotlib import style; style.use("default".split())
-    import matplotlib.pyplot as plt, cmasher as cmr
-    import numpy as np, os, sys, networkx as nx, warnings
-    from matplotlib.animation import FuncAnimation as fa
-    warnings.simplefilter("ignore")
-    C = '#ADC3D1'
-    from plexsim import models
-    n = 100
-    g = nx.grid_graph((n, n), periodic = 1)
-    for node in g.nodes():
-        for i in range(-1, 2):
-            for j in range(-1, 2):
-                x, y = node
-                new = ((x + i) % n, (y + j) % n)
-                if g.has_node(new):
-                    g.add_edge(new, node)
-    m = models.Cycledelic(graph = g, predation = 2., competition = 1.5, diffusion = .05, )
-    #m.colors *= 255
-    sim = m.simulate(1000)
-    sim = (sim - sim.min(0)) / (sim.max(0) - sim.min(0))
-    colors = cmr.pride(np.linspace(0, 1, m.nStates, endpoint = 0))
-
-
-.. code:: python
-
     def norm(x):
         return (x - x.min(1)[:, None]) / (x.max(1)[:, None]- x.min(1)[:, None])
     def setup():
