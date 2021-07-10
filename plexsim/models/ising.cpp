@@ -1702,7 +1702,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset;
 
-/* "plexsim/models/base.pxd":86
+/* "plexsim/models/base.pxd":82
  * 
  * 
  *     cpdef list spawn(self, size_t n_jobs =*)             # <<<<<<<<<<<<<<
@@ -1714,7 +1714,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn {
   size_t n_jobs;
 };
 
-/* "plexsim/models/base.pxd":87
+/* "plexsim/models/base.pxd":83
  * 
  *     cpdef list spawn(self, size_t n_jobs =*)
  *     cdef SpawnVec _spawn(self, size_t nThreads=*)             # <<<<<<<<<<<<<<
@@ -1726,7 +1726,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn {
   size_t nThreads;
 };
 
-/* "plexsim/models/base.pxd":89
+/* "plexsim/models/base.pxd":85
  *     cdef SpawnVec _spawn(self, size_t nThreads=*)
  * 
  *     cpdef void reset(self, p =*)             # <<<<<<<<<<<<<<
@@ -1820,8 +1820,8 @@ struct __pyx_obj_7plexsim_6models_5rules_Rules {
  *     void swap[T] (T &a, T &b)
  * # cdef public class Model [object PyModel, type PyModel_t]:
  * cdef class Model:             # <<<<<<<<<<<<<<
- *     """
- *     Interface for the models and serves a top of the hierarchy in the
+ *     cdef:
+ *         # public
  */
 struct __pyx_obj_7plexsim_6models_4base_Model {
   PyObject_HEAD
@@ -1993,8 +1993,8 @@ static struct __pyx_vtabstruct_7plexsim_6models_7sampler_MCMC *__pyx_vtabptr_7pl
  *     void swap[T] (T &a, T &b)
  * # cdef public class Model [object PyModel, type PyModel_t]:
  * cdef class Model:             # <<<<<<<<<<<<<<
- *     """
- *     Interface for the models and serves a top of the hierarchy in the
+ *     cdef:
+ *         # public
  */
 
 struct __pyx_vtabstruct_7plexsim_6models_4base_Model {
@@ -2045,8 +2045,8 @@ static struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *__pyx_vtabptr_7ple
  * cimport numpy as np
  * import numpy as np
  * cdef class Ising(Potts):             # <<<<<<<<<<<<<<
- *     def __init__(self, graph,\
- *                  **kwargs):
+ *     """Kinetic Ising model
+ * 
  */
 
 struct __pyx_vtabstruct_7plexsim_6models_5ising_Ising {
@@ -4544,20 +4544,16 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #endif
 /* #### Code section: module_code ### */
 
-/* "plexsim/models/ising.pyx":10
- * import numpy as np
- * cdef class Ising(Potts):
+/* "plexsim/models/ising.pyx":25
+ *     FIXME: Add docs.
+ *     """
  *     def __init__(self, graph,\             # <<<<<<<<<<<<<<
  *                  **kwargs):
- *         """Kinetic Ising model
+ *         # default override
  */
 
 /* Python wrapper */
 static int __pyx_pw_7plexsim_6models_5ising_5Ising_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-PyDoc_STRVAR(__pyx_doc_7plexsim_6models_5ising_5Ising___init__, "Kinetic Ising model\n\n        Implements kinetic Ising model on arbitrary graph.\n\n        Parameters\n        ----------\n        graph : nx.Graph or nx.DiGraph\n            Interaction structure for the spins.\n        \\ **kwargs : dict\n            General settings (see Model).\n\n        Examples\n        --------\n        FIXME: Add docs.\n        ");
-#if CYTHON_COMPILING_IN_CPYTHON
-struct wrapperbase __pyx_wrapperbase_7plexsim_6models_5ising_5Ising___init__;
-#endif
 static int __pyx_pw_7plexsim_6models_5ising_5Ising_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_graph = 0;
   PyObject *__pyx_v_kwargs = 0;
@@ -4590,12 +4586,12 @@ static int __pyx_pw_7plexsim_6models_5ising_5Ising_1__init__(PyObject *__pyx_v_s
       switch (__pyx_nargs) {
         case  0:
         if (likely((values[0] = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_graph)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 10, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 25, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, __pyx_v_kwargs, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 10, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, __pyx_v_kwargs, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 25, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
@@ -4606,7 +4602,7 @@ static int __pyx_pw_7plexsim_6models_5ising_5Ising_1__init__(PyObject *__pyx_v_s
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 10, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 25, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
   __Pyx_AddTraceback("plexsim.models.ising.Ising.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -4635,7 +4631,7 @@ static int __pyx_pf_7plexsim_6models_5ising_5Ising___init__(struct __pyx_obj_7pl
   __Pyx_RefNannySetupContext("__init__", 0);
 
   /* "plexsim/models/ising.pyx":28
- *         """
+ *                  **kwargs):
  *         # default override
  *         kwargs['agentStates'] = np.array([0, 1], dtype = np.double)             # <<<<<<<<<<<<<<
  *         super(Ising, self).__init__(\
@@ -4732,12 +4728,12 @@ static int __pyx_pf_7plexsim_6models_5ising_5Ising___init__(struct __pyx_obj_7pl
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "plexsim/models/ising.pyx":10
- * import numpy as np
- * cdef class Ising(Potts):
+  /* "plexsim/models/ising.pyx":25
+ *     FIXME: Add docs.
+ *     """
  *     def __init__(self, graph,\             # <<<<<<<<<<<<<<
  *                  **kwargs):
- *         """Kinetic Ising model
+ *         # default override
  */
 
   /* function exit code */
@@ -19967,7 +19963,7 @@ static struct PyMemberDef __pyx_tp_members_Ising[] = {
   {NULL, 0, 0, 0, NULL}
 };
 static PyType_Slot __pyx_type_7plexsim_6models_5ising_Ising_slots[] = {
-  {Py_tp_doc, (void *)PyDoc_STR("Ising(graph, **kwargs)")},
+  {Py_tp_doc, (void *)PyDoc_STR("Ising(graph, **kwargs)\nKinetic Ising model\n\n    Implements kinetic Ising model on arbitrary graph.\n\n    Parameters\n    ----------\n    graph : nx.Graph or nx.DiGraph\n        Interaction structure for the spins.\n    \\ **kwargs : dict\n        General settings (see Model).\n\n    Examples\n    --------\n    FIXME: Add docs.\n    ")},
   {Py_tp_traverse, (void *)__pyx_tp_traverse_7plexsim_6models_5ising_Ising},
   {Py_tp_clear, (void *)__pyx_tp_clear_7plexsim_6models_5ising_Ising},
   {Py_tp_methods, (void *)__pyx_methods_7plexsim_6models_5ising_Ising},
@@ -20020,7 +20016,7 @@ static PyTypeObject __pyx_type_7plexsim_6models_5ising_Ising = {
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
-  PyDoc_STR("Ising(graph, **kwargs)"), /*tp_doc*/
+  PyDoc_STR("Ising(graph, **kwargs)\nKinetic Ising model\n\n    Implements kinetic Ising model on arbitrary graph.\n\n    Parameters\n    ----------\n    graph : nx.Graph or nx.DiGraph\n        Interaction structure for the spins.\n    \\ **kwargs : dict\n        General settings (see Model).\n\n    Examples\n    --------\n    FIXME: Add docs.\n    "), /*tp_doc*/
   __pyx_tp_traverse_7plexsim_6models_5ising_Ising, /*tp_traverse*/
   __pyx_tp_clear_7plexsim_6models_5ising_Ising, /*tp_clear*/
   0, /*tp_richcompare*/
@@ -21620,16 +21616,6 @@ static int __Pyx_modinit_type_init_code(void) {
   #if PY_MAJOR_VERSION < 3
   __pyx_ptype_7plexsim_6models_5ising_Ising->tp_print = 0;
   #endif
-  #if CYTHON_COMPILING_IN_CPYTHON
-  {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)__pyx_ptype_7plexsim_6models_5ising_Ising, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(0, 9, __pyx_L1_error)
-    if (__Pyx_IS_TYPE(wrapper, &PyWrapperDescr_Type)) {
-      __pyx_wrapperbase_7plexsim_6models_5ising_5Ising___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
-      __pyx_wrapperbase_7plexsim_6models_5ising_5Ising___init__.doc = __pyx_doc_7plexsim_6models_5ising_5Ising___init__;
-      ((PyWrapperDescrObject *)wrapper)->d_base = &__pyx_wrapperbase_7plexsim_6models_5ising_5Ising___init__;
-    }
-  }
-  #endif
   if (__Pyx_SetVtable(__pyx_ptype_7plexsim_6models_5ising_Ising, __pyx_vtabptr_7plexsim_6models_5ising_Ising) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API
   if (__Pyx_MergeVtables(__pyx_ptype_7plexsim_6models_5ising_Ising) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
@@ -22168,7 +22154,7 @@ if (!__Pyx_RefNanny) {
  * cimport numpy as np
  * import numpy as np             # <<<<<<<<<<<<<<
  * cdef class Ising(Potts):
- *     def __init__(self, graph,\
+ *     """Kinetic Ising model
  */
   __pyx_t_1 = __Pyx_ImportDottedModule(__pyx_n_s_numpy, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);

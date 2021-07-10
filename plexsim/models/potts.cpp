@@ -1701,7 +1701,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset;
 
-/* "plexsim/models/base.pxd":86
+/* "plexsim/models/base.pxd":82
  * 
  * 
  *     cpdef list spawn(self, size_t n_jobs =*)             # <<<<<<<<<<<<<<
@@ -1713,7 +1713,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn {
   size_t n_jobs;
 };
 
-/* "plexsim/models/base.pxd":87
+/* "plexsim/models/base.pxd":83
  * 
  *     cpdef list spawn(self, size_t n_jobs =*)
  *     cdef SpawnVec _spawn(self, size_t nThreads=*)             # <<<<<<<<<<<<<<
@@ -1725,7 +1725,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn {
   size_t nThreads;
 };
 
-/* "plexsim/models/base.pxd":89
+/* "plexsim/models/base.pxd":85
  *     cdef SpawnVec _spawn(self, size_t nThreads=*)
  * 
  *     cpdef void reset(self, p =*)             # <<<<<<<<<<<<<<
@@ -1819,8 +1819,8 @@ struct __pyx_obj_7plexsim_6models_5rules_Rules {
  *     void swap[T] (T &a, T &b)
  * # cdef public class Model [object PyModel, type PyModel_t]:
  * cdef class Model:             # <<<<<<<<<<<<<<
- *     """
- *     Interface for the models and serves a top of the hierarchy in the
+ *     cdef:
+ *         # public
  */
 struct __pyx_obj_7plexsim_6models_4base_Model {
   PyObject_HEAD
@@ -1981,8 +1981,8 @@ static struct __pyx_vtabstruct_7plexsim_6models_7sampler_MCMC *__pyx_vtabptr_7pl
  *     void swap[T] (T &a, T &b)
  * # cdef public class Model [object PyModel, type PyModel_t]:
  * cdef class Model:             # <<<<<<<<<<<<<<
- *     """
- *     Interface for the models and serves a top of the hierarchy in the
+ *     cdef:
+ *         # public
  */
 
 struct __pyx_vtabstruct_7plexsim_6models_4base_Model {
@@ -5994,7 +5994,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_7plexsim_6models_5potts_5Potts_2node_energy, "Potts.node_energy(self, state_t[::1] states) -> ndarray\n\" Computes  average by  degree of node  energy of\n        all nodes given a system state.\n\n        Parameters\n        ==========\n        states: memoryview doubles\n              1D vector of spin states\n\n        Returns\n        =======\n        Returns node energy of all nodes given :states:\n        ");
+PyDoc_STRVAR(__pyx_doc_7plexsim_6models_5potts_5Potts_2node_energy, "Potts.node_energy(self, state_t[::1] states) -> ndarray\n\" Computes  average by  degree of node  energy of\n        all nodes given a system state.\n\n        Parameters\n        ----------\n        states: memoryview doubles\n              1D vector of spin states\n\n        Returns\n        =======\n        Returns node energy of all nodes given :states:\n        ");
 static PyMethodDef __pyx_mdef_7plexsim_6models_5potts_5Potts_3node_energy = {"node_energy", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_5potts_5Potts_3node_energy, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_5potts_5Potts_2node_energy};
 static PyObject *__pyx_pw_7plexsim_6models_5potts_5Potts_3node_energy(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
@@ -6311,7 +6311,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_7plexsim_6models_5potts_5Potts_4siteEnergy, "Potts.siteEnergy(self, state_t[::1] states) -> vector[double]\n Computes raw site energy of nodes given a system state\n\n        Parameters\n        ==========\n\n        states: memory view of spin states\n            1D vector of size number of spins indicating the system state\n        for which to compute the site energy.\n\n        Returns\n        =======\n        Returns the raw site energy per spin in the system given :states:\n        ");
+PyDoc_STRVAR(__pyx_doc_7plexsim_6models_5potts_5Potts_4siteEnergy, "Potts.siteEnergy(self, state_t[::1] states) -> vector[double]\n Computes raw site energy of nodes given a system state\n\n        Parameters\n        ----------\n\n        states: memory view of spin states\n            1D vector of size number of spins indicating the system state\n        for which to compute the site energy.\n\n        Returns\n        -------\n        Returns the raw site energy per spin in the system given :states:\n        ");
 static PyMethodDef __pyx_mdef_7plexsim_6models_5potts_5Potts_5siteEnergy = {"siteEnergy", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_5potts_5Potts_5siteEnergy, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_5potts_5Potts_4siteEnergy};
 static PyObject *__pyx_pw_7plexsim_6models_5potts_5Potts_5siteEnergy(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
@@ -7846,7 +7846,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_7plexsim_6models_5potts_5Potts_6magnetize, "Potts.magnetize(self, ndarray temps=np.logspace(-3, 2, 20), size_t n=int(1e3), size_t burninSamples=0, size_t n_jobs=0) -> ndarray\n\n            Computes the magnetization as a function of temperatures\n\n            Parameters\n            =========\n            temps: np.ndarray\n                a range of temperatures\n            \n: int\n                number of samples to simulate for\n            \010urninSamples: int\n                number of samples to throw away before sampling\n\n            Returns\n            =======\n            Returns 2D matrix (2, number of temperatures). The first index (0)\n            contains the magnetization, the second index (1) contains the magnetic\n            susceptibility\n            ");
+PyDoc_STRVAR(__pyx_doc_7plexsim_6models_5potts_5Potts_6magnetize, "Potts.magnetize(self, ndarray temps=np.logspace(-3, 2, 20), size_t n=int(1e3), size_t burninSamples=0, size_t n_jobs=0) -> ndarray\n\n            Computes the magnetization as a function of temperatures\n\n            Parameters\n            ----------\n            temps: np.ndarray\n                a range of temperatures\n            \n: int\n                number of samples to simulate for\n            \010urninSamples: int\n                number of samples to throw away before sampling\n\n            Returns\n            -------\n            Returns 2D matrix (2, number of temperatures). The first index (0)\n            contains the magnetization, the second index (1) contains the magnetic\n            susceptibility\n            ");
 static PyMethodDef __pyx_mdef_7plexsim_6models_5potts_5Potts_7magnetize = {"magnetize", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7plexsim_6models_5potts_5Potts_7magnetize, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7plexsim_6models_5potts_5Potts_6magnetize};
 static PyObject *__pyx_pw_7plexsim_6models_5potts_5Potts_7magnetize(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL

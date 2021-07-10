@@ -64,7 +64,7 @@ cdef class Potts(Model):
         all nodes given a system state.
 
         Parameters
-        ==========
+        ----------
         states: memoryview doubles
               1D vector of spin states
 
@@ -97,14 +97,14 @@ cdef class Potts(Model):
         """ Computes raw site energy of nodes given a system state
 
         Parameters
-        ==========
+        ----------
 
         states: memory view of spin states
             1D vector of size number of spins indicating the system state
         for which to compute the site energy.
 
         Returns
-        =======
+        -------
         Returns the raw site energy per spin in the system given :states:
         """
         cdef:
@@ -130,13 +130,13 @@ cdef class Potts(Model):
         This function is a low-level callable only.
 
         Parameters
-        ==========
+        ----------
         node: size_t
             Spin for which to compute the energy for
 
 
         Returns
-        =======
+        -------
         Returns site energy of a spin
 
         """
@@ -204,7 +204,7 @@ cdef class Potts(Model):
         Note this is a low-level callable only!
 
         Parameters
-        ==========
+        ----------
         mod: Model
            Spin system (Bornholdt/Ising or Potts)
         n: int
@@ -213,7 +213,7 @@ cdef class Potts(Model):
           Temperature of the spin system
 
         Returns
-        =======
+        -------
         Average phase of the spin system
         """
         # setup simulation
@@ -241,7 +241,7 @@ cdef class Potts(Model):
             Computes the magnetization as a function of temperatures
 
             Parameters
-            =========
+            ----------
             temps: np.ndarray
                 a range of temperatures
             \n: int
@@ -250,7 +250,7 @@ cdef class Potts(Model):
                 number of samples to throw away before sampling
 
             Returns
-            =======
+            -------
             Returns 2D matrix (2, number of temperatures). The first index (0)
             contains the magnetization, the second index (1) contains the magnetic
             susceptibility

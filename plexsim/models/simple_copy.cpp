@@ -1702,7 +1702,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset;
 
-/* "plexsim/models/base.pxd":86
+/* "plexsim/models/base.pxd":82
  * 
  * 
  *     cpdef list spawn(self, size_t n_jobs =*)             # <<<<<<<<<<<<<<
@@ -1714,7 +1714,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn {
   size_t n_jobs;
 };
 
-/* "plexsim/models/base.pxd":87
+/* "plexsim/models/base.pxd":83
  * 
  *     cpdef list spawn(self, size_t n_jobs =*)
  *     cdef SpawnVec _spawn(self, size_t nThreads=*)             # <<<<<<<<<<<<<<
@@ -1726,7 +1726,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn {
   size_t nThreads;
 };
 
-/* "plexsim/models/base.pxd":89
+/* "plexsim/models/base.pxd":85
  *     cdef SpawnVec _spawn(self, size_t nThreads=*)
  * 
  *     cpdef void reset(self, p =*)             # <<<<<<<<<<<<<<
@@ -1820,8 +1820,8 @@ struct __pyx_obj_7plexsim_6models_5rules_Rules {
  *     void swap[T] (T &a, T &b)
  * # cdef public class Model [object PyModel, type PyModel_t]:
  * cdef class Model:             # <<<<<<<<<<<<<<
- *     """
- *     Interface for the models and serves a top of the hierarchy in the
+ *     cdef:
+ *         # public
  */
 struct __pyx_obj_7plexsim_6models_4base_Model {
   PyObject_HEAD
@@ -1994,8 +1994,8 @@ static struct __pyx_vtabstruct_7plexsim_6models_7sampler_MCMC *__pyx_vtabptr_7pl
  *     void swap[T] (T &a, T &b)
  * # cdef public class Model [object PyModel, type PyModel_t]:
  * cdef class Model:             # <<<<<<<<<<<<<<
- *     """
- *     Interface for the models and serves a top of the hierarchy in the
+ *     cdef:
+ *         # public
  */
 
 struct __pyx_vtabstruct_7plexsim_6models_4base_Model {

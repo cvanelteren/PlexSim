@@ -19,6 +19,7 @@ Please note that the documentation is a work in progress and is as of yet not co
 
    quickstart
    glossary
+   modules
 
 
 Indices and tables
