@@ -28,7 +28,7 @@ cython. It provides:
 
 * Showcase
 #+attr_html: :alt  :align center :class img
-[[file:./docs/figures/new_banner.gif]]
+[[file:./docs/src/figures/new_banner.gif]]
 Example systems. Each subplot contains a lattice graph (64x64 = 4096 nodes) simulated for different dynamics. See the docs page the available models.
 
 
@@ -54,7 +54,7 @@ PlexSim is released under the GNU-GPLv3 license
 
 Powered by
 #+attr_html: :alt  :align right :class img
-[[file:./docs/figures/cython_logo.svg]]
+[[file:./docs/src/figures/cython_logo.svg]]
 
 * Notes
 Cannot have static pyobjects, this causes a segfault in pybind11. 
