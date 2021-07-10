@@ -1703,7 +1703,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset;
 
-/* "plexsim/models/base.pxd":87
+/* "plexsim/models/base.pxd":86
  * 
  * 
  *     cpdef list spawn(self, size_t n_jobs =*)             # <<<<<<<<<<<<<<
@@ -1715,7 +1715,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn {
   size_t n_jobs;
 };
 
-/* "plexsim/models/base.pxd":88
+/* "plexsim/models/base.pxd":87
  * 
  *     cpdef list spawn(self, size_t n_jobs =*)
  *     cdef SpawnVec _spawn(self, size_t nThreads=*)             # <<<<<<<<<<<<<<
@@ -1727,7 +1727,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn {
   size_t nThreads;
 };
 
-/* "plexsim/models/base.pxd":90
+/* "plexsim/models/base.pxd":89
  *     cdef SpawnVec _spawn(self, size_t nThreads=*)
  * 
  *     cpdef void reset(self, p =*)             # <<<<<<<<<<<<<<
@@ -2007,7 +2007,6 @@ static struct __pyx_vtabstruct_7plexsim_6models_7sampler_MCMC *__pyx_vtabptr_7pl
 struct __pyx_vtabstruct_7plexsim_6models_4base_Model {
   __Pyx_memviewslice (*updateState)(struct __pyx_obj_7plexsim_6models_4base_Model *, __Pyx_memviewslice, int __pyx_skip_dispatch);
   __Pyx_memviewslice (*_updateState)(struct __pyx_obj_7plexsim_6models_4base_Model *, __Pyx_memviewslice);
-  double (*rand)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
   void (*_apply_nudge)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *);
   void (*_remove_nudge)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *);
   void (*_swap_buffers)(struct __pyx_obj_7plexsim_6models_4base_Model *);
@@ -4615,6 +4614,10 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 
 /* Python wrapper */
 static int __pyx_pw_7plexsim_6models_9bornholdt_9Bornholdt_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+PyDoc_STRVAR(__pyx_doc_7plexsim_6models_9bornholdt_9Bornholdt___init__, "Spin model for economic crashes\n\n        Implements Bornholdt model by Stefan Bornholdt 2001.\n        It is based on an Ising model with a global coupling\n        constant used to model financial crashes.\n\n        Parameters\n        ----------\n        graph : nx.Graph or nx.DiGraph\n            Interaction structure of the system.\n        \007lpha : double\n            Global coupling coefficient; values larger than zero indicate an positive\n        coupling with the system, conversely lower than zero is a negative coupling.\n        \\kwargs: dict,\n            Containing general settings for the base class, e.g. sampleSize, updateType etc.\n        ");
+#if CYTHON_COMPILING_IN_CPYTHON
+struct wrapperbase __pyx_wrapperbase_7plexsim_6models_9bornholdt_9Bornholdt___init__;
+#endif
 static int __pyx_pw_7plexsim_6models_9bornholdt_9Bornholdt_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_graph = 0;
   double __pyx_v_alpha;
@@ -4710,26 +4713,26 @@ static int __pyx_pf_7plexsim_6models_9bornholdt_9Bornholdt___init__(struct __pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "plexsim/models/bornholdt.pyx":17
- *                  **kwargs):
+  /* "plexsim/models/bornholdt.pyx":33
+ *         """
  * 
  *         self.alpha = alpha             # <<<<<<<<<<<<<<
  *         super(Bornholdt, self).__init__(graph = graph, **kwargs)
  * 
  */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_alpha); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_alpha); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_alpha, __pyx_t_1) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_alpha, __pyx_t_1) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "plexsim/models/bornholdt.pyx":18
+  /* "plexsim/models/bornholdt.pyx":34
  * 
  *         self.alpha = alpha
  *         super(Bornholdt, self).__init__(graph = graph, **kwargs)             # <<<<<<<<<<<<<<
  * 
  *         self.system_mag     = np.mean(self.states)
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF((PyObject *)__pyx_ptype_7plexsim_6models_9bornholdt_Bornholdt);
   __Pyx_GIVEREF((PyObject *)__pyx_ptype_7plexsim_6models_9bornholdt_Bornholdt);
@@ -4737,37 +4740,37 @@ static int __pyx_pf_7plexsim_6models_9bornholdt_9Bornholdt___init__(struct __pyx
   __Pyx_INCREF((PyObject *)__pyx_v_self);
   __Pyx_GIVEREF((PyObject *)__pyx_v_self);
   PyTuple_SET_ITEM(__pyx_t_1, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_graph, __pyx_v_graph) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_graph, __pyx_v_graph) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
   __pyx_t_2 = __pyx_t_3;
   __pyx_t_3 = 0;
-  if (__Pyx_MergeKeywords(__pyx_t_2, __pyx_v_kwargs) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 18, __pyx_L1_error)
+  if (__Pyx_MergeKeywords(__pyx_t_2, __pyx_v_kwargs) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "plexsim/models/bornholdt.pyx":20
+  /* "plexsim/models/bornholdt.pyx":36
  *         super(Bornholdt, self).__init__(graph = graph, **kwargs)
  * 
  *         self.system_mag     = np.mean(self.states)             # <<<<<<<<<<<<<<
  * 
  *     cdef double _get_system_influence(self) nogil:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_mean); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_mean); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_states); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_states); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = NULL;
   __pyx_t_5 = 0;
@@ -4786,11 +4789,11 @@ static int __pyx_pf_7plexsim_6models_9bornholdt_9Bornholdt___init__(struct __pyx
     __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_5, 1+__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 20, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 36, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_system_mag, __pyx_t_3) < 0) __PYX_ERR(0, 20, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_system_mag, __pyx_t_3) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "plexsim/models/bornholdt.pyx":12
@@ -4816,7 +4819,7 @@ static int __pyx_pf_7plexsim_6models_9bornholdt_9Bornholdt___init__(struct __pyx
   return __pyx_r;
 }
 
-/* "plexsim/models/bornholdt.pyx":22
+/* "plexsim/models/bornholdt.pyx":38
  *         self.system_mag     = np.mean(self.states)
  * 
  *     cdef double _get_system_influence(self) nogil:             # <<<<<<<<<<<<<<
@@ -4832,7 +4835,7 @@ static double __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt__get_system_influen
   size_t __pyx_t_2;
   size_t __pyx_t_3;
 
-  /* "plexsim/models/bornholdt.pyx":23
+  /* "plexsim/models/bornholdt.pyx":39
  * 
  *     cdef double _get_system_influence(self) nogil:
  *         cdef double influence = 0             # <<<<<<<<<<<<<<
@@ -4841,7 +4844,7 @@ static double __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt__get_system_influen
  */
   __pyx_v_influence = 0.0;
 
-  /* "plexsim/models/bornholdt.pyx":24
+  /* "plexsim/models/bornholdt.pyx":40
  *     cdef double _get_system_influence(self) nogil:
  *         cdef double influence = 0
  *         for node in range(self.adj._nNodes):             # <<<<<<<<<<<<<<
@@ -4853,7 +4856,7 @@ static double __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt__get_system_influen
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_node = __pyx_t_3;
 
-    /* "plexsim/models/bornholdt.pyx":25
+    /* "plexsim/models/bornholdt.pyx":41
  *         cdef double influence = 0
  *         for node in range(self.adj._nNodes):
  *             influence += self._states[node]             # <<<<<<<<<<<<<<
@@ -4863,7 +4866,7 @@ static double __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt__get_system_influen
     __pyx_v_influence = (__pyx_v_influence + (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]));
   }
 
-  /* "plexsim/models/bornholdt.pyx":26
+  /* "plexsim/models/bornholdt.pyx":42
  *         for node in range(self.adj._nNodes):
  *             influence += self._states[node]
  *         return influence / <double> self.adj._nNodes             # <<<<<<<<<<<<<<
@@ -4873,7 +4876,7 @@ static double __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt__get_system_influen
   __pyx_r = (__pyx_v_influence / ((double)__pyx_v_self->__pyx_base.__pyx_base.adj->_nNodes));
   goto __pyx_L0;
 
-  /* "plexsim/models/bornholdt.pyx":22
+  /* "plexsim/models/bornholdt.pyx":38
  *         self.system_mag     = np.mean(self.states)
  * 
  *     cdef double _get_system_influence(self) nogil:             # <<<<<<<<<<<<<<
@@ -4886,12 +4889,12 @@ static double __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt__get_system_influen
   return __pyx_r;
 }
 
-/* "plexsim/models/bornholdt.pyx":28
+/* "plexsim/models/bornholdt.pyx":44
  *         return influence / <double> self.adj._nNodes
  * 
  *     cdef double probability(self, state_t proposal, node_id_t node) nogil:             # <<<<<<<<<<<<<<
- *         cdef:
- *             # vector[double] probs
+ *         """ Computes probability of current spin given its neighborhood configuration
+ *         Parameters
  */
 
 static double __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt_probability(struct __pyx_obj_7plexsim_6models_9bornholdt_Bornholdt *__pyx_v_self, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_proposal, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node) {
@@ -4902,7 +4905,7 @@ static double __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt_probability(struct 
   __pyx_t_7plexsim_6models_5types_state_t __pyx_v_backup_state;
   double __pyx_r;
 
-  /* "plexsim/models/bornholdt.pyx":34
+  /* "plexsim/models/bornholdt.pyx":62
  *             double delta
  *             double p
  *             double systemInfluence = self._alpha * self._get_system_influence()             # <<<<<<<<<<<<<<
@@ -4911,7 +4914,7 @@ static double __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt_probability(struct 
  */
   __pyx_v_systemInfluence = (__pyx_v_self->_alpha * ((struct __pyx_vtabstruct_7plexsim_6models_9bornholdt_Bornholdt *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->_get_system_influence(__pyx_v_self));
 
-  /* "plexsim/models/bornholdt.pyx":37
+  /* "plexsim/models/bornholdt.pyx":65
  * 
  *         # store state
  *         cdef state_t backup_state = self._states[node]             # <<<<<<<<<<<<<<
@@ -4920,7 +4923,7 @@ static double __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt_probability(struct 
  */
   __pyx_v_backup_state = (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]);
 
-  /* "plexsim/models/bornholdt.pyx":40
+  /* "plexsim/models/bornholdt.pyx":68
  * 
  *         # compute proposal
  *         self._states[node] = proposal             # <<<<<<<<<<<<<<
@@ -4929,7 +4932,7 @@ static double __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt_probability(struct 
  */
   (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]) = __pyx_v_proposal;
 
-  /* "plexsim/models/bornholdt.pyx":41
+  /* "plexsim/models/bornholdt.pyx":69
  *         # compute proposal
  *         self._states[node] = proposal
  *         energy = self._energy(node)             # <<<<<<<<<<<<<<
@@ -4938,7 +4941,7 @@ static double __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt_probability(struct 
  */
   __pyx_v_energy = ((struct __pyx_vtabstruct_7plexsim_6models_9bornholdt_Bornholdt *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._energy(((struct __pyx_obj_7plexsim_6models_5potts_Potts *)__pyx_v_self), __pyx_v_node);
 
-  /* "plexsim/models/bornholdt.pyx":42
+  /* "plexsim/models/bornholdt.pyx":70
  *         self._states[node] = proposal
  *         energy = self._energy(node)
  *         delta  = energy - fabs(self._hamiltonian(proposal, systemInfluence))             # <<<<<<<<<<<<<<
@@ -4947,7 +4950,7 @@ static double __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt_probability(struct 
  */
   __pyx_v_delta = (__pyx_v_energy - fabs(((struct __pyx_vtabstruct_7plexsim_6models_9bornholdt_Bornholdt *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._hamiltonian(((struct __pyx_obj_7plexsim_6models_5potts_Potts *)__pyx_v_self), __pyx_v_proposal, __pyx_v_systemInfluence)));
 
-  /* "plexsim/models/bornholdt.pyx":43
+  /* "plexsim/models/bornholdt.pyx":71
  *         energy = self._energy(node)
  *         delta  = energy - fabs(self._hamiltonian(proposal, systemInfluence))
  *         p      = exp(self._beta * delta)             # <<<<<<<<<<<<<<
@@ -4956,7 +4959,7 @@ static double __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt_probability(struct 
  */
   __pyx_v_p = exp((__pyx_v_self->__pyx_base._beta * __pyx_v_delta));
 
-  /* "plexsim/models/bornholdt.pyx":45
+  /* "plexsim/models/bornholdt.pyx":73
  *         p      = exp(self._beta * delta)
  * 
  *         self._states[node] = backup_state             # <<<<<<<<<<<<<<
@@ -4965,7 +4968,7 @@ static double __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt_probability(struct 
  */
   (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]) = __pyx_v_backup_state;
 
-  /* "plexsim/models/bornholdt.pyx":46
+  /* "plexsim/models/bornholdt.pyx":74
  * 
  *         self._states[node] = backup_state
  *         return p             # <<<<<<<<<<<<<<
@@ -4975,12 +4978,12 @@ static double __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt_probability(struct 
   __pyx_r = __pyx_v_p;
   goto __pyx_L0;
 
-  /* "plexsim/models/bornholdt.pyx":28
+  /* "plexsim/models/bornholdt.pyx":44
  *         return influence / <double> self.adj._nNodes
  * 
  *     cdef double probability(self, state_t proposal, node_id_t node) nogil:             # <<<<<<<<<<<<<<
- *         cdef:
- *             # vector[double] probs
+ *         """ Computes probability of current spin given its neighborhood configuration
+ *         Parameters
  */
 
   /* function exit code */
@@ -4988,7 +4991,7 @@ static double __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt_probability(struct 
   return __pyx_r;
 }
 
-/* "plexsim/models/bornholdt.pyx":53
+/* "plexsim/models/bornholdt.pyx":81
  *         # return
  * 
  *     cdef void _swap_buffers(self) nogil:             # <<<<<<<<<<<<<<
@@ -4998,7 +5001,7 @@ static double __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt_probability(struct 
 
 static void __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt__swap_buffers(struct __pyx_obj_7plexsim_6models_9bornholdt_Bornholdt *__pyx_v_self) {
 
-  /* "plexsim/models/bornholdt.pyx":54
+  /* "plexsim/models/bornholdt.pyx":82
  * 
  *     cdef void _swap_buffers(self) nogil:
  *          swap(self._states, self._newstates)             # <<<<<<<<<<<<<<
@@ -5007,7 +5010,7 @@ static void __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt__swap_buffers(struct 
  */
   std::swap<__pyx_t_7plexsim_6models_5types_state_t *>(__pyx_v_self->__pyx_base.__pyx_base._states, __pyx_v_self->__pyx_base.__pyx_base._newstates);
 
-  /* "plexsim/models/bornholdt.pyx":55
+  /* "plexsim/models/bornholdt.pyx":83
  *     cdef void _swap_buffers(self) nogil:
  *          swap(self._states, self._newstates)
  *          swap(self._system_mag_ptr, self._newsystem_mag_ptr)             # <<<<<<<<<<<<<<
@@ -5016,7 +5019,7 @@ static void __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt__swap_buffers(struct 
  */
   std::swap<double *>(__pyx_v_self->_system_mag_ptr, __pyx_v_self->_newsystem_mag_ptr);
 
-  /* "plexsim/models/bornholdt.pyx":56
+  /* "plexsim/models/bornholdt.pyx":84
  *          swap(self._states, self._newstates)
  *          swap(self._system_mag_ptr, self._newsystem_mag_ptr)
  *          return             # <<<<<<<<<<<<<<
@@ -5025,7 +5028,7 @@ static void __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt__swap_buffers(struct 
  */
   goto __pyx_L0;
 
-  /* "plexsim/models/bornholdt.pyx":53
+  /* "plexsim/models/bornholdt.pyx":81
  *         # return
  * 
  *     cdef void _swap_buffers(self) nogil:             # <<<<<<<<<<<<<<
@@ -5037,7 +5040,7 @@ static void __pyx_f_7plexsim_6models_9bornholdt_9Bornholdt__swap_buffers(struct 
   __pyx_L0:;
 }
 
-/* "plexsim/models/bornholdt.pyx":58
+/* "plexsim/models/bornholdt.pyx":86
  *          return
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5068,7 +5071,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9bornholdt_9Bornholdt_10system_mag___
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/bornholdt.pyx":60
+  /* "plexsim/models/bornholdt.pyx":88
  *     @property
  *     def system_mag(self):
  *         return self._system_mag             # <<<<<<<<<<<<<<
@@ -5076,13 +5079,13 @@ static PyObject *__pyx_pf_7plexsim_6models_9bornholdt_9Bornholdt_10system_mag___
  *     def system_mag(self, value):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_system_mag); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_system_mag); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/bornholdt.pyx":58
+  /* "plexsim/models/bornholdt.pyx":86
  *          return
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5101,7 +5104,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9bornholdt_9Bornholdt_10system_mag___
   return __pyx_r;
 }
 
-/* "plexsim/models/bornholdt.pyx":61
+/* "plexsim/models/bornholdt.pyx":89
  *     def system_mag(self):
  *         return self._system_mag
  *     @system_mag.setter             # <<<<<<<<<<<<<<
@@ -5135,40 +5138,40 @@ static int __pyx_pf_7plexsim_6models_9bornholdt_9Bornholdt_10system_mag_2__set__
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "plexsim/models/bornholdt.pyx":63
+  /* "plexsim/models/bornholdt.pyx":91
  *     @system_mag.setter
  *     def system_mag(self, value):
  *         self._system_mag = value             # <<<<<<<<<<<<<<
  *         self._newsystem_mag = value
  *         if self.updateType == "sync":
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 91, __pyx_L1_error)
   __pyx_v_self->_system_mag = __pyx_t_1;
 
-  /* "plexsim/models/bornholdt.pyx":64
+  /* "plexsim/models/bornholdt.pyx":92
  *     def system_mag(self, value):
  *         self._system_mag = value
  *         self._newsystem_mag = value             # <<<<<<<<<<<<<<
  *         if self.updateType == "sync":
  *             self._system_mag_ptr    = &(self._system_mag)
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 92, __pyx_L1_error)
   __pyx_v_self->_newsystem_mag = __pyx_t_1;
 
-  /* "plexsim/models/bornholdt.pyx":65
+  /* "plexsim/models/bornholdt.pyx":93
  *         self._system_mag = value
  *         self._newsystem_mag = value
  *         if self.updateType == "sync":             # <<<<<<<<<<<<<<
  *             self._system_mag_ptr    = &(self._system_mag)
  *             self._newsystem_mag_ptr = &(self._newsystem_mag)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_updateType); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_updateType); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_t_2, __pyx_n_s_sync, Py_EQ)); if (unlikely((__pyx_t_3 < 0))) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_t_2, __pyx_n_s_sync, Py_EQ)); if (unlikely((__pyx_t_3 < 0))) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_3) {
 
-    /* "plexsim/models/bornholdt.pyx":66
+    /* "plexsim/models/bornholdt.pyx":94
  *         self._newsystem_mag = value
  *         if self.updateType == "sync":
  *             self._system_mag_ptr    = &(self._system_mag)             # <<<<<<<<<<<<<<
@@ -5177,7 +5180,7 @@ static int __pyx_pf_7plexsim_6models_9bornholdt_9Bornholdt_10system_mag_2__set__
  */
     __pyx_v_self->_system_mag_ptr = (&__pyx_v_self->_system_mag);
 
-    /* "plexsim/models/bornholdt.pyx":67
+    /* "plexsim/models/bornholdt.pyx":95
  *         if self.updateType == "sync":
  *             self._system_mag_ptr    = &(self._system_mag)
  *             self._newsystem_mag_ptr = &(self._newsystem_mag)             # <<<<<<<<<<<<<<
@@ -5186,7 +5189,7 @@ static int __pyx_pf_7plexsim_6models_9bornholdt_9Bornholdt_10system_mag_2__set__
  */
     __pyx_v_self->_newsystem_mag_ptr = (&__pyx_v_self->_newsystem_mag);
 
-    /* "plexsim/models/bornholdt.pyx":65
+    /* "plexsim/models/bornholdt.pyx":93
  *         self._system_mag = value
  *         self._newsystem_mag = value
  *         if self.updateType == "sync":             # <<<<<<<<<<<<<<
@@ -5196,20 +5199,20 @@ static int __pyx_pf_7plexsim_6models_9bornholdt_9Bornholdt_10system_mag_2__set__
     goto __pyx_L3;
   }
 
-  /* "plexsim/models/bornholdt.pyx":68
+  /* "plexsim/models/bornholdt.pyx":96
  *             self._system_mag_ptr    = &(self._system_mag)
  *             self._newsystem_mag_ptr = &(self._newsystem_mag)
  *         elif self.updateType == "async":             # <<<<<<<<<<<<<<
  *             self._system_mag_ptr    = &self._system_mag
  *             self._newsystem_mag_ptr = self._system_mag_ptr
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_updateType); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_updateType); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_t_2, __pyx_n_s_async, Py_EQ)); if (unlikely((__pyx_t_3 < 0))) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_t_2, __pyx_n_s_async, Py_EQ)); if (unlikely((__pyx_t_3 < 0))) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (likely(__pyx_t_3)) {
 
-    /* "plexsim/models/bornholdt.pyx":69
+    /* "plexsim/models/bornholdt.pyx":97
  *             self._newsystem_mag_ptr = &(self._newsystem_mag)
  *         elif self.updateType == "async":
  *             self._system_mag_ptr    = &self._system_mag             # <<<<<<<<<<<<<<
@@ -5218,7 +5221,7 @@ static int __pyx_pf_7plexsim_6models_9bornholdt_9Bornholdt_10system_mag_2__set__
  */
     __pyx_v_self->_system_mag_ptr = (&__pyx_v_self->_system_mag);
 
-    /* "plexsim/models/bornholdt.pyx":70
+    /* "plexsim/models/bornholdt.pyx":98
  *         elif self.updateType == "async":
  *             self._system_mag_ptr    = &self._system_mag
  *             self._newsystem_mag_ptr = self._system_mag_ptr             # <<<<<<<<<<<<<<
@@ -5228,7 +5231,7 @@ static int __pyx_pf_7plexsim_6models_9bornholdt_9Bornholdt_10system_mag_2__set__
     __pyx_t_4 = __pyx_v_self->_system_mag_ptr;
     __pyx_v_self->_newsystem_mag_ptr = __pyx_t_4;
 
-    /* "plexsim/models/bornholdt.pyx":68
+    /* "plexsim/models/bornholdt.pyx":96
  *             self._system_mag_ptr    = &(self._system_mag)
  *             self._newsystem_mag_ptr = &(self._newsystem_mag)
  *         elif self.updateType == "async":             # <<<<<<<<<<<<<<
@@ -5238,7 +5241,7 @@ static int __pyx_pf_7plexsim_6models_9bornholdt_9Bornholdt_10system_mag_2__set__
     goto __pyx_L3;
   }
 
-  /* "plexsim/models/bornholdt.pyx":72
+  /* "plexsim/models/bornholdt.pyx":100
  *             self._newsystem_mag_ptr = self._system_mag_ptr
  *         else:
  *             raise ValueError("Input not recognized")             # <<<<<<<<<<<<<<
@@ -5246,15 +5249,15 @@ static int __pyx_pf_7plexsim_6models_9bornholdt_9Bornholdt_10system_mag_2__set__
  *     def alpha(self):
  */
   /*else*/ {
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 72, __pyx_L1_error)
+    __PYX_ERR(0, 100, __pyx_L1_error)
   }
   __pyx_L3:;
 
-  /* "plexsim/models/bornholdt.pyx":61
+  /* "plexsim/models/bornholdt.pyx":89
  *     def system_mag(self):
  *         return self._system_mag
  *     @system_mag.setter             # <<<<<<<<<<<<<<
@@ -5274,7 +5277,7 @@ static int __pyx_pf_7plexsim_6models_9bornholdt_9Bornholdt_10system_mag_2__set__
   return __pyx_r;
 }
 
-/* "plexsim/models/bornholdt.pyx":73
+/* "plexsim/models/bornholdt.pyx":101
  *         else:
  *             raise ValueError("Input not recognized")
  *     @property             # <<<<<<<<<<<<<<
@@ -5305,7 +5308,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9bornholdt_9Bornholdt_5alpha___get__(
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/bornholdt.pyx":78
+  /* "plexsim/models/bornholdt.pyx":106
  *         Global coupling constant
  *         """
  *         return self._alpha             # <<<<<<<<<<<<<<
@@ -5313,13 +5316,13 @@ static PyObject *__pyx_pf_7plexsim_6models_9bornholdt_9Bornholdt_5alpha___get__(
  *     @alpha.setter
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_alpha); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_alpha); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/bornholdt.pyx":73
+  /* "plexsim/models/bornholdt.pyx":101
  *         else:
  *             raise ValueError("Input not recognized")
  *     @property             # <<<<<<<<<<<<<<
@@ -5338,7 +5341,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9bornholdt_9Bornholdt_5alpha___get__(
   return __pyx_r;
 }
 
-/* "plexsim/models/bornholdt.pyx":80
+/* "plexsim/models/bornholdt.pyx":108
  *         return self._alpha
  * 
  *     @alpha.setter             # <<<<<<<<<<<<<<
@@ -5369,16 +5372,16 @@ static int __pyx_pf_7plexsim_6models_9bornholdt_9Bornholdt_5alpha_2__set__(struc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "plexsim/models/bornholdt.pyx":84
+  /* "plexsim/models/bornholdt.pyx":112
  *         """Global coupling"""
  *         #TODO: add checks?
  *         self._alpha = <double> value             # <<<<<<<<<<<<<<
  * 
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 112, __pyx_L1_error)
   __pyx_v_self->_alpha = ((double)__pyx_t_1);
 
-  /* "plexsim/models/bornholdt.pyx":80
+  /* "plexsim/models/bornholdt.pyx":108
  *         return self._alpha
  * 
  *     @alpha.setter             # <<<<<<<<<<<<<<
@@ -21901,9 +21904,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 };
 /* #### Code section: cached_builtins ### */
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 18, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 24, __pyx_L1_error)
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 100, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 987, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 151, __pyx_L1_error)
@@ -21922,14 +21925,14 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "plexsim/models/bornholdt.pyx":72
+  /* "plexsim/models/bornholdt.pyx":100
  *             self._newsystem_mag_ptr = self._system_mag_ptr
  *         else:
  *             raise ValueError("Input not recognized")             # <<<<<<<<<<<<<<
  *     @property
  *     def alpha(self):
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Input_not_recognized); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Input_not_recognized); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -22316,6 +22319,16 @@ static int __Pyx_modinit_type_init_code(void) {
   #endif
   #if PY_MAJOR_VERSION < 3
   __pyx_ptype_7plexsim_6models_9bornholdt_Bornholdt->tp_print = 0;
+  #endif
+  #if CYTHON_COMPILING_IN_CPYTHON
+  {
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)__pyx_ptype_7plexsim_6models_9bornholdt_Bornholdt, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(0, 7, __pyx_L1_error)
+    if (__Pyx_IS_TYPE(wrapper, &PyWrapperDescr_Type)) {
+      __pyx_wrapperbase_7plexsim_6models_9bornholdt_9Bornholdt___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
+      __pyx_wrapperbase_7plexsim_6models_9bornholdt_9Bornholdt___init__.doc = __pyx_doc_7plexsim_6models_9bornholdt_9Bornholdt___init__;
+      ((PyWrapperDescrObject *)wrapper)->d_base = &__pyx_wrapperbase_7plexsim_6models_9bornholdt_9Bornholdt___init__;
+    }
+  }
   #endif
   if (__Pyx_SetVtable(__pyx_ptype_7plexsim_6models_9bornholdt_Bornholdt, __pyx_vtabptr_7plexsim_6models_9bornholdt_Bornholdt) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API

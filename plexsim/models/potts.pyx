@@ -28,6 +28,23 @@ cdef class Potts(Model):
                  delta       = 0, \
                  p_recomb    = None,
                  **kwargs):
+        """Kinetic q-Potts model
+
+        Implements kinetic q-Potts model on arbitrary graph.
+
+        Parameters
+        ----------
+        graph : nx.Graph or nx.DiGraph
+            Interaction structure for the spins.
+        \agentStates: np.ndarray,
+           Array giving q-states
+        \ **kwargs : dict
+            General settings (see Model).
+
+        Examples
+        --------
+        FIXME: Add docs.
+        """
 
 
         super(Potts, self).__init__(\
@@ -45,6 +62,18 @@ cdef class Potts(Model):
         self._delta  = delta
 
     cpdef np.ndarray node_energy(self, state_t[::1] states):
+        """" Computes  average by  degree of node  energy of
+        all nodes given a system state.
+
+        Parameters
+        ==========
+        states: memoryview doubles
+              1D vector of spin states
+
+        Returns
+        =======
+        Returns node energy of all nodes given :states:
+        """
         cdef:
             np.ndarray energies = np.zeros(self.adj._nNodes)
             state_t* ptr = self._states
@@ -67,6 +96,19 @@ cdef class Potts(Model):
         return energies
 
     cpdef vector[double] siteEnergy(self, state_t[::1] states):
+        """ Computes raw site energy of nodes given a system state
+
+        Parameters
+        ==========
+
+        states: memory view of spin states
+            1D vector of size number of spins indicating the system state
+        for which to compute the site energy.
+
+        Returns
+        =======
+        Returns the raw site energy per spin in the system given :states:
+        """
         cdef:
             vector[double] siteEnergy = vector[double](self.adj._nNodes)
             int node
@@ -86,7 +128,19 @@ cdef class Potts(Model):
     # cdef vector[double] _energy(self, node_id_t node) nogil:
 
     cdef double _energy(self, node_id_t node) nogil:
-        """
+        """Computes energy of a spin
+        This function is a low-level callable only.
+
+        Parameters
+        ==========
+        node: size_t
+            Spin for which to compute the energy for
+
+
+        Returns
+        =======
+        Returns site energy of a spin
+
         """
         cdef:
             size_t neighbors = self.adj._adj[node].neighbors.size()
@@ -144,6 +198,26 @@ cdef class Potts(Model):
         return cos(2 * pi  * ( x - y ) * self._z)
 
     cdef double magnetize_(self, Model mod, size_t n, double t):
+        """ Magnetization function
+        Computes the magnetization based on the average phase of the
+        spins in the system. If al spins are aligned, the average phase is
+        1.
+
+        Note this is a low-level callable only!
+
+        Parameters
+        ==========
+        mod: Model
+           Spin system (Bornholdt/Ising or Potts)
+        n: int
+           Number of samples to use to determine the magnetization
+        t: double
+          Temperature of the spin system
+
+        Returns
+        =======
+        Average phase of the spin system
+        """
         # setup simulation
         cdef double Z = 1 / <double> self._nStates
         cdef np.ndarray results
@@ -167,13 +241,21 @@ cdef class Potts(Model):
                               ):
             """
             Computes the magnetization as a function of temperatures
-            Input:
-                  :temps: a range of temperatures
-                  :n:     number of samples to simulate for
-                  :burninSamples: number of samples to throw away before sampling
-            Returns:
-                  :temps: the temperature range as input
-                  :sus:  the magnetic susceptibility
+
+            Parameters
+            =========
+            temps: np.ndarray
+                a range of temperatures
+            \n: int
+                number of samples to simulate for
+            \burninSamples: int
+                number of samples to throw away before sampling
+
+            Returns
+            =======
+            Returns 2D matrix (2, number of temperatures). The first index (0)
+            contains the magnetization, the second index (1) contains the magnetic
+            susceptibility
             """
             #TODO: requires cleanup
             # some variables are redundant or not clear what they mean
@@ -270,6 +352,7 @@ def sigmoid(x, a, b, c, d):
 def sigmoidOpt(x, params, match):
     return np.abs( sigmoid(x, *params) - match )
 
+# deprecated
 def match_temperature(match, results, temps):
     """
     matches temperature

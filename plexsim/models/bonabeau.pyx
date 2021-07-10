@@ -15,6 +15,26 @@ cdef class Bonabeau(Model):
                  agentStates = np.array([0, 1]),\
                  eta = 1,\
                  **kwargs):
+        """Model for hierarchy formation
+
+        Parameters
+        ----------
+        graph : nx.Graph or nx.DiGraph
+            Graph   indicating    the   relationship   among
+            interacting elements.
+        \ agentStates : np.ndarray
+            List indicating the states  the agents can take.
+            Values are discrete.
+        \ eta : double
+            Coefficient for sigmoid curve
+        \ **kwargs : dict
+            Other properties  that can  be set for  the base
+            model. See Model implementation.
+
+        Examples
+        --------
+        FIXME: Add docs.
+        """
 
         super(Bonabeau, self).__init__(**locals())
         self.eta = eta
@@ -22,11 +42,7 @@ cdef class Bonabeau(Model):
         self._weight = np.zeros(self.nNodes, dtype = np.double)
 
     cdef void _step(self, node_id_t node) nogil:
-        # todo: implement
-        # move over grid
-
         # if other agent present fight with hamiltonian
-
         cdef state_t thisState = self._states[node]
         if thisState == 0:
             return

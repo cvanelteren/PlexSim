@@ -13,6 +13,22 @@ cdef class Bornholdt(Potts):
                  graph, \
                  double alpha = 1,\
                  **kwargs):
+        """Spin model for economic crashes
+
+        Implements Bornholdt model by Stefan Bornholdt 2001.
+        It is based on an Ising model with a global coupling
+        constant used to model financial crashes.
+
+        Parameters
+        ----------
+        graph : nx.Graph or nx.DiGraph
+            Interaction structure of the system.
+        \alpha : double
+            Global coupling coefficient; values larger than zero indicate an positive
+        coupling with the system, conversely lower than zero is a negative coupling.
+        \kwargs: dict,
+            Containing general settings for the base class, e.g. sampleSize, updateType etc.
+        """
 
         self.alpha = alpha
         super(Bornholdt, self).__init__(graph = graph, **kwargs)
@@ -26,6 +42,18 @@ cdef class Bornholdt(Potts):
         return influence / <double> self.adj._nNodes
     
     cdef double probability(self, state_t proposal, node_id_t node) nogil:
+        """ Computes probability of current spin given its neighborhood configuration
+        Parameters
+        ==========
+        proposal: state_t (double),
+             Current system state
+        \node_id_t: size_t
+             Node corresponding to the spin state
+
+        Returns
+        =======
+        Probability of the spin being in :proposal: state.
+        """
         cdef:
             # vector[double] probs
             double energy

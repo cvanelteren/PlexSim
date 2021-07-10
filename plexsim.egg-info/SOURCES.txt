@@ -256,6 +256,7 @@ plexsim/utils/__pycache__/__init__.cpython-39.pyc
 plexsim/utils/__pycache__/graph.cpython-39.pyc
 plexsim/utils/__pycache__/rules.cpython-39.pyc
 tests/__init__.py
+tests/bench_val.py
 tests/flight_test.webm
 tests/main
 tests/sample.png

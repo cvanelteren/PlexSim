@@ -1700,7 +1700,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset;
 
-/* "plexsim/models/base.pxd":87
+/* "plexsim/models/base.pxd":86
  * 
  * 
  *     cpdef list spawn(self, size_t n_jobs =*)             # <<<<<<<<<<<<<<
@@ -1712,7 +1712,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn {
   size_t n_jobs;
 };
 
-/* "plexsim/models/base.pxd":88
+/* "plexsim/models/base.pxd":87
  * 
  *     cpdef list spawn(self, size_t n_jobs =*)
  *     cdef SpawnVec _spawn(self, size_t nThreads=*)             # <<<<<<<<<<<<<<
@@ -1724,7 +1724,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn {
   size_t nThreads;
 };
 
-/* "plexsim/models/base.pxd":90
+/* "plexsim/models/base.pxd":89
  *     cdef SpawnVec _spawn(self, size_t nThreads=*)
  * 
  *     cpdef void reset(self, p =*)             # <<<<<<<<<<<<<<
@@ -1968,7 +1968,6 @@ static struct __pyx_vtabstruct_7plexsim_6models_7sampler_MCMC *__pyx_vtabptr_7pl
 struct __pyx_vtabstruct_7plexsim_6models_4base_Model {
   __Pyx_memviewslice (*updateState)(struct __pyx_obj_7plexsim_6models_4base_Model *, __Pyx_memviewslice, int __pyx_skip_dispatch);
   __Pyx_memviewslice (*_updateState)(struct __pyx_obj_7plexsim_6models_4base_Model *, __Pyx_memviewslice);
-  double (*rand)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
   void (*_apply_nudge)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *);
   void (*_remove_nudge)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *);
   void (*_swap_buffers)(struct __pyx_obj_7plexsim_6models_4base_Model *);
@@ -4509,11 +4508,15 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
  * cdef class Conway(Model):
  *     def __init__(self, object graph, size_t threshold = 3,             # <<<<<<<<<<<<<<
  *                  **kwargs):
- *         s = np.arange(2)
+ *         """Conway's game of life
  */
 
 /* Python wrapper */
 static int __pyx_pw_7plexsim_6models_12game_of_life_6Conway_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+PyDoc_STRVAR(__pyx_doc_7plexsim_6models_12game_of_life_6Conway___init__, "Conway's game of life\n\n        Implements  conways  game  of life  on  an  abitrary\n        network structure.\n\n        Parameters\n        ----------\n        object graph : nx.Graph, nx.DiGraph\n        size_t threshold : int\n            Threshold indicating when a  cell will survive or\n            die.  The threshold  will be  used by  comparing\n            \theta - 1 <= #alive <= theta.\n        **kwargs : dict\n            General  settings   for  the  base   model  (see\n            Model).\n\n        Examples\n        --------\n        FIXME: Add docs.\n        ");
+#if CYTHON_COMPILING_IN_CPYTHON
+struct wrapperbase __pyx_wrapperbase_7plexsim_6models_12game_of_life_6Conway___init__;
+#endif
 static int __pyx_pw_7plexsim_6models_12game_of_life_6Conway_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_graph = 0;
   size_t __pyx_v_threshold;
@@ -4609,16 +4612,16 @@ static int __pyx_pf_7plexsim_6models_12game_of_life_6Conway___init__(struct __py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "plexsim/models/game_of_life.pyx":11
- *     def __init__(self, object graph, size_t threshold = 3,
- *                  **kwargs):
+  /* "plexsim/models/game_of_life.pyx":31
+ *         FIXME: Add docs.
+ *         """
  *         s = np.arange(2)             # <<<<<<<<<<<<<<
  *         super(Conway, self).__init__(graph = graph, agentStates = s,
  *                                      **kwargs)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_arange); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_arange); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -4637,21 +4640,21 @@ static int __pyx_pf_7plexsim_6models_12game_of_life_6Conway___init__(struct __py
     PyObject *__pyx_callargs[2] = {__pyx_t_2, __pyx_int_2};
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_4, 1+__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __pyx_v_s = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "plexsim/models/game_of_life.pyx":12
- *                  **kwargs):
+  /* "plexsim/models/game_of_life.pyx":32
+ *         """
  *         s = np.arange(2)
  *         super(Conway, self).__init__(graph = graph, agentStates = s,             # <<<<<<<<<<<<<<
  *                                      **kwargs)
  *         self.threshold = threshold
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF((PyObject *)__pyx_ptype_7plexsim_6models_12game_of_life_Conway);
   __Pyx_GIVEREF((PyObject *)__pyx_ptype_7plexsim_6models_12game_of_life_Conway);
@@ -4659,51 +4662,51 @@ static int __pyx_pf_7plexsim_6models_12game_of_life_6Conway___init__(struct __py
   __Pyx_INCREF((PyObject *)__pyx_v_self);
   __Pyx_GIVEREF((PyObject *)__pyx_v_self);
   PyTuple_SET_ITEM(__pyx_t_1, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_graph, __pyx_v_graph) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_agentStates, __pyx_v_s) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_graph, __pyx_v_graph) < 0) __PYX_ERR(0, 32, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_agentStates, __pyx_v_s) < 0) __PYX_ERR(0, 32, __pyx_L1_error)
   __pyx_t_3 = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "plexsim/models/game_of_life.pyx":13
+  /* "plexsim/models/game_of_life.pyx":33
  *         s = np.arange(2)
  *         super(Conway, self).__init__(graph = graph, agentStates = s,
  *                                      **kwargs)             # <<<<<<<<<<<<<<
  *         self.threshold = threshold
- *     @property
+ * 
  */
-  if (__Pyx_MergeKeywords(__pyx_t_3, __pyx_v_kwargs) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
+  if (__Pyx_MergeKeywords(__pyx_t_3, __pyx_v_kwargs) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
 
-  /* "plexsim/models/game_of_life.pyx":12
- *                  **kwargs):
+  /* "plexsim/models/game_of_life.pyx":32
+ *         """
  *         s = np.arange(2)
  *         super(Conway, self).__init__(graph = graph, agentStates = s,             # <<<<<<<<<<<<<<
  *                                      **kwargs)
  *         self.threshold = threshold
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "plexsim/models/game_of_life.pyx":14
+  /* "plexsim/models/game_of_life.pyx":34
  *         super(Conway, self).__init__(graph = graph, agentStates = s,
  *                                      **kwargs)
  *         self.threshold = threshold             # <<<<<<<<<<<<<<
+ * 
  *     @property
- *     def threshold(self):
  */
-  __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_threshold); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_threshold); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_threshold, __pyx_t_2) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_threshold, __pyx_t_2) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "plexsim/models/game_of_life.pyx":9
@@ -4711,7 +4714,7 @@ static int __pyx_pf_7plexsim_6models_12game_of_life_6Conway___init__(struct __py
  * cdef class Conway(Model):
  *     def __init__(self, object graph, size_t threshold = 3,             # <<<<<<<<<<<<<<
  *                  **kwargs):
- *         s = np.arange(2)
+ *         """Conway's game of life
  */
 
   /* function exit code */
@@ -4729,9 +4732,9 @@ static int __pyx_pf_7plexsim_6models_12game_of_life_6Conway___init__(struct __py
   return __pyx_r;
 }
 
-/* "plexsim/models/game_of_life.pyx":15
- *                                      **kwargs)
+/* "plexsim/models/game_of_life.pyx":36
  *         self.threshold = threshold
+ * 
  *     @property             # <<<<<<<<<<<<<<
  *     def threshold(self):
  *         return self._treshold
@@ -4760,7 +4763,7 @@ static PyObject *__pyx_pf_7plexsim_6models_12game_of_life_6Conway_9threshold___g
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/game_of_life.pyx":17
+  /* "plexsim/models/game_of_life.pyx":38
  *     @property
  *     def threshold(self):
  *         return self._treshold             # <<<<<<<<<<<<<<
@@ -4768,15 +4771,15 @@ static PyObject *__pyx_pf_7plexsim_6models_12game_of_life_6Conway_9threshold___g
  *     def threshold(self, value):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_treshold); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_treshold); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/game_of_life.pyx":15
- *                                      **kwargs)
+  /* "plexsim/models/game_of_life.pyx":36
  *         self.threshold = threshold
+ * 
  *     @property             # <<<<<<<<<<<<<<
  *     def threshold(self):
  *         return self._treshold
@@ -4793,12 +4796,12 @@ static PyObject *__pyx_pf_7plexsim_6models_12game_of_life_6Conway_9threshold___g
   return __pyx_r;
 }
 
-/* "plexsim/models/game_of_life.pyx":18
+/* "plexsim/models/game_of_life.pyx":39
  *     def threshold(self):
  *         return self._treshold
  *     @threshold.setter             # <<<<<<<<<<<<<<
  *     def threshold(self, value):
- *         self._threshold = value
+ *        self._threshold = value
  */
 
 /* Python wrapper */
@@ -4824,22 +4827,22 @@ static int __pyx_pf_7plexsim_6models_12game_of_life_6Conway_9threshold_2__set__(
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "plexsim/models/game_of_life.pyx":20
+  /* "plexsim/models/game_of_life.pyx":41
  *     @threshold.setter
  *     def threshold(self, value):
- *         self._threshold = value             # <<<<<<<<<<<<<<
+ *        self._threshold = value             # <<<<<<<<<<<<<<
  * 
  *     cdef void _step(self, node_id_t node) nogil:
  */
-  __pyx_t_1 = __Pyx_PyInt_As_size_t(__pyx_v_value); if (unlikely((__pyx_t_1 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_size_t(__pyx_v_value); if (unlikely((__pyx_t_1 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 41, __pyx_L1_error)
   __pyx_v_self->_threshold = __pyx_t_1;
 
-  /* "plexsim/models/game_of_life.pyx":18
+  /* "plexsim/models/game_of_life.pyx":39
  *     def threshold(self):
  *         return self._treshold
  *     @threshold.setter             # <<<<<<<<<<<<<<
  *     def threshold(self, value):
- *         self._threshold = value
+ *        self._threshold = value
  */
 
   /* function exit code */
@@ -4853,8 +4856,8 @@ static int __pyx_pf_7plexsim_6models_12game_of_life_6Conway_9threshold_2__set__(
   return __pyx_r;
 }
 
-/* "plexsim/models/game_of_life.pyx":22
- *         self._threshold = value
+/* "plexsim/models/game_of_life.pyx":43
+ *        self._threshold = value
  * 
  *     cdef void _step(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
  *         it = self.adj._adj[node].neighbors.begin()
@@ -4867,7 +4870,7 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
   int __pyx_t_1;
   int __pyx_t_2;
 
-  /* "plexsim/models/game_of_life.pyx":23
+  /* "plexsim/models/game_of_life.pyx":44
  * 
  *     cdef void _step(self, node_id_t node) nogil:
  *         it = self.adj._adj[node].neighbors.begin()             # <<<<<<<<<<<<<<
@@ -4876,7 +4879,7 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
  */
   __pyx_v_it = (__pyx_v_self->__pyx_base.adj->_adj[__pyx_v_node]).neighbors.begin();
 
-  /* "plexsim/models/game_of_life.pyx":24
+  /* "plexsim/models/game_of_life.pyx":45
  *     cdef void _step(self, node_id_t node) nogil:
  *         it = self.adj._adj[node].neighbors.begin()
  *         cdef state_t counter = 0 # float             # <<<<<<<<<<<<<<
@@ -4885,7 +4888,7 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
  */
   __pyx_v_counter = 0.0;
 
-  /* "plexsim/models/game_of_life.pyx":25
+  /* "plexsim/models/game_of_life.pyx":46
  *         it = self.adj._adj[node].neighbors.begin()
  *         cdef state_t counter = 0 # float
  *         while it != self.adj._adj[node].neighbors.end():             # <<<<<<<<<<<<<<
@@ -4896,7 +4899,7 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
     __pyx_t_1 = ((__pyx_v_it != (__pyx_v_self->__pyx_base.adj->_adj[__pyx_v_node]).neighbors.end()) != 0);
     if (!__pyx_t_1) break;
 
-    /* "plexsim/models/game_of_life.pyx":26
+    /* "plexsim/models/game_of_life.pyx":47
  *         cdef state_t counter = 0 # float
  *         while it != self.adj._adj[node].neighbors.end():
  *             counter += self._states[deref(it).first]             # <<<<<<<<<<<<<<
@@ -4905,7 +4908,7 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
  */
     __pyx_v_counter = (__pyx_v_counter + (__pyx_v_self->__pyx_base._states[(*__pyx_v_it).first]));
 
-    /* "plexsim/models/game_of_life.pyx":27
+    /* "plexsim/models/game_of_life.pyx":48
  *         while it != self.adj._adj[node].neighbors.end():
  *             counter += self._states[deref(it).first]
  *             post(it)             # <<<<<<<<<<<<<<
@@ -4915,7 +4918,7 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
     (void)((__pyx_v_it++));
   }
 
-  /* "plexsim/models/game_of_life.pyx":29
+  /* "plexsim/models/game_of_life.pyx":50
  *             post(it)
  *         # deal with alive nodes
  *         if self._states[node] == 1:             # <<<<<<<<<<<<<<
@@ -4925,7 +4928,7 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
   __pyx_t_1 = (((__pyx_v_self->__pyx_base._states[__pyx_v_node]) == 1.0) != 0);
   if (__pyx_t_1) {
 
-    /* "plexsim/models/game_of_life.pyx":31
+    /* "plexsim/models/game_of_life.pyx":52
  *         if self._states[node] == 1:
  *             # goldey lock zone
  *             if self._threshold-1 <= counter <= self._threshold:             # <<<<<<<<<<<<<<
@@ -4939,7 +4942,7 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
     __pyx_t_2 = (__pyx_t_1 != 0);
     if (__pyx_t_2) {
 
-      /* "plexsim/models/game_of_life.pyx":32
+      /* "plexsim/models/game_of_life.pyx":53
  *             # goldey lock zone
  *             if self._threshold-1 <= counter <= self._threshold:
  *                 self._newstates[node] = 1             # <<<<<<<<<<<<<<
@@ -4948,7 +4951,7 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
  */
       (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = 1.0;
 
-      /* "plexsim/models/game_of_life.pyx":31
+      /* "plexsim/models/game_of_life.pyx":52
  *         if self._states[node] == 1:
  *             # goldey lock zone
  *             if self._threshold-1 <= counter <= self._threshold:             # <<<<<<<<<<<<<<
@@ -4958,7 +4961,7 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
       goto __pyx_L6;
     }
 
-    /* "plexsim/models/game_of_life.pyx":35
+    /* "plexsim/models/game_of_life.pyx":56
  *             # overpopulation or underpopulatoin
  *             else:
  *                 self._newstates[node] = 0             # <<<<<<<<<<<<<<
@@ -4970,7 +4973,7 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
     }
     __pyx_L6:;
 
-    /* "plexsim/models/game_of_life.pyx":29
+    /* "plexsim/models/game_of_life.pyx":50
  *             post(it)
  *         # deal with alive nodes
  *         if self._states[node] == 1:             # <<<<<<<<<<<<<<
@@ -4980,7 +4983,7 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
     goto __pyx_L5;
   }
 
-  /* "plexsim/models/game_of_life.pyx":39
+  /* "plexsim/models/game_of_life.pyx":60
  *         else:
  *             # expansion
  *             if counter == self._threshold:             # <<<<<<<<<<<<<<
@@ -4991,7 +4994,7 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
     __pyx_t_2 = ((__pyx_v_counter == __pyx_v_self->_threshold) != 0);
     if (__pyx_t_2) {
 
-      /* "plexsim/models/game_of_life.pyx":40
+      /* "plexsim/models/game_of_life.pyx":61
  *             # expansion
  *             if counter == self._threshold:
  *                 self._newstates[node] = 1             # <<<<<<<<<<<<<<
@@ -4999,7 +5002,7 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
  */
       (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = 1.0;
 
-      /* "plexsim/models/game_of_life.pyx":39
+      /* "plexsim/models/game_of_life.pyx":60
  *         else:
  *             # expansion
  *             if counter == self._threshold:             # <<<<<<<<<<<<<<
@@ -5010,8 +5013,8 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
   }
   __pyx_L5:;
 
-  /* "plexsim/models/game_of_life.pyx":22
- *         self._threshold = value
+  /* "plexsim/models/game_of_life.pyx":43
+ *        self._threshold = value
  * 
  *     cdef void _step(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
  *         it = self.adj._adj[node].neighbors.begin()
@@ -21502,7 +21505,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 };
 /* #### Code section: cached_builtins ### */
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 32, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 987, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 136, __pyx_L1_error)
@@ -21901,6 +21904,16 @@ static int __Pyx_modinit_type_init_code(void) {
   #endif
   #if PY_MAJOR_VERSION < 3
   __pyx_ptype_7plexsim_6models_12game_of_life_Conway->tp_print = 0;
+  #endif
+  #if CYTHON_COMPILING_IN_CPYTHON
+  {
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)__pyx_ptype_7plexsim_6models_12game_of_life_Conway, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(0, 8, __pyx_L1_error)
+    if (__Pyx_IS_TYPE(wrapper, &PyWrapperDescr_Type)) {
+      __pyx_wrapperbase_7plexsim_6models_12game_of_life_6Conway___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
+      __pyx_wrapperbase_7plexsim_6models_12game_of_life_6Conway___init__.doc = __pyx_doc_7plexsim_6models_12game_of_life_6Conway___init__;
+      ((PyWrapperDescrObject *)wrapper)->d_base = &__pyx_wrapperbase_7plexsim_6models_12game_of_life_6Conway___init__;
+    }
+  }
   #endif
   if (__Pyx_SetVtable(__pyx_ptype_7plexsim_6models_12game_of_life_Conway, __pyx_vtabptr_7plexsim_6models_12game_of_life_Conway) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API

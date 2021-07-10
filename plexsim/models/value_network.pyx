@@ -20,6 +20,32 @@ cdef class ValueNetwork(Potts):
                  agentStates = np.arange(0, 2, dtype = np.double),
                  **kwargs
                  ):
+        """Model for studying value network
+
+        Novel computational  model developed by  van Elteren
+        (2021) for studying value networks.
+
+        Parameters
+        ----------
+        graph : nx.Graph or nx.DiGraph
+            Interaction structure of the system
+        rules : nx.Graph or nx.DiGraph
+            Role-role interaction structure
+        t : double
+            Noise level of the system
+        bounded_rational : int
+            Bounded  rationality  implementation;  indicates
+            how far an agent is affected in the network.
+        agentStates : np.ndarray
+            Role labels
+        **kwargs : dict
+            General model settings (see Model)
+
+        Examples
+        --------
+        FIXME: Add docs.
+
+        """
         super(ValueNetwork, self).__init__(graph = graph,
                                      agentStates = agentStates,
                                      rules = rules,
@@ -61,6 +87,24 @@ cdef class ValueNetwork(Potts):
         return siteEnergy
 
     cdef double  magnetize_(self, Model mod, size_t n, double t):
+        """ Custom magnetization function
+
+        Computed average number  of completed value networks
+        for a given temperature.
+
+        Parameters
+        ==========
+        mod: Model of type ValueNetwork
+
+        \n: int
+            Number of samples to take.
+        \t: double
+            temperature(noise) of the system.
+
+        Returns
+        =======
+        Number of completed value networks
+        """
         # setup simulation
         cdef double Z = 1 / <double> self._nStates
         mod.t         =  t
@@ -80,29 +124,23 @@ cdef class ValueNetwork(Potts):
     def pat(self):
         return self.paths
 
-    cpdef bint check_doubles(self, list path, list results, bint verbose = False):
-        """
-        Don't allow for double edges
-        Adds path inplace if it does not occur in results
-        """
-        add = True
-        if path:
-            for r in results[0]:
-                if all([True if i in r or i[::-1] in r else False for i in path]):
-                    add = False
-                    break
-
-            if add:
-                if verbose:
-                    print(f"adding {path} to {results[0]}")
-                results[0].append(path.copy())
-        return add
-
     cdef bint _check_endpoint(self, state_t current_state, Crawler *crawler) nogil:
         """"
-        Checks the endpoint of the value network
-        @param: current_state, double state of the edge looking towards its neighbors
-        @param: crawler, crawler_t, crawler object (see header)
+        Checks endpoint of the role space
+
+        Parameters
+        ==========
+        current_state: state_t
+            Checks  for the  current edge  state whether  it
+            could in principle complete the value network
+        \crawler: pointer to crawler object
+            Holds the paths, completed value networks and possible paths(see cpp implementation)
+
+        Returns
+        =======
+        Bool value whether the current state is an endpoint.
+        True if it is and endpoint, False otherwise.
+
         """
         # update paths
         cdef size_t idx
@@ -142,6 +180,22 @@ cdef class ValueNetwork(Potts):
 
 
     cpdef list check_df(self, node_id_t start, bint verbose = False):
+        """ Computes completed value networks
+
+        Recursively checks for a node in the current system state
+        the number of completed value networks.
+
+        Parameters
+        ==========
+        start: node_id_t
+            Node label which to check the completed value networks for.
+        verbose: bool (default False)
+            For debugging.
+
+        Returns
+        =======
+        List of paths from the node that completes the value networks
+        """
         cdef Crawler *crawler = new Crawler(start,
                                         self._states[start],
                                         self._bounded_rational,
@@ -170,15 +224,23 @@ cdef class ValueNetwork(Potts):
         return results
 
     cdef Crawler* _check_df(self, Crawler *crawler) nogil:
-        """
+        """  Low level callable for check_df
+        The function works recursively via a depth-first search approach.
+
+        In order to check the completed value networks one must:
+         steps:
+            1. check end points
+            2. check neighbors
+            3. check branch
+            4. check merge
+
         Parameters
+        ==========
+        *crawler: pointer to crawler object
 
-           # steps:
-           # 1. check end points
-           # 2. check neighbors
-           # 3. check branch
-           # 4. check merge
-
+        Returns
+        =======
+        *crawler: pointer to crawler object
         """
         cdef EdgeColor current_edge
         cdef EdgeColor *proposal_edge = new EdgeColor()
@@ -314,7 +376,7 @@ cdef class ValueNetwork(Potts):
 
 
     cdef double _energy(self, node_id_t node) nogil:
-        """
+        """ Computed the local energy of a node
         """
         cdef:
             size_t neighbors = self.adj._adj[node].neighbors.size()
@@ -374,6 +436,8 @@ cdef class ValueNetwork(Potts):
 
 
     cdef double probability(self, state_t state, node_id_t node) nogil:
+        """ See base model
+        """
         cdef state_t tmp = self._states[node]
         self._states[node] = state
         cdef:
@@ -385,6 +449,12 @@ cdef class ValueNetwork(Potts):
 
     # default update TODO remove this
     cdef double _hamiltonian(self, state_t x, state_t  y) nogil:
+        """ Node Hamiltonian based on Potts model
+        The Hamiltonian is not used if a rule exists, i.e. if
+        a rule exists between two spin states this method is skipped.
+        This function serves as a fallback function in case partial
+        rules are used.
+        """
         return cos(2 * pi  * ( x - y ) * self._z)
 
     cdef void _step(self, node_id_t node) nogil:

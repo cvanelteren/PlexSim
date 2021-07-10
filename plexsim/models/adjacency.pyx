@@ -8,7 +8,6 @@ cdef class Adjacency:
         :nx.Graph or nx.DiGraph: graph
    """
    def __init__(self, object graph):
-
         # check if graph has weights or states assigned and or nudges
         # note does not check all combinations
         # input validation / construct adj lists

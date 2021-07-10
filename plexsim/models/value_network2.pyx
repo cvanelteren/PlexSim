@@ -156,11 +156,13 @@ cdef class ValueNetwork(Potts):
         """
         # update paths
         fail = True
-        for ss in  self.rules.neighbors(s):
-            if self._rules._adj[s][ss] > 0:
-                if [s, ss] not in vp_path:
-                    fail = False
-        # print(f"Failing {fail} {s} {list(m.rules.neighbors(s))} {vp_path}")
+        it = self._rules._adj[s].begin()
+        while it != self._rules._adj[s].end():
+            if deref(it).second > 0:
+                if [s, deref(it).first] not in vp_path:
+                        fail = False
+            post(it)
+               # print(f"Failing {fail} {s} {list(m.rules.neighbors(s))} {vp_path}")
         return fail
 
     cpdef bint _traverse(self, list proposal, list option):
@@ -202,7 +204,6 @@ cdef class ValueNetwork(Potts):
 
 
     cpdef list check_df(self, node_id_t start, bint verbose = False):
-        print(start)
         cdef list queue = [(start, start)]
         return self._check_df(queue, path = [], vp_path = [],
                               results = [[], []], verbose = verbose)
@@ -275,7 +276,7 @@ cdef class ValueNetwork(Potts):
                     if verbose: print("found node already in path (cycle)")
                     continue
                 # check if branch is valid
-                if self.rules[s][ss]['weight'] <= 0:
+                if self._rules._adj[s][ss] <= 0:
                     if verbose: print('negative weight')
                     continue
                 # construct proposals
@@ -313,7 +314,7 @@ cdef class ValueNetwork(Potts):
                     [ sorted([self.states[from_node], self.states[current]]) ]
                     ]
 
-            if self.rules[option[1][0][0]][option[1][0][1]]['weight'] > 0:
+            if self._rules._adj[option[1][0][0]][option[1][0][1]] > 0:
                 # self.check_traversal(option[0], results[1],
                                      # verbose)
                 if option not in results[1]:

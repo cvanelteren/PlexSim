@@ -8,16 +8,37 @@ import numpy as np
 cdef class Conway(Model):
     def __init__(self, object graph, size_t threshold = 3,
                  **kwargs):
+        """Conway's game of life
+
+        Implements  conways  game  of life  on  an  abitrary
+        network structure.
+
+        Parameters
+        ----------
+        object graph : nx.Graph, nx.DiGraph
+        size_t threshold : int
+            Threshold indicating when a  cell will survive or
+            die.  The threshold  will be  used by  comparing
+            \theta - 1 <= #alive <= theta.
+        **kwargs : dict
+            General  settings   for  the  base   model  (see
+            Model).
+
+        Examples
+        --------
+        FIXME: Add docs.
+        """
         s = np.arange(2)
         super(Conway, self).__init__(graph = graph, agentStates = s,
                                      **kwargs)
         self.threshold = threshold
+
     @property
     def threshold(self):
         return self._treshold
     @threshold.setter
     def threshold(self, value):
-        self._threshold = value
+       self._threshold = value
 
     cdef void _step(self, node_id_t node) nogil:
         it = self.adj._adj[node].neighbors.begin()

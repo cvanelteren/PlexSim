@@ -28,38 +28,6 @@ cdef extern from "math.h":
 
 # cdef public class Model [object PyModel, type PyModel_t]:
 cdef class Model:
-    """
-    Base type for all models. This should hold all the minimial required information for building a model.
-    Should not be instantiated directly
-
-    :param \
-                        graph: Structure of the system. :type: nx.Graph
-    :param \
-                        agentStates:  np.ndarray containing possible states agent can assume, defaults to np.array([0, 1]).
-    :param \
-                        nudgeType:  allow nudging of node states, defaults to 'constant'
-    :param \
-            updateType: 'async' or  'sync'. Async is equivalent to :sampleSize;
-                        glauber   updates.  In   contrast,   'async'  has   two
-                        "indepdendent" buffers. The two variants can have effect
-                        your simulation results. Defaults to 'async'
-    :param \
-                        nudges:  dict containing which nodes to nudge; keys can be tuples,  values are floats.
-    :param \
-                        seed: random number generator seed, defaults to  current time
-    :param \
-                        memorySize: size of memory to consider, defaults to 0.
-    :param \
-                        kNudges:  
-    :param \
-                        memento:  exponential decay rate of memerory effect.
-    :param\
-                    p_recomb: ignore
-    :param \
-                        rules:  ignore 
-    :param \
-                        **kwargs:  Ignore
-    """
     def __init__(self,\
                  graph       = nx.path_graph(1),\
                  agentStates = np.array([0], dtype = np.int),\
@@ -74,6 +42,40 @@ cdef class Model:
                  rules       = nx.Graph(),\
                  **kwargs,\
                  ):
+        """Base class for all modeling classes
+
+        Parameters
+        ----------
+        \ graph : nx.Graph or nx.DiGraph
+            Network structure  indicating relationship among
+            elements of the complex system
+        \ agentStates : np.ndarray
+            Discrete states that the agents can take
+        \ nudgeType : str
+            Type of nudging being used. Can be "constant" or
+            "single".
+        \ updateType : str
+            Update type  of elements of the  complex system.
+            Either "sync"  or "async" (default).  The "sync"
+            options has two independent buffers in which the
+            results  are written.  The "async"  options will
+            have no independent buffers.
+        \ nudges : dict
+            Nudge applied to a certain variable
+        \ seed : int
+            Seed for random number generator.
+        \ memorySize : int
+            Size of the memory of the system. Defaults to 0.
+        \ kNudges : int
+            Deprecated.
+        \ memento : int
+            Deprecated
+        \ p_recomb : float
+            Recombination rate of the genetic algorithm. Values are within 0, 1 (defaults to zero).
+            Non-zero values will activate the genetic algorithm.
+        \ rules: nx.Graph or nx.DiGraph
+            Network structure for rules. Only used for Value networks. Defaults to empty (not used).
+        """
 
         # use current time as seed for rng
         self._rng = RandomGenerator(seed = seed)
@@ -119,19 +121,15 @@ cdef class Model:
         self.ptr = <PyObject*> self
        
 
-    cpdef double rand(self, size_t n):
-        """
-        draw random number [0, 1]
-        """
-        for i in range(n):
-            self._rng.rand()
-        return 0.
-
     cdef state_t[::1]  _updateState(self, node_id_t[::1] nodesToUpdate) nogil:
+        """Efficient cython update state. Only callable from cython mode.
+
+        Parameters
+        ----------
+        node_id_t: size_t memory view
+            series of node to update
         """
-        :param nodesToTupdate: list containing node ids to update
-        returns: new system state 
-        """
+
         cdef NudgesBackup* backup = new NudgesBackup()
         # updating nodes
         cdef node_id_t node
@@ -284,12 +282,27 @@ cdef class Model:
         return self._sampleNodes(nSamples)
 
     cdef node_id_t[:, ::1] _sampleNodes(self, size_t  nSamples) nogil:
-        # cdef size_t [:, ::1] sampleNodes(self, size_t  nSamples):
-        """
+        """Generates random nodes to update
+
         Shuffles nodeids only when the current sample is larger
         than the shuffled array
         N.B. nodeids are mutable
+
+        Parameters
+        ----------
+        size_t nSamples: size_t
+            Number of samples to draw
+
+        Returns
+        -------
+        memory view of ints of size :sampleSize:
+
+        Examples
+        --------
+        FIXME: Add docs.
+
         """
+
         # check the amount of samples to get
         cdef:
             size_t sampleSize = self._sampleSize
@@ -343,11 +356,22 @@ cdef class Model:
         self._nudges.clear()
 
     cpdef np.ndarray simulate(self, size_t samples):
-        """"
-        :param samples: number of samples to simulate
-        :type: int 
-        returns:
-            np.ndarray containing the system states to simulate 
+        """Wrapper for simulating the system
+
+        Parameters
+        ----------
+        size_t samples : int
+            int
+
+        Returns
+        -------
+        np.ndarray
+            np.ndarray of size (time_steps, nodes)
+
+        Examples
+        --------
+        FIXME: Add docs.
+
         """
         cdef:
             state_t[:, ::1] results = np.zeros((samples, self.adj._nNodes), dtype = np.double)
@@ -383,6 +407,7 @@ cdef class Model:
 
     cdef void _hebbianUpdate(self):
         """
+        FIXME: not implemented
         Hebbian learning rule that will strengthen similar
         connections and weaken dissimilar connections
 
@@ -395,6 +420,7 @@ cdef class Model:
 
     cdef double _learningFunction(self, node_id_t xi, node_id_t xj):
         """
+        FIXME: not implemented
         From Ito & Kaneko 2002
         """
         return 1 - 2 * (xi - xj)
@@ -407,13 +433,19 @@ cdef class Model:
     #####
     @property
     def rules(self):
+        """Returns the rule graph as a networkx object
+        """
         return self._rules.graph
     @property
     def p_recomb(self):
+        """Returns the recombination probability
+        """
         return self._mcmc._p_recomb
 
     @p_recomb.setter
     def p_recomb(self, value):
+        """Sets the recombination probability
+        """
         assert  0 <= value <= 1
         self._mcmc._p_recomb = value
     @property
@@ -478,6 +510,9 @@ cdef class Model:
 
     @property
     def adj(self):
+        """
+        Returns the adjacency class
+        """
         return self.adj
 
     @property
@@ -628,7 +663,7 @@ cdef class Model:
             for node in range(self.adj._nNodes):
                 self._states[node] = <state_t> value
 
-    def get_settings(self):
+    def get_settings(self) -> dict:
         """
         Warning this function may cause bugs
         The model properties have to be copied without being overly verbose
@@ -646,12 +681,12 @@ cdef class Model:
                     pass
         return kwargs
 
-    def __reduce__(self):
+    def __reduce__(self) -> tuple:
         return rebuild, (self.__class__, self.get_settings())
         # return self.__class__(**self.get_settings())
         #return rebuild, (self.__class__, kwargs)
 
-    def __deepcopy__(self, memo = {}):
+    def __deepcopy__(self, memo = {}) -> Model:
         if len(memo) == 0:
             memo = self.get_settings()
         return self.__class__(**memo)
@@ -659,6 +694,17 @@ cdef class Model:
 
     # tmp for testing the parallezation
     cpdef list spawn(self, size_t n_jobs = openmp.omp_get_num_threads()):
+        """ Creates vector of copies of the model
+        Wraps _spawn method.
+        Parameters
+        ==========
+        n_jobs: int,
+            Number of copies to make
+        Returns
+        =======
+        list of copies of the model. Note that each thread will generate a different seed;
+        the seed will be increased by the thread id.
+        """
         cdef SpawnVec models_ = self._spawn(n_jobs)
         models = []
         for thread in range(n_jobs):
@@ -666,8 +712,15 @@ cdef class Model:
         return models
 
     cdef SpawnVec _spawn(self, size_t nThreads = openmp.omp_get_num_threads()):
-        """
-        Spawn independent models
+        """ Cython callable low-level function for generating copies of the model
+        Parameters
+        ==========
+        n_jobs: int,
+            Number of copies to make
+        Returns
+        =======
+        list of copies of the model. Note that each thread will generate a different seed;
+        the seed will be increased by the thread id.
         """
         cdef:
             int tid
@@ -690,14 +743,39 @@ cdef class Model:
                             state_t state,  \
                             node_id_t node\
                             ) nogil:
+        """ computed the probability of the current state
+        Note: needs to be implemented by inhereted class.
+        Parameters
+        ==========
+        state: state_t (double),
+            Current state for which to compute the probability for
+        node: node_id (unsigned int),
+            node for which to compute the probability for
+        """
         return 1.
 
 
-    def __eq__(self, other):
-        """
-        Simple comparison check
-        Check all the properties the model and
-        check whether they are the same
+    def __eq__(self, other : Model) ->bool:
+        """Comparison for Model base
+
+        Checks whether the implemented classes have the same
+        properties.
+
+        Parameters
+        ----------
+        other : Model
+            Model implementation (can be child class).
+
+        Returns
+        -------
+        bool
+            returns  true  if  class   is  the  same,  false
+            otherwise.
+
+        Examples
+        --------
+        FIXME: Add docs.
+
         """
         #TODO: this is likely to break in the future
 

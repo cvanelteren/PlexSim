@@ -1701,7 +1701,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset;
 
-/* "plexsim/models/base.pxd":87
+/* "plexsim/models/base.pxd":86
  * 
  * 
  *     cpdef list spawn(self, size_t n_jobs =*)             # <<<<<<<<<<<<<<
@@ -1713,7 +1713,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn {
   size_t n_jobs;
 };
 
-/* "plexsim/models/base.pxd":88
+/* "plexsim/models/base.pxd":87
  * 
  *     cpdef list spawn(self, size_t n_jobs =*)
  *     cdef SpawnVec _spawn(self, size_t nThreads=*)             # <<<<<<<<<<<<<<
@@ -1725,7 +1725,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn {
   size_t nThreads;
 };
 
-/* "plexsim/models/base.pxd":90
+/* "plexsim/models/base.pxd":89
  *     cdef SpawnVec _spawn(self, size_t nThreads=*)
  * 
  *     cpdef void reset(self, p =*)             # <<<<<<<<<<<<<<
@@ -1971,7 +1971,6 @@ static struct __pyx_vtabstruct_7plexsim_6models_7sampler_MCMC *__pyx_vtabptr_7pl
 struct __pyx_vtabstruct_7plexsim_6models_4base_Model {
   __Pyx_memviewslice (*updateState)(struct __pyx_obj_7plexsim_6models_4base_Model *, __Pyx_memviewslice, int __pyx_skip_dispatch);
   __Pyx_memviewslice (*_updateState)(struct __pyx_obj_7plexsim_6models_4base_Model *, __Pyx_memviewslice);
-  double (*rand)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
   void (*_apply_nudge)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *);
   void (*_remove_nudge)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *);
   void (*_swap_buffers)(struct __pyx_obj_7plexsim_6models_4base_Model *);
@@ -4546,6 +4545,10 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 
 /* Python wrapper */
 static int __pyx_pw_7plexsim_6models_8bonabeau_8Bonabeau_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+PyDoc_STRVAR(__pyx_doc_7plexsim_6models_8bonabeau_8Bonabeau___init__, "Model for hierarchy formation\n\n        Parameters\n        ----------\n        graph : nx.Graph or nx.DiGraph\n            Graph   indicating    the   relationship   among\n            interacting elements.\n        \\ agentStates : np.ndarray\n            List indicating the states  the agents can take.\n            Values are discrete.\n        \\ eta : double\n            Coefficient for sigmoid curve\n        \\ **kwargs : dict\n            Other properties  that can  be set for  the base\n            model. See Model implementation.\n\n        Examples\n        --------\n        FIXME: Add docs.\n        ");
+#if CYTHON_COMPILING_IN_CPYTHON
+struct wrapperbase __pyx_wrapperbase_7plexsim_6models_8bonabeau_8Bonabeau___init__;
+#endif
 static int __pyx_pw_7plexsim_6models_8bonabeau_8Bonabeau_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_graph = 0;
   PyObject *__pyx_v_agentStates = 0;
@@ -4653,14 +4656,14 @@ static int __pyx_pf_7plexsim_6models_8bonabeau_8Bonabeau___init__(struct __pyx_o
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "plexsim/models/bonabeau.pyx":19
- *                  **kwargs):
+  /* "plexsim/models/bonabeau.pyx":39
+ *         """
  * 
  *         super(Bonabeau, self).__init__(**locals())             # <<<<<<<<<<<<<<
  *         self.eta = eta
  * 
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF((PyObject *)__pyx_ptype_7plexsim_6models_8bonabeau_Bonabeau);
   __Pyx_GIVEREF((PyObject *)__pyx_ptype_7plexsim_6models_8bonabeau_Bonabeau);
@@ -4668,80 +4671,80 @@ static int __pyx_pf_7plexsim_6models_8bonabeau_8Bonabeau___init__(struct __pyx_o
   __Pyx_INCREF((PyObject *)__pyx_v_self);
   __Pyx_GIVEREF((PyObject *)__pyx_v_self);
   PyTuple_SET_ITEM(__pyx_t_1, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   if (__pyx_v_agentStates) {
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_agentStates, __pyx_v_agentStates) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_agentStates, __pyx_v_agentStates) < 0) __PYX_ERR(0, 39, __pyx_L1_error)
   }
   if (__pyx_v_eta) {
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_eta, __pyx_v_eta) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_eta, __pyx_v_eta) < 0) __PYX_ERR(0, 39, __pyx_L1_error)
   }
   if (__pyx_v_graph) {
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_graph, __pyx_v_graph) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_graph, __pyx_v_graph) < 0) __PYX_ERR(0, 39, __pyx_L1_error)
   }
   if (__pyx_v_kwargs) {
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_kwargs, __pyx_v_kwargs) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_kwargs, __pyx_v_kwargs) < 0) __PYX_ERR(0, 39, __pyx_L1_error)
   }
   if (((PyObject *)__pyx_v_self)) {
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_self, ((PyObject *)__pyx_v_self)) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_self, ((PyObject *)__pyx_v_self)) < 0) __PYX_ERR(0, 39, __pyx_L1_error)
   }
   __pyx_t_2 = __pyx_t_3;
   __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "plexsim/models/bonabeau.pyx":20
+  /* "plexsim/models/bonabeau.pyx":40
  * 
  *         super(Bonabeau, self).__init__(**locals())
  *         self.eta = eta             # <<<<<<<<<<<<<<
  * 
  *         self._weight = np.zeros(self.nNodes, dtype = np.double)
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_eta, __pyx_v_eta) < 0) __PYX_ERR(0, 20, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_eta, __pyx_v_eta) < 0) __PYX_ERR(0, 40, __pyx_L1_error)
 
-  /* "plexsim/models/bonabeau.pyx":22
+  /* "plexsim/models/bonabeau.pyx":42
  *         self.eta = eta
  * 
  *         self._weight = np.zeros(self.nNodes, dtype = np.double)             # <<<<<<<<<<<<<<
  * 
  *     cdef void _step(self, node_id_t node) nogil:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_nNodes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_nNodes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_3);
   __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_double); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_double); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_5, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_5, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_self->_weight, 0);
   __pyx_v_self->_weight = __pyx_t_6;
@@ -4773,12 +4776,12 @@ static int __pyx_pf_7plexsim_6models_8bonabeau_8Bonabeau___init__(struct __pyx_o
   return __pyx_r;
 }
 
-/* "plexsim/models/bonabeau.pyx":24
+/* "plexsim/models/bonabeau.pyx":44
  *         self._weight = np.zeros(self.nNodes, dtype = np.double)
  * 
  *     cdef void _step(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
- *         # todo: implement
- *         # move over grid
+ *         # if other agent present fight with hamiltonian
+ *         cdef state_t thisState = self._states[node]
  */
 
 static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_7plexsim_6models_8bonabeau_Bonabeau *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node) {
@@ -4796,17 +4799,17 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
   __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_5;
   __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_6;
 
-  /* "plexsim/models/bonabeau.pyx":30
+  /* "plexsim/models/bonabeau.pyx":46
+ *     cdef void _step(self, node_id_t node) nogil:
  *         # if other agent present fight with hamiltonian
- * 
  *         cdef state_t thisState = self._states[node]             # <<<<<<<<<<<<<<
  *         if thisState == 0:
  *             return
  */
   __pyx_v_thisState = (__pyx_v_self->__pyx_base._states[__pyx_v_node]);
 
-  /* "plexsim/models/bonabeau.pyx":31
- * 
+  /* "plexsim/models/bonabeau.pyx":47
+ *         # if other agent present fight with hamiltonian
  *         cdef state_t thisState = self._states[node]
  *         if thisState == 0:             # <<<<<<<<<<<<<<
  *             return
@@ -4815,7 +4818,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
   __pyx_t_1 = ((__pyx_v_thisState == 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "plexsim/models/bonabeau.pyx":32
+    /* "plexsim/models/bonabeau.pyx":48
  *         cdef state_t thisState = self._states[node]
  *         if thisState == 0:
  *             return             # <<<<<<<<<<<<<<
@@ -4824,8 +4827,8 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
  */
     goto __pyx_L0;
 
-    /* "plexsim/models/bonabeau.pyx":31
- * 
+    /* "plexsim/models/bonabeau.pyx":47
+ *         # if other agent present fight with hamiltonian
  *         cdef state_t thisState = self._states[node]
  *         if thisState == 0:             # <<<<<<<<<<<<<<
  *             return
@@ -4833,7 +4836,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
  */
   }
 
-  /* "plexsim/models/bonabeau.pyx":35
+  /* "plexsim/models/bonabeau.pyx":51
  * 
  *         # get random neighbor
  *         cdef size_t idx = <size_t> (self._rng._rand() * self.adj._adj[node].neighbors.size())             # <<<<<<<<<<<<<<
@@ -4842,7 +4845,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
  */
   __pyx_v_idx = ((size_t)(((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base._rng) * (__pyx_v_self->__pyx_base.adj->_adj[__pyx_v_node]).neighbors.size()));
 
-  /* "plexsim/models/bonabeau.pyx":36
+  /* "plexsim/models/bonabeau.pyx":52
  *         # get random neighbor
  *         cdef size_t idx = <size_t> (self._rng._rand() * self.adj._adj[node].neighbors.size())
  *         neighbor = self.adj._adj[node].neighbors.begin()             # <<<<<<<<<<<<<<
@@ -4851,7 +4854,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
  */
   __pyx_v_neighbor = (__pyx_v_self->__pyx_base.adj->_adj[__pyx_v_node]).neighbors.begin();
 
-  /* "plexsim/models/bonabeau.pyx":37
+  /* "plexsim/models/bonabeau.pyx":53
  *         cdef size_t idx = <size_t> (self._rng._rand() * self.adj._adj[node].neighbors.size())
  *         neighbor = self.adj._adj[node].neighbors.begin()
  *         for i in range(idx):             # <<<<<<<<<<<<<<
@@ -4863,7 +4866,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "plexsim/models/bonabeau.pyx":38
+    /* "plexsim/models/bonabeau.pyx":54
  *         neighbor = self.adj._adj[node].neighbors.begin()
  *         for i in range(idx):
  *             if i == idx:             # <<<<<<<<<<<<<<
@@ -4873,7 +4876,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
     __pyx_t_1 = ((__pyx_v_i == __pyx_v_idx) != 0);
     if (__pyx_t_1) {
 
-      /* "plexsim/models/bonabeau.pyx":39
+      /* "plexsim/models/bonabeau.pyx":55
  *         for i in range(idx):
  *             if i == idx:
  *                 break             # <<<<<<<<<<<<<<
@@ -4882,7 +4885,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
  */
       goto __pyx_L5_break;
 
-      /* "plexsim/models/bonabeau.pyx":38
+      /* "plexsim/models/bonabeau.pyx":54
  *         neighbor = self.adj._adj[node].neighbors.begin()
  *         for i in range(idx):
  *             if i == idx:             # <<<<<<<<<<<<<<
@@ -4891,7 +4894,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
  */
     }
 
-    /* "plexsim/models/bonabeau.pyx":40
+    /* "plexsim/models/bonabeau.pyx":56
  *             if i == idx:
  *                 break
  *             post(neighbor)             # <<<<<<<<<<<<<<
@@ -4902,7 +4905,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
   }
   __pyx_L5_break:;
 
-  /* "plexsim/models/bonabeau.pyx":43
+  /* "plexsim/models/bonabeau.pyx":59
  * 
  *         cdef:
  *             node_id_t neighborPosition = deref(neighbor).first             # <<<<<<<<<<<<<<
@@ -4912,7 +4915,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
   __pyx_t_5 = (*__pyx_v_neighbor).first;
   __pyx_v_neighborPosition = __pyx_t_5;
 
-  /* "plexsim/models/bonabeau.pyx":44
+  /* "plexsim/models/bonabeau.pyx":60
  *         cdef:
  *             node_id_t neighborPosition = deref(neighbor).first
  *             state_t thatState     = self._states[neighborPosition]             # <<<<<<<<<<<<<<
@@ -4921,7 +4924,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
  */
   __pyx_v_thatState = (__pyx_v_self->__pyx_base._states[__pyx_v_neighborPosition]);
 
-  /* "plexsim/models/bonabeau.pyx":47
+  /* "plexsim/models/bonabeau.pyx":63
  *             double p
  *         #
  *         if thatState:             # <<<<<<<<<<<<<<
@@ -4931,7 +4934,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
   __pyx_t_1 = (__pyx_v_thatState != 0);
   if (__pyx_t_1) {
 
-    /* "plexsim/models/bonabeau.pyx":48
+    /* "plexsim/models/bonabeau.pyx":64
  *         #
  *         if thatState:
  *             p = self._hamiltonian(self._weight[node], self._weight[neighborPosition])             # <<<<<<<<<<<<<<
@@ -4942,7 +4945,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
     __pyx_t_6 = __pyx_v_neighborPosition;
     __pyx_v_p = ((struct __pyx_vtabstruct_7plexsim_6models_8bonabeau_Bonabeau *)__pyx_v_self->__pyx_base.__pyx_vtab)->_hamiltonian(__pyx_v_self, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->_weight.data) + __pyx_t_5)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->_weight.data) + __pyx_t_6)) ))));
 
-    /* "plexsim/models/bonabeau.pyx":50
+    /* "plexsim/models/bonabeau.pyx":66
  *             p = self._hamiltonian(self._weight[node], self._weight[neighborPosition])
  *             # won fight
  *             if self._rng._rand() < p:             # <<<<<<<<<<<<<<
@@ -4952,7 +4955,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
     __pyx_t_1 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base._rng) < __pyx_v_p) != 0);
     if (__pyx_t_1) {
 
-      /* "plexsim/models/bonabeau.pyx":52
+      /* "plexsim/models/bonabeau.pyx":68
  *             if self._rng._rand() < p:
  *                 # swap position
  *                 self._newstates[node] = thatState             # <<<<<<<<<<<<<<
@@ -4961,7 +4964,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
  */
       (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = __pyx_v_thatState;
 
-      /* "plexsim/models/bonabeau.pyx":53
+      /* "plexsim/models/bonabeau.pyx":69
  *                 # swap position
  *                 self._newstates[node] = thatState
  *                 self._newstates[neighborPosition] = thisState             # <<<<<<<<<<<<<<
@@ -4970,7 +4973,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
  */
       (__pyx_v_self->__pyx_base._newstates[__pyx_v_neighborPosition]) = __pyx_v_thisState;
 
-      /* "plexsim/models/bonabeau.pyx":55
+      /* "plexsim/models/bonabeau.pyx":71
  *                 self._newstates[neighborPosition] = thisState
  * 
  *                 self._weight[node] += 1             # <<<<<<<<<<<<<<
@@ -4980,7 +4983,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
       __pyx_t_6 = __pyx_v_node;
       *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->_weight.data) + __pyx_t_6)) )) += 1.0;
 
-      /* "plexsim/models/bonabeau.pyx":56
+      /* "plexsim/models/bonabeau.pyx":72
  * 
  *                 self._weight[node] += 1
  *                 self._weight[neighborPosition] -= 1             # <<<<<<<<<<<<<<
@@ -4990,7 +4993,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
       __pyx_t_6 = __pyx_v_neighborPosition;
       *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->_weight.data) + __pyx_t_6)) )) -= 1.0;
 
-      /* "plexsim/models/bonabeau.pyx":50
+      /* "plexsim/models/bonabeau.pyx":66
  *             p = self._hamiltonian(self._weight[node], self._weight[neighborPosition])
  *             # won fight
  *             if self._rng._rand() < p:             # <<<<<<<<<<<<<<
@@ -5000,7 +5003,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
       goto __pyx_L8;
     }
 
-    /* "plexsim/models/bonabeau.pyx":58
+    /* "plexsim/models/bonabeau.pyx":74
  *                 self._weight[neighborPosition] -= 1
  *             else:
  *                 self._weight[node] -= 1             # <<<<<<<<<<<<<<
@@ -5011,7 +5014,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
       __pyx_t_6 = __pyx_v_node;
       *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->_weight.data) + __pyx_t_6)) )) -= 1.0;
 
-      /* "plexsim/models/bonabeau.pyx":59
+      /* "plexsim/models/bonabeau.pyx":75
  *             else:
  *                 self._weight[node] -= 1
  *                 self._weight[neighborPosition] += 1             # <<<<<<<<<<<<<<
@@ -5023,7 +5026,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
     }
     __pyx_L8:;
 
-    /* "plexsim/models/bonabeau.pyx":47
+    /* "plexsim/models/bonabeau.pyx":63
  *             double p
  *         #
  *         if thatState:             # <<<<<<<<<<<<<<
@@ -5033,7 +5036,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
     goto __pyx_L7;
   }
 
-  /* "plexsim/models/bonabeau.pyx":61
+  /* "plexsim/models/bonabeau.pyx":77
  *                 self._weight[neighborPosition] += 1
  *         else:
  *             self._newstates[neighborPosition] = thisState             # <<<<<<<<<<<<<<
@@ -5043,7 +5046,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
   /*else*/ {
     (__pyx_v_self->__pyx_base._newstates[__pyx_v_neighborPosition]) = __pyx_v_thisState;
 
-    /* "plexsim/models/bonabeau.pyx":62
+    /* "plexsim/models/bonabeau.pyx":78
  *         else:
  *             self._newstates[neighborPosition] = thisState
  *             self._newstates[node]             = thatState             # <<<<<<<<<<<<<<
@@ -5054,7 +5057,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
   }
   __pyx_L7:;
 
-  /* "plexsim/models/bonabeau.pyx":63
+  /* "plexsim/models/bonabeau.pyx":79
  *             self._newstates[neighborPosition] = thisState
  *             self._newstates[node]             = thatState
  *         return             # <<<<<<<<<<<<<<
@@ -5063,19 +5066,19 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
  */
   goto __pyx_L0;
 
-  /* "plexsim/models/bonabeau.pyx":24
+  /* "plexsim/models/bonabeau.pyx":44
  *         self._weight = np.zeros(self.nNodes, dtype = np.double)
  * 
  *     cdef void _step(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
- *         # todo: implement
- *         # move over grid
+ *         # if other agent present fight with hamiltonian
+ *         cdef state_t thisState = self._states[node]
  */
 
   /* function exit code */
   __pyx_L0:;
 }
 
-/* "plexsim/models/bonabeau.pyx":64
+/* "plexsim/models/bonabeau.pyx":80
  *             self._newstates[node]             = thatState
  *         return
  *     cdef double _hamiltonian(self, double x, double y) nogil:             # <<<<<<<<<<<<<<
@@ -5086,7 +5089,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
 static double __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__hamiltonian(struct __pyx_obj_7plexsim_6models_8bonabeau_Bonabeau *__pyx_v_self, double __pyx_v_x, double __pyx_v_y) {
   double __pyx_r;
 
-  /* "plexsim/models/bonabeau.pyx":65
+  /* "plexsim/models/bonabeau.pyx":81
  *         return
  *     cdef double _hamiltonian(self, double x, double y) nogil:
  *          return <double>(1 + exp(-self._eta * (x - y)))**(-1)             # <<<<<<<<<<<<<<
@@ -5096,7 +5099,7 @@ static double __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__hamiltonian(struct _
   __pyx_r = ((double)pow((1.0 + exp(((-__pyx_v_self->_eta) * (__pyx_v_x - __pyx_v_y)))), -1.0));
   goto __pyx_L0;
 
-  /* "plexsim/models/bonabeau.pyx":64
+  /* "plexsim/models/bonabeau.pyx":80
  *             self._newstates[node]             = thatState
  *         return
  *     cdef double _hamiltonian(self, double x, double y) nogil:             # <<<<<<<<<<<<<<
@@ -5109,7 +5112,7 @@ static double __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__hamiltonian(struct _
   return __pyx_r;
 }
 
-/* "plexsim/models/bonabeau.pyx":67
+/* "plexsim/models/bonabeau.pyx":83
  *          return <double>(1 + exp(-self._eta * (x - y)))**(-1)
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5140,7 +5143,7 @@ static PyObject *__pyx_pf_7plexsim_6models_8bonabeau_8Bonabeau_3eta___get__(stru
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/bonabeau.pyx":72
+  /* "plexsim/models/bonabeau.pyx":88
  *         coefficient for sigmoid curve
  *         """
  *         return self._eta             # <<<<<<<<<<<<<<
@@ -5148,13 +5151,13 @@ static PyObject *__pyx_pf_7plexsim_6models_8bonabeau_8Bonabeau_3eta___get__(stru
  *     def eta(self,value):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_eta); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_eta); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/bonabeau.pyx":67
+  /* "plexsim/models/bonabeau.pyx":83
  *          return <double>(1 + exp(-self._eta * (x - y)))**(-1)
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5173,7 +5176,7 @@ static PyObject *__pyx_pf_7plexsim_6models_8bonabeau_8Bonabeau_3eta___get__(stru
   return __pyx_r;
 }
 
-/* "plexsim/models/bonabeau.pyx":73
+/* "plexsim/models/bonabeau.pyx":89
  *         """
  *         return self._eta
  *     @eta.setter             # <<<<<<<<<<<<<<
@@ -5204,17 +5207,17 @@ static int __pyx_pf_7plexsim_6models_8bonabeau_8Bonabeau_3eta_2__set__(struct __
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "plexsim/models/bonabeau.pyx":75
+  /* "plexsim/models/bonabeau.pyx":91
  *     @eta.setter
  *     def eta(self,value):
  *         self._eta = value             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
-  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_value); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_value); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 91, __pyx_L1_error)
   __pyx_v_self->_eta = __pyx_t_1;
 
-  /* "plexsim/models/bonabeau.pyx":73
+  /* "plexsim/models/bonabeau.pyx":89
  *         """
  *         return self._eta
  *     @eta.setter             # <<<<<<<<<<<<<<
@@ -5233,7 +5236,7 @@ static int __pyx_pf_7plexsim_6models_8bonabeau_8Bonabeau_3eta_2__set__(struct __
   return __pyx_r;
 }
 
-/* "plexsim/models/bonabeau.pyx":77
+/* "plexsim/models/bonabeau.pyx":93
  *         self._eta = value
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5265,23 +5268,23 @@ static PyObject *__pyx_pf_7plexsim_6models_8bonabeau_8Bonabeau_6weight___get__(s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/bonabeau.pyx":82
+  /* "plexsim/models/bonabeau.pyx":98
  *         return weights between nodes
  *         """
  *         return self._weight.base             # <<<<<<<<<<<<<<
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->_weight, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->_weight, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 98, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_base); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_base); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 98, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/bonabeau.pyx":77
+  /* "plexsim/models/bonabeau.pyx":93
  *         self._eta = value
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -21810,8 +21813,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 };
 /* #### Code section: cached_builtins ### */
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 19, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 53, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 987, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 136, __pyx_L1_error)
@@ -22211,6 +22214,16 @@ static int __Pyx_modinit_type_init_code(void) {
   #endif
   #if PY_MAJOR_VERSION < 3
   __pyx_ptype_7plexsim_6models_8bonabeau_Bonabeau->tp_print = 0;
+  #endif
+  #if CYTHON_COMPILING_IN_CPYTHON
+  {
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)__pyx_ptype_7plexsim_6models_8bonabeau_Bonabeau, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(0, 9, __pyx_L1_error)
+    if (__Pyx_IS_TYPE(wrapper, &PyWrapperDescr_Type)) {
+      __pyx_wrapperbase_7plexsim_6models_8bonabeau_8Bonabeau___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
+      __pyx_wrapperbase_7plexsim_6models_8bonabeau_8Bonabeau___init__.doc = __pyx_doc_7plexsim_6models_8bonabeau_8Bonabeau___init__;
+      ((PyWrapperDescrObject *)wrapper)->d_base = &__pyx_wrapperbase_7plexsim_6models_8bonabeau_8Bonabeau___init__;
+    }
+  }
   #endif
   if (__Pyx_SetVtable(__pyx_ptype_7plexsim_6models_8bonabeau_Bonabeau, __pyx_vtabptr_7plexsim_6models_8bonabeau_Bonabeau) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API

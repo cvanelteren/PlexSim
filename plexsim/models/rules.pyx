@@ -6,6 +6,12 @@ import networkx as nx, numpy as np
 
 from plexsim.models.adjacency cimport Adjacency
 cdef class Rules:
+    """
+    Constructs adj matrix using structs
+    Parameters
+    ==========
+        :nx.Graph or nx.DiGraph: graph
+    """
     def __init__(self, object graph):
         # check if graph has weights or states assigned and or nudges
         # note does not check all combinations
@@ -23,7 +29,7 @@ cdef class Rules:
             dict mapping = {}
             dict rmapping= {}
 
-            node_id_t source, target
+            state_t source, target
 
             # define adjecency
             unordered_map[state_t, unordered_map[state_t, double]] adj  #= Connections(graph.number_of_nodes(), Connection())# see .pxd
@@ -42,8 +48,8 @@ cdef class Rules:
         cdef bint directed  = nodelink.get('directed')
         cdef dict link
         for link in nodelink['links']:
-            source = mapping[link.get('source')]
-            target = mapping[link.get('target')]
+            source = <state_t> mapping[link.get('source')]
+            target = <state_t> mapping[link.get('target')]
             weight = <weight_t> link.get('weight', DEFAULTWEIGHT)
             # reverse direction for inputs
             if directed:
