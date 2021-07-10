@@ -70,6 +70,42 @@ importance of local connectivity motifs in spreading dynamics of any process.
 Cycledelic
 ----------
 
+A  model  for studying  species  dynamics.  It is  based  on
+Reichenbach et al. 2007.The model was designed
+to understand  the co-existance of interacting  species in a
+spatially extended  ecosystem. Each vertex  point represents
+the locus of three species. The color (red, green, blue) are
+proportional to  the density  of the  three species  at each
+pixel (vertex point).
+
+The model produces a wide  range of different patterns based
+on three input parameters
+
+- Diffusion (:math:`D`): mobility of species.
+
+- Predation (:math:`P`): competition  between the tree different
+  species.
+
+- Competition (:math:`C`): Competition among different specifies.
+
+Each  vertex  in  the  system :math:`\sigma_i`  :math:`\in`  :math:`sigma  :=\{
+\(\sigma_0, \dots,  \sigma_n\}` contains a  vector with the
+density  of the  three “species”,  i.e. rock (:math:`r`),  paper
+(:math:`g`),  or  scissor  (:math:`b`). The  concentration  of  each
+specie at vertex :math:`i` is updated according to
+
+
+
+.. math::
+
+    \frac{d \sigma_i}{dt} = \scriptstyle \begin{cases}
+      \frac{dr_i}{dt}& = ((\underbrace{P  (g_i - b_i)  + r_i}\_{\textrm{predation}} - \underbrace{C  (g_i + b_i) - r_i^2}\_{\textrm{Competition}})r_i - \underbrace{D(\sum_{<i,j>} r_j r_i)}\_{\textrm{mobility}}\) \delta t \\\\\\
+      \frac{dg_i}{dt}& = ((P  (b_i - r_i)  + g_i - C  (r_i + b_i) - g_i^2)g_i - D(\sum_{<i,j>} g_j g_i)) \delta t \\\\\\
+      \frac{db_i}{dt}& = ((P  (r_i - g_i)  + b_i - C  (r_i + g_i) - b_i^2)b_i - D(\sum_{<i,j>} b_j b_i)) \delta t, \end{cases}
+
+where :math:`<i,j>` indicates the nearest neighbors of variable :math:`i`.
+
+
 .. code:: python
 
     from matplotlib import style; style.use("default".split())
