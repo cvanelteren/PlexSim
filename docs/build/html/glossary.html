@@ -115,7 +115,7 @@ density  of the  three “species”,  i.e. rock (<span class="math notranslate
 specie at vertex <span class="math notranslate nohighlight">\(i\)</span> is updated according to</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\frac{d \sigma_i}{dt} = \scriptstyle \begin{cases}
-  \frac{dr_i}{dt}&amp; = ((\underbrace{P  (g_i - b_i)  + r_i}\_{\textrm{predation}} - \underbrace{C  (g_i + b_i) - r_i^2}\_{\textrm{Competition}})r_i - \underbrace{D(\sum_{&lt;i,j&gt;} r_j r_i)}\_{\textrm{mobility}}) \delta t \\\\\\
+  \frac{dr_i}{dt}&amp; = ((\underbrace{P  (g_i - b_i)  + r_i}_{\textrm{predation}} - \underbrace{C  (g_i + b_i) - r_i^2}_{\textrm{Competition}})r_i - \underbrace{D(\sum_{&lt;i,j&gt;} r_j r_i)}_{\textrm{mobility}}) \delta t \\\\\\
   \frac{dg_i}{dt}&amp; = ((P  (b_i - r_i)  + g_i - C  (r_i + b_i) - g_i^2)g_i - D(\sum_{&lt;i,j&gt;} g_j g_i)) \delta t \\\\\\
   \frac{db_i}{dt}&amp; = ((P  (r_i - g_i)  + b_i - C  (r_i + g_i) - b_i^2)b_i - D(\sum_{&lt;i,j&gt;} b_j b_i)) \delta t, \end{cases}\end{split}\]</div>
 <p>where <span class="math notranslate nohighlight">\(&lt;i,j&gt;\)</span> indicates the nearest neighbors of variable <span class="math notranslate nohighlight">\(i\)</span>.</p>
