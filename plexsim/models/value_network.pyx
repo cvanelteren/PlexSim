@@ -124,6 +124,38 @@ cdef class ValueNetwork(Potts):
     def pat(self):
         return self.paths
 
+
+    # cdef void _prune_options(self, Crawler *crawler) nogil:
+    #     """ Removes options that  cannot be reached from the
+    #     current node anymore """
+
+    #     cdef:
+    #         EdgeColor *current_edge = &crawler.path.back()
+    #         vector[EdgeColor] option
+    #         size_t idx
+    #         bint prune
+    #         double weight
+    #         size_t counter
+    #     # check all options
+    #     # prune options that are not reachable by the current edge in path
+    #     for idx in range(crawler.options.size() - 1, 0):
+    #         option = crawler.options[idx]
+    #         # assume prune
+    #         prune = True
+    #         counter = 0
+    #         for jdx in range(option.size() - 1, 0):
+    #             weight = self._rules._adj[current_edge.other.state][option[jdx].current.state]
+    #             if weight > 0:
+    #                 counter += 1
+    #         if counter == 0:
+    #             crawler.options.erase( crawler.options.begin() + idx)
+    #     return
+
+
+
+
+
+
     cdef bint _check_endpoint(self, state_t current_state, Crawler *crawler) nogil:
         """"
         Checks endpoint of the role space
@@ -200,7 +232,7 @@ cdef class ValueNetwork(Potts):
                                         self._states[start],
                                         self._bounded_rational,
                                         verbose)
-        crawler = self._check_df(crawler)
+        self._check_df(crawler)
 
         cdef list results = []
 
@@ -223,7 +255,7 @@ cdef class ValueNetwork(Potts):
         del crawler
         return results
 
-    cdef Crawler* _check_df(self, Crawler *crawler) nogil:
+    cdef vector[vector[EdgeColor]] _check_df(self, Crawler *crawler) nogil:
         """  Low level callable for check_df
         The function works recursively via a depth-first search approach.
 
@@ -245,19 +277,17 @@ cdef class ValueNetwork(Potts):
         cdef EdgeColor current_edge
         cdef EdgeColor *proposal_edge = new EdgeColor()
         cdef vector[EdgeColor] option
+        cdef vector[vector[EdgeColor]] options
+        cdef vector[vector[EdgeColor]] branch_options, branch_option
         cdef double edge_weight
-        cdef size_t idx
+        cdef size_t idx, opt_idx
         cdef node_id_t neighbor_idx
+
         if crawler.queue.size():
             # pop the queue
             current_edge.current = crawler.queue.back().current
             current_edge.other   = crawler.queue.back().other
             crawler.queue.pop_back()
-            if crawler.verbose:
-                with gil:
-                    print(f"{crawler.path.size()=}")
-                    current_edge.print()
-
             # expand path with positive edge
             if self._rules._adj[current_edge.current.state][current_edge.other.state] > 0:
                 crawler.path.push_back(current_edge)
@@ -277,28 +307,27 @@ cdef class ValueNetwork(Potts):
                 option.clear()
                 # add option
                 option.push_back(current_edge.sort())
-                crawler.options.push_back(option)
+                options.push_back(option)
+
                 # pop the path from current path
                 crawler.path.pop_back()
-                return crawler
+                return options
 
 
             # create new proposal edge
             # proposal_edge.other.name = current_edge.current.name
             # proposal_edge.other.state = current_edge.current.state
 
-            proposal_edge.current = ColorNode(current_edge.other.name, current_edge.other.state)
+            proposal_edge.current = ColorNode(current_edge.other.name,
+                                              current_edge.other.state)
 
             # 2. check neighbors
             it = self.adj._adj[current_edge.other.name].neighbors.begin()
+            with gil:
+                print(f"Checking neighbors of {current_edge.other.name}")
             while it != self.adj._adj[current_edge.other.name].neighbors.end():
                 neighbor_idx = deref(it).first
                 proposal_edge.other = ColorNode(neighbor_idx, self._states[neighbor_idx])
-
-                if crawler.verbose:
-                    with gil:
-                        print(f"At {proposal_edge.current.name=}")
-                        print(f"Checking {proposal_edge.other.name=}")
 
                 if proposal_edge.other.name == proposal_edge.current.name:
                     if crawler.verbose:
@@ -318,60 +347,49 @@ cdef class ValueNetwork(Potts):
                     continue
 
                 if not crawler.in_path(deref(proposal_edge)):
-                    if crawler.verbose:
-                        with gil:
-                            print("Going into branch")
                     crawler.queue.push_back(deref(proposal_edge))
-                    self._check_df(crawler)
-                post(it) # never forget :)
 
+                    # start merging
+                    branch_option = self._check_df(crawler)
+                    # crawler.merge_options(branch_options, branch_option)
 
-            if crawler.verbose:
-                with gil:
-                    print("Current edge is:")
-                current_edge.print()
-            # 4. merge options
-            edge_weight = self._rules._adj[current_edge.current.state][current_edge.other.state]
-            if edge_weight > 0:
-                if not crawler.in_options(current_edge.sort()):
-                    option.clear()
-                    option.push_back(current_edge.sort())
-                    crawler.options.push_back(option)
+                    crawler.merge_options(options, branch_option)
 
+                    # 4. merge options
+                    # crawler.merge_options(options)
                     if crawler.verbose:
                         with gil:
-                            print(f"Pushing current edge:")
-                            current_edge.print()
+                            # print(f"{options.size()=}")
+                            print(f"{branch_options.size()=}")
+                            print(f"{crawler.results.size()=}")
+                        crawler.print(options)
 
-            # merge options
-            crawler.merge_options()
-            # add in results
-            crawler.check_options()
+                post(it) # never forget :)
+            # crawler.merge_options(options, branch_options)
+            crawler.print(options)
 
-            # for idx in range(crawler.options.size()):
-            #     if crawler.verbose:
-            #         with gil:
-            #             print("Considering:")
-            #             crawler.print(crawler.options[idx])
-            #             print()
-            #     if crawler.options[idx].size() == self._bounded_rational:
-            #         crawler.add_result(crawler.options[idx])
 
-            if crawler.verbose:
-                with gil:
-                    print("done merging")
-                    crawler.print()
-                    print(f"{crawler.path.size()=}")
-                    print(f"{crawler.results.size()=}")
-                    print(f"{crawler.options.size()=}")
+            # if crawler.verbose:
+            #     with gil:
+            #         print("Current edge is:")
+            #         current_edge.print()
+            #         print("done merging")
+            #         crawler.print(options)
+            #         print(f"{crawler.path.size()=}")
+            #         print(f"{crawler.results.size()=}")
+            #         print(f"{options.size()=}")
 
-        # check if current path contains solution
-        if crawler.path.size() == self._bounded_rational:
-            crawler.add_result(crawler.path)
+        # # check if current path contains solution
+        # if crawler.path.size() == self._bounded_rational:
+        #     crawler.add_result(crawler.path)
 
         # reduce path length
+        option.clear()
+        option.push_back(crawler.path.back().sort())
+        options.push_back(option)
+
         crawler.path.pop_back()
-        return crawler
+        return options
 
 
 
@@ -420,7 +438,7 @@ cdef class ValueNetwork(Potts):
             post(it)
 
         cdef Crawler *crawler = new Crawler(node, self._states[node], self._bounded_rational)
-        crawler = self._check_df(crawler)
+        self._check_df(crawler)
         energy += crawler.results.size()
 
 

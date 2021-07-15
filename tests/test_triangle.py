@@ -31,15 +31,16 @@ def test_crawl_single(m, target, verbose=False):
         print(f"Checking {node=}")
         crawl = m.check_df(node, verbose=verbose)
         if verbose:
-            print(f"solution: {crawl} {len(crawl)}")
+            print(f"Solution: {crawl} {len(crawl)}")
         assignment = len(crawl) == target
+
         if verbose:
+            print(f"Results ok? {assignment} for node {node} {node_label=}")
             for a in crawl:
                 print(a)
-            # print(f"Results ok? {assignment} for node {node} {node_label=}")
             print()
         # print(m.states)
-        break
+        # break
 
 
 def test_specific(graph: nx.Graph):
@@ -51,8 +52,10 @@ def test_specific(graph: nx.Graph):
     test_crawl_single(m, target=1, verbose=1)
 
 
-g = nx.star_graph(4)
-g.add_edge(1, 2)
+# g = nx.path_graph(2)
+g = nx.path_graph(3)
+# g = nx.cycle_graph(3)
+
 #
 # g = nx.cycle_graph(3)
 # g = nx.path_graph(2)

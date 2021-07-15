@@ -38,19 +38,22 @@ cdef extern from "plexsim/include/crawler.hpp":
         vector[EdgeColor] path
         # cset[cset[EdgeColor]] results
         vector[vector[EdgeColor]] results
-        vector[vector[EdgeColor]] options
 
         bint verbose
         size_t bounded_rational
 
-        void merge_options() nogil
-        void check_options() nogil
+        void merge_options(vector[vector[EdgeColor]] &options) nogil
+
+        void merge_options(vector[vector[EdgeColor]] &options,
+                           vector[vector[EdgeColor]] &other_options) nogil
+        # void check_options() nogil
         bint in_path(EdgeColor option) nogil
         # bint in_path(EdgeColor option, vector[EdgeColor] path) nogil
 
-        bint in_options(EdgeColor option) nogil
+        bint in_options(EdgeColor &option, vector[vector[EdgeColor]] &options) nogil
+        bint in_options(vector[EdgeColor] &option, vector[vector[EdgeColor]] &options) nogil
         void add_result(vector[EdgeColor]) nogil
-        void print() nogil
+        void print(vector[vector[EdgeColor]] options) nogil
         void print(vector[EdgeColor]) nogil
 
 cdef extern from "plexsim/include/crawler.cpp":
@@ -71,9 +74,10 @@ cdef class ValueNetwork(Potts):
     # cpdef bint check_endpoint(self, state_t s, list vp_path)
     cpdef list check_df(self, node_id_t start, bint verbose =*)
 
-    cdef Crawler* _check_df(self, Crawler *crawler) nogil
+    cdef vector[vector[EdgeColor]]_check_df(self, Crawler *crawler) nogil
     # merge branches
     # cpdef bint check_doubles(self, list path, list results,
                              # bint verbose =*)
 
     cdef bint _check_endpoint(self, state_t current_state, Crawler *crawler) nogil
+    # cdef void _prune_options(self, Crawler *crawler) nogil

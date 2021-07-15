@@ -58,6 +58,7 @@ cdef class Model:
     cdef state_t[::1]  _updateState(self, node_id_t[::1] nodesToUpdate) nogil
 
 
+    # TODO: move nudges to a separate class
     cdef void _apply_nudge(self, node_id_t node,\
                             NudgesBackup* backup) nogil
 
@@ -67,6 +68,7 @@ cdef class Model:
     cdef void _step(self, node_id_t node) nogil #needs to be implemented per mode
 
     # TODO: spatial learning
+    # TODO: move spatial learning into adjacency class
     cdef void _hebbianUpdate(self)
     cdef double _learningFunction(self, node_id_t xi, node_id_t xj)
 
@@ -80,6 +82,8 @@ cdef class Model:
 
 
     cpdef list spawn(self, size_t n_jobs =*)
+
+    #TODO: move this into a separate function?
     cdef SpawnVec _spawn(self, size_t nThreads=*)
 
     cpdef void reset(self, p =*)

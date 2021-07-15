@@ -94,12 +94,16 @@ Crawler::Crawler(size_t start, double state, size_t bounded_rational,
 void Crawler::add_result(std::vector<EdgeColor> option) {
 
   std::vector<EdgeColor> overlap;
+
+  std::set<EdgeColor> u_option =
+      std::set<EdgeColor>(option.begin(), option.end());
+
   bool add = true;
   for (auto result : this->results) {
 
     overlap.clear();
-    std::set_intersection(result.begin(), result.end(), option.begin(),
-                          option.end(),
+    std::set_intersection(result.begin(), result.end(), u_option.begin(),
+                          u_option.end(),
                           std::inserter(overlap, overlap.begin()));
 
     if (overlap.size() == option.size()) {
@@ -120,12 +124,33 @@ void Crawler::add_result(std::vector<EdgeColor> option) {
       this->print(option);
     }
 
-    this->results.push_back(option);
+    // this->results.push_back(option);
+    // push only unique options
+    this->results.push_back(
+        std::vector<EdgeColor>(u_option.begin(), u_option.end()));
+
     // this->results.insert(tmp);
   }
 }
 
-bool Crawler::in_options(EdgeColor option) {
+bool Crawler::in_options(std::vector<EdgeColor> &option,
+                         std::vector<std::vector<EdgeColor>> &options) {
+  std::vector<EdgeColor> overlap;
+
+  for (auto opt : options) {
+    overlap.clear();
+    std::set_intersection(opt.begin(), opt.end(), option.begin(), option.end(),
+                          std::inserter(overlap, overlap.begin()));
+
+    if (overlap.size()) {
+      return true;
+    }
+  }
+  return false;
+};
+
+bool Crawler::in_options(EdgeColor &option,
+                         std::vector<std::vector<EdgeColor>> &options) {
   /**
    * @brief      Confirms option is in options
    *
@@ -137,28 +162,7 @@ bool Crawler::in_options(EdgeColor option) {
    * @return     bool; true if in path, false otherwise.
    */
   std::vector<EdgeColor> vopt = {option};
-  std::vector<EdgeColor> overlap;
-
-  if (this->verbose) {
-    printf("Checking overlaps in options\n");
-    this->print(vopt);
-  }
-
-  for (auto opt : this->options) {
-    overlap.clear();
-    std::set_intersection(opt.begin(), opt.end(), vopt.begin(), vopt.end(),
-                          std::inserter(overlap, overlap.begin()));
-
-    if (this->verbose) {
-      printf("Overlap size %d\n", overlap.size());
-      this->print(opt);
-    }
-
-    if (overlap.size()) {
-      return true;
-    }
-  }
-  return false;
+  return this->in_options(vopt, options);
 }
 
 bool Crawler::in_path(EdgeColor option) {
@@ -197,52 +201,123 @@ bool Crawler::in_path(EdgeColor option, std::vector<EdgeColor> path) {
   return a || b;
 }
 
-bool Crawler::merge_option(std::vector<EdgeColor> opti,
-                           std::vector<EdgeColor> optj,
-                           std::vector<std::vector<EdgeColor>> *to_merge) {
+uint8_t Crawler::merge_option(size_t idx, size_t jdx,
+                              std::vector<std::vector<EdgeColor>> &to_merge) {
+
+  std::vector<EdgeColor> *opti = &to_merge[idx];
+  std::vector<EdgeColor> *optj = &to_merge[jdx];
+
+  if (opti->size() == this->bounded_rational) {
+    this->add_result(*opti);
+    to_merge.erase(to_merge.begin() + idx);
+    return 0;
+  }
+
+  if (optj->size() == this->bounded_rational) {
+    this->add_result(*optj);
+    to_merge.erase(to_merge.begin() + jdx);
+    return 0;
+  }
 
   // hold option
-  std::vector<EdgeColor> option;
+  std::set<EdgeColor> option;
 
   // declare logical operator
   std::vector<std::vector<EdgeColor>>::iterator in_path;
 
   // check intersection
   // if intersection then options are not unique
-  set_intersection(opti.begin(), opti.end(), optj.begin(), optj.end(),
+  set_intersection(opti->begin(), opti->end(), optj->begin(), optj->end(),
                    std::inserter(option, option.begin()));
 
   if (option.size() == 0) {
     // clear intermitten results
     option.clear();
     // create the union
-    set_union(opti.begin(), opti.end(), optj.begin(), optj.end(),
+    set_union(opti->begin(), opti->end(), optj->begin(), optj->end(),
               std::inserter(option, option.begin()));
+
+    if (this->verbose) {
+      printf("PRINTING ADDING OPTION:\n");
+      this->print(std::vector<EdgeColor>(option.begin(), option.end()));
+    }
     // check if option already exists
-    in_path = std::find(to_merge->begin(), to_merge->end(),
+    in_path = std::find(to_merge.begin(), to_merge.end(),
                         std::vector<EdgeColor>(option.begin(), option.end()));
 
-    if (in_path == to_merge->end()) {
+    // std::vector<EdgeColor>(option.begin(), option.end()));
+
+    if (in_path == to_merge.end()) {
       // if solution add to solution
       // else add to option list
       if (option.size() == this->bounded_rational) {
 
         this->add_result(std::vector<EdgeColor>(option.begin(), option.end()));
+        // to_merge.erase(to_merge.begin() + idx);
+        // to_merge.erase(to_merge.begin() + jdx);
+        return 2;
 
       } else if (option.size() < this->bounded_rational) {
 
-        to_merge->push_back(
+        to_merge.push_back(
             std::vector<EdgeColor>(option.begin(), option.end()));
 
-        return true;
+        return 1;
       }
     }
   }
 
-  return false;
+  return 0;
 }
 
-void Crawler::merge_options() {
+void Crawler::merge_options(
+    std::vector<std::vector<EdgeColor>> &options,
+    std::vector<std::vector<EdgeColor>> &other_options) {
+
+  std::set<EdgeColor> uni;
+  // empty options
+  if (options.size() == 0) {
+    // options = other_options;
+    std::swap(options, other_options);
+    return;
+  }
+
+  int idx = options.size() - 1;
+  // options are non-empty
+  while (idx >= 0) {
+    for (auto &optj : other_options) {
+      uni.clear();
+      std::set_union(options[idx].begin(), options[idx].end(), optj.begin(),
+                     optj.end(), std::inserter(uni, uni.begin()));
+
+      if (uni.size() > options[idx].size()) {
+        options.push_back(std::vector<EdgeColor>(uni.begin(), uni.end()));
+      } else if (idx == 0) {
+        options.push_back(optj);
+      }
+
+      if (options[idx].size() == this->bounded_rational) {
+        this->add_result(options[idx]);
+        options.erase(options.begin() + idx);
+        idx++;
+      }
+    }
+    idx--;
+  }
+
+  for (int idx = options.size() - 1; idx >= 0; idx--) {
+    if (this->path.size()) {
+      options[idx].push_back(this->path.back().sort());
+    }
+
+    if (options[idx].size() == this->bounded_rational) {
+      this->add_result(options[idx]);
+      options.erase(options.begin() + idx);
+    }
+  }
+}
+
+void Crawler::merge_options(std::vector<std::vector<EdgeColor>> &options) {
   /**
    * @brief  Merges  options  together to  build  path  from
    * below.
@@ -259,32 +334,36 @@ void Crawler::merge_options() {
    *
    */
 
-  std::vector<std::vector<EdgeColor>> to_merge = this->options;
-  bool can_merge = true;
+  uint8_t can_merge = true;
   bool merge_option = false;
-
-  std::vector<EdgeColor> opti, optj;
-
-  if (this->verbose) {
-    printf("IN OPTIONS MERGING\n");
-    printf("options size = %d", to_merge.size());
-  }
 
   while (can_merge) {
     can_merge = false;
     // check all combinations
-    for (auto idx = 0; idx < to_merge.size(); idx++) {
-      for (auto jdx = 0; jdx < to_merge.size(); jdx++) {
-        if (idx < jdx) {
-          can_merge =
-              this->merge_option(to_merge[idx], to_merge[jdx], &to_merge);
+    for (int idx = options.size() - 1; idx >= 0; idx--) {
+      // check if current option is valid
+      if (options[idx].size() == this->bounded_rational) {
+        this->add_result(options[idx]);
+        options.erase(options.begin() + idx);
+      } else {
+        for (int jdx = idx - 1; jdx >= 0; jdx--) {
+          // check if the current option itself may form a solution
+          can_merge = this->merge_option(idx, jdx, options);
+          // two options are removed
+          if (can_merge == 2)
+            break;
         }
       }
     }
   }
-  // put options back in plac
-  if (to_merge.size()) {
-    this->options = to_merge;
+  if (this->path.size()) {
+    for (int idx = options.size() - 1; idx >= 0; idx--) {
+      options[idx].push_back(this->path.back().sort());
+      if (options[idx].size() == this->bounded_rational) {
+        this->add_result(options[idx]);
+        options.erase(options.begin() + idx);
+      }
+    }
   }
 }
 
@@ -295,7 +374,7 @@ void Crawler::print(std::vector<EdgeColor> path) {
   }
 }
 
-void Crawler::print() {
+void Crawler::print(std::vector<std::vector<EdgeColor>> options) {
   printf("Printing path");
   for (auto ec : this->path) {
     printf("\n Edge %ld %ld \n", ec.current.name, ec.other.name);
@@ -319,8 +398,8 @@ void Crawler::print() {
   }
 
   printf("Printing options\n");
-  it = this->options.begin();
-  while (it != this->options.end()) {
+  it = options.begin();
+  while (it != options.end()) {
     jt = (*it).begin();
     printf("------------------\n");
     while (jt != (*it).end()) {
@@ -340,28 +419,41 @@ void Crawler::print() {
   printf("\n");
 }
 
-void Crawler::check_options() {
-  /**
-   * @brief Removes options that are actual solutions
-   *
-   * @details Options  are pushed  as the  crawler discovers
-   * solutions. This  function removes  options that  are of
-   * target length and pushes them into the solution vector.
-   *
-   */
-  // erase in reverse order
-  for (int idx = this->options.size() - 1; idx >= 0; idx--) {
-    if (this->verbose) {
-      printf("Considering: \n");
-      this->print(this->options[idx]);
-    }
+// void Crawler::check_options() {
+//   /**
+//    * @brief Removes options that are actual solutions
+//    *
+//    * @details Options  are pushed  as the  crawler discovers
+//    * solutions. This  function removes  options that  are of
+//    * target length and pushes them into the solution vector.
+//    *
+//    */
+//   // erase in reverse order
+//   for (int idx = this->options.size() - 1; idx >= 0; idx--) {
+//     if (this->verbose) {
+//       printf("Considering: \n");
+//       this->print(this->options[idx]);
+//     }
 
-    if (this->options[idx].size() == this->bounded_rational) {
-      if (this->verbose) {
-        printf("Removing %d", idx);
-      }
-      this->add_result(this->options[idx]);
-      // this->options.erase(this->options.begin() + idx);
-    }
-  }
-}
+//     if (this->options[idx].size() == this->bounded_rational) {
+//       if (this->verbose) {
+//         printf("Removing %d", idx);
+//       }
+//       this->add_result(this->options[idx]);
+//       this->options.erase(this->options.begin() + idx);
+//     }
+//   }
+// }
+
+// void Crawler::prune_options() {
+//   /**
+//    * @brief      Prune options that cannot be traversed anymore
+//    *
+//    * @details   Options need to be pruned that cannot be accessed anymore
+//    from
+//    * the last edge in the path
+//    *
+//    */
+
+//   auto current_edge = this->path.back();
+// }

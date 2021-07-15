@@ -56,14 +56,14 @@ class TestRecursionCrawl(ut.TestCase):
         crawls = []
         tmp = []
 
-        # fig, ax = plt.subplots()
-        # nx.draw(m.graph, ax=ax, with_labels=1)
-        # fig.show()
-        # plt.show()
+        fig, ax = plt.subplots()
+        nx.draw(m.graph, ax=ax, with_labels=1)
+        fig.show()
+        plt.show()
 
         for node_label, node in m.adj.mapping.items():
-            # crawl = m.check_df(node, verbose=verbose)
-            crawl = m.check_df(node)
+            crawl = m.check_df(node, verbose=verbose)
+            # crawl = m.check_df(node)
 
             if verbose:
                 print(f"solution: {crawl} {len(crawl)}")

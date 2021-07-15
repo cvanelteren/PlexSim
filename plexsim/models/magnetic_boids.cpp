@@ -32,7 +32,8 @@
             "-fopenmp",
             "-unused-variable",
             "-Wno-unused",
-            "-D_GLIBCXX_USE_CXX11_ABI=0"
+            "-D_GLIBCXX_USE_CXX11_ABI=0",
+            "-Wfatal-errors"
         ],
         "extra_link_args": [
             "-fopenmp",
@@ -1710,21 +1711,21 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset;
 
-/* "plexsim/models/base.pxd":82
+/* "plexsim/models/base.pxd":84
  * 
  * 
  *     cpdef list spawn(self, size_t n_jobs =*)             # <<<<<<<<<<<<<<
- *     cdef SpawnVec _spawn(self, size_t nThreads=*)
  * 
+ *     #TODO: move this into a separate function?
  */
 struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn {
   int __pyx_n;
   size_t n_jobs;
 };
 
-/* "plexsim/models/base.pxd":83
+/* "plexsim/models/base.pxd":87
  * 
- *     cpdef list spawn(self, size_t n_jobs =*)
+ *     #TODO: move this into a separate function?
  *     cdef SpawnVec _spawn(self, size_t nThreads=*)             # <<<<<<<<<<<<<<
  * 
  *     cpdef void reset(self, p =*)
@@ -1734,7 +1735,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn {
   size_t nThreads;
 };
 
-/* "plexsim/models/base.pxd":85
+/* "plexsim/models/base.pxd":89
  *     cdef SpawnVec _spawn(self, size_t nThreads=*)
  * 
  *     cpdef void reset(self, p =*)             # <<<<<<<<<<<<<<
@@ -1763,12 +1764,12 @@ struct __pyx_opt_args_7plexsim_6models_5potts_5Potts_magnetize {
 };
 struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_df;
 
-/* "plexsim/models/value_network.pxd":72
+/* "plexsim/models/value_network.pxd":75
  *     # logic for checking completed vn
  *     # cpdef bint check_endpoint(self, state_t s, list vp_path)
  *     cpdef list check_df(self, node_id_t start, bint verbose =*)             # <<<<<<<<<<<<<<
  * 
- *     cdef Crawler* _check_df(self, Crawler *crawler) nogil
+ *     cdef vector[vector[EdgeColor]]_check_df(self, Crawler *crawler) nogil
  */
 struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_df {
   int __pyx_n;
@@ -1888,7 +1889,7 @@ struct __pyx_obj_7plexsim_6models_5potts_Potts {
 };
 
 
-/* "plexsim/models/value_network.pxd":60
+/* "plexsim/models/value_network.pxd":63
  * 
  * 
  * cdef class ValueNetwork(Potts):             # <<<<<<<<<<<<<<
@@ -2084,7 +2085,7 @@ struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts {
 static struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *__pyx_vtabptr_7plexsim_6models_5potts_Potts;
 
 
-/* "plexsim/models/value_network.pxd":60
+/* "plexsim/models/value_network.pxd":63
  * 
  * 
  * cdef class ValueNetwork(Potts):             # <<<<<<<<<<<<<<
@@ -2095,7 +2096,7 @@ static struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *__pyx_vtabptr_7ple
 struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork {
   struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts __pyx_base;
   PyObject *(*check_df)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, __pyx_t_7plexsim_6models_5types_node_id_t, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_df *__pyx_optional_args);
-  Crawler *(*_check_df)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, Crawler *);
+  std::vector<std::vector<EdgeColor> >  (*_check_df)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, Crawler *);
   int (*_check_endpoint)(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *, __pyx_t_7plexsim_6models_5types_state_t, Crawler *);
 };
 static struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *__pyx_vtabptr_7plexsim_6models_13value_network_ValueNetwork;

@@ -1,7 +1,7 @@
 numpy
 networkx
 scipy
-cython==3.0a6
+cython==3.0a8
 scikit-learn
 pyprind
-sphinx
+sphinx==4.0.0

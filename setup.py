@@ -21,6 +21,7 @@ flags = (
     "-frename-registers -funroll-loops -fno-wrapv "
     "-fopenmp-simd -fopenmp -unused-variable -Wno-unused "
     "-D_GLIBCXX_USE_CXX11_ABI=0 "
+    "-Wfatal-errors "
 )
 
 # collect pyx files
@@ -141,7 +142,7 @@ sphinx = dict(
     project=("setup.py", name),
     version=("setup.py", version),
     source_dir=("setup.py", "docs/src"),
-    build_dir = ("setup.py", "docs/build"),
+    build_dir=("setup.py", "docs/build"),
 )
 # future me note: sometimes headers are not included; clean the dist and build folders
 # and rebuild

@@ -68,26 +68,36 @@ public:
   std::vector<EdgeColor> path;
 
   std::vector<std::vector<EdgeColor>> results;
-  // std::set<std::set<EdgeColor>> results;
-  std::vector<std::vector<EdgeColor>> options;
 
   bool verbose;
   size_t bounded_rational;
 
   // option merging
-  void merge_options();
-  bool merge_option(std::vector<EdgeColor>, std::vector<EdgeColor>,
-                    std::vector<std::vector<EdgeColor>> *);
-  void check_options();
+  // void merge_options();
+  void merge_options(std::vector<std::vector<EdgeColor>> &options);
+
+  void merge_options(std::vector<std::vector<EdgeColor>> &options,
+                     std::vector<std::vector<EdgeColor>> &other_options);
+
+  // bool merge_option(std::vector<EdgeColor>, std::vector<EdgeColor>,
+  //                   std::vector<std::vector<EdgeColor>> *);
+
+  uint8_t merge_option(size_t, size_t, std::vector<std::vector<EdgeColor>> &);
+
+  // void check_options();
 
   // path
   bool in_path(EdgeColor);
   bool in_path(EdgeColor, std::vector<EdgeColor>);
 
-  bool in_options(EdgeColor option);
+  bool in_options(EdgeColor &option,
+                  std::vector<std::vector<EdgeColor>> &options);
+
+  bool in_options(std::vector<EdgeColor> &option,
+                  std::vector<std::vector<EdgeColor>> &options);
 
   void add_result(std::vector<EdgeColor>);
-  void print();
+  void print(std::vector<std::vector<EdgeColor>> options);
   void print(std::vector<EdgeColor>);
 };
 
