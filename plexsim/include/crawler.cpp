@@ -112,17 +112,17 @@ void Crawler::add_result(std::vector<EdgeColor> option) {
     }
   }
 
-  if (this->verbose) {
-    printf("Considered option: \n");
-    this->print(option);
-  }
+  // if (this->verbose) {
+  //   printf("Considered option: \n");
+  //   this->print(option);
+  // }
 
   if (add == true && option.size() == this->bounded_rational) {
 
-    if (this->verbose) {
-      printf("Pushing result ");
-      this->print(option);
-    }
+    // if (this->verbose) {
+    //   printf("Pushing result ");
+    //   this->print(option);
+    // }
 
     // this->results.push_back(option);
     // push only unique options
@@ -273,7 +273,9 @@ uint8_t Crawler::merge_option(size_t idx, size_t jdx,
 void Crawler::merge_options(
     std::vector<std::vector<EdgeColor>> &options,
     std::vector<std::vector<EdgeColor>> &other_options) {
-
+  /**
+   * @brief      Merges @other_option in @option
+   */
   std::set<EdgeColor> uni;
   // empty options
   if (options.size() == 0) {
@@ -282,38 +284,42 @@ void Crawler::merge_options(
     return;
   }
 
-  int idx = options.size() - 1;
+  int start_idx = options.size() - 1;
+  int idx = start_idx;
+
+  std::vector<EdgeColor> option;
   // options are non-empty
   while (idx >= 0) {
-    for (auto &optj : other_options) {
-      uni.clear();
-      std::set_union(options[idx].begin(), options[idx].end(), optj.begin(),
-                     optj.end(), std::inserter(uni, uni.begin()));
 
-      if (uni.size() > options[idx].size()) {
-        options.push_back(std::vector<EdgeColor>(uni.begin(), uni.end()));
-      } else if (idx == 0) {
-        options.push_back(optj);
-      }
-
-      if (options[idx].size() == this->bounded_rational) {
-        this->add_result(options[idx]);
-        options.erase(options.begin() + idx);
-        idx++;
-      }
-    }
-    idx--;
-  }
-
-  for (int idx = options.size() - 1; idx >= 0; idx--) {
-    if (this->path.size()) {
-      options[idx].push_back(this->path.back().sort());
-    }
-
+    // check if option exists
+    // edge case for cycle?
     if (options[idx].size() == this->bounded_rational) {
       this->add_result(options[idx]);
       options.erase(options.begin() + idx);
     }
+
+    for (auto &optj : other_options) {
+      uni.clear();
+      option.clear();
+      std::set_union(options[idx].begin(), options[idx].end(), optj.begin(),
+                     optj.end(), std::inserter(uni, uni.begin()));
+
+      if (uni.size() > options[idx].size()) {
+        option = std::vector<EdgeColor>(uni.begin(), uni.end());
+
+      } else if (idx == start_idx) {
+
+        if (!this->in_options(optj, options)) {
+          option = optj;
+        }
+      }
+
+      if (option.size() != 0) {
+        options.push_back(option);
+        // idx++;
+      }
+    }
+    idx--;
   }
 }
 

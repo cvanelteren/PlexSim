@@ -10,7 +10,7 @@ from test_valuenetwork import TestRecursionCrawl
 from plexsim.utils.rules import create_rule_full
 
 
-def test_crawl_single(m, target, verbose=False):
+def test_crawl_single(m, target, verbose=False, nodes=None):
     if verbose:
         print("-" * 32)
         print(f"Testing graph of size {len(m.graph)}")
@@ -25,7 +25,11 @@ def test_crawl_single(m, target, verbose=False):
     # fig.show()
     # plt.show()
 
-    for node_label, node in m.adj.mapping.items():
+    if nodes:
+        to_check = ((m.adj.rmapping[node], node) for node in nodes)
+    else:
+        to_check = m.adj.mapping.items()
+    for node_label, node in to_check:
         # node = 4
         # node_label = "4"
         print(f"Checking {node=}")
@@ -43,18 +47,23 @@ def test_crawl_single(m, target, verbose=False):
         # break
 
 
-def test_specific(graph: nx.Graph):
+def test_specific(graph: nx.Graph, nodes: list = None):
     r = create_rule_full(graph, self_weight=-1)
     S = np.arange(len(r))
     m = ValueNetwork(graph, rules=r, agentStates=S)
     print(f"{m.bounded_rational=}")
     m.states = S
-    test_crawl_single(m, target=1, verbose=1)
+    test_crawl_single(m, target=1, verbose=1, nodes=nodes)
 
 
-# g = nx.path_graph(2)
+g = nx.path_graph(5)
+
 g = nx.path_graph(3)
-# g = nx.cycle_graph(3)
+g = nx.star_graph(3)
+# g.add_edge(1, 2)
+
+g = nx.cycle_graph(3)
+g = nx.path_graph(2)
 
 #
 # g = nx.cycle_graph(3)
@@ -62,7 +71,8 @@ g = nx.path_graph(3)
 # g = nx.path_graph(3)
 # test = TestRecursionCrawl()
 # test.test_specific(g)
+
+test_specific(g, nodes=[1])
+
 nx.draw(g, with_labels=1)
 plt.show()
-
-test_specific(g)

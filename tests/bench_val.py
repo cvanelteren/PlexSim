@@ -57,7 +57,7 @@ if __name__ == "__main__":
         ax[0].scatter(xr, t, label=l, s=5)
 
     ax[1].scatter(xr, timings[1] / timings[0], label="Cython/CPP speed")
-    ax[1].scatter(xr, timings[0] / timings[1], label="CPP/Cython speed")
+    # ax[1].scatter(xr, timings[0] / timings[1], label="CPP/Cython speed")
 
     ax[0].legend()
     ax[1].legend()
@@ -68,6 +68,6 @@ if __name__ == "__main__":
     ax[0].set_ylabel("Timings")
     ax[1].set_ylabel("Ratio timing")
     ax[0].set_yscale("log")
-    ax[1].set_yscale("log")
+    # ax[1].set_yscale("log")
     fig.show()
-    plt.show()
+    plt.show(block=True)

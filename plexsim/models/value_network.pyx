@@ -283,6 +283,9 @@ cdef class ValueNetwork(Potts):
         cdef size_t idx, opt_idx
         cdef node_id_t neighbor_idx
 
+        # with gil:
+        #     import time; time.sleep(.2)
+
         if crawler.queue.size():
             # pop the queue
             current_edge.current = crawler.queue.back().current
@@ -323,8 +326,6 @@ cdef class ValueNetwork(Potts):
 
             # 2. check neighbors
             it = self.adj._adj[current_edge.other.name].neighbors.begin()
-            with gil:
-                print(f"Checking neighbors of {current_edge.other.name}")
             while it != self.adj._adj[current_edge.other.name].neighbors.end():
                 neighbor_idx = deref(it).first
                 proposal_edge.other = ColorNode(neighbor_idx, self._states[neighbor_idx])
@@ -351,42 +352,35 @@ cdef class ValueNetwork(Potts):
 
                     # start merging
                     branch_option = self._check_df(crawler)
-                    # crawler.merge_options(branch_options, branch_option)
+                    if self._rules._adj[current_edge.current.state][current_edge.other.state] > 0:
+                        if crawler.verbose:
+                            with gil:
+                                print("Adding to branch:")
+                                current_edge.print()
 
+                        for bidx in range(branch_option.size()):
+                            branch_option[bidx].push_back(current_edge.sort())
                     crawler.merge_options(options, branch_option)
 
-                    # 4. merge options
-                    # crawler.merge_options(options)
-                    if crawler.verbose:
-                        with gil:
-                            # print(f"{options.size()=}")
-                            print(f"{branch_options.size()=}")
-                            print(f"{crawler.results.size()=}")
-                        crawler.print(options)
-
                 post(it) # never forget :)
-            # crawler.merge_options(options, branch_options)
-            crawler.print(options)
+            # crawler.merge_options(options, options)
+            if crawler.verbose:
+                crawler.print(options)
 
 
-            # if crawler.verbose:
-            #     with gil:
-            #         print("Current edge is:")
-            #         current_edge.print()
-            #         print("done merging")
-            #         crawler.print(options)
-            #         print(f"{crawler.path.size()=}")
-            #         print(f"{crawler.results.size()=}")
-            #         print(f"{options.size()=}")
 
         # # check if current path contains solution
         # if crawler.path.size() == self._bounded_rational:
         #     crawler.add_result(crawler.path)
+        for idx in range(options.size()):
+            if options[idx].size() == self._bounded_rational:
+                crawler.add_result( options[idx] )
+                options.erase(options.begin() + idx)
 
-        # reduce path length
-        option.clear()
-        option.push_back(crawler.path.back().sort())
-        options.push_back(option)
+        # # reduce path length
+        # option.clear()
+        # option.push_back(crawler.path.back().sort())
+        # options.push_back(option)
 
         crawler.path.pop_back()
         return options
