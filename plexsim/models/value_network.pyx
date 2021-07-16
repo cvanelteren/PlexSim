@@ -355,33 +355,18 @@ cdef class ValueNetwork(Potts):
 
                     crawler.merge_options(options, branch_option)
 
-                    # 4. merge options
-                    # crawler.merge_options(options)
-                    if crawler.verbose:
-                        with gil:
-                            # print(f"{options.size()=}")
-                            print(f"{branch_options.size()=}")
-                            print(f"{crawler.results.size()=}")
-                        crawler.print(options)
 
-                post(it) # never forget :)
-            # crawler.merge_options(options, branch_options)
-            crawler.print(options)
+            if crawler.verbose:
+                with gil:
+                    print("done merging")
+                    crawler.print()
+                    print(f"{crawler.path.size()=}")
+                    print(f"{crawler.results.size()=}")
+                    print(f"{crawler.options.size()=}")
 
-
-            # if crawler.verbose:
-            #     with gil:
-            #         print("Current edge is:")
-            #         current_edge.print()
-            #         print("done merging")
-            #         crawler.print(options)
-            #         print(f"{crawler.path.size()=}")
-            #         print(f"{crawler.results.size()=}")
-            #         print(f"{options.size()=}")
-
-        # # check if current path contains solution
-        # if crawler.path.size() == self._bounded_rational:
-        #     crawler.add_result(crawler.path)
+        # check if current path contains solution
+        if crawler.path.size() == self._bounded_rational:
+            crawler.add_result(crawler.path)
 
         # reduce path length
         option.clear()

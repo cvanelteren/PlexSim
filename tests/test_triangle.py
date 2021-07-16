@@ -49,8 +49,23 @@ def test_specific(graph: nx.Graph):
     m = ValueNetwork(graph, rules=r, agentStates=S)
     print(f"{m.bounded_rational=}")
     m.states = S
+<<<<<<< Updated upstream
     test_crawl_single(m, target=1, verbose=1)
 
+=======
+    test_crawl_single(m, target=1, verbose=1, nodes=nodes)
+
+
+g = nx.path_graph(5)
+
+# g = nx.path_graph(3)
+# g = nx.star_graph(4)
+# g.add_edge(1, 2)
+# g.add_edge(1, 2)
+
+g = nx.cycle_graph(3)
+# g = nx.path_graph(2)
+>>>>>>> Stashed changes
 
 # g = nx.path_graph(2)
 g = nx.path_graph(3)
@@ -62,6 +77,12 @@ g = nx.path_graph(3)
 # g = nx.path_graph(3)
 # test = TestRecursionCrawl()
 # test.test_specific(g)
+<<<<<<< Updated upstream
+=======
+
+test_specific(g)
+
+>>>>>>> Stashed changes
 nx.draw(g, with_labels=1)
 plt.show()
 

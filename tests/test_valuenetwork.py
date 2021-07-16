@@ -32,7 +32,7 @@ class TestRecursionCrawl(ut.TestCase):
             for node in range(m.nNodes):
                 m.states[node] = node
 
-            self.__test_crawl_single(m, target=1, verbose=1)
+            self.__test_crawl_single(m, target=1, verbose=0)
 
     @ut.skip
     def test_crawls_true_negative(self):
@@ -56,10 +56,11 @@ class TestRecursionCrawl(ut.TestCase):
         crawls = []
         tmp = []
 
-        fig, ax = plt.subplots()
-        nx.draw(m.graph, ax=ax, with_labels=1)
-        fig.show()
-        plt.show()
+         if verbose:
+            fig, ax = plt.subplots()
+            nx.draw(m.graph, ax=ax, with_labels=1)
+            fig.show()
+            plt.show()
 
         for node_label, node in m.adj.mapping.items():
             crawl = m.check_df(node, verbose=verbose)

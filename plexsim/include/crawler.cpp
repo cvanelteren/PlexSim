@@ -317,7 +317,62 @@ void Crawler::merge_options(
   }
 }
 
-void Crawler::merge_options(std::vector<std::vector<EdgeColor>> &options) {
+void Crawler::merge_options(
+    std::vector<std::vector<EdgeColor>> &options,
+    std::vector<std::vector<EdgeColor>> &other_options) {
+  /**
+   * @brief      Merges @other_option in @option
+   */
+
+  std::set<EdgeColor> uni;
+  std::vector<EdgeColor> option;
+  // options are non-empty
+  //
+  //
+  for (auto &elem : other_options) {
+    options.push_back(elem);
+  }
+
+  int counter;
+  bool can_merge = true;
+  int start_idx = 0;
+  int end_idx = 0;
+  while (can_merge) {
+    can_merge = false;
+    // check if option exists
+    // edge case for cycle?
+
+    // if (options[idx].size() == this->bounded_rational) {
+    //   this->add_result(options[idx]);
+    //   options.erase(options.begin() + idx);
+    // }
+
+    start_idx = end_idx;
+    end_idx = options.size();
+    for (int idx = start_idx; idx < end_idx; idx++) {
+      for (auto &optj : other_options) {
+        option.clear();
+        uni.clear();
+        std::set_union(options[idx].begin(), options[idx].end(), optj.begin(),
+                       optj.end(), std::inserter(uni, uni.begin()));
+
+        if (uni.size() > options[idx].size()) {
+          option = std::vector<EdgeColor>(uni.begin(), uni.end());
+          options.push_back(option);
+          can_merge = true;
+        }
+      }
+    }
+  }
+  for (int idx = options.size() - 1; idx >= 0; idx--) {
+    if (options[idx].size() == this->bounded_rational) {
+      this->add_result(options[idx]);
+      options.erase(options.begin() + idx);
+    }
+  }
+}
+
+void Crawler::merge_options() {
   /**
    * @brief  Merges  options  together to  build  path  from
    * below.

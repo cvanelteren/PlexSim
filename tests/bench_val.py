@@ -58,6 +58,10 @@ if __name__ == "__main__":
 
     ax[1].scatter(xr, timings[1] / timings[0], label="Cython/CPP speed")
     ax[1].scatter(xr, timings[0] / timings[1], label="CPP/Cython speed")
+    ax[0].scatter(xr, t, label=l, s=5)
+
+    ax[1].scatter(xr, timings[1] / timings[0], label="Cython/CPP speed")
+    # ax[1].scatter(xr, timings[0] / timings[1], label="CPP/Cython speed")
 
     ax[0].legend()
     ax[1].legend()
