@@ -6,7 +6,7 @@ from imi import infcy
 
 warnings.simplefilter("ignore")
 plt.style.use("fivethirtyeight spooky".split())
-from test_valuenetwork import TestRecursionCrawl
+from test_valuenetwork import TestCrawl
 from plexsim.utils.rules import create_rule_full
 
 
@@ -80,21 +80,32 @@ def double_y():
     plt.show()
 
 
-g = nx.path_graph(5)
+g = nx.complete_graph(4)
 
-g = nx.path_graph(3)
-g = nx.star_graph(3)
-# g.add_edge(1, 2)
+# g = nx.path_graph(3)
+# g = nx.star_graph(3)
+# # g.add_edge(1, 2)
+
+# g = nx.cycle_graph(3)
+# g = nx.path_graph(2)
+
+
+from plexsim.utils.graph import ConnectedSimpleGraphs
+
+csg = ConnectedSimpleGraphs()
 
 g = nx.cycle_graph(3)
-g = nx.path_graph(2)
-
-#
-# g = nx.cycle_graph(3)
 # g = nx.path_graph(2)
 # g = nx.path_graph(3)
 # test = TestRecursionCrawl()
-# test.test_specific(g)
-
+# test_specific(g)
+# double_y()
+g = csg.rvs(7)
 # test_specific(g, nodes=[1])
-double_y()
+print("-" * 32)
+print(f"{g.number_of_nodes()=}")
+print(f"{g.number_of_edges()=}")
+print("-" * 32)
+
+print()
+# double_y()

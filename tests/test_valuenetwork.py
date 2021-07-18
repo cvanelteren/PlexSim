@@ -13,7 +13,7 @@ import time, logging
 # Set log level
 
 
-class TestRecursionCrawl(ut.TestCase):
+class TestCrawl(ut.TestCase):
     model = ValueNetwork
 
     def setUp(self):
@@ -23,7 +23,7 @@ class TestRecursionCrawl(ut.TestCase):
         self.verbose = False
 
     # @ut.skip
-    def test_crawls_true_positive(self):
+    def test_true_positive(self):
         for graph in self.graphs:
             r = create_rule_full(graph, self_weight=-1)
             S = np.arange(len(r))
@@ -37,7 +37,7 @@ class TestRecursionCrawl(ut.TestCase):
             self.__test_crawl_single(m, targets=targets, verbose=self.verbose)
 
     # @ut.skip
-    def test_crawls_true_negative(self):
+    def test_true_negative(self):
         for graph in self.graphs:
             r = create_rule_full(graph, self_weight=-1)
             S = np.arange(len(r))
@@ -49,7 +49,7 @@ class TestRecursionCrawl(ut.TestCase):
             self.__test_crawl_single(m, targets=targets, verbose=self.verbose)
 
     # @ut.skip
-    def test_y_dual_branch(self):
+    def test_y_dual(self):
 
         graph = nx.path_graph(3)
         graph.add_edge(1, 3)

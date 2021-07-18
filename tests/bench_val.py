@@ -14,7 +14,9 @@ plt.style.use("fivethirtyeight spooky".split())
 def setup(graph: nx.Graph, model_t: object) -> object:
     r = create_rule_full(graph, self_weight=-1)
     S = np.arange(len(r))
+    # br = min([1, r.number_of_edges()])
     m = model_t(graph, rules=r, agentStates=S)
+    # bounded_rational=br)
     print(f"{m.bounded_rational=}")
     m.states = S
     return m
@@ -35,6 +37,10 @@ if __name__ == "__main__":
 
     timings = np.zeros((2, len(graphs)))
     for idx, graph in enumerate(graphs):
+        print("-" * 32)
+        print(f"{graph.number_of_nodes()=}")
+        print(f"{graph.number_of_edges()=}")
+        print("-" * 32)
         print("setting up vncpp")
         m = setup(graph, VNCPP)
         start = time.time()
@@ -49,8 +55,6 @@ if __name__ == "__main__":
         timings[1, idx] = time.time() - start
 
     print(timings[1] / (timings[0]))
-    print(timings[0] / timings[1])
-    print(timings)
     xr = np.array([len(i) for i in graphs])
     fig, ax = plt.subplots(2, 1, figsize=(5, 5))
     for t, l in zip(timings, "CPP CYTHON".split()):
