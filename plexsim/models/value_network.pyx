@@ -66,7 +66,7 @@ cdef class ValueNetwork(Potts):
                    nx.get_edge_attributes(self.rules, 'weight').items() if v > 0]
             value = len(tmp)
         else:
-            assert 1 <= value <= len(self.rules)
+            assert 1 <= value <= self.rules.number_of_edges()
         self._bounded_rational = int(value)
 
     cpdef vector[double] siteEnergy(self, state_t[::1] states):
@@ -372,10 +372,11 @@ cdef class ValueNetwork(Potts):
         # # check if current path contains solution
         # if crawler.path.size() == self._bounded_rational:
         #     crawler.add_result(crawler.path)
-        for idx in range(options.size()):
-            if options[idx].size() == self._bounded_rational:
-                crawler.add_result( options[idx] )
-                options.erase(options.begin() + idx)
+
+        # for idx in range(options.size()):
+        #     if options[idx].size() == self._bounded_rational:
+        #         crawler.add_result( options[idx] )
+        #         options.erase(options.begin() + idx)
 
         # # reduce path length
         # option.clear()
