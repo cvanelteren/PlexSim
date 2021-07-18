@@ -1,4 +1,4 @@
-from plexsim.models import ValueNetwork
+from plexsim.models.value_network import ValueNetwork
 import matplotlib.pyplot as plt, cmasher as cmr
 import numpy as np, os, sys, networkx as nx, warnings
 from plexsim import models
@@ -60,9 +60,11 @@ def double_y():
     g = nx.path_graph(3)
     g.add_edge(1, 3)
     r = create_rule_full(nx.path_graph(3))
-    s = np.array([*np.arange(3), 2])
-    m = ValueNetwork(g, rules=r, agentStates=np.arange(len(r)))
+    S = np.arange(3)
+    s = np.array([*S, 2])
+    m = ValueNetwork(g, rules=r, agentStates=S)
     m.states = s
+    print(m.states)
     test_crawl_single(m, target=1, verbose=1)
 
     x = np.linspace(0, 1, m.nStates, 0)
@@ -72,6 +74,8 @@ def double_y():
         s = int(m.states[node])
         ci = colors[s]
         c.append(ci)
+
+    print(m.states)
     nx.draw(g, with_labels=1, node_color=c)
     plt.show()
 

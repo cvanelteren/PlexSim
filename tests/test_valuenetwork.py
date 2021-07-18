@@ -3,7 +3,7 @@ import subprocess, numpy as np
 
 from plexsim.utils.graph import ConnectedSimpleGraphs
 from plexsim.utils.rules import create_rule_full
-from plexsim.models import ValueNetwork
+from plexsim.models.value_network import ValueNetwork
 
 import matplotlib.pyplot as plt, networkx as nx
 from plexsim.utils.visualisation import GraphAnimation
@@ -33,9 +33,10 @@ class TestRecursionCrawl(ut.TestCase):
             for node in range(m.nNodes):
                 m.states[node] = node
 
-            self.__test_crawl_single(m, target=1, verbose=self.verbose)
+            targets = np.ones(m.nNodes)
+            self.__test_crawl_single(m, targets=targets, verbose=self.verbose)
 
-    @ut.skip
+    # @ut.skip
     def test_crawls_true_negative(self):
         for graph in self.graphs:
             r = create_rule_full(graph, self_weight=-1)
@@ -44,45 +45,51 @@ class TestRecursionCrawl(ut.TestCase):
 
             # set state -> social network matches the value network
             m.states = S[0]
-            self.__test_crawl_single(m, target=0, verbose=self.verbose)
+            targets = np.zeros(m.nNodes)
+            self.__test_crawl_single(m, targets=targets, verbose=self.verbose)
 
     # @ut.skip
     def test_y_dual_branch(self):
-        r = nx.path_graph(3)
-        S = np.arange(len(r))
+
         graph = nx.path_graph(3)
         graph.add_edge(1, 3)
-        m = self.model(graph, rules=r, agentStates=S)
-        SS = np.array([*np.arange(3), 2])
-        assert SS.size == m.nNodes, m.nNodes
-        for idx in range(m.nNodes):
-            m.states[idx] = SS[idx]
-        self.__test_crawl_single(m, target=1, verbose=True)
 
-    def __test_crawl_single(self, m, target, verbose=False):
+        # define state space
+        S = np.arange(3)
+        # define double y state structure
+        SS = np.array([*S, 2])
+
+        r = create_rule_full(nx.path_graph(3))
+        m = self.model(graph, rules=r, agentStates=S)
+        assert SS.size == m.nNodes, f"{SS.size=} {m.nNodes=}"
+        m.states = SS
+
+        targets = np.ones(m.nNodes)
+        targets[m.adj.mapping["1"]] = 2
+        targets[m.adj.mapping["0"]] = 2
+
+        visualize_graph(m)
+        self.__test_crawl_single(m, targets=targets, verbose=False)
+
+    def __test_crawl_single(self, m: ValueNetwork, targets: list, verbose=False):
 
         if verbose:
             print("-" * 32)
             print(f"Testing graph of size {len(m.graph)}")
             print("-" * 32)
 
-        # time.sleep(1)
-        crawls = []
-        tmp = []
-
         if verbose:
-            fig, ax = plt.subplots()
-            nx.draw(m.graph, ax=ax, with_labels=1)
-            fig.show()
+            visualize_graph(m)
             # plt.show(block=True)
 
+        crawls = []
         for node_label, node in m.adj.mapping.items():
             crawl = m.check_df(node, verbose=verbose)
             # crawl = m.check_df(node)
 
             if verbose:
                 print(f"solution: {crawl} {len(crawl)}")
-            assignment = len(crawl) == target
+            assignment = len(crawl) == targets[node]
             if verbose:
                 print(f"Results ok? {assignment} for node {node}")
                 print(f"{m.adj.mapping=}")
@@ -94,9 +101,20 @@ class TestRecursionCrawl(ut.TestCase):
             )
 
             crawls.append(assignment)
-            # tmp.append((crawl, options))
+
         if verbose:
             plt.show()
+
+
+import cmasher as cmr
+
+
+def visualize_graph(m: ValueNetwork):
+    cmap = cmr.guppy(np.linspace(0, 1, m.nStates, 0))
+    fig, ax = plt.subplots()
+    colors = [cmap[int(i)] for i in m.states.astype(int)]
+    nx.draw(m.graph, ax=ax, node_color=colors, with_labels=1)
+    fig.show()
 
 
 if __name__ == "__main__":
