@@ -22,7 +22,7 @@ class TestRecursionCrawl(ut.TestCase):
             [self.graphs.append(vi) for vi in v]
         self.verbose = False
 
-    @ut.skip
+    # @ut.skip
     def test_crawls_true_positive(self):
         for graph in self.graphs:
             r = create_rule_full(graph, self_weight=-1)
@@ -35,7 +35,7 @@ class TestRecursionCrawl(ut.TestCase):
 
             self.__test_crawl_single(m, target=1, verbose=self.verbose)
 
-    # @ut.skip
+    @ut.skip
     def test_crawls_true_negative(self):
         for graph in self.graphs:
             r = create_rule_full(graph, self_weight=-1)
@@ -51,13 +51,13 @@ class TestRecursionCrawl(ut.TestCase):
         r = nx.path_graph(3)
         S = np.arange(len(r))
         graph = nx.path_graph(3)
-        # graph.add_edge(1, 3)
+        graph.add_edge(1, 3)
         m = self.model(graph, rules=r, agentStates=S)
-        # SS = np.array([*np.arange(2), *[1, 1]])
-        assert S.size == m.nNodes
+        SS = np.array([*np.arange(3), 2])
+        assert SS.size == m.nNodes, m.nNodes
         for idx in range(m.nNodes):
-            m.states[idx] = S[idx]
-        self.__test_crawl_single(m, target=0, verbose=True)
+            m.states[idx] = SS[idx]
+        self.__test_crawl_single(m, target=1, verbose=True)
 
     def __test_crawl_single(self, m, target, verbose=False):
 
