@@ -314,7 +314,7 @@ void Crawler::merge_options(
         }
       }
 
-      if (option.size() != 0) {
+      if ((option.size() != 0) && (option.size() <= this->bounded_rational)) {
         options.push_back(option);
         // idx++;
       }

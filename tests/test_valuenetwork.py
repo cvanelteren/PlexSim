@@ -18,10 +18,11 @@ class TestRecursionCrawl(ut.TestCase):
 
     def setUp(self):
         self.graphs = []
-        for k, v in ConnectedSimpleGraphs().generate(5).items():
+        for k, v in ConnectedSimpleGraphs().generate(4).items():
             [self.graphs.append(vi) for vi in v]
+        self.verbose = False
 
-    # @ut.skip
+    @ut.skip
     def test_crawls_true_positive(self):
         for graph in self.graphs:
             r = create_rule_full(graph, self_weight=-1)
@@ -32,9 +33,9 @@ class TestRecursionCrawl(ut.TestCase):
             for node in range(m.nNodes):
                 m.states[node] = node
 
-            self.__test_crawl_single(m, target=1, verbose=1)
+            self.__test_crawl_single(m, target=1, verbose=self.verbose)
 
-    @ut.skip
+    # @ut.skip
     def test_crawls_true_negative(self):
         for graph in self.graphs:
             r = create_rule_full(graph, self_weight=-1)
@@ -43,7 +44,20 @@ class TestRecursionCrawl(ut.TestCase):
 
             # set state -> social network matches the value network
             m.states = S[0]
-            self.__test_crawl_single(m, target=0, verbose=0)
+            self.__test_crawl_single(m, target=0, verbose=self.verbose)
+
+    # @ut.skip
+    def test_y_dual_branch(self):
+        r = nx.path_graph(3)
+        S = np.arange(len(r))
+        graph = nx.path_graph(3)
+        # graph.add_edge(1, 3)
+        m = self.model(graph, rules=r, agentStates=S)
+        # SS = np.array([*np.arange(2), *[1, 1]])
+        assert S.size == m.nNodes
+        for idx in range(m.nNodes):
+            m.states[idx] = S[idx]
+        self.__test_crawl_single(m, target=0, verbose=True)
 
     def __test_crawl_single(self, m, target, verbose=False):
 
@@ -56,10 +70,11 @@ class TestRecursionCrawl(ut.TestCase):
         crawls = []
         tmp = []
 
-        fig, ax = plt.subplots()
-        nx.draw(m.graph, ax=ax, with_labels=1)
-        fig.show()
-        plt.show()
+        if verbose:
+            fig, ax = plt.subplots()
+            nx.draw(m.graph, ax=ax, with_labels=1)
+            fig.show()
+            # plt.show(block=True)
 
         for node_label, node in m.adj.mapping.items():
             crawl = m.check_df(node, verbose=verbose)
@@ -70,6 +85,7 @@ class TestRecursionCrawl(ut.TestCase):
             assignment = len(crawl) == target
             if verbose:
                 print(f"Results ok? {assignment} for node {node}")
+                print(f"{m.adj.mapping=}")
             # print(m.states)
 
             self.assertTrue(
@@ -79,6 +95,8 @@ class TestRecursionCrawl(ut.TestCase):
 
             crawls.append(assignment)
             # tmp.append((crawl, options))
+        if verbose:
+            plt.show()
 
 
 if __name__ == "__main__":

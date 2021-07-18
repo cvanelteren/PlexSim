@@ -56,6 +56,26 @@ def test_specific(graph: nx.Graph, nodes: list = None):
     test_crawl_single(m, target=1, verbose=1, nodes=nodes)
 
 
+def double_y():
+    g = nx.path_graph(3)
+    g.add_edge(1, 3)
+    r = create_rule_full(nx.path_graph(3))
+    s = np.array([*np.arange(3), 2])
+    m = ValueNetwork(g, rules=r, agentStates=np.arange(len(r)))
+    m.states = s
+    test_crawl_single(m, target=1, verbose=1)
+
+    x = np.linspace(0, 1, m.nStates, 0)
+    colors = cmr.guppy(x)
+    c = []
+    for node in range(m.nNodes):
+        s = int(m.states[node])
+        ci = colors[s]
+        c.append(ci)
+    nx.draw(g, with_labels=1, node_color=c)
+    plt.show()
+
+
 g = nx.path_graph(5)
 
 g = nx.path_graph(3)
@@ -72,7 +92,5 @@ g = nx.path_graph(2)
 # test = TestRecursionCrawl()
 # test.test_specific(g)
 
-test_specific(g, nodes=[1])
-
-nx.draw(g, with_labels=1)
-plt.show()
+# test_specific(g, nodes=[1])
+double_y()

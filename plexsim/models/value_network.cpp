@@ -7727,7 +7727,7 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
  *                             branch_option[bidx].push_back(current_edge.sort())
  *                     crawler.merge_options(options, branch_option)             # <<<<<<<<<<<<<<
  * 
- *                     # crawler.merge_options(options, branch_option)
+ *                 post(it) # never forget :)
  */
         __pyx_v_crawler->merge_options(__pyx_v_options, __pyx_v_branch_option);
 
@@ -7740,8 +7740,8 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
  */
       }
 
-      /* "plexsim/models/value_network.pyx":376
- *                     #     crawler.print(options)
+      /* "plexsim/models/value_network.pyx":365
+ *                     crawler.merge_options(options, branch_option)
  * 
  *                 post(it) # never forget :)             # <<<<<<<<<<<<<<
  *             # crawler.merge_options(options, options)
@@ -7751,7 +7751,7 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
       __pyx_L10_continue:;
     }
 
-    /* "plexsim/models/value_network.pyx":378
+    /* "plexsim/models/value_network.pyx":367
  *                 post(it) # never forget :)
  *             # crawler.merge_options(options, options)
  *             if crawler.verbose:             # <<<<<<<<<<<<<<
@@ -7761,7 +7761,7 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
     __pyx_t_2 = (__pyx_v_crawler->verbose != 0);
     if (__pyx_t_2) {
 
-      /* "plexsim/models/value_network.pyx":379
+      /* "plexsim/models/value_network.pyx":368
  *             # crawler.merge_options(options, options)
  *             if crawler.verbose:
  *                 crawler.print(options)             # <<<<<<<<<<<<<<
@@ -7770,7 +7770,7 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
  */
       __pyx_v_crawler->print(__pyx_v_options);
 
-      /* "plexsim/models/value_network.pyx":378
+      /* "plexsim/models/value_network.pyx":367
  *                 post(it) # never forget :)
  *             # crawler.merge_options(options, options)
  *             if crawler.verbose:             # <<<<<<<<<<<<<<
@@ -7788,7 +7788,7 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
  */
   }
 
-  /* "plexsim/models/value_network.pyx":395
+  /* "plexsim/models/value_network.pyx":375
  *         # if crawler.path.size() == self._bounded_rational:
  *         #     crawler.add_result(crawler.path)
  *         for idx in range(options.size()):             # <<<<<<<<<<<<<<
@@ -7800,7 +7800,7 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
   for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_8; __pyx_t_10+=1) {
     __pyx_v_idx = __pyx_t_10;
 
-    /* "plexsim/models/value_network.pyx":396
+    /* "plexsim/models/value_network.pyx":376
  *         #     crawler.add_result(crawler.path)
  *         for idx in range(options.size()):
  *             if options[idx].size() == self._bounded_rational:             # <<<<<<<<<<<<<<
@@ -7810,7 +7810,7 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
     __pyx_t_2 = (((__pyx_v_options[__pyx_v_idx]).size() == __pyx_v_self->_bounded_rational) != 0);
     if (__pyx_t_2) {
 
-      /* "plexsim/models/value_network.pyx":397
+      /* "plexsim/models/value_network.pyx":377
  *         for idx in range(options.size()):
  *             if options[idx].size() == self._bounded_rational:
  *                 crawler.add_result( options[idx] )             # <<<<<<<<<<<<<<
@@ -7819,7 +7819,7 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
  */
       __pyx_v_crawler->add_result((__pyx_v_options[__pyx_v_idx]));
 
-      /* "plexsim/models/value_network.pyx":398
+      /* "plexsim/models/value_network.pyx":378
  *             if options[idx].size() == self._bounded_rational:
  *                 crawler.add_result( options[idx] )
  *                 options.erase(options.begin() + idx)             # <<<<<<<<<<<<<<
@@ -7828,7 +7828,7 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
  */
       (void)(__pyx_v_options.erase((__pyx_v_options.begin() + __pyx_v_idx)));
 
-      /* "plexsim/models/value_network.pyx":396
+      /* "plexsim/models/value_network.pyx":376
  *         #     crawler.add_result(crawler.path)
  *         for idx in range(options.size()):
  *             if options[idx].size() == self._bounded_rational:             # <<<<<<<<<<<<<<
@@ -7838,7 +7838,7 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
     }
   }
 
-  /* "plexsim/models/value_network.pyx":405
+  /* "plexsim/models/value_network.pyx":385
  *         # options.push_back(option)
  * 
  *         crawler.path.pop_back()             # <<<<<<<<<<<<<<
@@ -7847,7 +7847,7 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
  */
   __pyx_v_crawler->path.pop_back();
 
-  /* "plexsim/models/value_network.pyx":406
+  /* "plexsim/models/value_network.pyx":386
  * 
  *         crawler.path.pop_back()
  *         return options             # <<<<<<<<<<<<<<
@@ -7882,7 +7882,7 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network.pyx":410
+/* "plexsim/models/value_network.pyx":390
  * 
  * 
  *     cdef double _energy(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -7917,7 +7917,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
   PyGILState_STATE __pyx_gilstate_save;
   #endif
 
-  /* "plexsim/models/value_network.pyx":414
+  /* "plexsim/models/value_network.pyx":394
  *         """
  *         cdef:
  *             size_t neighbors = self.adj._adj[node].neighbors.size()             # <<<<<<<<<<<<<<
@@ -7926,7 +7926,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  */
   __pyx_v_neighbors = (__pyx_v_self->__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.size();
 
-  /* "plexsim/models/value_network.pyx":415
+  /* "plexsim/models/value_network.pyx":395
  *         cdef:
  *             size_t neighbors = self.adj._adj[node].neighbors.size()
  *             state_t* states = self._states # alias             # <<<<<<<<<<<<<<
@@ -7936,7 +7936,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
   __pyx_t_1 = __pyx_v_self->__pyx_base.__pyx_base._states;
   __pyx_v_states = __pyx_t_1;
 
-  /* "plexsim/models/value_network.pyx":419
+  /* "plexsim/models/value_network.pyx":399
  *             double weight # TODO: remove delta
  * 
  *             double energy  = self._H[node] * self._states[node]             # <<<<<<<<<<<<<<
@@ -7946,7 +7946,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
   __pyx_t_2 = __pyx_v_node;
   __pyx_v_energy = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base._H.data) + __pyx_t_2)) ))) * (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]));
 
-  /* "plexsim/models/value_network.pyx":421
+  /* "plexsim/models/value_network.pyx":401
  *             double energy  = self._H[node] * self._states[node]
  * 
  *         if self._nudges.find(node) != self._nudges.end():             # <<<<<<<<<<<<<<
@@ -7956,7 +7956,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
   __pyx_t_3 = ((__pyx_v_self->__pyx_base.__pyx_base._nudges.find(__pyx_v_node) != __pyx_v_self->__pyx_base.__pyx_base._nudges.end()) != 0);
   if (__pyx_t_3) {
 
-    /* "plexsim/models/value_network.pyx":422
+    /* "plexsim/models/value_network.pyx":402
  * 
  *         if self._nudges.find(node) != self._nudges.end():
  *             energy += self._nudges[node] * self._states[node]             # <<<<<<<<<<<<<<
@@ -7965,7 +7965,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  */
     __pyx_v_energy = (__pyx_v_energy + ((__pyx_v_self->__pyx_base.__pyx_base._nudges[__pyx_v_node]) * (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node])));
 
-    /* "plexsim/models/value_network.pyx":421
+    /* "plexsim/models/value_network.pyx":401
  *             double energy  = self._H[node] * self._states[node]
  * 
  *         if self._nudges.find(node) != self._nudges.end():             # <<<<<<<<<<<<<<
@@ -7974,7 +7974,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  */
   }
 
-  /* "plexsim/models/value_network.pyx":438
+  /* "plexsim/models/value_network.pyx":418
  *         # only get nodes based on distance it can reach based on the value network
  *         # current state as proposal
  *         cdef state_t proposal = self._states[node]             # <<<<<<<<<<<<<<
@@ -7983,7 +7983,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  */
   __pyx_v_proposal = (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]);
 
-  /* "plexsim/models/value_network.pyx":446
+  /* "plexsim/models/value_network.pyx":426
  * 
  *         # local update
  *         it = self.adj._adj[node].neighbors.begin()             # <<<<<<<<<<<<<<
@@ -7992,7 +7992,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  */
   __pyx_v_it = (__pyx_v_self->__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.begin();
 
-  /* "plexsim/models/value_network.pyx":447
+  /* "plexsim/models/value_network.pyx":427
  *         # local update
  *         it = self.adj._adj[node].neighbors.begin()
  *         while it != self.adj._adj[node].neighbors.end():             # <<<<<<<<<<<<<<
@@ -8003,7 +8003,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
     __pyx_t_3 = ((__pyx_v_it != (__pyx_v_self->__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.end()) != 0);
     if (!__pyx_t_3) break;
 
-    /* "plexsim/models/value_network.pyx":448
+    /* "plexsim/models/value_network.pyx":428
  *         it = self.adj._adj[node].neighbors.begin()
  *         while it != self.adj._adj[node].neighbors.end():
  *             weight   = deref(it).second             # <<<<<<<<<<<<<<
@@ -8013,7 +8013,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
     __pyx_t_4 = (*__pyx_v_it).second;
     __pyx_v_weight = __pyx_t_4;
 
-    /* "plexsim/models/value_network.pyx":449
+    /* "plexsim/models/value_network.pyx":429
  *         while it != self.adj._adj[node].neighbors.end():
  *             weight   = deref(it).second
  *             neighbor = deref(it).first             # <<<<<<<<<<<<<<
@@ -8023,7 +8023,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
     __pyx_t_2 = (*__pyx_v_it).first;
     __pyx_v_neighbor = __pyx_t_2;
 
-    /* "plexsim/models/value_network.pyx":451
+    /* "plexsim/models/value_network.pyx":431
  *             neighbor = deref(it).first
  *             # check rules
  *             energy += self._rules._adj[proposal][states[neighbor]]             # <<<<<<<<<<<<<<
@@ -8032,7 +8032,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  */
     __pyx_v_energy = (__pyx_v_energy + ((__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[__pyx_v_proposal])[(__pyx_v_states[__pyx_v_neighbor])]));
 
-    /* "plexsim/models/value_network.pyx":452
+    /* "plexsim/models/value_network.pyx":432
  *             # check rules
  *             energy += self._rules._adj[proposal][states[neighbor]]
  *             post(it)             # <<<<<<<<<<<<<<
@@ -8042,7 +8042,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
     (void)((__pyx_v_it++));
   }
 
-  /* "plexsim/models/value_network.pyx":454
+  /* "plexsim/models/value_network.pyx":434
  *             post(it)
  * 
  *         cdef Crawler *crawler = new Crawler(node, self._states[node], self._bounded_rational)             # <<<<<<<<<<<<<<
@@ -8059,11 +8059,11 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 454, __pyx_L1_error)
+    __PYX_ERR(0, 434, __pyx_L1_error)
   }
   __pyx_v_crawler = __pyx_t_5;
 
-  /* "plexsim/models/value_network.pyx":455
+  /* "plexsim/models/value_network.pyx":435
  * 
  *         cdef Crawler *crawler = new Crawler(node, self._states[node], self._bounded_rational)
  *         self._check_df(crawler)             # <<<<<<<<<<<<<<
@@ -8072,7 +8072,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  */
   (void)(((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->_check_df(__pyx_v_self, __pyx_v_crawler));
 
-  /* "plexsim/models/value_network.pyx":456
+  /* "plexsim/models/value_network.pyx":436
  *         cdef Crawler *crawler = new Crawler(node, self._states[node], self._bounded_rational)
  *         self._check_df(crawler)
  *         energy += crawler.results.size()             # <<<<<<<<<<<<<<
@@ -8081,7 +8081,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  */
   __pyx_v_energy = (__pyx_v_energy + __pyx_v_crawler->results.size());
 
-  /* "plexsim/models/value_network.pyx":462
+  /* "plexsim/models/value_network.pyx":442
  *         cdef size_t mi
  *         # TODO: move to separate function
  *         for mi in range(self._memorySize):             # <<<<<<<<<<<<<<
@@ -8093,7 +8093,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
   for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
     __pyx_v_mi = __pyx_t_8;
 
-    /* "plexsim/models/value_network.pyx":463
+    /* "plexsim/models/value_network.pyx":443
  *         # TODO: move to separate function
  *         for mi in range(self._memorySize):
  *             energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])             # <<<<<<<<<<<<<<
@@ -8105,7 +8105,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
     __pyx_v_energy = (__pyx_v_energy + (exp((__pyx_v_mi * __pyx_v_self->__pyx_base.__pyx_base._memento)) * ((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._hamiltonian(((struct __pyx_obj_7plexsim_6models_5potts_Potts *)__pyx_v_self), (__pyx_v_states[__pyx_v_node]), (*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=1 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ (__pyx_v_self->__pyx_base.__pyx_base._memory.data + __pyx_t_9 * __pyx_v_self->__pyx_base.__pyx_base._memory.strides[0]) )) + __pyx_t_2)) ))))));
   }
 
-  /* "plexsim/models/value_network.pyx":464
+  /* "plexsim/models/value_network.pyx":444
  *         for mi in range(self._memorySize):
  *             energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
  *         return energy             # <<<<<<<<<<<<<<
@@ -8115,7 +8115,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
   __pyx_r = __pyx_v_energy;
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network.pyx":410
+  /* "plexsim/models/value_network.pyx":390
  * 
  * 
  *     cdef double _energy(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -8137,7 +8137,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network.pyx":470
+/* "plexsim/models/value_network.pyx":450
  * 
  * 
  *     cdef double probability(self, state_t state, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -8151,7 +8151,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
   double __pyx_v_p;
   double __pyx_r;
 
-  /* "plexsim/models/value_network.pyx":473
+  /* "plexsim/models/value_network.pyx":453
  *         """ See base model
  *         """
  *         cdef state_t tmp = self._states[node]             # <<<<<<<<<<<<<<
@@ -8160,7 +8160,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
  */
   __pyx_v_tmp = (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]);
 
-  /* "plexsim/models/value_network.pyx":474
+  /* "plexsim/models/value_network.pyx":454
  *         """
  *         cdef state_t tmp = self._states[node]
  *         self._states[node] = state             # <<<<<<<<<<<<<<
@@ -8169,7 +8169,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
  */
   (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]) = __pyx_v_state;
 
-  /* "plexsim/models/value_network.pyx":476
+  /* "plexsim/models/value_network.pyx":456
  *         self._states[node] = state
  *         cdef:
  *             double energy = self._energy(node)             # <<<<<<<<<<<<<<
@@ -8178,7 +8178,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
  */
   __pyx_v_energy = ((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._energy(((struct __pyx_obj_7plexsim_6models_5potts_Potts *)__pyx_v_self), __pyx_v_node);
 
-  /* "plexsim/models/value_network.pyx":477
+  /* "plexsim/models/value_network.pyx":457
  *         cdef:
  *             double energy = self._energy(node)
  *             double p = exp(self._beta * energy)             # <<<<<<<<<<<<<<
@@ -8187,7 +8187,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
  */
   __pyx_v_p = exp((__pyx_v_self->__pyx_base._beta * __pyx_v_energy));
 
-  /* "plexsim/models/value_network.pyx":479
+  /* "plexsim/models/value_network.pyx":459
  *             double p = exp(self._beta * energy)
  * 
  *         self._states[node] = tmp             # <<<<<<<<<<<<<<
@@ -8196,7 +8196,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
  */
   (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]) = __pyx_v_tmp;
 
-  /* "plexsim/models/value_network.pyx":480
+  /* "plexsim/models/value_network.pyx":460
  * 
  *         self._states[node] = tmp
  *         return p             # <<<<<<<<<<<<<<
@@ -8206,7 +8206,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
   __pyx_r = __pyx_v_p;
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network.pyx":470
+  /* "plexsim/models/value_network.pyx":450
  * 
  * 
  *     cdef double probability(self, state_t state, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -8219,7 +8219,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network.pyx":483
+/* "plexsim/models/value_network.pyx":463
  * 
  *     # default update TODO remove this
  *     cdef double _hamiltonian(self, state_t x, state_t  y) nogil:             # <<<<<<<<<<<<<<
@@ -8230,7 +8230,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
 static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__hamiltonian(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_x, __pyx_t_7plexsim_6models_5types_state_t __pyx_v_y) {
   double __pyx_r;
 
-  /* "plexsim/models/value_network.pyx":490
+  /* "plexsim/models/value_network.pyx":470
  *         rules are used.
  *         """
  *         return cos(2 * pi  * ( x - y ) * self._z)             # <<<<<<<<<<<<<<
@@ -8240,7 +8240,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__hamiltoni
   __pyx_r = cos((((2.0 * M_PI) * (__pyx_v_x - __pyx_v_y)) * __pyx_v_self->__pyx_base.__pyx_base._z));
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network.pyx":483
+  /* "plexsim/models/value_network.pyx":463
  * 
  *     # default update TODO remove this
  *     cdef double _hamiltonian(self, state_t x, state_t  y) nogil:             # <<<<<<<<<<<<<<
@@ -8253,7 +8253,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__hamiltoni
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network.pyx":492
+/* "plexsim/models/value_network.pyx":472
  *         return cos(2 * pi  * ( x - y ) * self._z)
  * 
  *     cdef void _step(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -8267,7 +8267,7 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
   double __pyx_v_p;
   int __pyx_t_1;
 
-  /* "plexsim/models/value_network.pyx":494
+  /* "plexsim/models/value_network.pyx":474
  *     cdef void _step(self, node_id_t node) nogil:
  *         cdef:
  *             state_t proposal = self._sample_proposal()             # <<<<<<<<<<<<<<
@@ -8276,7 +8276,7 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
  */
   __pyx_v_proposal = ((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base._sample_proposal(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
-  /* "plexsim/models/value_network.pyx":495
+  /* "plexsim/models/value_network.pyx":475
  *         cdef:
  *             state_t proposal = self._sample_proposal()
  *             state_t cur_state= self._states[node]             # <<<<<<<<<<<<<<
@@ -8285,7 +8285,7 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
  */
   __pyx_v_cur_state = (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]);
 
-  /* "plexsim/models/value_network.pyx":496
+  /* "plexsim/models/value_network.pyx":476
  *             state_t proposal = self._sample_proposal()
  *             state_t cur_state= self._states[node]
  *             double p     = self.probability(proposal, node) / \             # <<<<<<<<<<<<<<
@@ -8294,7 +8294,7 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
  */
   __pyx_v_p = (((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_proposal, __pyx_v_node) / ((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_cur_state, __pyx_v_node));
 
-  /* "plexsim/models/value_network.pyx":498
+  /* "plexsim/models/value_network.pyx":478
  *             double p     = self.probability(proposal, node) / \
  *                 self.probability(cur_state, node)
  *         if self._rng._rand () < p:             # <<<<<<<<<<<<<<
@@ -8304,7 +8304,7 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
   __pyx_t_1 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base.__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base.__pyx_base._rng) < __pyx_v_p) != 0);
   if (__pyx_t_1) {
 
-    /* "plexsim/models/value_network.pyx":499
+    /* "plexsim/models/value_network.pyx":479
  *                 self.probability(cur_state, node)
  *         if self._rng._rand () < p:
  *             self._newstates[node] = proposal             # <<<<<<<<<<<<<<
@@ -8313,7 +8313,7 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
  */
     (__pyx_v_self->__pyx_base.__pyx_base._newstates[__pyx_v_node]) = __pyx_v_proposal;
 
-    /* "plexsim/models/value_network.pyx":498
+    /* "plexsim/models/value_network.pyx":478
  *             double p     = self.probability(proposal, node) / \
  *                 self.probability(cur_state, node)
  *         if self._rng._rand () < p:             # <<<<<<<<<<<<<<
@@ -8322,7 +8322,7 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
  */
   }
 
-  /* "plexsim/models/value_network.pyx":500
+  /* "plexsim/models/value_network.pyx":480
  *         if self._rng._rand () < p:
  *             self._newstates[node] = proposal
  *         return             # <<<<<<<<<<<<<<
@@ -8330,7 +8330,7 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
  */
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network.pyx":492
+  /* "plexsim/models/value_network.pyx":472
  *         return cos(2 * pi  * ( x - y ) * self._z)
  * 
  *     cdef void _step(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
