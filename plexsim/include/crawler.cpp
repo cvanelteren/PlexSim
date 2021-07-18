@@ -300,6 +300,8 @@ void Crawler::merge_options(
 
   // printf("Printing merging lj;asdkf;jadf options \n");
   // this->print(options);
+
+  // remember the tried combinations
   std::unordered_map<size_t, std::unordered_map<size_t, bool>> memoize;
   while (can_merge) {
     can_merge = false;
@@ -338,6 +340,7 @@ void Crawler::merge_options(
                                     std::inserter(uni, uni.begin()));
               if (uni.size() == option.size()) {
                 in_options = true;
+                // keep track of combinations
                 memoize[idx][jdx] = true;
                 break;
               }

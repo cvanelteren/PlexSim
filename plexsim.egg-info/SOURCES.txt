@@ -326,6 +326,7 @@ tests/test_particular.py
 tests/test_triangle.py
 tests/test_valuenetwork.py
 tests/vis_boid.py
+tests/__pycache__/__init__.cpython-39.pyc
 tests/__pycache__/test_models.cpython-39.pyc
 tests/__pycache__/test_triangle.cpython-39.pyc
 tests/__pycache__/test_valuenetwork.cpython-39.pyc
