@@ -56,6 +56,34 @@ def test_specific(graph: nx.Graph, nodes: list = None):
     test_crawl_single(m, target=1, verbose=1, nodes=nodes)
 
 
+def unrolled_y():
+    g = nx.path_graph(4)
+    g.add_edge(1, 10)
+    # g.add_edge(10, 11)
+    nx.draw(g, with_labels=1)
+    plt.show()
+    r = create_rule_full(nx.path_graph(3))
+    S = np.arange(4)
+    s = np.array([*S, 2])
+    m = ValueNetwork(g, rules=r, agentStates=S)
+    m.states = s
+    test_crawl_single(m, target=1, verbose=1)
+
+    assert s.size == m.nNodes
+
+    x = np.linspace(0, 1, m.nStates, 0)
+    colors = cmr.guppy(x)
+    c = []
+    for node in range(m.nNodes):
+        s = int(m.states[node])
+        ci = colors[s]
+        c.append(ci)
+
+    print(m.states)
+    nx.draw(g, with_labels=1, node_color=c)
+    plt.show()
+
+
 def double_y():
     g = nx.path_graph(4)
     g.add_edge(1, 10)

@@ -24,6 +24,9 @@ class TestCrawl(ut.TestCase):
 
     # @ut.skip
     def test_true_positive(self):
+        """
+        Situation in which the social network matches the social network
+        """
         for graph in self.graphs:
             r = create_rule_full(graph, self_weight=-1)
             S = np.arange(len(r))
@@ -38,6 +41,10 @@ class TestCrawl(ut.TestCase):
 
     # @ut.skip
     def test_true_negative(self):
+        """
+        Test that no value networks are formed in a state space
+        without any value networks
+        """
         for graph in self.graphs:
             r = create_rule_full(graph, self_weight=-1)
             S = np.arange(len(r))
@@ -50,6 +57,12 @@ class TestCrawl(ut.TestCase):
 
     # @ut.skip
     def test_y_dual(self):
+        """
+        Test two path graphs on a y-structure
+
+        Each node should complete atleast 1 value network
+        A part of the network should complete 1 more chain
+        """
 
         graph = nx.path_graph(3)
         graph.add_edge(1, 3)
@@ -71,7 +84,27 @@ class TestCrawl(ut.TestCase):
         visualize_graph(m)
         self.__test_crawl_single(m, targets=targets, verbose=False)
 
+    def test_unrolled(self):
+        """
+        Test unrolled cycled graph
+        Should find 1 value network for all nodes
+        """
+        graph = nx.path_graph(4)
+        S = np.arange(3)
+        SS = np.array([*S, 0])
+        r = create_rule_full(nx.cycle_graph(3))
+
+        m = self.model(graph, rules=r, agentStates=S)
+        m.states = SS
+        targets = np.ones(m.nNodes)
+        visualize_graph(m)
+        plt.show()
+        self.__test_crawl_single(m, targets=targets, verbose=True)
+
     def __test_crawl_single(self, m: ValueNetwork, targets: list, verbose=False):
+        """
+        Tests the value network for a given @targets
+        """
 
         if verbose:
             print("-" * 32)
