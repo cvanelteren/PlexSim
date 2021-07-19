@@ -280,7 +280,7 @@ cdef class ValueNetwork(Potts):
         cdef vector[vector[EdgeColor]] options
         cdef vector[vector[EdgeColor]] branch_options, branch_option
         cdef double edge_weight
-        cdef size_t idx, opt_idx
+        cdef size_t idx, opt_idx, bidx
         cdef node_id_t neighbor_idx
 
         # with gil:
@@ -309,17 +309,12 @@ cdef class ValueNetwork(Potts):
 
                 option.clear()
                 # add option
-                option.push_back(current_edge.sort())
+                option.push_back(crawler.path.back().sort())
                 options.push_back(option)
 
                 # pop the path from current path
                 crawler.path.pop_back()
                 return options
-
-
-            # create new proposal edge
-            # proposal_edge.other.name = current_edge.current.name
-            # proposal_edge.other.state = current_edge.current.state
 
             proposal_edge.current = ColorNode(current_edge.other.name,
                                               current_edge.other.state)
@@ -340,26 +335,29 @@ cdef class ValueNetwork(Potts):
                 # check if branch is valid
                 edge_weight = self._rules._adj[proposal_edge.current.state][proposal_edge.other.state]
                 # 3. step into brach
-                if edge_weight < 0:
+                if edge_weight <= 0:
                     if crawler.verbose:
                         with gil:
                             print(f"Found negative {edge_weight=}")
+                        proposal_edge.print()
                     post(it)
                     continue
 
-                if not crawler.in_path(deref(proposal_edge)):
+                if crawler.verbose:
+                    with gil:
+                        print("Considering")
+                    proposal_edge.print()
+
+                if not crawler.in_vpath(deref(proposal_edge), crawler.path):
                     crawler.queue.push_back(deref(proposal_edge))
+                    if crawler.verbose:
+                        with gil:
+                            print("Adding to branch:")
+                            proposal_edge.sort().print()
+                            crawler.print(options)
 
                     # start merging
                     branch_option = self._check_df(crawler)
-                    if self._rules._adj[current_edge.current.state][current_edge.other.state] > 0:
-                        if crawler.verbose:
-                            with gil:
-                                print("Adding to branch:")
-                                current_edge.print()
-
-                        for bidx in range(branch_option.size()):
-                            branch_option[bidx].push_back(current_edge.sort())
                     crawler.merge_options(options, branch_option)
 
                 post(it) # never forget :)
@@ -379,11 +377,12 @@ cdef class ValueNetwork(Potts):
         #         options.erase(options.begin() + idx)
 
         # # reduce path length
-        # option.clear()
-        # option.push_back(crawler.path.back().sort())
-        # options.push_back(option)
 
-        crawler.path.pop_back()
+        if crawler.path.size():
+            option.clear()
+            option.push_back(crawler.path.back().sort())
+            options.push_back(option)
+            crawler.path.pop_back()
         return options
 
 
@@ -435,6 +434,7 @@ cdef class ValueNetwork(Potts):
         cdef Crawler *crawler = new Crawler(node, self._states[node], self._bounded_rational)
         self._check_df(crawler)
         energy += crawler.results.size()
+        del crawler
 
 
 

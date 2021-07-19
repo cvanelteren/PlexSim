@@ -4,6 +4,7 @@ import subprocess, numpy as np
 from plexsim.utils.graph import ConnectedSimpleGraphs
 from plexsim.utils.rules import create_rule_full
 from plexsim.models.value_network import ValueNetwork
+from plexsim.models.value_network2 import ValueNetwork as V2
 
 import matplotlib.pyplot as plt, networkx as nx
 from plexsim.utils.visualisation import GraphAnimation
@@ -15,12 +16,13 @@ import time, logging
 
 class TestCrawl(ut.TestCase):
     model = ValueNetwork
+    # model = V2
 
     def setUp(self):
         self.graphs = []
         for k, v in ConnectedSimpleGraphs().generate(4).items():
             [self.graphs.append(vi) for vi in v]
-        self.verbose = False
+        self.verbose = True
 
     # @ut.skip
     def test_true_positive(self):
@@ -54,6 +56,7 @@ class TestCrawl(ut.TestCase):
             m.states = S[0]
             targets = np.zeros(m.nNodes)
             self.__test_crawl_single(m, targets=targets, verbose=self.verbose)
+            break
 
     # @ut.skip
     def test_y_dual(self):
@@ -64,13 +67,15 @@ class TestCrawl(ut.TestCase):
         A part of the network should complete 1 more chain
         """
 
-        graph = nx.path_graph(3)
-        graph.add_edge(1, 3)
+        n = 3
+        graph = nx.path_graph(n)
+        graph.add_edge(1, 10)
+        # graph.add_edge(11, 11)
 
         # define state space
-        S = np.arange(3)
+        S = np.arange(n)
         # define double y state structure
-        SS = np.array([*S, 2])
+        SS = np.array([*S, n - 1])
 
         r = create_rule_full(nx.path_graph(3))
         m = self.model(graph, rules=r, agentStates=S)
@@ -81,8 +86,10 @@ class TestCrawl(ut.TestCase):
         targets[m.adj.mapping["1"]] = 2
         targets[m.adj.mapping["0"]] = 2
 
+        print(m.adj.mapping)
         visualize_graph(m)
-        self.__test_crawl_single(m, targets=targets, verbose=False)
+        plt.show()
+        self.__test_crawl_single(m, targets=targets, verbose=True)
 
     def test_unrolled(self):
         """
@@ -113,7 +120,7 @@ class TestCrawl(ut.TestCase):
 
         if verbose:
             visualize_graph(m)
-            # plt.show(block=True)
+            plt.show(block=True)
 
         crawls = []
         for node_label, node in m.adj.mapping.items():
@@ -130,7 +137,7 @@ class TestCrawl(ut.TestCase):
 
             self.assertTrue(
                 assignment,
-                f"assignment was {assignment} with {crawl}",
+                f"assignment was {assignment} with {crawl}\n{node=}\t{len(crawl)=}\t{targets[node]=}",
             )
 
             crawls.append(assignment)

@@ -1,4 +1,6 @@
 #include "crawler.hpp"
+#include <unistd.h>
+unsigned int sec = 1000000;
 
 ColorNode::ColorNode(){};
 
@@ -74,7 +76,7 @@ bool operator==(const EdgeColor &current, const EdgeColor &other) {
 
 bool compare_edge_color(const EdgeColor &current, const EdgeColor &other) {
   // for set comparison
-  return (current.current.state != current.other.state) &&
+  return (current.current.state != other.current.state) ||
          (current.other.state != other.other.state);
 }
 
@@ -121,14 +123,16 @@ void Crawler::add_result(std::vector<EdgeColor> option) {
   // if (this->verbose) {
   //   printf("Considered option: \n");
   //   this->print(option);
+  //   usleep(microsecond);
   // }
 
-  if (add == true && option.size() == this->bounded_rational) {
+  if (add == true && u_option.size() == this->bounded_rational) {
 
-    // if (this->verbose) {
-    //   printf("Pushing result ");
-    //   this->print(option);
-    // }
+    if (this->verbose) {
+      printf("Pushing option in result ");
+      this->print(option);
+      // usleep(sec);
+    }
 
     // this->results.push_back(option);
     // push only unique options
@@ -140,7 +144,8 @@ void Crawler::add_result(std::vector<EdgeColor> option) {
 }
 
 bool Crawler::in_options(std::vector<EdgeColor> &option,
-                         std::vector<std::vector<EdgeColor>> &options) {
+                         std::vector<std::vector<EdgeColor>> &options,
+                         size_t target = 0) {
   std::vector<EdgeColor> overlap;
 
   for (auto opt : options) {
@@ -148,7 +153,7 @@ bool Crawler::in_options(std::vector<EdgeColor> &option,
     std::set_intersection(opt.begin(), opt.end(), option.begin(), option.end(),
                           std::inserter(overlap, overlap.begin()));
 
-    if (overlap.size()) {
+    if (overlap.size() == target) {
       return true;
     }
   }
@@ -185,6 +190,42 @@ bool Crawler::in_path(EdgeColor option) {
   return this->in_path(option, this->path);
 }
 
+bool Crawler::in_vpath(EdgeColor option, std::vector<EdgeColor> path) {
+  /**
+   * @brief      Checks if option is in path
+   *
+   * @details    Checks if the current proposal edge is in the current path
+   * of the crawler
+   *
+   * @param     Proposal candidate edge
+   *
+   * @param    path to check
+   *
+   * @return     true if in path, false otherwise
+   */
+
+  std::set<EdgeColor> overlap;
+  std::vector<EdgeColor> tmp = {option};
+  std::set_union(path.begin(), path.end(), tmp.begin(), tmp.end(),
+                 std::inserter(overlap, overlap.begin()), compare_edge_color);
+  // printf("path size %d", path.size());
+  // printf("overlap %d\n", overlap.size());
+  bool a = (overlap.size() == path.size());
+
+  std::swap(option.current, option.other);
+
+  tmp.clear();
+  tmp = {option};
+  overlap.clear();
+  std::set_union(path.begin(), path.end(), tmp.begin(), tmp.end(),
+                 std::inserter(overlap, overlap.begin()), compare_edge_color);
+  bool b = (overlap.size() == path.size());
+  // printf("overlap %d\n", overlap.size());
+  std::swap(option.current, option.other);
+  // usleep(sec);
+  return a || b;
+}
+
 bool Crawler::in_path(EdgeColor option, std::vector<EdgeColor> path) {
   /**
    * @brief      Checks if option is in path
@@ -199,12 +240,117 @@ bool Crawler::in_path(EdgeColor option, std::vector<EdgeColor> path) {
    * @return     true if in path, false otherwise
    */
 
-  bool a = std::find(path.begin(), path.end(), option) != path.end();
+  std::set<EdgeColor> overlap;
+  std::vector<EdgeColor> tmp = {option};
+  std::set_union(path.begin(), path.end(), tmp.begin(), tmp.end(),
+                 std::inserter(overlap, overlap.begin()));
+
+  printf("overlap %d\n", overlap.size());
+  bool a = (overlap.size() == path.size());
   std::swap(option.current, option.other);
 
-  bool b = std::find(path.begin(), path.end(), option) != path.end();
+  tmp.clear();
+  tmp = {option};
+  std::set_union(path.begin(), path.end(), tmp.begin(), tmp.end(),
+                 std::inserter(overlap, overlap.begin()));
+  bool b = (overlap.size() == path.size());
+  printf("overlap %d\n", overlap.size());
   std::swap(option.current, option.other);
   return a || b;
+}
+
+void Crawler::merge_options(
+    std::vector<std::vector<EdgeColor>> &options,
+    std::vector<std::vector<EdgeColor>> &other_options) {
+  /**
+   * @brief      Merges @other_option in @option
+   */
+
+  std::set<EdgeColor> uni;
+  std::vector<EdgeColor> option;
+  // options are non-empty
+  //
+  //
+  for (auto &elem : other_options) {
+    options.push_back(elem);
+  }
+  size_t n = options.size() + other_options.size();
+
+  int counter;
+  bool can_merge = true;
+  bool in_options = false;
+  int start_idx;
+  int end_idx = 0;
+
+  // printf("Printing merging lj;asdkf;jadf options \n");
+  // this->print(options);
+
+  // remember the tried combinations
+  std::unordered_map<size_t, std::unordered_map<size_t, bool>> memoize;
+  while (can_merge) {
+    // reset search
+    can_merge = false;
+    start_idx = end_idx;
+    end_idx = options.size() - 1;
+
+    // printf("IDX=%d \t end_idx %d \n", start_idx, end_idx);
+
+    // search for possible mergers
+    for (int idx = end_idx; idx >= start_idx; idx--) {
+
+      if (options[idx].size() == this->bounded_rational) {
+        this->add_result(options[idx]);
+        options.erase(options.begin() + idx);
+        memoize.clear();
+        continue;
+      }
+
+      for (size_t jdx = 0; jdx < other_options.size(); jdx++) {
+        option.clear();
+        uni.clear();
+
+        // compute the set overlap
+        std::set_union(options[idx].begin(), options[idx].end(),
+                       other_options[jdx].begin(), other_options[jdx].end(),
+                       std::inserter(uni, uni.begin()), compare_edge_color);
+
+        // printf("overlap size %d option size %d\n", uni.size(),
+        // options[idx].size());
+        //
+
+        if ((uni.size() > options[idx].size()) &&
+            (uni.size() <= this->bounded_rational)) {
+          option = std::vector<EdgeColor>(uni.begin(), uni.end());
+
+          // check for solution
+
+          in_options = false;
+          for (auto &elem : options) {
+            if (elem == option) {
+              in_options = true;
+              break;
+            }
+          }
+          if (!in_options) {
+            options.push_back(option);
+            can_merge = true;
+          }
+        }
+      }
+    }
+  } // end merge
+
+  // add current path
+  for (int idx = options.size() - 1; idx >= 0; idx--) {
+    if (this->path.size()) {
+      if (!this->in_vpath(this->path.back(), options[idx]))
+        options[idx].push_back(this->path.back().sort());
+    }
+    if (options[idx].size() == this->bounded_rational) {
+      this->add_result(options[idx]);
+      options.erase(options.begin() + idx);
+    }
+  }
 }
 
 uint8_t Crawler::merge_option(size_t idx, size_t jdx,
@@ -274,86 +420,6 @@ uint8_t Crawler::merge_option(size_t idx, size_t jdx,
   }
 
   return 0;
-}
-
-void Crawler::merge_options(
-    std::vector<std::vector<EdgeColor>> &options,
-    std::vector<std::vector<EdgeColor>> &other_options) {
-  /**
-   * @brief      Merges @other_option in @option
-   */
-
-  std::set<EdgeColor> uni;
-  std::vector<EdgeColor> option;
-  // options are non-empty
-  //
-  //
-  for (auto &elem : other_options) {
-    options.push_back(elem);
-  }
-
-  int counter;
-  bool can_merge = true;
-  bool in_options = false;
-  int start_idx = options.size() - 1;
-  int end_idx = 0;
-
-  // printf("Printing merging lj;asdkf;jadf options \n");
-  // this->print(options);
-
-  // remember the tried combinations
-  std::unordered_map<size_t, std::unordered_map<size_t, bool>> memoize;
-  while (can_merge) {
-    can_merge = false;
-
-    start_idx = end_idx;
-    end_idx = options.size() - 1;
-    for (int idx = end_idx; idx >= start_idx; idx--) {
-      if (options[idx].size() == this->bounded_rational) {
-        this->add_result(options[idx]);
-        options.erase(options.begin() + idx);
-        continue;
-      }
-
-      for (size_t jdx = 0; jdx < other_options.size(); jdx++) {
-        option.clear();
-        uni.clear();
-        std::set_union(options[idx].begin(), options[idx].end(),
-                       other_options[jdx].begin(), other_options[jdx].end(),
-                       std::inserter(uni, uni.begin()), compare_edge_color);
-
-        // printf("overlap size %d option size %d\n", uni.size(),
-        // options[idx].size());
-        //
-        if (uni.size() > options[idx].size() &&
-            (uni.size() <= this->bounded_rational)) {
-          option = std::vector<EdgeColor>(uni.begin(), uni.end());
-
-          // check for solution
-
-          in_options = false;
-          if (!memoize[idx][jdx]) {
-            for (auto &elem : options) {
-              uni.clear();
-              std::set_intersection(option.begin(), option.end(), elem.begin(),
-                                    elem.end(),
-                                    std::inserter(uni, uni.begin()));
-              if (uni.size() == option.size()) {
-                in_options = true;
-                // keep track of combinations
-                memoize[idx][jdx] = true;
-                break;
-              }
-            }
-            if (!in_options) {
-              options.push_back(option);
-              can_merge = true;
-            }
-          }
-        }
-      }
-    }
-  }
 }
 
 // void Crawler::merge_options(

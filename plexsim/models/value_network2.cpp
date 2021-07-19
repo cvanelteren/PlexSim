@@ -9902,7 +9902,7 @@ static PyObject *__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_check_
  *     cpdef list check_df(self, node_id_t start, bint verbose = False):
  *         cdef list queue = [(start, start)]             # <<<<<<<<<<<<<<
  *         return self._check_df(queue, path = [], vp_path = [],
- *                               results = [[], []], verbose = verbose)
+ *                               results = [[], []], verbose = verbose)[0]
  */
   __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_start); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -9928,7 +9928,7 @@ static PyObject *__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_check_
  *     cpdef list check_df(self, node_id_t start, bint verbose = False):
  *         cdef list queue = [(start, start)]
  *         return self._check_df(queue, path = [], vp_path = [],             # <<<<<<<<<<<<<<
- *                               results = [[], []], verbose = verbose)
+ *                               results = [[], []], verbose = verbose)[0]
  *     cpdef list _check_df(self, list queue, list path = [],
  */
   __Pyx_XDECREF(__pyx_r);
@@ -9940,7 +9940,7 @@ static PyObject *__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_check_
   /* "plexsim/models/value_network2.pyx":209
  *         cdef list queue = [(start, start)]
  *         return self._check_df(queue, path = [], vp_path = [],
- *                               results = [[], []], verbose = verbose)             # <<<<<<<<<<<<<<
+ *                               results = [[], []], verbose = verbose)[0]             # <<<<<<<<<<<<<<
  *     cpdef list _check_df(self, list queue, list path = [],
  *                         list vp_path = [],
  */
@@ -9961,7 +9961,7 @@ static PyObject *__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_check_
  *     cpdef list check_df(self, node_id_t start, bint verbose = False):
  *         cdef list queue = [(start, start)]
  *         return self._check_df(queue, path = [], vp_path = [],             # <<<<<<<<<<<<<<
- *                               results = [[], []], verbose = verbose)
+ *                               results = [[], []], verbose = verbose)[0]
  *     cpdef list _check_df(self, list queue, list path = [],
  */
   __pyx_t_8.__pyx_n = 4;
@@ -9974,8 +9974,22 @@ static PyObject *__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork_check_
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_r = ((PyObject*)__pyx_t_4);
-  __pyx_t_4 = 0;
+  if (unlikely(__pyx_t_4 == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(0, 208, __pyx_L1_error)
+  }
+
+  /* "plexsim/models/value_network2.pyx":209
+ *         cdef list queue = [(start, start)]
+ *         return self._check_df(queue, path = [], vp_path = [],
+ *                               results = [[], []], verbose = verbose)[0]             # <<<<<<<<<<<<<<
+ *     cpdef list _check_df(self, list queue, list path = [],
+ *                         list vp_path = [],
+ */
+  if (!(likely(PyList_CheckExact(PyList_GET_ITEM(__pyx_t_4, 0)))||((PyList_GET_ITEM(__pyx_t_4, 0)) == Py_None) || __Pyx_RaiseUnexpectedTypeError("list", PyList_GET_ITEM(__pyx_t_4, 0)))) __PYX_ERR(0, 209, __pyx_L1_error)
+  __Pyx_INCREF(PyList_GET_ITEM(__pyx_t_4, 0));
+  __pyx_r = ((PyObject*)PyList_GET_ITEM(__pyx_t_4, 0));
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   goto __pyx_L0;
 
   /* "plexsim/models/value_network2.pyx":206
@@ -10129,7 +10143,7 @@ static PyObject *__pyx_pf_7plexsim_6models_14value_network2_12ValueNetwork_14che
 
 /* "plexsim/models/value_network2.pyx":210
  *         return self._check_df(queue, path = [], vp_path = [],
- *                               results = [[], []], verbose = verbose)
+ *                               results = [[], []], verbose = verbose)[0]
  *     cpdef list _check_df(self, list queue, list path = [],             # <<<<<<<<<<<<<<
  *                         list vp_path = [],
  *                         list results = [],
@@ -10211,7 +10225,7 @@ static PyObject *__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork__check
 
   /* "plexsim/models/value_network2.pyx":210
  *         return self._check_df(queue, path = [], vp_path = [],
- *                               results = [[], []], verbose = verbose)
+ *                               results = [[], []], verbose = verbose)[0]
  *     cpdef list _check_df(self, list queue, list path = [],             # <<<<<<<<<<<<<<
  *                         list vp_path = [],
  *                         list results = [],
@@ -11782,7 +11796,7 @@ static PyObject *__pyx_f_7plexsim_6models_14value_network2_12ValueNetwork__check
 
   /* "plexsim/models/value_network2.pyx":210
  *         return self._check_df(queue, path = [], vp_path = [],
- *                               results = [[], []], verbose = verbose)
+ *                               results = [[], []], verbose = verbose)[0]
  *     cpdef list _check_df(self, list queue, list path = [],             # <<<<<<<<<<<<<<
  *                         list vp_path = [],
  *                         list results = [],
@@ -11956,7 +11970,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
 
   /* "plexsim/models/value_network2.pyx":210
  *         return self._check_df(queue, path = [], vp_path = [],
- *                               results = [[], []], verbose = verbose)
+ *                               results = [[], []], verbose = verbose)[0]
  *     cpdef list _check_df(self, list queue, list path = [],             # <<<<<<<<<<<<<<
  *                         list vp_path = [],
  *                         list results = [],
@@ -30189,7 +30203,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
   /* "plexsim/models/value_network2.pyx":210
  *         return self._check_df(queue, path = [], vp_path = [],
- *                               results = [[], []], verbose = verbose)
+ *                               results = [[], []], verbose = verbose)[0]
  *     cpdef list _check_df(self, list queue, list path = [],             # <<<<<<<<<<<<<<
  *                         list vp_path = [],
  *                         list results = [],
@@ -31288,7 +31302,7 @@ if (!__Pyx_RefNanny) {
 
   /* "plexsim/models/value_network2.pyx":210
  *         return self._check_df(queue, path = [], vp_path = [],
- *                               results = [[], []], verbose = verbose)
+ *                               results = [[], []], verbose = verbose)[0]
  *     cpdef list _check_df(self, list queue, list path = [],             # <<<<<<<<<<<<<<
  *                         list vp_path = [],
  *                         list results = [],
@@ -31300,7 +31314,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_4 = 0;
 
   /* "plexsim/models/value_network2.pyx":211
- *                               results = [[], []], verbose = verbose)
+ *                               results = [[], []], verbose = verbose)[0]
  *     cpdef list _check_df(self, list queue, list path = [],
  *                         list vp_path = [],             # <<<<<<<<<<<<<<
  *                         list results = [],
@@ -31327,7 +31341,7 @@ if (!__Pyx_RefNanny) {
 
   /* "plexsim/models/value_network2.pyx":210
  *         return self._check_df(queue, path = [], vp_path = [],
- *                               results = [[], []], verbose = verbose)
+ *                               results = [[], []], verbose = verbose)[0]
  *     cpdef list _check_df(self, list queue, list path = [],             # <<<<<<<<<<<<<<
  *                         list vp_path = [],
  *                         list results = [],
@@ -31339,7 +31353,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_4 = 0;
 
   /* "plexsim/models/value_network2.pyx":211
- *                               results = [[], []], verbose = verbose)
+ *                               results = [[], []], verbose = verbose)[0]
  *     cpdef list _check_df(self, list queue, list path = [],
  *                         list vp_path = [],             # <<<<<<<<<<<<<<
  *                         list results = [],
@@ -31366,7 +31380,7 @@ if (!__Pyx_RefNanny) {
 
   /* "plexsim/models/value_network2.pyx":210
  *         return self._check_df(queue, path = [], vp_path = [],
- *                               results = [[], []], verbose = verbose)
+ *                               results = [[], []], verbose = verbose)[0]
  *     cpdef list _check_df(self, list queue, list path = [],             # <<<<<<<<<<<<<<
  *                         list vp_path = [],
  *                         list results = [],
@@ -31375,7 +31389,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_GOTREF(__pyx_t_4);
 
   /* "plexsim/models/value_network2.pyx":211
- *                               results = [[], []], verbose = verbose)
+ *                               results = [[], []], verbose = verbose)[0]
  *     cpdef list _check_df(self, list queue, list path = [],
  *                         list vp_path = [],             # <<<<<<<<<<<<<<
  *                         list results = [],
@@ -31396,7 +31410,7 @@ if (!__Pyx_RefNanny) {
 
   /* "plexsim/models/value_network2.pyx":210
  *         return self._check_df(queue, path = [], vp_path = [],
- *                               results = [[], []], verbose = verbose)
+ *                               results = [[], []], verbose = verbose)[0]
  *     cpdef list _check_df(self, list queue, list path = [],             # <<<<<<<<<<<<<<
  *                         list vp_path = [],
  *                         list results = [],

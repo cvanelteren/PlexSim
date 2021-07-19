@@ -1,15 +1,4 @@
-#distutils: language=c++
-#distutils: sources = "plexsim/include/crawler.cpp"
-from plexsim.models.potts cimport *
-from libcpp.set cimport set as cset
-
-cdef extern from "<algorithm>" namespace "std":
-    Iter find_if[Iter, Func](Iter first, Iter last, Func pred)
-    Iter find[Iter, T](Iter first, Iter last, T &value)
-
-    Iter set_union[Iter, T](Iter first1, Iter last1,
-                            Iter first2, Iter last2,
-                            Iter result)
+from plexsim.models.types cimport *
 cdef extern from "plexsim/include/crawler.hpp":
     # holds vertex color and id
     cdef cppclass ColorNode:
@@ -49,7 +38,6 @@ cdef extern from "plexsim/include/crawler.hpp":
         # void check_options() nogil
         bint in_path(EdgeColor option) nogil
         bint in_path(EdgeColor option, vector[EdgeColor] path) nogil
-        bint in_vpath(EdgeColor, vector[EdgeColor]) nogil
 
         bint in_options(EdgeColor &option, vector[vector[EdgeColor]] &options) nogil
         bint in_options(vector[EdgeColor] &option, vector[vector[EdgeColor]] &options) nogil
@@ -60,25 +48,7 @@ cdef extern from "plexsim/include/crawler.hpp":
 cdef extern from "plexsim/include/crawler.cpp":
     pass
 
-
-cdef class ValueNetwork(Potts):
-    # pivate props
+cdef class PyCrawler:
     cdef:
-       size_t _bounded_rational
-
-    cdef void _step(self, node_id_t node) nogil
-    cdef double _energy(self, node_id_t node) nogil
-    cdef double probability(self, state_t state, node_id_t node) nogil
-    cdef double _hamiltonian(self, state_t x, state_t  y) nogil
-
-    # logic for checking completed vn
-    # cpdef bint check_endpoint(self, state_t s, list vp_path)
-    cpdef list check_df(self, node_id_t start, bint verbose =*)
-
-    cdef vector[vector[EdgeColor]]_check_df(self, Crawler *crawler) nogil
-    # merge branches
-    # cpdef bint check_doubles(self, list path, list results,
-                             # bint verbose =*)
-
-    cdef bint _check_endpoint(self, state_t current_state, Crawler *crawler) nogil
-    # cdef void _prune_options(self, Crawler *crawler) nogil
+        Crawler * _crawler
+    cpdef list merge_options(self, list, list)

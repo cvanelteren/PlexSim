@@ -89,16 +89,19 @@ public:
   // path
   bool in_path(EdgeColor);
   bool in_path(EdgeColor, std::vector<EdgeColor>);
+  bool in_vpath(EdgeColor, std::vector<EdgeColor>);
 
   bool in_options(EdgeColor &option,
                   std::vector<std::vector<EdgeColor>> &options);
 
   bool in_options(std::vector<EdgeColor> &option,
-                  std::vector<std::vector<EdgeColor>> &options);
+                  std::vector<std::vector<EdgeColor>> &options, size_t target);
 
   void add_result(std::vector<EdgeColor>);
   void print(std::vector<std::vector<EdgeColor>> options);
   void print(std::vector<EdgeColor>);
 };
+
+bool compare_edge_color(const EdgeColor &, const EdgeColor &);
 
 #endif

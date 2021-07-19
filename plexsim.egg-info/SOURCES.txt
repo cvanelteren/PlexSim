@@ -214,9 +214,13 @@ plexsim.egg-info/not-zip-safe
 plexsim.egg-info/requires.txt
 plexsim.egg-info/top_level.txt
 plexsim/__pycache__/__init__.cpython-39.pyc
+plexsim/include/__init__.py
 plexsim/include/crawler.cpp
 plexsim/include/crawler.hpp
 plexsim/include/mt19937.h
+plexsim/include/pycrawler.cpp
+plexsim/include/pycrawler.pxd
+plexsim/include/pycrawler.pyx
 plexsim/include/pyobjectholder.cpp
 plexsim/include/pyobjectholder.hpp
 plexsim/include/test.cpp

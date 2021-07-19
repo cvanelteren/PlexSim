@@ -206,7 +206,7 @@ cdef class ValueNetwork(Potts):
     cpdef list check_df(self, node_id_t start, bint verbose = False):
         cdef list queue = [(start, start)]
         return self._check_df(queue, path = [], vp_path = [],
-                              results = [[], []], verbose = verbose)
+                              results = [[], []], verbose = verbose)[0]
     cpdef list _check_df(self, list queue, list path = [],
                         list vp_path = [],
                         list results = [],
