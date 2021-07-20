@@ -80,16 +80,14 @@ csg = ConnectedSimpleGraphs()
 # g.add_edge(1, 10)
 # g.add_edge(10, 11)
 #
-g = nx.path_graph(6)
+g = nx.star_graph(10)
 r = nx.path_graph(3)
 A = np.arange(len(r))
 r = create_rule_full(r)
 # print(A.shape)
 m = ValueNetwork(g, rules=r, agentStates=A)
 
-m.states = np.array([*A, *A])
-m.states[1] = 2
-m.states[-2] = 2
+# m.states = np.array([*A, *A])
 print(m.states)
 fig, ax = plt.subplots()
 ax.imshow(m.simulate(100))
