@@ -128,11 +128,11 @@ void Crawler::add_result(std::vector<EdgeColor> option) {
 
   if (add == true && u_option.size() == this->bounded_rational) {
 
-    if (this->verbose) {
-      printf("Pushing option in result ");
-      this->print(option);
-      // usleep(sec);
-    }
+    // if (this->verbose) {
+    //   printf("Pushing option in result ");
+    //   this->print(option);
+    //   // usleep(sec);
+    // }
 
     // this->results.push_back(option);
     // push only unique options
@@ -286,22 +286,23 @@ void Crawler::merge_options(
   // this->print(options);
 
   // remember the tried combinations
-  std::unordered_map<size_t, std::unordered_map<size_t, bool>> memoize;
+  // std::unordered_map<size_t, std::unordered_map<size_t, bool>> memoize;
   while (can_merge) {
     // reset search
     can_merge = false;
     start_idx = end_idx;
     end_idx = options.size() - 1;
 
-    // printf("IDX=%d \t end_idx %d \n", start_idx, end_idx);
+// printf("IDX=%d \t end_idx %d \n", start_idx, end_idx);
 
-    // search for possible mergers
+// search for possible mergers
+#pragma omp for simd
     for (int idx = end_idx; idx >= start_idx; idx--) {
 
       if (options[idx].size() == this->bounded_rational) {
         this->add_result(options[idx]);
         options.erase(options.begin() + idx);
-        memoize.clear();
+        // memoize.clear();
         continue;
       }
 
@@ -309,6 +310,7 @@ void Crawler::merge_options(
         option.clear();
         uni.clear();
 
+        // if (!memoize[idx][jdx]) {
         // compute the set overlap
         std::set_union(options[idx].begin(), options[idx].end(),
                        other_options[jdx].begin(), other_options[jdx].end(),
@@ -328,6 +330,7 @@ void Crawler::merge_options(
           for (auto &elem : options) {
             if (elem == option) {
               in_options = true;
+              // memoize[idx][jdx] = true;
               break;
             }
           }
@@ -336,11 +339,13 @@ void Crawler::merge_options(
             can_merge = true;
           }
         }
+        // }
       }
     }
   } // end merge
 
-  // add current path
+// add current path
+#pragma omp for simd
   for (int idx = options.size() - 1; idx >= 0; idx--) {
     if (this->path.size()) {
       if (!this->in_vpath(this->path.back(), options[idx]))
