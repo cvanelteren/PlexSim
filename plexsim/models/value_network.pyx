@@ -119,11 +119,6 @@ cdef class ValueNetwork(Potts):
         #return np.abs(np.real(np.exp(2 * np.pi * np.complex(0, 1) * res)).mean())
         #return res
         
-    # TODO tmp
-    @property
-    def pat(self):
-        return self.paths
-
 
     # cdef void _prune_options(self, Crawler *crawler) nogil:
     #     """ Removes options that  cannot be reached from the
