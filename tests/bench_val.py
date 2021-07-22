@@ -31,9 +31,13 @@ import time
 
 if __name__ == "__main__":
     graphs = []
-    for k, v in ConnectedSimpleGraphs().generate(4).items():
+
+    # graphs = [ConnectedSimpleGraphs().rvs(7) for i in range(10)]
+
+    for k, v in ConnectedSimpleGraphs().generate(6).items():
         for vi in v:
-            graphs.append(vi)
+            if vi.number_of_edges() < 7:
+                graphs.append(vi)
 
     timings = np.zeros((2, len(graphs)))
     for idx, graph in enumerate(graphs):
@@ -55,7 +59,7 @@ if __name__ == "__main__":
         timings[1, idx] = time.time() - start
 
     print(timings[1] / (timings[0]))
-    xr = np.array([len(i) for i in graphs])
+    xr = np.array([i.number_of_edges() for i in graphs])
     fig, ax = plt.subplots(2, 1, figsize=(5, 5))
     for t, l in zip(timings, "CPP CYTHON".split()):
         ax[0].scatter(xr, t, label=l, s=5)
@@ -66,12 +70,12 @@ if __name__ == "__main__":
     ax[0].legend()
     ax[1].legend()
 
-    ax[0].set_xlabel("Value network size |V|")
-    ax[1].set_xlabel("Value network size |V|")
+    ax[0].set_xlabel("Value network size |E|")
+    ax[1].set_xlabel("Value network size |E|")
 
     ax[0].set_ylabel("Timings")
     ax[1].set_ylabel("Ratio timing")
     ax[0].set_yscale("log")
-    # ax[1].set_yscale("log")
+    ax[1].set_yscale("log")
     fig.show()
     plt.show(block=True)

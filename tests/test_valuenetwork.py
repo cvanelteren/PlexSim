@@ -4,7 +4,8 @@ import subprocess, numpy as np
 from plexsim.utils.graph import ConnectedSimpleGraphs
 from plexsim.utils.rules import create_rule_full
 from plexsim.models.value_network import ValueNetwork
-from plexsim.models.value_network2 import ValueNetwork as V2
+
+# from plexsim.models.value_network2 import ValueNetwork as V2
 
 import matplotlib.pyplot as plt, networkx as nx
 from plexsim.utils.visualisation import GraphAnimation
@@ -22,7 +23,7 @@ class TestCrawl(ut.TestCase):
         self.graphs = []
         for k, v in ConnectedSimpleGraphs().generate(4).items():
             [self.graphs.append(vi) for vi in v]
-        self.verbose = True
+        self.verbose = False
 
     # @ut.skip
     def test_true_positive(self):
@@ -86,10 +87,9 @@ class TestCrawl(ut.TestCase):
         targets[m.adj.mapping["1"]] = 2
         targets[m.adj.mapping["0"]] = 2
 
-        print(m.adj.mapping)
         visualize_graph(m)
         plt.show()
-        self.__test_crawl_single(m, targets=targets, verbose=True)
+        self.__test_crawl_single(m, targets=targets, verbose=False)
 
     def test_unrolled(self):
         """
@@ -125,6 +125,7 @@ class TestCrawl(ut.TestCase):
         crawls = []
         for node_label, node in m.adj.mapping.items():
             crawl = m.check_df(node, verbose=verbose)
+            print(crawl)
             # crawl = m.check_df(node)
 
             if verbose:
