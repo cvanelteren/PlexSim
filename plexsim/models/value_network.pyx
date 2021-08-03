@@ -290,10 +290,6 @@ cdef class ValueNetwork(Potts):
             if self._rules._adj[current_edge.current.state][current_edge.other.state] > 0:
                 crawler.path.push_back(current_edge)
 
-                # option.clear()
-                # option.push_back(deref(current_edge).sort())
-                # crawler.options.push_back(option)
-
             # 1. check endpoints
             if self._check_endpoint(current_edge.other.state, crawler):
                 if crawler.verbose:
@@ -343,6 +339,7 @@ cdef class ValueNetwork(Potts):
                         print("Considering")
                     proposal_edge.print()
 
+                # check if coloring of edge already exists
                 if not crawler.in_vpath(deref(proposal_edge), crawler.path):
                     crawler.queue.push_back(deref(proposal_edge))
                     if crawler.verbose:
@@ -360,19 +357,7 @@ cdef class ValueNetwork(Potts):
             if crawler.verbose:
                 crawler.print(options)
 
-
-
-        # # check if current path contains solution
-        # if crawler.path.size() == self._bounded_rational:
-        #     crawler.add_result(crawler.path)
-
-        # for idx in range(options.size()):
-        #     if options[idx].size() == self._bounded_rational:
-        #         crawler.add_result( options[idx] )
-        #         options.erase(options.begin() + idx)
-
-        # # reduce path length
-
+        # push back current node as option
         if crawler.path.size():
             option.clear()
             option.push_back(crawler.path.back().sort())
