@@ -59,6 +59,40 @@ class TestCrawl(ut.TestCase):
             self.__test_crawl_single(m, targets=targets, verbose=self.verbose)
             break
 
+    def test_y_dual_heuristic(self):
+        """
+        Test two path graphs on a y-structure
+
+        Each node should complete atleast 1 value network
+        A part of the network should complete 1 more chain
+
+        This is a the heuristic version, all nodes are tested to only satisfy only 1 value network.
+        """
+
+        n = 3
+        graph = nx.path_graph(n)
+        graph.add_edge(1, 10)
+        # graph.add_edge(11, 11)
+
+        # define state space
+        S = np.arange(n)
+        # define double y state structure
+        SS = np.array([*S, n - 1])
+
+        r = create_rule_full(nx.path_graph(3))
+        m = self.model(graph, rules=r, agentStates=S, heuristic=1)
+        assert m.heuristic == 1
+        assert SS.size == m.nNodes, f"{SS.size=} {m.nNodes=}"
+        m.states = SS
+
+        targets = np.ones(m.nNodes)
+        targets[m.adj.mapping["1"]] = 1
+        targets[m.adj.mapping["0"]] = 1
+
+        # visualize_graph(m)
+        # plt.show()
+        self.__test_crawl_single(m, targets=targets, verbose=False)
+
     # @ut.skip
     def test_y_dual(self):
         """

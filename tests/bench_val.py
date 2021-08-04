@@ -15,7 +15,7 @@ def setup(graph: nx.Graph, model_t: object) -> object:
     r = create_rule_full(graph, self_weight=-1)
     S = np.arange(len(r))
     # br = min([1, r.number_of_edges()])
-    m = model_t(graph, rules=r, agentStates=S)
+    m = model_t(graph, rules=r, agentStates=S, heuristic=1)
     # bounded_rational=br)
     print(f"{m.bounded_rational=}")
     m.states = S
@@ -34,7 +34,7 @@ if __name__ == "__main__":
 
     # graphs = [ConnectedSimpleGraphs().rvs(7) for i in range(10)]
 
-    for k, v in ConnectedSimpleGraphs().generate(6).items():
+    for k, v in ConnectedSimpleGraphs().generate(4).items():
         for vi in v:
             if vi.number_of_edges() < 7:
                 graphs.append(vi)

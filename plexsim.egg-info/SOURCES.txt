@@ -10,6 +10,8 @@ setup.cfg
 setup.py
 test.txt
 todo.org
+.ob-jupyter/edeb876375d276c21b4a4ed8a12d4a8d7f8787a4.png
+.ob-jupyter/efe73579c350e0f252054fba9d087ce1680562ba.png
 docs/.nojekyll
 docs/index.html
 docs/build/doctrees/environment.pickle
@@ -179,10 +181,6 @@ plexsim/include/crawler.cpp
 plexsim/include/crawler.hpp
 plexsim/include/main
 plexsim/include/mt19937.h
-plexsim/include/pycrawler.cpp
-plexsim/include/pycrawler.pxd
-plexsim/include/pycrawler.pyx
-plexsim/include/pycrawler.pyxd
 plexsim/include/pyobjectholder.cpp
 plexsim/include/pyobjectholder.hpp
 plexsim/include/test.cpp
@@ -282,6 +280,7 @@ plexsim/utils/__pycache__/hm.cpython-39.pyc
 plexsim/utils/__pycache__/rules.cpython-39.pyc
 plexsim/utils/__pycache__/visualisation.cpython-39.pyc
 tests/__init__.py
+tests/bench_specific.py
 tests/bench_val.py
 tests/flight_test.webm
 tests/main

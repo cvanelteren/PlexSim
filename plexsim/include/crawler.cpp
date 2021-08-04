@@ -80,23 +80,24 @@ bool compare_edge_color(const EdgeColor &current, const EdgeColor &other) {
          (current.other.state != other.other.state);
 }
 
-Crawler::Crawler(size_t start, double state, size_t bounded_rational) {
-
+Crawler::Crawler(size_t start, double state, size_t bounded_rational,
+                 size_t heuristic, bool verbose) {
   this->bounded_rational = bounded_rational;
   this->queue.push_back(
       EdgeColor(ColorNode(start, state), ColorNode(start, state)));
 
   // default
-  this->verbose = false;
-}
-
-Crawler::Crawler(size_t start, double state, size_t bounded_rational,
-                 bool verbose)
-    : Crawler(start, state, bounded_rational) {
-
-  // override default
   this->verbose = verbose;
+  this->heuristic = heuristic;
 }
+
+// Crawler::Crawler(size_t start, double state, size_t bounded_rational,
+//                  bool verbose)
+//     : Crawler(start, state, bounded_rational) {
+
+//   // override default
+//   this->verbose = verbose;
+// }
 
 // TODO make results sets so that unique paths are only in there
 void Crawler::add_result(std::vector<EdgeColor> option) {
@@ -107,6 +108,7 @@ void Crawler::add_result(std::vector<EdgeColor> option) {
       std::set<EdgeColor>(option.begin(), option.end());
 
   bool add = true;
+
   for (auto result : this->results) {
 
     overlap.clear();
@@ -120,24 +122,24 @@ void Crawler::add_result(std::vector<EdgeColor> option) {
     }
   }
 
-  // if (this->verbose) {
-  //   printf("Considered option: \n");
-  //   this->print(option);
-  //   usleep(microsecond);
-  // }
-
   if (add == true && u_option.size() == this->bounded_rational) {
 
-    // if (this->verbose) {
-    //   printf("Pushing option in result ");
-    //   this->print(option);
-    //   // usleep(sec);
-    // }
+    // this->results.push_back(
+    // std::vector<EdgeColor>(u_option.begin(), u_option.end()));
 
-    // this->results.push_back(option);
-    // push only unique options
-    this->results.push_back(
-        std::vector<EdgeColor>(u_option.begin(), u_option.end()));
+    // // push only unique options
+    //
+    if (this->heuristic > 0) {
+      if (this->results.size() < this->heuristic) {
+        this->results.push_back(
+            std::vector<EdgeColor>(u_option.begin(), u_option.end()));
+      } else {
+        return;
+      }
+    } else {
+      this->results.push_back(
+          std::vector<EdgeColor>(u_option.begin(), u_option.end()));
+    }
 
     // this->results.insert(tmp);
   }

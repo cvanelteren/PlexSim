@@ -31,8 +31,12 @@ cdef extern from "plexsim/include/crawler.hpp":
     # crawls accros and finds patterns
     cdef cppclass Crawler:
         Crawler() nogil except+
-        Crawler(node_id_t start, state_t state, size_t bounded_rational) nogil except+
-        Crawler(node_id_t  start, state_t state, size_t bounded_rational, bint verbose) nogil except+
+        Crawler(node_id_t start,
+                state_t state,
+                size_t bounded_rational,
+                size_t heuristic,
+                bint verbose) nogil except+
+        # Crawler(node_id_t  start, state_t state, size_t bounded_rational, bint verbose) nogil except+
 
         vector[EdgeColor] queue
         vector[EdgeColor] path
@@ -41,6 +45,7 @@ cdef extern from "plexsim/include/crawler.hpp":
 
         bint verbose
         size_t bounded_rational
+        size_t heuristic
 
         void merge_options(vector[vector[EdgeColor]] &options) nogil
 
@@ -65,6 +70,7 @@ cdef class ValueNetwork(Potts):
     # pivate props
     cdef:
        size_t _bounded_rational
+       size_t _heuristic
 
     cdef void _step(self, node_id_t node) nogil
     cdef double _energy(self, node_id_t node) nogil

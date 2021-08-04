@@ -17,6 +17,7 @@ cdef class ValueNetwork(Potts):
                  rules,
                  t = 1,
                  bounded_rational = -1,
+                 heuristic = 0,
                  agentStates = np.arange(0, 2, dtype = np.double),
                  **kwargs
                  ):
@@ -54,6 +55,7 @@ cdef class ValueNetwork(Potts):
 
         self.verbose = False
         self.bounded_rational = bounded_rational
+        self.heuristic = heuristic
 
     @property
     def bounded_rational(self):
@@ -68,6 +70,13 @@ cdef class ValueNetwork(Potts):
         else:
             assert 1 <= value <= self.rules.number_of_edges()
         self._bounded_rational = int(value)
+
+    @property
+    def heuristic(self):
+        return self._heuristic
+    @heuristic.setter
+    def heuristic(self, value):
+        self._heuristic = value
 
     cpdef vector[double] siteEnergy(self, state_t[::1] states):
         cdef:
@@ -226,6 +235,7 @@ cdef class ValueNetwork(Potts):
         cdef Crawler *crawler = new Crawler(start,
                                         self._states[start],
                                         self._bounded_rational,
+                                        self._heuristic,
                                         verbose)
         self._check_df(crawler)
 
@@ -278,6 +288,13 @@ cdef class ValueNetwork(Potts):
         cdef size_t idx, opt_idx, bidx
         cdef node_id_t neighbor_idx
 
+        # exit early if heuristic approach is
+        # satisfied
+
+        if self._heuristic:
+            if crawler.results.size() == self._heuristic:
+                return options
+
         # with gil:
         #     import time; time.sleep(.2)
 
@@ -313,6 +330,14 @@ cdef class ValueNetwork(Potts):
             # 2. check neighbors
             it = self.adj._adj[current_edge.other.name].neighbors.begin()
             while it != self.adj._adj[current_edge.other.name].neighbors.end():
+
+                # exit early if heuristic approach is
+                # satisfied
+
+                if self._heuristic:
+                    if crawler.results.size() == self._heuristic:
+                        return options
+
                 neighbor_idx = deref(it).first
                 proposal_edge.other = ColorNode(neighbor_idx, self._states[neighbor_idx])
 
@@ -411,7 +436,11 @@ cdef class ValueNetwork(Potts):
             energy += self._rules._adj[proposal][states[neighbor]]
             post(it)
 
-        cdef Crawler *crawler = new Crawler(node, self._states[node], self._bounded_rational)
+        cdef Crawler *crawler = new Crawler(node,
+                                            self._states[node],
+                                            self._bounded_rational,
+                                            self._heuristic,
+                                            False)
         self._check_df(crawler)
         energy += crawler.results.size()
         del crawler

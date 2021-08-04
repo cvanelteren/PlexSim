@@ -61,8 +61,9 @@ class Crawler {
    * structures,   e.g.   pruning   solutions   or   merging
    * options. */
 public:
-  Crawler(size_t start, double state, size_t bounded_rational);
-  Crawler(size_t start, double state, size_t bounded_rational, bool verbose);
+  Crawler(size_t start, double state, size_t bounded_rational, size_t heuristic,
+          bool verbose);
+  // Crawler(size_t start, double state, size_t bounded_rational, bool verbose);
 
   std::vector<EdgeColor> queue;
   std::vector<EdgeColor> path;
@@ -71,6 +72,7 @@ public:
 
   bool verbose;
   size_t bounded_rational;
+  size_t heuristic;
 
   // option merging
   // void merge_options();
