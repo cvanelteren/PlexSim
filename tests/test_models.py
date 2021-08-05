@@ -8,7 +8,6 @@ import subprocess, numpy as np, networkx as nx
 class TestBaseModel(ut.TestCase):
     model = Model
     agentStates = np.array([0])
-    # g = nx.path_graph()
     g = nx.path_graph(3)
 
     def setUp(self):
@@ -156,7 +155,7 @@ class TestBaseModel(ut.TestCase):
     #     d = self.m.__deepcopy__({})
     #     self.assertEqual(self.m.nudges, d.nudges)
 
-    def test_spanw(self):
+    def test_spawn(self):
         models = self.m.spawn()
         for model in models:
             self.assertTrue(isinstance(model, type(self.m)))
@@ -196,6 +195,53 @@ class TestBornholdt(TestPotts):
     model = Bornholdt
     agentStates = np.array([0, 1])
     g = nx.path_graph(3)
+
+
+from plexsim.utils.rules import create_rule_full
+
+
+class TestValueNetwork(TestBaseModel):
+    """
+    Slightly edited base class. Value network are tested
+    which has as an input a rule graph.
+
+    FIXME: add setup dict to base class to prevent this doubling
+    This was a temporary edit
+    """
+
+    model = ValueNetwork
+    rule = create_rule_full(nx.path_graph(3))
+
+    def setUp(self):
+        rules = create_rule_full(nx.cycle_graph(3))
+        g = self.__class__.g
+
+        self.updateTypes = "async sync".split()
+        self.nudgeTypes = "constant pulse".split()
+        self.m = ValueNetwork(graph=g, rules=rules)
+        self.agentStates = self.__class__.agentStates
+
+    def test_init(self):
+        # testin update types
+        for updateType, nudgeType in zip(self.updateTypes, self.nudgeTypes):
+            m = self.m.__class__(
+                graph=nx.path_graph(1),
+                rules=self.rule,
+                updateType=updateType,
+                nudgeType=nudgeType,
+                sampleSize=1,
+            )
+            self.assertEqual(m.updateType, updateType)
+            self.assertEqual(m.nudgeType, nudgeType)
+            self.assertEqual(m.sampleSize, 1)
+
+    def test_dump_rules(self):
+        """
+        Dump rules returns a networkx graph that removes all the negative edges
+        """
+        rules = self.m.dump_rules()
+        self.assertEqual(rules.number_of_edges(), 3)
+        self.assertEqual(self.__class__.rule.number_of_edges(), 6)
 
 
 # from plexsim import cy_tests

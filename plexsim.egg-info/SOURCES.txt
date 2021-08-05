@@ -12,6 +12,9 @@ test.txt
 todo.org
 .ob-jupyter/edeb876375d276c21b4a4ed8a12d4a8d7f8787a4.png
 .ob-jupyter/efe73579c350e0f252054fba9d087ce1680562ba.png
+bench/bench_annealing.py
+bench/bench_specific.py
+bench/bench_val.py
 docs/.nojekyll
 docs/index.html
 docs/build/doctrees/environment.pickle
