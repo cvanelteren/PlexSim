@@ -280,8 +280,6 @@ plexsim/utils/__pycache__/hm.cpython-39.pyc
 plexsim/utils/__pycache__/rules.cpython-39.pyc
 plexsim/utils/__pycache__/visualisation.cpython-39.pyc
 tests/__init__.py
-tests/bench_specific.py
-tests/bench_val.py
 tests/flight_test.webm
 tests/main
 tests/sample.png

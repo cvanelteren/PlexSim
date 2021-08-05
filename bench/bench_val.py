@@ -15,7 +15,7 @@ def setup(graph: nx.Graph, model_t: object) -> object:
     r = create_rule_full(graph, self_weight=-1)
     S = np.arange(len(r))
     # br = min([1, r.number_of_edges()])
-    m = model_t(graph, rules=r, agentStates=S, heuristic=1)
+    m = model_t(graph, rules=r, agentStates=S)
     # bounded_rational=br)
     print(f"{m.bounded_rational=}")
     m.states = S

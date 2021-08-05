@@ -295,10 +295,9 @@ void Crawler::merge_options(
     start_idx = end_idx;
     end_idx = options.size() - 1;
 
-// printf("IDX=%d \t end_idx %d \n", start_idx, end_idx);
+    // printf("IDX=%d \t end_idx %d \n", start_idx, end_idx);
 
-// search for possible mergers
-#pragma omp for simd
+    // search for possible mergers
     for (int idx = end_idx; idx >= start_idx; idx--) {
 
       if (options[idx].size() == this->bounded_rational) {
@@ -309,6 +308,13 @@ void Crawler::merge_options(
       }
 
       for (size_t jdx = 0; jdx < other_options.size(); jdx++) {
+
+        // early exit for heuristic approach
+        if (this->heuristic) {
+          if (this->results.size() == this->heuristic) {
+            return;
+          }
+        }
         option.clear();
         uni.clear();
 
