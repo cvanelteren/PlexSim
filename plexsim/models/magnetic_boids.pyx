@@ -6,6 +6,41 @@ from cython.operator cimport dereference as deref, preincrement, postincrement a
 from libc.math cimport exp, fmod, fabs, sqrt
 
 cdef class MagneticBoids(ValueNetwork):
+    """
+    Magnetic boids. Combines the ideas from the value network without requirement
+    of a social network. The model is inspired by the boids model. Each agent/boid/
+    node has a color state. The colors bind together in a network dubbed the "value network".
+    In the normal boids simulation, each boid want to fly close to other boids.
+    From this, flocking behavior appears. In this implementation the boids attempt to flock
+    according the coloring network.
+
+    Parameters
+    ----------
+    coordinates: np.ndarray, initial position of the boids.
+
+    velocities: np.ndarray, initial velocities of the boids.
+
+    rules: nx.Graph or nx.DiGraph, color networks indicating how colors want to interact
+
+    agentStates: np.ndarray, colors that each boid can take
+
+    bounded_rational, unsigned int, edges to consider for measuring the completion
+    of the value network
+
+    boid_radius: unsigned int, radius of the boid.
+
+    max_speed: unsigned int, maximum speed the boids can fly at. Note that negative speeds are compared to this value!
+
+    radius: unsigned int: radius that the boids can see.
+
+    bounds: np.ndarray, bounding box of the area can fly in.
+
+    exploration: float, amount of noise to add to the update position of the boids.
+
+    dt: float, simulation update parameter (extrapolation)
+
+    kwargs: dict, base model values (see base model)
+    """
     def __init__(self,
                  coordinates,
                  velocities,
@@ -59,12 +94,23 @@ cdef class MagneticBoids(ValueNetwork):
         return
     @property
     def explore(self):
+        """
+        The explore parameter controls how much noise is added to the
+        particle's position
+        """
         return self._explore
     @explore.setter
     def explore(self, value):
         self._explore = 1 / value if value != 0 else np.inf
 
     cdef void _update_adjacency(self, node_id_t node) nogil:
+        """
+        Adds or removes edges depending on how close the boids are
+
+        Parameters
+        ----------
+        node: size_t, node to update
+        """
         cdef:
             double distance
             size_t other
@@ -78,7 +124,7 @@ cdef class MagneticBoids(ValueNetwork):
         self.adj._adj[node].neighbors.clear()
         for other in range(self.adj._nNodes):
             # empty node from adj
-            self.adj._adj[other].neighbors.erase(node)
+            self.adj._remove_edge(other, node)
             # skip self
             if other != node:
                 distance = 0
@@ -92,14 +138,26 @@ cdef class MagneticBoids(ValueNetwork):
                 distance = sqrt(distance)
                 if distance < self._radius:
                     # add current node back
-                    self.adj._adj[node].neighbors[other] = 1/distance
-                    self.adj._adj[other].neighbors[node] = 1/distance
+                    self.adj._add_edge(node, other, 1/distance)
         return
 
     cdef double _wrap(self, double x1, double x2) nogil:
+        """
+        Wrap around the bounding box the boids can move in
+        """
         return fmod(fmod(x1, x2) + x2, x2)
 
     cdef void _move_boid(self, node_id_t node) nogil:
+        """
+        Updates boids position and velocity. It performs
+        1. Centering, moves boid's towards its flock with a satisfied value network
+        2. Separation, ensures boid's position is appropriately spaced from other boids.
+        3. Alignment, matches boid's velocity with its flock.
+
+        Parameters
+        ----------
+        node: size_t, node to update
+        """
         cdef:
             size_t neighbor
             double weight
@@ -169,6 +227,14 @@ cdef class MagneticBoids(ValueNetwork):
         return
 
     cdef void _check_collision(self, node_id_t node) nogil:
+        """
+        Checks collision of the boid. Ensures the coordinates remain in the
+        bounding box
+
+        Parameters
+        ----------
+        node: size_t, boid to update
+        """
         cdef double distance
         cdef node_id_t other
         cdef size_t idx
