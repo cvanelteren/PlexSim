@@ -221,3 +221,16 @@ def simple_animate(graph, time_data, n, file="test.mp4"):
 def create_grid_layout(g):
     pos = {i: np.array(i) for i in g.nodes()}
     return pos
+
+
+def visualize_graph(m):
+    """
+    Visualize value networks
+    """
+    import cmasher as cmr
+
+    cmap = cmr.guppy(np.linspace(0, 1, m.nStates, 0))
+    fig, ax = plt.subplots()
+    colors = [cmap[int(i)] for i in m.states.astype(int)]
+    nx.draw(m.graph, ax=ax, node_color=colors, with_labels=1)
+    fig.show()

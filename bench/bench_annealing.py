@@ -1,8 +1,9 @@
 import matplotlib.pyplot as plt, cmasher as cmr, time
 import numpy as np, os, sys, networkx as nx, warnings, pyprind as pr
 from plexsim import models
-from plexsim.utils import annealing, graph
 from imi import infcy
+
+from plexsim.utils import annealing, graph
 from plexsim.utils.rules import create_rule_full
 from itertools import product
 

@@ -1700,6 +1700,18 @@ typedef std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,struct __py
  * 
  */
 typedef std::pair<__pyx_t_7plexsim_6models_5types_state_t,__pyx_t_7plexsim_6models_5types_state_t>  __pyx_t_7plexsim_6models_5types_MemoizeUnit;
+struct __pyx_opt_args_7plexsim_6models_9adjacency_9Adjacency__add_edge;
+
+/* "plexsim/models/adjacency.pxd":14
+ *         bint _directed
+ * 
+ *     cdef void _add_edge(self, node_id_t x, node_id_t y, double weight =*) nogil             # <<<<<<<<<<<<<<
+ *     cdef void _remove_edge(self, node_id_t x, node_id_t y) nogil
+ */
+struct __pyx_opt_args_7plexsim_6models_9adjacency_9Adjacency__add_edge {
+  int __pyx_n;
+  double weight;
+};
 struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset;
@@ -1765,10 +1777,12 @@ struct __pyx_opt_args_7plexsim_6models_5potts_5Potts_magnetize {
  */
 struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency {
   PyObject_HEAD
+  struct __pyx_vtabstruct_7plexsim_6models_9adjacency_Adjacency *__pyx_vtab;
   __pyx_t_7plexsim_6models_5types_Connections _adj;
   __Pyx_memviewslice _nodeids;
   size_t _nNodes;
   PyObject *__dict__;
+  int _directed;
 };
 
 
@@ -1961,6 +1975,21 @@ struct __pyx_memoryviewslice_obj {
   int (*to_dtype_func)(char *, PyObject *);
 };
 
+
+
+/* "plexsim/models/adjacency.pxd":3
+ * # distutils: language=c++
+ * from plexsim.models.types cimport *
+ * cdef class Adjacency:             # <<<<<<<<<<<<<<
+ *     """
+ *     Converts networkx graph to unordered_map
+ */
+
+struct __pyx_vtabstruct_7plexsim_6models_9adjacency_Adjacency {
+  void (*_add_edge)(struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t, struct __pyx_opt_args_7plexsim_6models_9adjacency_9Adjacency__add_edge *__pyx_optional_args);
+  void (*_remove_edge)(struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t);
+};
+static struct __pyx_vtabstruct_7plexsim_6models_9adjacency_Adjacency *__pyx_vtabptr_7plexsim_6models_9adjacency_Adjacency;
 
 
 /* "plexsim/models/sampler.pxd":16
@@ -24299,6 +24328,7 @@ static int __Pyx_modinit_type_import_code(void) {
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_7plexsim_6models_9adjacency_Adjacency = __Pyx_ImportType(__pyx_t_1, "plexsim.models.adjacency", "Adjacency", sizeof(struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency), __Pyx_ImportType_CheckSize_Warn);
    if (!__pyx_ptype_7plexsim_6models_9adjacency_Adjacency) __PYX_ERR(7, 3, __pyx_L1_error)
+  __pyx_vtabptr_7plexsim_6models_9adjacency_Adjacency = (struct __pyx_vtabstruct_7plexsim_6models_9adjacency_Adjacency*)__Pyx_GetVtable(__pyx_ptype_7plexsim_6models_9adjacency_Adjacency); if (unlikely(!__pyx_vtabptr_7plexsim_6models_9adjacency_Adjacency)) __PYX_ERR(7, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule("plexsim.models.sampler"); if (unlikely(!__pyx_t_1)) __PYX_ERR(8, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);

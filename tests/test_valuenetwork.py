@@ -8,7 +8,8 @@ from plexsim.models.value_network import ValueNetwork
 # from plexsim.models.value_network2 import ValueNetwork as V2
 
 import matplotlib.pyplot as plt, networkx as nx
-from plexsim.utils.visualisation import GraphAnimation
+from plexsim.utils.visualisation import GraphAnimation, visualize_graph
+
 
 import time, logging
 
@@ -182,14 +183,6 @@ class TestCrawl(ut.TestCase):
 
 
 import cmasher as cmr
-
-
-def visualize_graph(m: ValueNetwork):
-    cmap = cmr.guppy(np.linspace(0, 1, m.nStates, 0))
-    fig, ax = plt.subplots()
-    colors = [cmap[int(i)] for i in m.states.astype(int)]
-    nx.draw(m.graph, ax=ax, node_color=colors, with_labels=1)
-    fig.show()
 
 
 if __name__ == "__main__":

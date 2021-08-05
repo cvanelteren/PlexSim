@@ -1687,6 +1687,18 @@ typedef std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,struct __py
  * 
  */
 typedef std::pair<__pyx_t_7plexsim_6models_5types_state_t,__pyx_t_7plexsim_6models_5types_state_t>  __pyx_t_7plexsim_6models_5types_MemoizeUnit;
+struct __pyx_opt_args_7plexsim_6models_9adjacency_9Adjacency__add_edge;
+
+/* "plexsim/models/adjacency.pxd":14
+ *         bint _directed
+ * 
+ *     cdef void _add_edge(self, node_id_t x, node_id_t y, double weight =*) nogil             # <<<<<<<<<<<<<<
+ *     cdef void _remove_edge(self, node_id_t x, node_id_t y) nogil
+ */
+struct __pyx_opt_args_7plexsim_6models_9adjacency_9Adjacency__add_edge {
+  int __pyx_n;
+  double weight;
+};
 
 /* "plexsim/models/adjacency.pxd":3
  * # distutils: language=c++
@@ -1697,10 +1709,12 @@ typedef std::pair<__pyx_t_7plexsim_6models_5types_state_t,__pyx_t_7plexsim_6mode
  */
 struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency {
   PyObject_HEAD
+  struct __pyx_vtabstruct_7plexsim_6models_9adjacency_Adjacency *__pyx_vtab;
   __pyx_t_7plexsim_6models_5types_Connections _adj;
   __Pyx_memviewslice _nodeids;
   size_t _nNodes;
   PyObject *__dict__;
+  int _directed;
 };
 
 
@@ -1780,6 +1794,21 @@ struct __pyx_memoryviewslice_obj {
   int (*to_dtype_func)(char *, PyObject *);
 };
 
+
+
+/* "plexsim/models/adjacency.pyx":4
+ * import networkx as nx, numpy as np
+ * cimport numpy as np
+ * cdef class Adjacency:             # <<<<<<<<<<<<<<
+ *    """
+ *     Constructs adj matrix using structs
+ */
+
+struct __pyx_vtabstruct_7plexsim_6models_9adjacency_Adjacency {
+  void (*_add_edge)(struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t, struct __pyx_opt_args_7plexsim_6models_9adjacency_9Adjacency__add_edge *__pyx_optional_args);
+  void (*_remove_edge)(struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t);
+};
+static struct __pyx_vtabstruct_7plexsim_6models_9adjacency_Adjacency *__pyx_vtabptr_7plexsim_6models_9adjacency_Adjacency;
 
 
 /* "View.MemoryView":109
@@ -2448,11 +2477,6 @@ static int __Pyx_validate_bases_tuple(const char *type_name, Py_ssize_t dictoffs
 /* PyType_Ready.proto */
 static int __Pyx_PyType_Ready(PyTypeObject *t);
 
-/* SetupReduce.proto */
-#if !CYTHON_COMPILING_IN_LIMITED_API
-static int __Pyx_setup_reduce(PyObject* type_obj);
-#endif
-
 /* SetVTable.proto */
 static int __Pyx_SetVtable(PyTypeObject* typeptr , void* vtable);
 
@@ -2462,6 +2486,11 @@ static void* __Pyx_GetVtable(PyTypeObject *type);
 /* MergeVTables.proto */
 #if !CYTHON_COMPILING_IN_LIMITED_API
 static int __Pyx_MergeVtables(PyTypeObject *type);
+#endif
+
+/* SetupReduce.proto */
+#if !CYTHON_COMPILING_IN_LIMITED_API
+static int __Pyx_setup_reduce(PyObject* type_obj);
 #endif
 
 /* TypeImport.proto */
@@ -2905,6 +2934,8 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 #endif
 
 /* #### Code section: module_declarations ### */
+static void __pyx_f_7plexsim_6models_9adjacency_9Adjacency__add_edge(struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_x, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_y, struct __pyx_opt_args_7plexsim_6models_9adjacency_9Adjacency__add_edge *__pyx_optional_args); /* proto*/
+static void __pyx_f_7plexsim_6models_9adjacency_9Adjacency__remove_edge(struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_x, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_y); /* proto*/
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_7ndarray_4base_base(PyArrayObject *__pyx_v_self); /* proto*/
 static CYTHON_INLINE PyArray_Descr *__pyx_f_5numpy_7ndarray_5descr_descr(PyArrayObject *__pyx_v_self); /* proto*/
 static CYTHON_INLINE int __pyx_f_5numpy_7ndarray_4ndim_ndim(PyArrayObject *__pyx_v_self); /* proto*/
@@ -3374,8 +3405,8 @@ static const char __pyx_k_Cannot_assign_to_read_only_memor[] = "Cannot assign to
 static const char __pyx_k_Cannot_create_writable_memory_vi[] = "Cannot create writable memory view from read-only memoryview";
 static const char __pyx_k_Cannot_transpose_memoryview_with[] = "Cannot transpose memoryview with indirect dimensions";
 static const char __pyx_k_Empty_shape_tuple_for_cython_arr[] = "Empty shape tuple for cython.array";
+static const char __pyx_k_Incompatible_checksums_s_vs_0x55[] = "Incompatible checksums (%s vs 0x55b899e = (_adj, _directed, _nNodes, _nodeids))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0x6a[] = "Incompatible checksums (%s vs 0x6ae9995 = (name))";
-static const char __pyx_k_Incompatible_checksums_s_vs_0xf0[] = "Incompatible checksums (%s vs 0xf05d4b5 = (_adj, _nNodes, _nodeids))";
 static const char __pyx_k_Indirect_dimensions_not_supporte[] = "Indirect dimensions not supported";
 static const char __pyx_k_Invalid_mode_expected_c_or_fortr[] = "Invalid mode, expected 'c' or 'fortran', got ";
 static const char __pyx_k_No_value_specified_for_struct_at[] = "No value specified for struct attribute 'neighbors'";
@@ -3402,8 +3433,8 @@ static PyObject *__pyx_kp_s_Dimension_d_is_not_direct;
 static PyObject *__pyx_n_s_Ellipsis;
 static PyObject *__pyx_kp_s_Empty_shape_tuple_for_cython_arr;
 static PyObject *__pyx_n_s_ImportError;
+static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x55;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x6a;
-static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0xf0;
 static PyObject *__pyx_n_s_IndexError;
 static PyObject *__pyx_kp_s_Index_out_of_bounds_axis_d;
 static PyObject *__pyx_kp_s_Indirect_dimensions_not_supporte;
@@ -3594,8 +3625,8 @@ static __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_get = {0, 0, 0, 0, 0};
 #if !CYTHON_USE_MODULE_STATE
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
+static PyObject *__pyx_int_89885086;
 static PyObject *__pyx_int_112105877;
-static PyObject *__pyx_int_252040373;
 static PyObject *__pyx_int_neg_1;
 #endif
 #if !CYTHON_USE_MODULE_STATE
@@ -3678,8 +3709,8 @@ typedef struct {
   PyObject *__pyx_n_s_Ellipsis;
   PyObject *__pyx_kp_s_Empty_shape_tuple_for_cython_arr;
   PyObject *__pyx_n_s_ImportError;
+  PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x55;
   PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x6a;
-  PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0xf0;
   PyObject *__pyx_n_s_IndexError;
   PyObject *__pyx_kp_s_Index_out_of_bounds_axis_d;
   PyObject *__pyx_kp_s_Indirect_dimensions_not_supporte;
@@ -3813,8 +3844,8 @@ typedef struct {
   PyObject *__pyx_n_s_weight;
   PyObject *__pyx_int_0;
   PyObject *__pyx_int_1;
+  PyObject *__pyx_int_89885086;
   PyObject *__pyx_int_112105877;
-  PyObject *__pyx_int_252040373;
   PyObject *__pyx_int_neg_1;
   PyObject *__pyx_tuple_;
   PyObject *__pyx_slice__8;
@@ -3911,8 +3942,8 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_Ellipsis);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Empty_shape_tuple_for_cython_arr);
   Py_CLEAR(clear_module_state->__pyx_n_s_ImportError);
+  Py_CLEAR(clear_module_state->__pyx_kp_s_Incompatible_checksums_s_vs_0x55);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Incompatible_checksums_s_vs_0x6a);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_Incompatible_checksums_s_vs_0xf0);
   Py_CLEAR(clear_module_state->__pyx_n_s_IndexError);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Index_out_of_bounds_axis_d);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Indirect_dimensions_not_supporte);
@@ -4046,8 +4077,8 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_weight);
   Py_CLEAR(clear_module_state->__pyx_int_0);
   Py_CLEAR(clear_module_state->__pyx_int_1);
+  Py_CLEAR(clear_module_state->__pyx_int_89885086);
   Py_CLEAR(clear_module_state->__pyx_int_112105877);
-  Py_CLEAR(clear_module_state->__pyx_int_252040373);
   Py_CLEAR(clear_module_state->__pyx_int_neg_1);
   Py_CLEAR(clear_module_state->__pyx_tuple_);
   Py_CLEAR(clear_module_state->__pyx_slice__8);
@@ -4131,8 +4162,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_Ellipsis);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Empty_shape_tuple_for_cython_arr);
   Py_VISIT(traverse_module_state->__pyx_n_s_ImportError);
+  Py_VISIT(traverse_module_state->__pyx_kp_s_Incompatible_checksums_s_vs_0x55);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Incompatible_checksums_s_vs_0x6a);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_Incompatible_checksums_s_vs_0xf0);
   Py_VISIT(traverse_module_state->__pyx_n_s_IndexError);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Index_out_of_bounds_axis_d);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Indirect_dimensions_not_supporte);
@@ -4266,8 +4297,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_weight);
   Py_VISIT(traverse_module_state->__pyx_int_0);
   Py_VISIT(traverse_module_state->__pyx_int_1);
+  Py_VISIT(traverse_module_state->__pyx_int_89885086);
   Py_VISIT(traverse_module_state->__pyx_int_112105877);
-  Py_VISIT(traverse_module_state->__pyx_int_252040373);
   Py_VISIT(traverse_module_state->__pyx_int_neg_1);
   Py_VISIT(traverse_module_state->__pyx_tuple_);
   Py_VISIT(traverse_module_state->__pyx_slice__8);
@@ -4348,8 +4379,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_Ellipsis __pyx_mstate_global->__pyx_n_s_Ellipsis
 #define __pyx_kp_s_Empty_shape_tuple_for_cython_arr __pyx_mstate_global->__pyx_kp_s_Empty_shape_tuple_for_cython_arr
 #define __pyx_n_s_ImportError __pyx_mstate_global->__pyx_n_s_ImportError
+#define __pyx_kp_s_Incompatible_checksums_s_vs_0x55 __pyx_mstate_global->__pyx_kp_s_Incompatible_checksums_s_vs_0x55
 #define __pyx_kp_s_Incompatible_checksums_s_vs_0x6a __pyx_mstate_global->__pyx_kp_s_Incompatible_checksums_s_vs_0x6a
-#define __pyx_kp_s_Incompatible_checksums_s_vs_0xf0 __pyx_mstate_global->__pyx_kp_s_Incompatible_checksums_s_vs_0xf0
 #define __pyx_n_s_IndexError __pyx_mstate_global->__pyx_n_s_IndexError
 #define __pyx_kp_s_Index_out_of_bounds_axis_d __pyx_mstate_global->__pyx_kp_s_Index_out_of_bounds_axis_d
 #define __pyx_kp_s_Indirect_dimensions_not_supporte __pyx_mstate_global->__pyx_kp_s_Indirect_dimensions_not_supporte
@@ -4483,8 +4514,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_weight __pyx_mstate_global->__pyx_n_s_weight
 #define __pyx_int_0 __pyx_mstate_global->__pyx_int_0
 #define __pyx_int_1 __pyx_mstate_global->__pyx_int_1
+#define __pyx_int_89885086 __pyx_mstate_global->__pyx_int_89885086
 #define __pyx_int_112105877 __pyx_mstate_global->__pyx_int_112105877
-#define __pyx_int_252040373 __pyx_mstate_global->__pyx_int_252040373
 #define __pyx_int_neg_1 __pyx_mstate_global->__pyx_int_neg_1
 #define __pyx_tuple_ __pyx_mstate_global->__pyx_tuple_
 #define __pyx_slice__8 __pyx_mstate_global->__pyx_slice__8
@@ -5103,7 +5134,7 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
  *                 # add neighbors
  *                 adj[source].neighbors[target] = weight             # <<<<<<<<<<<<<<
  *                 adj[target].neighbors[source] = weight
- *         # public and python accessible
+ * 
  */
     /*else*/ {
       ((__pyx_v_adj[__pyx_v_source]).neighbors[__pyx_v_target]) = __pyx_v_weight;
@@ -5112,8 +5143,8 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
  *                 # add neighbors
  *                 adj[source].neighbors[target] = weight
  *                 adj[target].neighbors[source] = weight             # <<<<<<<<<<<<<<
+ * 
  *         # public and python accessible
- *         self.graph       = graph
  */
       ((__pyx_v_adj[__pyx_v_target]).neighbors[__pyx_v_source]) = __pyx_v_weight;
     }
@@ -5129,34 +5160,34 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "plexsim/models/adjacency.pyx":58
- *                 adj[target].neighbors[source] = weight
+  /* "plexsim/models/adjacency.pyx":59
+ * 
  *         # public and python accessible
  *         self.graph       = graph             # <<<<<<<<<<<<<<
  *         self.mapping     = mapping
  *         self.rmapping    = rmapping
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_graph, __pyx_v_graph) < 0) __PYX_ERR(0, 58, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_graph, __pyx_v_graph) < 0) __PYX_ERR(0, 59, __pyx_L1_error)
 
-  /* "plexsim/models/adjacency.pyx":59
+  /* "plexsim/models/adjacency.pyx":60
  *         # public and python accessible
  *         self.graph       = graph
  *         self.mapping     = mapping             # <<<<<<<<<<<<<<
  *         self.rmapping    = rmapping
  *         self._adj        = adj
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_mapping, __pyx_v_mapping) < 0) __PYX_ERR(0, 59, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_mapping, __pyx_v_mapping) < 0) __PYX_ERR(0, 60, __pyx_L1_error)
 
-  /* "plexsim/models/adjacency.pyx":60
+  /* "plexsim/models/adjacency.pyx":61
  *         self.graph       = graph
  *         self.mapping     = mapping
  *         self.rmapping    = rmapping             # <<<<<<<<<<<<<<
  *         self._adj        = adj
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rmapping, __pyx_v_rmapping) < 0) __PYX_ERR(0, 60, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rmapping, __pyx_v_rmapping) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
 
-  /* "plexsim/models/adjacency.pyx":61
+  /* "plexsim/models/adjacency.pyx":62
  *         self.mapping     = mapping
  *         self.rmapping    = rmapping
  *         self._adj        = adj             # <<<<<<<<<<<<<<
@@ -5165,19 +5196,19 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
  */
   __pyx_v_self->_adj = __pyx_v_adj;
 
-  /* "plexsim/models/adjacency.pyx":64
+  /* "plexsim/models/adjacency.pyx":65
  * 
  *         # Private
  *         _nodeids         = np.arange(graph.number_of_nodes(), dtype = np.uintp)             # <<<<<<<<<<<<<<
  *         np.random.shuffle(_nodeids) # prevent initial scan-lines in grid
  *         self._nodeids    = _nodeids
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_arange); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_arange); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_graph, __pyx_n_s_number_of_nodes); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_graph, __pyx_n_s_number_of_nodes); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_5 = NULL;
   __pyx_t_7 = 0;
@@ -5195,25 +5226,25 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
     PyObject *__pyx_callargs[1] = {__pyx_t_5, };
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_7, 0+__pyx_t_7);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_uintp); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_uintp); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -5221,19 +5252,19 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
   __pyx_v__nodeids = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "plexsim/models/adjacency.pyx":65
+  /* "plexsim/models/adjacency.pyx":66
  *         # Private
  *         _nodeids         = np.arange(graph.number_of_nodes(), dtype = np.uintp)
  *         np.random.shuffle(_nodeids) # prevent initial scan-lines in grid             # <<<<<<<<<<<<<<
  *         self._nodeids    = _nodeids
  *         self._nNodes     = graph.number_of_nodes()
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_random); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_random); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_shuffle); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_shuffle); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -5252,33 +5283,33 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
     PyObject *__pyx_callargs[2] = {__pyx_t_2, __pyx_v__nodeids};
     __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_7, 1+__pyx_t_7);
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 66, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "plexsim/models/adjacency.pyx":66
+  /* "plexsim/models/adjacency.pyx":67
  *         _nodeids         = np.arange(graph.number_of_nodes(), dtype = np.uintp)
  *         np.random.shuffle(_nodeids) # prevent initial scan-lines in grid
  *         self._nodeids    = _nodeids             # <<<<<<<<<<<<<<
  *         self._nNodes     = graph.number_of_nodes()
- * 
+ *         self._directed = directed
  */
-  __pyx_t_14 = __Pyx_PyObject_to_MemoryviewSlice_dc_nn___pyx_t_7plexsim_6models_5types_node_id_t(__pyx_v__nodeids, PyBUF_WRITABLE); if (unlikely(!__pyx_t_14.memview)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyObject_to_MemoryviewSlice_dc_nn___pyx_t_7plexsim_6models_5types_node_id_t(__pyx_v__nodeids, PyBUF_WRITABLE); if (unlikely(!__pyx_t_14.memview)) __PYX_ERR(0, 67, __pyx_L1_error)
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_self->_nodeids, 0);
   __pyx_v_self->_nodeids = __pyx_t_14;
   __pyx_t_14.memview = NULL;
   __pyx_t_14.data = NULL;
 
-  /* "plexsim/models/adjacency.pyx":67
+  /* "plexsim/models/adjacency.pyx":68
  *         np.random.shuffle(_nodeids) # prevent initial scan-lines in grid
  *         self._nodeids    = _nodeids
  *         self._nNodes     = graph.number_of_nodes()             # <<<<<<<<<<<<<<
+ *         self._directed = directed
  * 
- *    @property
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_graph, __pyx_n_s_number_of_nodes); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_graph, __pyx_n_s_number_of_nodes); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = NULL;
   __pyx_t_7 = 0;
@@ -5296,13 +5327,22 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
     PyObject *__pyx_callargs[1] = {__pyx_t_2, };
     __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_7, 0+__pyx_t_7);
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
-  __pyx_t_15 = __Pyx_PyInt_As_size_t(__pyx_t_4); if (unlikely((__pyx_t_15 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_15 = __Pyx_PyInt_As_size_t(__pyx_t_4); if (unlikely((__pyx_t_15 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_self->_nNodes = __pyx_t_15;
+
+  /* "plexsim/models/adjacency.pyx":69
+ *         self._nodeids    = _nodeids
+ *         self._nNodes     = graph.number_of_nodes()
+ *         self._directed = directed             # <<<<<<<<<<<<<<
+ * 
+ *    cdef void _add_edge(self, node_id_t x, node_id_t y, double weight = 1) nogil:
+ */
+  __pyx_v_self->_directed = __pyx_v_directed;
 
   /* "plexsim/models/adjacency.pyx":10
  *         :nx.Graph or nx.DiGraph: graph
@@ -5339,8 +5379,152 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
   return __pyx_r;
 }
 
-/* "plexsim/models/adjacency.pyx":69
- *         self._nNodes     = graph.number_of_nodes()
+/* "plexsim/models/adjacency.pyx":71
+ *         self._directed = directed
+ * 
+ *    cdef void _add_edge(self, node_id_t x, node_id_t y, double weight = 1) nogil:             # <<<<<<<<<<<<<<
+ *        self._adj[x].neighbors[y] = weight
+ *        if not self._directed:
+ */
+
+static void __pyx_f_7plexsim_6models_9adjacency_9Adjacency__add_edge(struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_x, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_y, struct __pyx_opt_args_7plexsim_6models_9adjacency_9Adjacency__add_edge *__pyx_optional_args) {
+  double __pyx_v_weight = ((double)1.0);
+  int __pyx_t_1;
+  if (__pyx_optional_args) {
+    if (__pyx_optional_args->__pyx_n > 0) {
+      __pyx_v_weight = __pyx_optional_args->weight;
+    }
+  }
+
+  /* "plexsim/models/adjacency.pyx":72
+ * 
+ *    cdef void _add_edge(self, node_id_t x, node_id_t y, double weight = 1) nogil:
+ *        self._adj[x].neighbors[y] = weight             # <<<<<<<<<<<<<<
+ *        if not self._directed:
+ *            self._adj[y].neighbors[x] = weight
+ */
+  ((__pyx_v_self->_adj[__pyx_v_x]).neighbors[__pyx_v_y]) = __pyx_v_weight;
+
+  /* "plexsim/models/adjacency.pyx":73
+ *    cdef void _add_edge(self, node_id_t x, node_id_t y, double weight = 1) nogil:
+ *        self._adj[x].neighbors[y] = weight
+ *        if not self._directed:             # <<<<<<<<<<<<<<
+ *            self._adj[y].neighbors[x] = weight
+ *        return
+ */
+  __pyx_t_1 = ((!(__pyx_v_self->_directed != 0)) != 0);
+  if (__pyx_t_1) {
+
+    /* "plexsim/models/adjacency.pyx":74
+ *        self._adj[x].neighbors[y] = weight
+ *        if not self._directed:
+ *            self._adj[y].neighbors[x] = weight             # <<<<<<<<<<<<<<
+ *        return
+ * 
+ */
+    ((__pyx_v_self->_adj[__pyx_v_y]).neighbors[__pyx_v_x]) = __pyx_v_weight;
+
+    /* "plexsim/models/adjacency.pyx":73
+ *    cdef void _add_edge(self, node_id_t x, node_id_t y, double weight = 1) nogil:
+ *        self._adj[x].neighbors[y] = weight
+ *        if not self._directed:             # <<<<<<<<<<<<<<
+ *            self._adj[y].neighbors[x] = weight
+ *        return
+ */
+  }
+
+  /* "plexsim/models/adjacency.pyx":75
+ *        if not self._directed:
+ *            self._adj[y].neighbors[x] = weight
+ *        return             # <<<<<<<<<<<<<<
+ * 
+ *    cdef void _remove_edge(self, node_id_t x, node_id_t y) nogil:
+ */
+  goto __pyx_L0;
+
+  /* "plexsim/models/adjacency.pyx":71
+ *         self._directed = directed
+ * 
+ *    cdef void _add_edge(self, node_id_t x, node_id_t y, double weight = 1) nogil:             # <<<<<<<<<<<<<<
+ *        self._adj[x].neighbors[y] = weight
+ *        if not self._directed:
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+}
+
+/* "plexsim/models/adjacency.pyx":77
+ *        return
+ * 
+ *    cdef void _remove_edge(self, node_id_t x, node_id_t y) nogil:             # <<<<<<<<<<<<<<
+ *        self._adj[x].neighbors.erase(y)
+ *        if not self._directed:
+ */
+
+static void __pyx_f_7plexsim_6models_9adjacency_9Adjacency__remove_edge(struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_x, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_y) {
+  int __pyx_t_1;
+
+  /* "plexsim/models/adjacency.pyx":78
+ * 
+ *    cdef void _remove_edge(self, node_id_t x, node_id_t y) nogil:
+ *        self._adj[x].neighbors.erase(y)             # <<<<<<<<<<<<<<
+ *        if not self._directed:
+ *             self._adj[y].neighbors.erase(x)
+ */
+  (void)((__pyx_v_self->_adj[__pyx_v_x]).neighbors.erase(__pyx_v_y));
+
+  /* "plexsim/models/adjacency.pyx":79
+ *    cdef void _remove_edge(self, node_id_t x, node_id_t y) nogil:
+ *        self._adj[x].neighbors.erase(y)
+ *        if not self._directed:             # <<<<<<<<<<<<<<
+ *             self._adj[y].neighbors.erase(x)
+ *        return
+ */
+  __pyx_t_1 = ((!(__pyx_v_self->_directed != 0)) != 0);
+  if (__pyx_t_1) {
+
+    /* "plexsim/models/adjacency.pyx":80
+ *        self._adj[x].neighbors.erase(y)
+ *        if not self._directed:
+ *             self._adj[y].neighbors.erase(x)             # <<<<<<<<<<<<<<
+ *        return
+ * 
+ */
+    (void)((__pyx_v_self->_adj[__pyx_v_y]).neighbors.erase(__pyx_v_x));
+
+    /* "plexsim/models/adjacency.pyx":79
+ *    cdef void _remove_edge(self, node_id_t x, node_id_t y) nogil:
+ *        self._adj[x].neighbors.erase(y)
+ *        if not self._directed:             # <<<<<<<<<<<<<<
+ *             self._adj[y].neighbors.erase(x)
+ *        return
+ */
+  }
+
+  /* "plexsim/models/adjacency.pyx":81
+ *        if not self._directed:
+ *             self._adj[y].neighbors.erase(x)
+ *        return             # <<<<<<<<<<<<<<
+ * 
+ *    @property
+ */
+  goto __pyx_L0;
+
+  /* "plexsim/models/adjacency.pyx":77
+ *        return
+ * 
+ *    cdef void _remove_edge(self, node_id_t x, node_id_t y) nogil:             # <<<<<<<<<<<<<<
+ *        self._adj[x].neighbors.erase(y)
+ *        if not self._directed:
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+}
+
+/* "plexsim/models/adjacency.pyx":83
+ *        return
  * 
  *    @property             # <<<<<<<<<<<<<<
  *    def adj(self):
@@ -5371,7 +5555,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_3adj___get__(st
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/adjacency.pyx":71
+  /* "plexsim/models/adjacency.pyx":85
  *    @property
  *    def adj(self):
  *        return dict(self._adj)             # <<<<<<<<<<<<<<
@@ -5379,17 +5563,17 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_3adj___get__(st
  *    def __repr__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t____struct____pyx_t_7plexsim_6models_5types_Connection(__pyx_v_self->_adj); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t____struct____pyx_t_7plexsim_6models_5types_Connection(__pyx_v_self->_adj); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyDict_Type)), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyDict_Type)), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/adjacency.pyx":69
- *         self._nNodes     = graph.number_of_nodes()
+  /* "plexsim/models/adjacency.pyx":83
+ *        return
  * 
  *    @property             # <<<<<<<<<<<<<<
  *    def adj(self):
@@ -5408,7 +5592,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_3adj___get__(st
   return __pyx_r;
 }
 
-/* "plexsim/models/adjacency.pyx":73
+/* "plexsim/models/adjacency.pyx":87
  *        return dict(self._adj)
  * 
  *    def __repr__(self):             # <<<<<<<<<<<<<<
@@ -5440,7 +5624,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_2__repr__(struc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__repr__", 0);
 
-  /* "plexsim/models/adjacency.pyx":74
+  /* "plexsim/models/adjacency.pyx":88
  * 
  *    def __repr__(self):
  *         return str(self._adj)             # <<<<<<<<<<<<<<
@@ -5448,16 +5632,16 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_2__repr__(struc
  *    def __eq__(self, other):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t____struct____pyx_t_7plexsim_6models_5types_Connection(__pyx_v_self->_adj); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t____struct____pyx_t_7plexsim_6models_5types_Connection(__pyx_v_self->_adj); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Str(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Str(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/adjacency.pyx":73
+  /* "plexsim/models/adjacency.pyx":87
  *        return dict(self._adj)
  * 
  *    def __repr__(self):             # <<<<<<<<<<<<<<
@@ -5477,7 +5661,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_2__repr__(struc
   return __pyx_r;
 }
 
-/* "plexsim/models/adjacency.pyx":76
+/* "plexsim/models/adjacency.pyx":90
  *         return str(self._adj)
  * 
  *    def __eq__(self, other):             # <<<<<<<<<<<<<<
@@ -5509,24 +5693,24 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_4__eq__(struct 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__eq__", 0);
 
-  /* "plexsim/models/adjacency.pyx":77
+  /* "plexsim/models/adjacency.pyx":91
  * 
  *    def __eq__(self, other):
  *        return self.adj == other.adj             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_adj); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_adj); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_adj); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_adj); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/adjacency.pyx":76
+  /* "plexsim/models/adjacency.pyx":90
  *         return str(self._adj)
  * 
  *    def __eq__(self, other):             # <<<<<<<<<<<<<<
@@ -5596,8 +5780,9 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_6__reduce_cytho
   PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
-  int __pyx_t_5;
+  PyObject *__pyx_t_5 = NULL;
   int __pyx_t_6;
+  int __pyx_t_7;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -5606,52 +5791,57 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_6__reduce_cytho
   /* "(tree fragment)":5
  *     cdef object _dict
  *     cdef bint use_setstate
- *     state = (self._adj, self._nNodes, self._nodeids)             # <<<<<<<<<<<<<<
+ *     state = (self._adj, self._directed, self._nNodes, self._nodeids)             # <<<<<<<<<<<<<<
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
   __pyx_t_1 = __pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t____struct____pyx_t_7plexsim_6models_5types_Connection(__pyx_v_self->_adj); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_self->_nNodes); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 5, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyBool_FromLong(__pyx_v_self->_directed); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->_nodeids, 1, (PyObject *(*)(char *)) __pyx_memview_get_nn___pyx_t_7plexsim_6models_5types_node_id_t, (int (*)(char *, PyObject *)) __pyx_memview_set_nn___pyx_t_7plexsim_6models_5types_node_id_t, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 5, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_v_self->_nNodes); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 5, __pyx_L1_error)
+  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->_nodeids, 1, (PyObject *(*)(char *)) __pyx_memview_get_nn___pyx_t_7plexsim_6models_5types_node_id_t, (int (*)(char *, PyObject *)) __pyx_memview_set_nn___pyx_t_7plexsim_6models_5types_node_id_t, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = PyTuple_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_2);
-  PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_3);
-  PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_5, 3, __pyx_t_4);
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
-  __pyx_v_state = ((PyObject*)__pyx_t_4);
   __pyx_t_4 = 0;
+  __pyx_v_state = ((PyObject*)__pyx_t_5);
+  __pyx_t_5 = 0;
 
   /* "(tree fragment)":6
  *     cdef bint use_setstate
- *     state = (self._adj, self._nNodes, self._nodeids)
+ *     state = (self._adj, self._directed, self._nNodes, self._nodeids)
  *     _dict = getattr(self, '__dict__', None)             # <<<<<<<<<<<<<<
  *     if _dict is not None:
  *         state += (_dict,)
  */
-  __pyx_t_4 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_dict, Py_None); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 6, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_v__dict = __pyx_t_4;
-  __pyx_t_4 = 0;
+  __pyx_t_5 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_dict, Py_None); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 6, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_v__dict = __pyx_t_5;
+  __pyx_t_5 = 0;
 
   /* "(tree fragment)":7
- *     state = (self._adj, self._nNodes, self._nodeids)
+ *     state = (self._adj, self._directed, self._nNodes, self._nodeids)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
  *         use_setstate = True
  */
-  __pyx_t_5 = (__pyx_v__dict != Py_None);
-  __pyx_t_6 = (__pyx_t_5 != 0);
-  if (__pyx_t_6) {
+  __pyx_t_6 = (__pyx_v__dict != Py_None);
+  __pyx_t_7 = (__pyx_t_6 != 0);
+  if (__pyx_t_7) {
 
     /* "(tree fragment)":8
  *     _dict = getattr(self, '__dict__', None)
@@ -5660,16 +5850,16 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_6__reduce_cytho
  *         use_setstate = True
  *     else:
  */
-    __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 8, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
     __Pyx_INCREF(__pyx_v__dict);
     __Pyx_GIVEREF(__pyx_v__dict);
-    PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v__dict);
-    __pyx_t_3 = PyNumber_InPlaceAdd(__pyx_v_state, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF_SET(__pyx_v_state, ((PyObject*)__pyx_t_3));
-    __pyx_t_3 = 0;
+    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v__dict);
+    __pyx_t_4 = PyNumber_InPlaceAdd(__pyx_v_state, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 8, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF_SET(__pyx_v_state, ((PyObject*)__pyx_t_4));
+    __pyx_t_4 = 0;
 
     /* "(tree fragment)":9
  *     if _dict is not None:
@@ -5681,7 +5871,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_6__reduce_cytho
     __pyx_v_use_setstate = 1;
 
     /* "(tree fragment)":7
- *     state = (self._adj, self._nNodes, self._nodeids)
+ *     state = (self._adj, self._directed, self._nNodes, self._nodeids)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
@@ -5695,7 +5885,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_6__reduce_cytho
  *     else:
  *         use_setstate = False             # <<<<<<<<<<<<<<
  *     if use_setstate:
- *         return __pyx_unpickle_Adjacency, (type(self), 0xf05d4b5, None), state
+ *         return __pyx_unpickle_Adjacency, (type(self), 0x55b899e, None), state
  */
   /*else*/ {
     __pyx_v_use_setstate = 0;
@@ -5706,89 +5896,89 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_6__reduce_cytho
  *     else:
  *         use_setstate = False
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_Adjacency, (type(self), 0xf05d4b5, None), state
+ *         return __pyx_unpickle_Adjacency, (type(self), 0x55b899e, None), state
  *     else:
  */
-  __pyx_t_6 = (__pyx_v_use_setstate != 0);
-  if (__pyx_t_6) {
+  __pyx_t_7 = (__pyx_v_use_setstate != 0);
+  if (__pyx_t_7) {
 
     /* "(tree fragment)":13
  *         use_setstate = False
  *     if use_setstate:
- *         return __pyx_unpickle_Adjacency, (type(self), 0xf05d4b5, None), state             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_Adjacency, (type(self), 0x55b899e, None), state             # <<<<<<<<<<<<<<
  *     else:
- *         return __pyx_unpickle_Adjacency, (type(self), 0xf05d4b5, state)
+ *         return __pyx_unpickle_Adjacency, (type(self), 0x55b899e, state)
  */
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_pyx_unpickle_Adjacency); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 13, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pyx_unpickle_Adjacency); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 13, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_4, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_252040373);
-    __Pyx_GIVEREF(__pyx_int_252040373);
-    PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_int_252040373);
+    PyTuple_SET_ITEM(__pyx_t_5, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
+    __Pyx_INCREF(__pyx_int_89885086);
+    __Pyx_GIVEREF(__pyx_int_89885086);
+    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_int_89885086);
     __Pyx_INCREF(Py_None);
     __Pyx_GIVEREF(Py_None);
-    PyTuple_SET_ITEM(__pyx_t_4, 2, Py_None);
-    __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_GIVEREF(__pyx_t_3);
-    PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_5, 2, Py_None);
+    __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_5);
+    PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_5);
     __Pyx_INCREF(__pyx_v_state);
     __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_v_state);
-    __pyx_t_3 = 0;
+    PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_v_state);
     __pyx_t_4 = 0;
-    __pyx_r = __pyx_t_2;
-    __pyx_t_2 = 0;
+    __pyx_t_5 = 0;
+    __pyx_r = __pyx_t_3;
+    __pyx_t_3 = 0;
     goto __pyx_L0;
 
     /* "(tree fragment)":12
  *     else:
  *         use_setstate = False
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_Adjacency, (type(self), 0xf05d4b5, None), state
+ *         return __pyx_unpickle_Adjacency, (type(self), 0x55b899e, None), state
  *     else:
  */
   }
 
   /* "(tree fragment)":15
- *         return __pyx_unpickle_Adjacency, (type(self), 0xf05d4b5, None), state
+ *         return __pyx_unpickle_Adjacency, (type(self), 0x55b899e, None), state
  *     else:
- *         return __pyx_unpickle_Adjacency, (type(self), 0xf05d4b5, state)             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_Adjacency, (type(self), 0x55b899e, state)             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_Adjacency__set_state(self, __pyx_state)
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pyx_unpickle_Adjacency); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_pyx_unpickle_Adjacency); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_4, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_252040373);
-    __Pyx_GIVEREF(__pyx_int_252040373);
-    PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_int_252040373);
+    PyTuple_SET_ITEM(__pyx_t_5, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
+    __Pyx_INCREF(__pyx_int_89885086);
+    __Pyx_GIVEREF(__pyx_int_89885086);
+    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_int_89885086);
     __Pyx_INCREF(__pyx_v_state);
     __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_v_state);
-    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_GIVEREF(__pyx_t_2);
-    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_4);
-    __pyx_t_2 = 0;
-    __pyx_t_4 = 0;
-    __pyx_r = __pyx_t_3;
+    PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_v_state);
+    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
+    __Pyx_GIVEREF(__pyx_t_5);
+    PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_5);
     __pyx_t_3 = 0;
+    __pyx_t_5 = 0;
+    __pyx_r = __pyx_t_4;
+    __pyx_t_4 = 0;
     goto __pyx_L0;
   }
 
@@ -5804,6 +5994,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_6__reduce_cytho
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
   __Pyx_AddTraceback("plexsim.models.adjacency.Adjacency.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -5816,7 +6007,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_6__reduce_cytho
 
 /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_Adjacency, (type(self), 0xf05d4b5, state)
+ *         return __pyx_unpickle_Adjacency, (type(self), 0x55b899e, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_Adjacency__set_state(self, __pyx_state)
  */
@@ -5907,7 +6098,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_8__setstate_cyt
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
 
   /* "(tree fragment)":17
- *         return __pyx_unpickle_Adjacency, (type(self), 0xf05d4b5, state)
+ *         return __pyx_unpickle_Adjacency, (type(self), 0x55b899e, state)
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_Adjacency__set_state(self, __pyx_state)             # <<<<<<<<<<<<<<
  */
@@ -5918,7 +6109,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_8__setstate_cyt
 
   /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_Adjacency, (type(self), 0xf05d4b5, state)
+ *         return __pyx_unpickle_Adjacency, (type(self), 0x55b899e, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_Adjacency__set_state(self, __pyx_state)
  */
@@ -6061,18 +6252,18 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency___pyx_unpickle_Adjacency(C
   /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0xf05d4b5:             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum != 0x55b899e:             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError, "Incompatible checksums (%s vs 0xf05d4b5 = (_adj, _nNodes, _nodeids))" % __pyx_checksum
+ *         raise __pyx_PickleError, "Incompatible checksums (%s vs 0x55b899e = (_adj, _directed, _nNodes, _nodeids))" % __pyx_checksum
  */
-  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0xf05d4b5) != 0);
+  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0x55b899e) != 0);
   if (__pyx_t_1) {
 
     /* "(tree fragment)":5
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0xf05d4b5:
+ *     if __pyx_checksum != 0x55b899e:
  *         from pickle import PickleError as __pyx_PickleError             # <<<<<<<<<<<<<<
- *         raise __pyx_PickleError, "Incompatible checksums (%s vs 0xf05d4b5 = (_adj, _nNodes, _nodeids))" % __pyx_checksum
+ *         raise __pyx_PickleError, "Incompatible checksums (%s vs 0x55b899e = (_adj, _directed, _nNodes, _nodeids))" % __pyx_checksum
  *     __pyx_result = Adjacency.__new__(__pyx_type)
  */
     __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 5, __pyx_L1_error)
@@ -6091,15 +6282,15 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency___pyx_unpickle_Adjacency(C
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":6
- *     if __pyx_checksum != 0xf05d4b5:
+ *     if __pyx_checksum != 0x55b899e:
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError, "Incompatible checksums (%s vs 0xf05d4b5 = (_adj, _nNodes, _nodeids))" % __pyx_checksum             # <<<<<<<<<<<<<<
+ *         raise __pyx_PickleError, "Incompatible checksums (%s vs 0x55b899e = (_adj, _directed, _nNodes, _nodeids))" % __pyx_checksum             # <<<<<<<<<<<<<<
  *     __pyx_result = Adjacency.__new__(__pyx_type)
  *     if __pyx_state is not None:
  */
     __pyx_t_3 = __Pyx_PyInt_From_long(__pyx_v___pyx_checksum); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 6, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0xf0, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 6, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0x55, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 6, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_v___pyx_PickleError, __pyx_t_2, 0, 0);
@@ -6109,15 +6300,15 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency___pyx_unpickle_Adjacency(C
     /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0xf05d4b5:             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum != 0x55b899e:             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError, "Incompatible checksums (%s vs 0xf05d4b5 = (_adj, _nNodes, _nodeids))" % __pyx_checksum
+ *         raise __pyx_PickleError, "Incompatible checksums (%s vs 0x55b899e = (_adj, _directed, _nNodes, _nodeids))" % __pyx_checksum
  */
   }
 
   /* "(tree fragment)":7
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError, "Incompatible checksums (%s vs 0xf05d4b5 = (_adj, _nNodes, _nodeids))" % __pyx_checksum
+ *         raise __pyx_PickleError, "Incompatible checksums (%s vs 0x55b899e = (_adj, _directed, _nNodes, _nodeids))" % __pyx_checksum
  *     __pyx_result = Adjacency.__new__(__pyx_type)             # <<<<<<<<<<<<<<
  *     if __pyx_state is not None:
  *         __pyx_unpickle_Adjacency__set_state(<Adjacency> __pyx_result, __pyx_state)
@@ -6148,7 +6339,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency___pyx_unpickle_Adjacency(C
   __pyx_t_2 = 0;
 
   /* "(tree fragment)":8
- *         raise __pyx_PickleError, "Incompatible checksums (%s vs 0xf05d4b5 = (_adj, _nNodes, _nodeids))" % __pyx_checksum
+ *         raise __pyx_PickleError, "Incompatible checksums (%s vs 0x55b899e = (_adj, _directed, _nNodes, _nodeids))" % __pyx_checksum
  *     __pyx_result = Adjacency.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_Adjacency__set_state(<Adjacency> __pyx_result, __pyx_state)
@@ -6171,7 +6362,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency___pyx_unpickle_Adjacency(C
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
     /* "(tree fragment)":8
- *         raise __pyx_PickleError, "Incompatible checksums (%s vs 0xf05d4b5 = (_adj, _nNodes, _nodeids))" % __pyx_checksum
+ *         raise __pyx_PickleError, "Incompatible checksums (%s vs 0x55b899e = (_adj, _directed, _nNodes, _nodeids))" % __pyx_checksum
  *     __pyx_result = Adjacency.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_Adjacency__set_state(<Adjacency> __pyx_result, __pyx_state)
@@ -6184,7 +6375,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency___pyx_unpickle_Adjacency(C
  *         __pyx_unpickle_Adjacency__set_state(<Adjacency> __pyx_result, __pyx_state)
  *     return __pyx_result             # <<<<<<<<<<<<<<
  * cdef __pyx_unpickle_Adjacency__set_state(Adjacency __pyx_result, tuple __pyx_state):
- *     __pyx_result._adj = __pyx_state[0]; __pyx_result._nNodes = __pyx_state[1]; __pyx_result._nodeids = __pyx_state[2]
+ *     __pyx_result._adj = __pyx_state[0]; __pyx_result._directed = __pyx_state[1]; __pyx_result._nNodes = __pyx_state[2]; __pyx_result._nodeids = __pyx_state[3]
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v___pyx_result);
@@ -6216,17 +6407,17 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency___pyx_unpickle_Adjacency(C
  *         __pyx_unpickle_Adjacency__set_state(<Adjacency> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_Adjacency__set_state(Adjacency __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result._adj = __pyx_state[0]; __pyx_result._nNodes = __pyx_state[1]; __pyx_result._nodeids = __pyx_state[2]
- *     if len(__pyx_state) > 3 and hasattr(__pyx_result, '__dict__'):
+ *     __pyx_result._adj = __pyx_state[0]; __pyx_result._directed = __pyx_state[1]; __pyx_result._nNodes = __pyx_state[2]; __pyx_result._nodeids = __pyx_state[3]
+ *     if len(__pyx_state) > 4 and hasattr(__pyx_result, '__dict__'):
  */
 
 static PyObject *__pyx_f_7plexsim_6models_9adjacency___pyx_unpickle_Adjacency__set_state(struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __pyx_t_7plexsim_6models_5types_Connections __pyx_t_1;
-  size_t __pyx_t_2;
-  __Pyx_memviewslice __pyx_t_3 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  int __pyx_t_4;
+  int __pyx_t_2;
+  size_t __pyx_t_3;
+  __Pyx_memviewslice __pyx_t_4 = { 0, 0, { 0 }, { 0 }, { 0 } };
   Py_ssize_t __pyx_t_5;
   int __pyx_t_6;
   int __pyx_t_7;
@@ -6242,9 +6433,9 @@ static PyObject *__pyx_f_7plexsim_6models_9adjacency___pyx_unpickle_Adjacency__s
   /* "(tree fragment)":12
  *     return __pyx_result
  * cdef __pyx_unpickle_Adjacency__set_state(Adjacency __pyx_result, tuple __pyx_state):
- *     __pyx_result._adj = __pyx_state[0]; __pyx_result._nNodes = __pyx_state[1]; __pyx_result._nodeids = __pyx_state[2]             # <<<<<<<<<<<<<<
- *     if len(__pyx_state) > 3 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[3])
+ *     __pyx_result._adj = __pyx_state[0]; __pyx_result._directed = __pyx_state[1]; __pyx_result._nNodes = __pyx_state[2]; __pyx_result._nodeids = __pyx_state[3]             # <<<<<<<<<<<<<<
+ *     if len(__pyx_state) > 4 and hasattr(__pyx_result, '__dict__'):
+ *         __pyx_result.__dict__.update(__pyx_state[4])
  */
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -6256,45 +6447,51 @@ static PyObject *__pyx_f_7plexsim_6models_9adjacency___pyx_unpickle_Adjacency__s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyInt_As_size_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)); if (unlikely((__pyx_t_2 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->_nNodes = __pyx_t_2;
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->_directed = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_nn___pyx_t_7plexsim_6models_5types_node_id_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2), PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(1, 12, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_size_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)); if (unlikely((__pyx_t_3 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->_nNodes = __pyx_t_3;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(1, 12, __pyx_L1_error)
+  }
+  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dc_nn___pyx_t_7plexsim_6models_5types_node_id_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3), PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(1, 12, __pyx_L1_error)
   __PYX_XCLEAR_MEMVIEW(&__pyx_v___pyx_result->_nodeids, 0);
-  __pyx_v___pyx_result->_nodeids = __pyx_t_3;
-  __pyx_t_3.memview = NULL;
-  __pyx_t_3.data = NULL;
+  __pyx_v___pyx_result->_nodeids = __pyx_t_4;
+  __pyx_t_4.memview = NULL;
+  __pyx_t_4.data = NULL;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_Adjacency__set_state(Adjacency __pyx_result, tuple __pyx_state):
- *     __pyx_result._adj = __pyx_state[0]; __pyx_result._nNodes = __pyx_state[1]; __pyx_result._nodeids = __pyx_state[2]
- *     if len(__pyx_state) > 3 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[3])
+ *     __pyx_result._adj = __pyx_state[0]; __pyx_result._directed = __pyx_state[1]; __pyx_result._nNodes = __pyx_state[2]; __pyx_result._nodeids = __pyx_state[3]
+ *     if len(__pyx_state) > 4 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
+ *         __pyx_result.__dict__.update(__pyx_state[4])
  */
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(1, 13, __pyx_L1_error)
   }
   __pyx_t_5 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
-  __pyx_t_6 = ((__pyx_t_5 > 3) != 0);
+  __pyx_t_6 = ((__pyx_t_5 > 4) != 0);
   if (__pyx_t_6) {
   } else {
-    __pyx_t_4 = __pyx_t_6;
+    __pyx_t_2 = __pyx_t_6;
     goto __pyx_L4_bool_binop_done;
   }
   __pyx_t_6 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
   __pyx_t_7 = (__pyx_t_6 != 0);
-  __pyx_t_4 = __pyx_t_7;
+  __pyx_t_2 = __pyx_t_7;
   __pyx_L4_bool_binop_done:;
-  if (__pyx_t_4) {
+  if (__pyx_t_2) {
 
     /* "(tree fragment)":14
- *     __pyx_result._adj = __pyx_state[0]; __pyx_result._nNodes = __pyx_state[1]; __pyx_result._nodeids = __pyx_state[2]
- *     if len(__pyx_state) > 3 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[3])             # <<<<<<<<<<<<<<
+ *     __pyx_result._adj = __pyx_state[0]; __pyx_result._directed = __pyx_state[1]; __pyx_result._nNodes = __pyx_state[2]; __pyx_result._nodeids = __pyx_state[3]
+ *     if len(__pyx_state) > 4 and hasattr(__pyx_result, '__dict__'):
+ *         __pyx_result.__dict__.update(__pyx_state[4])             # <<<<<<<<<<<<<<
  */
     __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v___pyx_result->__dict__, __pyx_n_s_update); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
@@ -6315,7 +6512,7 @@ static PyObject *__pyx_f_7plexsim_6models_9adjacency___pyx_unpickle_Adjacency__s
       }
     }
     {
-      PyObject *__pyx_callargs[2] = {__pyx_t_10, PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)};
+      PyObject *__pyx_callargs[2] = {__pyx_t_10, PyTuple_GET_ITEM(__pyx_v___pyx_state, 4)};
       __pyx_t_8 = __Pyx_PyObject_FastCall(__pyx_t_9, __pyx_callargs+1-__pyx_t_11, 1+__pyx_t_11);
       __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
       if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 14, __pyx_L1_error)
@@ -6326,9 +6523,9 @@ static PyObject *__pyx_f_7plexsim_6models_9adjacency___pyx_unpickle_Adjacency__s
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_Adjacency__set_state(Adjacency __pyx_result, tuple __pyx_state):
- *     __pyx_result._adj = __pyx_state[0]; __pyx_result._nNodes = __pyx_state[1]; __pyx_result._nodeids = __pyx_state[2]
- *     if len(__pyx_state) > 3 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[3])
+ *     __pyx_result._adj = __pyx_state[0]; __pyx_result._directed = __pyx_state[1]; __pyx_result._nNodes = __pyx_state[2]; __pyx_result._nodeids = __pyx_state[3]
+ *     if len(__pyx_state) > 4 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
+ *         __pyx_result.__dict__.update(__pyx_state[4])
  */
   }
 
@@ -6336,15 +6533,15 @@ static PyObject *__pyx_f_7plexsim_6models_9adjacency___pyx_unpickle_Adjacency__s
  *         __pyx_unpickle_Adjacency__set_state(<Adjacency> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_Adjacency__set_state(Adjacency __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result._adj = __pyx_state[0]; __pyx_result._nNodes = __pyx_state[1]; __pyx_result._nodeids = __pyx_state[2]
- *     if len(__pyx_state) > 3 and hasattr(__pyx_result, '__dict__'):
+ *     __pyx_result._adj = __pyx_state[0]; __pyx_result._directed = __pyx_state[1]; __pyx_result._nNodes = __pyx_state[2]; __pyx_result._nodeids = __pyx_state[3]
+ *     if len(__pyx_state) > 4 and hasattr(__pyx_result, '__dict__'):
  */
 
   /* function exit code */
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __PYX_XCLEAR_MEMVIEW(&__pyx_t_3, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_t_4, 1);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
   __Pyx_XDECREF(__pyx_t_10);
@@ -22005,6 +22202,7 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
+static struct __pyx_vtabstruct_7plexsim_6models_9adjacency_Adjacency __pyx_vtable_7plexsim_6models_9adjacency_Adjacency;
 
 static PyObject *__pyx_tp_new_7plexsim_6models_9adjacency_Adjacency(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
   struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency *p;
@@ -22021,6 +22219,7 @@ static PyObject *__pyx_tp_new_7plexsim_6models_9adjacency_Adjacency(PyTypeObject
   if (unlikely(!o)) return 0;
   #endif
   p = ((struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency *)o);
+  p->__pyx_vtab = __pyx_vtabptr_7plexsim_6models_9adjacency_Adjacency;
   new((void*)&(p->_adj)) __pyx_t_7plexsim_6models_5types_Connections();
   p->__dict__ = PyDict_New(); if (unlikely(!p->__dict__)) goto bad;p->_nodeids.data = NULL;
   p->_nodeids.memview = NULL;
@@ -23129,8 +23328,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_Ellipsis, sizeof(__pyx_k_Ellipsis), 0, 0, 1, 1},
   {0, __pyx_k_Empty_shape_tuple_for_cython_arr, sizeof(__pyx_k_Empty_shape_tuple_for_cython_arr), 0, 0, 1, 0},
   {0, __pyx_k_ImportError, sizeof(__pyx_k_ImportError), 0, 0, 1, 1},
+  {0, __pyx_k_Incompatible_checksums_s_vs_0x55, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x55), 0, 0, 1, 0},
   {0, __pyx_k_Incompatible_checksums_s_vs_0x6a, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x6a), 0, 0, 1, 0},
-  {0, __pyx_k_Incompatible_checksums_s_vs_0xf0, sizeof(__pyx_k_Incompatible_checksums_s_vs_0xf0), 0, 0, 1, 0},
   {0, __pyx_k_IndexError, sizeof(__pyx_k_IndexError), 0, 0, 1, 1},
   {0, __pyx_k_Index_out_of_bounds_axis_d, sizeof(__pyx_k_Index_out_of_bounds_axis_d), 0, 0, 1, 0},
   {0, __pyx_k_Indirect_dimensions_not_supporte, sizeof(__pyx_k_Indirect_dimensions_not_supporte), 0, 0, 1, 0},
@@ -23279,8 +23478,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Ellipsis, __pyx_k_Ellipsis, sizeof(__pyx_k_Ellipsis), 0, 0, 1, 1},
   {&__pyx_kp_s_Empty_shape_tuple_for_cython_arr, __pyx_k_Empty_shape_tuple_for_cython_arr, sizeof(__pyx_k_Empty_shape_tuple_for_cython_arr), 0, 0, 1, 0},
   {&__pyx_n_s_ImportError, __pyx_k_ImportError, sizeof(__pyx_k_ImportError), 0, 0, 1, 1},
+  {&__pyx_kp_s_Incompatible_checksums_s_vs_0x55, __pyx_k_Incompatible_checksums_s_vs_0x55, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x55), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0x6a, __pyx_k_Incompatible_checksums_s_vs_0x6a, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x6a), 0, 0, 1, 0},
-  {&__pyx_kp_s_Incompatible_checksums_s_vs_0xf0, __pyx_k_Incompatible_checksums_s_vs_0xf0, sizeof(__pyx_k_Incompatible_checksums_s_vs_0xf0), 0, 0, 1, 0},
   {&__pyx_n_s_IndexError, __pyx_k_IndexError, sizeof(__pyx_k_IndexError), 0, 0, 1, 1},
   {&__pyx_kp_s_Index_out_of_bounds_axis_d, __pyx_k_Index_out_of_bounds_axis_d, sizeof(__pyx_k_Index_out_of_bounds_axis_d), 0, 0, 1, 0},
   {&__pyx_kp_s_Indirect_dimensions_not_supporte, __pyx_k_Indirect_dimensions_not_supporte, sizeof(__pyx_k_Indirect_dimensions_not_supporte), 0, 0, 1, 0},
@@ -23508,7 +23707,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
   /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_Adjacency, (type(self), 0xf05d4b5, state)
+ *         return __pyx_unpickle_Adjacency, (type(self), 0x55b899e, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_Adjacency__set_state(self, __pyx_state)
  */
@@ -23639,8 +23838,8 @@ if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_InitString(__pyx_string_tab[13], &__pyx_n_s_Ellipsis) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[14], &__pyx_kp_s_Empty_shape_tuple_for_cython_arr) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[15], &__pyx_n_s_ImportError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[16], &__pyx_kp_s_Incompatible_checksums_s_vs_0x6a) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[17], &__pyx_kp_s_Incompatible_checksums_s_vs_0xf0) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[16], &__pyx_kp_s_Incompatible_checksums_s_vs_0x55) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[17], &__pyx_kp_s_Incompatible_checksums_s_vs_0x6a) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[18], &__pyx_n_s_IndexError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[19], &__pyx_kp_s_Index_out_of_bounds_axis_d) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[20], &__pyx_kp_s_Indirect_dimensions_not_supporte) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -23778,8 +23977,8 @@ if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_89885086 = PyInt_FromLong(89885086L); if (unlikely(!__pyx_int_89885086)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_112105877 = PyInt_FromLong(112105877L); if (unlikely(!__pyx_int_112105877)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_252040373 = PyInt_FromLong(252040373L); if (unlikely(!__pyx_int_252040373)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_neg_1 = PyInt_FromLong(-1); if (unlikely(!__pyx_int_neg_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -23832,6 +24031,9 @@ static int __Pyx_modinit_type_init_code(void) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
+  __pyx_vtabptr_7plexsim_6models_9adjacency_Adjacency = &__pyx_vtable_7plexsim_6models_9adjacency_Adjacency;
+  __pyx_vtable_7plexsim_6models_9adjacency_Adjacency._add_edge = (void (*)(struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t, struct __pyx_opt_args_7plexsim_6models_9adjacency_9Adjacency__add_edge *__pyx_optional_args))__pyx_f_7plexsim_6models_9adjacency_9Adjacency__add_edge;
+  __pyx_vtable_7plexsim_6models_9adjacency_Adjacency._remove_edge = (void (*)(struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t))__pyx_f_7plexsim_6models_9adjacency_9Adjacency__remove_edge;
   #if CYTHON_USE_TYPE_SPECS
   __pyx_ptype_7plexsim_6models_9adjacency_Adjacency = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_7plexsim_6models_9adjacency_Adjacency_spec, NULL); if (unlikely(!__pyx_ptype_7plexsim_6models_9adjacency_Adjacency)) __PYX_ERR(0, 4, __pyx_L1_error)
   if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_7plexsim_6models_9adjacency_Adjacency_spec, __pyx_ptype_7plexsim_6models_9adjacency_Adjacency) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
@@ -23845,6 +24047,10 @@ static int __Pyx_modinit_type_init_code(void) {
   #endif
   #if PY_MAJOR_VERSION < 3
   __pyx_ptype_7plexsim_6models_9adjacency_Adjacency->tp_print = 0;
+  #endif
+  if (__Pyx_SetVtable(__pyx_ptype_7plexsim_6models_9adjacency_Adjacency, __pyx_vtabptr_7plexsim_6models_9adjacency_Adjacency) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
+  #if !CYTHON_COMPILING_IN_LIMITED_API
+  if (__Pyx_MergeVtables(__pyx_ptype_7plexsim_6models_9adjacency_Adjacency) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   #endif
   if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Adjacency, (PyObject *) __pyx_ptype_7plexsim_6models_9adjacency_Adjacency) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API
@@ -24376,7 +24582,7 @@ if (!__Pyx_RefNanny) {
 
   /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_Adjacency, (type(self), 0xf05d4b5, state)
+ *         return __pyx_unpickle_Adjacency, (type(self), 0x55b899e, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_Adjacency__set_state(self, __pyx_state)
  */
@@ -27545,97 +27751,6 @@ static int __Pyx_PyType_Ready(PyTypeObject *t) {
 #endif
 }
 
-/* SetupReduce */
-#if !CYTHON_COMPILING_IN_LIMITED_API
-static int __Pyx_setup_reduce_is_named(PyObject* meth, PyObject* name) {
-  int ret;
-  PyObject *name_attr;
-  name_attr = __Pyx_PyObject_GetAttrStrNoError(meth, __pyx_n_s_name_2);
-  if (likely(name_attr)) {
-      ret = PyObject_RichCompareBool(name_attr, name, Py_EQ);
-  } else {
-      ret = -1;
-  }
-  if (unlikely(ret < 0)) {
-      PyErr_Clear();
-      ret = 0;
-  }
-  Py_XDECREF(name_attr);
-  return ret;
-}
-static int __Pyx_setup_reduce(PyObject* type_obj) {
-    int ret = 0;
-    PyObject *object_reduce = NULL;
-    PyObject *object_reduce_ex = NULL;
-    PyObject *reduce = NULL;
-    PyObject *reduce_ex = NULL;
-    PyObject *reduce_cython = NULL;
-    PyObject *setstate = NULL;
-    PyObject *setstate_cython = NULL;
-#if CYTHON_USE_PYTYPE_LOOKUP
-    if (_PyType_Lookup((PyTypeObject*)type_obj, __pyx_n_s_getstate)) goto __PYX_GOOD;
-#else
-    if (PyObject_HasAttr(type_obj, __pyx_n_s_getstate)) goto __PYX_GOOD;
-#endif
-#if CYTHON_USE_PYTYPE_LOOKUP
-    object_reduce_ex = _PyType_Lookup(&PyBaseObject_Type, __pyx_n_s_reduce_ex); if (!object_reduce_ex) goto __PYX_BAD;
-#else
-    object_reduce_ex = __Pyx_PyObject_GetAttrStr((PyObject*)&PyBaseObject_Type, __pyx_n_s_reduce_ex); if (!object_reduce_ex) goto __PYX_BAD;
-#endif
-    reduce_ex = __Pyx_PyObject_GetAttrStr(type_obj, __pyx_n_s_reduce_ex); if (unlikely(!reduce_ex)) goto __PYX_BAD;
-    if (reduce_ex == object_reduce_ex) {
-#if CYTHON_USE_PYTYPE_LOOKUP
-        object_reduce = _PyType_Lookup(&PyBaseObject_Type, __pyx_n_s_reduce); if (!object_reduce) goto __PYX_BAD;
-#else
-        object_reduce = __Pyx_PyObject_GetAttrStr((PyObject*)&PyBaseObject_Type, __pyx_n_s_reduce); if (!object_reduce) goto __PYX_BAD;
-#endif
-        reduce = __Pyx_PyObject_GetAttrStr(type_obj, __pyx_n_s_reduce); if (unlikely(!reduce)) goto __PYX_BAD;
-        if (reduce == object_reduce || __Pyx_setup_reduce_is_named(reduce, __pyx_n_s_reduce_cython)) {
-            reduce_cython = __Pyx_PyObject_GetAttrStrNoError(type_obj, __pyx_n_s_reduce_cython);
-            if (likely(reduce_cython)) {
-                ret = PyDict_SetItem(((PyTypeObject*)type_obj)->tp_dict, __pyx_n_s_reduce, reduce_cython); if (unlikely(ret < 0)) goto __PYX_BAD;
-                ret = PyDict_DelItem(((PyTypeObject*)type_obj)->tp_dict, __pyx_n_s_reduce_cython); if (unlikely(ret < 0)) goto __PYX_BAD;
-            } else if (reduce == object_reduce || PyErr_Occurred()) {
-                goto __PYX_BAD;
-            }
-            setstate = __Pyx_PyObject_GetAttrStrNoError(type_obj, __pyx_n_s_setstate);
-            if (!setstate) PyErr_Clear();
-            if (!setstate || __Pyx_setup_reduce_is_named(setstate, __pyx_n_s_setstate_cython)) {
-                setstate_cython = __Pyx_PyObject_GetAttrStrNoError(type_obj, __pyx_n_s_setstate_cython);
-                if (likely(setstate_cython)) {
-                    ret = PyDict_SetItem(((PyTypeObject*)type_obj)->tp_dict, __pyx_n_s_setstate, setstate_cython); if (unlikely(ret < 0)) goto __PYX_BAD;
-                    ret = PyDict_DelItem(((PyTypeObject*)type_obj)->tp_dict, __pyx_n_s_setstate_cython); if (unlikely(ret < 0)) goto __PYX_BAD;
-                } else if (!setstate || PyErr_Occurred()) {
-                    goto __PYX_BAD;
-                }
-            }
-            PyType_Modified((PyTypeObject*)type_obj);
-        }
-    }
-    goto __PYX_GOOD;
-__PYX_BAD:
-    if (!PyErr_Occurred()) {
-        __Pyx_TypeName type_obj_name =
-            __Pyx_PyType_GetName((PyTypeObject*)type_obj);
-        PyErr_Format(PyExc_RuntimeError,
-            "Unable to initialize pickling for " __Pyx_FMT_TYPENAME, type_obj_name);
-        __Pyx_DECREF_TypeName(type_obj_name);
-    }
-    ret = -1;
-__PYX_GOOD:
-#if !CYTHON_USE_PYTYPE_LOOKUP
-    Py_XDECREF(object_reduce);
-    Py_XDECREF(object_reduce_ex);
-#endif
-    Py_XDECREF(reduce);
-    Py_XDECREF(reduce_ex);
-    Py_XDECREF(reduce_cython);
-    Py_XDECREF(setstate);
-    Py_XDECREF(setstate_cython);
-    return ret;
-}
-#endif
-
 /* SetVTable */
 static int __Pyx_SetVtable(PyTypeObject *type, void *vtable) {
     PyObject *ob = PyCapsule_New(vtable, 0, 0);
@@ -27724,6 +27839,97 @@ bad:
     __Pyx_DECREF_TypeName(base_name);
     free(base_vtables);
     return -1;
+}
+#endif
+
+/* SetupReduce */
+#if !CYTHON_COMPILING_IN_LIMITED_API
+static int __Pyx_setup_reduce_is_named(PyObject* meth, PyObject* name) {
+  int ret;
+  PyObject *name_attr;
+  name_attr = __Pyx_PyObject_GetAttrStrNoError(meth, __pyx_n_s_name_2);
+  if (likely(name_attr)) {
+      ret = PyObject_RichCompareBool(name_attr, name, Py_EQ);
+  } else {
+      ret = -1;
+  }
+  if (unlikely(ret < 0)) {
+      PyErr_Clear();
+      ret = 0;
+  }
+  Py_XDECREF(name_attr);
+  return ret;
+}
+static int __Pyx_setup_reduce(PyObject* type_obj) {
+    int ret = 0;
+    PyObject *object_reduce = NULL;
+    PyObject *object_reduce_ex = NULL;
+    PyObject *reduce = NULL;
+    PyObject *reduce_ex = NULL;
+    PyObject *reduce_cython = NULL;
+    PyObject *setstate = NULL;
+    PyObject *setstate_cython = NULL;
+#if CYTHON_USE_PYTYPE_LOOKUP
+    if (_PyType_Lookup((PyTypeObject*)type_obj, __pyx_n_s_getstate)) goto __PYX_GOOD;
+#else
+    if (PyObject_HasAttr(type_obj, __pyx_n_s_getstate)) goto __PYX_GOOD;
+#endif
+#if CYTHON_USE_PYTYPE_LOOKUP
+    object_reduce_ex = _PyType_Lookup(&PyBaseObject_Type, __pyx_n_s_reduce_ex); if (!object_reduce_ex) goto __PYX_BAD;
+#else
+    object_reduce_ex = __Pyx_PyObject_GetAttrStr((PyObject*)&PyBaseObject_Type, __pyx_n_s_reduce_ex); if (!object_reduce_ex) goto __PYX_BAD;
+#endif
+    reduce_ex = __Pyx_PyObject_GetAttrStr(type_obj, __pyx_n_s_reduce_ex); if (unlikely(!reduce_ex)) goto __PYX_BAD;
+    if (reduce_ex == object_reduce_ex) {
+#if CYTHON_USE_PYTYPE_LOOKUP
+        object_reduce = _PyType_Lookup(&PyBaseObject_Type, __pyx_n_s_reduce); if (!object_reduce) goto __PYX_BAD;
+#else
+        object_reduce = __Pyx_PyObject_GetAttrStr((PyObject*)&PyBaseObject_Type, __pyx_n_s_reduce); if (!object_reduce) goto __PYX_BAD;
+#endif
+        reduce = __Pyx_PyObject_GetAttrStr(type_obj, __pyx_n_s_reduce); if (unlikely(!reduce)) goto __PYX_BAD;
+        if (reduce == object_reduce || __Pyx_setup_reduce_is_named(reduce, __pyx_n_s_reduce_cython)) {
+            reduce_cython = __Pyx_PyObject_GetAttrStrNoError(type_obj, __pyx_n_s_reduce_cython);
+            if (likely(reduce_cython)) {
+                ret = PyDict_SetItem(((PyTypeObject*)type_obj)->tp_dict, __pyx_n_s_reduce, reduce_cython); if (unlikely(ret < 0)) goto __PYX_BAD;
+                ret = PyDict_DelItem(((PyTypeObject*)type_obj)->tp_dict, __pyx_n_s_reduce_cython); if (unlikely(ret < 0)) goto __PYX_BAD;
+            } else if (reduce == object_reduce || PyErr_Occurred()) {
+                goto __PYX_BAD;
+            }
+            setstate = __Pyx_PyObject_GetAttrStrNoError(type_obj, __pyx_n_s_setstate);
+            if (!setstate) PyErr_Clear();
+            if (!setstate || __Pyx_setup_reduce_is_named(setstate, __pyx_n_s_setstate_cython)) {
+                setstate_cython = __Pyx_PyObject_GetAttrStrNoError(type_obj, __pyx_n_s_setstate_cython);
+                if (likely(setstate_cython)) {
+                    ret = PyDict_SetItem(((PyTypeObject*)type_obj)->tp_dict, __pyx_n_s_setstate, setstate_cython); if (unlikely(ret < 0)) goto __PYX_BAD;
+                    ret = PyDict_DelItem(((PyTypeObject*)type_obj)->tp_dict, __pyx_n_s_setstate_cython); if (unlikely(ret < 0)) goto __PYX_BAD;
+                } else if (!setstate || PyErr_Occurred()) {
+                    goto __PYX_BAD;
+                }
+            }
+            PyType_Modified((PyTypeObject*)type_obj);
+        }
+    }
+    goto __PYX_GOOD;
+__PYX_BAD:
+    if (!PyErr_Occurred()) {
+        __Pyx_TypeName type_obj_name =
+            __Pyx_PyType_GetName((PyTypeObject*)type_obj);
+        PyErr_Format(PyExc_RuntimeError,
+            "Unable to initialize pickling for " __Pyx_FMT_TYPENAME, type_obj_name);
+        __Pyx_DECREF_TypeName(type_obj_name);
+    }
+    ret = -1;
+__PYX_GOOD:
+#if !CYTHON_USE_PYTYPE_LOOKUP
+    Py_XDECREF(object_reduce);
+    Py_XDECREF(object_reduce_ex);
+#endif
+    Py_XDECREF(reduce);
+    Py_XDECREF(reduce_ex);
+    Py_XDECREF(reduce_cython);
+    Py_XDECREF(setstate);
+    Py_XDECREF(setstate_cython);
+    return ret;
 }
 #endif
 

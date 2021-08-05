@@ -445,8 +445,6 @@ cdef class ValueNetwork(Potts):
         energy += crawler.results.size()
         del crawler
 
-
-
         cdef size_t mi
         # TODO: move to separate function
         for mi in range(self._memorySize):

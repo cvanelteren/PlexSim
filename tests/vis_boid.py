@@ -16,7 +16,7 @@ r = nx.cycle_graph(5)
 # r = nx.union(r, r, "r1", "r2")
 # r = nx.path_graph(3)
 # r = nx.krackhardt_kite_graph()
-repulsion = -1
+repulsion = -1.5
 r = create_rule_full(r, self_weight=repulsion, connection_weight_other=repulsion)
 S = np.arange(len(r))
 n = 100
@@ -40,7 +40,7 @@ settings = dict(
     max_speed=10,
     bounds=bounds,
     exploration=2,
-    memorySize=2,
+    # memorySize=2,
     dt=0.1,
 )
 

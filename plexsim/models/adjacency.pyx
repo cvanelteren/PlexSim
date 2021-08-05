@@ -54,6 +54,7 @@ cdef class Adjacency:
                 # add neighbors
                 adj[source].neighbors[target] = weight
                 adj[target].neighbors[source] = weight
+
         # public and python accessible
         self.graph       = graph
         self.mapping     = mapping
@@ -65,6 +66,19 @@ cdef class Adjacency:
         np.random.shuffle(_nodeids) # prevent initial scan-lines in grid
         self._nodeids    = _nodeids
         self._nNodes     = graph.number_of_nodes()
+        self._directed = directed
+
+   cdef void _add_edge(self, node_id_t x, node_id_t y, double weight = 1) nogil:
+       self._adj[x].neighbors[y] = weight
+       if not self._directed:
+           self._adj[y].neighbors[x] = weight
+       return
+
+   cdef void _remove_edge(self, node_id_t x, node_id_t y) nogil:
+       self._adj[x].neighbors.erase(y)
+       if not self._directed:
+            self._adj[y].neighbors.erase(x)
+       return
 
    @property
    def adj(self):

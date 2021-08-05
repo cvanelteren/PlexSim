@@ -267,6 +267,9 @@ plexsim/models/value_network.pyx
 plexsim/models/value_network2.cpp
 plexsim/models/value_network2.pxd
 plexsim/models/value_network2.pyx
+plexsim/models/value_network_soc.cpp
+plexsim/models/value_network_soc.pxd
+plexsim/models/value_network_soc.pyx
 plexsim/models/__pycache__/__init__.cpython-39.pyc
 plexsim/utils/__init__.py
 plexsim/utils/annealing.py

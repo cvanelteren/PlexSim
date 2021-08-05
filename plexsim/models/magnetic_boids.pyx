@@ -67,9 +67,12 @@ cdef class MagneticBoids(ValueNetwork):
 
         self.coordinates = coordinates
         self.velocities  = velocities
+        self.explore = exploration
+
+        #FIXME: add setters
         self._bounds = bounds
         self._radius = radius
-        self.explore = exploration
+
 
         self.dt = dt
 
