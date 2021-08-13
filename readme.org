@@ -1,6 +1,6 @@
 #+options: num:nil
 
-<#+attr_html: :alt  :align center :class img
+#+attr_html: :alt  :align center :class img
 [[file:./docs/src/figures/logo.png][logo]]
 
 
