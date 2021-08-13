@@ -2,7 +2,7 @@
 
 
 * Welcome to Plexsim!
-#+attr_html: :alt  :align center :class img
+#+attr_html: :alt  :align center :class img :width 100% :height auto
 [[file:./docs/src/figures/logo.png]]
 
 
