@@ -1,10 +1,10 @@
 #+options: num:nil
 
-
-* Welcome to Plexsim!
 #+attr_html: :alt  :align center :class img :width auto :height 50%
 [[file:./docs/src/figures/plexsim_logo.png]]
 
+
+* Welcome to Plexsim!
 
 Fast and general  toolbox for simulation of complex adaptive  systems written in
 cython. It provides:
