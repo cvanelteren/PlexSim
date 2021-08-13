@@ -503,7 +503,6 @@ cdef class Model:
             self._memento = val
             self._memory = np.random.choice(self.agentStates,
                                             size = (val, self.nNodes))
-
     @property
     def kNudges(self):
         """

@@ -252,6 +252,10 @@ plexsim/models/rules.pyx
 plexsim/models/sampler.cpp
 plexsim/models/sampler.pxd
 plexsim/models/sampler.pyx
+plexsim/models/sandpile.cpp
+plexsim/models/sandpile.pxd
+plexsim/models/sandpile.pyx
+plexsim/models/sanpile.pxd
 plexsim/models/simple_copy.cpp
 plexsim/models/simple_copy.pxd
 plexsim/models/simple_copy.pyx
@@ -295,6 +299,7 @@ tests/test_models.py
 tests/test_particular.py
 tests/test_triangle.py
 tests/test_valuenetwork.py
+tests/test_vn_soc.py
 tests/vis_boid.py
 tests/__pycache__/__init__.cpython-39.pyc
 tests/__pycache__/test_models.cpython-39.pyc

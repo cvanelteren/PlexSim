@@ -307,80 +307,83 @@ cdef class ValueNetwork(Potts):
             if self._rules._adj[current_edge.current.state][current_edge.other.state] > 0:
                 crawler.path.push_back(current_edge)
 
-            # 1. check endpoints
-            if self._check_endpoint(current_edge.other.state, crawler):
-                if crawler.verbose:
-                    with gil:
-                        print("At endpoint")
-                        print("Inserting edge:")
-                    current_edge.print()
+            # don't allow path to be larger than what is possible
+            if crawler.path.size() <= self._bounded_rational:
 
-                option.clear()
-                # add option
-                option.push_back(crawler.path.back().sort())
-                options.push_back(option)
-
-                # pop the path from current path
-                crawler.path.pop_back()
-                return options
-
-            proposal_edge.current = ColorNode(current_edge.other.name,
-                                              current_edge.other.state)
-
-            # 2. check neighbors
-            it = self.adj._adj[current_edge.other.name].neighbors.begin()
-            while it != self.adj._adj[current_edge.other.name].neighbors.end():
-
-                # exit early if heuristic approach is
-                # satisfied
-
-                if self._heuristic:
-                    if crawler.results.size() == self._heuristic:
-                        return options
-
-                neighbor_idx = deref(it).first
-                proposal_edge.other = ColorNode(neighbor_idx, self._states[neighbor_idx])
-
-                if proposal_edge.other.name == proposal_edge.current.name:
+                # 1. check endpoints
+                if self._check_endpoint(current_edge.other.state, crawler):
                     if crawler.verbose:
                         with gil:
-                            print("Found node already in path (cycle)")
-                    post(it)
-                    continue
+                            print("At endpoint")
+                            print("Inserting edge:")
+                        current_edge.print()
 
-                # check if branch is valid
-                edge_weight = self._rules._adj[proposal_edge.current.state][proposal_edge.other.state]
-                # 3. step into brach
-                if edge_weight <= 0:
+                    option.clear()
+                    # add option
+                    option.push_back(crawler.path.back().sort())
+                    options.push_back(option)
+
+                    # pop the path from current path
+                    crawler.path.pop_back()
+                    return options
+
+                proposal_edge.current = ColorNode(current_edge.other.name,
+                                                current_edge.other.state)
+
+                # 2. check neighbors
+                it = self.adj._adj[current_edge.other.name].neighbors.begin()
+                while it != self.adj._adj[current_edge.other.name].neighbors.end():
+
+                    # exit early if heuristic approach is
+                    # satisfied
+
+                    if self._heuristic:
+                        if crawler.results.size() == self._heuristic:
+                            return options
+
+                    neighbor_idx = deref(it).first
+                    proposal_edge.other = ColorNode(neighbor_idx, self._states[neighbor_idx])
+
+                    if proposal_edge.other.name == proposal_edge.current.name:
+                        if crawler.verbose:
+                            with gil:
+                                print("Found node already in path (cycle)")
+                        post(it)
+                        continue
+
+                    # check if branch is valid
+                    edge_weight = self._rules._adj[proposal_edge.current.state][proposal_edge.other.state]
+                    # 3. step into brach
+                    if edge_weight <= 0:
+                        if crawler.verbose:
+                            with gil:
+                                print(f"Found negative {edge_weight=}")
+                            proposal_edge.print()
+                        post(it)
+                        continue
+
                     if crawler.verbose:
                         with gil:
-                            print(f"Found negative {edge_weight=}")
+                            print("Considering")
                         proposal_edge.print()
-                    post(it)
-                    continue
 
+                    # check if coloring of edge already exists
+                    if not crawler.in_vpath(deref(proposal_edge), crawler.path):
+                        crawler.queue.push_back(deref(proposal_edge))
+                        if crawler.verbose:
+                            with gil:
+                                print("Adding to branch:")
+                                proposal_edge.sort().print()
+                                crawler.print(options)
+
+                        # start merging
+                        branch_option = self._check_df(crawler)
+                        crawler.merge_options(options, branch_option)
+
+                    post(it) # never forget :)
+                # crawler.merge_options(options, options)
                 if crawler.verbose:
-                    with gil:
-                        print("Considering")
-                    proposal_edge.print()
-
-                # check if coloring of edge already exists
-                if not crawler.in_vpath(deref(proposal_edge), crawler.path):
-                    crawler.queue.push_back(deref(proposal_edge))
-                    if crawler.verbose:
-                        with gil:
-                            print("Adding to branch:")
-                            proposal_edge.sort().print()
-                            crawler.print(options)
-
-                    # start merging
-                    branch_option = self._check_df(crawler)
-                    crawler.merge_options(options, branch_option)
-
-                post(it) # never forget :)
-            # crawler.merge_options(options, options)
-            if crawler.verbose:
-                crawler.print(options)
+                    crawler.print(options)
 
         # push back current node as option
         if crawler.path.size():

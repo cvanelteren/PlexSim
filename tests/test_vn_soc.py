@@ -38,7 +38,7 @@ def update(idx: int) -> list:
 
     m.updateState(m.sampleNodes(1)[0])
 
-    # print(m.check_df(0))
+    print(m.completed_vns)
 
     # ci = m.states.astype(int)
     # ci = colors[ci]

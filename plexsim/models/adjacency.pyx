@@ -56,7 +56,7 @@ cdef class Adjacency:
                 adj[target].neighbors[source] = weight
 
         # public and python accessible
-        self.graph       = graph
+        # self.graph       = graph
         self.mapping     = mapping
         self.rmapping    = rmapping
         self._adj        = adj
@@ -82,10 +82,32 @@ cdef class Adjacency:
 
    @property
    def adj(self):
+       """
+       Returns the adjacency structure.
+       FIXME: further abstract this
+       """
        return dict(self._adj)
 
+   @property
+   def graph(self):
+       """
+       Wrapper around retrieving the graph. Some models edit the adjacency structure
+       as such we have to reconstruct the graph from the lower level mapping.
+       """
+       output = dict()
+       for k, v in self.adj.items():
+           node = self.rmapping[k]
+           output[node] = dict()
+           for kk, vv in v["neighbors"].items():
+               neighbor = self.rmapping[kk]
+               output[node][neighbor] = dict(weight=vv)
+       return nx.from_dict_of_dicts(output)
+
    def __repr__(self):
+        #FIXME: remove this
+        # Originally used for printing the lower level buffer
         return str(self._adj)
 
    def __eq__(self, other):
+
        return self.adj == other.adj
