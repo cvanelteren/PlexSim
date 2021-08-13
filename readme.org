@@ -2,8 +2,8 @@
 
 
 * Welcome to Plexsim!
-#+attr_html: :alt  :align center :class img :width 100% :height auto
-[[file:./docs/src/figures/logo.png]]
+#+attr_html: :alt  :align center :class img :width auto :height 50%
+[[file:./docs/src/figures/plexsim_logo.png]]
 
 
 Fast and general  toolbox for simulation of complex adaptive  systems written in
