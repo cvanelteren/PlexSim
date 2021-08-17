@@ -103,7 +103,6 @@ cdirectives = dict(
     overflowcheck=False,
     nonecheck=False,
 )
-import unittest
 
 
 def find_pxd(base) -> list:
@@ -120,6 +119,9 @@ def find_pxd(base) -> list:
                 data_files.append([root, [file]])
 
     return data_files
+
+
+import unittest
 
 
 def TestSuite():
@@ -171,6 +173,7 @@ setup(
     install_requires="cython numpy networkx".split(),
     cmdclass=dict(build_sphinx=BuildDoc),
     command_options=dict(build_sphinx=sphinx),
+    test_suite="tests",
     ext_modules=cythonize(
         exts,
         compiler_directives=cdirectives,

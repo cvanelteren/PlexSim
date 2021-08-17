@@ -60,14 +60,38 @@ class TestCrawl(ut.TestCase):
             self.__test_crawl_single(m, targets=targets, verbose=self.verbose)
             break
 
-    def test_y_dual_heuristic(self):
+    def test_partial_join(self):
         """
-        Test two path graphs on a y-structure
+        Tests in a square graph with states [0, 1, 2, 0]
+        with a rule as a triangle whether a join on partial complete
+        paths are ignored. For example if an option A contains options x1 and option B
+        also contains option x1, they should not be merged.
+        """
+
+        graph = nx.complete_graph(4)
+        rule = create_rule_full(nx.cycle_graph(3))
+        S = np.arange(len(rule))
+
+        m = self.model(graph, rules=rule, agentStates=S)
+        m.states = [0, 0, 1, 2]
+        targets = np.ones(m.nNodes) * 3
+
+        # the nodes that have the same states can make
+        # two triangles
+        # the other can make one more unrolled
+        targets[2] = 4
+        targets[3] = 4
+        self.__test_crawl_single(m, targets=targets, verbose=False)
+
+    def test_y_dual_heuristic(self):
+        """Test two path graphs on a y-structure
 
         Each node should complete atleast 1 value network
         A part of the network should complete 1 more chain
 
-        This is a the heuristic version, all nodes are tested to only satisfy only 1 value network.
+        This is a the heuristic version, all nodes are tested to only satisfy
+        only 1 value network.
+
         """
 
         n = 3
@@ -141,7 +165,7 @@ class TestCrawl(ut.TestCase):
         targets = np.ones(m.nNodes)
         visualize_graph(m)
         plt.show()
-        self.__test_crawl_single(m, targets=targets, verbose=True)
+        self.__test_crawl_single(m, targets=targets, verbose=False)
 
     def __test_crawl_single(self, m: ValueNetwork, targets: list, verbose=False):
         """
@@ -160,7 +184,8 @@ class TestCrawl(ut.TestCase):
         crawls = []
         for node_label, node in m.adj.mapping.items():
             crawl = m.check_df(node, verbose=verbose)
-            print(crawl)
+            if verbose:
+                print(crawl)
             # crawl = m.check_df(node)
 
             if verbose:
