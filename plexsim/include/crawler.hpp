@@ -102,6 +102,10 @@ public:
   void add_result(std::vector<EdgeColor>);
   void print(std::vector<std::vector<EdgeColor>> options);
   void print(std::vector<EdgeColor>);
+
+  void print_results();
+  void print_options(std::vector<std::vector<EdgeColor>> options);
+  void print_path();
 };
 
 bool compare_edge_color(const EdgeColor &, const EdgeColor &);

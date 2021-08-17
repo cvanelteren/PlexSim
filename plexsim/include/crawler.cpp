@@ -28,16 +28,8 @@ bool EdgeColor::operator=(const EdgeColor &other) const {
 }
 
 void EdgeColor::print() const {
-  std::cout << "(";
-  std::cout << this->current.name << " ";
-  std::cout << this->other.name << " ";
-  std::cout << ")";
-
-  std::cout << "(";
-  std::cout << this->current.state << " ";
-  std::cout << this->other.state;
-  std::cout << ")";
-  std::cout << std::endl;
+  printf("(%ld, %ld) \t (%f, %f) \n", this->current.name, this->other.name,
+         this->current.state, this->other.state);
 }
 
 EdgeColor EdgeColor::sort() {
@@ -107,28 +99,27 @@ void Crawler::add_result(std::vector<EdgeColor> option) {
   std::set<EdgeColor> u_option =
       std::set<EdgeColor>(option.begin(), option.end());
 
+  std::set<std::pair<double, double>> tmp;
+  for (auto &elem : u_option) {
+    tmp.insert(std::make_pair(elem.current.state, elem.other.state));
+  }
+  if (tmp.size() != this->bounded_rational) {
+    return;
+  }
+
   bool add = true;
-
   for (auto result : this->results) {
-
     overlap.clear();
     std::set_intersection(result.begin(), result.end(), u_option.begin(),
                           u_option.end(),
                           std::inserter(overlap, overlap.begin()));
-
     if (overlap.size() == option.size()) {
       add = false;
       break;
     }
   }
 
-  if (add == true && u_option.size() == this->bounded_rational) {
-
-    // this->results.push_back(
-    // std::vector<EdgeColor>(u_option.begin(), u_option.end()));
-
-    // // push only unique options
-    //
+  if ((add == true) && (u_option.size() == this->bounded_rational)) {
     if (this->heuristic > 0) {
       if (this->results.size() < this->heuristic) {
         this->results.push_back(
@@ -548,16 +539,12 @@ void Crawler::print(std::vector<EdgeColor> path) {
   }
 }
 
-void Crawler::print(std::vector<std::vector<EdgeColor>> options) {
-  printf("Printing path");
-  for (auto ec : this->path) {
-    printf("\n Edge %ld %ld \n", ec.current.name, ec.other.name);
-  }
-  printf("\n");
-
+void Crawler::print_results() {
   printf("Printing results\n");
+
   auto it = this->results.begin();
   std::vector<EdgeColor>::iterator jt;
+
   // got through all the solutions
   while (it != this->results.end()) {
     printf("------------------\n");
@@ -570,9 +557,24 @@ void Crawler::print(std::vector<std::vector<EdgeColor>> options) {
     printf("------------------\n");
     it++;
   }
+  printf("\n");
+}
 
+void Crawler::print_path() {
+  printf("Printing path");
+  for (auto ec : this->path) {
+    printf("\n Edge %ld %ld \t %ld %ld \n", ec.current.name, ec.other.name,
+           ec.current.state, ec.other.state);
+  }
+  printf("\n");
+}
+
+void Crawler::print_options(std::vector<std::vector<EdgeColor>> options) {
   printf("Printing options\n");
-  it = options.begin();
+
+  auto it = options.begin();
+  std::vector<EdgeColor>::iterator jt;
+
   while (it != options.end()) {
     jt = (*it).begin();
     printf("------------------\n");
@@ -583,14 +585,13 @@ void Crawler::print(std::vector<std::vector<EdgeColor>> options) {
     printf("------------------\n");
     it++;
   }
-  // for (auto i = 0; i < this->results.size(); i++) {
-  //   printf("Results %d", i);
-  //   for (auto ec : this->results[i]) {
-  //     printf("\n Edge %ld %ld \n", ec.current.name, ec.other.name);
-  //   }
-  // }
-
   printf("\n");
+}
+
+void Crawler::print(std::vector<std::vector<EdgeColor>> options) {
+  this->print_results();
+  this->print_options(options);
+  this->print_path();
 }
 
 // void Crawler::check_options() {

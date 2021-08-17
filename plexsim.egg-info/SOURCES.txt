@@ -1,13 +1,16 @@
 .gitattributes
 .gitignore
+5.13.7-arch1-g14-3
 MANIFEST.in
 Makefile
 build_docs.sh
 license.txt
+readme.html
 readme.org
 requirements.txt
 setup.cfg
 setup.py
+soc.mp4
 test.txt
 todo.org
 .ob-jupyter/edeb876375d276c21b4a4ed8a12d4a8d7f8787a4.png
@@ -161,6 +164,8 @@ docs/src/figures/ising_example.png
 docs/src/figures/ising_time_example.png
 docs/src/figures/new_banner.gif
 docs/src/figures/new_banner2.webm
+docs/src/figures/plexsim_logo
+docs/src/figures/plexsim_logo.png
 docs/src/figures/test.py
 docs/src/figures/test_2.mp4
 docs/src/figures/.ipynb_checkpoints/AB model-checkpoint.ipynb
@@ -216,6 +221,8 @@ plexsim/models/cyclic.pyx
 plexsim/models/game_of_life.cpp
 plexsim/models/game_of_life.pxd
 plexsim/models/game_of_life.pyx
+plexsim/models/heisenberg.cpp
+plexsim/models/heisenberg.pyx
 plexsim/models/ising.cpp
 plexsim/models/ising.pxd
 plexsim/models/ising.pyx
@@ -292,11 +299,13 @@ plexsim/utils/__pycache__/visualisation.cpython-39.pyc
 tests/__init__.py
 tests/flight_test.webm
 tests/main
+tests/recursive_animation.py
 tests/sample.png
 tests/test_conway.py
 tests/test_crawler.cpp
 tests/test_models.py
 tests/test_particular.py
+tests/test_sandpile.py
 tests/test_triangle.py
 tests/test_valuenetwork.py
 tests/test_vn_soc.py

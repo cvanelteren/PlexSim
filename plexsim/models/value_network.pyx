@@ -316,7 +316,7 @@ cdef class ValueNetwork(Potts):
                         with gil:
                             print("At endpoint")
                             print("Inserting edge:")
-                        current_edge.print()
+                            current_edge.sort().print()
 
                     option.clear()
                     # add option
@@ -333,21 +333,24 @@ cdef class ValueNetwork(Potts):
                 # 2. check neighbors
                 it = self.adj._adj[current_edge.other.name].neighbors.begin()
                 while it != self.adj._adj[current_edge.other.name].neighbors.end():
+                    neighbor_idx = deref(it).first
+                    proposal_edge.other = ColorNode(neighbor_idx, self._states[neighbor_idx])
+                    if crawler.verbose:
+                        with gil:
+                            print("Considering")
+                            proposal_edge.sort().print()
 
                     # exit early if heuristic approach is
                     # satisfied
-
                     if self._heuristic:
                         if crawler.results.size() == self._heuristic:
                             return options
-
-                    neighbor_idx = deref(it).first
-                    proposal_edge.other = ColorNode(neighbor_idx, self._states[neighbor_idx])
 
                     if proposal_edge.other.name == proposal_edge.current.name:
                         if crawler.verbose:
                             with gil:
                                 print("Found node already in path (cycle)")
+                                proposal_edge.print()
                         post(it)
                         continue
 
@@ -358,14 +361,9 @@ cdef class ValueNetwork(Potts):
                         if crawler.verbose:
                             with gil:
                                 print(f"Found negative {edge_weight=}")
-                            proposal_edge.print()
+                                proposal_edge.print()
                         post(it)
                         continue
-
-                    if crawler.verbose:
-                        with gil:
-                            print("Considering")
-                        proposal_edge.print()
 
                     # check if coloring of edge already exists
                     if not crawler.in_vpath(deref(proposal_edge), crawler.path):
@@ -374,16 +372,22 @@ cdef class ValueNetwork(Potts):
                             with gil:
                                 print("Adding to branch:")
                                 proposal_edge.sort().print()
-                                crawler.print(options)
 
                         # start merging
                         branch_option = self._check_df(crawler)
                         crawler.merge_options(options, branch_option)
+                        if crawler.verbose:
+                            with gil:
+                                print("After merging")
+                                crawler.print(options)
+
 
                     post(it) # never forget :)
                 # crawler.merge_options(options, options)
-                if crawler.verbose:
-                    crawler.print(options)
+        if crawler.verbose:
+            with gil:
+                print("-"*32)
+                crawler.print(options)
 
         # push back current node as option
         if crawler.path.size():
