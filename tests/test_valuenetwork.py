@@ -62,7 +62,7 @@ class TestCrawl(ut.TestCase):
 
     def test_partial_join(self):
         """
-        Tests in a square graph with states [0, 1, 2, 0]
+        Tests in a square graph with states [0, 0, 1, 2]
         with a rule as a triangle whether a join on partial complete
         paths are ignored. For example if an option A contains options x1 and option B
         also contains option x1, they should not be merged.

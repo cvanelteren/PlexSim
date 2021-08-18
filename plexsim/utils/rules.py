@@ -1,14 +1,18 @@
 import networkx as nx, numpy as np
 
-def create_rule_full(rule, connection_weight_other = -1,
-                     connection_weight = 1,
-                     self_weight = 0):
+
+def create_rule_full(
+    rule, connection_weight_other=-1, connection_weight=1, self_weight=-1
+) -> nx.Graph:
     """
     Create a full rule graph
+
+    Multiplies weight * @connection_weight if the edge is non-zero
+    Sets the weight to be @connection_weight_other if no edge is found.
     """
     # connection between nodes
     # self weight
-    A = nx.adjacency_matrix(rule).todense() 
+    A = nx.adjacency_matrix(rule).todense()
     g = nx.Graph()
     for idx, w in enumerate(A.flat):
         u, v = np.unravel_index(idx, A.shape)
@@ -16,11 +20,11 @@ def create_rule_full(rule, connection_weight_other = -1,
             w *= connection_weight
         else:
             w = connection_weight_other
-        g.add_edge(u, v, weight = w * connection_weight)
+        g.add_edge(u, v, weight=w * connection_weight)
 
     # add self love
     for node in g.nodes():
-        g.add_edge(node, node, weight = self_weight)
+        g.add_edge(node, node, weight=self_weight)
     return g
 
 
@@ -36,8 +40,9 @@ def check_doubles(path, results) -> None:
                 add = False
                 break
 
-        if add and  path:
+        if add and path:
             results[0].append(path.copy())
+
 
 def merge(results, n) -> None:
     """
@@ -60,7 +65,7 @@ def merge(results, n) -> None:
                 a = vpi
                 b = vpj
                 if len(vpi) > len(vpj):
-                    a, b = b,a
+                    a, b = b, a
                 for i in a:
                     # if the rule edge already exists
                     # ignore the option
@@ -89,21 +94,22 @@ def merge(results, n) -> None:
     if merged:
         results[1] = merged
 
+
 def check_endpoint(s, m, vp_path) -> bool:
     """
     Check if an end point is reached
     """
     # update paths
     fail = True
-    for ss in  m.rules.neighbors(s):
-        if m.rules[s][ss]['weight'] > 0:
+    for ss in m.rules.neighbors(s):
+        if m.rules[s][ss]["weight"] > 0:
             if [s, ss] not in vp_path:
                 fail = False
     # print(f"Failing {fail} {s} {list(m.rules.neighbors(s))} {vp_path}")
     return fail
 
-def check_df(queue, n, m, path = [], vp_path = [], results = [], 
-             verbose = False) -> list:
+
+def check_df(queue, n, m, path=[], vp_path=[], results=[], verbose=False) -> list:
     """
     :param queue: edge queue, start with (node, node)
     :param n: number of edges in the rule graph
@@ -133,12 +139,14 @@ def check_df(queue, n, m, path = [], vp_path = [], results = [],
             print(f"Options: {results[1]}")
             print(f"Results: {results[0]}")
 
-        
         # check if no options left in rule graph
         if check_endpoint(s, m, vp_path):
             if verbose:
                 print("At an end point")
-            option = [[[from_node, current]], [[m.states[from_node], m.states[current]]]]
+            option = [
+                [[from_node, current]],
+                [[m.states[from_node], m.states[current]]],
+            ]
             results[1].append(option)
             return results
 
@@ -148,11 +156,13 @@ def check_df(queue, n, m, path = [], vp_path = [], results = [],
             ss = m.states[other]
             # prevent going back
             if other == from_node:
-                if verbose: print("found node already in path (cycle)")
+                if verbose:
+                    print("found node already in path (cycle)")
                 continue
             # check if branch is valid
-            if m.rules[s][ss]['weight'] <= 0: 
-                if verbose: print('negative weight')
+            if m.rules[s][ss]["weight"] <= 0:
+                if verbose:
+                    print("negative weight")
                 continue
             # construct proposals
             e = [current, other]
@@ -165,7 +175,15 @@ def check_df(queue, n, m, path = [], vp_path = [], results = [],
                         print(f"checking {e} at {current} with {other} at path {path}")
                     queue.append(e)
                     # get branch options
-                    for option in check_df(queue, n, m, path.copy(), vp_path.copy(), results.copy(), verbose)[1]:
+                    for option in check_df(
+                        queue,
+                        n,
+                        m,
+                        path.copy(),
+                        vp_path.copy(),
+                        results.copy(),
+                        verbose,
+                    )[1]:
                         results[1].append(option.copy())
                     print(f"branch results {o}")
                 # move to next
@@ -175,14 +193,16 @@ def check_df(queue, n, m, path = [], vp_path = [], results = [],
             else:
                 continue
     # attempt merge
-    merge(results, n)  
+    merge(results, n)
     # TODO self edges are ignored --> add check for negativity
     if from_node != current:
-        this_option = [[from_node, current],
-                    [m.states[from_node], m.states[current]]]
+        this_option = [[from_node, current], [m.states[from_node], m.states[current]]]
         for idx, merged in enumerate(results[1]):
             # they cannot be in the already present path
-            if this_option[1] not in merged[1] and this_option[1][::-1] not in merged[1]: 
+            if (
+                this_option[1] not in merged[1]
+                and this_option[1][::-1] not in merged[1]
+            ):
                 merged[0].append(this_option[0])
                 merged[1].append(this_option[1])
             if len(merged[1]) == n:
@@ -191,13 +211,12 @@ def check_df(queue, n, m, path = [], vp_path = [], results = [],
                 check_doubles(merged[0].copy(), results)
                 check_doubles(merged[0].copy(), all_paths)
                 if verbose:
-                    print(f'adding results {merged[0]} {n} vp = {merged[1]}')
+                    print(f"adding results {merged[0]} {n} vp = {merged[1]}")
 
     # check if the solution is correct
     if len(vp_path) == n:
         check_doubles(path.copy(), results)
         check_doubles(path.copy(), all_paths)
-        if verbose: print('added path', results)
+        if verbose:
+            print("added path", results)
     return results
-
-

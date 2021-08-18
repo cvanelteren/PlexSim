@@ -301,6 +301,7 @@ tests/main
 tests/test_crawler.cpp
 tests/test_models.py
 tests/test_valuenetwork.py
+tests/test_vn_soc.py
 tests/__pycache__/__init__.cpython-39.pyc
 tests/__pycache__/test_models.cpython-39.pyc
 tests/__pycache__/test_triangle.cpython-39.pyc
