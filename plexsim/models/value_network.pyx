@@ -413,7 +413,6 @@ cdef class ValueNetwork(Potts):
         if self._nudges.find(node) != self._nudges.end():
             energy += self._nudges[node] * self._states[node]
 
-
         # compute the energy
         cdef:
             pair[bint, pair[state_t, double]] rule;

@@ -426,62 +426,6 @@ uint8_t Crawler::merge_option(size_t idx, size_t jdx,
   return 0;
 }
 
-// void Crawler::merge_options(
-//     std::vector<std::vector<EdgeColor>> &options,
-//     std::vector<std::vector<EdgeColor>> &other_options) {
-//   /**
-//    * @brief      Merges @other_option in @option
-//    */
-//   std::set<EdgeColor> uni;
-//   // empty options
-//   if (options.size() == 0) {
-//     // options = other_options;
-//     std::swap(options, other_options);
-//     return;
-//   }
-
-//   int start_idx = options.size() - 1;
-//   int idx = start_idx;
-
-//   std::vector<EdgeColor> option;
-//   // options are non-empty
-//   while (idx >= 0) {
-
-//     // check if option exists
-//     // edge case for cycle?
-//     if (options[idx].size() == this->bounded_rational) {
-//       this->add_result(options[idx]);
-//       options.erase(options.begin() + idx);
-//     }
-
-//     for (auto &optj : other_options) {
-//       uni.clear();
-//       option.clear();
-//       std::set_union(options[idx].begin(), options[idx].end(),
-//       optj.begin(),
-//                      optj.end(), std::inserter(uni, uni.begin()));
-
-//       if (uni.size() > options[idx].size()) {
-//         option = std::vector<EdgeColor>(uni.begin(), uni.end());
-
-//       } else if (idx == start_idx) {
-
-//         if (!this->in_options(optj, options)) {
-//           option = optj;
-//         }
-//       }
-
-//       if ((option.size() != 0) && (option.size() <=
-//       this->bounded_rational))
-//       {
-//         options.push_back(option);
-//         // idx++;
-//       }
-//     }
-//     idx--;
-//   }
-// }
-
 void Crawler::merge_options(std::vector<std::vector<EdgeColor>> &options) {
   /**
    * @brief  Merges  options  together to  build  path  from
@@ -593,42 +537,3 @@ void Crawler::print(std::vector<std::vector<EdgeColor>> options) {
   this->print_options(options);
   this->print_path();
 }
-
-// void Crawler::check_options() {
-//   /**
-//    * @brief Removes options that are actual solutions
-//    *
-//    * @details Options  are pushed  as the  crawler discovers
-//    * solutions. This  function removes  options that  are of
-//    * target length and pushes them into the solution vector.
-//    *
-//    */
-//   // erase in reverse order
-//   for (int idx = this->options.size() - 1; idx >= 0; idx--) {
-//     if (this->verbose) {
-//       printf("Considering: \n");
-//       this->print(this->options[idx]);
-//     }
-
-//     if (this->options[idx].size() == this->bounded_rational) {
-//       if (this->verbose) {
-//         printf("Removing %d", idx);
-//       }
-//       this->add_result(this->options[idx]);
-//       this->options.erase(this->options.begin() + idx);
-//     }
-//   }
-// }
-
-// void Crawler::prune_options() {
-//   /**
-//    * @brief      Prune options that cannot be traversed anymore
-//    *
-//    * @details   Options need to be pruned that cannot be accessed anymore
-//    from
-//    * the last edge in the path
-//    *
-//    */
-
-//   auto current_edge = this->path.back();
-// }

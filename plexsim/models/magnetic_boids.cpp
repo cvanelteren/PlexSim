@@ -5934,11 +5934,11 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
   std::vector<double>  __pyx_v_velocity;
   std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,__pyx_t_7plexsim_6models_5types_weight_t> ::iterator __pyx_v_it;
   std::vector<double>  __pyx_t_1;
-  int __pyx_t_2;
+  size_t __pyx_t_2;
   __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_3;
-  __pyx_t_7plexsim_6models_5types_weight_t __pyx_t_4;
-  size_t __pyx_t_5;
-  size_t __pyx_t_6;
+  size_t __pyx_t_4;
+  int __pyx_t_5;
+  __pyx_t_7plexsim_6models_5types_weight_t __pyx_t_6;
   size_t __pyx_t_7;
   size_t __pyx_t_8;
   size_t __pyx_t_9;
@@ -5957,7 +5957,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
  *             size_t neighbor
  *             double weight
  *             double n = <double>(self.adj._adj[node].neighbors.size())             # <<<<<<<<<<<<<<
- *             double z = 1
+ *             double z = 0
  *             size_t idx
  */
   __pyx_v_n = ((double)(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.size());
@@ -5965,11 +5965,11 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
   /* "plexsim/models/magnetic_boids.pyx":168
  *             double weight
  *             double n = <double>(self.adj._adj[node].neighbors.size())
- *             double z = 1             # <<<<<<<<<<<<<<
+ *             double z = 0             # <<<<<<<<<<<<<<
  *             size_t idx
  *             rule_t rule
  */
-  __pyx_v_z = 1.0;
+  __pyx_v_z = 0.0;
 
   /* "plexsim/models/magnetic_boids.pyx":173
  *             double update
@@ -6022,55 +6022,69 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
   }
   __pyx_v_velocity = __PYX_STD_MOVE_IF_SUPPORTED(__pyx_t_1);
 
-  /* "plexsim/models/magnetic_boids.pyx":181
- *         # rule 3: boids attempt to match velocity with nearby boids
+  /* "plexsim/models/magnetic_boids.pyx":185
+ *         #     print(self.adj._adj[node].neighbors.size())
  * 
- *         if n != 0:             # <<<<<<<<<<<<<<
- *             z = 1/n
- *         it = self.adj._adj[node].neighbors.begin()
+ *         z = n             # <<<<<<<<<<<<<<
+ * 
+ *         # if n != 0:
  */
-  __pyx_t_2 = ((__pyx_v_n != 0.0) != 0);
-  if (__pyx_t_2) {
+  __pyx_v_z = __pyx_v_n;
 
-    /* "plexsim/models/magnetic_boids.pyx":182
+  /* "plexsim/models/magnetic_boids.pyx":190
+ *             # z = 1/n
  * 
- *         if n != 0:
- *             z = 1/n             # <<<<<<<<<<<<<<
- *         it = self.adj._adj[node].neighbors.begin()
- *         while it != self.adj._adj[node].neighbors.end():
+ *         for idx in range(2):             # <<<<<<<<<<<<<<
+ *            self._coordinates[node, idx] += self._explore * (self._rng._rand() * 2 - 1) * exp(-z) * self._dt
+ *            self._velocities[node, idx] += self._explore *(self._rng._rand() * 2 - 1) * exp(-z) * self._dt
  */
-    __pyx_v_z = (1.0 / __pyx_v_n);
+  for (__pyx_t_2 = 0; __pyx_t_2 < 2; __pyx_t_2+=1) {
+    __pyx_v_idx = __pyx_t_2;
 
-    /* "plexsim/models/magnetic_boids.pyx":181
- *         # rule 3: boids attempt to match velocity with nearby boids
+    /* "plexsim/models/magnetic_boids.pyx":191
  * 
- *         if n != 0:             # <<<<<<<<<<<<<<
- *             z = 1/n
+ *         for idx in range(2):
+ *            self._coordinates[node, idx] += self._explore * (self._rng._rand() * 2 - 1) * exp(-z) * self._dt             # <<<<<<<<<<<<<<
+ *            self._velocities[node, idx] += self._explore *(self._rng._rand() * 2 - 1) * exp(-z) * self._dt
+ * 
+ */
+    __pyx_t_3 = __pyx_v_node;
+    __pyx_t_4 = __pyx_v_idx;
+    *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_coordinates.data + __pyx_t_3 * __pyx_v_self->_coordinates.strides[0]) )) + __pyx_t_4)) )) += (((__pyx_v_self->_explore * ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rng) * 2.0) - 1.0)) * exp((-__pyx_v_z))) * __pyx_v_self->_dt);
+
+    /* "plexsim/models/magnetic_boids.pyx":192
+ *         for idx in range(2):
+ *            self._coordinates[node, idx] += self._explore * (self._rng._rand() * 2 - 1) * exp(-z) * self._dt
+ *            self._velocities[node, idx] += self._explore *(self._rng._rand() * 2 - 1) * exp(-z) * self._dt             # <<<<<<<<<<<<<<
+ * 
  *         it = self.adj._adj[node].neighbors.begin()
  */
+    __pyx_t_3 = __pyx_v_node;
+    __pyx_t_4 = __pyx_v_idx;
+    *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_3 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_4)) )) += (((__pyx_v_self->_explore * ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rng) * 2.0) - 1.0)) * exp((-__pyx_v_z))) * __pyx_v_self->_dt);
   }
 
-  /* "plexsim/models/magnetic_boids.pyx":183
- *         if n != 0:
- *             z = 1/n
+  /* "plexsim/models/magnetic_boids.pyx":194
+ *            self._velocities[node, idx] += self._explore *(self._rng._rand() * 2 - 1) * exp(-z) * self._dt
+ * 
  *         it = self.adj._adj[node].neighbors.begin()             # <<<<<<<<<<<<<<
  *         while it != self.adj._adj[node].neighbors.end():
  *             # unpack neighbor
  */
   __pyx_v_it = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.begin();
 
-  /* "plexsim/models/magnetic_boids.pyx":184
- *             z = 1/n
+  /* "plexsim/models/magnetic_boids.pyx":195
+ * 
  *         it = self.adj._adj[node].neighbors.begin()
  *         while it != self.adj._adj[node].neighbors.end():             # <<<<<<<<<<<<<<
  *             # unpack neighbor
  *             neighbor = deref(it).first
  */
   while (1) {
-    __pyx_t_2 = ((__pyx_v_it != (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.end()) != 0);
-    if (!__pyx_t_2) break;
+    __pyx_t_5 = ((__pyx_v_it != (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.end()) != 0);
+    if (!__pyx_t_5) break;
 
-    /* "plexsim/models/magnetic_boids.pyx":186
+    /* "plexsim/models/magnetic_boids.pyx":197
  *         while it != self.adj._adj[node].neighbors.end():
  *             # unpack neighbor
  *             neighbor = deref(it).first             # <<<<<<<<<<<<<<
@@ -6080,76 +6094,76 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
     __pyx_t_3 = (*__pyx_v_it).first;
     __pyx_v_neighbor = __pyx_t_3;
 
-    /* "plexsim/models/magnetic_boids.pyx":187
+    /* "plexsim/models/magnetic_boids.pyx":198
  *             # unpack neighbor
  *             neighbor = deref(it).first
  *             weight = deref(it).second             # <<<<<<<<<<<<<<
  *             # update positions
  *             update = self._rules._adj[self._states[node]][self._states[neighbor]]
  */
-    __pyx_t_4 = (*__pyx_v_it).second;
-    __pyx_v_weight = __pyx_t_4;
+    __pyx_t_6 = (*__pyx_v_it).second;
+    __pyx_v_weight = __pyx_t_6;
 
-    /* "plexsim/models/magnetic_boids.pyx":189
+    /* "plexsim/models/magnetic_boids.pyx":200
  *             weight = deref(it).second
  *             # update positions
  *             update = self._rules._adj[self._states[node]][self._states[neighbor]]             # <<<<<<<<<<<<<<
+ *             # update = 1
  *             distance_weight = 0
- *             for idx in range(2):
  */
     __pyx_v_update = ((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rules->_adj[(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node])])[(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_neighbor])]);
 
-    /* "plexsim/models/magnetic_boids.pyx":190
- *             # update positions
+    /* "plexsim/models/magnetic_boids.pyx":202
  *             update = self._rules._adj[self._states[node]][self._states[neighbor]]
+ *             # update = 1
  *             distance_weight = 0             # <<<<<<<<<<<<<<
  *             for idx in range(2):
  *                 # compute alignment
  */
     __pyx_v_distance_weight = 0.0;
 
-    /* "plexsim/models/magnetic_boids.pyx":191
- *             update = self._rules._adj[self._states[node]][self._states[neighbor]]
+    /* "plexsim/models/magnetic_boids.pyx":203
+ *             # update = 1
  *             distance_weight = 0
  *             for idx in range(2):             # <<<<<<<<<<<<<<
  *                 # compute alignment
- *                 coordinate[idx] +=  update*(self._coordinates[neighbor, idx] - self._coordinates[node, idx])
+ *                 coordinate[idx] +=  update * (self._coordinates[neighbor, idx] - self._coordinates[node, idx])
  */
-    for (__pyx_t_5 = 0; __pyx_t_5 < 2; __pyx_t_5+=1) {
-      __pyx_v_idx = __pyx_t_5;
+    for (__pyx_t_2 = 0; __pyx_t_2 < 2; __pyx_t_2+=1) {
+      __pyx_v_idx = __pyx_t_2;
 
-      /* "plexsim/models/magnetic_boids.pyx":193
+      /* "plexsim/models/magnetic_boids.pyx":205
  *             for idx in range(2):
  *                 # compute alignment
- *                 coordinate[idx] +=  update*(self._coordinates[neighbor, idx] - self._coordinates[node, idx])             # <<<<<<<<<<<<<<
- *                 velocity[idx] +=  update*(self._velocities[neighbor, idx] - self._velocities[node, idx])
+ *                 coordinate[idx] +=  update * (self._coordinates[neighbor, idx] - self._coordinates[node, idx])             # <<<<<<<<<<<<<<
+ *                 velocity[idx]   +=  update * (self._velocities[neighbor, idx]  - self._velocities[node, idx])
  *             post(it)
  */
-      __pyx_t_6 = __pyx_v_idx;
+      __pyx_t_4 = __pyx_v_idx;
       __pyx_t_7 = __pyx_v_neighbor;
       __pyx_t_8 = __pyx_v_idx;
       __pyx_t_3 = __pyx_v_node;
       __pyx_t_9 = __pyx_v_idx;
-      (__pyx_v_coordinate[__pyx_t_6]) = ((__pyx_v_coordinate[__pyx_t_6]) + (__pyx_v_update * ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_coordinates.data + __pyx_t_7 * __pyx_v_self->_coordinates.strides[0]) )) + __pyx_t_8)) ))) - (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_coordinates.data + __pyx_t_3 * __pyx_v_self->_coordinates.strides[0]) )) + __pyx_t_9)) ))))));
+      (__pyx_v_coordinate[__pyx_t_4]) = ((__pyx_v_coordinate[__pyx_t_4]) + (__pyx_v_update * ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_coordinates.data + __pyx_t_7 * __pyx_v_self->_coordinates.strides[0]) )) + __pyx_t_8)) ))) - (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_coordinates.data + __pyx_t_3 * __pyx_v_self->_coordinates.strides[0]) )) + __pyx_t_9)) ))))));
 
-      /* "plexsim/models/magnetic_boids.pyx":194
+      /* "plexsim/models/magnetic_boids.pyx":206
  *                 # compute alignment
- *                 coordinate[idx] +=  update*(self._coordinates[neighbor, idx] - self._coordinates[node, idx])
- *                 velocity[idx] +=  update*(self._velocities[neighbor, idx] - self._velocities[node, idx])             # <<<<<<<<<<<<<<
+ *                 coordinate[idx] +=  update * (self._coordinates[neighbor, idx] - self._coordinates[node, idx])
+ *                 velocity[idx]   +=  update * (self._velocities[neighbor, idx]  - self._velocities[node, idx])             # <<<<<<<<<<<<<<
  *             post(it)
  * 
  */
-      __pyx_t_6 = __pyx_v_idx;
+      __pyx_t_4 = __pyx_v_idx;
       __pyx_t_9 = __pyx_v_neighbor;
       __pyx_t_8 = __pyx_v_idx;
       __pyx_t_3 = __pyx_v_node;
       __pyx_t_7 = __pyx_v_idx;
-      (__pyx_v_velocity[__pyx_t_6]) = ((__pyx_v_velocity[__pyx_t_6]) + (__pyx_v_update * ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_9 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_8)) ))) - (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_3 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_7)) ))))));
+      (__pyx_v_velocity[__pyx_t_4]) = ((__pyx_v_velocity[__pyx_t_4]) + (__pyx_v_update * ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_9 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_8)) ))) - (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_3 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_7)) ))))));
     }
 
-    /* "plexsim/models/magnetic_boids.pyx":195
- *                 coordinate[idx] +=  update*(self._coordinates[neighbor, idx] - self._coordinates[node, idx])
- *                 velocity[idx] +=  update*(self._velocities[neighbor, idx] - self._velocities[node, idx])
+    /* "plexsim/models/magnetic_boids.pyx":207
+ *                 coordinate[idx] +=  update * (self._coordinates[neighbor, idx] - self._coordinates[node, idx])
+ *                 velocity[idx]   +=  update * (self._velocities[neighbor, idx]  - self._velocities[node, idx])
  *             post(it)             # <<<<<<<<<<<<<<
  * 
  *         #compute average position
@@ -6157,60 +6171,38 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
     (void)((__pyx_v_it++));
   }
 
-  /* "plexsim/models/magnetic_boids.pyx":198
+  /* "plexsim/models/magnetic_boids.pyx":210
  * 
  *         #compute average position
  *         for idx in range(2):             # <<<<<<<<<<<<<<
  *            # allow random exploration if numer of neighbors is low
  *            # TODO: perhaps add a float here to scale the exploration
  */
-  for (__pyx_t_5 = 0; __pyx_t_5 < 2; __pyx_t_5+=1) {
-    __pyx_v_idx = __pyx_t_5;
+  for (__pyx_t_2 = 0; __pyx_t_2 < 2; __pyx_t_2+=1) {
+    __pyx_v_idx = __pyx_t_2;
 
-    /* "plexsim/models/magnetic_boids.pyx":201
+    /* "plexsim/models/magnetic_boids.pyx":213
  *            # allow random exploration if numer of neighbors is low
  *            # TODO: perhaps add a float here to scale the exploration
- *            self._coordinates[node, idx] += (self._rng._rand() * 2 - 1) * exp(-z * self._explore) * self._dt             # <<<<<<<<<<<<<<
- *            self._velocities[node, idx] += (self._rng._rand() * 2 - 1) * exp(-z * self._explore) * self._dt
- *            coordinate[idx] *= z
- */
-    __pyx_t_3 = __pyx_v_node;
-    __pyx_t_6 = __pyx_v_idx;
-    *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_coordinates.data + __pyx_t_3 * __pyx_v_self->_coordinates.strides[0]) )) + __pyx_t_6)) )) += ((((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rng) * 2.0) - 1.0) * exp(((-__pyx_v_z) * __pyx_v_self->_explore))) * __pyx_v_self->_dt);
-
-    /* "plexsim/models/magnetic_boids.pyx":202
- *            # TODO: perhaps add a float here to scale the exploration
- *            self._coordinates[node, idx] += (self._rng._rand() * 2 - 1) * exp(-z * self._explore) * self._dt
- *            self._velocities[node, idx] += (self._rng._rand() * 2 - 1) * exp(-z * self._explore) * self._dt             # <<<<<<<<<<<<<<
- *            coordinate[idx] *= z
- *            velocity[idx] *= z
- */
-    __pyx_t_3 = __pyx_v_node;
-    __pyx_t_6 = __pyx_v_idx;
-    *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_3 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_6)) )) += ((((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rng) * 2.0) - 1.0) * exp(((-__pyx_v_z) * __pyx_v_self->_explore))) * __pyx_v_self->_dt);
-
-    /* "plexsim/models/magnetic_boids.pyx":203
- *            self._coordinates[node, idx] += (self._rng._rand() * 2 - 1) * exp(-z * self._explore) * self._dt
- *            self._velocities[node, idx] += (self._rng._rand() * 2 - 1) * exp(-z * self._explore) * self._dt
  *            coordinate[idx] *= z             # <<<<<<<<<<<<<<
  *            velocity[idx] *= z
  * 
  */
-    __pyx_t_6 = __pyx_v_idx;
-    (__pyx_v_coordinate[__pyx_t_6]) = ((__pyx_v_coordinate[__pyx_t_6]) * __pyx_v_z);
+    __pyx_t_4 = __pyx_v_idx;
+    (__pyx_v_coordinate[__pyx_t_4]) = ((__pyx_v_coordinate[__pyx_t_4]) * __pyx_v_z);
 
-    /* "plexsim/models/magnetic_boids.pyx":204
- *            self._velocities[node, idx] += (self._rng._rand() * 2 - 1) * exp(-z * self._explore) * self._dt
+    /* "plexsim/models/magnetic_boids.pyx":214
+ *            # TODO: perhaps add a float here to scale the exploration
  *            coordinate[idx] *= z
  *            velocity[idx] *= z             # <<<<<<<<<<<<<<
  * 
  *         # update velocity
  */
-    __pyx_t_6 = __pyx_v_idx;
-    (__pyx_v_velocity[__pyx_t_6]) = ((__pyx_v_velocity[__pyx_t_6]) * __pyx_v_z);
+    __pyx_t_4 = __pyx_v_idx;
+    (__pyx_v_velocity[__pyx_t_4]) = ((__pyx_v_velocity[__pyx_t_4]) * __pyx_v_z);
   }
 
-  /* "plexsim/models/magnetic_boids.pyx":207
+  /* "plexsim/models/magnetic_boids.pyx":217
  * 
  *         # update velocity
  *         self._velocities[node, 0] += self._dt * coordinate[0]             # <<<<<<<<<<<<<<
@@ -6222,7 +6214,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
   if (__pyx_t_10 < 0) __pyx_t_10 += __pyx_v_self->_velocities.shape[1];
   *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_3 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_10)) )) += (__pyx_v_self->_dt * (__pyx_v_coordinate[0]));
 
-  /* "plexsim/models/magnetic_boids.pyx":208
+  /* "plexsim/models/magnetic_boids.pyx":218
  *         # update velocity
  *         self._velocities[node, 0] += self._dt * coordinate[0]
  *         self._velocities[node, 1] += self._dt * coordinate[1]             # <<<<<<<<<<<<<<
@@ -6234,7 +6226,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
   if (__pyx_t_10 < 0) __pyx_t_10 += __pyx_v_self->_velocities.shape[1];
   *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_3 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_10)) )) += (__pyx_v_self->_dt * (__pyx_v_coordinate[1]));
 
-  /* "plexsim/models/magnetic_boids.pyx":211
+  /* "plexsim/models/magnetic_boids.pyx":221
  * 
  *         # match velocities
  *         self._velocities[node, 0] += self._dt * velocity[0]             # <<<<<<<<<<<<<<
@@ -6246,7 +6238,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
   if (__pyx_t_10 < 0) __pyx_t_10 += __pyx_v_self->_velocities.shape[1];
   *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_3 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_10)) )) += (__pyx_v_self->_dt * (__pyx_v_velocity[0]));
 
-  /* "plexsim/models/magnetic_boids.pyx":212
+  /* "plexsim/models/magnetic_boids.pyx":222
  *         # match velocities
  *         self._velocities[node, 0] += self._dt * velocity[0]
  *         self._velocities[node, 1] += self._dt * velocity[1]             # <<<<<<<<<<<<<<
@@ -6258,17 +6250,17 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
   if (__pyx_t_10 < 0) __pyx_t_10 += __pyx_v_self->_velocities.shape[1];
   *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_3 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_10)) )) += (__pyx_v_self->_dt * (__pyx_v_velocity[1]));
 
-  /* "plexsim/models/magnetic_boids.pyx":215
+  /* "plexsim/models/magnetic_boids.pyx":225
  * 
  *         # correct max speed
  *         for idx in range(2):             # <<<<<<<<<<<<<<
  *             # self._wrap(self._velocities[node, idx], self._max_speed)
  *             if fabs(self._velocities[node, idx]) > self._max_speed:
  */
-  for (__pyx_t_5 = 0; __pyx_t_5 < 2; __pyx_t_5+=1) {
-    __pyx_v_idx = __pyx_t_5;
+  for (__pyx_t_2 = 0; __pyx_t_2 < 2; __pyx_t_2+=1) {
+    __pyx_v_idx = __pyx_t_2;
 
-    /* "plexsim/models/magnetic_boids.pyx":217
+    /* "plexsim/models/magnetic_boids.pyx":227
  *         for idx in range(2):
  *             # self._wrap(self._velocities[node, idx], self._max_speed)
  *             if fabs(self._velocities[node, idx]) > self._max_speed:             # <<<<<<<<<<<<<<
@@ -6276,11 +6268,11 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
  *                      self._velocities[node, idx] = -self._max_speed
  */
     __pyx_t_3 = __pyx_v_node;
-    __pyx_t_6 = __pyx_v_idx;
-    __pyx_t_2 = ((fabs((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_3 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_6)) )))) > __pyx_v_self->_max_speed) != 0);
-    if (__pyx_t_2) {
+    __pyx_t_4 = __pyx_v_idx;
+    __pyx_t_5 = ((fabs((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_3 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_4)) )))) > __pyx_v_self->_max_speed) != 0);
+    if (__pyx_t_5) {
 
-      /* "plexsim/models/magnetic_boids.pyx":218
+      /* "plexsim/models/magnetic_boids.pyx":228
  *             # self._wrap(self._velocities[node, idx], self._max_speed)
  *             if fabs(self._velocities[node, idx]) > self._max_speed:
  *                  if self._velocities[node,idx] < 0:             # <<<<<<<<<<<<<<
@@ -6288,11 +6280,11 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
  *                  else:
  */
       __pyx_t_3 = __pyx_v_node;
-      __pyx_t_6 = __pyx_v_idx;
-      __pyx_t_2 = (((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_3 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_6)) ))) < 0.0) != 0);
-      if (__pyx_t_2) {
+      __pyx_t_4 = __pyx_v_idx;
+      __pyx_t_5 = (((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_3 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_4)) ))) < 0.0) != 0);
+      if (__pyx_t_5) {
 
-        /* "plexsim/models/magnetic_boids.pyx":219
+        /* "plexsim/models/magnetic_boids.pyx":229
  *             if fabs(self._velocities[node, idx]) > self._max_speed:
  *                  if self._velocities[node,idx] < 0:
  *                      self._velocities[node, idx] = -self._max_speed             # <<<<<<<<<<<<<<
@@ -6300,35 +6292,35 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
  *                      self._velocities[node, idx] = self._max_speed
  */
         __pyx_t_3 = __pyx_v_node;
-        __pyx_t_6 = __pyx_v_idx;
-        *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_3 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_6)) )) = (-__pyx_v_self->_max_speed);
+        __pyx_t_4 = __pyx_v_idx;
+        *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_3 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_4)) )) = (-__pyx_v_self->_max_speed);
 
-        /* "plexsim/models/magnetic_boids.pyx":218
+        /* "plexsim/models/magnetic_boids.pyx":228
  *             # self._wrap(self._velocities[node, idx], self._max_speed)
  *             if fabs(self._velocities[node, idx]) > self._max_speed:
  *                  if self._velocities[node,idx] < 0:             # <<<<<<<<<<<<<<
  *                      self._velocities[node, idx] = -self._max_speed
  *                  else:
  */
-        goto __pyx_L13;
+        goto __pyx_L14;
       }
 
-      /* "plexsim/models/magnetic_boids.pyx":221
+      /* "plexsim/models/magnetic_boids.pyx":231
  *                      self._velocities[node, idx] = -self._max_speed
  *                  else:
  *                      self._velocities[node, idx] = self._max_speed             # <<<<<<<<<<<<<<
- * 
- *         # move to average position of neighborhood
+ *             # if fabs(self._velocities[node, idx]) < .1:
+ *                 # self._velocities[node, idx] = .1
  */
       /*else*/ {
         __pyx_t_11 = __pyx_v_self->_max_speed;
         __pyx_t_3 = __pyx_v_node;
-        __pyx_t_6 = __pyx_v_idx;
-        *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_3 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_6)) )) = __pyx_t_11;
+        __pyx_t_4 = __pyx_v_idx;
+        *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_3 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_4)) )) = __pyx_t_11;
       }
-      __pyx_L13:;
+      __pyx_L14:;
 
-      /* "plexsim/models/magnetic_boids.pyx":217
+      /* "plexsim/models/magnetic_boids.pyx":227
  *         for idx in range(2):
  *             # self._wrap(self._velocities[node, idx], self._max_speed)
  *             if fabs(self._velocities[node, idx]) > self._max_speed:             # <<<<<<<<<<<<<<
@@ -6338,7 +6330,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
     }
   }
 
-  /* "plexsim/models/magnetic_boids.pyx":224
+  /* "plexsim/models/magnetic_boids.pyx":236
  * 
  *         # move to average position of neighborhood
  *         self._coordinates[node, 0] += (self._velocities[node, 0]) * self._dt  #% self._bounds[0]             # <<<<<<<<<<<<<<
@@ -6353,7 +6345,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
   if (__pyx_t_13 < 0) __pyx_t_13 += __pyx_v_self->_coordinates.shape[1];
   *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_coordinates.data + __pyx_t_12 * __pyx_v_self->_coordinates.strides[0]) )) + __pyx_t_13)) )) += ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_3 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_10)) ))) * __pyx_v_self->_dt);
 
-  /* "plexsim/models/magnetic_boids.pyx":225
+  /* "plexsim/models/magnetic_boids.pyx":237
  *         # move to average position of neighborhood
  *         self._coordinates[node, 0] += (self._velocities[node, 0]) * self._dt  #% self._bounds[0]
  *         self._coordinates[node, 1] += (self._velocities[node, 1]) * self._dt #% self._bounds[1]             # <<<<<<<<<<<<<<
@@ -6368,7 +6360,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
   if (__pyx_t_13 < 0) __pyx_t_13 += __pyx_v_self->_coordinates.shape[1];
   *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_coordinates.data + __pyx_t_12 * __pyx_v_self->_coordinates.strides[0]) )) + __pyx_t_13)) )) += ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_3 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_10)) ))) * __pyx_v_self->_dt);
 
-  /* "plexsim/models/magnetic_boids.pyx":227
+  /* "plexsim/models/magnetic_boids.pyx":239
  *         self._coordinates[node, 1] += (self._velocities[node, 1]) * self._dt #% self._bounds[1]
  *         # check for collision
  *         self._check_collision(node)             # <<<<<<<<<<<<<<
@@ -6377,7 +6369,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
  */
   ((struct __pyx_vtabstruct_7plexsim_6models_14magnetic_boids_MagneticBoids *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->_check_collision(__pyx_v_self, __pyx_v_node);
 
-  /* "plexsim/models/magnetic_boids.pyx":229
+  /* "plexsim/models/magnetic_boids.pyx":241
  *         self._check_collision(node)
  *         # check bounds
  *         self._check_boundary(node)             # <<<<<<<<<<<<<<
@@ -6386,7 +6378,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
  */
   ((struct __pyx_vtabstruct_7plexsim_6models_14magnetic_boids_MagneticBoids *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->_check_boundary(__pyx_v_self, __pyx_v_node);
 
-  /* "plexsim/models/magnetic_boids.pyx":230
+  /* "plexsim/models/magnetic_boids.pyx":242
  *         # check bounds
  *         self._check_boundary(node)
  *         return             # <<<<<<<<<<<<<<
@@ -6415,7 +6407,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__move_boid
   __pyx_L0:;
 }
 
-/* "plexsim/models/magnetic_boids.pyx":232
+/* "plexsim/models/magnetic_boids.pyx":244
  *         return
  * 
  *     cdef void _check_collision(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -6446,7 +6438,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__check_col
   PyGILState_STATE __pyx_gilstate_save;
   #endif
 
-  /* "plexsim/models/magnetic_boids.pyx":246
+  /* "plexsim/models/magnetic_boids.pyx":258
  *         cdef double weight
  *         cdef double x1, x2
  *         cdef vector[double] velocity = vector[double](2)             # <<<<<<<<<<<<<<
@@ -6463,11 +6455,11 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__check_col
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 246, __pyx_L1_error)
+    __PYX_ERR(0, 258, __pyx_L1_error)
   }
   __pyx_v_velocity = __PYX_STD_MOVE_IF_SUPPORTED(__pyx_t_1);
 
-  /* "plexsim/models/magnetic_boids.pyx":247
+  /* "plexsim/models/magnetic_boids.pyx":259
  *         cdef double x1, x2
  *         cdef vector[double] velocity = vector[double](2)
  *         it = self.adj._adj[node].neighbors.begin()             # <<<<<<<<<<<<<<
@@ -6476,7 +6468,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__check_col
  */
   __pyx_v_it = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.begin();
 
-  /* "plexsim/models/magnetic_boids.pyx":250
+  /* "plexsim/models/magnetic_boids.pyx":262
  * 
  *         # cdef double counter = 0
  *         while it != self.adj._adj[node].neighbors.end():             # <<<<<<<<<<<<<<
@@ -6487,7 +6479,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__check_col
     __pyx_t_2 = ((__pyx_v_it != (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.end()) != 0);
     if (!__pyx_t_2) break;
 
-    /* "plexsim/models/magnetic_boids.pyx":251
+    /* "plexsim/models/magnetic_boids.pyx":263
  *         # cdef double counter = 0
  *         while it != self.adj._adj[node].neighbors.end():
  *             other = deref(it).first             # <<<<<<<<<<<<<<
@@ -6497,7 +6489,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__check_col
     __pyx_t_3 = (*__pyx_v_it).first;
     __pyx_v_other = __pyx_t_3;
 
-    /* "plexsim/models/magnetic_boids.pyx":252
+    /* "plexsim/models/magnetic_boids.pyx":264
  *         while it != self.adj._adj[node].neighbors.end():
  *             other = deref(it).first
  *             distance = 0             # <<<<<<<<<<<<<<
@@ -6506,7 +6498,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__check_col
  */
     __pyx_v_distance = 0.0;
 
-    /* "plexsim/models/magnetic_boids.pyx":253
+    /* "plexsim/models/magnetic_boids.pyx":265
  *             other = deref(it).first
  *             distance = 0
  *             for idx in range(2):             # <<<<<<<<<<<<<<
@@ -6516,7 +6508,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__check_col
     for (__pyx_t_4 = 0; __pyx_t_4 < 2; __pyx_t_4+=1) {
       __pyx_v_idx = __pyx_t_4;
 
-      /* "plexsim/models/magnetic_boids.pyx":254
+      /* "plexsim/models/magnetic_boids.pyx":266
  *             distance = 0
  *             for idx in range(2):
  *                 x1 = self._wrap(self._coordinates[node, idx], self._bounds[1])             # <<<<<<<<<<<<<<
@@ -6529,7 +6521,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__check_col
       if (__pyx_t_6 < 0) __pyx_t_6 += __pyx_v_self->_bounds.shape[0];
       __pyx_v_x1 = ((struct __pyx_vtabstruct_7plexsim_6models_14magnetic_boids_MagneticBoids *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->_wrap(__pyx_v_self, (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_coordinates.data + __pyx_t_3 * __pyx_v_self->_coordinates.strides[0]) )) + __pyx_t_5)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->_bounds.data) + __pyx_t_6)) ))));
 
-      /* "plexsim/models/magnetic_boids.pyx":255
+      /* "plexsim/models/magnetic_boids.pyx":267
  *             for idx in range(2):
  *                 x1 = self._wrap(self._coordinates[node, idx], self._bounds[1])
  *                 x2 = self._wrap(self._coordinates[other, idx], self._bounds[1])             # <<<<<<<<<<<<<<
@@ -6542,7 +6534,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__check_col
       if (__pyx_t_6 < 0) __pyx_t_6 += __pyx_v_self->_bounds.shape[0];
       __pyx_v_x2 = ((struct __pyx_vtabstruct_7plexsim_6models_14magnetic_boids_MagneticBoids *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->_wrap(__pyx_v_self, (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_coordinates.data + __pyx_t_3 * __pyx_v_self->_coordinates.strides[0]) )) + __pyx_t_5)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->_bounds.data) + __pyx_t_6)) ))));
 
-      /* "plexsim/models/magnetic_boids.pyx":256
+      /* "plexsim/models/magnetic_boids.pyx":268
  *                 x1 = self._wrap(self._coordinates[node, idx], self._bounds[1])
  *                 x2 = self._wrap(self._coordinates[other, idx], self._bounds[1])
  *                 distance += (x1 - x2)**2             # <<<<<<<<<<<<<<
@@ -6552,41 +6544,41 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__check_col
       __pyx_v_distance = (__pyx_v_distance + pow((__pyx_v_x1 - __pyx_v_x2), 2.0));
     }
 
-    /* "plexsim/models/magnetic_boids.pyx":257
+    /* "plexsim/models/magnetic_boids.pyx":269
  *                 x2 = self._wrap(self._coordinates[other, idx], self._bounds[1])
  *                 distance += (x1 - x2)**2
  *             distance = sqrt(distance)             # <<<<<<<<<<<<<<
  *             if distance <= self._boid_radius:
- *                 # velocity[0] += self._coordinates[node, 0] - self._coordinates[other, 0]
+ *                 for idx in range(2):
  */
     __pyx_v_distance = sqrt(__pyx_v_distance);
 
-    /* "plexsim/models/magnetic_boids.pyx":258
+    /* "plexsim/models/magnetic_boids.pyx":270
  *                 distance += (x1 - x2)**2
  *             distance = sqrt(distance)
  *             if distance <= self._boid_radius:             # <<<<<<<<<<<<<<
- *                 # velocity[0] += self._coordinates[node, 0] - self._coordinates[other, 0]
- *                 # velocity[1] += self._coordinates[node, 1] - self._coordinates[other, 1]
+ *                 for idx in range(2):
+ *                     self._coordinates[node, idx] -= self._velocities[node, idx] * self._dt
  */
     __pyx_t_2 = ((__pyx_v_distance <= __pyx_v_self->_boid_radius) != 0);
     if (__pyx_t_2) {
 
-      /* "plexsim/models/magnetic_boids.pyx":264
- *                 # self._coordinates[node, 1] += self._coordinates[node, 1] - self._coordinates[other, 1]
- * 
+      /* "plexsim/models/magnetic_boids.pyx":271
+ *             distance = sqrt(distance)
+ *             if distance <= self._boid_radius:
  *                 for idx in range(2):             # <<<<<<<<<<<<<<
- *                     # self._coordinates[node, idx] -= self._dt * (
  *                     self._coordinates[node, idx] -= self._velocities[node, idx] * self._dt
+ *                     # self._velocities[node, idx]  += .1
  */
       for (__pyx_t_4 = 0; __pyx_t_4 < 2; __pyx_t_4+=1) {
         __pyx_v_idx = __pyx_t_4;
 
-        /* "plexsim/models/magnetic_boids.pyx":266
+        /* "plexsim/models/magnetic_boids.pyx":272
+ *             if distance <= self._boid_radius:
  *                 for idx in range(2):
- *                     # self._coordinates[node, idx] -= self._dt * (
  *                     self._coordinates[node, idx] -= self._velocities[node, idx] * self._dt             # <<<<<<<<<<<<<<
- *                     # self._coordinates[node, idx] -= 2 * self._dt * (self._coordinates[node, idx] - self._coordinates[other, idx])
- *                 # counter += 1
+ *                     # self._velocities[node, idx]  += .1
+ *             post(it)
  */
         __pyx_t_3 = __pyx_v_node;
         __pyx_t_5 = __pyx_v_idx;
@@ -6595,18 +6587,18 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__check_col
         *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_coordinates.data + __pyx_t_7 * __pyx_v_self->_coordinates.strides[0]) )) + __pyx_t_8)) )) -= ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_velocities.data + __pyx_t_3 * __pyx_v_self->_velocities.strides[0]) )) + __pyx_t_5)) ))) * __pyx_v_self->_dt);
       }
 
-      /* "plexsim/models/magnetic_boids.pyx":258
+      /* "plexsim/models/magnetic_boids.pyx":270
  *                 distance += (x1 - x2)**2
  *             distance = sqrt(distance)
  *             if distance <= self._boid_radius:             # <<<<<<<<<<<<<<
- *                 # velocity[0] += self._coordinates[node, 0] - self._coordinates[other, 0]
- *                 # velocity[1] += self._coordinates[node, 1] - self._coordinates[other, 1]
+ *                 for idx in range(2):
+ *                     self._coordinates[node, idx] -= self._velocities[node, idx] * self._dt
  */
     }
 
-    /* "plexsim/models/magnetic_boids.pyx":269
- *                     # self._coordinates[node, idx] -= 2 * self._dt * (self._coordinates[node, idx] - self._coordinates[other, idx])
- *                 # counter += 1
+    /* "plexsim/models/magnetic_boids.pyx":274
+ *                     self._coordinates[node, idx] -= self._velocities[node, idx] * self._dt
+ *                     # self._velocities[node, idx]  += .1
  *             post(it)             # <<<<<<<<<<<<<<
  *         return
  * 
@@ -6614,8 +6606,8 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__check_col
     (void)((__pyx_v_it++));
   }
 
-  /* "plexsim/models/magnetic_boids.pyx":270
- *                 # counter += 1
+  /* "plexsim/models/magnetic_boids.pyx":275
+ *                     # self._velocities[node, idx]  += .1
  *             post(it)
  *         return             # <<<<<<<<<<<<<<
  * 
@@ -6623,7 +6615,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__check_col
  */
   goto __pyx_L0;
 
-  /* "plexsim/models/magnetic_boids.pyx":232
+  /* "plexsim/models/magnetic_boids.pyx":244
  *         return
  * 
  *     cdef void _check_collision(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -6643,7 +6635,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__check_col
   __pyx_L0:;
 }
 
-/* "plexsim/models/magnetic_boids.pyx":272
+/* "plexsim/models/magnetic_boids.pyx":277
  *         return
  * 
  *     cdef void _check_boundary(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -6664,7 +6656,7 @@ static void __pyx_f_7plexsim_6models_14magnetic_boids_13MagneticBoids__check_bou
   __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_9;
   size_t __pyx_t_10;
 
-  /* "plexsim/models/magnetic_boids.pyx":275
+  /* "plexsim/models/magnetic_boids.pyx":280
  *         cdef size_t idx
  *         # check bounds
  *         for idx in range(len(self._coordinates[node])):             # <<<<<<<<<<<<<<
@@ -6694,7 +6686,7 @@ __pyx_t_2 = __Pyx_MemoryView_Len(__pyx_t_1);
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_idx = __pyx_t_4;
 
-    /* "plexsim/models/magnetic_boids.pyx":281
+    /* "plexsim/models/magnetic_boids.pyx":286
  *             #         return
  *             # # outside lower bound
  *             if self._coordinates[node,idx] <= self._bounds[0]:             # <<<<<<<<<<<<<<
@@ -6708,7 +6700,7 @@ __pyx_t_2 = __Pyx_MemoryView_Len(__pyx_t_1);
     __pyx_t_8 = (((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_coordinates.data + __pyx_t_5 * __pyx_v_self->_coordinates.strides[0]) )) + __pyx_t_6)) ))) <= (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->_bounds.data) + __pyx_t_7)) )))) != 0);
     if (__pyx_t_8) {
 
-      /* "plexsim/models/magnetic_boids.pyx":282
+      /* "plexsim/models/magnetic_boids.pyx":287
  *             # # outside lower bound
  *             if self._coordinates[node,idx] <= self._bounds[0]:
  *                 self._coordinates[node, idx] = self._wrap(self._coordinates[node, idx], self._bounds[1])             # <<<<<<<<<<<<<<
@@ -6723,7 +6715,7 @@ __pyx_t_2 = __Pyx_MemoryView_Len(__pyx_t_1);
       __pyx_t_10 = __pyx_v_idx;
       *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_coordinates.data + __pyx_t_9 * __pyx_v_self->_coordinates.strides[0]) )) + __pyx_t_10)) )) = ((struct __pyx_vtabstruct_7plexsim_6models_14magnetic_boids_MagneticBoids *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->_wrap(__pyx_v_self, (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_coordinates.data + __pyx_t_5 * __pyx_v_self->_coordinates.strides[0]) )) + __pyx_t_6)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->_bounds.data) + __pyx_t_7)) ))));
 
-      /* "plexsim/models/magnetic_boids.pyx":281
+      /* "plexsim/models/magnetic_boids.pyx":286
  *             #         return
  *             # # outside lower bound
  *             if self._coordinates[node,idx] <= self._bounds[0]:             # <<<<<<<<<<<<<<
@@ -6732,7 +6724,7 @@ __pyx_t_2 = __Pyx_MemoryView_Len(__pyx_t_1);
  */
     }
 
-    /* "plexsim/models/magnetic_boids.pyx":285
+    /* "plexsim/models/magnetic_boids.pyx":290
  *             #     self._coordinates[node, idx]  = self._bounds[1] + self._coordinates[node, idx]
  *             # # outside upper bound
  *             if self._coordinates[node, idx]  >= self._bounds[1]:             # <<<<<<<<<<<<<<
@@ -6746,7 +6738,7 @@ __pyx_t_2 = __Pyx_MemoryView_Len(__pyx_t_1);
     __pyx_t_8 = (((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_coordinates.data + __pyx_t_5 * __pyx_v_self->_coordinates.strides[0]) )) + __pyx_t_6)) ))) >= (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->_bounds.data) + __pyx_t_7)) )))) != 0);
     if (__pyx_t_8) {
 
-      /* "plexsim/models/magnetic_boids.pyx":286
+      /* "plexsim/models/magnetic_boids.pyx":291
  *             # # outside upper bound
  *             if self._coordinates[node, idx]  >= self._bounds[1]:
  *                 self._coordinates[node, idx] = self._wrap(self._coordinates[node, idx], self._bounds[1])             # <<<<<<<<<<<<<<
@@ -6761,7 +6753,7 @@ __pyx_t_2 = __Pyx_MemoryView_Len(__pyx_t_1);
       __pyx_t_10 = __pyx_v_idx;
       *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_coordinates.data + __pyx_t_9 * __pyx_v_self->_coordinates.strides[0]) )) + __pyx_t_10)) )) = ((struct __pyx_vtabstruct_7plexsim_6models_14magnetic_boids_MagneticBoids *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->_wrap(__pyx_v_self, (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_coordinates.data + __pyx_t_5 * __pyx_v_self->_coordinates.strides[0]) )) + __pyx_t_6)) ))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->_bounds.data) + __pyx_t_7)) ))));
 
-      /* "plexsim/models/magnetic_boids.pyx":285
+      /* "plexsim/models/magnetic_boids.pyx":290
  *             #     self._coordinates[node, idx]  = self._bounds[1] + self._coordinates[node, idx]
  *             # # outside upper bound
  *             if self._coordinates[node, idx]  >= self._bounds[1]:             # <<<<<<<<<<<<<<
@@ -6771,7 +6763,7 @@ __pyx_t_2 = __Pyx_MemoryView_Len(__pyx_t_1);
     }
   }
 
-  /* "plexsim/models/magnetic_boids.pyx":288
+  /* "plexsim/models/magnetic_boids.pyx":293
  *                 self._coordinates[node, idx] = self._wrap(self._coordinates[node, idx], self._bounds[1])
  *                 # self._coordinates[node, idx] = fmod(self._coordinates[node, idx], self._bounds[1])
  *         return             # <<<<<<<<<<<<<<
@@ -6780,7 +6772,7 @@ __pyx_t_2 = __Pyx_MemoryView_Len(__pyx_t_1);
  */
   goto __pyx_L0;
 
-  /* "plexsim/models/magnetic_boids.pyx":272
+  /* "plexsim/models/magnetic_boids.pyx":277
  *         return
  * 
  *     cdef void _check_boundary(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -6792,7 +6784,7 @@ __pyx_t_2 = __Pyx_MemoryView_Len(__pyx_t_1);
   __pyx_L0:;
 }
 
-/* "plexsim/models/magnetic_boids.pyx":291
+/* "plexsim/models/magnetic_boids.pyx":296
  * 
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -6823,7 +6815,7 @@ static PyObject *__pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_11bo
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/magnetic_boids.pyx":293
+  /* "plexsim/models/magnetic_boids.pyx":298
  *     @property
  *     def boid_radius(self):
  *         return self._boid_radius             # <<<<<<<<<<<<<<
@@ -6831,13 +6823,13 @@ static PyObject *__pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_11bo
  *     @boid_radius.setter
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_boid_radius); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 293, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_boid_radius); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 298, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/magnetic_boids.pyx":291
+  /* "plexsim/models/magnetic_boids.pyx":296
  * 
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -6856,7 +6848,7 @@ static PyObject *__pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_11bo
   return __pyx_r;
 }
 
-/* "plexsim/models/magnetic_boids.pyx":295
+/* "plexsim/models/magnetic_boids.pyx":300
  *         return self._boid_radius
  * 
  *     @boid_radius.setter             # <<<<<<<<<<<<<<
@@ -6887,17 +6879,17 @@ static int __pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_11boid_rad
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "plexsim/models/magnetic_boids.pyx":297
+  /* "plexsim/models/magnetic_boids.pyx":302
  *     @boid_radius.setter
  *     def boid_radius(self, value):
  *         self._boid_radius = value             # <<<<<<<<<<<<<<
  *     @property
  *     def coordinates(self):
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 297, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 302, __pyx_L1_error)
   __pyx_v_self->_boid_radius = __pyx_t_1;
 
-  /* "plexsim/models/magnetic_boids.pyx":295
+  /* "plexsim/models/magnetic_boids.pyx":300
  *         return self._boid_radius
  * 
  *     @boid_radius.setter             # <<<<<<<<<<<<<<
@@ -6916,7 +6908,7 @@ static int __pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_11boid_rad
   return __pyx_r;
 }
 
-/* "plexsim/models/magnetic_boids.pyx":298
+/* "plexsim/models/magnetic_boids.pyx":303
  *     def boid_radius(self, value):
  *         self._boid_radius = value
  *     @property             # <<<<<<<<<<<<<<
@@ -6948,7 +6940,7 @@ static PyObject *__pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_11co
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/magnetic_boids.pyx":300
+  /* "plexsim/models/magnetic_boids.pyx":305
  *     @property
  *     def coordinates(self):
  *         return self._coordinates.base             # <<<<<<<<<<<<<<
@@ -6956,16 +6948,16 @@ static PyObject *__pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_11co
  *     def coordinates(self, value):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->_coordinates, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 300, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->_coordinates, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 305, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_base); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 300, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_base); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 305, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/magnetic_boids.pyx":298
+  /* "plexsim/models/magnetic_boids.pyx":303
  *     def boid_radius(self, value):
  *         self._boid_radius = value
  *     @property             # <<<<<<<<<<<<<<
@@ -6985,7 +6977,7 @@ static PyObject *__pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_11co
   return __pyx_r;
 }
 
-/* "plexsim/models/magnetic_boids.pyx":301
+/* "plexsim/models/magnetic_boids.pyx":306
  *     def coordinates(self):
  *         return self._coordinates.base
  *     @coordinates.setter             # <<<<<<<<<<<<<<
@@ -7016,20 +7008,20 @@ static int __pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_11coordina
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "plexsim/models/magnetic_boids.pyx":303
+  /* "plexsim/models/magnetic_boids.pyx":308
  *     @coordinates.setter
  *     def coordinates(self, value):
  *         self._coordinates = value             # <<<<<<<<<<<<<<
  *     @property
  *     def velocities(self):
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 303, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 308, __pyx_L1_error)
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_self->_coordinates, 0);
   __pyx_v_self->_coordinates = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "plexsim/models/magnetic_boids.pyx":301
+  /* "plexsim/models/magnetic_boids.pyx":306
  *     def coordinates(self):
  *         return self._coordinates.base
  *     @coordinates.setter             # <<<<<<<<<<<<<<
@@ -7049,7 +7041,7 @@ static int __pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_11coordina
   return __pyx_r;
 }
 
-/* "plexsim/models/magnetic_boids.pyx":304
+/* "plexsim/models/magnetic_boids.pyx":309
  *     def coordinates(self, value):
  *         self._coordinates = value
  *     @property             # <<<<<<<<<<<<<<
@@ -7081,7 +7073,7 @@ static PyObject *__pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_10ve
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/magnetic_boids.pyx":306
+  /* "plexsim/models/magnetic_boids.pyx":311
  *     @property
  *     def velocities(self):
  *         return self._velocities.base             # <<<<<<<<<<<<<<
@@ -7089,16 +7081,16 @@ static PyObject *__pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_10ve
  *     @velocities.setter
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->_velocities, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 306, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->_velocities, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 311, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_base); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 306, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_base); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 311, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/magnetic_boids.pyx":304
+  /* "plexsim/models/magnetic_boids.pyx":309
  *     def coordinates(self, value):
  *         self._coordinates = value
  *     @property             # <<<<<<<<<<<<<<
@@ -7118,7 +7110,7 @@ static PyObject *__pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_10ve
   return __pyx_r;
 }
 
-/* "plexsim/models/magnetic_boids.pyx":308
+/* "plexsim/models/magnetic_boids.pyx":313
  *         return self._velocities.base
  * 
  *     @velocities.setter             # <<<<<<<<<<<<<<
@@ -7149,20 +7141,20 @@ static int __pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_10velociti
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "plexsim/models/magnetic_boids.pyx":310
+  /* "plexsim/models/magnetic_boids.pyx":315
  *     @velocities.setter
  *     def velocities(self, value):
  *         self._velocities = value             # <<<<<<<<<<<<<<
  *     @property
  *     def bounds(self):
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 310, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 315, __pyx_L1_error)
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_self->_velocities, 0);
   __pyx_v_self->_velocities = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "plexsim/models/magnetic_boids.pyx":308
+  /* "plexsim/models/magnetic_boids.pyx":313
  *         return self._velocities.base
  * 
  *     @velocities.setter             # <<<<<<<<<<<<<<
@@ -7182,7 +7174,7 @@ static int __pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_10velociti
   return __pyx_r;
 }
 
-/* "plexsim/models/magnetic_boids.pyx":311
+/* "plexsim/models/magnetic_boids.pyx":316
  *     def velocities(self, value):
  *         self._velocities = value
  *     @property             # <<<<<<<<<<<<<<
@@ -7214,7 +7206,7 @@ static PyObject *__pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_6bou
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/magnetic_boids.pyx":313
+  /* "plexsim/models/magnetic_boids.pyx":318
  *     @property
  *     def bounds(self):
  *         return self._bounds.base             # <<<<<<<<<<<<<<
@@ -7222,16 +7214,16 @@ static PyObject *__pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_6bou
  *     def radius(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->_bounds, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 313, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->_bounds, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 318, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_base); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 313, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_base); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 318, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/magnetic_boids.pyx":311
+  /* "plexsim/models/magnetic_boids.pyx":316
  *     def velocities(self, value):
  *         self._velocities = value
  *     @property             # <<<<<<<<<<<<<<
@@ -7251,7 +7243,7 @@ static PyObject *__pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_6bou
   return __pyx_r;
 }
 
-/* "plexsim/models/magnetic_boids.pyx":314
+/* "plexsim/models/magnetic_boids.pyx":319
  *     def bounds(self):
  *         return self._bounds.base
  *     @property             # <<<<<<<<<<<<<<
@@ -7282,7 +7274,7 @@ static PyObject *__pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_6rad
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/magnetic_boids.pyx":316
+  /* "plexsim/models/magnetic_boids.pyx":321
  *     @property
  *     def radius(self):
  *         return self._radius             # <<<<<<<<<<<<<<
@@ -7290,13 +7282,13 @@ static PyObject *__pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_6rad
  *     def radius(self, value):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_radius); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 316, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_radius); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 321, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/magnetic_boids.pyx":314
+  /* "plexsim/models/magnetic_boids.pyx":319
  *     def bounds(self):
  *         return self._bounds.base
  *     @property             # <<<<<<<<<<<<<<
@@ -7315,7 +7307,7 @@ static PyObject *__pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_6rad
   return __pyx_r;
 }
 
-/* "plexsim/models/magnetic_boids.pyx":317
+/* "plexsim/models/magnetic_boids.pyx":322
  *     def radius(self):
  *         return self._radius
  *     @radius.setter             # <<<<<<<<<<<<<<
@@ -7346,17 +7338,17 @@ static int __pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_6radius_2_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "plexsim/models/magnetic_boids.pyx":319
+  /* "plexsim/models/magnetic_boids.pyx":324
  *     @radius.setter
  *     def radius(self, value):
  *         self._radius = value             # <<<<<<<<<<<<<<
  *     @property
  *     def dt(self):
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 319, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 324, __pyx_L1_error)
   __pyx_v_self->_radius = __pyx_t_1;
 
-  /* "plexsim/models/magnetic_boids.pyx":317
+  /* "plexsim/models/magnetic_boids.pyx":322
  *     def radius(self):
  *         return self._radius
  *     @radius.setter             # <<<<<<<<<<<<<<
@@ -7375,7 +7367,7 @@ static int __pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_6radius_2_
   return __pyx_r;
 }
 
-/* "plexsim/models/magnetic_boids.pyx":320
+/* "plexsim/models/magnetic_boids.pyx":325
  *     def radius(self, value):
  *         self._radius = value
  *     @property             # <<<<<<<<<<<<<<
@@ -7406,7 +7398,7 @@ static PyObject *__pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_2dt_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/magnetic_boids.pyx":322
+  /* "plexsim/models/magnetic_boids.pyx":327
  *     @property
  *     def dt(self):
  *         return self._dt             # <<<<<<<<<<<<<<
@@ -7414,13 +7406,13 @@ static PyObject *__pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_2dt_
  *     def dt(self, value):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_dt); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 322, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_dt); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 327, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/magnetic_boids.pyx":320
+  /* "plexsim/models/magnetic_boids.pyx":325
  *     def radius(self, value):
  *         self._radius = value
  *     @property             # <<<<<<<<<<<<<<
@@ -7439,7 +7431,7 @@ static PyObject *__pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_2dt_
   return __pyx_r;
 }
 
-/* "plexsim/models/magnetic_boids.pyx":323
+/* "plexsim/models/magnetic_boids.pyx":328
  *     def dt(self):
  *         return self._dt
  *     @dt.setter             # <<<<<<<<<<<<<<
@@ -7470,15 +7462,15 @@ static int __pyx_pf_7plexsim_6models_14magnetic_boids_13MagneticBoids_2dt_2__set
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "plexsim/models/magnetic_boids.pyx":325
+  /* "plexsim/models/magnetic_boids.pyx":330
  *     @dt.setter
  *     def dt(self, value):
  *         self._dt = value             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 325, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 330, __pyx_L1_error)
   __pyx_v_self->_dt = __pyx_t_1;
 
-  /* "plexsim/models/magnetic_boids.pyx":323
+  /* "plexsim/models/magnetic_boids.pyx":328
  *     def dt(self):
  *         return self._dt
  *     @dt.setter             # <<<<<<<<<<<<<<

@@ -1,6 +1,5 @@
 .gitattributes
 .gitignore
-5.13.7-arch1-g14-3
 MANIFEST.in
 Makefile
 build_docs.sh

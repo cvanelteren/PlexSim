@@ -165,7 +165,7 @@ cdef class MagneticBoids(ValueNetwork):
             size_t neighbor
             double weight
             double n = <double>(self.adj._adj[node].neighbors.size())
-            double z = 1
+            double z = 0
             size_t idx
             rule_t rule
             double update
@@ -178,8 +178,19 @@ cdef class MagneticBoids(ValueNetwork):
         # rule 2: boids attempt to keep a small distance away from other boids
         # rule 3: boids attempt to match velocity with nearby boids
 
-        if n != 0:
-            z = 1/n
+        # with gil:
+        #     print(self._coordinates.base[node])
+        #     print(self.adj._adj[node].neighbors.size())
+
+        z = n
+
+        # if n != 0:
+            # z = 1/n
+
+        for idx in range(2):
+           self._coordinates[node, idx] += self._explore * (self._rng._rand() * 2 - 1) * exp(-z) * self._dt
+           self._velocities[node, idx] += self._explore *(self._rng._rand() * 2 - 1) * exp(-z) * self._dt
+
         it = self.adj._adj[node].neighbors.begin()
         while it != self.adj._adj[node].neighbors.end():
             # unpack neighbor
@@ -187,19 +198,18 @@ cdef class MagneticBoids(ValueNetwork):
             weight = deref(it).second
             # update positions
             update = self._rules._adj[self._states[node]][self._states[neighbor]]
+            # update = 1
             distance_weight = 0
             for idx in range(2):
                 # compute alignment
-                coordinate[idx] +=  update*(self._coordinates[neighbor, idx] - self._coordinates[node, idx])
-                velocity[idx] +=  update*(self._velocities[neighbor, idx] - self._velocities[node, idx])
+                coordinate[idx] +=  update * (self._coordinates[neighbor, idx] - self._coordinates[node, idx])
+                velocity[idx]   +=  update * (self._velocities[neighbor, idx]  - self._velocities[node, idx])
             post(it)
 
         #compute average position
         for idx in range(2):
            # allow random exploration if numer of neighbors is low
            # TODO: perhaps add a float here to scale the exploration
-           self._coordinates[node, idx] += (self._rng._rand() * 2 - 1) * exp(-z * self._explore) * self._dt
-           self._velocities[node, idx] += (self._rng._rand() * 2 - 1) * exp(-z * self._explore) * self._dt
            coordinate[idx] *= z
            velocity[idx] *= z
 
@@ -219,6 +229,8 @@ cdef class MagneticBoids(ValueNetwork):
                      self._velocities[node, idx] = -self._max_speed
                  else:
                      self._velocities[node, idx] = self._max_speed
+            # if fabs(self._velocities[node, idx]) < .1:
+                # self._velocities[node, idx] = .1
 
         # move to average position of neighborhood
         self._coordinates[node, 0] += (self._velocities[node, 0]) * self._dt  #% self._bounds[0]
@@ -256,16 +268,9 @@ cdef class MagneticBoids(ValueNetwork):
                 distance += (x1 - x2)**2
             distance = sqrt(distance)
             if distance <= self._boid_radius:
-                # velocity[0] += self._coordinates[node, 0] - self._coordinates[other, 0]
-                # velocity[1] += self._coordinates[node, 1] - self._coordinates[other, 1]
-                # self._coordinates[node, 0] += self._coordinates[node, 0] - self._coordinates[other, 0]
-                # self._coordinates[node, 1] += self._coordinates[node, 1] - self._coordinates[other, 1]
-
                 for idx in range(2):
-                    # self._coordinates[node, idx] -= self._dt * (
                     self._coordinates[node, idx] -= self._velocities[node, idx] * self._dt
-                    # self._coordinates[node, idx] -= 2 * self._dt * (self._coordinates[node, idx] - self._coordinates[other, idx])
-                # counter += 1
+                    # self._velocities[node, idx]  += .1
             post(it)
         return
 

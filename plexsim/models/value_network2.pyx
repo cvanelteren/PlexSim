@@ -448,6 +448,20 @@ cdef class ValueNetwork(Potts):
             self._newstates[node] = proposal
         return
 
+    def dump_rules(self) -> nx.Graph or nx.DiGraph:
+        """
+        Takes the possibly "full" graph, i.e. a networkx graph with negative edges weights,
+        and removes all those edges.
+
+        Returns
+        -------
+        Networkx graph without any negative or zero edge weight.
+        """
+        edges = [(i, j) for i, j, d in self.rules.edges(data = True) if dict(d).get('weight', 0) > 0]
+        return nx.from_edgelist(edges)
+
+
+
 # cdef class ValueNetworkNP(Potts):
 
 #     def __init__(self, graph,
