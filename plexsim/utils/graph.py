@@ -271,3 +271,34 @@ def jujujajaki(g, t, p1, p2, p3, w0=0.2, delta=0.1):
                     )
         results.append(g.copy())
     return results
+
+
+def _extract_roles(queue: list, g: nx.Graph, roles: list, paths: list) -> list:
+
+    if len(paths[-1]) > len(roles[-1]):
+        # print("exiting!")
+        # print(f"{paths} \t {roles}")
+        return roles, paths
+
+    if queue:
+        node = queue.pop()
+        # print(f"At {node}")
+        for neighbor in g.neighbors(node):
+            # check if role exists
+            role_neighbor = nx.get_node_attributes(g, "role")[neighbor]
+            # print(f"Looking at {neighbor}")
+            if role_neighbor not in roles[-1] and neighbor not in paths[-1]:
+                # move to neighbor add seen role
+                # print(f"Adding {neighbor} to queue")
+                queue.append(neighbor)
+                paths[-1].append(neighbor)
+                roles[-1].append(role_neighbor)
+                roles, paths = _extract_roles(queue, g, roles, paths)
+    return roles, paths
+
+
+def extract_roles(node: int, g: nx.Graph, roles: list) -> list:
+    queue = [node]
+    node_role = nx.get_node_attributes(g, "role")[node]
+    print(f"Testing {node}")
+    return _extract_roles(queue, g, roles=[[node_role]], paths=[[node]])
