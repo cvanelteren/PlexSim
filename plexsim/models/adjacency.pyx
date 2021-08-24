@@ -38,6 +38,7 @@ cdef class Adjacency:
             nodeid            = node.get('id')
             mapping[nodeid]   = nodeidx
             rmapping[nodeidx] = nodeid
+            adj[nodeidx] # init adjacency info
 
         # go through edges
         cdef bint directed  = nodelink.get('directed')
