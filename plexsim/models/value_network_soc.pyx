@@ -77,7 +77,7 @@ cdef class VNSoc(ValueNetwork):
         cdef node_id_t neighbor
         cdef Crawler *crawler
 
-        cdef size_t behavior = <size_t> self._rng._rand() * 3
+        cdef size_t behavior = <size_t> (self._rng._rand() * 3)
 
         # isolate
         if behavior == 0:
@@ -92,12 +92,13 @@ cdef class VNSoc(ValueNetwork):
         # made the if else separte to share the expensive crawler step
         # shared code for next two steps
         crawler = new Crawler(node,
-                                self._states[node],
-                                self._bounded_rational,
-                                self._heuristic,
-                                False)
+                            self._states[node],
+                            self._bounded_rational,
+                            self._heuristic,
+                            False)
         self._check_df(crawler)
         completed_vns = crawler.results.size()
+        self._completed_vns[node] = completed_vns
         del crawler
 
         # explore
