@@ -1796,9 +1796,9 @@ struct __pyx_memoryviewslice_obj {
 
 
 
-/* "plexsim/models/adjacency.pyx":4
- * import networkx as nx, numpy as np
- * cimport numpy as np
+/* "plexsim/models/adjacency.pyx":6
+ * from cython.operator cimport dereference as deref
+ * from cython.operator cimport postincrement as post
  * cdef class Adjacency:             # <<<<<<<<<<<<<<
  *    """
  *     Constructs adj matrix using structs
@@ -4551,7 +4551,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #endif
 /* #### Code section: module_code ### */
 
-/* "plexsim/models/adjacency.pyx":10
+/* "plexsim/models/adjacency.pyx":12
  *         :nx.Graph or nx.DiGraph: graph
  *    """
  *    def __init__(self, object graph):             # <<<<<<<<<<<<<<
@@ -4590,12 +4590,12 @@ static int __pyx_pw_7plexsim_6models_9adjacency_9Adjacency_1__init__(PyObject *_
       switch (__pyx_nargs) {
         case  0:
         if (likely((values[0] = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_graph)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 10, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 12, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 10, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 12, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
@@ -4606,7 +4606,7 @@ static int __pyx_pw_7plexsim_6models_9adjacency_9Adjacency_1__init__(PyObject *_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 10, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 12, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("plexsim.models.adjacency.Adjacency.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4659,7 +4659,7 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
   __Pyx_RefNannySetupContext("__init__", 0);
   __Pyx_INCREF(__pyx_v_graph);
 
-  /* "plexsim/models/adjacency.pyx":15
+  /* "plexsim/models/adjacency.pyx":17
  *         # input validation / construct adj lists
  *         # defaults
  *         cdef double DEFAULTWEIGHT = 1.             # <<<<<<<<<<<<<<
@@ -4668,7 +4668,7 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
  */
   __pyx_v_DEFAULTWEIGHT = 1.;
 
-  /* "plexsim/models/adjacency.pyx":16
+  /* "plexsim/models/adjacency.pyx":18
  *         # defaults
  *         cdef double DEFAULTWEIGHT = 1.
  *         cdef double DEFAULTNUDGE  = 0.             # <<<<<<<<<<<<<<
@@ -4677,22 +4677,22 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
  */
   __pyx_v_DEFAULTNUDGE = 0.;
 
-  /* "plexsim/models/adjacency.pyx":21
+  /* "plexsim/models/adjacency.pyx":23
  * 
  *         # relabel all nodes as strings in order to prevent networkx relabelling
  *         graph = nx.relabel_nodes(graph, {node : str(node) for node in graph.nodes()})             # <<<<<<<<<<<<<<
  *         # forward declaration
  *         cdef:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_nx); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_nx); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_relabel_nodes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_relabel_nodes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   { /* enter inner scope */
-    __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L5_error)
+    __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_graph, __pyx_n_s_nodes); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 21, __pyx_L5_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_graph, __pyx_n_s_nodes); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 23, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_6 = NULL;
     __pyx_t_7 = 0;
@@ -4710,7 +4710,7 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
       PyObject *__pyx_callargs[1] = {__pyx_t_6, };
       __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_7, 0+__pyx_t_7);
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 21, __pyx_L5_error)
+      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 23, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
@@ -4718,9 +4718,9 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
       __pyx_t_5 = __pyx_t_4; __Pyx_INCREF(__pyx_t_5); __pyx_t_8 = 0;
       __pyx_t_9 = NULL;
     } else {
-      __pyx_t_8 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 21, __pyx_L5_error)
+      __pyx_t_8 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 23, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_9 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_5); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 21, __pyx_L5_error)
+      __pyx_t_9 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_5); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 23, __pyx_L5_error)
     }
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     for (;;) {
@@ -4728,17 +4728,17 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
         if (likely(PyList_CheckExact(__pyx_t_5))) {
           if (__pyx_t_8 >= PyList_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_4 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_8); __Pyx_INCREF(__pyx_t_4); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 21, __pyx_L5_error)
+          __pyx_t_4 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_8); __Pyx_INCREF(__pyx_t_4); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 23, __pyx_L5_error)
           #else
-          __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 21, __pyx_L5_error)
+          __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 23, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_4);
           #endif
         } else {
           if (__pyx_t_8 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_8); __Pyx_INCREF(__pyx_t_4); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 21, __pyx_L5_error)
+          __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_8); __Pyx_INCREF(__pyx_t_4); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 23, __pyx_L5_error)
           #else
-          __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 21, __pyx_L5_error)
+          __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 23, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_4);
           #endif
         }
@@ -4748,7 +4748,7 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 21, __pyx_L5_error)
+            else __PYX_ERR(0, 23, __pyx_L5_error)
           }
           break;
         }
@@ -4756,9 +4756,9 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
       }
       __Pyx_XDECREF_SET(__pyx_7genexpr__pyx_v_node, __pyx_t_4);
       __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Str(__pyx_7genexpr__pyx_v_node); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 21, __pyx_L5_error)
+      __pyx_t_4 = __Pyx_PyObject_Str(__pyx_7genexpr__pyx_v_node); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 23, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_4);
-      if (unlikely(PyDict_SetItem(__pyx_t_2, (PyObject*)__pyx_7genexpr__pyx_v_node, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 21, __pyx_L5_error)
+      if (unlikely(PyDict_SetItem(__pyx_t_2, (PyObject*)__pyx_7genexpr__pyx_v_node, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 23, __pyx_L5_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -4786,47 +4786,47 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_7, 2+__pyx_t_7);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __Pyx_DECREF_SET(__pyx_v_graph, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "plexsim/models/adjacency.pyx":24
+  /* "plexsim/models/adjacency.pyx":26
  *         # forward declaration
  *         cdef:
  *             dict mapping = {}             # <<<<<<<<<<<<<<
  *             dict rmapping= {}
  * 
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_mapping = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "plexsim/models/adjacency.pyx":25
+  /* "plexsim/models/adjacency.pyx":27
  *         cdef:
  *             dict mapping = {}
  *             dict rmapping= {}             # <<<<<<<<<<<<<<
  * 
  *             node_id_t source, target
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_rmapping = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "plexsim/models/adjacency.pyx":33
+  /* "plexsim/models/adjacency.pyx":35
  *             weight_t weight
  *             # generate graph in json format
  *             dict nodelink = nx.node_link_data(graph)             # <<<<<<<<<<<<<<
  *             str nodeid
  *             int nodeidx
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_nx); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_nx); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_node_link_data); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_node_link_data); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -4845,15 +4845,15 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
     PyObject *__pyx_callargs[2] = {__pyx_t_3, __pyx_v_graph};
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_7, 1+__pyx_t_7);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
-  if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None) || __Pyx_RaiseUnexpectedTypeError("dict", __pyx_t_1))) __PYX_ERR(0, 33, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None) || __Pyx_RaiseUnexpectedTypeError("dict", __pyx_t_1))) __PYX_ERR(0, 35, __pyx_L1_error)
   __pyx_v_nodelink = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "plexsim/models/adjacency.pyx":37
+  /* "plexsim/models/adjacency.pyx":39
  *             int nodeidx
  * 
  *         for nodeidx, node in enumerate(nodelink.get("nodes")):             # <<<<<<<<<<<<<<
@@ -4863,17 +4863,17 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
   __pyx_t_7 = 0;
   if (unlikely(__pyx_v_nodelink == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "get");
-    __PYX_ERR(0, 37, __pyx_L1_error)
+    __PYX_ERR(0, 39, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_nodelink, __pyx_n_s_nodes, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_nodelink, __pyx_n_s_nodes, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_8 = 0;
     __pyx_t_9 = NULL;
   } else {
-    __pyx_t_8 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L1_error)
+    __pyx_t_8 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_9 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 37, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 39, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -4881,17 +4881,17 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_8 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_8); __Pyx_INCREF(__pyx_t_1); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 37, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_8); __Pyx_INCREF(__pyx_t_1); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 39, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_8 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_8); __Pyx_INCREF(__pyx_t_1); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 37, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_8); __Pyx_INCREF(__pyx_t_1); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 39, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -4901,7 +4901,7 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 37, __pyx_L1_error)
+          else __PYX_ERR(0, 39, __pyx_L1_error)
         }
         break;
       }
@@ -4912,14 +4912,14 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
     __pyx_v_nodeidx = __pyx_t_7;
     __pyx_t_7 = (__pyx_t_7 + 1);
 
-    /* "plexsim/models/adjacency.pyx":38
+    /* "plexsim/models/adjacency.pyx":40
  * 
  *         for nodeidx, node in enumerate(nodelink.get("nodes")):
  *             nodeid            = node.get('id')             # <<<<<<<<<<<<<<
  *             mapping[nodeid]   = nodeidx
  *             rmapping[nodeidx] = nodeid
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_node, __pyx_n_s_get); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_node, __pyx_n_s_get); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 40, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_5 = NULL;
     __pyx_t_10 = 0;
@@ -4937,39 +4937,48 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
       PyObject *__pyx_callargs[2] = {__pyx_t_5, __pyx_n_s_id};
       __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_10, 1+__pyx_t_10);
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
-    if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None) || __Pyx_RaiseUnexpectedTypeError("str", __pyx_t_1))) __PYX_ERR(0, 38, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None) || __Pyx_RaiseUnexpectedTypeError("str", __pyx_t_1))) __PYX_ERR(0, 40, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_nodeid, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "plexsim/models/adjacency.pyx":39
+    /* "plexsim/models/adjacency.pyx":41
  *         for nodeidx, node in enumerate(nodelink.get("nodes")):
  *             nodeid            = node.get('id')
  *             mapping[nodeid]   = nodeidx             # <<<<<<<<<<<<<<
  *             rmapping[nodeidx] = nodeid
- * 
+ *             adj[nodeidx] # init adjacency info
  */
-    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_nodeidx); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_nodeidx); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (unlikely((PyDict_SetItem(__pyx_v_mapping, __pyx_v_nodeid, __pyx_t_1) < 0))) __PYX_ERR(0, 39, __pyx_L1_error)
+    if (unlikely((PyDict_SetItem(__pyx_v_mapping, __pyx_v_nodeid, __pyx_t_1) < 0))) __PYX_ERR(0, 41, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "plexsim/models/adjacency.pyx":40
+    /* "plexsim/models/adjacency.pyx":42
  *             nodeid            = node.get('id')
  *             mapping[nodeid]   = nodeidx
  *             rmapping[nodeidx] = nodeid             # <<<<<<<<<<<<<<
+ *             adj[nodeidx] # init adjacency info
+ * 
+ */
+    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_nodeidx); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    if (unlikely((PyDict_SetItem(__pyx_v_rmapping, __pyx_t_1, __pyx_v_nodeid) < 0))) __PYX_ERR(0, 42, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "plexsim/models/adjacency.pyx":43
+ *             mapping[nodeid]   = nodeidx
+ *             rmapping[nodeidx] = nodeid
+ *             adj[nodeidx] # init adjacency info             # <<<<<<<<<<<<<<
  * 
  *         # go through edges
  */
-    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_nodeidx); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    if (unlikely((PyDict_SetItem(__pyx_v_rmapping, __pyx_t_1, __pyx_v_nodeid) < 0))) __PYX_ERR(0, 40, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    (void)((__pyx_v_adj[__pyx_v_nodeidx]));
 
-    /* "plexsim/models/adjacency.pyx":37
+    /* "plexsim/models/adjacency.pyx":39
  *             int nodeidx
  * 
  *         for nodeidx, node in enumerate(nodelink.get("nodes")):             # <<<<<<<<<<<<<<
@@ -4979,7 +4988,7 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "plexsim/models/adjacency.pyx":43
+  /* "plexsim/models/adjacency.pyx":46
  * 
  *         # go through edges
  *         cdef bint directed  = nodelink.get('directed')             # <<<<<<<<<<<<<<
@@ -4988,15 +4997,15 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
  */
   if (unlikely(__pyx_v_nodelink == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "get");
-    __PYX_ERR(0, 43, __pyx_L1_error)
+    __PYX_ERR(0, 46, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyDict_GetItemDefault(__pyx_v_nodelink, __pyx_n_s_directed, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_GetItemDefault(__pyx_v_nodelink, __pyx_n_s_directed, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_directed = __pyx_t_11;
 
-  /* "plexsim/models/adjacency.pyx":45
+  /* "plexsim/models/adjacency.pyx":48
  *         cdef bint directed  = nodelink.get('directed')
  *         cdef dict link
  *         for link in nodelink['links']:             # <<<<<<<<<<<<<<
@@ -5005,17 +5014,17 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
  */
   if (unlikely(__pyx_v_nodelink == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 45, __pyx_L1_error)
+    __PYX_ERR(0, 48, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_v_nodelink, __pyx_n_s_links); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_v_nodelink, __pyx_n_s_links); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
     __pyx_t_1 = __pyx_t_2; __Pyx_INCREF(__pyx_t_1); __pyx_t_8 = 0;
     __pyx_t_9 = NULL;
   } else {
-    __pyx_t_8 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_8 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_9 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 48, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   for (;;) {
@@ -5023,17 +5032,17 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_8 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_8); __Pyx_INCREF(__pyx_t_2); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 45, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_8); __Pyx_INCREF(__pyx_t_2); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 48, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
         if (__pyx_t_8 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_8); __Pyx_INCREF(__pyx_t_2); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 45, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_8); __Pyx_INCREF(__pyx_t_2); __pyx_t_8++; if (unlikely((0 < 0))) __PYX_ERR(0, 48, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
@@ -5043,17 +5052,17 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 45, __pyx_L1_error)
+          else __PYX_ERR(0, 48, __pyx_L1_error)
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_2);
     }
-    if (!(likely(PyDict_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None) || __Pyx_RaiseUnexpectedTypeError("dict", __pyx_t_2))) __PYX_ERR(0, 45, __pyx_L1_error)
+    if (!(likely(PyDict_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None) || __Pyx_RaiseUnexpectedTypeError("dict", __pyx_t_2))) __PYX_ERR(0, 48, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_link, ((PyObject*)__pyx_t_2));
     __pyx_t_2 = 0;
 
-    /* "plexsim/models/adjacency.pyx":46
+    /* "plexsim/models/adjacency.pyx":49
  *         cdef dict link
  *         for link in nodelink['links']:
  *             source = mapping[link.get('source')]             # <<<<<<<<<<<<<<
@@ -5062,18 +5071,18 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
  */
     if (unlikely(__pyx_v_link == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "get");
-      __PYX_ERR(0, 46, __pyx_L1_error)
+      __PYX_ERR(0, 49, __pyx_L1_error)
     }
-    __pyx_t_2 = __Pyx_PyDict_GetItemDefault(__pyx_v_link, __pyx_n_s_source, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_GetItemDefault(__pyx_v_link, __pyx_n_s_source, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_mapping, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_mapping, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_12 = __Pyx_PyInt_As_size_t(__pyx_t_3); if (unlikely((__pyx_t_12 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyInt_As_size_t(__pyx_t_3); if (unlikely((__pyx_t_12 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_source = __pyx_t_12;
 
-    /* "plexsim/models/adjacency.pyx":47
+    /* "plexsim/models/adjacency.pyx":50
  *         for link in nodelink['links']:
  *             source = mapping[link.get('source')]
  *             target = mapping[link.get('target')]             # <<<<<<<<<<<<<<
@@ -5082,18 +5091,18 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
  */
     if (unlikely(__pyx_v_link == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "get");
-      __PYX_ERR(0, 47, __pyx_L1_error)
+      __PYX_ERR(0, 50, __pyx_L1_error)
     }
-    __pyx_t_3 = __Pyx_PyDict_GetItemDefault(__pyx_v_link, __pyx_n_s_target, Py_None); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItemDefault(__pyx_v_link, __pyx_n_s_target, Py_None); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_v_mapping, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_v_mapping, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_12 = __Pyx_PyInt_As_size_t(__pyx_t_2); if (unlikely((__pyx_t_12 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyInt_As_size_t(__pyx_t_2); if (unlikely((__pyx_t_12 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_target = __pyx_t_12;
 
-    /* "plexsim/models/adjacency.pyx":48
+    /* "plexsim/models/adjacency.pyx":51
  *             source = mapping[link.get('source')]
  *             target = mapping[link.get('target')]
  *             weight = <weight_t> link.get('weight', DEFAULTWEIGHT)             # <<<<<<<<<<<<<<
@@ -5102,18 +5111,18 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
  */
     if (unlikely(__pyx_v_link == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "get");
-      __PYX_ERR(0, 48, __pyx_L1_error)
+      __PYX_ERR(0, 51, __pyx_L1_error)
     }
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_DEFAULTWEIGHT); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_DEFAULTWEIGHT); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyDict_GetItemDefault(__pyx_v_link, __pyx_n_s_weight, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItemDefault(__pyx_v_link, __pyx_n_s_weight, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 51, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L1_error)
+    __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 51, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_weight = ((__pyx_t_7plexsim_6models_5types_weight_t)__pyx_t_13);
 
-    /* "plexsim/models/adjacency.pyx":50
+    /* "plexsim/models/adjacency.pyx":53
  *             weight = <weight_t> link.get('weight', DEFAULTWEIGHT)
  *             # reverse direction for inputs
  *             if directed:             # <<<<<<<<<<<<<<
@@ -5123,7 +5132,7 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
     __pyx_t_11 = (__pyx_v_directed != 0);
     if (__pyx_t_11) {
 
-      /* "plexsim/models/adjacency.pyx":52
+      /* "plexsim/models/adjacency.pyx":55
  *             if directed:
  *                 # get link as input
  *                 adj[target].neighbors[source] = weight             # <<<<<<<<<<<<<<
@@ -5132,7 +5141,7 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
  */
       ((__pyx_v_adj[__pyx_v_target]).neighbors[__pyx_v_source]) = __pyx_v_weight;
 
-      /* "plexsim/models/adjacency.pyx":50
+      /* "plexsim/models/adjacency.pyx":53
  *             weight = <weight_t> link.get('weight', DEFAULTWEIGHT)
  *             # reverse direction for inputs
  *             if directed:             # <<<<<<<<<<<<<<
@@ -5142,7 +5151,7 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
       goto __pyx_L13;
     }
 
-    /* "plexsim/models/adjacency.pyx":55
+    /* "plexsim/models/adjacency.pyx":58
  *             else:
  *                 # add neighbors
  *                 adj[source].neighbors[target] = weight             # <<<<<<<<<<<<<<
@@ -5152,7 +5161,7 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
     /*else*/ {
       ((__pyx_v_adj[__pyx_v_source]).neighbors[__pyx_v_target]) = __pyx_v_weight;
 
-      /* "plexsim/models/adjacency.pyx":56
+      /* "plexsim/models/adjacency.pyx":59
  *                 # add neighbors
  *                 adj[source].neighbors[target] = weight
  *                 adj[target].neighbors[source] = weight             # <<<<<<<<<<<<<<
@@ -5163,7 +5172,7 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
     }
     __pyx_L13:;
 
-    /* "plexsim/models/adjacency.pyx":45
+    /* "plexsim/models/adjacency.pyx":48
  *         cdef bint directed  = nodelink.get('directed')
  *         cdef dict link
  *         for link in nodelink['links']:             # <<<<<<<<<<<<<<
@@ -5173,25 +5182,25 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "plexsim/models/adjacency.pyx":60
+  /* "plexsim/models/adjacency.pyx":63
  *         # public and python accessible
  *         # self.graph       = graph
  *         self.mapping     = mapping             # <<<<<<<<<<<<<<
  *         self.rmapping    = rmapping
  *         self._adj        = adj
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_mapping, __pyx_v_mapping) < 0) __PYX_ERR(0, 60, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_mapping, __pyx_v_mapping) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
 
-  /* "plexsim/models/adjacency.pyx":61
+  /* "plexsim/models/adjacency.pyx":64
  *         # self.graph       = graph
  *         self.mapping     = mapping
  *         self.rmapping    = rmapping             # <<<<<<<<<<<<<<
  *         self._adj        = adj
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rmapping, __pyx_v_rmapping) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rmapping, __pyx_v_rmapping) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
 
-  /* "plexsim/models/adjacency.pyx":62
+  /* "plexsim/models/adjacency.pyx":65
  *         self.mapping     = mapping
  *         self.rmapping    = rmapping
  *         self._adj        = adj             # <<<<<<<<<<<<<<
@@ -5200,19 +5209,19 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
  */
   __pyx_v_self->_adj = __pyx_v_adj;
 
-  /* "plexsim/models/adjacency.pyx":65
+  /* "plexsim/models/adjacency.pyx":68
  * 
  *         # Private
  *         _nodeids         = np.arange(graph.number_of_nodes(), dtype = np.uintp)             # <<<<<<<<<<<<<<
  *         np.random.shuffle(_nodeids) # prevent initial scan-lines in grid
  *         self._nodeids    = _nodeids
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_arange); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_arange); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_graph, __pyx_n_s_number_of_nodes); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_graph, __pyx_n_s_number_of_nodes); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_5 = NULL;
   __pyx_t_7 = 0;
@@ -5230,25 +5239,25 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
     PyObject *__pyx_callargs[1] = {__pyx_t_5, };
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_7, 0+__pyx_t_7);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_uintp); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_uintp); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -5256,19 +5265,19 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
   __pyx_v__nodeids = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "plexsim/models/adjacency.pyx":66
+  /* "plexsim/models/adjacency.pyx":69
  *         # Private
  *         _nodeids         = np.arange(graph.number_of_nodes(), dtype = np.uintp)
  *         np.random.shuffle(_nodeids) # prevent initial scan-lines in grid             # <<<<<<<<<<<<<<
  *         self._nodeids    = _nodeids
  *         self._nNodes     = graph.number_of_nodes()
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_random); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_random); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_shuffle); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_shuffle); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -5287,33 +5296,33 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
     PyObject *__pyx_callargs[2] = {__pyx_t_2, __pyx_v__nodeids};
     __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_7, 1+__pyx_t_7);
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 66, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 69, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "plexsim/models/adjacency.pyx":67
+  /* "plexsim/models/adjacency.pyx":70
  *         _nodeids         = np.arange(graph.number_of_nodes(), dtype = np.uintp)
  *         np.random.shuffle(_nodeids) # prevent initial scan-lines in grid
  *         self._nodeids    = _nodeids             # <<<<<<<<<<<<<<
  *         self._nNodes     = graph.number_of_nodes()
  *         self._directed = directed
  */
-  __pyx_t_14 = __Pyx_PyObject_to_MemoryviewSlice_dc_nn___pyx_t_7plexsim_6models_5types_node_id_t(__pyx_v__nodeids, PyBUF_WRITABLE); if (unlikely(!__pyx_t_14.memview)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyObject_to_MemoryviewSlice_dc_nn___pyx_t_7plexsim_6models_5types_node_id_t(__pyx_v__nodeids, PyBUF_WRITABLE); if (unlikely(!__pyx_t_14.memview)) __PYX_ERR(0, 70, __pyx_L1_error)
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_self->_nodeids, 0);
   __pyx_v_self->_nodeids = __pyx_t_14;
   __pyx_t_14.memview = NULL;
   __pyx_t_14.data = NULL;
 
-  /* "plexsim/models/adjacency.pyx":68
+  /* "plexsim/models/adjacency.pyx":71
  *         np.random.shuffle(_nodeids) # prevent initial scan-lines in grid
  *         self._nodeids    = _nodeids
  *         self._nNodes     = graph.number_of_nodes()             # <<<<<<<<<<<<<<
  *         self._directed = directed
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_graph, __pyx_n_s_number_of_nodes); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_graph, __pyx_n_s_number_of_nodes); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = NULL;
   __pyx_t_7 = 0;
@@ -5331,15 +5340,15 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
     PyObject *__pyx_callargs[1] = {__pyx_t_2, };
     __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_7, 0+__pyx_t_7);
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 71, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
-  __pyx_t_15 = __Pyx_PyInt_As_size_t(__pyx_t_4); if (unlikely((__pyx_t_15 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_15 = __Pyx_PyInt_As_size_t(__pyx_t_4); if (unlikely((__pyx_t_15 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_self->_nNodes = __pyx_t_15;
 
-  /* "plexsim/models/adjacency.pyx":69
+  /* "plexsim/models/adjacency.pyx":72
  *         self._nodeids    = _nodeids
  *         self._nNodes     = graph.number_of_nodes()
  *         self._directed = directed             # <<<<<<<<<<<<<<
@@ -5348,7 +5357,7 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
  */
   __pyx_v_self->_directed = __pyx_v_directed;
 
-  /* "plexsim/models/adjacency.pyx":10
+  /* "plexsim/models/adjacency.pyx":12
  *         :nx.Graph or nx.DiGraph: graph
  *    """
  *    def __init__(self, object graph):             # <<<<<<<<<<<<<<
@@ -5383,7 +5392,7 @@ static int __pyx_pf_7plexsim_6models_9adjacency_9Adjacency___init__(struct __pyx
   return __pyx_r;
 }
 
-/* "plexsim/models/adjacency.pyx":71
+/* "plexsim/models/adjacency.pyx":74
  *         self._directed = directed
  * 
  *    cdef void _add_edge(self, node_id_t x, node_id_t y, double weight = 1) nogil:             # <<<<<<<<<<<<<<
@@ -5400,7 +5409,7 @@ static void __pyx_f_7plexsim_6models_9adjacency_9Adjacency__add_edge(struct __py
     }
   }
 
-  /* "plexsim/models/adjacency.pyx":72
+  /* "plexsim/models/adjacency.pyx":75
  * 
  *    cdef void _add_edge(self, node_id_t x, node_id_t y, double weight = 1) nogil:
  *        self._adj[x].neighbors[y] = weight             # <<<<<<<<<<<<<<
@@ -5409,7 +5418,7 @@ static void __pyx_f_7plexsim_6models_9adjacency_9Adjacency__add_edge(struct __py
  */
   ((__pyx_v_self->_adj[__pyx_v_x]).neighbors[__pyx_v_y]) = __pyx_v_weight;
 
-  /* "plexsim/models/adjacency.pyx":73
+  /* "plexsim/models/adjacency.pyx":76
  *    cdef void _add_edge(self, node_id_t x, node_id_t y, double weight = 1) nogil:
  *        self._adj[x].neighbors[y] = weight
  *        if not self._directed:             # <<<<<<<<<<<<<<
@@ -5419,7 +5428,7 @@ static void __pyx_f_7plexsim_6models_9adjacency_9Adjacency__add_edge(struct __py
   __pyx_t_1 = ((!(__pyx_v_self->_directed != 0)) != 0);
   if (__pyx_t_1) {
 
-    /* "plexsim/models/adjacency.pyx":74
+    /* "plexsim/models/adjacency.pyx":77
  *        self._adj[x].neighbors[y] = weight
  *        if not self._directed:
  *            self._adj[y].neighbors[x] = weight             # <<<<<<<<<<<<<<
@@ -5428,7 +5437,7 @@ static void __pyx_f_7plexsim_6models_9adjacency_9Adjacency__add_edge(struct __py
  */
     ((__pyx_v_self->_adj[__pyx_v_y]).neighbors[__pyx_v_x]) = __pyx_v_weight;
 
-    /* "plexsim/models/adjacency.pyx":73
+    /* "plexsim/models/adjacency.pyx":76
  *    cdef void _add_edge(self, node_id_t x, node_id_t y, double weight = 1) nogil:
  *        self._adj[x].neighbors[y] = weight
  *        if not self._directed:             # <<<<<<<<<<<<<<
@@ -5437,7 +5446,7 @@ static void __pyx_f_7plexsim_6models_9adjacency_9Adjacency__add_edge(struct __py
  */
   }
 
-  /* "plexsim/models/adjacency.pyx":75
+  /* "plexsim/models/adjacency.pyx":78
  *        if not self._directed:
  *            self._adj[y].neighbors[x] = weight
  *        return             # <<<<<<<<<<<<<<
@@ -5446,7 +5455,7 @@ static void __pyx_f_7plexsim_6models_9adjacency_9Adjacency__add_edge(struct __py
  */
   goto __pyx_L0;
 
-  /* "plexsim/models/adjacency.pyx":71
+  /* "plexsim/models/adjacency.pyx":74
  *         self._directed = directed
  * 
  *    cdef void _add_edge(self, node_id_t x, node_id_t y, double weight = 1) nogil:             # <<<<<<<<<<<<<<
@@ -5458,7 +5467,7 @@ static void __pyx_f_7plexsim_6models_9adjacency_9Adjacency__add_edge(struct __py
   __pyx_L0:;
 }
 
-/* "plexsim/models/adjacency.pyx":77
+/* "plexsim/models/adjacency.pyx":80
  *        return
  * 
  *    cdef void _remove_edge(self, node_id_t x, node_id_t y) nogil:             # <<<<<<<<<<<<<<
@@ -5469,7 +5478,7 @@ static void __pyx_f_7plexsim_6models_9adjacency_9Adjacency__add_edge(struct __py
 static void __pyx_f_7plexsim_6models_9adjacency_9Adjacency__remove_edge(struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_x, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_y) {
   int __pyx_t_1;
 
-  /* "plexsim/models/adjacency.pyx":78
+  /* "plexsim/models/adjacency.pyx":81
  * 
  *    cdef void _remove_edge(self, node_id_t x, node_id_t y) nogil:
  *        self._adj[x].neighbors.erase(y)             # <<<<<<<<<<<<<<
@@ -5478,7 +5487,7 @@ static void __pyx_f_7plexsim_6models_9adjacency_9Adjacency__remove_edge(struct _
  */
   (void)((__pyx_v_self->_adj[__pyx_v_x]).neighbors.erase(__pyx_v_y));
 
-  /* "plexsim/models/adjacency.pyx":79
+  /* "plexsim/models/adjacency.pyx":82
  *    cdef void _remove_edge(self, node_id_t x, node_id_t y) nogil:
  *        self._adj[x].neighbors.erase(y)
  *        if not self._directed:             # <<<<<<<<<<<<<<
@@ -5488,7 +5497,7 @@ static void __pyx_f_7plexsim_6models_9adjacency_9Adjacency__remove_edge(struct _
   __pyx_t_1 = ((!(__pyx_v_self->_directed != 0)) != 0);
   if (__pyx_t_1) {
 
-    /* "plexsim/models/adjacency.pyx":80
+    /* "plexsim/models/adjacency.pyx":83
  *        self._adj[x].neighbors.erase(y)
  *        if not self._directed:
  *             self._adj[y].neighbors.erase(x)             # <<<<<<<<<<<<<<
@@ -5497,7 +5506,7 @@ static void __pyx_f_7plexsim_6models_9adjacency_9Adjacency__remove_edge(struct _
  */
     (void)((__pyx_v_self->_adj[__pyx_v_y]).neighbors.erase(__pyx_v_x));
 
-    /* "plexsim/models/adjacency.pyx":79
+    /* "plexsim/models/adjacency.pyx":82
  *    cdef void _remove_edge(self, node_id_t x, node_id_t y) nogil:
  *        self._adj[x].neighbors.erase(y)
  *        if not self._directed:             # <<<<<<<<<<<<<<
@@ -5506,16 +5515,16 @@ static void __pyx_f_7plexsim_6models_9adjacency_9Adjacency__remove_edge(struct _
  */
   }
 
-  /* "plexsim/models/adjacency.pyx":81
+  /* "plexsim/models/adjacency.pyx":84
  *        if not self._directed:
  *             self._adj[y].neighbors.erase(x)
  *        return             # <<<<<<<<<<<<<<
  * 
- *    @property
+ * 
  */
   goto __pyx_L0;
 
-  /* "plexsim/models/adjacency.pyx":77
+  /* "plexsim/models/adjacency.pyx":80
  *        return
  * 
  *    cdef void _remove_edge(self, node_id_t x, node_id_t y) nogil:             # <<<<<<<<<<<<<<
@@ -5527,8 +5536,8 @@ static void __pyx_f_7plexsim_6models_9adjacency_9Adjacency__remove_edge(struct _
   __pyx_L0:;
 }
 
-/* "plexsim/models/adjacency.pyx":83
- *        return
+/* "plexsim/models/adjacency.pyx":87
+ * 
  * 
  *    @property             # <<<<<<<<<<<<<<
  *    def adj(self):
@@ -5559,7 +5568,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_3adj___get__(st
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/adjacency.pyx":89
+  /* "plexsim/models/adjacency.pyx":93
  *        FIXME: further abstract this
  *        """
  *        return dict(self._adj)             # <<<<<<<<<<<<<<
@@ -5567,17 +5576,17 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_3adj___get__(st
  *    @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t____struct____pyx_t_7plexsim_6models_5types_Connection(__pyx_v_self->_adj); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t____struct____pyx_t_7plexsim_6models_5types_Connection(__pyx_v_self->_adj); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyDict_Type)), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyDict_Type)), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/adjacency.pyx":83
- *        return
+  /* "plexsim/models/adjacency.pyx":87
+ * 
  * 
  *    @property             # <<<<<<<<<<<<<<
  *    def adj(self):
@@ -5596,7 +5605,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_3adj___get__(st
   return __pyx_r;
 }
 
-/* "plexsim/models/adjacency.pyx":91
+/* "plexsim/models/adjacency.pyx":95
  *        return dict(self._adj)
  * 
  *    @property             # <<<<<<<<<<<<<<
@@ -5644,19 +5653,19 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_5graph___get__(
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/adjacency.pyx":97
+  /* "plexsim/models/adjacency.pyx":101
  *        as such we have to reconstruct the graph from the lower level mapping.
  *        """
  *        output = dict()             # <<<<<<<<<<<<<<
  *        for k, v in self.adj.items():
  *            node = self.rmapping[k]
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_output = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "plexsim/models/adjacency.pyx":98
+  /* "plexsim/models/adjacency.pyx":102
  *        """
  *        output = dict()
  *        for k, v in self.adj.items():             # <<<<<<<<<<<<<<
@@ -5664,13 +5673,13 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_5graph___get__(
  *            output[node] = dict()
  */
   __pyx_t_2 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_adj); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_adj); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (unlikely(__pyx_t_5 == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "items");
-    __PYX_ERR(0, 98, __pyx_L1_error)
+    __PYX_ERR(0, 102, __pyx_L1_error)
   }
-  __pyx_t_6 = __Pyx_dict_iterator(__pyx_t_5, 0, __pyx_n_s_items, (&__pyx_t_3), (&__pyx_t_4)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_dict_iterator(__pyx_t_5, 0, __pyx_n_s_items, (&__pyx_t_3), (&__pyx_t_4)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_XDECREF(__pyx_t_1);
@@ -5679,7 +5688,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_5graph___get__(
   while (1) {
     __pyx_t_7 = __Pyx_dict_iter_next(__pyx_t_1, __pyx_t_3, &__pyx_t_2, &__pyx_t_6, &__pyx_t_5, NULL, __pyx_t_4);
     if (unlikely(__pyx_t_7 == 0)) break;
-    if (unlikely(__pyx_t_7 == -1)) __PYX_ERR(0, 98, __pyx_L1_error)
+    if (unlikely(__pyx_t_7 == -1)) __PYX_ERR(0, 102, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_XDECREF_SET(__pyx_v_k, __pyx_t_6);
@@ -5687,34 +5696,34 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_5graph___get__(
     __Pyx_XDECREF_SET(__pyx_v_v, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "plexsim/models/adjacency.pyx":99
+    /* "plexsim/models/adjacency.pyx":103
  *        output = dict()
  *        for k, v in self.adj.items():
  *            node = self.rmapping[k]             # <<<<<<<<<<<<<<
  *            output[node] = dict()
  *            for kk, vv in v["neighbors"].items():
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rmapping); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rmapping); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 103, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_v_k); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_v_k); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 103, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_XDECREF_SET(__pyx_v_node, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "plexsim/models/adjacency.pyx":100
+    /* "plexsim/models/adjacency.pyx":104
  *        for k, v in self.adj.items():
  *            node = self.rmapping[k]
  *            output[node] = dict()             # <<<<<<<<<<<<<<
  *            for kk, vv in v["neighbors"].items():
  *                neighbor = self.rmapping[kk]
  */
-    __pyx_t_6 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 100, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 104, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (unlikely((PyDict_SetItem(__pyx_v_output, __pyx_v_node, __pyx_t_6) < 0))) __PYX_ERR(0, 100, __pyx_L1_error)
+    if (unlikely((PyDict_SetItem(__pyx_v_output, __pyx_v_node, __pyx_t_6) < 0))) __PYX_ERR(0, 104, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "plexsim/models/adjacency.pyx":101
+    /* "plexsim/models/adjacency.pyx":105
  *            node = self.rmapping[k]
  *            output[node] = dict()
  *            for kk, vv in v["neighbors"].items():             # <<<<<<<<<<<<<<
@@ -5722,13 +5731,13 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_5graph___get__(
  *                output[node][neighbor] = dict(weight=vv)
  */
     __pyx_t_8 = 0;
-    __pyx_t_5 = __Pyx_PyObject_Dict_GetItem(__pyx_v_v, __pyx_n_s_neighbors); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 101, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Dict_GetItem(__pyx_v_v, __pyx_n_s_neighbors); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 105, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     if (unlikely(__pyx_t_5 == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "items");
-      __PYX_ERR(0, 101, __pyx_L1_error)
+      __PYX_ERR(0, 105, __pyx_L1_error)
     }
-    __pyx_t_10 = __Pyx_dict_iterator(__pyx_t_5, 0, __pyx_n_s_items, (&__pyx_t_9), (&__pyx_t_7)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 101, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_dict_iterator(__pyx_t_5, 0, __pyx_n_s_items, (&__pyx_t_9), (&__pyx_t_7)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 105, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_XDECREF(__pyx_t_6);
@@ -5737,7 +5746,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_5graph___get__(
     while (1) {
       __pyx_t_11 = __Pyx_dict_iter_next(__pyx_t_6, __pyx_t_9, &__pyx_t_8, &__pyx_t_10, &__pyx_t_5, NULL, __pyx_t_7);
       if (unlikely(__pyx_t_11 == 0)) break;
-      if (unlikely(__pyx_t_11 == -1)) __PYX_ERR(0, 101, __pyx_L1_error)
+      if (unlikely(__pyx_t_11 == -1)) __PYX_ERR(0, 105, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_XDECREF_SET(__pyx_v_kk, __pyx_t_10);
@@ -5745,34 +5754,34 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_5graph___get__(
       __Pyx_XDECREF_SET(__pyx_v_vv, __pyx_t_5);
       __pyx_t_5 = 0;
 
-      /* "plexsim/models/adjacency.pyx":102
+      /* "plexsim/models/adjacency.pyx":106
  *            output[node] = dict()
  *            for kk, vv in v["neighbors"].items():
  *                neighbor = self.rmapping[kk]             # <<<<<<<<<<<<<<
  *                output[node][neighbor] = dict(weight=vv)
  *        return nx.from_dict_of_dicts(output)
  */
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rmapping); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 102, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rmapping); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 106, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_v_kk); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 102, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_v_kk); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 106, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_XDECREF_SET(__pyx_v_neighbor, __pyx_t_10);
       __pyx_t_10 = 0;
 
-      /* "plexsim/models/adjacency.pyx":103
+      /* "plexsim/models/adjacency.pyx":107
  *            for kk, vv in v["neighbors"].items():
  *                neighbor = self.rmapping[kk]
  *                output[node][neighbor] = dict(weight=vv)             # <<<<<<<<<<<<<<
  *        return nx.from_dict_of_dicts(output)
  * 
  */
-      __pyx_t_10 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 103, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 107, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
-      if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_weight, __pyx_v_vv) < 0) __PYX_ERR(0, 103, __pyx_L1_error)
-      __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_output, __pyx_v_node); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 103, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_weight, __pyx_v_vv) < 0) __PYX_ERR(0, 107, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_output, __pyx_v_node); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      if (unlikely((PyObject_SetItem(__pyx_t_5, __pyx_v_neighbor, __pyx_t_10) < 0))) __PYX_ERR(0, 103, __pyx_L1_error)
+      if (unlikely((PyObject_SetItem(__pyx_t_5, __pyx_v_neighbor, __pyx_t_10) < 0))) __PYX_ERR(0, 107, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     }
@@ -5780,7 +5789,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_5graph___get__(
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "plexsim/models/adjacency.pyx":104
+  /* "plexsim/models/adjacency.pyx":108
  *                neighbor = self.rmapping[kk]
  *                output[node][neighbor] = dict(weight=vv)
  *        return nx.from_dict_of_dicts(output)             # <<<<<<<<<<<<<<
@@ -5788,9 +5797,9 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_5graph___get__(
  *    def __repr__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_nx); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_nx); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_from_dict_of_dicts); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_from_dict_of_dicts); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = NULL;
@@ -5809,7 +5818,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_5graph___get__(
     PyObject *__pyx_callargs[2] = {__pyx_t_6, __pyx_v_output};
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_10, __pyx_callargs+1-__pyx_t_4, 1+__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   }
@@ -5817,7 +5826,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_5graph___get__(
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/adjacency.pyx":91
+  /* "plexsim/models/adjacency.pyx":95
  *        return dict(self._adj)
  * 
  *    @property             # <<<<<<<<<<<<<<
@@ -5846,7 +5855,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_5graph___get__(
   return __pyx_r;
 }
 
-/* "plexsim/models/adjacency.pyx":106
+/* "plexsim/models/adjacency.pyx":110
  *        return nx.from_dict_of_dicts(output)
  * 
  *    def __repr__(self):             # <<<<<<<<<<<<<<
@@ -5878,7 +5887,7 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_2__repr__(struc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__repr__", 0);
 
-  /* "plexsim/models/adjacency.pyx":109
+  /* "plexsim/models/adjacency.pyx":113
  *         #FIXME: remove this
  *         # Originally used for printing the lower level buffer
  *         return str(self._adj)             # <<<<<<<<<<<<<<
@@ -5886,16 +5895,16 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_2__repr__(struc
  *    def __eq__(self, other):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t____struct____pyx_t_7plexsim_6models_5types_Connection(__pyx_v_self->_adj); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 109, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t____struct____pyx_t_7plexsim_6models_5types_Connection(__pyx_v_self->_adj); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Str(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 109, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Str(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/adjacency.pyx":106
+  /* "plexsim/models/adjacency.pyx":110
  *        return nx.from_dict_of_dicts(output)
  * 
  *    def __repr__(self):             # <<<<<<<<<<<<<<
@@ -5915,11 +5924,10 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_2__repr__(struc
   return __pyx_r;
 }
 
-/* "plexsim/models/adjacency.pyx":111
+/* "plexsim/models/adjacency.pyx":115
  *         return str(self._adj)
  * 
  *    def __eq__(self, other):             # <<<<<<<<<<<<<<
- * 
  *        return self.adj == other.adj
  */
 
@@ -5948,28 +5956,27 @@ static PyObject *__pyx_pf_7plexsim_6models_9adjacency_9Adjacency_4__eq__(struct 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__eq__", 0);
 
-  /* "plexsim/models/adjacency.pyx":113
- *    def __eq__(self, other):
+  /* "plexsim/models/adjacency.pyx":116
  * 
+ *    def __eq__(self, other):
  *        return self.adj == other.adj             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_adj); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 113, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_adj); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_adj); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 113, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_adj); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 113, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/adjacency.pyx":111
+  /* "plexsim/models/adjacency.pyx":115
  *         return str(self._adj)
  * 
  *    def __eq__(self, other):             # <<<<<<<<<<<<<<
- * 
  *        return self.adj == other.adj
  */
 
@@ -23881,7 +23888,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 };
 /* #### Code section: cached_builtins ### */
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 39, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 987, __pyx_L1_error)
   __pyx_builtin_KeyError = __Pyx_GetBuiltinName(__pyx_n_s_KeyError); if (!__pyx_builtin_KeyError) __PYX_ERR(1, 19, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 20, __pyx_L1_error)
@@ -24302,26 +24309,26 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_7plexsim_6models_9adjacency_Adjacency._add_edge = (void (*)(struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t, struct __pyx_opt_args_7plexsim_6models_9adjacency_9Adjacency__add_edge *__pyx_optional_args))__pyx_f_7plexsim_6models_9adjacency_9Adjacency__add_edge;
   __pyx_vtable_7plexsim_6models_9adjacency_Adjacency._remove_edge = (void (*)(struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t))__pyx_f_7plexsim_6models_9adjacency_9Adjacency__remove_edge;
   #if CYTHON_USE_TYPE_SPECS
-  __pyx_ptype_7plexsim_6models_9adjacency_Adjacency = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_7plexsim_6models_9adjacency_Adjacency_spec, NULL); if (unlikely(!__pyx_ptype_7plexsim_6models_9adjacency_Adjacency)) __PYX_ERR(0, 4, __pyx_L1_error)
-  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_7plexsim_6models_9adjacency_Adjacency_spec, __pyx_ptype_7plexsim_6models_9adjacency_Adjacency) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_ptype_7plexsim_6models_9adjacency_Adjacency = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_7plexsim_6models_9adjacency_Adjacency_spec, NULL); if (unlikely(!__pyx_ptype_7plexsim_6models_9adjacency_Adjacency)) __PYX_ERR(0, 6, __pyx_L1_error)
+  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_7plexsim_6models_9adjacency_Adjacency_spec, __pyx_ptype_7plexsim_6models_9adjacency_Adjacency) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
   #else
   __pyx_ptype_7plexsim_6models_9adjacency_Adjacency = &__pyx_type_7plexsim_6models_9adjacency_Adjacency;
   #endif
   #if !CYTHON_COMPILING_IN_LIMITED_API
   #endif
   #if !CYTHON_USE_TYPE_SPECS
-  if (__Pyx_PyType_Ready(__pyx_ptype_7plexsim_6models_9adjacency_Adjacency) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
+  if (__Pyx_PyType_Ready(__pyx_ptype_7plexsim_6models_9adjacency_Adjacency) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
   #endif
   #if PY_MAJOR_VERSION < 3
   __pyx_ptype_7plexsim_6models_9adjacency_Adjacency->tp_print = 0;
   #endif
-  if (__Pyx_SetVtable(__pyx_ptype_7plexsim_6models_9adjacency_Adjacency, __pyx_vtabptr_7plexsim_6models_9adjacency_Adjacency) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_ptype_7plexsim_6models_9adjacency_Adjacency, __pyx_vtabptr_7plexsim_6models_9adjacency_Adjacency) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API
-  if (__Pyx_MergeVtables(__pyx_ptype_7plexsim_6models_9adjacency_Adjacency) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
+  if (__Pyx_MergeVtables(__pyx_ptype_7plexsim_6models_9adjacency_Adjacency) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
   #endif
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Adjacency, (PyObject *) __pyx_ptype_7plexsim_6models_9adjacency_Adjacency) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Adjacency, (PyObject *) __pyx_ptype_7plexsim_6models_9adjacency_Adjacency) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API
-  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_7plexsim_6models_9adjacency_Adjacency) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_7plexsim_6models_9adjacency_Adjacency) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
   #endif
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
@@ -24825,7 +24832,7 @@ if (!__Pyx_RefNanny) {
  * #distutils:language=c++
  * import networkx as nx, numpy as np             # <<<<<<<<<<<<<<
  * cimport numpy as np
- * cdef class Adjacency:
+ * from cython.operator cimport dereference as deref
  */
   __pyx_t_1 = __Pyx_ImportDottedModule(__pyx_n_s_networkx, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);

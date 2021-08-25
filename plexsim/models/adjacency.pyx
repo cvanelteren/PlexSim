@@ -1,6 +1,8 @@
 #distutils:language=c++
 import networkx as nx, numpy as np
 cimport numpy as np
+from cython.operator cimport dereference as deref
+from cython.operator cimport postincrement as post
 cdef class Adjacency:
    """
     Constructs adj matrix using structs
@@ -81,6 +83,7 @@ cdef class Adjacency:
             self._adj[y].neighbors.erase(x)
        return
 
+
    @property
    def adj(self):
        """
@@ -110,5 +113,4 @@ cdef class Adjacency:
         return str(self._adj)
 
    def __eq__(self, other):
-
        return self.adj == other.adj
