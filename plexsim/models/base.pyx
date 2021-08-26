@@ -1,4 +1,3 @@
-#distutils: language=c++
 import networkx as nx, functools, time, copy, sys, os
 import numpy as np, networkx as nx
 from pyprind import ProgBar
@@ -278,6 +277,7 @@ cdef class Model:
 
     cdef public void _step(self, node_id_t node) nogil:
         return
+
 
     cpdef node_id_t[:, ::1] sampleNodes(self, size_t nSamples):
         return self._sampleNodes(nSamples)

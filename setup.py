@@ -139,10 +139,12 @@ from setuptools import find_namespace_packages, find_packages
 from sphinx.setup_command import BuildDoc
 
 name = "plexsim"
-version = "2.0"
+version = "3.0"
 packages = find_packages(include=["plexsim", "plexsim.*"], exclude=["bk/*", "bk"])
 
-print(packages)
+
+with open("requirements.txt", "r") as f:
+    required_packages = [i.rstrip() for i in f.readlines()]
 
 sphinx = dict(
     project=("setup.py", name),
@@ -157,8 +159,12 @@ setup(
     name=name,
     author="Casper van Elteren",
     author_email="caspervanelteren@gmail.com",
-    url="cvanelteren.githubio.io",
-    download_url="https://github.com/cvanelteren/PlexSim/archive/refs/tags/v2.5.tar.gz",
+    url="https://github.com/cvanelteren/plexsim",
+    keywords="Complex systems\tAgent-based simulations\tStatistical Physics".split(
+        "\t"
+    ),
+    description="Fast general toolbox for simulating complex systems",
+    download_url="https://github.com/cvanelteren/PlexSim/archive/refs/tags/v3.0.tar.gz",
     version=version,
     zip_safe=False,
     # package_dir        = {"" : "plexsim"},
@@ -170,7 +176,7 @@ setup(
     # data_files=data_files,
     data_files=package_data,
     packages=packages,
-    install_requires="cython numpy networkx".split(),
+    install_requires=required_packages,
     cmdclass=dict(build_sphinx=BuildDoc),
     command_options=dict(build_sphinx=sphinx),
     test_suite="tests",
