@@ -62,9 +62,6 @@ if __name__ == "__main__":
     n = 100
 
     graph = nx.empty_graph(n)
-    # m =  ValueNetwork(graph = graph)
-    # m.simulate(2)
-    # assert 0
     bounds = np.array([0, 30.0])
     settings = dict(
         coordinates=np.random.randn(n, 2) * max(bounds),
@@ -94,7 +91,6 @@ if __name__ == "__main__":
         facecolor="none",
         constrained_layout=True,
         figsize=(5, 5),
-        # gridspec_kw=dict(width_ratios=[1, 0.2]),
     )
     fig.show()
 

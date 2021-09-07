@@ -2,5 +2,6 @@ Data/*
 build/*
 plexsim-*
 plexsim/target
+.ob-jupyter
 *.so
 
