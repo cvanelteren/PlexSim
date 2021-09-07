@@ -40,7 +40,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.ab.AB">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.ab.</span></span><span class="sig-name descname"><span class="pre">AB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zealots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">dict()</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.ab.AB" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <p>Voter AB model</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -62,7 +62,7 @@
 <span class="target" id="module-0"></span><dl class="py class">
 <dt class="sig sig-object py" id="id0">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.ab.</span></span><span class="sig-name descname"><span class="pre">AB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zealots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">dict()</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <p>Voter AB model</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -94,10 +94,24 @@ intput:</p>
 </dd>
 </dl>
 </div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="plexsim.models.adjacency.Adjacency.add_edge">
+<span class="sig-name descname"><span class="pre">add_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">node_id_t</span> <span class="pre">x</span></em>, <em class="sig-param"><span class="pre">node_id_t</span> <span class="pre">y</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">weight=1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.adjacency.Adjacency.add_edge" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="plexsim.models.adjacency.Adjacency.adj">
 <span class="sig-name descname"><span class="pre">adj</span></span><a class="headerlink" href="#plexsim.models.adjacency.Adjacency.adj" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns the adjacency structure.
+FIXME: further abstract this</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plexsim.models.adjacency.Adjacency.graph">
+<span class="sig-name descname"><span class="pre">graph</span></span><a class="headerlink" href="#plexsim.models.adjacency.Adjacency.graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper around retrieving the graph. Some models edit the adjacency structure
+as such we have to reconstruct the graph from the lower level mapping.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -117,10 +131,24 @@ intput:</p>
 </dd>
 </dl>
 </div></blockquote>
-<dl class="py attribute">
+<dl class="py method">
 <dt class="sig sig-object py" id="id8">
-<span class="sig-name descname"><span class="pre">adj</span></span><a class="headerlink" href="#id8" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">node_id_t</span> <span class="pre">x</span></em>, <em class="sig-param"><span class="pre">node_id_t</span> <span class="pre">y</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">weight=1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id8" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">adj</span></span><a class="headerlink" href="#id9" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the adjacency structure.
+FIXME: further abstract this</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">graph</span></span><a class="headerlink" href="#id10" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper around retrieving the graph. Some models edit the adjacency structure
+as such we have to reconstruct the graph from the lower level mapping.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -156,11 +184,15 @@ Non-zero values will activate the genetic algorithm.</p></li>
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="plexsim.models.base.Model.add_edge">
+<span class="sig-name descname"><span class="pre">add_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">node_id_t</span> <span class="pre">x</span></em>, <em class="sig-param"><span class="pre">node_id_t</span> <span class="pre">y</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">weight=1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.base.Model.add_edge" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="plexsim.models.base.Model.adj">
 <span class="sig-name descname"><span class="pre">adj</span></span><a class="headerlink" href="#plexsim.models.base.Model.adj" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the adjacency class</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="plexsim.models.base.Model.agentStates">
@@ -357,7 +389,7 @@ Wraps _spawn method.
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.base.ModelMC">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.base.</span></span><span class="sig-name descname"><span class="pre">ModelMC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p_recomb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.base.ModelMC" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 </dd></dl>
 
 <dl class="py function">
@@ -366,11 +398,11 @@ Wraps _spawn method.
 <dd></dd></dl>
 
 </div>
-<div class="section" id="id9">
-<h2>plexsim.models.base module<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id11">
+<h2>plexsim.models.base module<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-2"></span><dl class="py class">
-<dt class="sig sig-object py" id="id10">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.base.</span></span><span class="sig-name descname"><span class="pre">Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">nx.path_graph(1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.array([0],</span> <span class="pre">dtype=np.int)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nudgeType</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'constant'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updateType</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'async'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nudges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memorySize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kNudges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memento</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_recomb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rules</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">nx.Graph()</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id10" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id12">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.base.</span></span><span class="sig-name descname"><span class="pre">Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">nx.path_graph(1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.array([0],</span> <span class="pre">dtype=np.int)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nudgeType</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'constant'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updateType</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'async'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nudges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memorySize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kNudges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memento</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_recomb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rules</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">nx.Graph()</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id12" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Base class for all modeling classes</p>
 <dl class="field-list simple">
@@ -397,146 +429,150 @@ Non-zero values will activate the genetic algorithm.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id11">
-<span class="sig-name descname"><span class="pre">adj</span></span><a class="headerlink" href="#id11" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the adjacency class</p>
-</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">add_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">node_id_t</span> <span class="pre">x</span></em>, <em class="sig-param"><span class="pre">node_id_t</span> <span class="pre">y</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">weight=1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id13" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id12">
-<span class="sig-name descname"><span class="pre">agentStates</span></span><a class="headerlink" href="#id12" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id14">
+<span class="sig-name descname"><span class="pre">adj</span></span><a class="headerlink" href="#id14" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id15">
+<span class="sig-name descname"><span class="pre">agentStates</span></span><a class="headerlink" href="#id15" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id13">
-<span class="sig-name descname"><span class="pre">get_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">dict</span><a class="headerlink" href="#id13" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">get_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">dict</span><a class="headerlink" href="#id16" title="Permalink to this definition">¶</a></dt>
 <dd><p>Warning this function may cause bugs
 The model properties have to be copied without being overly verbose
 The seed needs to be updated otherwise you will get the model</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id14">
-<span class="sig-name descname"><span class="pre">graph</span></span><a class="headerlink" href="#id14" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id17">
+<span class="sig-name descname"><span class="pre">graph</span></span><a class="headerlink" href="#id17" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns network interaction structure</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id15">
-<span class="sig-name descname"><span class="pre">kNudges</span></span><a class="headerlink" href="#id15" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">kNudges</span></span><a class="headerlink" href="#id18" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deprecated</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id16">
-<span class="sig-name descname"><span class="pre">last_written</span></span><a class="headerlink" href="#id16" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id19">
+<span class="sig-name descname"><span class="pre">last_written</span></span><a class="headerlink" href="#id19" title="Permalink to this definition">¶</a></dt>
 <dd><p>noindex:</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id17">
-<span class="sig-name descname"><span class="pre">mcmc</span></span><a class="headerlink" href="#id17" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id20">
+<span class="sig-name descname"><span class="pre">mcmc</span></span><a class="headerlink" href="#id20" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns metropolis sampler</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id18">
-<span class="sig-name descname"><span class="pre">memento</span></span><a class="headerlink" href="#id18" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id21">
+<span class="sig-name descname"><span class="pre">memento</span></span><a class="headerlink" href="#id21" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id19">
-<span class="sig-name descname"><span class="pre">memory</span></span><a class="headerlink" href="#id19" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id22">
+<span class="sig-name descname"><span class="pre">memory</span></span><a class="headerlink" href="#id22" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns memory buffer</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id20">
-<span class="sig-name descname"><span class="pre">memorySize</span></span><a class="headerlink" href="#id20" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id23">
+<span class="sig-name descname"><span class="pre">memorySize</span></span><a class="headerlink" href="#id23" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns memory size</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id21">
-<span class="sig-name descname"><span class="pre">nNodes</span></span><a class="headerlink" href="#id21" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">nNodes</span></span><a class="headerlink" href="#id24" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns number of nodes in the system</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id22">
-<span class="sig-name descname"><span class="pre">nStates</span></span><a class="headerlink" href="#id22" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id25">
+<span class="sig-name descname"><span class="pre">nStates</span></span><a class="headerlink" href="#id25" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns size of alphabet of each agent</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id23">
-<span class="sig-name descname"><span class="pre">newstates</span></span><a class="headerlink" href="#id23" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id26">
+<span class="sig-name descname"><span class="pre">newstates</span></span><a class="headerlink" href="#id26" title="Permalink to this definition">¶</a></dt>
 <dd><p>nodindex:</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id24">
-<span class="sig-name descname"><span class="pre">nodeids</span></span><a class="headerlink" href="#id24" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id27">
+<span class="sig-name descname"><span class="pre">nodeids</span></span><a class="headerlink" href="#id27" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns node ids
 Note these are not sorted!</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id25">
-<span class="sig-name descname"><span class="pre">nudgeType</span></span><a class="headerlink" href="#id25" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id28">
+<span class="sig-name descname"><span class="pre">nudgeType</span></span><a class="headerlink" href="#id28" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns nudgeType</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id26">
-<span class="sig-name descname"><span class="pre">nudges</span></span><a class="headerlink" href="#id26" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id29">
+<span class="sig-name descname"><span class="pre">nudges</span></span><a class="headerlink" href="#id29" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return dict of nudges</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id27">
-<span class="sig-name descname"><span class="pre">p_recomb</span></span><a class="headerlink" href="#id27" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id30">
+<span class="sig-name descname"><span class="pre">p_recomb</span></span><a class="headerlink" href="#id30" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the recombination probability</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id28">
-<span class="sig-name descname"><span class="pre">removeAllNudges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id28" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id31">
+<span class="sig-name descname"><span class="pre">removeAllNudges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id31" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets all nudges to zero</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id29">
-<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">void</span><a class="headerlink" href="#id29" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id30">
-<span class="sig-name descname"><span class="pre">rng</span></span><a class="headerlink" href="#id30" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns random number generator. See Sampler.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id31">
-<span class="sig-name descname"><span class="pre">rules</span></span><a class="headerlink" href="#id31" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the rule graph as a networkx object</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="id32">
-<span class="sig-name descname"><span class="pre">sampleNodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">size_t</span> <span class="pre">nSamples</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">node_id_t[:,</span> <span class="pre">::1]</span><a class="headerlink" href="#id32" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">void</span><a class="headerlink" href="#id32" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id33">
-<span class="sig-name descname"><span class="pre">sampleSize</span></span><a class="headerlink" href="#id33" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">rng</span></span><a class="headerlink" href="#id33" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns random number generator. See Sampler.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id34">
+<span class="sig-name descname"><span class="pre">rules</span></span><a class="headerlink" href="#id34" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the rule graph as a networkx object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id35">
+<span class="sig-name descname"><span class="pre">sampleNodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">size_t</span> <span class="pre">nSamples</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">node_id_t[:,</span> <span class="pre">::1]</span><a class="headerlink" href="#id35" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id36">
+<span class="sig-name descname"><span class="pre">sampleSize</span></span><a class="headerlink" href="#id36" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns sampleSize</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id34">
-<span class="sig-name descname"><span class="pre">simulate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">size_t</span> <span class="pre">samples</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">ndarray</span><a class="headerlink" href="#id34" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id37">
+<span class="sig-name descname"><span class="pre">simulate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">size_t</span> <span class="pre">samples</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">ndarray</span><a class="headerlink" href="#id37" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrapper for simulating the system</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -554,13 +590,13 @@ Note these are not sorted!</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id35">
-<span class="sig-name descname"><span class="pre">simulate_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">size_t</span> <span class="pre">samples</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">ndarray</span><a class="headerlink" href="#id35" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id38">
+<span class="sig-name descname"><span class="pre">simulate_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">size_t</span> <span class="pre">samples</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">ndarray</span><a class="headerlink" href="#id38" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id36">
-<span class="sig-name descname"><span class="pre">spawn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">size_t</span> <span class="pre">n_jobs=openmp.omp_get_num_threads()</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">list</span><a class="headerlink" href="#id36" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id39">
+<span class="sig-name descname"><span class="pre">spawn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">size_t</span> <span class="pre">n_jobs=openmp.omp_get_num_threads()</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">list</span><a class="headerlink" href="#id39" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates vector of copies of the model
 Wraps _spawn method.
 :param n_jobs: Number of copies to make
@@ -577,33 +613,33 @@ Wraps _spawn method.
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id37">
-<span class="sig-name descname"><span class="pre">states</span></span><a class="headerlink" href="#id37" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id40">
+<span class="sig-name descname"><span class="pre">states</span></span><a class="headerlink" href="#id40" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id38">
-<span class="sig-name descname"><span class="pre">updateState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">node_id_t[::1]</span> <span class="pre">nodesToUpdate</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">state_t[::1]</span><a class="headerlink" href="#id38" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id41">
+<span class="sig-name descname"><span class="pre">updateState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">node_id_t[::1]</span> <span class="pre">nodesToUpdate</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">state_t[::1]</span><a class="headerlink" href="#id41" title="Permalink to this definition">¶</a></dt>
 <dd><p>General state updater wrapper</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id39">
-<span class="sig-name descname"><span class="pre">updateType</span></span><a class="headerlink" href="#id39" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id42">
+<span class="sig-name descname"><span class="pre">updateType</span></span><a class="headerlink" href="#id42" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns updateType</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="id40">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.base.</span></span><span class="sig-name descname"><span class="pre">ModelMC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p_recomb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id40" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dt class="sig sig-object py" id="id43">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.base.</span></span><span class="sig-name descname"><span class="pre">ModelMC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p_recomb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id43" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="id41">
-<span class="sig-prename descclassname"><span class="pre">plexsim.models.base.</span></span><span class="sig-name descname"><span class="pre">rebuild</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id41" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id44">
+<span class="sig-prename descclassname"><span class="pre">plexsim.models.base.</span></span><span class="sig-name descname"><span class="pre">rebuild</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id44" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -612,7 +648,7 @@ Wraps _spawn method.
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.bonabeau.Bonabeau">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.bonabeau.</span></span><span class="sig-name descname"><span class="pre">Bonabeau</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.array([0,</span> <span class="pre">1])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.bonabeau.Bonabeau" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <p>Bonabeau model in hierarchy formation updated using heat bath equation
 based on Bonabeau et al. 1995</p>
 <dl class="py attribute">
@@ -630,23 +666,23 @@ based on Bonabeau et al. 1995</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id42">
-<h2>plexsim.models.bonabeau module<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id45">
+<h2>plexsim.models.bonabeau module<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-3"></span><dl class="py class">
-<dt class="sig sig-object py" id="id43">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.bonabeau.</span></span><span class="sig-name descname"><span class="pre">Bonabeau</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.array([0,</span> <span class="pre">1])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id43" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dt class="sig sig-object py" id="id46">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.bonabeau.</span></span><span class="sig-name descname"><span class="pre">Bonabeau</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.array([0,</span> <span class="pre">1])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id46" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <p>Bonabeau model in hierarchy formation updated using heat bath equation
 based on Bonabeau et al. 1995</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id44">
-<span class="sig-name descname"><span class="pre">eta</span></span><a class="headerlink" href="#id44" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id47">
+<span class="sig-name descname"><span class="pre">eta</span></span><a class="headerlink" href="#id47" title="Permalink to this definition">¶</a></dt>
 <dd><p>coefficient for sigmoid curve</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id45">
-<span class="sig-name descname"><span class="pre">weight</span></span><a class="headerlink" href="#id45" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id48">
+<span class="sig-name descname"><span class="pre">weight</span></span><a class="headerlink" href="#id48" title="Permalink to this definition">¶</a></dt>
 <dd><p>return weights between nodes</p>
 </dd></dl>
 
@@ -658,7 +694,7 @@ based on Bonabeau et al. 1995</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.bornholdt.Bornholdt">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.bornholdt.</span></span><span class="sig-name descname"><span class="pre">Bornholdt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">graph</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">alpha=1</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.bornholdt.Bornholdt" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id92" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id95" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
 <p>Implementation of Bornholdt model (2000)
 Ising-like dynamics with a global magnetiztion dynamic</p>
 <dl class="py attribute">
@@ -675,23 +711,23 @@ Ising-like dynamics with a global magnetiztion dynamic</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id46">
-<h2>plexsim.models.bornholdt module<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id49">
+<h2>plexsim.models.bornholdt module<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-4"></span><dl class="py class">
-<dt class="sig sig-object py" id="id47">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.bornholdt.</span></span><span class="sig-name descname"><span class="pre">Bornholdt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">graph</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">alpha=1</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id47" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id92" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
+<dt class="sig sig-object py" id="id50">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.bornholdt.</span></span><span class="sig-name descname"><span class="pre">Bornholdt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">graph</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">alpha=1</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id50" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id95" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
 <p>Implementation of Bornholdt model (2000)
 Ising-like dynamics with a global magnetiztion dynamic</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id48">
-<span class="sig-name descname"><span class="pre">alpha</span></span><a class="headerlink" href="#id48" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id51">
+<span class="sig-name descname"><span class="pre">alpha</span></span><a class="headerlink" href="#id51" title="Permalink to this definition">¶</a></dt>
 <dd><p>Global coupling constant</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id49">
-<span class="sig-name descname"><span class="pre">system_mag</span></span><a class="headerlink" href="#id49" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id52">
+<span class="sig-name descname"><span class="pre">system_mag</span></span><a class="headerlink" href="#id52" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -702,7 +738,7 @@ Ising-like dynamics with a global magnetiztion dynamic</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.cca.CCA">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.cca.</span></span><span class="sig-name descname"><span class="pre">CCA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.array([0,</span> <span class="pre">1,</span> <span class="pre">2],</span> <span class="pre">dtype=np.double)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.cca.CCA" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <p>Circular cellular automaton</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="plexsim.models.cca.CCA.threshold">
@@ -712,16 +748,16 @@ Ising-like dynamics with a global magnetiztion dynamic</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id50">
-<h2>plexsim.models.cca module<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id53">
+<h2>plexsim.models.cca module<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-5"></span><dl class="py class">
-<dt class="sig sig-object py" id="id51">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.cca.</span></span><span class="sig-name descname"><span class="pre">CCA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.array([0,</span> <span class="pre">1,</span> <span class="pre">2],</span> <span class="pre">dtype=np.double)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id51" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dt class="sig sig-object py" id="id54">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.cca.</span></span><span class="sig-name descname"><span class="pre">CCA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.array([0,</span> <span class="pre">1,</span> <span class="pre">2],</span> <span class="pre">dtype=np.double)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id54" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <p>Circular cellular automaton</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id52">
-<span class="sig-name descname"><span class="pre">threshold</span></span><a class="headerlink" href="#id52" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id55">
+<span class="sig-name descname"><span class="pre">threshold</span></span><a class="headerlink" href="#id55" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -732,7 +768,7 @@ Ising-like dynamics with a global magnetiztion dynamic</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.cyclic.Cycledelic">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.cyclic.</span></span><span class="sig-name descname"><span class="pre">Cycledelic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">graph</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">predation=2</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">competition=1.5</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">diffusion=0.05</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.cyclic.Cycledelic" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <p>From Dirk Brockmann</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="plexsim.models.cyclic.Cycledelic.colors">
@@ -753,26 +789,26 @@ Ising-like dynamics with a global magnetiztion dynamic</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.cyclic.CycledelicAgent">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.cyclic.</span></span><span class="sig-name descname"><span class="pre">CycledelicAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">graph</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">predation=2</span></em>, <em class="sig-param"><span class="pre">reproduction=1.5</span></em>, <em class="sig-param"><span class="pre">mobility=.05</span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.cyclic.CycledelicAgent" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <p>Agent-based inspired implementation of rock-paper-scissor dynamics</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id53">
-<h2>plexsim.models.cyclic module<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id56">
+<h2>plexsim.models.cyclic module<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-6"></span><dl class="py class">
-<dt class="sig sig-object py" id="id54">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.cyclic.</span></span><span class="sig-name descname"><span class="pre">Cycledelic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">graph</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">predation=2</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">competition=1.5</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">diffusion=0.05</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id54" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dt class="sig sig-object py" id="id57">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.cyclic.</span></span><span class="sig-name descname"><span class="pre">Cycledelic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">graph</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">predation=2</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">competition=1.5</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">diffusion=0.05</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id57" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <p>From Dirk Brockmann</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id55">
-<span class="sig-name descname"><span class="pre">colors</span></span><a class="headerlink" href="#id55" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id58">
+<span class="sig-name descname"><span class="pre">colors</span></span><a class="headerlink" href="#id58" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id56">
-<span class="sig-name descname"><span class="pre">simulate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">size_t</span> <span class="pre">samples</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">ndarray</span><a class="headerlink" href="#id56" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id59">
+<span class="sig-name descname"><span class="pre">simulate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">size_t</span> <span class="pre">samples</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">ndarray</span><a class="headerlink" href="#id59" title="Permalink to this definition">¶</a></dt>
 <dd><p>”
 :param samples: number of samples to simulate
 :type: int
@@ -782,9 +818,9 @@ Ising-like dynamics with a global magnetiztion dynamic</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="id57">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.cyclic.</span></span><span class="sig-name descname"><span class="pre">CycledelicAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">graph</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">predation=2</span></em>, <em class="sig-param"><span class="pre">reproduction=1.5</span></em>, <em class="sig-param"><span class="pre">mobility=.05</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id57" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dt class="sig sig-object py" id="id60">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.cyclic.</span></span><span class="sig-name descname"><span class="pre">CycledelicAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">graph</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">predation=2</span></em>, <em class="sig-param"><span class="pre">reproduction=1.5</span></em>, <em class="sig-param"><span class="pre">mobility=.05</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id60" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <p>Agent-based inspired implementation of rock-paper-scissor dynamics</p>
 </dd></dl>
 
@@ -794,7 +830,7 @@ Ising-like dynamics with a global magnetiztion dynamic</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.game_of_life.Conway">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.game_of_life.</span></span><span class="sig-name descname"><span class="pre">Conway</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">graph</span></em>, <em class="sig-param"><span class="pre">size_t</span> <span class="pre">threshold=3</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.game_of_life.Conway" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <p>Conway’s game of life</p>
 <p>Implements  conways  game  of life  on  an  abitrary
 network structure.</p>
@@ -823,12 +859,12 @@ Model).</p></li>
 </dd></dl>
 
 </div>
-<div class="section" id="id58">
-<h2>plexsim.models.game_of_life module<a class="headerlink" href="#id58" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id61">
+<h2>plexsim.models.game_of_life module<a class="headerlink" href="#id61" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-7"></span><dl class="py class">
-<dt class="sig sig-object py" id="id59">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.game_of_life.</span></span><span class="sig-name descname"><span class="pre">Conway</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">graph</span></em>, <em class="sig-param"><span class="pre">size_t</span> <span class="pre">threshold=3</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id59" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dt class="sig sig-object py" id="id62">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.game_of_life.</span></span><span class="sig-name descname"><span class="pre">Conway</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">graph</span></em>, <em class="sig-param"><span class="pre">size_t</span> <span class="pre">threshold=3</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id62" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <p>Conway’s game of life</p>
 <p>Implements  conways  game  of life  on  an  abitrary
 network structure.</p>
@@ -850,8 +886,8 @@ Model).</p></li>
 <p class="rubric">Examples</p>
 <p>FIXME: Add docs.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id60">
-<span class="sig-name descname"><span class="pre">threshold</span></span><a class="headerlink" href="#id60" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id63">
+<span class="sig-name descname"><span class="pre">threshold</span></span><a class="headerlink" href="#id63" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -862,7 +898,7 @@ Model).</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.ising.Ising">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.ising.</span></span><span class="sig-name descname"><span class="pre">Ising</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.ising.Ising" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id92" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id95" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
 <p>Kinetic Ising model</p>
 <p>Implements kinetic Ising model on arbitrary graph.</p>
 <dl class="field-list simple">
@@ -879,12 +915,12 @@ Model).</p></li>
 </dd></dl>
 
 </div>
-<div class="section" id="id65">
-<h2>plexsim.models.ising module<a class="headerlink" href="#id65" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id68">
+<h2>plexsim.models.ising module<a class="headerlink" href="#id68" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-8"></span><dl class="py class">
-<dt class="sig sig-object py" id="id66">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.ising.</span></span><span class="sig-name descname"><span class="pre">Ising</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id66" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id92" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
+<dt class="sig sig-object py" id="id69">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.ising.</span></span><span class="sig-name descname"><span class="pre">Ising</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id69" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id95" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
 <p>Kinetic Ising model</p>
 <p>Implements kinetic Ising model on arbitrary graph.</p>
 <dl class="field-list simple">
@@ -906,7 +942,7 @@ Model).</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.logmap.Logmap">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.logmap.</span></span><span class="sig-name descname"><span class="pre">Logmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">graph</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">r=1</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">alpha=0</span></em>, <em class="sig-param"><span class="pre">agentStates=np.arange(2</span></em>, <em class="sig-param"><span class="pre">dtype=np.double)</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.logmap.Logmap" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="plexsim.models.logmap.Logmap.alpha">
 <span class="sig-name descname"><span class="pre">alpha</span></span><a class="headerlink" href="#plexsim.models.logmap.Logmap.alpha" title="Permalink to this definition">¶</a></dt>
@@ -920,20 +956,20 @@ Model).</p></li>
 </dd></dl>
 
 </div>
-<div class="section" id="id71">
-<h2>plexsim.models.logmap module<a class="headerlink" href="#id71" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id74">
+<h2>plexsim.models.logmap module<a class="headerlink" href="#id74" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-9"></span><dl class="py class">
-<dt class="sig sig-object py" id="id72">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.logmap.</span></span><span class="sig-name descname"><span class="pre">Logmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">graph</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">r=1</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">alpha=0</span></em>, <em class="sig-param"><span class="pre">agentStates=np.arange(2</span></em>, <em class="sig-param"><span class="pre">dtype=np.double)</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id72" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dt class="sig sig-object py" id="id75">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.logmap.</span></span><span class="sig-name descname"><span class="pre">Logmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">graph</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">r=1</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">alpha=0</span></em>, <em class="sig-param"><span class="pre">agentStates=np.arange(2</span></em>, <em class="sig-param"><span class="pre">dtype=np.double)</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id75" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id73">
-<span class="sig-name descname"><span class="pre">alpha</span></span><a class="headerlink" href="#id73" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id76">
+<span class="sig-name descname"><span class="pre">alpha</span></span><a class="headerlink" href="#id76" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id74">
-<span class="sig-name descname"><span class="pre">r</span></span><a class="headerlink" href="#id74" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id77">
+<span class="sig-name descname"><span class="pre">r</span></span><a class="headerlink" href="#id77" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -944,7 +980,34 @@ Model).</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.magnetic_boids.MagneticBoids">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.magnetic_boids.</span></span><span class="sig-name descname"><span class="pre">MagneticBoids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">coordinates,</span> <span class="pre">velocities,</span> <span class="pre">rules=nx.Graph(),</span> <span class="pre">graph=nx.Graph(),</span> <span class="pre">agentStates=np.arange(0,</span> <span class="pre">1,</span> <span class="pre">dtype=np.double),</span> <span class="pre">size_t</span> <span class="pre">bounded_rational=1,</span> <span class="pre">boid_radius=.1,</span> <span class="pre">max_speed=.1,</span> <span class="pre">radius=.1,</span> <span class="pre">bounds=np.array([0,</span> <span class="pre">20],</span> <span class="pre">dtype=np.double),</span> <span class="pre">exploration=np.inf,</span> <span class="pre">dt=.01,</span> <span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.magnetic_boids.MagneticBoids" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id157" title="plexsim.models.value_network.ValueNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.value_network.ValueNetwork</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id160" title="plexsim.models.value_network.ValueNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.value_network.ValueNetwork</span></code></a></p>
+<p>Magnetic boids. Combines the ideas from the value network without requirement
+of a social network. The model is inspired by the boids model. Each agent/boid/
+node has a color state. The colors bind together in a network dubbed the “value network”.
+In the normal boids simulation, each boid want to fly close to other boids.
+From this, flocking behavior appears. In this implementation the boids attempt to flock
+according the coloring network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coordinates</strong> (<em>np.ndarray</em><em>, </em><em>initial position of the boids.</em>) – </p></li>
+<li><p><strong>velocities</strong> (<em>np.ndarray</em><em>, </em><em>initial velocities of the boids.</em>) – </p></li>
+<li><p><strong>rules</strong> (<em>nx.Graph</em><em> or </em><em>nx.DiGraph</em><em>, </em><em>color networks indicating how colors want to interact</em>) – </p></li>
+<li><p><strong>agentStates</strong> (<em>np.ndarray</em><em>, </em><em>colors that each boid can take</em>) – </p></li>
+<li><p><strong>bounded_rational</strong> – </p></li>
+<li><p><strong>int</strong> (<em>unsigned</em>) – </p></li>
+<li><p><strong>to consider for measuring the completion</strong> (<em>edges</em>) – </p></li>
+<li><p><strong>the value network</strong> (<em>of</em>) – </p></li>
+<li><p><strong>boid_radius</strong> (<em>unsigned int</em><em>, </em><em>radius of the boid.</em>) – </p></li>
+<li><p><strong>max_speed</strong> (<em>unsigned int</em><em>, </em><em>maximum speed the boids can fly at. Note that negative speeds are compared to this value!</em>) – </p></li>
+<li><p><strong>radius</strong> (<em>unsigned int: radius that the boids can see.</em>) – </p></li>
+<li><p><strong>bounds</strong> (<em>np.ndarray</em><em>, </em><em>bounding box of the area can fly in.</em>) – </p></li>
+<li><p><strong>exploration</strong> (<em>float</em><em>, </em><em>amount of noise to add to the update position of the boids.</em>) – </p></li>
+<li><p><strong>dt</strong> (<em>float</em><em>, </em><em>simulation update parameter</em><em> (</em><em>extrapolation</em><em>)</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em><em>, </em><em>base model values</em><em> (</em><em>see base model</em><em>)</em>) – </p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="plexsim.models.magnetic_boids.MagneticBoids.boid_radius">
 <span class="sig-name descname"><span class="pre">boid_radius</span></span><a class="headerlink" href="#plexsim.models.magnetic_boids.MagneticBoids.boid_radius" title="Permalink to this definition">¶</a></dt>
@@ -968,7 +1031,9 @@ Model).</p></li>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="plexsim.models.magnetic_boids.MagneticBoids.explore">
 <span class="sig-name descname"><span class="pre">explore</span></span><a class="headerlink" href="#plexsim.models.magnetic_boids.MagneticBoids.explore" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The explore parameter controls how much noise is added to the
+particle’s position</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="plexsim.models.magnetic_boids.MagneticBoids.radius">
@@ -983,45 +1048,74 @@ Model).</p></li>
 </dd></dl>
 
 </div>
-<div class="section" id="id75">
-<h2>plexsim.models.magnetic_boids module<a class="headerlink" href="#id75" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id78">
+<h2>plexsim.models.magnetic_boids module<a class="headerlink" href="#id78" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-10"></span><dl class="py class">
-<dt class="sig sig-object py" id="id76">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.magnetic_boids.</span></span><span class="sig-name descname"><span class="pre">MagneticBoids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">coordinates,</span> <span class="pre">velocities,</span> <span class="pre">rules=nx.Graph(),</span> <span class="pre">graph=nx.Graph(),</span> <span class="pre">agentStates=np.arange(0,</span> <span class="pre">1,</span> <span class="pre">dtype=np.double),</span> <span class="pre">size_t</span> <span class="pre">bounded_rational=1,</span> <span class="pre">boid_radius=.1,</span> <span class="pre">max_speed=.1,</span> <span class="pre">radius=.1,</span> <span class="pre">bounds=np.array([0,</span> <span class="pre">20],</span> <span class="pre">dtype=np.double),</span> <span class="pre">exploration=np.inf,</span> <span class="pre">dt=.01,</span> <span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id76" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id157" title="plexsim.models.value_network.ValueNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.value_network.ValueNetwork</span></code></a></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id77">
-<span class="sig-name descname"><span class="pre">boid_radius</span></span><a class="headerlink" href="#id77" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id78">
-<span class="sig-name descname"><span class="pre">bounds</span></span><a class="headerlink" href="#id78" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="id79">
-<span class="sig-name descname"><span class="pre">coordinates</span></span><a class="headerlink" href="#id79" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.magnetic_boids.</span></span><span class="sig-name descname"><span class="pre">MagneticBoids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">coordinates,</span> <span class="pre">velocities,</span> <span class="pre">rules=nx.Graph(),</span> <span class="pre">graph=nx.Graph(),</span> <span class="pre">agentStates=np.arange(0,</span> <span class="pre">1,</span> <span class="pre">dtype=np.double),</span> <span class="pre">size_t</span> <span class="pre">bounded_rational=1,</span> <span class="pre">boid_radius=.1,</span> <span class="pre">max_speed=.1,</span> <span class="pre">radius=.1,</span> <span class="pre">bounds=np.array([0,</span> <span class="pre">20],</span> <span class="pre">dtype=np.double),</span> <span class="pre">exploration=np.inf,</span> <span class="pre">dt=.01,</span> <span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id79" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id160" title="plexsim.models.value_network.ValueNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.value_network.ValueNetwork</span></code></a></p>
+<p>Magnetic boids. Combines the ideas from the value network without requirement
+of a social network. The model is inspired by the boids model. Each agent/boid/
+node has a color state. The colors bind together in a network dubbed the “value network”.
+In the normal boids simulation, each boid want to fly close to other boids.
+From this, flocking behavior appears. In this implementation the boids attempt to flock
+according the coloring network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coordinates</strong> (<em>np.ndarray</em><em>, </em><em>initial position of the boids.</em>) – </p></li>
+<li><p><strong>velocities</strong> (<em>np.ndarray</em><em>, </em><em>initial velocities of the boids.</em>) – </p></li>
+<li><p><strong>rules</strong> (<em>nx.Graph</em><em> or </em><em>nx.DiGraph</em><em>, </em><em>color networks indicating how colors want to interact</em>) – </p></li>
+<li><p><strong>agentStates</strong> (<em>np.ndarray</em><em>, </em><em>colors that each boid can take</em>) – </p></li>
+<li><p><strong>bounded_rational</strong> – </p></li>
+<li><p><strong>int</strong> (<em>unsigned</em>) – </p></li>
+<li><p><strong>to consider for measuring the completion</strong> (<em>edges</em>) – </p></li>
+<li><p><strong>the value network</strong> (<em>of</em>) – </p></li>
+<li><p><strong>boid_radius</strong> (<em>unsigned int</em><em>, </em><em>radius of the boid.</em>) – </p></li>
+<li><p><strong>max_speed</strong> (<em>unsigned int</em><em>, </em><em>maximum speed the boids can fly at. Note that negative speeds are compared to this value!</em>) – </p></li>
+<li><p><strong>radius</strong> (<em>unsigned int: radius that the boids can see.</em>) – </p></li>
+<li><p><strong>bounds</strong> (<em>np.ndarray</em><em>, </em><em>bounding box of the area can fly in.</em>) – </p></li>
+<li><p><strong>exploration</strong> (<em>float</em><em>, </em><em>amount of noise to add to the update position of the boids.</em>) – </p></li>
+<li><p><strong>dt</strong> (<em>float</em><em>, </em><em>simulation update parameter</em><em> (</em><em>extrapolation</em><em>)</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em><em>, </em><em>base model values</em><em> (</em><em>see base model</em><em>)</em>) – </p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id80">
-<span class="sig-name descname"><span class="pre">dt</span></span><a class="headerlink" href="#id80" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">boid_radius</span></span><a class="headerlink" href="#id80" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id81">
-<span class="sig-name descname"><span class="pre">explore</span></span><a class="headerlink" href="#id81" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">bounds</span></span><a class="headerlink" href="#id81" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id82">
-<span class="sig-name descname"><span class="pre">radius</span></span><a class="headerlink" href="#id82" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">coordinates</span></span><a class="headerlink" href="#id82" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id83">
-<span class="sig-name descname"><span class="pre">velocities</span></span><a class="headerlink" href="#id83" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">dt</span></span><a class="headerlink" href="#id83" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id84">
+<span class="sig-name descname"><span class="pre">explore</span></span><a class="headerlink" href="#id84" title="Permalink to this definition">¶</a></dt>
+<dd><p>The explore parameter controls how much noise is added to the
+particle’s position</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id85">
+<span class="sig-name descname"><span class="pre">radius</span></span><a class="headerlink" href="#id85" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id86">
+<span class="sig-name descname"><span class="pre">velocities</span></span><a class="headerlink" href="#id86" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1032,7 +1126,7 @@ Model).</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.percolation.Percolation">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.percolation.</span></span><span class="sig-name descname"><span class="pre">Percolation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.array([0,</span> <span class="pre">1],</span> <span class="pre">dtype=np.double)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.percolation.Percolation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <p>”
 Percolation model. Each bond (edge) can percolate with probability p</p>
 <dl class="simple">
@@ -1049,12 +1143,12 @@ Percolation model. Each bond (edge) can percolate with probability p</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id84">
-<h2>plexsim.models.percolation module<a class="headerlink" href="#id84" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id87">
+<h2>plexsim.models.percolation module<a class="headerlink" href="#id87" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-11"></span><dl class="py class">
-<dt class="sig sig-object py" id="id85">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.percolation.</span></span><span class="sig-name descname"><span class="pre">Percolation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.array([0,</span> <span class="pre">1],</span> <span class="pre">dtype=np.double)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id85" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dt class="sig sig-object py" id="id88">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.percolation.</span></span><span class="sig-name descname"><span class="pre">Percolation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.array([0,</span> <span class="pre">1],</span> <span class="pre">dtype=np.double)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id88" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <p>”
 Percolation model. Each bond (edge) can percolate with probability p</p>
 <dl class="simple">
@@ -1064,8 +1158,8 @@ Percolation model. Each bond (edge) can percolate with probability p</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id86">
-<span class="sig-name descname"><span class="pre">p</span></span><a class="headerlink" href="#id86" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id89">
+<span class="sig-name descname"><span class="pre">p</span></span><a class="headerlink" href="#id89" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1076,7 +1170,7 @@ Percolation model. Each bond (edge) can percolate with probability p</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.potts.Potts">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.potts.</span></span><span class="sig-name descname"><span class="pre">Potts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.array([0,</span> <span class="pre">1],</span> <span class="pre">dtype=np.double)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_recomb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.potts.Potts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <p>Kinetic q-Potts model</p>
 <p>Implements kinetic q-Potts model on arbitrary graph.
 This model implements all the base functionality of the
@@ -1200,12 +1294,12 @@ all nodes given a system state.</p>
 <dd></dd></dl>
 
 </div>
-<div class="section" id="id91">
-<h2>plexsim.models.potts module<a class="headerlink" href="#id91" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id94">
+<h2>plexsim.models.potts module<a class="headerlink" href="#id94" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-12"></span><dl class="py class">
-<dt class="sig sig-object py" id="id92">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.potts.</span></span><span class="sig-name descname"><span class="pre">Potts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.array([0,</span> <span class="pre">1],</span> <span class="pre">dtype=np.double)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_recomb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id92" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dt class="sig sig-object py" id="id95">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.potts.</span></span><span class="sig-name descname"><span class="pre">Potts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.array([0,</span> <span class="pre">1],</span> <span class="pre">dtype=np.double)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_recomb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id95" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <p>Kinetic q-Potts model</p>
 <p>Implements kinetic q-Potts model on arbitrary graph.
 This model implements all the base functionality of the
@@ -1225,25 +1319,25 @@ Potts/Ising related models (e.g. Pottsis or Bornholdt).</p>
 <p class="rubric">Examples</p>
 <p>FIXME: Add docs.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id97">
-<span class="sig-name descname"><span class="pre">H</span></span><a class="headerlink" href="#id97" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id100">
+<span class="sig-name descname"><span class="pre">H</span></span><a class="headerlink" href="#id100" title="Permalink to this definition">¶</a></dt>
 <dd><p>External magnetic field</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id98">
-<span class="sig-name descname"><span class="pre">beta</span></span><a class="headerlink" href="#id98" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id101">
+<span class="sig-name descname"><span class="pre">beta</span></span><a class="headerlink" href="#id101" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shortcut for 1/T</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id99">
-<span class="sig-name descname"><span class="pre">delta</span></span><a class="headerlink" href="#id99" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id102">
+<span class="sig-name descname"><span class="pre">delta</span></span><a class="headerlink" href="#id102" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id100">
-<span class="sig-name descname"><span class="pre">magnetize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">ndarray</span> <span class="pre">temps=np.logspace(-3</span></em>, <em class="sig-param"><span class="pre">2</span></em>, <em class="sig-param"><span class="pre">20)</span></em>, <em class="sig-param"><span class="pre">size_t</span> <span class="pre">n=int(1e3)</span></em>, <em class="sig-param"><span class="pre">size_t</span> <span class="pre">burninSamples=0</span></em>, <em class="sig-param"><span class="pre">size_t</span> <span class="pre">n_jobs=0</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">ndarray</span><a class="headerlink" href="#id100" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id103">
+<span class="sig-name descname"><span class="pre">magnetize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">ndarray</span> <span class="pre">temps=np.logspace(-3</span></em>, <em class="sig-param"><span class="pre">2</span></em>, <em class="sig-param"><span class="pre">20)</span></em>, <em class="sig-param"><span class="pre">size_t</span> <span class="pre">n=int(1e3)</span></em>, <em class="sig-param"><span class="pre">size_t</span> <span class="pre">burninSamples=0</span></em>, <em class="sig-param"><span class="pre">size_t</span> <span class="pre">n_jobs=0</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">ndarray</span><a class="headerlink" href="#id103" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
 <div><p>Computes the magnetization as a function of temperatures</p>
 <dl class="simple">
@@ -1267,8 +1361,8 @@ susceptibility</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id101">
-<span class="sig-name descname"><span class="pre">node_energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">state_t[::1]</span> <span class="pre">states</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">ndarray</span><a class="headerlink" href="#id101" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id104">
+<span class="sig-name descname"><span class="pre">node_energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">state_t[::1]</span> <span class="pre">states</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">ndarray</span><a class="headerlink" href="#id104" title="Permalink to this definition">¶</a></dt>
 <dd><p>” Computes  average by  degree of node  energy of
 all nodes given a system state.</p>
 <dl class="field-list simple">
@@ -1285,8 +1379,8 @@ all nodes given a system state.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id102">
-<span class="sig-name descname"><span class="pre">siteEnergy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">state_t[::1]</span> <span class="pre">states</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">vector</span><span class="p"><span class="pre">[</span></span><span class="pre">double</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#id102" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id105">
+<span class="sig-name descname"><span class="pre">siteEnergy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">state_t[::1]</span> <span class="pre">states</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">vector</span><span class="p"><span class="pre">[</span></span><span class="pre">double</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#id105" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes raw site energy of nodes given a system state</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1305,27 +1399,27 @@ all nodes given a system state.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id103">
-<span class="sig-name descname"><span class="pre">t</span></span><a class="headerlink" href="#id103" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id106">
+<span class="sig-name descname"><span class="pre">t</span></span><a class="headerlink" href="#id106" title="Permalink to this definition">¶</a></dt>
 <dd><p>Temperature</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="id104">
-<span class="sig-prename descclassname"><span class="pre">plexsim.models.potts.</span></span><span class="sig-name descname"><span class="pre">match_temperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">match</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id104" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id107">
+<span class="sig-prename descclassname"><span class="pre">plexsim.models.potts.</span></span><span class="sig-name descname"><span class="pre">match_temperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">match</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id107" title="Permalink to this definition">¶</a></dt>
 <dd><p>matches temperature</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="id105">
-<span class="sig-prename descclassname"><span class="pre">plexsim.models.potts.</span></span><span class="sig-name descname"><span class="pre">sigmoid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id105" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id108">
+<span class="sig-prename descclassname"><span class="pre">plexsim.models.potts.</span></span><span class="sig-name descname"><span class="pre">sigmoid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id108" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="id106">
-<span class="sig-prename descclassname"><span class="pre">plexsim.models.potts.</span></span><span class="sig-name descname"><span class="pre">sigmoidOpt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id106" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id109">
+<span class="sig-prename descclassname"><span class="pre">plexsim.models.potts.</span></span><span class="sig-name descname"><span class="pre">sigmoidOpt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">match</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id109" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -1334,7 +1428,7 @@ all nodes given a system state.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.pottsis.Pottsis">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.pottsis.</span></span><span class="sig-name descname"><span class="pre">Pottsis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">.1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.pottsis.Pottsis" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id92" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id95" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
 <p>Spin-system epidemic model</p>
 <p>Implements  spin-system   dynamics  for  susceptible
 infected  susceptible  dynamics.  It  is  novel  and
@@ -1371,12 +1465,12 @@ developed by Casper van Elteren (2020).</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id111">
-<h2>plexsim.models.pottsis module<a class="headerlink" href="#id111" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id114">
+<h2>plexsim.models.pottsis module<a class="headerlink" href="#id114" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-13"></span><dl class="py class">
-<dt class="sig sig-object py" id="id112">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.pottsis.</span></span><span class="sig-name descname"><span class="pre">Pottsis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">.1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id112" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id92" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
+<dt class="sig sig-object py" id="id115">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.pottsis.</span></span><span class="sig-name descname"><span class="pre">Pottsis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">.1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id115" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id95" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
 <p>Spin-system epidemic model</p>
 <p>Implements  spin-system   dynamics  for  susceptible
 infected  susceptible  dynamics.  It  is  novel  and
@@ -1396,18 +1490,18 @@ developed by Casper van Elteren (2020).</p>
 <p class="rubric">Examples</p>
 <p>FIXME: Add docs.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id117">
-<span class="sig-name descname"><span class="pre">beta</span></span><a class="headerlink" href="#id117" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id120">
+<span class="sig-name descname"><span class="pre">beta</span></span><a class="headerlink" href="#id120" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id118">
-<span class="sig-name descname"><span class="pre">eta</span></span><a class="headerlink" href="#id118" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id121">
+<span class="sig-name descname"><span class="pre">eta</span></span><a class="headerlink" href="#id121" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id119">
-<span class="sig-name descname"><span class="pre">mu</span></span><a class="headerlink" href="#id119" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id122">
+<span class="sig-name descname"><span class="pre">mu</span></span><a class="headerlink" href="#id122" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1418,7 +1512,7 @@ developed by Casper van Elteren (2020).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.prisoner.Prisoner">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.prisoner.</span></span><span class="sig-name descname"><span class="pre">Prisoner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.arange(2)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">P</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hierarchy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_recomb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.prisoner.Prisoner" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id92" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id95" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
 <p>Prisoner dilemma model on a graph</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1473,12 +1567,12 @@ developed by Casper van Elteren (2020).</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id120">
-<h2>plexsim.models.prisoner module<a class="headerlink" href="#id120" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id123">
+<h2>plexsim.models.prisoner module<a class="headerlink" href="#id123" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-14"></span><dl class="py class">
-<dt class="sig sig-object py" id="id121">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.prisoner.</span></span><span class="sig-name descname"><span class="pre">Prisoner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.arange(2)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">P</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hierarchy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_recomb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id121" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id92" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
+<dt class="sig sig-object py" id="id124">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.prisoner.</span></span><span class="sig-name descname"><span class="pre">Prisoner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.arange(2)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">P</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hierarchy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_recomb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id124" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id95" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
 <p>Prisoner dilemma model on a graph</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1496,38 +1590,38 @@ developed by Casper van Elteren (2020).</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id122">
-<span class="sig-name descname"><span class="pre">P</span></span><a class="headerlink" href="#id122" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id125">
+<span class="sig-name descname"><span class="pre">P</span></span><a class="headerlink" href="#id125" title="Permalink to this definition">¶</a></dt>
 <dd><p>Punishment property (double)</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id123">
-<span class="sig-name descname"><span class="pre">R</span></span><a class="headerlink" href="#id123" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id126">
+<span class="sig-name descname"><span class="pre">R</span></span><a class="headerlink" href="#id126" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reward property</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id124">
-<span class="sig-name descname"><span class="pre">S</span></span><a class="headerlink" href="#id124" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id127">
+<span class="sig-name descname"><span class="pre">S</span></span><a class="headerlink" href="#id127" title="Permalink to this definition">¶</a></dt>
 <dd><p>Suckers’ payout property</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id125">
-<span class="sig-name descname"><span class="pre">T</span></span><a class="headerlink" href="#id125" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id128">
+<span class="sig-name descname"><span class="pre">T</span></span><a class="headerlink" href="#id128" title="Permalink to this definition">¶</a></dt>
 <dd><p>Temptation property</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id126">
-<span class="sig-name descname"><span class="pre">alpha</span></span><a class="headerlink" href="#id126" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id129">
+<span class="sig-name descname"><span class="pre">alpha</span></span><a class="headerlink" href="#id129" title="Permalink to this definition">¶</a></dt>
 <dd><p>Coupling coefficient property</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id127">
-<span class="sig-name descname"><span class="pre">probs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">state_t</span> <span class="pre">state</span></em>, <em class="sig-param"><span class="pre">node_id_t</span> <span class="pre">node</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">double</span><a class="headerlink" href="#id127" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id130">
+<span class="sig-name descname"><span class="pre">probs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">state_t</span> <span class="pre">state</span></em>, <em class="sig-param"><span class="pre">node_id_t</span> <span class="pre">node</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">double</span><a class="headerlink" href="#id130" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1536,15 +1630,15 @@ developed by Casper van Elteren (2020).</p>
 <div class="section" id="module-plexsim.models.pyobjectholder">
 <span id="plexsim-models-pyobjectholder-module"></span><h2>plexsim.models.pyobjectholder module<a class="headerlink" href="#module-plexsim.models.pyobjectholder" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="id128">
-<h2>plexsim.models.pyobjectholder module<a class="headerlink" href="#id128" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id131">
+<h2>plexsim.models.pyobjectholder module<a class="headerlink" href="#id131" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-15"></span></div>
 <div class="section" id="module-plexsim.models.rbn">
 <span id="plexsim-models-rbn-module"></span><h2>plexsim.models.rbn module<a class="headerlink" href="#module-plexsim.models.rbn" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.rbn.RBN">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.rbn.</span></span><span class="sig-name descname"><span class="pre">RBN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rule</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updateType</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sync'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.rbn.RBN" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <p>Random boolean network</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="plexsim.models.rbn.RBN.rules">
@@ -1554,16 +1648,16 @@ developed by Casper van Elteren (2020).</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id129">
-<h2>plexsim.models.rbn module<a class="headerlink" href="#id129" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id132">
+<h2>plexsim.models.rbn module<a class="headerlink" href="#id132" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-16"></span><dl class="py class">
-<dt class="sig sig-object py" id="id130">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.rbn.</span></span><span class="sig-name descname"><span class="pre">RBN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rule</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updateType</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sync'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id130" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dt class="sig sig-object py" id="id133">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.rbn.</span></span><span class="sig-name descname"><span class="pre">RBN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rule</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updateType</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sync'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id133" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <p>Random boolean network</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id131">
-<span class="sig-name descname"><span class="pre">rules</span></span><a class="headerlink" href="#id131" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id134">
+<span class="sig-name descname"><span class="pre">rules</span></span><a class="headerlink" href="#id134" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1586,18 +1680,18 @@ developed by Casper van Elteren (2020).</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id132">
-<h2>plexsim.models.rules module<a class="headerlink" href="#id132" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id135">
+<h2>plexsim.models.rules module<a class="headerlink" href="#id135" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-17"></span><dl class="py class">
-<dt class="sig sig-object py" id="id133">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.rules.</span></span><span class="sig-name descname"><span class="pre">Rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id133" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id136">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.rules.</span></span><span class="sig-name descname"><span class="pre">Rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id136" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Constructs adj matrix using structs
 :param :
 :type : nx.Graph or nx.DiGraph: graph</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id134">
-<span class="sig-name descname"><span class="pre">adj</span></span><a class="headerlink" href="#id134" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id137">
+<span class="sig-name descname"><span class="pre">adj</span></span><a class="headerlink" href="#id137" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1648,11 +1742,11 @@ developed by Casper van Elteren (2020).</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id135">
-<h2>plexsim.models.sampler module<a class="headerlink" href="#id135" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id138">
+<h2>plexsim.models.sampler module<a class="headerlink" href="#id138" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-18"></span><dl class="py class">
-<dt class="sig sig-object py" id="id136">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.sampler.</span></span><span class="sig-name descname"><span class="pre">MCMC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">RandomGenerator</span> <span class="pre">rng</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">p_recomb=1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id136" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id139">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.sampler.</span></span><span class="sig-name descname"><span class="pre">MCMC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">RandomGenerator</span> <span class="pre">rng</span></em>, <em class="sig-param"><span class="pre">double</span> <span class="pre">p_recomb=1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id139" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="simple">
 <dt>Random number generator class</dt><dd><dl class="field-list simple">
@@ -1665,29 +1759,29 @@ developed by Casper van Elteren (2020).</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id137">
-<span class="sig-name descname"><span class="pre">p_recomb</span></span><a class="headerlink" href="#id137" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id140">
+<span class="sig-name descname"><span class="pre">p_recomb</span></span><a class="headerlink" href="#id140" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id138">
-<span class="sig-name descname"><span class="pre">rng</span></span><a class="headerlink" href="#id138" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id141">
+<span class="sig-name descname"><span class="pre">rng</span></span><a class="headerlink" href="#id141" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="id139">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.sampler.</span></span><span class="sig-name descname"><span class="pre">RandomGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id139" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id142">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.sampler.</span></span><span class="sig-name descname"><span class="pre">RandomGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id142" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="id140">
-<span class="sig-name descname"><span class="pre">rand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">double</span><a class="headerlink" href="#id140" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id143">
+<span class="sig-name descname"><span class="pre">rand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">double</span><a class="headerlink" href="#id143" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id141">
-<span class="sig-name descname"><span class="pre">seed</span></span><a class="headerlink" href="#id141" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id144">
+<span class="sig-name descname"><span class="pre">seed</span></span><a class="headerlink" href="#id144" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1698,16 +1792,16 @@ developed by Casper van Elteren (2020).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.simple_copy.SimpleCopy">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.simple_copy.</span></span><span class="sig-name descname"><span class="pre">SimpleCopy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">double</span> <span class="pre">weight=0</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.simple_copy.SimpleCopy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id92" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id95" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
 </dd></dl>
 
 </div>
-<div class="section" id="id142">
-<h2>plexsim.models.simple_copy module<a class="headerlink" href="#id142" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id145">
+<h2>plexsim.models.simple_copy module<a class="headerlink" href="#id145" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-19"></span><dl class="py class">
-<dt class="sig sig-object py" id="id143">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.simple_copy.</span></span><span class="sig-name descname"><span class="pre">SimpleCopy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">double</span> <span class="pre">weight=0</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id143" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id92" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
+<dt class="sig sig-object py" id="id146">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.simple_copy.</span></span><span class="sig-name descname"><span class="pre">SimpleCopy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">double</span> <span class="pre">weight=0</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id146" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id95" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
 </dd></dl>
 
 </div>
@@ -1716,7 +1810,7 @@ developed by Casper van Elteren (2020).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.sirs.SIRS">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.sirs.</span></span><span class="sig-name descname"><span class="pre">SIRS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.array([0,</span> <span class="pre">1,</span> <span class="pre">2],</span> <span class="pre">dtype=np.double)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kappa</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.sirs.SIRS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <p>SIR model inspired by Youssef &amp; Scolio (2011)
 The article describes an individual approach to SIR modeling which canonically uses a mean-field approximation.
 In mean-field approximations nodes are assumed to have ‘homogeneous mixing’, i.e. a node is able to receive information
@@ -1773,12 +1867,12 @@ S —-&gt; I —-&gt; R —-&gt; S</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id144">
-<h2>plexsim.models.sirs module<a class="headerlink" href="#id144" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id147">
+<h2>plexsim.models.sirs module<a class="headerlink" href="#id147" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-20"></span><dl class="py class">
-<dt class="sig sig-object py" id="id145">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.sirs.</span></span><span class="sig-name descname"><span class="pre">SIRS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.array([0,</span> <span class="pre">1,</span> <span class="pre">2],</span> <span class="pre">dtype=np.double)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kappa</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id145" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id10" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
+<dt class="sig sig-object py" id="id148">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.sirs.</span></span><span class="sig-name descname"><span class="pre">SIRS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.array([0,</span> <span class="pre">1,</span> <span class="pre">2],</span> <span class="pre">dtype=np.double)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kappa</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id148" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id12" title="plexsim.models.base.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.base.Model</span></code></a></p>
 <p>SIR model inspired by Youssef &amp; Scolio (2011)
 The article describes an individual approach to SIR modeling which canonically uses a mean-field approximation.
 In mean-field approximations nodes are assumed to have ‘homogeneous mixing’, i.e. a node is able to receive information
@@ -1808,28 +1902,28 @@ S —-&gt; I —-&gt; R —-&gt; S</p>
 </div></blockquote>
 <p>Todo: the sir model currently describes a final end-state. We can model it that we just assume distributions</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id146">
-<span class="sig-name descname"><span class="pre">beta</span></span><a class="headerlink" href="#id146" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id149">
+<span class="sig-name descname"><span class="pre">beta</span></span><a class="headerlink" href="#id149" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id147">
-<span class="sig-name descname"><span class="pre">init_random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">void</span><a class="headerlink" href="#id147" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id148">
-<span class="sig-name descname"><span class="pre">kappa</span></span><a class="headerlink" href="#id148" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id149">
-<span class="sig-name descname"><span class="pre">mu</span></span><a class="headerlink" href="#id149" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="id150">
-<span class="sig-name descname"><span class="pre">nu</span></span><a class="headerlink" href="#id150" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">init_random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">void</span><a class="headerlink" href="#id150" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id151">
+<span class="sig-name descname"><span class="pre">kappa</span></span><a class="headerlink" href="#id151" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id152">
+<span class="sig-name descname"><span class="pre">mu</span></span><a class="headerlink" href="#id152" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id153">
+<span class="sig-name descname"><span class="pre">nu</span></span><a class="headerlink" href="#id153" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1846,46 +1940,46 @@ S —-&gt; I —-&gt; R —-&gt; S</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.test.B">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.test.</span></span><span class="sig-name descname"><span class="pre">B</span></span><a class="headerlink" href="#plexsim.models.test.B" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id152" title="plexsim.models.test.A"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.test.A</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id155" title="plexsim.models.test.A"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.test.A</span></code></a></p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.test.C">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.test.</span></span><span class="sig-name descname"><span class="pre">C</span></span><a class="headerlink" href="#plexsim.models.test.C" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id153" title="plexsim.models.test.B"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.test.B</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id156" title="plexsim.models.test.B"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.test.B</span></code></a></p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.test.D">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.test.</span></span><span class="sig-name descname"><span class="pre">D</span></span><a class="headerlink" href="#plexsim.models.test.D" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id154" title="plexsim.models.test.C"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.test.C</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id157" title="plexsim.models.test.C"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.test.C</span></code></a></p>
 </dd></dl>
 
 </div>
-<div class="section" id="id151">
-<h2>plexsim.models.test module<a class="headerlink" href="#id151" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id154">
+<h2>plexsim.models.test module<a class="headerlink" href="#id154" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-21"></span><dl class="py class">
-<dt class="sig sig-object py" id="id152">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.test.</span></span><span class="sig-name descname"><span class="pre">A</span></span><a class="headerlink" href="#id152" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id155">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.test.</span></span><span class="sig-name descname"><span class="pre">A</span></span><a class="headerlink" href="#id155" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="id153">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.test.</span></span><span class="sig-name descname"><span class="pre">B</span></span><a class="headerlink" href="#id153" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id152" title="plexsim.models.test.A"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.test.A</span></code></a></p>
+<dt class="sig sig-object py" id="id156">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.test.</span></span><span class="sig-name descname"><span class="pre">B</span></span><a class="headerlink" href="#id156" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id155" title="plexsim.models.test.A"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.test.A</span></code></a></p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="id154">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.test.</span></span><span class="sig-name descname"><span class="pre">C</span></span><a class="headerlink" href="#id154" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id153" title="plexsim.models.test.B"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.test.B</span></code></a></p>
+<dt class="sig sig-object py" id="id157">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.test.</span></span><span class="sig-name descname"><span class="pre">C</span></span><a class="headerlink" href="#id157" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id156" title="plexsim.models.test.B"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.test.B</span></code></a></p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="id155">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.test.</span></span><span class="sig-name descname"><span class="pre">D</span></span><a class="headerlink" href="#id155" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id154" title="plexsim.models.test.C"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.test.C</span></code></a></p>
+<dt class="sig sig-object py" id="id158">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.test.</span></span><span class="sig-name descname"><span class="pre">D</span></span><a class="headerlink" href="#id158" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id157" title="plexsim.models.test.C"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.test.C</span></code></a></p>
 </dd></dl>
 
 </div>
@@ -1893,8 +1987,8 @@ S —-&gt; I —-&gt; R —-&gt; S</p>
 <span id="plexsim-models-value-network-module"></span><h2>plexsim.models.value_network module<a class="headerlink" href="#module-plexsim.models.value_network" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.value_network.ValueNetwork">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.value_network.</span></span><span class="sig-name descname"><span class="pre">ValueNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rules</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounded_rational</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.arange(0,</span> <span class="pre">2,</span> <span class="pre">dtype=np.double)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.value_network.ValueNetwork" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id92" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.value_network.</span></span><span class="sig-name descname"><span class="pre">ValueNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rules</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounded_rational</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heuristic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redundancy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.arange(0,</span> <span class="pre">2,</span> <span class="pre">dtype=np.double)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.value_network.ValueNetwork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id95" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="plexsim.models.value_network.ValueNetwork.bounded_rational">
 <span class="sig-name descname"><span class="pre">bounded_rational</span></span><a class="headerlink" href="#plexsim.models.value_network.ValueNetwork.bounded_rational" title="Permalink to this definition">¶</a></dt>
@@ -1922,9 +2016,29 @@ the number of completed value networks.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="plexsim.models.value_network.ValueNetwork.dump_rules">
+<span class="sig-name descname"><span class="pre">dump_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">nx.Graph</span> <span class="pre">or</span> <span class="pre">nx.DiGraph</span><a class="headerlink" href="#plexsim.models.value_network.ValueNetwork.dump_rules" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the possibly “full” graph, i.e. a networkx graph with negative edges weights,
+and removes all those edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Networkx graph without any negative or zero edge weight.</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
-<dt class="sig sig-object py" id="plexsim.models.value_network.ValueNetwork.pat">
-<span class="sig-name descname"><span class="pre">pat</span></span><a class="headerlink" href="#plexsim.models.value_network.ValueNetwork.pat" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="plexsim.models.value_network.ValueNetwork.heuristic">
+<span class="sig-name descname"><span class="pre">heuristic</span></span><a class="headerlink" href="#plexsim.models.value_network.ValueNetwork.heuristic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plexsim.models.value_network.ValueNetwork.redundancy">
+<span class="sig-name descname"><span class="pre">redundancy</span></span><a class="headerlink" href="#plexsim.models.value_network.ValueNetwork.redundancy" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1935,20 +2049,20 @@ the number of completed value networks.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id156">
-<h2>plexsim.models.value_network module<a class="headerlink" href="#id156" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id159">
+<h2>plexsim.models.value_network module<a class="headerlink" href="#id159" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-22"></span><dl class="py class">
-<dt class="sig sig-object py" id="id157">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.value_network.</span></span><span class="sig-name descname"><span class="pre">ValueNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rules</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounded_rational</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.arange(0,</span> <span class="pre">2,</span> <span class="pre">dtype=np.double)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id157" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id92" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
+<dt class="sig sig-object py" id="id160">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.value_network.</span></span><span class="sig-name descname"><span class="pre">ValueNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rules</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounded_rational</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heuristic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redundancy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.arange(0,</span> <span class="pre">2,</span> <span class="pre">dtype=np.double)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id160" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id95" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id158">
-<span class="sig-name descname"><span class="pre">bounded_rational</span></span><a class="headerlink" href="#id158" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id161">
+<span class="sig-name descname"><span class="pre">bounded_rational</span></span><a class="headerlink" href="#id161" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id159">
-<span class="sig-name descname"><span class="pre">check_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">node_id_t</span> <span class="pre">start</span></em>, <em class="sig-param"><span class="pre">bool</span> <span class="pre">verbose=False</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">list</span><a class="headerlink" href="#id159" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id162">
+<span class="sig-name descname"><span class="pre">check_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">node_id_t</span> <span class="pre">start</span></em>, <em class="sig-param"><span class="pre">bool</span> <span class="pre">verbose=False</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">list</span><a class="headerlink" href="#id162" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes completed value networks</p>
 <p>Recursively checks for a node in the current system state
 the number of completed value networks.</p>
@@ -1968,14 +2082,34 @@ the number of completed value networks.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="id163">
+<span class="sig-name descname"><span class="pre">dump_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">nx.Graph</span> <span class="pre">or</span> <span class="pre">nx.DiGraph</span><a class="headerlink" href="#id163" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the possibly “full” graph, i.e. a networkx graph with negative edges weights,
+and removes all those edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Networkx graph without any negative or zero edge weight.</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id160">
-<span class="sig-name descname"><span class="pre">pat</span></span><a class="headerlink" href="#id160" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id164">
+<span class="sig-name descname"><span class="pre">heuristic</span></span><a class="headerlink" href="#id164" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id165">
+<span class="sig-name descname"><span class="pre">redundancy</span></span><a class="headerlink" href="#id165" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id161">
-<span class="sig-name descname"><span class="pre">siteEnergy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">state_t[::1]</span> <span class="pre">states</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">vector</span><span class="p"><span class="pre">[</span></span><span class="pre">double</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#id161" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id166">
+<span class="sig-name descname"><span class="pre">siteEnergy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">state_t[::1]</span> <span class="pre">states</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">vector</span><span class="p"><span class="pre">[</span></span><span class="pre">double</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#id166" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1986,7 +2120,7 @@ the number of completed value networks.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="plexsim.models.value_network2.ValueNetwork">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.value_network2.</span></span><span class="sig-name descname"><span class="pre">ValueNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rules</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounded_rational</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.arange(0,</span> <span class="pre">2,</span> <span class="pre">dtype=np.double)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plexsim.models.value_network2.ValueNetwork" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id92" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id95" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="plexsim.models.value_network2.ValueNetwork.bounded_rational">
 <span class="sig-name descname"><span class="pre">bounded_rational</span></span><a class="headerlink" href="#plexsim.models.value_network2.ValueNetwork.bounded_rational" title="Permalink to this definition">¶</a></dt>
@@ -2016,6 +2150,21 @@ Adds path inplace if it does not occur in results</p>
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="plexsim.models.value_network2.ValueNetwork.dump_rules">
+<span class="sig-name descname"><span class="pre">dump_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">nx.Graph</span> <span class="pre">or</span> <span class="pre">nx.DiGraph</span><a class="headerlink" href="#plexsim.models.value_network2.ValueNetwork.dump_rules" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the possibly “full” graph, i.e. a networkx graph with negative edges weights,
+and removes all those edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Networkx graph without any negative or zero edge weight.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="plexsim.models.value_network2.ValueNetwork.merge">
 <span class="sig-name descname"><span class="pre">merge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">list</span> <span class="pre">results</span></em>, <em class="sig-param"><span class="pre">bool</span> <span class="pre">verbose=False</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">void</span><a class="headerlink" href="#plexsim.models.value_network2.ValueNetwork.merge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Merge paths from branches inplace</p>
@@ -2034,54 +2183,69 @@ Adds path inplace if it does not occur in results</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id162">
-<h2>plexsim.models.value_network2 module<a class="headerlink" href="#id162" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id167">
+<h2>plexsim.models.value_network2 module<a class="headerlink" href="#id167" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-23"></span><dl class="py class">
-<dt class="sig sig-object py" id="id163">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.value_network2.</span></span><span class="sig-name descname"><span class="pre">ValueNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rules</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounded_rational</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.arange(0,</span> <span class="pre">2,</span> <span class="pre">dtype=np.double)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id163" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id92" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
+<dt class="sig sig-object py" id="id168">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">plexsim.models.value_network2.</span></span><span class="sig-name descname"><span class="pre">ValueNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rules</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounded_rational</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agentStates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.arange(0,</span> <span class="pre">2,</span> <span class="pre">dtype=np.double)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id168" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../plexsim.models.html#id95" title="plexsim.models.potts.Potts"><code class="xref py py-class docutils literal notranslate"><span class="pre">plexsim.models.potts.Potts</span></code></a></p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id164">
-<span class="sig-name descname"><span class="pre">bounded_rational</span></span><a class="headerlink" href="#id164" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id169">
+<span class="sig-name descname"><span class="pre">bounded_rational</span></span><a class="headerlink" href="#id169" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id165">
-<span class="sig-name descname"><span class="pre">check_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">node_id_t</span> <span class="pre">start</span></em>, <em class="sig-param"><span class="pre">bool</span> <span class="pre">verbose=False</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">list</span><a class="headerlink" href="#id165" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id170">
+<span class="sig-name descname"><span class="pre">check_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">node_id_t</span> <span class="pre">start</span></em>, <em class="sig-param"><span class="pre">bool</span> <span class="pre">verbose=False</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">list</span><a class="headerlink" href="#id170" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id166">
-<span class="sig-name descname"><span class="pre">check_doubles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">list</span> <span class="pre">path</span></em>, <em class="sig-param"><span class="pre">list</span> <span class="pre">results</span></em>, <em class="sig-param"><span class="pre">bool</span> <span class="pre">verbose=False</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#id166" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id171">
+<span class="sig-name descname"><span class="pre">check_doubles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">list</span> <span class="pre">path</span></em>, <em class="sig-param"><span class="pre">list</span> <span class="pre">results</span></em>, <em class="sig-param"><span class="pre">bool</span> <span class="pre">verbose=False</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#id171" title="Permalink to this definition">¶</a></dt>
 <dd><p>Don’t allow for double edges
 Adds path inplace if it does not occur in results</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id167">
-<span class="sig-name descname"><span class="pre">check_endpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">state_t</span> <span class="pre">s</span></em>, <em class="sig-param"><span class="pre">list</span> <span class="pre">vp_path</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#id167" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id172">
+<span class="sig-name descname"><span class="pre">check_endpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">state_t</span> <span class="pre">s</span></em>, <em class="sig-param"><span class="pre">list</span> <span class="pre">vp_path</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#id172" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if an end point is reached</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id168">
-<span class="sig-name descname"><span class="pre">check_traversal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">list</span> <span class="pre">proposal</span></em>, <em class="sig-param"><span class="pre">list</span> <span class="pre">options</span></em>, <em class="sig-param"><span class="pre">bool</span> <span class="pre">verbose=False</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">void</span><a class="headerlink" href="#id168" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id173">
+<span class="sig-name descname"><span class="pre">check_traversal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">list</span> <span class="pre">proposal</span></em>, <em class="sig-param"><span class="pre">list</span> <span class="pre">options</span></em>, <em class="sig-param"><span class="pre">bool</span> <span class="pre">verbose=False</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">void</span><a class="headerlink" href="#id173" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id169">
-<span class="sig-name descname"><span class="pre">merge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">list</span> <span class="pre">results</span></em>, <em class="sig-param"><span class="pre">bool</span> <span class="pre">verbose=False</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">void</span><a class="headerlink" href="#id169" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id174">
+<span class="sig-name descname"><span class="pre">dump_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">nx.Graph</span> <span class="pre">or</span> <span class="pre">nx.DiGraph</span><a class="headerlink" href="#id174" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the possibly “full” graph, i.e. a networkx graph with negative edges weights,
+and removes all those edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Networkx graph without any negative or zero edge weight.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id175">
+<span class="sig-name descname"><span class="pre">merge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">list</span> <span class="pre">results</span></em>, <em class="sig-param"><span class="pre">bool</span> <span class="pre">verbose=False</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">void</span><a class="headerlink" href="#id175" title="Permalink to this definition">¶</a></dt>
 <dd><p>Merge paths from branches inplace</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id170">
-<span class="sig-name descname"><span class="pre">pat</span></span><a class="headerlink" href="#id170" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id176">
+<span class="sig-name descname"><span class="pre">pat</span></span><a class="headerlink" href="#id176" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id171">
-<span class="sig-name descname"><span class="pre">siteEnergy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">state_t[::1]</span> <span class="pre">states</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">vector</span><span class="p"><span class="pre">[</span></span><span class="pre">double</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#id171" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id177">
+<span class="sig-name descname"><span class="pre">siteEnergy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self</span></em>, <em class="sig-param"><span class="pre">state_t[::1]</span> <span class="pre">states</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">vector</span><span class="p"><span class="pre">[</span></span><span class="pre">double</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#id177" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

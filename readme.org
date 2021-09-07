@@ -26,7 +26,7 @@ cython. It provides:
 
 *N.b.*   this    is   a   work   in   progress.    Docs   are   hosted
 [[https://cvanelteren.github.io/PlexSim/][here]],      please       see      the
-[[https://cvanelteren.github.io/PlexSim/build/html/quickstart.html][quickstart]] in the docs.
+[[https://cvanelteren.github.io/PlexSim/build/html/quickstart.html][quickstart]] in the docs or the examples code under `/examples`.
 
 
 
