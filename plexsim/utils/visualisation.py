@@ -21,6 +21,18 @@ def turnoff_spines(ax):
 
 class GraphAnimation:
     def __init__(self, graph: object, time_data: dict, n=1, cmap=None):
+        """
+        Simple graph animation class.
+        This class isn't perfect and not highly customizable.
+        Can be used as an inspiration for your purposes.
+
+        Parameters
+        ----------
+        graph: nx.Graph, networkx structure
+        time_data: dict or np.ndarray containing the timme data
+        n: number of discrete states to use for colors
+        cmap: colormaps
+        """
         self.graph = graph
 
         # lazy conversion
@@ -35,13 +47,17 @@ class GraphAnimation:
                 import cmasher as cmr
 
                 self.colors = discrete_cmap(n, "cmr.pride")
+                self.cmap = "cmr.pride"
             except:
                 self.colors = discrete_cmap(n, "tab20c")
+                self.cmap = "tab20c"
         else:
             self.colors = discrete_cmap(n, cmap)
+            self.cmap = cmap
 
-        if len(self.time_data[0]["states"].shape) == 2:
-            self.colors = None
+        if self.time_data.get(0, {}).get("states"):
+            if len(self.time_data[0]["states"].shape) == 2:
+                self.colors = None
 
     def setup(
         self,
@@ -223,14 +239,41 @@ def create_grid_layout(g):
     return pos
 
 
-def visualize_graph(m):
+def vis_rules(m, ax, **kwargs):
     """
     Visualize value networks
     """
-    import cmasher as cmr
+    try:
+        import cmasher as cmr
+
+        cmap = cmr.guppy
+    except:
+        cmap = plt.cm.tab20c
+
+    r = m.dump_rules()
+    cmap = cmr.guppy(np.linspace(0, 1, m.nStates, 0))
+    colors = [cmap[int(i)] for i in r.nodes()]
+    nx.draw(r, ax=ax, node_color=colors, **kwargs)
+
+
+def visualize_graph(m, ax, pos=None, **kwargs):
+    """
+    Visualize value networks
+    """
+    try:
+        import cmasher as cmr
+
+        cmap = cmr.guppy
+    except:
+        cmap = plt.cm.tab20c
 
     cmap = cmr.guppy(np.linspace(0, 1, m.nStates, 0))
-    fig, ax = plt.subplots()
-    colors = [cmap[int(i)] for i in m.states.astype(int)]
-    nx.draw(m.graph, ax=ax, node_color=colors, with_labels=1)
-    fig.show()
+
+    colors = dict()
+    for node in m.graph.nodes():
+        idx = m.adj.mapping[node]
+        colors[node] = cmap[m.states[idx].astype(int)]
+
+    if pos is None:
+        pos = nx.cicular_layout(m.graph)
+    nx.draw(m.graph, pos=pos, ax=ax, node_color=list(colors.values()), **kwargs)

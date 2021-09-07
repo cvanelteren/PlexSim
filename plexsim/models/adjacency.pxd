@@ -12,4 +12,7 @@ cdef class Adjacency:
         bint _directed
 
     cdef void _add_edge(self, node_id_t x, node_id_t y, double weight =*) nogil
+    cpdef add_edge(self, node_id_t x, node_id_t y, double weight =*)
+
     cdef void _remove_edge(self, node_id_t x, node_id_t y) nogil
+

@@ -302,3 +302,124 @@ def extract_roles(node: int, g: nx.Graph, roles: list) -> list:
     node_role = nx.get_node_attributes(g, "role")[node]
     print(f"Testing {node}")
     return _extract_roles(queue, g, roles=[[node_role]], paths=[[node]])
+
+
+def walk(root: int, g: nx.Graph, visited: set) -> tuple:
+
+    path = [root]
+    while len(visited) != len(g):
+        tmp = [i for i in g.neighbors(path[-1])]
+        np.random.shuffle(tmp)
+        if tmp:
+            neighbor = tmp[0]
+        else:
+            print("No neighbors left")
+            path = [root]
+            tmp = list(g.neighbors(path[-1]))
+            np.random.shuffle(tmp)
+            neighbor = tmp[0]
+        # connected to already connected structure
+        if neighbor in visited and len(path) > 1:
+            print(f"Found path {path}")
+            return path, g
+        # if connected to something already in path
+        # erase path
+        elif neighbor in path:
+            print(f"Erasing {path} with {neighbor}")
+            path = [root]
+        # grow path
+        else:
+            path.append(neighbor)
+    return path, g
+
+
+def Willson(n: int, m: int or None = None) -> nx.Graph():
+    if m is None:
+        m = n
+    g = nx.grid_graph((n, m))
+    willson_graph = nx.empty_graph()
+    for node in g.nodes():
+        willson_graph.add_node(node)
+    options = list(g.nodes())
+    visited = set()
+
+    root = options.pop()
+    states = []
+    while len(options):
+        visited.add(root)
+        # generate random walk
+        while len(list(g.neighbors(root))) == 0:
+            idx = np.random.randint(0, len(visited))
+            root = list(visited)[idx]
+        path, g = walk(root, g, visited)
+        root = path[-1]
+        for (x1, x2) in zip(path[:-1], path[1:]):
+            visited.add(x2)
+            willson_graph.add_edge(x1, x2)
+
+            for neighbor in list(g.neighbors(x2)):
+                if neighbor in visited:
+                    g.remove_edge(x2, neighbor)
+
+            try:
+                options.remove(x2)
+            except:
+                pass
+        states.append((willson_graph.copy(), path))
+    return states
+
+
+def walkm(root, g, visited):
+    path = [root]
+
+    move = {
+        0: np.array([0, 1]),
+        1: np.array([1, 0]),
+        2: np.array([-1, 0]),
+        3: np.array([0, -1]),
+    }
+    while len(visited) != len(g):
+        try:
+            m = np.random.randint(0, 4)
+            direction = move[m]
+            neighbor = np.unravel_index(root, g.shape) + direction
+            neighbor = np.ravel_multi_index(neighbor, g.shape, mode="wrap")
+
+            # connected to already connected structure
+            if neighbor in visited and len(path) > 1:
+                print(f"Found path {path}")
+                return path, g
+            # if connected to something already in path
+            # erase path
+            if neighbor in path:
+                print(f"Erasing {path} since  {neighbor} is in path")
+                path = [root]
+            # grow path
+            else:
+                path.append(neighbor)
+        except Exception as e:
+            print(e, neighbor, direction)
+            pass
+    return path, g
+
+
+def Willson_matrix(n: int):
+    g = np.zeros((n, n))
+    options = list(np.arange(g.size))
+    visited = set()
+    root = options.pop()
+    while len(options):
+        print(len(options))
+        visited.add(root)
+        path, g = walkm(root, g, visited)
+        for x1, x2 in zip(path[:-1], path[1:]):
+            g.flat[x1] = 1
+            g.flat[x2] = 1
+            visisted.add(x2)
+            try:
+                options.remove(x2)
+            except Exception as e:
+                print(e)
+                pass
+        root = path[-1]
+    return g

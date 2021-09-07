@@ -4,6 +4,7 @@ MANIFEST.in
 Makefile
 build_docs.sh
 license.txt
+pyproject.toml
 readme.html
 readme.org
 requirements.txt
@@ -17,6 +18,13 @@ todo.org
 bench/bench_annealing.py
 bench/bench_specific.py
 bench/bench_val.py
+bench/recursive_animation.py
+bench/test_conway.py
+bench/test_particular.py
+bench/test_sandpile.py
+bench/test_triangle.py
+bench/test_vn_soc.py
+bench/vis_boid.py
 docs/.nojekyll
 docs/index.html
 docs/build/doctrees/environment.pickle
@@ -280,6 +288,9 @@ plexsim/models/value_network2.pyx
 plexsim/models/value_network_crystal.cpp
 plexsim/models/value_network_crystal.pxd
 plexsim/models/value_network_crystal.pyx
+plexsim/models/value_network_edges.cpp
+plexsim/models/value_network_edges.pxd
+plexsim/models/value_network_edges.pyx
 plexsim/models/value_network_soc.cpp
 plexsim/models/value_network_soc.pxd
 plexsim/models/value_network_soc.pyx
@@ -291,6 +302,7 @@ plexsim/utils/graph.py
 plexsim/utils/hm.py
 plexsim/utils/rules.py
 plexsim/utils/visualisation.py
+plexsim/utils/visualization.py
 plexsim/utils/.ob-jupyter/c30c2c3312870f62aa9448f788aa0a872f0c7d94.png
 plexsim/utils/__pycache__/__init__.cpython-39.pyc
 plexsim/utils/__pycache__/annealing.cpython-39.pyc

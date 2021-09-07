@@ -71,6 +71,7 @@ cdef class ValueNetwork(Potts):
     cdef:
        size_t _bounded_rational
        size_t _heuristic
+       size_t _redundancy
 
     cdef void _step(self, node_id_t node) nogil
     cdef double _energy(self, node_id_t node) nogil

@@ -18,6 +18,7 @@ cdef class ValueNetwork(Potts):
                  t = 1,
                  bounded_rational = -1,
                  heuristic = 0,
+                 redundancy = 1,
                  agentStates = np.arange(0, 2, dtype = np.double),
                  **kwargs
                  ):
@@ -56,6 +57,20 @@ cdef class ValueNetwork(Potts):
         self.verbose = False
         self.bounded_rational = bounded_rational
         self.heuristic = heuristic
+        self.redundancy = redundancy
+
+    @property
+    def redundancy(self):
+        return self._redundancy
+
+    @redundancy.setter
+    def redundancy(self, value):
+        if value >= 0:
+            self._redundancy = value
+        else:
+            print(f"Warning trying to set redundancy to {value}")
+            print("Should be >= 0")
+
 
     @property
     def bounded_rational(self):
@@ -89,7 +104,7 @@ cdef class ValueNetwork(Potts):
         energy = 0
         for node in range(self.adj._nNodes):
             # Z = <double> self.adj._adj[node].neighbors.size()
-            energy = - self._energy(node) #/ <double>(self.adj._adj[node].neighbors.size()) # just average
+            energy = self._energy(node) #/ <double>(self.adj._adj[node].neighbors.size()) # just average
             siteEnergy[node] = energy
         # reset pointer to original buffer
         self._states = ptr
@@ -128,37 +143,6 @@ cdef class ValueNetwork(Potts):
         #return np.abs(np.real(np.exp(2 * np.pi * np.complex(0, 1) * res)).mean())
         #return res
         
-
-    # cdef void _prune_options(self, Crawler *crawler) nogil:
-    #     """ Removes options that  cannot be reached from the
-    #     current node anymore """
-
-    #     cdef:
-    #         EdgeColor *current_edge = &crawler.path.back()
-    #         vector[EdgeColor] option
-    #         size_t idx
-    #         bint prune
-    #         double weight
-    #         size_t counter
-    #     # check all options
-    #     # prune options that are not reachable by the current edge in path
-    #     for idx in range(crawler.options.size() - 1, 0):
-    #         option = crawler.options[idx]
-    #         # assume prune
-    #         prune = True
-    #         counter = 0
-    #         for jdx in range(option.size() - 1, 0):
-    #             weight = self._rules._adj[current_edge.other.state][option[jdx].current.state]
-    #             if weight > 0:
-    #                 counter += 1
-    #         if counter == 0:
-    #             crawler.options.erase( crawler.options.begin() + idx)
-    #     return
-
-
-
-
-
 
     cdef bint _check_endpoint(self, state_t current_state, Crawler *crawler) nogil:
         """"
@@ -439,16 +423,32 @@ cdef class ValueNetwork(Potts):
             weight   = deref(it).second
             neighbor = deref(it).first
             # check rules
-            energy += self._rules._adj[proposal][states[neighbor]]
+            energy -= self._rules._adj[proposal][states[neighbor]]
             post(it)
 
+        # piece-wise linear function
+
+        # compute positive edges
+        cdef double k = 0
+        jt = self._rules._adj[proposal].begin()
+        while jt != self._rules._adj[proposal].end():
+            if deref(jt).second > 0:
+                k += deref(jt).second
+            post(jt)
+
+        energy = energy / k
+        # energy = 1 - 1/(<double>(self._redundancy)) * energy
+        energy = energy - energy**2/(2 * self._redundancy)
+
+
+        # compute completed value networks
         cdef Crawler *crawler = new Crawler(node,
                                             self._states[node],
                                             self._bounded_rational,
                                             self._heuristic,
                                             False)
         self._check_df(crawler)
-        energy += crawler.results.size()
+        energy -= crawler.results.size()
         del crawler
 
         cdef size_t mi

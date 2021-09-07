@@ -83,6 +83,12 @@ cdef class Adjacency:
             self._adj[y].neighbors.erase(x)
        return
 
+   # not this uses the node id not the string name
+   cpdef add_edge(self, node_id_t x, node_id_t y, double weight = 1):
+       self._add_edge(x, y, weight)
+       return
+
+
 
    @property
    def adj(self):
@@ -90,7 +96,8 @@ cdef class Adjacency:
        Returns the adjacency structure.
        FIXME: further abstract this
        """
-       return dict(self._adj)
+       return self._adj
+       # return dict(self._adj)
 
    @property
    def graph(self):

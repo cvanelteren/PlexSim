@@ -540,13 +540,6 @@ cdef class Model:
 
 
     @property
-    def adj(self):
-        """
-        Returns the adjacency class
-        """
-        return self.adj
-
-    @property
     def states(self):
         if self.last_written:
             return self.__newstates.base
@@ -630,6 +623,10 @@ cdef class Model:
                     self._nudges[k] = <state_t> v
         else:
             raise TypeError("Nudge input not a dict!")
+
+    @property
+    def adj(self):
+        return self.adj
 
     @updateType.setter
     def updateType(self, value):
@@ -796,6 +793,8 @@ cdef class Model:
 
         return spawn
 
+    cpdef add_edge(self, node_id_t x, node_id_t y, double weight = 1):
+        self.adj._add_edge(x, y, weight)
 
     # WARNING: overwrite this for the model using  mcmc
     cdef double probability(self, \

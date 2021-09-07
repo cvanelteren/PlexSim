@@ -1700,20 +1700,35 @@ typedef std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,struct __py
  */
 typedef std::pair<__pyx_t_7plexsim_6models_5types_state_t,__pyx_t_7plexsim_6models_5types_state_t>  __pyx_t_7plexsim_6models_5types_MemoizeUnit;
 struct __pyx_opt_args_7plexsim_6models_9adjacency_9Adjacency__add_edge;
+struct __pyx_opt_args_7plexsim_6models_9adjacency_9Adjacency_add_edge;
 
 /* "plexsim/models/adjacency.pxd":14
  *         bint _directed
  * 
  *     cdef void _add_edge(self, node_id_t x, node_id_t y, double weight =*) nogil             # <<<<<<<<<<<<<<
- *     cdef void _remove_edge(self, node_id_t x, node_id_t y) nogil
+ *     cpdef add_edge(self, node_id_t x, node_id_t y, double weight =*)
+ * 
  */
 struct __pyx_opt_args_7plexsim_6models_9adjacency_9Adjacency__add_edge {
+  int __pyx_n;
+  double weight;
+};
+
+/* "plexsim/models/adjacency.pxd":15
+ * 
+ *     cdef void _add_edge(self, node_id_t x, node_id_t y, double weight =*) nogil
+ *     cpdef add_edge(self, node_id_t x, node_id_t y, double weight =*)             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _remove_edge(self, node_id_t x, node_id_t y) nogil
+ */
+struct __pyx_opt_args_7plexsim_6models_9adjacency_9Adjacency_add_edge {
   int __pyx_n;
   double weight;
 };
 struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset;
+struct __pyx_opt_args_7plexsim_6models_4base_5Model_add_edge;
 
 /* "plexsim/models/base.pxd":84
  * 
@@ -1749,6 +1764,16 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn {
 struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset {
   int __pyx_n;
   PyObject *p;
+};
+
+/* "plexsim/models/base.pxd":100
+ *     cdef double probability(self, state_t state, node_id_t node) nogil
+ * 
+ *     cpdef add_edge(self, node_id_t x, node_id_t y, double weight=*)             # <<<<<<<<<<<<<<
+ */
+struct __pyx_opt_args_7plexsim_6models_4base_5Model_add_edge {
+  int __pyx_n;
+  double weight;
 };
 struct __pyx_opt_args_7plexsim_6models_5potts_5Potts_magnetize;
 
@@ -1981,6 +2006,7 @@ struct __pyx_memoryviewslice_obj {
 
 struct __pyx_vtabstruct_7plexsim_6models_9adjacency_Adjacency {
   void (*_add_edge)(struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t, struct __pyx_opt_args_7plexsim_6models_9adjacency_9Adjacency__add_edge *__pyx_optional_args);
+  PyObject *(*add_edge)(struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_9adjacency_9Adjacency_add_edge *__pyx_optional_args);
   void (*_remove_edge)(struct __pyx_obj_7plexsim_6models_9adjacency_Adjacency *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t);
 };
 static struct __pyx_vtabstruct_7plexsim_6models_9adjacency_Adjacency *__pyx_vtabptr_7plexsim_6models_9adjacency_Adjacency;
@@ -2047,6 +2073,7 @@ struct __pyx_vtabstruct_7plexsim_6models_4base_Model {
   void (*_swap_memory)(struct __pyx_obj_7plexsim_6models_4base_Model *);
   __pyx_t_7plexsim_6models_5types_state_t (*_sample_proposal)(struct __pyx_obj_7plexsim_6models_4base_Model *);
   double (*probability)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_state_t, __pyx_t_7plexsim_6models_5types_node_id_t);
+  PyObject *(*add_edge)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_add_edge *__pyx_optional_args);
 };
 static struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtabptr_7plexsim_6models_4base_Model;
 
