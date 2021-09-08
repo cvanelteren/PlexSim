@@ -10,7 +10,7 @@ Fast and general  toolbox for simulation of complex adaptive  systems written in
 cython. It provides:
 
 - *Fast* general modeling framework for many classical dynamics (see docs)
-- Readable
+- *Readable*
   - Coding  for  humans.  Leverages  cython  readability  and  allows  for  free
     development in python
 - *Extensability*
