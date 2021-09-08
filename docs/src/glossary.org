@@ -1,5 +1,5 @@
 #+options: num:nil toc:nil
-* Models
+* Background
 Under construction |:construction:|.
 ** Ising model
 Named  after  Ernst   Ising,  the  Ising  model  is  a   mathematical  model  of
