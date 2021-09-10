@@ -56,12 +56,22 @@ cdef class ValueNetwork(Potts):
 
         self.verbose = False
         self.bounded_rational = bounded_rational
+        self._max_bounded_rational = self.dump_rules().number_of_edges()
         self.heuristic = heuristic
         self.redundancy = redundancy
 
     @property
-    def redundancy(self):
+    def redundancy(self)->int:
         return self._redundancy
+
+    @property
+    def max_bounded_rational(self) -> int:
+        return self._max_bounded_rational
+
+
+    @max_bounded_rational.setter
+    def max_bounded_rational(self, value):
+        self._max_bounded_rational = value
 
     @redundancy.setter
     def redundancy(self, value):
@@ -73,8 +83,9 @@ cdef class ValueNetwork(Potts):
 
 
     @property
-    def bounded_rational(self):
+    def bounded_rational(self)->int:
         return self._bounded_rational
+
     @bounded_rational.setter
     def bounded_rational(self, value):
         # default value to full edges
@@ -87,8 +98,9 @@ cdef class ValueNetwork(Potts):
         self._bounded_rational = int(value)
 
     @property
-    def heuristic(self):
+    def heuristic(self)->int:
         return self._heuristic
+
     @heuristic.setter
     def heuristic(self, value):
         self._heuristic = value
@@ -438,7 +450,7 @@ cdef class ValueNetwork(Potts):
 
         energy = energy / k
         # energy = 1 - 1/(<double>(self._redundancy)) * energy
-        energy = energy - energy**2/(2 * self._redundancy)
+        energy = energy - energy**2/(2 * (self._rules._adj[states[node]].size() * self._redundancy))
 
 
         # compute completed value networks
@@ -485,9 +497,10 @@ cdef class ValueNetwork(Potts):
 
     cdef void _step(self, node_id_t node) nogil:
         cdef:
-            state_t proposal = self._sample_proposal()
-            state_t cur_state= self._states[node]
-            double p     = self.probability(proposal, node) / \
+            state_t proposal  = self._sample_proposal()
+            state_t cur_state = self._states[node]
+
+            double p = self.probability(proposal, node) / \
                 self.probability(cur_state, node)
         if self._rng._rand () < p:
             self._newstates[node] = proposal

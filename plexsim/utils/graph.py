@@ -304,16 +304,33 @@ def extract_roles(node: int, g: nx.Graph, roles: list) -> list:
     return _extract_roles(queue, g, roles=[[node_role]], paths=[[node]])
 
 
+def erase_path(path: list, target: int) -> list:
+    # keep path until target
+    new_path = []
+    for node in path:
+        if node == target:
+            return new_path
+        else:
+            new_path.append(node)
+    return new_path
+
+
 def walk(root: int, g: nx.Graph, visited: set) -> tuple:
 
     path = [root]
     while len(visited) != len(g):
-        tmp = [i for i in g.neighbors(path[-1])]
+        tmp = []
+        for i in g.neighbors(path[-1]):
+            if len(path) == 1:
+                tmp.append(i)
+            elif i != path[-2]:
+                tmp.append(i)
         np.random.shuffle(tmp)
         if tmp:
             neighbor = tmp[0]
         else:
             print("No neighbors left")
+            assert 0
             path = [root]
             tmp = list(g.neighbors(path[-1]))
             np.random.shuffle(tmp)
@@ -321,12 +338,13 @@ def walk(root: int, g: nx.Graph, visited: set) -> tuple:
         # connected to already connected structure
         if neighbor in visited and len(path) > 1:
             print(f"Found path {path}")
+            print(path)
             return path, g
         # if connected to something already in path
         # erase path
         elif neighbor in path:
             print(f"Erasing {path} with {neighbor}")
-            path = [root]
+            path = erase_path(path, neighbor)
         # grow path
         else:
             path.append(neighbor)

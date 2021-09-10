@@ -4,4 +4,5 @@ scipy
 cython==3.0a9
 scikit-learn
 pyprind
+cmasher
 sphinx>=4.0.0

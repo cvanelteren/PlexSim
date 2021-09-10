@@ -74,6 +74,8 @@ cdef class VNE(ValueNetwork):
             Neighbors.iterator it
 
 
+        # compute energy
+        # cdef double energy = self._energy(node)
         cdef Crawler *crawler = new Crawler(node,
                                             self._states[node],
                                             self._bounded_rational,
@@ -81,6 +83,7 @@ cdef class VNE(ValueNetwork):
                                             False)
         # search for completed vns
         self._check_df(crawler)
+        # energy += crawler.results.size()
         completed_vn = crawler.results.size()
         self._completed_vns[node] = completed_vn
         return

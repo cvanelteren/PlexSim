@@ -1953,6 +1953,7 @@ struct __pyx_obj_7plexsim_6models_19value_network_edges_VNE {
   struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork __pyx_base;
   __Pyx_memviewslice _completed_vns;
   double _theta;
+  size_t _max_bounded_rational;
 };
 
 
@@ -5210,9 +5211,9 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__step(struct __p
   PyGILState_STATE __pyx_gilstate_save;
   #endif
 
-  /* "plexsim/models/value_network_edges.pyx":77
- * 
- * 
+  /* "plexsim/models/value_network_edges.pyx":79
+ *         # compute energy
+ *         # cdef double energy = self._energy(node)
  *         cdef Crawler *crawler = new Crawler(node,             # <<<<<<<<<<<<<<
  *                                             self._states[node],
  *                                             self._bounded_rational,
@@ -5227,30 +5228,30 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__step(struct __p
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 77, __pyx_L1_error)
+    __PYX_ERR(0, 79, __pyx_L1_error)
   }
   __pyx_v_crawler = __pyx_t_1;
 
-  /* "plexsim/models/value_network_edges.pyx":83
+  /* "plexsim/models/value_network_edges.pyx":85
  *                                             False)
  *         # search for completed vns
  *         self._check_df(crawler)             # <<<<<<<<<<<<<<
+ *         # energy += crawler.results.size()
  *         completed_vn = crawler.results.size()
- *         self._completed_vns[node] = completed_vn
  */
   (void)(((struct __pyx_vtabstruct_7plexsim_6models_19value_network_edges_VNE *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._check_df(((struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self), __pyx_v_crawler));
 
-  /* "plexsim/models/value_network_edges.pyx":84
- *         # search for completed vns
+  /* "plexsim/models/value_network_edges.pyx":87
  *         self._check_df(crawler)
+ *         # energy += crawler.results.size()
  *         completed_vn = crawler.results.size()             # <<<<<<<<<<<<<<
  *         self._completed_vns[node] = completed_vn
  *         return
  */
   __pyx_v_completed_vn = __pyx_v_crawler->results.size();
 
-  /* "plexsim/models/value_network_edges.pyx":85
- *         self._check_df(crawler)
+  /* "plexsim/models/value_network_edges.pyx":88
+ *         # energy += crawler.results.size()
  *         completed_vn = crawler.results.size()
  *         self._completed_vns[node] = completed_vn             # <<<<<<<<<<<<<<
  *         return
@@ -5259,7 +5260,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__step(struct __p
   __pyx_t_2 = __pyx_v_node;
   *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->_completed_vns.data) + __pyx_t_2)) )) = __pyx_v_completed_vn;
 
-  /* "plexsim/models/value_network_edges.pyx":86
+  /* "plexsim/models/value_network_edges.pyx":89
  *         completed_vn = crawler.results.size()
  *         self._completed_vns[node] = completed_vn
  *         return             # <<<<<<<<<<<<<<
@@ -5288,7 +5289,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__step(struct __p
   __pyx_L0:;
 }
 
-/* "plexsim/models/value_network_edges.pyx":88
+/* "plexsim/models/value_network_edges.pyx":91
  *         return
  * 
  *     cdef void _remove_node(self, node_id_t node,             # <<<<<<<<<<<<<<
@@ -5316,7 +5317,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
   PyGILState_STATE __pyx_gilstate_save;
   #endif
 
-  /* "plexsim/models/value_network_edges.pyx":93
+  /* "plexsim/models/value_network_edges.pyx":96
  *         Removes edge that does not break any value network
  *         """
  *         it = self.adj._adj[node].neighbors.begin()             # <<<<<<<<<<<<<<
@@ -5325,7 +5326,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
  */
   __pyx_v_it = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.begin();
 
-  /* "plexsim/models/value_network_edges.pyx":96
+  /* "plexsim/models/value_network_edges.pyx":99
  *         cdef vector[node_id_t] options
  *         cdef size_t idx, jdx
  *         while it != self.adj._adj[node].neighbors.end():             # <<<<<<<<<<<<<<
@@ -5336,7 +5337,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
     __pyx_t_1 = ((__pyx_v_it != (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.end()) != 0);
     if (!__pyx_t_1) break;
 
-    /* "plexsim/models/value_network_edges.pyx":97
+    /* "plexsim/models/value_network_edges.pyx":100
  *         cdef size_t idx, jdx
  *         while it != self.adj._adj[node].neighbors.end():
  *             add = True             # <<<<<<<<<<<<<<
@@ -5345,7 +5346,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
  */
     __pyx_v_add = 1;
 
-    /* "plexsim/models/value_network_edges.pyx":98
+    /* "plexsim/models/value_network_edges.pyx":101
  *         while it != self.adj._adj[node].neighbors.end():
  *             add = True
  *             for idx in range(value_member.size()):             # <<<<<<<<<<<<<<
@@ -5357,7 +5358,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
     for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
       __pyx_v_idx = __pyx_t_4;
 
-      /* "plexsim/models/value_network_edges.pyx":99
+      /* "plexsim/models/value_network_edges.pyx":102
  *             add = True
  *             for idx in range(value_member.size()):
  *                 for jdx in range(value_member[idx].size()):             # <<<<<<<<<<<<<<
@@ -5369,7 +5370,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
       for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
         __pyx_v_jdx = __pyx_t_7;
 
-        /* "plexsim/models/value_network_edges.pyx":100
+        /* "plexsim/models/value_network_edges.pyx":103
  *             for idx in range(value_member.size()):
  *                 for jdx in range(value_member[idx].size()):
  *                     if value_member[idx][jdx].current.name == deref(it).first:             # <<<<<<<<<<<<<<
@@ -5379,7 +5380,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
         __pyx_t_1 = ((((__pyx_v_value_member[__pyx_v_idx])[__pyx_v_jdx]).current.name == (*__pyx_v_it).first) != 0);
         if (__pyx_t_1) {
 
-          /* "plexsim/models/value_network_edges.pyx":101
+          /* "plexsim/models/value_network_edges.pyx":104
  *                 for jdx in range(value_member[idx].size()):
  *                     if value_member[idx][jdx].current.name == deref(it).first:
  *                         add = False             # <<<<<<<<<<<<<<
@@ -5388,7 +5389,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
  */
           __pyx_v_add = 0;
 
-          /* "plexsim/models/value_network_edges.pyx":102
+          /* "plexsim/models/value_network_edges.pyx":105
  *                     if value_member[idx][jdx].current.name == deref(it).first:
  *                         add = False
  *                         break             # <<<<<<<<<<<<<<
@@ -5397,7 +5398,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
  */
           goto __pyx_L8_break;
 
-          /* "plexsim/models/value_network_edges.pyx":100
+          /* "plexsim/models/value_network_edges.pyx":103
  *             for idx in range(value_member.size()):
  *                 for jdx in range(value_member[idx].size()):
  *                     if value_member[idx][jdx].current.name == deref(it).first:             # <<<<<<<<<<<<<<
@@ -5406,7 +5407,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
  */
         }
 
-        /* "plexsim/models/value_network_edges.pyx":103
+        /* "plexsim/models/value_network_edges.pyx":106
  *                         add = False
  *                         break
  *                     if value_member[idx][jdx].other.name == deref(it).first:             # <<<<<<<<<<<<<<
@@ -5416,7 +5417,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
         __pyx_t_1 = ((((__pyx_v_value_member[__pyx_v_idx])[__pyx_v_jdx]).other.name == (*__pyx_v_it).first) != 0);
         if (__pyx_t_1) {
 
-          /* "plexsim/models/value_network_edges.pyx":104
+          /* "plexsim/models/value_network_edges.pyx":107
  *                         break
  *                     if value_member[idx][jdx].other.name == deref(it).first:
  *                         add = False             # <<<<<<<<<<<<<<
@@ -5425,7 +5426,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
  */
           __pyx_v_add = 0;
 
-          /* "plexsim/models/value_network_edges.pyx":105
+          /* "plexsim/models/value_network_edges.pyx":108
  *                     if value_member[idx][jdx].other.name == deref(it).first:
  *                         add = False
  *                         break             # <<<<<<<<<<<<<<
@@ -5434,7 +5435,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
  */
           goto __pyx_L8_break;
 
-          /* "plexsim/models/value_network_edges.pyx":103
+          /* "plexsim/models/value_network_edges.pyx":106
  *                         add = False
  *                         break
  *                     if value_member[idx][jdx].other.name == deref(it).first:             # <<<<<<<<<<<<<<
@@ -5445,7 +5446,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
       }
       __pyx_L8_break:;
 
-      /* "plexsim/models/value_network_edges.pyx":106
+      /* "plexsim/models/value_network_edges.pyx":109
  *                         add = False
  *                         break
  *                 if add == False:             # <<<<<<<<<<<<<<
@@ -5455,7 +5456,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
       __pyx_t_1 = ((__pyx_v_add == 0) != 0);
       if (__pyx_t_1) {
 
-        /* "plexsim/models/value_network_edges.pyx":107
+        /* "plexsim/models/value_network_edges.pyx":110
  *                         break
  *                 if add == False:
  *                     break             # <<<<<<<<<<<<<<
@@ -5464,7 +5465,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
  */
         goto __pyx_L6_break;
 
-        /* "plexsim/models/value_network_edges.pyx":106
+        /* "plexsim/models/value_network_edges.pyx":109
  *                         add = False
  *                         break
  *                 if add == False:             # <<<<<<<<<<<<<<
@@ -5475,7 +5476,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
     }
     __pyx_L6_break:;
 
-    /* "plexsim/models/value_network_edges.pyx":108
+    /* "plexsim/models/value_network_edges.pyx":111
  *                 if add == False:
  *                     break
  *             if add:             # <<<<<<<<<<<<<<
@@ -5485,7 +5486,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
     __pyx_t_1 = (__pyx_v_add != 0);
     if (__pyx_t_1) {
 
-      /* "plexsim/models/value_network_edges.pyx":109
+      /* "plexsim/models/value_network_edges.pyx":112
  *                     break
  *             if add:
  *                 options.push_back(deref(it).first)             # <<<<<<<<<<<<<<
@@ -5502,10 +5503,10 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
         #ifdef WITH_THREAD
         __Pyx_PyGILState_Release(__pyx_gilstate_save);
         #endif
-        __PYX_ERR(0, 109, __pyx_L1_error)
+        __PYX_ERR(0, 112, __pyx_L1_error)
       }
 
-      /* "plexsim/models/value_network_edges.pyx":108
+      /* "plexsim/models/value_network_edges.pyx":111
  *                 if add == False:
  *                     break
  *             if add:             # <<<<<<<<<<<<<<
@@ -5514,7 +5515,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
  */
     }
 
-    /* "plexsim/models/value_network_edges.pyx":110
+    /* "plexsim/models/value_network_edges.pyx":113
  *             if add:
  *                 options.push_back(deref(it).first)
  *             post(it)             # <<<<<<<<<<<<<<
@@ -5524,7 +5525,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
     (void)((__pyx_v_it++));
   }
 
-  /* "plexsim/models/value_network_edges.pyx":111
+  /* "plexsim/models/value_network_edges.pyx":114
  *                 options.push_back(deref(it).first)
  *             post(it)
  *         if options.size():             # <<<<<<<<<<<<<<
@@ -5534,7 +5535,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
   __pyx_t_1 = (__pyx_v_options.size() != 0);
   if (__pyx_t_1) {
 
-    /* "plexsim/models/value_network_edges.pyx":112
+    /* "plexsim/models/value_network_edges.pyx":115
  *             post(it)
  *         if options.size():
  *             idx = <node_id_t> (self._rng._rand() * options.size())             # <<<<<<<<<<<<<<
@@ -5543,7 +5544,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
  */
     __pyx_v_idx = ((__pyx_t_7plexsim_6models_5types_node_id_t)(((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rng) * __pyx_v_options.size()));
 
-    /* "plexsim/models/value_network_edges.pyx":113
+    /* "plexsim/models/value_network_edges.pyx":116
  *         if options.size():
  *             idx = <node_id_t> (self._rng._rand() * options.size())
  *             self.adj._remove_edge(node, options[idx])             # <<<<<<<<<<<<<<
@@ -5552,7 +5553,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
  */
     ((struct __pyx_vtabstruct_7plexsim_6models_9adjacency_Adjacency *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->__pyx_vtab)->_remove_edge(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj, __pyx_v_node, (__pyx_v_options[__pyx_v_idx]));
 
-    /* "plexsim/models/value_network_edges.pyx":111
+    /* "plexsim/models/value_network_edges.pyx":114
  *                 options.push_back(deref(it).first)
  *             post(it)
  *         if options.size():             # <<<<<<<<<<<<<<
@@ -5562,7 +5563,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
     goto __pyx_L13;
   }
 
-  /* "plexsim/models/value_network_edges.pyx":115
+  /* "plexsim/models/value_network_edges.pyx":118
  *             self.adj._remove_edge(node, options[idx])
  *         else:
  *             idx = <node_id_t> (self._rng._rand() * self.adj._adj[node].neighbors.size())             # <<<<<<<<<<<<<<
@@ -5572,7 +5573,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
   /*else*/ {
     __pyx_v_idx = ((__pyx_t_7plexsim_6models_5types_node_id_t)(((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rng) * (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.size()));
 
-    /* "plexsim/models/value_network_edges.pyx":116
+    /* "plexsim/models/value_network_edges.pyx":119
  *         else:
  *             idx = <node_id_t> (self._rng._rand() * self.adj._adj[node].neighbors.size())
  *             it = self.adj._adj[node].neighbors.begin()             # <<<<<<<<<<<<<<
@@ -5581,7 +5582,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
  */
     __pyx_v_it = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.begin();
 
-    /* "plexsim/models/value_network_edges.pyx":117
+    /* "plexsim/models/value_network_edges.pyx":120
  *             idx = <node_id_t> (self._rng._rand() * self.adj._adj[node].neighbors.size())
  *             it = self.adj._adj[node].neighbors.begin()
  *             while idx >= 0:             # <<<<<<<<<<<<<<
@@ -5592,7 +5593,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
       __pyx_t_1 = ((__pyx_v_idx >= 0) != 0);
       if (!__pyx_t_1) break;
 
-      /* "plexsim/models/value_network_edges.pyx":118
+      /* "plexsim/models/value_network_edges.pyx":121
  *             it = self.adj._adj[node].neighbors.begin()
  *             while idx >= 0:
  *                 idx -= 1             # <<<<<<<<<<<<<<
@@ -5601,7 +5602,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
  */
       __pyx_v_idx = (__pyx_v_idx - 1);
 
-      /* "plexsim/models/value_network_edges.pyx":119
+      /* "plexsim/models/value_network_edges.pyx":122
  *             while idx >= 0:
  *                 idx -= 1
  *                 post(it)             # <<<<<<<<<<<<<<
@@ -5611,7 +5612,7 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
       (void)((__pyx_v_it++));
     }
 
-    /* "plexsim/models/value_network_edges.pyx":120
+    /* "plexsim/models/value_network_edges.pyx":123
  *                 idx -= 1
  *                 post(it)
  *             self.adj._remove_edge(node, deref(it).first)             # <<<<<<<<<<<<<<
@@ -5621,14 +5622,14 @@ static void __pyx_f_7plexsim_6models_19value_network_edges_3VNE__remove_node(str
   }
   __pyx_L13:;
 
-  /* "plexsim/models/value_network_edges.pyx":121
+  /* "plexsim/models/value_network_edges.pyx":124
  *                 post(it)
  *             self.adj._remove_edge(node, deref(it).first)
  *         return             # <<<<<<<<<<<<<<
  */
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network_edges.pyx":88
+  /* "plexsim/models/value_network_edges.pyx":91
  *         return
  * 
  *     cdef void _remove_node(self, node_id_t node,             # <<<<<<<<<<<<<<
@@ -22147,7 +22148,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 /* #### Code section: cached_builtins ### */
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 32, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 101, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 987, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 136, __pyx_L1_error)
