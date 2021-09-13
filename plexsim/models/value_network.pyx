@@ -105,22 +105,22 @@ cdef class ValueNetwork(Potts):
     def heuristic(self, value):
         self._heuristic = value
 
-    cpdef vector[double] siteEnergy(self, state_t[::1] states):
-        cdef:
-            vector[double] siteEnergy = vector[double](self.adj._nNodes)
-            int node
-            double Z, energy
-            state_t* ptr = self._states
-        # reset pointer to current state
-        self._states = &states[0]
-        energy = 0
-        for node in range(self.adj._nNodes):
-            # Z = <double> self.adj._adj[node].neighbors.size()
-            energy = self._energy(node) #/ <double>(self.adj._adj[node].neighbors.size()) # just average
-            siteEnergy[node] = energy
-        # reset pointer to original buffer
-        self._states = ptr
-        return siteEnergy
+    # cpdef vector[double] siteEnergy(self, state_t[::1] states):
+    #     cdef:
+    #         vector[double] siteEnergy = vector[double](self.adj._nNodes)
+    #         int node
+    #         double Z, energy
+    #         state_t* ptr = self._states
+    #     # reset pointer to current state
+    #     self._states = &states[0]
+    #     energy = 0
+    #     for node in range(self.adj._nNodes):
+    #         # Z = <double> self.adj._adj[node].neighbors.size()
+    #         energy = -self._energy(node) #/ <double>(self.adj._adj[node].neighbors.size()) # just average
+    #         siteEnergy[node] = energy
+    #     # reset pointer to original buffer
+    #     self._states = ptr
+    #     return siteEnergy
 
     cdef double  magnetize_(self, Model mod, size_t n, double t):
         """ Custom magnetization function
@@ -435,7 +435,7 @@ cdef class ValueNetwork(Potts):
             weight   = deref(it).second
             neighbor = deref(it).first
             # check rules
-            energy -= self._rules._adj[proposal][states[neighbor]]
+            energy += self._rules._adj[proposal][states[neighbor]]
             post(it)
 
         # piece-wise linear function
@@ -460,7 +460,7 @@ cdef class ValueNetwork(Potts):
                                             self._heuristic,
                                             False)
         self._check_df(crawler)
-        energy -= crawler.results.size()
+        energy += crawler.results.size()
         del crawler
 
         cdef size_t mi

@@ -21,8 +21,6 @@ bench/test_sandpile.py
 bench/test_triangle.py
 bench/test_vn_soc.py
 bench/vis_boid.py
-dist/plexsimm-3.0-cp39-cp39-linux_x86_64.whl
-dist/plexsimm-3.0.tar.gz
 docs/.nojekyll
 docs/index.html
 docs/build/doctrees/environment.pickle
@@ -315,12 +313,6 @@ plexsim/utils/__pycache__/graph.cpython-39.pyc
 plexsim/utils/__pycache__/hm.cpython-39.pyc
 plexsim/utils/__pycache__/rules.cpython-39.pyc
 plexsim/utils/__pycache__/visualisation.cpython-39.pyc
-plexsimm.egg-info/PKG-INFO
-plexsimm.egg-info/SOURCES.txt
-plexsimm.egg-info/dependency_links.txt
-plexsimm.egg-info/not-zip-safe
-plexsimm.egg-info/requires.txt
-plexsimm.egg-info/top_level.txt
 tests/__init__.py
 tests/main
 tests/test_crawler.cpp
