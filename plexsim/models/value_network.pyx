@@ -447,10 +447,17 @@ cdef class ValueNetwork(Potts):
             if deref(jt).second > 0:
                 k += deref(jt).second
             post(jt)
+        kt = self._rules._adj[states[node]].begin()
+
+        cdef size_t K = 0
+        while  kt != self._rules._adj[states[node]].end():
+            if deref(kt).second > 0:
+                K += 1
+            post(kt)
 
         energy = energy / k
         # energy = 1 - 1/(<double>(self._redundancy)) * energy
-        energy = energy - energy**2/(2 * (self._rules._adj[states[node]].size() * self._redundancy))
+        energy = energy - energy**2/(2 * (K * self._redundancy))
 
 
         # compute completed value networks
