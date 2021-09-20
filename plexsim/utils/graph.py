@@ -145,11 +145,69 @@ class ConnectedSimpleGraphs:
         # start from the same base
         proposal = self.graphs[2][0].copy()
         for ni in range(2, n):
-            k = int(sparseness() * ni)
+            k = int(sparseness() * n)
             k = max((k, 1))
             for node in random.choices(list(proposal.nodes()), k=k):
                 proposal.add_edge(ni, node)
         return proposal
+
+
+def gini(x: np.ndarray):
+    """
+    Compute Gini coefficient of degree distribution
+    """
+    x.sort()
+    tmp = np.arange(1, x.size + 1)
+    n = x.size
+    return ((2 * tmp - n - 1) * x).sum() / (n * x.sum())
+
+
+def connected_random(
+    g: nx.Graph, p: callable, k: int = 10000, pos: dict = None
+) -> nx.Graph:
+    """modified from Gray et al. (2019)
+    Use MCMC method to sample from p(G | G = connected).
+
+    Takes  any graph  as  input and  uses Metroplis  Hasting
+    sampling  to reject  graphs that  are not  connected and
+    accepts  edges   with  probability  p.   The  generative
+    mechanisms utilizes a coordinate  system to decide which
+    graphs are connected. For example one can use for p_{ij}
+    the  Waxman graph  generator  for accepting  edge i,  j:
+
+        p_{ij}(q, s,  d) =  q * exp(-s * d)
+
+    where $q$  is the
+    acceptance probability, $s$ a scaling factor and $d$ the
+    (euclidean) distance for edge (i, j)
+
+    """
+    if pos is None:
+        pos = nx.random_layout(g)
+    pos = nx.rescale_layout_dict(pos, 0.5)
+
+    for ki in range(k):
+        i, j = np.random.choice(g.nodes(), size=2)
+        if i == j:
+            continue
+        d = np.sqrt(((pos[i] - pos[j]) ** 2).sum())
+        pij = p(d)
+        if g.has_edge(i, j):
+            g.remove_edge(i, j)
+            # check for acceptance
+            if nx.is_connected(g):
+                alpha = min(1, (1 - pij) / pij)
+                if np.random.rand() > alpha:
+                    g.add_edge(i, j)
+            # restore
+            else:
+                g.add_edge(i, j)
+        else:
+            alpha = min(1, pij / (1 - pij))
+            # restore
+            if np.random.rand() < alpha:
+                g.add_edge(i, j)
+    return g
 
 
 def legacy_graph(graph):

@@ -299,7 +299,6 @@ plexsim/models/__pycache__/__init__.cpython-39.pyc
 plexsim/utils/__init__.py
 plexsim/utils/annealing.py
 plexsim/utils/bundling.py
-plexsim/utils/finder.py
 plexsim/utils/graph.py
 plexsim/utils/hm.py
 plexsim/utils/rules.py
