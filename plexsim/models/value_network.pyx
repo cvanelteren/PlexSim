@@ -1,3 +1,6 @@
+## cython: linetrace=True
+## cython: binding=True
+## distutils: define_macros=CYTHON_TRACE_NOGIL=1
 import networkx as nx, numpy as np
 cimport numpy as np, cython
 from cython.parallel cimport parallel, prange, threadid
@@ -11,6 +14,7 @@ cdef extern from "<iterator>" namespace "std":
 
 cdef extern from "<algorithm>" namespace "std" nogil:
     void swap[T] (T &a, T &b)
+
 
 cdef class ValueNetwork(Potts):
     def __init__(self, graph,
@@ -188,7 +192,6 @@ cdef class ValueNetwork(Potts):
         while it != self._rules._adj[current_state].end():
             other_state = deref(it).first
             weight_edge = deref(it).second
-
             if weight_edge > 0:
                 target += 1
                 # traverse path and find the edge
@@ -256,6 +259,7 @@ cdef class ValueNetwork(Potts):
         del crawler
         return results
 
+    # @cython.profile(True)
     cdef vector[vector[EdgeColor]] _check_df(self, Crawler *crawler) nogil:
         """  Low level callable for check_df
         The function works recursively via a depth-first search approach.
@@ -283,6 +287,7 @@ cdef class ValueNetwork(Potts):
         cdef double edge_weight
         cdef size_t idx, opt_idx, bidx
         cdef node_id_t neighbor_idx
+        cdef bint edge_in_option
 
         # exit early if heuristic approach is
         # satisfied
@@ -299,7 +304,8 @@ cdef class ValueNetwork(Potts):
             current_edge.current = crawler.queue.back().current
             current_edge.other   = crawler.queue.back().other
             crawler.queue.pop_back()
-            # expand path with positive edge
+
+            # expand path with positive edge only
             if self._rules._adj[current_edge.current.state][current_edge.other.state] > 0:
                 crawler.path.push_back(current_edge)
 
@@ -307,6 +313,14 @@ cdef class ValueNetwork(Potts):
             if crawler.path.size() <= self._bounded_rational:
 
                 # 1. check endpoints
+                if crawler.path.size():
+                    if self.adj._adj[current_edge.other.name].neighbors.size()  == 1:
+                        option.clear()
+                        option.push_back(current_edge.sort())
+                        options.push_back(option)
+                        crawler.path.pop_back()
+                        return options
+
                 if self._check_endpoint(current_edge.other.state, crawler):
                     if crawler.verbose:
                         with gil:
@@ -350,6 +364,12 @@ cdef class ValueNetwork(Potts):
                         post(it)
                         continue
 
+                    # edge_in_option = False
+                    # if crawler.in_options(deref(proposal_edge), options):
+                    #     post(it)
+                    #     continue
+
+
                     # check if branch is valid
                     edge_weight = self._rules._adj[proposal_edge.current.state][proposal_edge.other.state]
                     # 3. step into brach
@@ -387,9 +407,9 @@ cdef class ValueNetwork(Potts):
 
         # push back current node as option
         if crawler.path.size():
-            option.clear()
-            option.push_back(crawler.path.back().sort())
-            options.push_back(option)
+            # option.clear()
+            # option.push_back(crawler.path.back().sort())
+            # options.push_back(option)
             crawler.path.pop_back()
         return options
 
@@ -455,9 +475,9 @@ cdef class ValueNetwork(Potts):
                 K += 1
             post(kt)
 
-        energy = energy / k
+        # energy = energy
         # energy = 1 - 1/(<double>(self._redundancy)) * energy
-        energy = energy - energy**2/(2 * (K * self._redundancy))
+        energy = energy/k - energy**2/(2 * (K * self._redundancy))
 
 
         # compute completed value networks

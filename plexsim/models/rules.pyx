@@ -23,7 +23,7 @@ cdef class Rules:
         # enforce strings
 
         # relabel all nodes as strings in order to prevent networkx relabelling
-        graph = nx.relabel_nodes(graph, {node : str(node) for node in graph.nodes()})
+        # graph = nx.relabel_nodes(graph, {node : str(node) for node in graph.nodes()})
         # forward declaration
         cdef:
             dict mapping = {}
@@ -36,7 +36,7 @@ cdef class Rules:
             weight_t weight
             # generate graph in json format
             dict nodelink = nx.node_link_data(graph)
-            str nodeid
+            object nodeid
             int nodeidx
 
         for nodeidx, node in enumerate(nodelink.get("nodes")):
@@ -48,8 +48,8 @@ cdef class Rules:
         cdef bint directed  = nodelink.get('directed')
         cdef dict link
         for link in nodelink['links']:
-            source = <state_t> mapping[link.get('source')]
-            target = <state_t> mapping[link.get('target')]
+            source = mapping[link.get('source')]
+            target = mapping[link.get('target')]
             weight = <weight_t> link.get('weight', DEFAULTWEIGHT)
             # reverse direction for inputs
             if directed:

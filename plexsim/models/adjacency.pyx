@@ -20,7 +20,7 @@ cdef class Adjacency:
         # enforce strings
 
         # relabel all nodes as strings in order to prevent networkx relabelling
-        graph = nx.relabel_nodes(graph, {node : str(node) for node in graph.nodes()})
+        # graph = nx.relabel_nodes(graph, {node : str(node) for node in graph.nodes()})
         # forward declaration
         cdef:
             dict mapping = {}
@@ -33,7 +33,7 @@ cdef class Adjacency:
             weight_t weight
             # generate graph in json format
             dict nodelink = nx.node_link_data(graph)
-            str nodeid
+            object nodeid
             int nodeidx
 
         for nodeidx, node in enumerate(nodelink.get("nodes")):

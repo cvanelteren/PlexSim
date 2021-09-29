@@ -49,6 +49,7 @@ cdef extern from "plexsim/include/crawler.hpp":
 
         void merge_options(vector[vector[EdgeColor]] &options) nogil
 
+
         void merge_options(vector[vector[EdgeColor]] &options,
                            vector[vector[EdgeColor]] &other_options) nogil
         # void check_options() nogil
