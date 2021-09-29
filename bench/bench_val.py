@@ -1,6 +1,8 @@
 from plexsim.models.value_network import ValueNetwork as VNCPP
+from plexsim.models.value_network_gradient import VNG
+from plexsim.models.value_network_edges import VNE
 from plexsim.models.value_network2 import ValueNetwork as VNCY
-from plexsim.utils.graph import ConnectedSimpleGraphs
+from plexsim.utils.graph import ConnectedSimpleGraphs, connected_random
 from plexsim.utils.rules import create_rule_full
 
 import matplotlib.pyplot as plt, cmasher as cmr
@@ -15,67 +17,95 @@ def setup(graph: nx.Graph, model_t: object) -> object:
     r = create_rule_full(graph, self_weight=-1)
     S = np.arange(len(r))
     # br = min([1, r.number_of_edges()])
-    m = model_t(graph, rules=r, agentStates=S)
+    m = model_t(graph, rules=r, agentStates=S, heuristic=1)
     # bounded_rational=br)
     print(f"{m.bounded_rational=}")
+    number_of_triangles = sum(nx.triangles(m.graph).values()) / 3
+    print(number_of_triangles)
     m.states = S
     return m
 
 
 def run(m: object) -> None:
-    for node in range(m.nNodes):
-        m.check_df(node)
+    # m.check_df(m.nNodes // 2, verbose=0)
+    # m.check_df(10, verbose=1)
+    # m.simulate(2)
+    if type(m) is type(VNG):
+        d = m.check_gradient()
+    else:
+        d = m.siteEnergy(m.states)
+    # print(m, d)
 
 
 import time
 
-if __name__ == "__main__":
+
+def main():
     graphs = []
+    # graphs = [ConnectedSimpleGraphs().rvs(6) for i in range(5)]
 
-    # graphs = [ConnectedSimpleGraphs().rvs(7) for i in range(10)]
+    # graphs = [
+    #     j
+    #     for i in ConnectedSimpleGraphs().generate(6).values()
+    #     for j in i
+    #     if j.number_of_edges() < 5
+    # ]
 
-    for k, v in ConnectedSimpleGraphs().generate(4).items():
-        for vi in v:
-            if vi.number_of_edges() < 7:
-                graphs.append(vi)
+    print(len(graphs))
+    from functools import partial
 
-    timings = np.zeros((2, len(graphs)))
-    for idx, graph in enumerate(graphs):
-        print("-" * 32)
-        print(f"{graph.number_of_nodes()=}")
-        print(f"{graph.number_of_edges()=}")
-        print("-" * 32)
-        print("setting up vncpp")
-        m = setup(graph, VNCPP)
-        start = time.time()
-        run(m)
-        timings[0, idx] = time.time() - start
+    experiments = dict(
+        triangular_lattice=[nx.triangular_lattice_graph(i, 1) for i in range(2, 8)],
+        connected_simple=[ConnectedSimpleGraphs().rvs(5) for i in range(5)],
+    )
 
-        print("setting up vncpy")
-        m = setup(graph, VNCY)
+    # experiments = dict(
+    #     connected_simple=[ConnectedSimpleGraphs().rvs(6) for i in range(5)],
+    # )
 
-        start = time.time()
-        run(m)
-        timings[1, idx] = time.time() - start
+    import copy
 
-    print(timings[1] / (timings[0]))
-    xr = np.array([i.number_of_edges() for i in graphs])
-    fig, ax = plt.subplots(2, 1, figsize=(5, 5))
-    for t, l in zip(timings, "CPP CYTHON".split()):
-        ax[0].scatter(xr, t, label=l, s=5)
+    # graphs = [nx.path_graph(20)]
+    models = [VNCPP, VNG]
+    ntrials = 10
+    output = []
+    for name, graphs in experiments.items():
+        for idx, graph in enumerate(graphs):
+            graph = nx.convert_node_labels_to_integers(graph)
+            print("-" * 32)
+            print(f"{graph.number_of_nodes()=}")
+            print(f"{graph.number_of_edges()=}")
+            n = graph.number_of_edges()
+            m = graph.number_of_nodes()
+            for midx, model in enumerate(models):
+                print(32 * "-")
+                print(f"Setting up {model}")
+                m = setup(graph, model)
+                for trial in range(ntrials):
+                    start = time.time()
+                    run(m)
+                    data = dict(
+                        trial=trial,
+                        m=copy.copy(m),
+                        model=m.__class__.__name__,
+                        timing=time.time() - start,
+                        experiment=name,
+                    )
+                    output.append(data)
 
-    ax[1].scatter(xr, timings[1] / timings[0], label="Cython/CPP speed")
-    # ax[1].scatter(xr, timings[0] / timings[1], label="CPP/Cython speed")
+    import pandas as pd
 
-    ax[0].legend()
-    ax[1].legend()
+    output = pd.DataFrame(output)
+    output.to_pickle("./bench_val.pkl")
 
-    ax[0].set_xlabel("Value network size |E|")
-    ax[1].set_xlabel("Value network size |E|")
 
-    ax[0].set_ylabel("Timings")
-    ax[1].set_ylabel("Ratio timing")
-    ax[0].set_yscale("log")
-    ax[1].set_yscale("log")
-    fig.show()
-    plt.show(block=True)
+if __name__ == "__main__":
+    import cProfile as cp, pstats
+
+    profiler = cp.Profile()
+    profiler.enable()
+    main()
+    profiler.disable()
+    stats = pstats.Stats(profiler).sort_stats("cumtime")
+    report = "./bench_val.prof.stats.txt"
+    stats.dump_stats(report)
