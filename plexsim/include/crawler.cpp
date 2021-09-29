@@ -66,6 +66,11 @@ bool operator==(const EdgeColor &current, const EdgeColor &other) {
           (current.other.name == other.other.name));
 }
 
+bool compare_edge_name(const EdgeColor &current, const EdgeColor &other) {
+  return (current.current.name != other.current.name) ||
+         (current.other.name != other.other.name);
+}
+
 bool compare_edge_color(const EdgeColor &current, const EdgeColor &other) {
   // for set comparison
   return (current.current.state != other.current.state) ||
@@ -165,7 +170,7 @@ bool Crawler::in_options(EdgeColor &option,
    *
    * @return     bool; true if in path, false otherwise.
    */
-  std::vector<EdgeColor> vopt = {option};
+  std::vector<EdgeColor> vopt = {option.sort()};
   return this->in_options(vopt, options);
 }
 
@@ -298,8 +303,7 @@ void Crawler::merge_options(
         continue;
       }
 
-      for (size_t jdx = 0; jdx < other_options.size(); jdx++) {
-
+      for (int jdx = other_options.size() - 1; jdx >= 0; jdx--) {
         // early exit for heuristic approach
         if (this->heuristic) {
           if (this->results.size() == this->heuristic) {
@@ -332,23 +336,48 @@ void Crawler::merge_options(
               // memoize[idx][jdx] = true;
               break;
             }
+
+            // if (elem.size() == option.size()) {
+
+            //   std::set_union(option.begin(), option.end(), elem.begin(),
+            //                  elem.end(), std::inserter(uni, uni.begin()),
+            //                  compare_edge_name);
+            //   if ((uni.size() == elem.size()) &&
+            //       (uni.size() == option.size())) {
+            //     in_options = true;
+            //     break;
+            //   }
+            // }
           }
           if (!in_options) {
             options.push_back(option);
             can_merge = true;
           }
         }
-        // }
+        // filter out cases if the labels are the same
+        else if ((uni.size() == options[idx].size()) &&
+                 (uni.size() == options[jdx].size())) {
+          std::set_union(options[idx].begin(), options[idx].end(),
+                         options[jdx].begin(), options[jdx].end(),
+                         std::inserter(uni, uni.begin()), compare_edge_name);
+
+          if (uni.size() == options[idx].size()) {
+            other_options.erase(other_options.begin() + jdx);
+            continue;
+          }
+        }
       }
     }
   } // end merge
 
 // add current path
-#pragma omp for simd
+#pragma openmp simd for
   for (int idx = options.size() - 1; idx >= 0; idx--) {
     if (this->path.size()) {
-      if (!this->in_vpath(this->path.back(), options[idx]))
+      if (!this->in_vpath(this->path.back(), options[idx])) {
+        // printf("Adding option\n");
         options[idx].push_back(this->path.back().sort());
+      }
     }
     if (options[idx].size() == this->bounded_rational) {
       this->add_result(options[idx]);
@@ -507,7 +536,7 @@ void Crawler::print_results() {
 void Crawler::print_path() {
   printf("Printing path");
   for (auto ec : this->path) {
-    printf("\n Edge %ld %ld \t %ld %ld \n", ec.current.name, ec.other.name,
+    printf("\n Edge %ld %ld \t %f %f \n", ec.current.name, ec.other.name,
            ec.current.state, ec.other.state);
   }
   printf("\n");

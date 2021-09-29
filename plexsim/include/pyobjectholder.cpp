@@ -38,7 +38,7 @@ PyObjectHolder::~PyObjectHolder() {
 PyObjectHolder &PyObjectHolder::operator=(const PyObjectHolder &other) {
   {
     // acquire lock
-    std::lock_guard<std::mutex> gaurd(ref_mutex);
+    std::lock_guard<std::mutex> guard(ref_mutex);
     // remove object from ref count
     Py_XDECREF(ptr);
     // reassign and update ref count
