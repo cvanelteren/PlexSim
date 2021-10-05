@@ -71,7 +71,7 @@ class TestBaseModel(ut.TestCase):
         """
         Used for pickling
         """
-        import pickle
+        import pickle, copy
 
         before = self.m.states
         # dumping to binary
@@ -81,41 +81,8 @@ class TestBaseModel(ut.TestCase):
         self.m.kNudges = 2
         self.m.sampleSize = 1
         newModel = pickle.loads(pickle.dumps(self.m))
-
-        properties = {}
-        for prop in dir(self.m):
-            if not prop.startswith("_"):
-                v = getattr(self.m, prop)
-                properties[prop] = v
-        import copy
-
         other = copy.deepcopy(self.m)
         self.assertEqual(newModel, self.m)
-
-        # TODO: this below is now in base model
-        # for name in dir(self.m):
-        #     prop = getattr(self.m, name)
-        #     oprop = getattr(other, name)
-        #     if not name.startswith("_") and callable(prop) == False:
-        #         print(f"checking {name=} {prop} {oprop}")
-        #         if hasattr(prop, "__iter__"):
-        #             for x, y in zip(prop, oprop):
-        #                 self.assertEqual(x, y)
-        #         else:
-        #             self.assertEqual(prop, oprop)
-
-        # for name, prop in properties.items():
-        #     prop_copy = getattr(newModel, name)
-        #     print(name, prop_copy, prop)
-        #     if hasattr(prop, "__iter__"):
-        #         for x, y in zip(prop_copy, prop):
-        #             self.assertEqual(x, y)
-        #     else:
-        #         print(type(prop))
-        #         self.assertEqual(prop_copy == prop, True)
-
-        # for prop in "updateType nudgeType sampleSize last_written kNudges".split():
-        #     self.assertEqual(getattr(newModel, prop), getattr(self.m, prop))
 
     def test_nudges(self):
         nudge = 1
@@ -137,7 +104,7 @@ class TestBaseModel(ut.TestCase):
 
     # @ut.skip("Cython not used")
     def test_apply_nudge(self):
-        nudges = {"1": 1}
+        nudges = {1: 1}
         self.m.kNudges = 10
         self.m.nudges = nudges
         nodes = np.ones(10, dtype=np.uintp) * self.m.adj.mapping[next(iter(nudges))]

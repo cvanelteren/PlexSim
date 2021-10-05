@@ -437,6 +437,7 @@ cdef class Model:
         """Returns the rule graph as a networkx object
         """
         return self._rules.graph
+
     @property
     def p_recomb(self):
         """Returns the recombination probability
@@ -843,14 +844,20 @@ cdef class Model:
 
             if not name.startswith("_") and callable(prop) == False:
                 if hasattr(prop, "__iter__"):
-                    if name == 'nodeids':
-                        prop, oprop = sorted(prop), sorted(oprop)
-                    for x, y in zip(prop, oprop):
-                        if x != y:
+                    if hasattr(prop, "nodes"):
+                        if not nx.is_isomorphic(prop, oprop):
                             return False
+                    else:
+                        if name == 'nodeids':
+                            prop, oprop = sorted(prop), sorted(oprop)
+                        for x, y in zip(prop, oprop):
+                            if x != y:
+                                print(f"Found problem with {oprop} {prop}")
+                                return False
                 else:
                     if prop != oprop:
-                        print(prop, oprop)
+                        print(f"Found problem with {oprop} {prop}")
+                        print(oprop.nodes(), prop.nodes())
                         return False
 
         return True

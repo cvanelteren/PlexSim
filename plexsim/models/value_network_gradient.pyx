@@ -5,6 +5,7 @@ from cython.operator cimport dereference as deref, postincrement as post
 from collections import Counter
 from libcpp.unordered_map cimport *
 from libcpp.vector cimport *
+from libcpp.set cimport set as cset
 
 import networkx as nx
 
@@ -136,26 +137,29 @@ cdef class VNG(ValueNetwork):
             energy += self._rules._adj[proposal][states[neighbor]]
             post(it)
 
-        # piece-wise linear function
 
-        # compute positive edges
-        cdef double k = 0
-        jt = self._rules._adj[proposal].begin()
-        while jt != self._rules._adj[proposal].end():
-            if deref(jt).second > 0:
-                k += deref(jt).second
-            post(jt)
+        cdef double K = 0
         kt = self._rules._adj[states[node]].begin()
-
-        cdef size_t K = 0
         while  kt != self._rules._adj[states[node]].end():
             if deref(kt).second > 0:
                 K += 1
             post(kt)
 
-        # energy = energy
-        # energy = 1 - 1/(<double>(self._redundancy)) * energy
-        energy = energy/k - energy**2/(2 * (K * self._redundancy))
+        # # compute positive edges
+        # cdef double k = 0
+        # jt = self._rules._adj[proposal].begin()
+        # while jt != self._rules._adj[proposal].end():
+        #     if deref(jt).second > 0:
+        #         k += deref(jt).second
+        #     post(jt)
+
+        K = K  * self._redundancy
+        # piece-wise linear function
+        if energy <= K:
+            energy = 1/K * energy
+        else:
+            energy = 1 - (energy * 1/K - 1)
+
         cdef unordered_map[node_id_t, double] completed_vn
         with gil:
             completed_vn = self._check_gradient(verbose = False)
@@ -163,14 +167,14 @@ cdef class VNG(ValueNetwork):
         return energy
 
 
-    cdef void _check_sufficient_connected(self, node_id_t node, vector[node_id_t] &suff_connected) nogil:
+    cdef void _check_sufficient_connected(self, node_id_t node, cset[node_id_t] &suff_connected) nogil:
         """
         checks if the node is sufficiently connected that is satisfies at least the deg of
         the rule graph
         """
 
         cdef:
-            vector[state_t] role_neighbors, neighbor_roles, uni
+            cset[state_t] role_neighbors, neighbor_roles, uni
             size_t role_degree, idx
             state_t node_color
             unordered_map[double, size_t] counter
@@ -179,7 +183,7 @@ cdef class VNG(ValueNetwork):
         # get neighbor roles in social graph
         it = self.adj._adj[node].neighbors.begin()
         while it != self.adj._adj[node].neighbors.end():
-            neighbor_roles.push_back(self._states[deref(it).first])
+            neighbor_roles.insert(self._states[deref(it).first])
             post(it)
 
         # get neighbor roles in rule graph
@@ -187,14 +191,15 @@ cdef class VNG(ValueNetwork):
         role_degree = 0
         while jt != self._rules._adj[node_color].end():
             if deref(jt).second > 0:
-                role_neighbors.push_back(deref(jt).first)
+                role_neighbors.insert(deref(jt).first)
                 role_degree += 1
             post(jt)
 
-        uni.resize(min(role_neighbors.size(), neighbor_roles.size()))
-        output_iterator = set_intersection(role_neighbors.begin(), role_neighbors.end(),
+        # FIX: resize gaat hier fout
+        # uni.resize(min(role_neighbors.size(), neighbor_roles.size()))
+        set_intersection(role_neighbors.begin(), role_neighbors.end(),
                         neighbor_roles.begin(), neighbor_roles.end(),
-                        uni.begin()
+                        insert_iterator[cset[state_t]](uni, uni.begin())
                          )
         # uni.resize(output_iterator - uni.begin())
 
@@ -202,11 +207,44 @@ cdef class VNG(ValueNetwork):
             # counter[uni[idx]] += 1
 
         if uni.size() == role_degree:
-            suff_connected.push_back(node)
+            suff_connected.insert(node)
         return
 
     cpdef dict check_gradient(self, verbose: bint = False):
         return dict(self._check_gradient(verbose))
+
+    cpdef object cut_components(self, cset[node_id_t] suff_connected):
+        remapped_connected = [self.adj.rmapping[node] for node in suff_connected]
+        subgraph = self.graph.subgraph(remapped_connected)
+        subgraphc = subgraph.copy()
+        for i, j in subgraph.edges():
+            if self._rules._adj[i][j] <= 0:
+              subgraphc.remove_edge(i, j)
+        return subgraphc
+
+
+    cpdef double fractional_count(self, cset[node_id_t] nodes, bint verbose = False):
+        """
+        Rick's fractional count estimator
+        TODO: check this
+        TODO: make this cpp friendly
+        """
+        if verbose:
+            print(nodes)
+        cnt = Counter([self._states[self.adj.mapping[node]] for node in nodes])
+        if len(cnt) >= self._nStates:
+            cc_rolecounts = list(Counter([self._states[self.adj.mapping[node]] for node in nodes]).values())
+            # let's see if we can also compute a fractional count of VNs (so, if two complete VNs intersect in one role, say B,
+            # then the fractional number of VNs would be 1+4/5=1.8 instead of 1.0 as above)
+            fractional_num_vns = 0.0
+            cc_rolecounts = np.array(cc_rolecounts)  # convert so we can subtract easily
+            while not np.max(cc_rolecounts) == 0:
+                cnts_of_cnts = Counter(cc_rolecounts)
+                fractional_num_vns += 1.0 - float(cnts_of_cnts[0]) / self._nStates
+                # subtract all role counts by 1 but don't go negative
+                cc_rolecounts = np.max([np.zeros(len(cc_rolecounts)), np.subtract(cc_rolecounts, 1)], axis=0)
+        return fractional_num_vns
+
 
     cdef unordered_map[node_id_t, double] _check_gradient(self, bint verbose = False):
         """
@@ -215,39 +253,69 @@ cdef class VNG(ValueNetwork):
 
         cdef:
             unordered_map[node_id_t, double] heuristic
-            vector[node_id_t] suff_connected, remapped_connected
+            vector[node_id_t] remapped_connected
+            cset[node_id_t] suff_connected
             node_id_t node
 
+        # TODO: check output van deze functie
         for node in range(self.adj._nNodes):
             self._check_sufficient_connected(node, suff_connected)
             heuristic[node] = 0 # default
 
         # map the labels back
-        remapped_connected = [self.adj.rmapping[node] for node in suff_connected]
         if verbose:
            print(suff_connected)
-        # # TODO: make this cpp friendly
-        subgraph = self.graph.subgraph(remapped_connected)
+
+        cdef object subgraph = self.cut_components(suff_connected)
+        cdef double fractional_num_vns = 0
         for cc in nx.connected_components(subgraph):
-            if verbose:
-                print(cc)
-            cnt = Counter([self._states[self.adj.mapping[node]] for node in cc])
-            if len(cnt) >= self._nStates:
-                cc_rolecounts = list(Counter([self._states[self.adj.mapping[node]] for node in cc]).values())
-                # let's see if we can also compute a fractional count of VNs (so, if two complete VNs intersect in one role, say B, then the fractional number of VNs would be 1+4/5=1.8 instead of 1.0 as above)
-                fractional_num_vns = 0.0
-                cc_rolecounts = np.array(cc_rolecounts)  # convert so we can subtract easily
-                while not np.max(cc_rolecounts) == 0:
-                    cnts_of_cnts = Counter(cc_rolecounts)
-                    fractional_num_vns += 1.0 - float(cnts_of_cnts[0]) / self._nStates
-                    cc_rolecounts = np.max([np.zeros(len(cc_rolecounts)), np.subtract(cc_rolecounts, 1)], axis=0)  # subtract all role counts by 1 but don't go negative
-
-                # # assign  fractional num_vns per node
-                # if fractional_num_vns > 1:
-                #     fractional_num_vns = 1
-                # else:
-                #     fractional_num_vns = 0
-
-                for node in cc:
-                    heuristic[self.adj.mapping[node]] += fractional_num_vns
+            fractional_num_vns = self.fractional_count(cc)
+            for node in cc:
+                heuristic[self.adj.mapping[node]] += fractional_num_vns
         return heuristic
+
+    cpdef double check_gradient_node(self, node_id_t node):
+        """
+        Check gradient from a node point of view
+
+        1. check node sufficiently connected.
+        2. Check for all the the sufficient connected its neighbors
+        """
+        cdef:
+            vector[node_id_t]remapped_connected
+            cset[node_id_t] suff_connected
+            cset[node_id_t] neighbors
+            size_t heuristic = self._heuristic + 1
+
+            # loop stuff
+            node_id_t proposal
+            node_id_t neighbor
+            vector[node_id_t] queue
+            size_t old_size = suff_connected.size()
+
+        # init queue
+        queue.push_back(node)
+        # node is connected
+        while heuristic > 0 and queue.size():
+            # generate new proposal
+            proposal = queue.back()
+            queue.pop_back()
+            # sufficient connected will generate new proposals
+            self._check_sufficient_connected(proposal, suff_connected)
+
+            # node was sufficiently connected
+            if suff_connected.size() > old_size:
+                old_size = suff_connected.size()
+                this_state = self._states[proposal]
+
+                # check all neighbors with valid color assignments
+                it = self.adj._adj[proposal].neighbors.begin()
+                while it != self.adj._adj[proposal].neighbors.end():
+                    neighbor = deref(it).first
+                    other_state = self._states[neighbor]
+                    if self._rules._adj[this_state][other_state] > 0:
+                        queue.push_back(neighbor)
+                    post(it) # never forget
+            # decrease sight
+            heuristic -= 1
+        return self.fractional_count(suff_connected)

@@ -458,26 +458,32 @@ cdef class ValueNetwork(Potts):
             energy += self._rules._adj[proposal][states[neighbor]]
             post(it)
 
-        # piece-wise linear function
+        cdef double K = 0
+        kt = self._rules._adj[states[node]].begin()
+        while  kt != self._rules._adj[states[node]].end():
+            if deref(kt).second > 0:
+                K += 1
+            post(kt)
 
-        # compute positive edges
+        # # compute positive edges
         cdef double k = 0
         jt = self._rules._adj[proposal].begin()
         while jt != self._rules._adj[proposal].end():
             if deref(jt).second > 0:
                 k += deref(jt).second
             post(jt)
-        kt = self._rules._adj[states[node]].begin()
 
-        cdef size_t K = 0
-        while  kt != self._rules._adj[states[node]].end():
-            if deref(kt).second > 0:
-                K += 1
-            post(kt)
+        K = K  * self._redundancy
+        # piece-wise linear function
+        if energy <= K:
+            energy = 1/K * energy
+        else:
+            energy = 1 - (energy * 1/K - 1)
+
 
         # energy = energy
         # energy = 1 - 1/(<double>(self._redundancy)) * energy
-        energy = energy/k - energy**2/(2 * (K * self._redundancy))
+        # energy = energy/k - energy**2/(2 * (K * self._redundancy))
 
 
         # compute completed value networks

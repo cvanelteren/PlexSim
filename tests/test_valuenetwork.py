@@ -8,7 +8,7 @@ from plexsim.models.value_network import ValueNetwork
 # from plexsim.models.value_network2 import ValueNetwork as V2
 
 import matplotlib.pyplot as plt, networkx as nx
-from plexsim.utils.visualization import GraphAnimation, visualize_graph, vis_rules
+from plexsim.utils.visualization import GraphAnimation, vis_graph, vis_rules
 
 
 import time, logging
@@ -258,6 +258,14 @@ import cmasher as cmr
 from plexsim.models.value_network_gradient import *
 
 
+def gen_matching(model, graph):
+    r = create_rule_full(graph, self_weight=-1)
+    S = np.arange(len(r))
+    m = model(graph, rules=r, agentStates=S)
+    m.states = S.copy()
+    return m
+
+
 # TODO turn TestCrawl into abstract class; repetition of above
 class TestGradient(ut.TestCase):
     model = VNG
@@ -293,9 +301,7 @@ class TestGradient(ut.TestCase):
         without any value networks
         """
         for graph in self.graphs:
-            r = create_rule_full(graph, self_weight=-1)
-            S = np.arange(len(r))
-            m = self.model(graph, rules=r, agentStates=S)
+            m = gen_model(self.model, graph)
 
             # set state -> social network matches the value network
             m.states = S[0]
@@ -450,6 +456,20 @@ class TestGradient(ut.TestCase):
         # visualize_graph(m, ax=ax)
         # plt.show(block=1)
         self.__test_crawl_single(m, targets=targets, verbose=False)
+
+    def test_check_gradient_node(self):
+        """
+        Single node update
+        """
+
+        g = nx.path_graph(3)
+        m = gen_matching(self.model, g)
+        print(m.heuristic)
+        m.heuristic = m.dump_rules().number_of_nodes()
+        print(m.states, m.heuristic)
+        for node in range(m.nNodes):
+            print(f"Checking {node}")
+            print(m.check_gradient_node(node))
 
     def __test_crawl_single(
         self,

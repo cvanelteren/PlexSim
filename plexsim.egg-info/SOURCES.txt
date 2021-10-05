@@ -20,6 +20,7 @@ bench/test_particular.py
 bench/test_sandpile.py
 bench/test_triangle.py
 bench/test_vn_soc.py
+bench/vis_bench_val.py
 bench/vis_boid.py
 docs/.nojekyll
 docs/index.html
@@ -195,13 +196,14 @@ plexsim/__pycache__/__init__.cpython-39.pyc
 plexsim/include/__init__.py
 plexsim/include/crawler.cpp
 plexsim/include/crawler.hpp
+plexsim/include/gradient_checker.cpp
+plexsim/include/gradient_checker.hpp
 plexsim/include/main
 plexsim/include/mt19937.h
 plexsim/include/pyobjectholder.cpp
 plexsim/include/pyobjectholder.hpp
 plexsim/include/test.cpp
 plexsim/include/test.yml
-plexsim/include/test_crawler.cpp
 plexsim/include/vfastexp.h
 plexsim/models/__init__.py
 plexsim/models/ab.cpp
@@ -292,6 +294,9 @@ plexsim/models/value_network_crystal.pyx
 plexsim/models/value_network_edges.cpp
 plexsim/models/value_network_edges.pxd
 plexsim/models/value_network_edges.pyx
+plexsim/models/value_network_gradient.cpp
+plexsim/models/value_network_gradient.pxd
+plexsim/models/value_network_gradient.pyx
 plexsim/models/value_network_soc.cpp
 plexsim/models/value_network_soc.pxd
 plexsim/models/value_network_soc.pyx
@@ -313,7 +318,6 @@ plexsim/utils/__pycache__/hm.cpython-39.pyc
 plexsim/utils/__pycache__/rules.cpython-39.pyc
 plexsim/utils/__pycache__/visualisation.cpython-39.pyc
 tests/__init__.py
-tests/main
 tests/test_crawler.cpp
 tests/test_models.py
 tests/test_py_deriv.py

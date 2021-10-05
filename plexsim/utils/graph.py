@@ -98,6 +98,10 @@ import random
 
 
 class ConnectedSimpleGraphs:
+    """
+    Simple class that can generate connected graphs up to size n
+    """
+
     def __init__(self):
         """ "
         Class to hold connected graphs of size n
@@ -116,6 +120,12 @@ class ConnectedSimpleGraphs:
                     graph = self.__call__(base, k)
             start += 1
         return self.graphs
+
+    def flat_generate(self, n):
+        """
+        Flattens the dictionary from generate
+        """
+        return [j for i in self.generate(n).values() for j in i]
 
     def __call__(self, base, k: int):
         import itertools

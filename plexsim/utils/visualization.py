@@ -235,7 +235,7 @@ def vis_rules(m, ax, **kwargs):
     nx.draw(r, ax=ax, node_color=colors, **kwargs)
 
 
-def visualize_graph(m, ax, pos=None, **kwargs):
+def vis_graph(m, ax, pos=None, **kwargs):
     """
     Visualize value networks
     """
@@ -249,5 +249,5 @@ def visualize_graph(m, ax, pos=None, **kwargs):
         colors[node] = cmap[m.states[idx].astype(int)]
 
     if pos is None:
-        pos = nx.cicular_layout(m.graph)
+        pos = nx.circular_layout(m.graph)
     nx.draw(m.graph, pos=pos, ax=ax, node_color=list(colors.values()), **kwargs)

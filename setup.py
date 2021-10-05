@@ -8,14 +8,12 @@ import re, os
 from subprocess import run
 
 
-compiler = "g++-10"
+compiler = "g++-11"
 cppv = "20"
 if "g14" not in os.uname():
     compiler = "g++"
     cppv = "2a"
 
-os.environ["CC"] = compiler
-os.environ["CXX"] = compiler
 add = []
 optFlag = "-Ofast"
 flags = ""
@@ -28,6 +26,11 @@ flags = (
     "-Wfatal-errors "
 )
 
+# os.environ["CC"] = compiler
+# os.environ["CXX"] = compiler
+
+os.environ["CC"] = f"g++ {flags}"
+os.environ["CXX"] = f"g++ {flags}"
 # collect pyx files
 exts = []
 baseDir = os.getcwd() + os.path.sep
