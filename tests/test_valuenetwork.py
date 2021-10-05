@@ -459,17 +459,18 @@ class TestGradient(ut.TestCase):
 
     def test_check_gradient_node(self):
         """
-        Single node update
-        """
+        Single node update gradient method
 
+        Check_gradient node will use the bounded rationality
+        to estimate the number of value network it is a member of
+        """
         g = nx.path_graph(3)
         m = gen_matching(self.model, g)
-        print(m.heuristic)
-        m.heuristic = m.dump_rules().number_of_nodes()
-        print(m.states, m.heuristic)
         for node in range(m.nNodes):
-            print(f"Checking {node}")
-            print(m.check_gradient_node(node))
+            gradient = m.check_gradient_node(node)
+            # print(f"Checking {node}")
+            # print(gradient)
+            self.assertEqual(gradient, 1)
 
     def __test_crawl_single(
         self,

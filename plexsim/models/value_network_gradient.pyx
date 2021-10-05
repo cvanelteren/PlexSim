@@ -160,10 +160,11 @@ cdef class VNG(ValueNetwork):
         else:
             energy = 1 - (energy * 1/K - 1)
 
-        cdef unordered_map[node_id_t, double] completed_vn
+        cdef double completed_vn
         with gil:
-            completed_vn = self._check_gradient(verbose = False)
-        energy += completed_vn[node]
+            # completed_vn = self._check_gradient(verbose = False)[node]
+            completed_vn = self.check_gradient_node(node)
+        energy += completed_vn
         return energy
 
 
@@ -214,6 +215,9 @@ cdef class VNG(ValueNetwork):
         return dict(self._check_gradient(verbose))
 
     cpdef object cut_components(self, cset[node_id_t] suff_connected):
+        """
+        Creates a subgraph in which edges are removed with matching colors
+        """
         remapped_connected = [self.adj.rmapping[node] for node in suff_connected]
         subgraph = self.graph.subgraph(remapped_connected)
         subgraphc = subgraph.copy()
@@ -285,7 +289,8 @@ cdef class VNG(ValueNetwork):
             vector[node_id_t]remapped_connected
             cset[node_id_t] suff_connected
             cset[node_id_t] neighbors
-            size_t heuristic = self._heuristic + 1
+            # check number of edges + 1 additional as it is a size_t
+            size_t sight = self._bounded_rational + 2
 
             # loop stuff
             node_id_t proposal
@@ -296,7 +301,9 @@ cdef class VNG(ValueNetwork):
         # init queue
         queue.push_back(node)
         # node is connected
-        while heuristic > 0 and queue.size():
+        while sight > 0 and queue.size():
+            # decrease sight
+            sight -= 1
             # generate new proposal
             proposal = queue.back()
             queue.pop_back()
@@ -316,6 +323,4 @@ cdef class VNG(ValueNetwork):
                     if self._rules._adj[this_state][other_state] > 0:
                         queue.push_back(neighbor)
                     post(it) # never forget
-            # decrease sight
-            heuristic -= 1
         return self.fractional_count(suff_connected)
