@@ -30,6 +30,6 @@ cdef class VNG(ValueNetwork):
 
    cdef void _step(self, node_id_t node) nogil # override
 
-   cpdef double fractional_count(self, cset[node_id_t] nodes, bint verbose =*)
+   cpdef double fractional_count(self, cset[node_id_t] nodes, size_t threshold, bint verbose =*)
 
    cpdef double check_gradient_node(self, node_id_t node)

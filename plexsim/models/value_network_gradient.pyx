@@ -227,7 +227,7 @@ cdef class VNG(ValueNetwork):
         return subgraphc
 
 
-    cpdef double fractional_count(self, cset[node_id_t] nodes, bint verbose = False):
+    cpdef double fractional_count(self, cset[node_id_t] nodes, size_t threshold,  bint verbose = False):
         """
         Rick's fractional count estimator
         TODO: check this
@@ -236,7 +236,7 @@ cdef class VNG(ValueNetwork):
         if verbose:
             print(nodes)
         cnt = Counter([self._states[self.adj.mapping[node]] for node in nodes])
-        if len(cnt) >= self._nStates:
+        if len(cnt) >=  threshold:
             cc_rolecounts = list(Counter([self._states[self.adj.mapping[node]] for node in nodes]).values())
             # let's see if we can also compute a fractional count of VNs (so, if two complete VNs intersect in one role, say B,
             # then the fractional number of VNs would be 1+4/5=1.8 instead of 1.0 as above)
@@ -273,7 +273,7 @@ cdef class VNG(ValueNetwork):
         cdef object subgraph = self.cut_components(suff_connected)
         cdef double fractional_num_vns = 0
         for cc in nx.connected_components(subgraph):
-            fractional_num_vns = self.fractional_count(cc)
+            fractional_num_vns = self.fractional_count(cc, self._nStates)
             for node in cc:
                 heuristic[self.adj.mapping[node]] += fractional_num_vns
         return heuristic
@@ -286,7 +286,7 @@ cdef class VNG(ValueNetwork):
         2. Check for all the the sufficient connected its neighbors
         """
         cdef:
-            vector[node_id_t]remapped_connected
+            vector[node_id_t] remapped_connected
             cset[node_id_t] suff_connected
             cset[node_id_t] neighbors
             # check number of edges + 1 additional as it is a size_t
@@ -323,4 +323,5 @@ cdef class VNG(ValueNetwork):
                     if self._rules._adj[this_state][other_state] > 0:
                         queue.push_back(neighbor)
                     post(it) # never forget
-        return self.fractional_count(suff_connected)
+        cdef size_t states_at_distance_n = len(nx.generators.ego.ego_graph(self.graph, self.adj.rmapping[node],  self._bounded_rational))
+        return self.fractional_count(suff_connected, states_at_distance_n)
