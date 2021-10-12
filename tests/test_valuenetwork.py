@@ -466,11 +466,33 @@ class TestGradient(ut.TestCase):
         """
         g = nx.path_graph(3)
         m = gen_matching(self.model, g)
+        m.bounded_rational = 1
         for node in range(m.nNodes):
             gradient = m.check_gradient_node(node)
-            # print(f"Checking {node}")
-            # print(gradient)
+            print(f"Checking {node}")
+            print(gradient)
             self.assertEqual(gradient, 1)
+
+    def test_gain(self):
+        """
+        For piecewise linear, an edge should gain 1/k for a random edge
+        """
+
+        g = nx.empty_graph(3)
+        m = gen_matching(self.model, g)
+        g.add_edge(0, 1)
+        m_gain = gen_matching(self.model, g)
+
+        s1 = m.siteEnergy(m.states)
+        s2 = m_gain.siteEnergy(m.states)
+
+        delta = np.sum(s1) - np.sum(s2)
+        self.assertEqual(delta, 1)
+
+        g.add_edge(1, 2)
+        m_gain_again = gen_matching(self.model, g)
+        s3 = m_gain_again.siteEnergy(m_gain_again.states)
+        delta = s3.sum() - s
 
     def __test_crawl_single(
         self,

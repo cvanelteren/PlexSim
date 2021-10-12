@@ -162,7 +162,7 @@ cdef class VNG(ValueNetwork):
 
         cdef double completed_vn
         with gil:
-            # completed_vn = self._check_gradient(verbose = False)[node]
+            completed_vn = self._check_gradient(verbose = False)[node]
             completed_vn = self.check_gradient_node(node)
         energy += completed_vn
         return energy
@@ -323,5 +323,7 @@ cdef class VNG(ValueNetwork):
                     if self._rules._adj[this_state][other_state] > 0:
                         queue.push_back(neighbor)
                     post(it) # never forget
-        cdef size_t states_at_distance_n = len(nx.generators.ego.ego_graph(self.graph, self.adj.rmapping[node],  self._bounded_rational))
-        return self.fractional_count(suff_connected, states_at_distance_n)
+        # cdef size_t states_at_distance_n = len(nx.generators.ego.ego_graph(self.graph, self.adj.rmapping[node],  self._bounded_rational))
+        # return self.fractional_count(suff_connected, states_at_distance_n)
+
+        return self.fractional_count(suff_connected, self._bounded_rational)
