@@ -105,14 +105,25 @@ cdef class Adjacency:
        Wrapper around retrieving the graph. Some models edit the adjacency structure
        as such we have to reconstruct the graph from the lower level mapping.
        """
-       output = dict()
+       output = {node : {} for node in self.mapping}
+       directed = False
        for k, v in self.adj.items():
            node = self.rmapping[k]
-           output[node] = dict()
+           # flip input from output
+           # the adj matrix registers the inputs
+           # to a node
            for kk, vv in v["neighbors"].items():
                neighbor = self.rmapping[kk]
-               output[node][neighbor] = dict(weight=vv)
-       return nx.from_dict_of_dicts(output)
+               output[neighbor][node] = dict(weight=vv)
+               if self.adj[kk]["neighbors"].get(k, 0) == 0:
+                   directed = True
+
+       #TODO: hotfix
+       template = nx.Graph()
+       if directed:
+           template = nx.DiGraph()
+
+       return nx.from_dict_of_dicts(output, create_using = template)
 
    def __repr__(self):
         #FIXME: remove this
