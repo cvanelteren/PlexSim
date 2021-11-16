@@ -2,27 +2,25 @@ from Cython.Build import cythonize
 from Cython.Distutils import build_ext
 from setuptools import setup
 from setuptools.extension import Extension
-import numpy, multiprocessing as mp, os
+import numpy, multiprocessing as mp, os, platform
 
 import re, os
 from subprocess import run
 
 
-compiler = "g++-11"
-cppv = "20"
-if "g14" not in os.uname():
-    compiler = "g++"
-    cppv = "2a"
+compiler = "g++"
+# cppv = "20"
+if platform.system() == "macOS":
+    print("Warning MAC is not officially supported.")
 
 add = []
 optFlag = "-Ofast"
 flags = ""
 
 flags = (
-    f"{optFlag} -march=native -std=c++{cppv} -flto "
+    f"{optFlag} -march=native  -flto "
     "-frename-registers -funroll-loops -fno-wrapv "
     "-fopenmp-simd -fopenmp -unused-variable -Wno-unused "
-    "-D_GLIBCXX_USE_CXX11_ABI=0 "
     "-Wfatal-errors "
 )
 
@@ -68,7 +66,7 @@ for (root, dirs, files) in os.walk(baseDir):
                 define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
                 extra_link_args=[
                     "-fopenmp",
-                    f"-std=c++{cppv}",
+                    # f"-std=c++{cppv}",
                     # '-g'
                 ]
                 + add,
@@ -162,7 +160,7 @@ setup(
     name=name,
     author="Casper van Elteren",
     author_email="caspervanelteren@gmail.com",
-    url="https://github.com/cvanelteren/plexsim",
+    url="https://upload.pypi.org/project",
     keywords="Complex systems\tAgent-based simulations\tStatistical Physics".split(
         "\t"
     ),
