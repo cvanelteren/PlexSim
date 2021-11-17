@@ -6523,7 +6523,7 @@ static double __pyx_f_7plexsim_6models_5potts_5Potts__energy(struct __pyx_obj_7p
  *             double energy  = self._H[node] * self._states[node]
  * 
  *         if self._nudges.find(node) != self._nudges.end():             # <<<<<<<<<<<<<<
- *             energy += self._nudges[node] * self._states[node]
+ *             energy += self._nudges[node]  #* self._states[node]
  * 
  */
   __pyx_t_3 = ((__pyx_v_self->__pyx_base._nudges.find(__pyx_v_node) != __pyx_v_self->__pyx_base._nudges.end()) != 0);
@@ -6532,17 +6532,17 @@ static double __pyx_f_7plexsim_6models_5potts_5Potts__energy(struct __pyx_obj_7p
     /* "plexsim/models/potts.pyx":153
  * 
  *         if self._nudges.find(node) != self._nudges.end():
- *             energy += self._nudges[node] * self._states[node]             # <<<<<<<<<<<<<<
+ *             energy += self._nudges[node]  #* self._states[node]             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_v_energy = (__pyx_v_energy + ((__pyx_v_self->__pyx_base._nudges[__pyx_v_node]) * (__pyx_v_self->__pyx_base._states[__pyx_v_node])));
+    __pyx_v_energy = (__pyx_v_energy + (__pyx_v_self->__pyx_base._nudges[__pyx_v_node]));
 
     /* "plexsim/models/potts.pyx":152
  *             double energy  = self._H[node] * self._states[node]
  * 
  *         if self._nudges.find(node) != self._nudges.end():             # <<<<<<<<<<<<<<
- *             energy += self._nudges[node] * self._states[node]
+ *             energy += self._nudges[node]  #* self._states[node]
  * 
  */
   }
@@ -6698,7 +6698,7 @@ static double __pyx_f_7plexsim_6models_5potts_5Potts_probability(struct __pyx_ob
  *         self._states[node] = state
  *         cdef:
  *             double energy = self._energy(node)             # <<<<<<<<<<<<<<
- *             double p = exp(self._beta * energy)
+ *             double p = exp(-self._beta * energy)
  * 
  */
   __pyx_v_energy = ((struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *)__pyx_v_self->__pyx_base.__pyx_vtab)->_energy(__pyx_v_self, __pyx_v_node);
@@ -6706,14 +6706,14 @@ static double __pyx_f_7plexsim_6models_5potts_5Potts_probability(struct __pyx_ob
   /* "plexsim/models/potts.pyx":180
  *         cdef:
  *             double energy = self._energy(node)
- *             double p = exp(self._beta * energy)             # <<<<<<<<<<<<<<
+ *             double p = exp(-self._beta * energy)             # <<<<<<<<<<<<<<
  * 
  *         self._states[node] = tmp
  */
-  __pyx_v_p = exp((__pyx_v_self->_beta * __pyx_v_energy));
+  __pyx_v_p = exp(((-__pyx_v_self->_beta) * __pyx_v_energy));
 
   /* "plexsim/models/potts.pyx":182
- *             double p = exp(self._beta * energy)
+ *             double p = exp(-self._beta * energy)
  * 
  *         self._states[node] = tmp             # <<<<<<<<<<<<<<
  *         return p
@@ -6763,7 +6763,7 @@ static void __pyx_f_7plexsim_6models_5potts_5Potts__step(struct __pyx_obj_7plexs
  *         cdef:
  *             state_t proposal = self._sample_proposal()             # <<<<<<<<<<<<<<
  *             state_t cur_state= self._states[node]
- *             double p = self.probability(proposal, node) / \
+ *             double p = self.probability(cur_state, node) / \
  */
   __pyx_v_proposal = ((struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._sample_proposal(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
 
@@ -6771,24 +6771,24 @@ static void __pyx_f_7plexsim_6models_5potts_5Potts__step(struct __pyx_obj_7plexs
  *         cdef:
  *             state_t proposal = self._sample_proposal()
  *             state_t cur_state= self._states[node]             # <<<<<<<<<<<<<<
- *             double p = self.probability(proposal, node) / \
- *                 self.probability(cur_state, node)
+ *             double p = self.probability(cur_state, node) / \
+ *                 self.probability(proposal, node)
  */
   __pyx_v_cur_state = (__pyx_v_self->__pyx_base._states[__pyx_v_node]);
 
   /* "plexsim/models/potts.pyx":189
  *             state_t proposal = self._sample_proposal()
  *             state_t cur_state= self._states[node]
- *             double p = self.probability(proposal, node) / \             # <<<<<<<<<<<<<<
- *                 self.probability(cur_state, node)
- *         if self._rng._rand () < p:
+ *             double p = self.probability(cur_state, node) / \             # <<<<<<<<<<<<<<
+ *                 self.probability(proposal, node)
+ *         if self._rng._rand() < p:
  */
-  __pyx_v_p = (((struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_proposal, __pyx_v_node) / ((struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_cur_state, __pyx_v_node));
+  __pyx_v_p = (((struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_cur_state, __pyx_v_node) / ((struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), __pyx_v_proposal, __pyx_v_node));
 
   /* "plexsim/models/potts.pyx":191
- *             double p = self.probability(proposal, node) / \
- *                 self.probability(cur_state, node)
- *         if self._rng._rand () < p:             # <<<<<<<<<<<<<<
+ *             double p = self.probability(cur_state, node) / \
+ *                 self.probability(proposal, node)
+ *         if self._rng._rand() < p:             # <<<<<<<<<<<<<<
  *             self._newstates[node] = proposal
  *         return
  */
@@ -6796,8 +6796,8 @@ static void __pyx_f_7plexsim_6models_5potts_5Potts__step(struct __pyx_obj_7plexs
   if (__pyx_t_1) {
 
     /* "plexsim/models/potts.pyx":192
- *                 self.probability(cur_state, node)
- *         if self._rng._rand () < p:
+ *                 self.probability(proposal, node)
+ *         if self._rng._rand() < p:
  *             self._newstates[node] = proposal             # <<<<<<<<<<<<<<
  *         return
  * 
@@ -6805,16 +6805,16 @@ static void __pyx_f_7plexsim_6models_5potts_5Potts__step(struct __pyx_obj_7plexs
     (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = __pyx_v_proposal;
 
     /* "plexsim/models/potts.pyx":191
- *             double p = self.probability(proposal, node) / \
- *                 self.probability(cur_state, node)
- *         if self._rng._rand () < p:             # <<<<<<<<<<<<<<
+ *             double p = self.probability(cur_state, node) / \
+ *                 self.probability(proposal, node)
+ *         if self._rng._rand() < p:             # <<<<<<<<<<<<<<
  *             self._newstates[node] = proposal
  *         return
  */
   }
 
   /* "plexsim/models/potts.pyx":193
- *         if self._rng._rand () < p:
+ *         if self._rng._rand() < p:
  *             self._newstates[node] = proposal
  *         return             # <<<<<<<<<<<<<<
  * 

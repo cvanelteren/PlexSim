@@ -11,6 +11,7 @@ cdef extern from "<algorithm>" namespace "std":
                             Iter first2, Iter last2,
                             Iter result)
 cdef extern from "plexsim/include/crawler.hpp":
+
     # holds vertex color and id
     cdef cppclass ColorNode:
         ColorNode() nogil except+
@@ -28,6 +29,9 @@ cdef extern from "plexsim/include/crawler.hpp":
         EdgeColor sort() nogil
         void print() nogil
 
+
+    cdef size_t get_path_size(vector[EdgeColor] path) nogil
+
     # crawls accros and finds patterns
     cdef cppclass Crawler:
         Crawler() nogil except+
@@ -35,6 +39,7 @@ cdef extern from "plexsim/include/crawler.hpp":
                 state_t state,
                 size_t bounded_rational,
                 size_t heuristic,
+                size_t path_size,
                 bint verbose) nogil except+
         # Crawler(node_id_t  start, state_t state, size_t bounded_rational, bint verbose) nogil except+
 
@@ -73,6 +78,8 @@ cdef class ValueNetwork(Potts):
        size_t _bounded_rational
        size_t _heuristic
        size_t _redundancy
+       size_t _path_size
+       bint   _consider_options
 
     cdef void _step(self, node_id_t node) nogil
     cdef double _energy(self, node_id_t node) nogil

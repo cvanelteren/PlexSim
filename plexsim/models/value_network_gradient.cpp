@@ -924,6 +924,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "plexsim/include/crawler.hpp"
 #include "plexsim/include/crawler.cpp"
 #include <iterator>
+#include <math.h>
 #include <stdlib.h>
 #include "pystate.h"
 #ifdef _OPENMP
@@ -1801,7 +1802,7 @@ struct __pyx_opt_args_7plexsim_6models_5potts_5Potts_magnetize {
 };
 struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_df;
 
-/* "plexsim/models/value_network.pxd":84
+/* "plexsim/models/value_network.pxd":91
  *     # logic for checking completed vn
  *     # cpdef bint check_endpoint(self, state_t s, list vp_path)
  *     cpdef list check_df(self, node_id_t start, bint verbose =*)             # <<<<<<<<<<<<<<
@@ -1967,7 +1968,7 @@ struct __pyx_obj_7plexsim_6models_5potts_Potts {
 };
 
 
-/* "plexsim/models/value_network.pxd":70
+/* "plexsim/models/value_network.pxd":75
  * 
  * 
  * cdef class ValueNetwork(Potts):             # <<<<<<<<<<<<<<
@@ -1979,6 +1980,8 @@ struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork {
   size_t _bounded_rational;
   size_t _heuristic;
   size_t _redundancy;
+  size_t _path_size;
+  int _consider_options;
 };
 
 
@@ -2175,7 +2178,7 @@ struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts {
 static struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *__pyx_vtabptr_7plexsim_6models_5potts_Potts;
 
 
-/* "plexsim/models/value_network.pxd":70
+/* "plexsim/models/value_network.pxd":75
  * 
  * 
  * cdef class ValueNetwork(Potts):             # <<<<<<<<<<<<<<
@@ -2192,7 +2195,7 @@ struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork {
 static struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *__pyx_vtabptr_7plexsim_6models_13value_network_ValueNetwork;
 
 
-/* "plexsim/models/value_network_gradient.pyx":13
+/* "plexsim/models/value_network_gradient.pyx":18
  * 
  * 
  * cdef class VNG(ValueNetwork):             # <<<<<<<<<<<<<<
@@ -3760,6 +3763,10 @@ static PyTypeObject *__pyx_ptype_7plexsim_6models_5potts_Potts = 0;
 static PyTypeObject *__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork = 0;
 #endif
 
+/* Module declarations from "libc.math" */
+#if !CYTHON_USE_MODULE_STATE
+#endif
+
 /* Module declarations from "plexsim.models.value_network_gradient" */
 #if !CYTHON_USE_MODULE_STATE
 static PyTypeObject *__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG = 0;
@@ -3850,6 +3857,7 @@ static const char __pyx_k_VNG[] = "VNG";
 static const char __pyx_k__10[] = ")";
 static const char __pyx_k__33[] = "?";
 static const char __pyx_k_and[] = " and ";
+static const char __pyx_k_ego[] = "ego";
 static const char __pyx_k_got[] = " (got ";
 static const char __pyx_k_max[] = "max";
 static const char __pyx_k_new[] = "__new__";
@@ -3899,6 +3907,7 @@ static const char __pyx_k_format[] = "format";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_name_2[] = "__name__";
 static const char __pyx_k_pickle[] = "pickle";
+static const char __pyx_k_radius[] = "radius";
 static const char __pyx_k_reduce[] = "__reduce__";
 static const char __pyx_k_struct[] = "struct";
 static const char __pyx_k_unpack[] = "unpack";
@@ -3920,6 +3929,7 @@ static const char __pyx_k_setstate[] = "__setstate__";
 static const char __pyx_k_subgraph[] = "subgraph";
 static const char __pyx_k_subtract[] = "subtract";
 static const char __pyx_k_TypeError[] = "TypeError";
+static const char __pyx_k_ego_graph[] = "ego_graph";
 static const char __pyx_k_enumerate[] = "enumerate";
 static const char __pyx_k_heuristic[] = "heuristic";
 static const char __pyx_k_isenabled[] = "isenabled";
@@ -3928,6 +3938,8 @@ static const char __pyx_k_reduce_ex[] = "__reduce_ex__";
 static const char __pyx_k_threshold[] = "threshold";
 static const char __pyx_k_IndexError[] = "IndexError";
 static const char __pyx_k_ValueError[] = "ValueError";
+static const char __pyx_k_dump_rules[] = "dump_rules";
+static const char __pyx_k_generators[] = "generators";
 static const char __pyx_k_pyx_result[] = "__pyx_result";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_ImportError[] = "ImportError";
@@ -4072,7 +4084,10 @@ static PyObject *__pyx_kp_u_disable;
 static PyObject *__pyx_n_s_double;
 static PyObject *__pyx_n_s_dtype;
 static PyObject *__pyx_n_s_dtype_is_object;
+static PyObject *__pyx_n_s_dump_rules;
 static PyObject *__pyx_n_s_edges;
+static PyObject *__pyx_n_s_ego;
+static PyObject *__pyx_n_s_ego_graph;
 static PyObject *__pyx_kp_u_enable;
 static PyObject *__pyx_n_s_encode;
 static PyObject *__pyx_n_s_enumerate;
@@ -4083,6 +4098,7 @@ static PyObject *__pyx_n_s_fortran;
 static PyObject *__pyx_n_u_fortran;
 static PyObject *__pyx_n_s_fractional_count;
 static PyObject *__pyx_kp_u_gc;
+static PyObject *__pyx_n_s_generators;
 static PyObject *__pyx_n_s_getstate;
 static PyObject *__pyx_kp_u_got;
 static PyObject *__pyx_kp_u_got_differing_extents_in_dimensi;
@@ -4129,6 +4145,7 @@ static PyObject *__pyx_n_s_pyx_state;
 static PyObject *__pyx_n_s_pyx_type;
 static PyObject *__pyx_n_s_pyx_unpickle_Enum;
 static PyObject *__pyx_n_s_pyx_vtable;
+static PyObject *__pyx_n_s_radius;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_reduce;
 static PyObject *__pyx_n_s_reduce_cython;
@@ -4381,7 +4398,10 @@ typedef struct {
   PyObject *__pyx_n_s_double;
   PyObject *__pyx_n_s_dtype;
   PyObject *__pyx_n_s_dtype_is_object;
+  PyObject *__pyx_n_s_dump_rules;
   PyObject *__pyx_n_s_edges;
+  PyObject *__pyx_n_s_ego;
+  PyObject *__pyx_n_s_ego_graph;
   PyObject *__pyx_kp_u_enable;
   PyObject *__pyx_n_s_encode;
   PyObject *__pyx_n_s_enumerate;
@@ -4392,6 +4412,7 @@ typedef struct {
   PyObject *__pyx_n_u_fortran;
   PyObject *__pyx_n_s_fractional_count;
   PyObject *__pyx_kp_u_gc;
+  PyObject *__pyx_n_s_generators;
   PyObject *__pyx_n_s_getstate;
   PyObject *__pyx_kp_u_got;
   PyObject *__pyx_kp_u_got_differing_extents_in_dimensi;
@@ -4438,6 +4459,7 @@ typedef struct {
   PyObject *__pyx_n_s_pyx_type;
   PyObject *__pyx_n_s_pyx_unpickle_Enum;
   PyObject *__pyx_n_s_pyx_vtable;
+  PyObject *__pyx_n_s_radius;
   PyObject *__pyx_n_s_range;
   PyObject *__pyx_n_s_reduce;
   PyObject *__pyx_n_s_reduce_cython;
@@ -4647,7 +4669,10 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_double);
   Py_CLEAR(clear_module_state->__pyx_n_s_dtype);
   Py_CLEAR(clear_module_state->__pyx_n_s_dtype_is_object);
+  Py_CLEAR(clear_module_state->__pyx_n_s_dump_rules);
   Py_CLEAR(clear_module_state->__pyx_n_s_edges);
+  Py_CLEAR(clear_module_state->__pyx_n_s_ego);
+  Py_CLEAR(clear_module_state->__pyx_n_s_ego_graph);
   Py_CLEAR(clear_module_state->__pyx_kp_u_enable);
   Py_CLEAR(clear_module_state->__pyx_n_s_encode);
   Py_CLEAR(clear_module_state->__pyx_n_s_enumerate);
@@ -4658,6 +4683,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_u_fortran);
   Py_CLEAR(clear_module_state->__pyx_n_s_fractional_count);
   Py_CLEAR(clear_module_state->__pyx_kp_u_gc);
+  Py_CLEAR(clear_module_state->__pyx_n_s_generators);
   Py_CLEAR(clear_module_state->__pyx_n_s_getstate);
   Py_CLEAR(clear_module_state->__pyx_kp_u_got);
   Py_CLEAR(clear_module_state->__pyx_kp_u_got_differing_extents_in_dimensi);
@@ -4704,6 +4730,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_pyx_type);
   Py_CLEAR(clear_module_state->__pyx_n_s_pyx_unpickle_Enum);
   Py_CLEAR(clear_module_state->__pyx_n_s_pyx_vtable);
+  Py_CLEAR(clear_module_state->__pyx_n_s_radius);
   Py_CLEAR(clear_module_state->__pyx_n_s_range);
   Py_CLEAR(clear_module_state->__pyx_n_s_reduce);
   Py_CLEAR(clear_module_state->__pyx_n_s_reduce_cython);
@@ -4900,7 +4927,10 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_double);
   Py_VISIT(traverse_module_state->__pyx_n_s_dtype);
   Py_VISIT(traverse_module_state->__pyx_n_s_dtype_is_object);
+  Py_VISIT(traverse_module_state->__pyx_n_s_dump_rules);
   Py_VISIT(traverse_module_state->__pyx_n_s_edges);
+  Py_VISIT(traverse_module_state->__pyx_n_s_ego);
+  Py_VISIT(traverse_module_state->__pyx_n_s_ego_graph);
   Py_VISIT(traverse_module_state->__pyx_kp_u_enable);
   Py_VISIT(traverse_module_state->__pyx_n_s_encode);
   Py_VISIT(traverse_module_state->__pyx_n_s_enumerate);
@@ -4911,6 +4941,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_u_fortran);
   Py_VISIT(traverse_module_state->__pyx_n_s_fractional_count);
   Py_VISIT(traverse_module_state->__pyx_kp_u_gc);
+  Py_VISIT(traverse_module_state->__pyx_n_s_generators);
   Py_VISIT(traverse_module_state->__pyx_n_s_getstate);
   Py_VISIT(traverse_module_state->__pyx_kp_u_got);
   Py_VISIT(traverse_module_state->__pyx_kp_u_got_differing_extents_in_dimensi);
@@ -4957,6 +4988,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_pyx_type);
   Py_VISIT(traverse_module_state->__pyx_n_s_pyx_unpickle_Enum);
   Py_VISIT(traverse_module_state->__pyx_n_s_pyx_vtable);
+  Py_VISIT(traverse_module_state->__pyx_n_s_radius);
   Py_VISIT(traverse_module_state->__pyx_n_s_range);
   Py_VISIT(traverse_module_state->__pyx_n_s_reduce);
   Py_VISIT(traverse_module_state->__pyx_n_s_reduce_cython);
@@ -5150,7 +5182,10 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_double __pyx_mstate_global->__pyx_n_s_double
 #define __pyx_n_s_dtype __pyx_mstate_global->__pyx_n_s_dtype
 #define __pyx_n_s_dtype_is_object __pyx_mstate_global->__pyx_n_s_dtype_is_object
+#define __pyx_n_s_dump_rules __pyx_mstate_global->__pyx_n_s_dump_rules
 #define __pyx_n_s_edges __pyx_mstate_global->__pyx_n_s_edges
+#define __pyx_n_s_ego __pyx_mstate_global->__pyx_n_s_ego
+#define __pyx_n_s_ego_graph __pyx_mstate_global->__pyx_n_s_ego_graph
 #define __pyx_kp_u_enable __pyx_mstate_global->__pyx_kp_u_enable
 #define __pyx_n_s_encode __pyx_mstate_global->__pyx_n_s_encode
 #define __pyx_n_s_enumerate __pyx_mstate_global->__pyx_n_s_enumerate
@@ -5161,6 +5196,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_u_fortran __pyx_mstate_global->__pyx_n_u_fortran
 #define __pyx_n_s_fractional_count __pyx_mstate_global->__pyx_n_s_fractional_count
 #define __pyx_kp_u_gc __pyx_mstate_global->__pyx_kp_u_gc
+#define __pyx_n_s_generators __pyx_mstate_global->__pyx_n_s_generators
 #define __pyx_n_s_getstate __pyx_mstate_global->__pyx_n_s_getstate
 #define __pyx_kp_u_got __pyx_mstate_global->__pyx_kp_u_got
 #define __pyx_kp_u_got_differing_extents_in_dimensi __pyx_mstate_global->__pyx_kp_u_got_differing_extents_in_dimensi
@@ -5207,6 +5243,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_pyx_type __pyx_mstate_global->__pyx_n_s_pyx_type
 #define __pyx_n_s_pyx_unpickle_Enum __pyx_mstate_global->__pyx_n_s_pyx_unpickle_Enum
 #define __pyx_n_s_pyx_vtable __pyx_mstate_global->__pyx_n_s_pyx_vtable
+#define __pyx_n_s_radius __pyx_mstate_global->__pyx_n_s_radius
 #define __pyx_n_s_range __pyx_mstate_global->__pyx_n_s_range
 #define __pyx_n_s_reduce __pyx_mstate_global->__pyx_n_s_reduce
 #define __pyx_n_s_reduce_cython __pyx_mstate_global->__pyx_n_s_reduce_cython
@@ -5279,7 +5316,44 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #endif
 /* #### Code section: module_code ### */
 
-/* "plexsim/models/value_network_gradient.pyx":28
+/* "plexsim/models/value_network_gradient.pyx":14
+ * 
+ * 
+ * cdef double cauchy_pdf(double x, double x0, double gamma):             # <<<<<<<<<<<<<<
+ *     return 1.0 / (pi * (1 + ((x - x0)/gamma)**2))
+ * 
+ */
+
+static double __pyx_f_7plexsim_6models_22value_network_gradient_cauchy_pdf(double __pyx_v_x, double __pyx_v_x0, double __pyx_v_gamma) {
+  double __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("cauchy_pdf", 0);
+
+  /* "plexsim/models/value_network_gradient.pyx":15
+ * 
+ * cdef double cauchy_pdf(double x, double x0, double gamma):
+ *     return 1.0 / (pi * (1 + ((x - x0)/gamma)**2))             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_r = (1.0 / (M_PI * (1.0 + pow(((__pyx_v_x - __pyx_v_x0) / __pyx_v_gamma), 2.0))));
+  goto __pyx_L0;
+
+  /* "plexsim/models/value_network_gradient.pyx":14
+ * 
+ * 
+ * cdef double cauchy_pdf(double x, double x0, double gamma):             # <<<<<<<<<<<<<<
+ *     return 1.0 / (pi * (1 + ((x - x0)/gamma)**2))
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "plexsim/models/value_network_gradient.pyx":33
  *     Designed and implemented by Casper van Elteren
  *     """
  *     def __init__(self, graph,             # <<<<<<<<<<<<<<
@@ -5340,47 +5414,47 @@ static int __pyx_pw_7plexsim_6models_22value_network_gradient_3VNG_1__init__(PyO
       switch (__pyx_nargs) {
         case  0:
         if (likely((values[0] = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_graph)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 28, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 33, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
         if (likely((values[1] = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_rules)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 28, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 33, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 6, 1); __PYX_ERR(0, 28, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 6, 1); __PYX_ERR(0, 33, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_t);
           if (value) { values[2] = value; kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 28, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 33, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_bounded_rational);
           if (value) { values[3] = value; kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 28, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 33, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_heuristic);
           if (value) { values[4] = value; kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 28, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 33, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_agentStates);
           if (value) { values[5] = value; kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 28, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 33, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, __pyx_v_kwargs, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 28, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, __pyx_v_kwargs, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 33, __pyx_L3_error)
       }
     } else {
       switch (__pyx_nargs) {
@@ -5407,7 +5481,7 @@ static int __pyx_pw_7plexsim_6models_22value_network_gradient_3VNG_1__init__(PyO
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 6, __pyx_nargs); __PYX_ERR(0, 28, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 6, __pyx_nargs); __PYX_ERR(0, 33, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
   __Pyx_AddTraceback("plexsim.models.value_network_gradient.VNG.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -5435,14 +5509,14 @@ static int __pyx_pf_7plexsim_6models_22value_network_gradient_3VNG___init__(stru
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "plexsim/models/value_network_gradient.pyx":37
+  /* "plexsim/models/value_network_gradient.pyx":42
  *                  ):
  * 
  *         super(VNG, self).__init__(graph = graph,             # <<<<<<<<<<<<<<
  *                                     rules = rules,
  *                                     bounded_rational = bounded_rational,
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF((PyObject *)__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG);
   __Pyx_GIVEREF((PyObject *)__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG);
@@ -5450,129 +5524,129 @@ static int __pyx_pf_7plexsim_6models_22value_network_gradient_3VNG___init__(stru
   __Pyx_INCREF((PyObject *)__pyx_v_self);
   __Pyx_GIVEREF((PyObject *)__pyx_v_self);
   PyTuple_SET_ITEM(__pyx_t_1, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_graph, __pyx_v_graph) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_graph, __pyx_v_graph) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
 
-  /* "plexsim/models/value_network_gradient.pyx":38
+  /* "plexsim/models/value_network_gradient.pyx":43
  * 
  *         super(VNG, self).__init__(graph = graph,
  *                                     rules = rules,             # <<<<<<<<<<<<<<
  *                                     bounded_rational = bounded_rational,
  *                                     heuristic = heuristic,
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_rules, __pyx_v_rules) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_rules, __pyx_v_rules) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
 
-  /* "plexsim/models/value_network_gradient.pyx":39
+  /* "plexsim/models/value_network_gradient.pyx":44
  *         super(VNG, self).__init__(graph = graph,
  *                                     rules = rules,
  *                                     bounded_rational = bounded_rational,             # <<<<<<<<<<<<<<
  *                                     heuristic = heuristic,
  *                                     t = t,
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_bounded_rational, __pyx_v_bounded_rational) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_bounded_rational, __pyx_v_bounded_rational) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
 
-  /* "plexsim/models/value_network_gradient.pyx":40
+  /* "plexsim/models/value_network_gradient.pyx":45
  *                                     rules = rules,
  *                                     bounded_rational = bounded_rational,
  *                                     heuristic = heuristic,             # <<<<<<<<<<<<<<
  *                                     t = t,
  *                                     agentStates = agentStates,
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_heuristic, __pyx_v_heuristic) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_heuristic, __pyx_v_heuristic) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
 
-  /* "plexsim/models/value_network_gradient.pyx":41
+  /* "plexsim/models/value_network_gradient.pyx":46
  *                                     bounded_rational = bounded_rational,
  *                                     heuristic = heuristic,
  *                                     t = t,             # <<<<<<<<<<<<<<
  *                                     agentStates = agentStates,
  *                                     **kwargs)
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_t, __pyx_v_t) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_t, __pyx_v_t) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
 
-  /* "plexsim/models/value_network_gradient.pyx":42
+  /* "plexsim/models/value_network_gradient.pyx":47
  *                                     heuristic = heuristic,
  *                                     t = t,
  *                                     agentStates = agentStates,             # <<<<<<<<<<<<<<
  *                                     **kwargs)
  *         self._theta = heuristic
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_agentStates, __pyx_v_agentStates) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_agentStates, __pyx_v_agentStates) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
   __pyx_t_2 = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "plexsim/models/value_network_gradient.pyx":43
+  /* "plexsim/models/value_network_gradient.pyx":48
  *                                     t = t,
  *                                     agentStates = agentStates,
  *                                     **kwargs)             # <<<<<<<<<<<<<<
  *         self._theta = heuristic
  * 
  */
-  if (__Pyx_MergeKeywords(__pyx_t_2, __pyx_v_kwargs) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
+  if (__Pyx_MergeKeywords(__pyx_t_2, __pyx_v_kwargs) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
 
-  /* "plexsim/models/value_network_gradient.pyx":37
+  /* "plexsim/models/value_network_gradient.pyx":42
  *                  ):
  * 
  *         super(VNG, self).__init__(graph = graph,             # <<<<<<<<<<<<<<
  *                                     rules = rules,
  *                                     bounded_rational = bounded_rational,
  */
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "plexsim/models/value_network_gradient.pyx":44
+  /* "plexsim/models/value_network_gradient.pyx":49
  *                                     agentStates = agentStates,
  *                                     **kwargs)
  *         self._theta = heuristic             # <<<<<<<<<<<<<<
  * 
  *         self._completed_vns = np.zeros(self.adj._nNodes, dtype = float)
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_theta, __pyx_v_heuristic) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_theta, __pyx_v_heuristic) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
 
-  /* "plexsim/models/value_network_gradient.pyx":46
+  /* "plexsim/models/value_network_gradient.pyx":51
  *         self._theta = heuristic
  * 
  *         self._completed_vns = np.zeros(self.adj._nNodes, dtype = float)             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_nNodes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_nNodes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_3);
   __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 46, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_4, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_4, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_self->_completed_vns, 0);
   __pyx_v_self->_completed_vns = __pyx_t_5;
   __pyx_t_5.memview = NULL;
   __pyx_t_5.data = NULL;
 
-  /* "plexsim/models/value_network_gradient.pyx":28
+  /* "plexsim/models/value_network_gradient.pyx":33
  *     Designed and implemented by Casper van Elteren
  *     """
  *     def __init__(self, graph,             # <<<<<<<<<<<<<<
@@ -5596,7 +5670,7 @@ static int __pyx_pf_7plexsim_6models_22value_network_gradient_3VNG___init__(stru
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network_gradient.pyx":48
+/* "plexsim/models/value_network_gradient.pyx":53
  *         self._completed_vns = np.zeros(self.adj._nNodes, dtype = float)
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5628,7 +5702,7 @@ static PyObject *__pyx_pf_7plexsim_6models_22value_network_gradient_3VNG_13compl
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/value_network_gradient.pyx":50
+  /* "plexsim/models/value_network_gradient.pyx":55
  *     @property
  *     def completed_vns(self):
  *         return self._completed_vns.base             # <<<<<<<<<<<<<<
@@ -5636,16 +5710,16 @@ static PyObject *__pyx_pf_7plexsim_6models_22value_network_gradient_3VNG_13compl
  *     # cdef double _energy(self, node_id_t node) nogil:
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->_completed_vns, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->_completed_vns, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_base); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_base); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network_gradient.pyx":48
+  /* "plexsim/models/value_network_gradient.pyx":53
  *         self._completed_vns = np.zeros(self.adj._nNodes, dtype = float)
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5665,7 +5739,7 @@ static PyObject *__pyx_pf_7plexsim_6models_22value_network_gradient_3VNG_13compl
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network_gradient.pyx":66
+/* "plexsim/models/value_network_gradient.pyx":71
  *     #     return crawler.results.size()
  * 
  *     cdef void _step(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -5685,7 +5759,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__step(struct 
   PyGILState_STATE __pyx_gilstate_save;
   #endif
 
-  /* "plexsim/models/value_network_gradient.pyx":84
+  /* "plexsim/models/value_network_gradient.pyx":89
  *         # compute energy
  *         # cdef double energy = self._energy(node)
  *         cdef Crawler *crawler = new Crawler(node,             # <<<<<<<<<<<<<<
@@ -5693,7 +5767,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__step(struct 
  *                                             self._bounded_rational,
  */
   try {
-    __pyx_t_1 = new Crawler(__pyx_v_node, (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node]), __pyx_v_self->__pyx_base._bounded_rational, __pyx_v_self->__pyx_base._heuristic, 0);
+    __pyx_t_1 = new Crawler(__pyx_v_node, (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node]), __pyx_v_self->__pyx_base._bounded_rational, __pyx_v_self->__pyx_base._heuristic, __pyx_v_self->__pyx_base._path_size, 0);
   } catch(...) {
     #ifdef WITH_THREAD
     PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
@@ -5702,11 +5776,11 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__step(struct 
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 84, __pyx_L1_error)
+    __PYX_ERR(0, 89, __pyx_L1_error)
   }
   __pyx_v_crawler = __pyx_t_1;
 
-  /* "plexsim/models/value_network_gradient.pyx":90
+  /* "plexsim/models/value_network_gradient.pyx":96
  *                                             False)
  *         # search for completed vns
  *         self._check_df(crawler)             # <<<<<<<<<<<<<<
@@ -5715,7 +5789,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__step(struct 
  */
   (void)(((struct __pyx_vtabstruct_7plexsim_6models_22value_network_gradient_VNG *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._check_df(((struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self), __pyx_v_crawler));
 
-  /* "plexsim/models/value_network_gradient.pyx":92
+  /* "plexsim/models/value_network_gradient.pyx":98
  *         self._check_df(crawler)
  *         # energy += crawler.results.size()
  *         completed_vn = crawler.results.size()             # <<<<<<<<<<<<<<
@@ -5724,7 +5798,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__step(struct 
  */
   __pyx_v_completed_vn = __pyx_v_crawler->results.size();
 
-  /* "plexsim/models/value_network_gradient.pyx":93
+  /* "plexsim/models/value_network_gradient.pyx":99
  *         # energy += crawler.results.size()
  *         completed_vn = crawler.results.size()
  *         self._completed_vns[node] = completed_vn             # <<<<<<<<<<<<<<
@@ -5734,7 +5808,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__step(struct 
   __pyx_t_2 = __pyx_v_node;
   *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->_completed_vns.data) + __pyx_t_2)) )) = __pyx_v_completed_vn;
 
-  /* "plexsim/models/value_network_gradient.pyx":94
+  /* "plexsim/models/value_network_gradient.pyx":100
  *         completed_vn = crawler.results.size()
  *         self._completed_vns[node] = completed_vn
  *         return             # <<<<<<<<<<<<<<
@@ -5743,7 +5817,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__step(struct 
  */
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network_gradient.pyx":66
+  /* "plexsim/models/value_network_gradient.pyx":71
  *     #     return crawler.results.size()
  * 
  *     cdef void _step(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -5763,7 +5837,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__step(struct 
   __pyx_L0:;
 }
 
-/* "plexsim/models/value_network_gradient.pyx":97
+/* "plexsim/models/value_network_gradient.pyx":103
  * 
  * 
  *     cdef double _energy(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -5788,8 +5862,6 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
   __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_2;
   int __pyx_t_3;
   __pyx_t_7plexsim_6models_5types_weight_t __pyx_t_4;
-  std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,double>  __pyx_t_5;
-  struct __pyx_opt_args_7plexsim_6models_22value_network_gradient_3VNG__check_gradient __pyx_t_6;
   #ifdef WITH_THREAD
   PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
   #endif
@@ -5798,7 +5870,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
   __Pyx_PyGILState_Release(__pyx_gilstate_save);
   #endif
 
-  /* "plexsim/models/value_network_gradient.pyx":101
+  /* "plexsim/models/value_network_gradient.pyx":107
  *         """
  *         cdef:
  *             size_t neighbors = self.adj._adj[node].neighbors.size()             # <<<<<<<<<<<<<<
@@ -5807,7 +5879,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
  */
   __pyx_v_neighbors = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.size();
 
-  /* "plexsim/models/value_network_gradient.pyx":102
+  /* "plexsim/models/value_network_gradient.pyx":108
  *         cdef:
  *             size_t neighbors = self.adj._adj[node].neighbors.size()
  *             state_t* states = self._states # alias             # <<<<<<<<<<<<<<
@@ -5817,7 +5889,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
   __pyx_t_1 = __pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states;
   __pyx_v_states = __pyx_t_1;
 
-  /* "plexsim/models/value_network_gradient.pyx":106
+  /* "plexsim/models/value_network_gradient.pyx":112
  *             double weight # TODO: remove delta
  * 
  *             double energy  = self._H[node] * self._states[node]             # <<<<<<<<<<<<<<
@@ -5827,7 +5899,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
   __pyx_t_2 = __pyx_v_node;
   __pyx_v_energy = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.__pyx_base._H.data) + __pyx_t_2)) ))) * (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node]));
 
-  /* "plexsim/models/value_network_gradient.pyx":108
+  /* "plexsim/models/value_network_gradient.pyx":114
  *             double energy  = self._H[node] * self._states[node]
  * 
  *         if self._nudges.find(node) != self._nudges.end():             # <<<<<<<<<<<<<<
@@ -5837,7 +5909,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
   __pyx_t_3 = ((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._nudges.find(__pyx_v_node) != __pyx_v_self->__pyx_base.__pyx_base.__pyx_base._nudges.end()) != 0);
   if (__pyx_t_3) {
 
-    /* "plexsim/models/value_network_gradient.pyx":109
+    /* "plexsim/models/value_network_gradient.pyx":115
  * 
  *         if self._nudges.find(node) != self._nudges.end():
  *             energy += self._nudges[node] * self._states[node]             # <<<<<<<<<<<<<<
@@ -5846,7 +5918,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
  */
     __pyx_v_energy = (__pyx_v_energy + ((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._nudges[__pyx_v_node]) * (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node])));
 
-    /* "plexsim/models/value_network_gradient.pyx":108
+    /* "plexsim/models/value_network_gradient.pyx":114
  *             double energy  = self._H[node] * self._states[node]
  * 
  *         if self._nudges.find(node) != self._nudges.end():             # <<<<<<<<<<<<<<
@@ -5855,7 +5927,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
  */
   }
 
-  /* "plexsim/models/value_network_gradient.pyx":124
+  /* "plexsim/models/value_network_gradient.pyx":129
  *         # only get nodes based on distance it can reach based on the value network
  *         # current state as proposal
  *         cdef state_t proposal = self._states[node]             # <<<<<<<<<<<<<<
@@ -5864,7 +5936,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
  */
   __pyx_v_proposal = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node]);
 
-  /* "plexsim/models/value_network_gradient.pyx":132
+  /* "plexsim/models/value_network_gradient.pyx":137
  * 
  *         # local update
  *         it = self.adj._adj[node].neighbors.begin()             # <<<<<<<<<<<<<<
@@ -5873,7 +5945,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
  */
   __pyx_v_it = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.begin();
 
-  /* "plexsim/models/value_network_gradient.pyx":133
+  /* "plexsim/models/value_network_gradient.pyx":138
  *         # local update
  *         it = self.adj._adj[node].neighbors.begin()
  *         while it != self.adj._adj[node].neighbors.end():             # <<<<<<<<<<<<<<
@@ -5884,7 +5956,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
     __pyx_t_3 = ((__pyx_v_it != (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.end()) != 0);
     if (!__pyx_t_3) break;
 
-    /* "plexsim/models/value_network_gradient.pyx":134
+    /* "plexsim/models/value_network_gradient.pyx":139
  *         it = self.adj._adj[node].neighbors.begin()
  *         while it != self.adj._adj[node].neighbors.end():
  *             weight   = deref(it).second             # <<<<<<<<<<<<<<
@@ -5894,7 +5966,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
     __pyx_t_4 = (*__pyx_v_it).second;
     __pyx_v_weight = __pyx_t_4;
 
-    /* "plexsim/models/value_network_gradient.pyx":135
+    /* "plexsim/models/value_network_gradient.pyx":140
  *         while it != self.adj._adj[node].neighbors.end():
  *             weight   = deref(it).second
  *             neighbor = deref(it).first             # <<<<<<<<<<<<<<
@@ -5904,7 +5976,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
     __pyx_t_2 = (*__pyx_v_it).first;
     __pyx_v_neighbor = __pyx_t_2;
 
-    /* "plexsim/models/value_network_gradient.pyx":137
+    /* "plexsim/models/value_network_gradient.pyx":142
  *             neighbor = deref(it).first
  *             # check rules
  *             energy += self._rules._adj[proposal][states[neighbor]]             # <<<<<<<<<<<<<<
@@ -5913,27 +5985,27 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
  */
     __pyx_v_energy = (__pyx_v_energy + ((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rules->_adj[__pyx_v_proposal])[(__pyx_v_states[__pyx_v_neighbor])]));
 
-    /* "plexsim/models/value_network_gradient.pyx":138
+    /* "plexsim/models/value_network_gradient.pyx":143
  *             # check rules
  *             energy += self._rules._adj[proposal][states[neighbor]]
  *             post(it)             # <<<<<<<<<<<<<<
  * 
- * 
+ *         # compute positive role edges
  */
     (void)((__pyx_v_it++));
   }
 
-  /* "plexsim/models/value_network_gradient.pyx":141
+  /* "plexsim/models/value_network_gradient.pyx":146
  * 
- * 
+ *         # compute positive role edges
  *         cdef double K = 0             # <<<<<<<<<<<<<<
  *         kt = self._rules._adj[states[node]].begin()
  *         while  kt != self._rules._adj[states[node]].end():
  */
   __pyx_v_K = 0.0;
 
-  /* "plexsim/models/value_network_gradient.pyx":142
- * 
+  /* "plexsim/models/value_network_gradient.pyx":147
+ *         # compute positive role edges
  *         cdef double K = 0
  *         kt = self._rules._adj[states[node]].begin()             # <<<<<<<<<<<<<<
  *         while  kt != self._rules._adj[states[node]].end():
@@ -5941,7 +6013,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
  */
   __pyx_v_kt = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rules->_adj[(__pyx_v_states[__pyx_v_node])]).begin();
 
-  /* "plexsim/models/value_network_gradient.pyx":143
+  /* "plexsim/models/value_network_gradient.pyx":148
  *         cdef double K = 0
  *         kt = self._rules._adj[states[node]].begin()
  *         while  kt != self._rules._adj[states[node]].end():             # <<<<<<<<<<<<<<
@@ -5952,7 +6024,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
     __pyx_t_3 = ((__pyx_v_kt != (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rules->_adj[(__pyx_v_states[__pyx_v_node])]).end()) != 0);
     if (!__pyx_t_3) break;
 
-    /* "plexsim/models/value_network_gradient.pyx":144
+    /* "plexsim/models/value_network_gradient.pyx":149
  *         kt = self._rules._adj[states[node]].begin()
  *         while  kt != self._rules._adj[states[node]].end():
  *             if deref(kt).second > 0:             # <<<<<<<<<<<<<<
@@ -5962,16 +6034,16 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
     __pyx_t_3 = (((*__pyx_v_kt).second > 0.0) != 0);
     if (__pyx_t_3) {
 
-      /* "plexsim/models/value_network_gradient.pyx":145
+      /* "plexsim/models/value_network_gradient.pyx":150
  *         while  kt != self._rules._adj[states[node]].end():
  *             if deref(kt).second > 0:
  *                 K += 1             # <<<<<<<<<<<<<<
  *             post(kt)
- * 
+ *         K = K  * self._redundancy
  */
       __pyx_v_K = (__pyx_v_K + 1.0);
 
-      /* "plexsim/models/value_network_gradient.pyx":144
+      /* "plexsim/models/value_network_gradient.pyx":149
  *         kt = self._rules._adj[states[node]].begin()
  *         while  kt != self._rules._adj[states[node]].end():
  *             if deref(kt).second > 0:             # <<<<<<<<<<<<<<
@@ -5980,26 +6052,26 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
  */
     }
 
-    /* "plexsim/models/value_network_gradient.pyx":146
+    /* "plexsim/models/value_network_gradient.pyx":151
  *             if deref(kt).second > 0:
  *                 K += 1
  *             post(kt)             # <<<<<<<<<<<<<<
- * 
- *         # # compute positive edges
+ *         K = K  * self._redundancy
+ *         # piece-wise linear function
  */
     (void)((__pyx_v_kt++));
   }
 
-  /* "plexsim/models/value_network_gradient.pyx":156
- *         #     post(jt)
- * 
+  /* "plexsim/models/value_network_gradient.pyx":152
+ *                 K += 1
+ *             post(kt)
  *         K = K  * self._redundancy             # <<<<<<<<<<<<<<
  *         # piece-wise linear function
  *         if energy <= K:
  */
   __pyx_v_K = (__pyx_v_K * __pyx_v_self->__pyx_base._redundancy);
 
-  /* "plexsim/models/value_network_gradient.pyx":158
+  /* "plexsim/models/value_network_gradient.pyx":154
  *         K = K  * self._redundancy
  *         # piece-wise linear function
  *         if energy <= K:             # <<<<<<<<<<<<<<
@@ -6009,7 +6081,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
   __pyx_t_3 = ((__pyx_v_energy <= __pyx_v_K) != 0);
   if (__pyx_t_3) {
 
-    /* "plexsim/models/value_network_gradient.pyx":159
+    /* "plexsim/models/value_network_gradient.pyx":155
  *         # piece-wise linear function
  *         if energy <= K:
  *             energy = 1/K * energy             # <<<<<<<<<<<<<<
@@ -6018,7 +6090,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
  */
     __pyx_v_energy = ((1.0 / __pyx_v_K) * __pyx_v_energy);
 
-    /* "plexsim/models/value_network_gradient.pyx":158
+    /* "plexsim/models/value_network_gradient.pyx":154
  *         K = K  * self._redundancy
  *         # piece-wise linear function
  *         if energy <= K:             # <<<<<<<<<<<<<<
@@ -6028,7 +6100,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
     goto __pyx_L9;
   }
 
-  /* "plexsim/models/value_network_gradient.pyx":161
+  /* "plexsim/models/value_network_gradient.pyx":157
  *             energy = 1/K * energy
  *         else:
  *             energy = 1 - (energy * 1/K - 1)             # <<<<<<<<<<<<<<
@@ -6040,11 +6112,11 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
   }
   __pyx_L9:;
 
-  /* "plexsim/models/value_network_gradient.pyx":164
+  /* "plexsim/models/value_network_gradient.pyx":160
  * 
  *         cdef double completed_vn
  *         with gil:             # <<<<<<<<<<<<<<
- *             completed_vn = self._check_gradient(verbose = False)[node]
+ *             # completed_vn = self._check_gradient(verbose = False)[node]
  *             completed_vn = self.check_gradient_node(node)
  */
   {
@@ -6053,21 +6125,9 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
       #endif
       /*try:*/ {
 
-        /* "plexsim/models/value_network_gradient.pyx":165
- *         cdef double completed_vn
+        /* "plexsim/models/value_network_gradient.pyx":162
  *         with gil:
- *             completed_vn = self._check_gradient(verbose = False)[node]             # <<<<<<<<<<<<<<
- *             completed_vn = self.check_gradient_node(node)
- *         energy += completed_vn
- */
-        __pyx_t_6.__pyx_n = 1;
-        __pyx_t_6.verbose = 0;
-        __pyx_t_5 = ((struct __pyx_vtabstruct_7plexsim_6models_22value_network_gradient_VNG *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->_check_gradient(__pyx_v_self, &__pyx_t_6); 
-        __pyx_v_completed_vn = (__pyx_t_5[__pyx_v_node]);
-
-        /* "plexsim/models/value_network_gradient.pyx":166
- *         with gil:
- *             completed_vn = self._check_gradient(verbose = False)[node]
+ *             # completed_vn = self._check_gradient(verbose = False)[node]
  *             completed_vn = self.check_gradient_node(node)             # <<<<<<<<<<<<<<
  *         energy += completed_vn
  *         return energy
@@ -6075,11 +6135,11 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
         __pyx_v_completed_vn = ((struct __pyx_vtabstruct_7plexsim_6models_22value_network_gradient_VNG *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->check_gradient_node(__pyx_v_self, __pyx_v_node, 0);
       }
 
-      /* "plexsim/models/value_network_gradient.pyx":164
+      /* "plexsim/models/value_network_gradient.pyx":160
  * 
  *         cdef double completed_vn
  *         with gil:             # <<<<<<<<<<<<<<
- *             completed_vn = self._check_gradient(verbose = False)[node]
+ *             # completed_vn = self._check_gradient(verbose = False)[node]
  *             completed_vn = self.check_gradient_node(node)
  */
       /*finally:*/ {
@@ -6093,8 +6153,8 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
       }
   }
 
-  /* "plexsim/models/value_network_gradient.pyx":167
- *             completed_vn = self._check_gradient(verbose = False)[node]
+  /* "plexsim/models/value_network_gradient.pyx":163
+ *             # completed_vn = self._check_gradient(verbose = False)[node]
  *             completed_vn = self.check_gradient_node(node)
  *         energy += completed_vn             # <<<<<<<<<<<<<<
  *         return energy
@@ -6102,7 +6162,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
  */
   __pyx_v_energy = (__pyx_v_energy + __pyx_v_completed_vn);
 
-  /* "plexsim/models/value_network_gradient.pyx":168
+  /* "plexsim/models/value_network_gradient.pyx":164
  *             completed_vn = self.check_gradient_node(node)
  *         energy += completed_vn
  *         return energy             # <<<<<<<<<<<<<<
@@ -6112,7 +6172,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
   __pyx_r = __pyx_v_energy;
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network_gradient.pyx":97
+  /* "plexsim/models/value_network_gradient.pyx":103
  * 
  * 
  *     cdef double _energy(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -6126,7 +6186,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network_gradient.pyx":171
+/* "plexsim/models/value_network_gradient.pyx":167
  * 
  * 
  *     cdef void _check_sufficient_connected(self, node_id_t node, cset[node_id_t] &suff_connected) nogil:             # <<<<<<<<<<<<<<
@@ -6150,7 +6210,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
   PyGILState_STATE __pyx_gilstate_save;
   #endif
 
-  /* "plexsim/models/value_network_gradient.pyx":183
+  /* "plexsim/models/value_network_gradient.pyx":179
  *             unordered_map[double, size_t] counter
  * 
  *         node_color = self._states[node]             # <<<<<<<<<<<<<<
@@ -6159,7 +6219,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
  */
   __pyx_v_node_color = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node]);
 
-  /* "plexsim/models/value_network_gradient.pyx":185
+  /* "plexsim/models/value_network_gradient.pyx":181
  *         node_color = self._states[node]
  *         # get neighbor roles in social graph
  *         it = self.adj._adj[node].neighbors.begin()             # <<<<<<<<<<<<<<
@@ -6168,7 +6228,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
  */
   __pyx_v_it = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.begin();
 
-  /* "plexsim/models/value_network_gradient.pyx":186
+  /* "plexsim/models/value_network_gradient.pyx":182
  *         # get neighbor roles in social graph
  *         it = self.adj._adj[node].neighbors.begin()
  *         while it != self.adj._adj[node].neighbors.end():             # <<<<<<<<<<<<<<
@@ -6179,7 +6239,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
     __pyx_t_1 = ((__pyx_v_it != (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.end()) != 0);
     if (!__pyx_t_1) break;
 
-    /* "plexsim/models/value_network_gradient.pyx":187
+    /* "plexsim/models/value_network_gradient.pyx":183
  *         it = self.adj._adj[node].neighbors.begin()
  *         while it != self.adj._adj[node].neighbors.end():
  *             neighbor_roles.insert(self._states[deref(it).first])             # <<<<<<<<<<<<<<
@@ -6196,10 +6256,10 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
       #ifdef WITH_THREAD
       __Pyx_PyGILState_Release(__pyx_gilstate_save);
       #endif
-      __PYX_ERR(0, 187, __pyx_L1_error)
+      __PYX_ERR(0, 183, __pyx_L1_error)
     }
 
-    /* "plexsim/models/value_network_gradient.pyx":188
+    /* "plexsim/models/value_network_gradient.pyx":184
  *         while it != self.adj._adj[node].neighbors.end():
  *             neighbor_roles.insert(self._states[deref(it).first])
  *             post(it)             # <<<<<<<<<<<<<<
@@ -6209,7 +6269,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
     (void)((__pyx_v_it++));
   }
 
-  /* "plexsim/models/value_network_gradient.pyx":191
+  /* "plexsim/models/value_network_gradient.pyx":187
  * 
  *         # get neighbor roles in rule graph
  *         jt = self._rules._adj[node_color].begin()             # <<<<<<<<<<<<<<
@@ -6218,7 +6278,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
  */
   __pyx_v_jt = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rules->_adj[__pyx_v_node_color]).begin();
 
-  /* "plexsim/models/value_network_gradient.pyx":192
+  /* "plexsim/models/value_network_gradient.pyx":188
  *         # get neighbor roles in rule graph
  *         jt = self._rules._adj[node_color].begin()
  *         role_degree = 0             # <<<<<<<<<<<<<<
@@ -6227,7 +6287,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
  */
   __pyx_v_role_degree = 0;
 
-  /* "plexsim/models/value_network_gradient.pyx":193
+  /* "plexsim/models/value_network_gradient.pyx":189
  *         jt = self._rules._adj[node_color].begin()
  *         role_degree = 0
  *         while jt != self._rules._adj[node_color].end():             # <<<<<<<<<<<<<<
@@ -6238,7 +6298,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
     __pyx_t_1 = ((__pyx_v_jt != (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rules->_adj[__pyx_v_node_color]).end()) != 0);
     if (!__pyx_t_1) break;
 
-    /* "plexsim/models/value_network_gradient.pyx":194
+    /* "plexsim/models/value_network_gradient.pyx":190
  *         role_degree = 0
  *         while jt != self._rules._adj[node_color].end():
  *             if deref(jt).second > 0:             # <<<<<<<<<<<<<<
@@ -6248,7 +6308,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
     __pyx_t_1 = (((*__pyx_v_jt).second > 0.0) != 0);
     if (__pyx_t_1) {
 
-      /* "plexsim/models/value_network_gradient.pyx":195
+      /* "plexsim/models/value_network_gradient.pyx":191
  *         while jt != self._rules._adj[node_color].end():
  *             if deref(jt).second > 0:
  *                 role_neighbors.insert(deref(jt).first)             # <<<<<<<<<<<<<<
@@ -6265,10 +6325,10 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
         #ifdef WITH_THREAD
         __Pyx_PyGILState_Release(__pyx_gilstate_save);
         #endif
-        __PYX_ERR(0, 195, __pyx_L1_error)
+        __PYX_ERR(0, 191, __pyx_L1_error)
       }
 
-      /* "plexsim/models/value_network_gradient.pyx":196
+      /* "plexsim/models/value_network_gradient.pyx":192
  *             if deref(jt).second > 0:
  *                 role_neighbors.insert(deref(jt).first)
  *                 role_degree += 1             # <<<<<<<<<<<<<<
@@ -6277,7 +6337,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
  */
       __pyx_v_role_degree = (__pyx_v_role_degree + 1);
 
-      /* "plexsim/models/value_network_gradient.pyx":194
+      /* "plexsim/models/value_network_gradient.pyx":190
  *         role_degree = 0
  *         while jt != self._rules._adj[node_color].end():
  *             if deref(jt).second > 0:             # <<<<<<<<<<<<<<
@@ -6286,7 +6346,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
  */
     }
 
-    /* "plexsim/models/value_network_gradient.pyx":197
+    /* "plexsim/models/value_network_gradient.pyx":193
  *                 role_neighbors.insert(deref(jt).first)
  *                 role_degree += 1
  *             post(jt)             # <<<<<<<<<<<<<<
@@ -6296,7 +6356,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
     (void)((__pyx_v_jt++));
   }
 
-  /* "plexsim/models/value_network_gradient.pyx":201
+  /* "plexsim/models/value_network_gradient.pyx":197
  *         # FIX: resize gaat hier fout
  *         # uni.resize(min(role_neighbors.size(), neighbor_roles.size()))
  *         set_intersection(role_neighbors.begin(), role_neighbors.end(),             # <<<<<<<<<<<<<<
@@ -6305,7 +6365,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
  */
   (void)(std::set_intersection<std::set<__pyx_t_7plexsim_6models_5types_state_t> ::iterator,std::set<__pyx_t_7plexsim_6models_5types_state_t> ::iterator,std::insert_iterator<std::set<__pyx_t_7plexsim_6models_5types_state_t> > >(__pyx_v_role_neighbors.begin(), __pyx_v_role_neighbors.end(), __pyx_v_neighbor_roles.begin(), __pyx_v_neighbor_roles.end(), std::insert_iterator<std::set<__pyx_t_7plexsim_6models_5types_state_t> > (__pyx_v_uni, __pyx_v_uni.begin())));
 
-  /* "plexsim/models/value_network_gradient.pyx":210
+  /* "plexsim/models/value_network_gradient.pyx":206
  *             # counter[uni[idx]] += 1
  * 
  *         if uni.size() == role_degree:             # <<<<<<<<<<<<<<
@@ -6315,7 +6375,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
   __pyx_t_1 = ((__pyx_v_uni.size() == __pyx_v_role_degree) != 0);
   if (__pyx_t_1) {
 
-    /* "plexsim/models/value_network_gradient.pyx":211
+    /* "plexsim/models/value_network_gradient.pyx":207
  * 
  *         if uni.size() == role_degree:
  *             suff_connected.insert(node)             # <<<<<<<<<<<<<<
@@ -6332,10 +6392,10 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
       #ifdef WITH_THREAD
       __Pyx_PyGILState_Release(__pyx_gilstate_save);
       #endif
-      __PYX_ERR(0, 211, __pyx_L1_error)
+      __PYX_ERR(0, 207, __pyx_L1_error)
     }
 
-    /* "plexsim/models/value_network_gradient.pyx":210
+    /* "plexsim/models/value_network_gradient.pyx":206
  *             # counter[uni[idx]] += 1
  * 
  *         if uni.size() == role_degree:             # <<<<<<<<<<<<<<
@@ -6344,7 +6404,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
  */
   }
 
-  /* "plexsim/models/value_network_gradient.pyx":212
+  /* "plexsim/models/value_network_gradient.pyx":208
  *         if uni.size() == role_degree:
  *             suff_connected.insert(node)
  *         return             # <<<<<<<<<<<<<<
@@ -6353,7 +6413,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
  */
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network_gradient.pyx":171
+  /* "plexsim/models/value_network_gradient.pyx":167
  * 
  * 
  *     cdef void _check_sufficient_connected(self, node_id_t node, cset[node_id_t] &suff_connected) nogil:             # <<<<<<<<<<<<<<
@@ -6373,7 +6433,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
   __pyx_L0:;
 }
 
-/* "plexsim/models/value_network_gradient.pyx":214
+/* "plexsim/models/value_network_gradient.pyx":210
  *         return
  * 
  *     cpdef dict check_gradient(self, verbose: bint = False):             # <<<<<<<<<<<<<<
@@ -6418,7 +6478,7 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gr
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_typedict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_check_gradient); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 214, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_check_gradient); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 210, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       #ifdef __Pyx_CyFunction_USED
       if (!__Pyx_IsCyOrPyCFunction(__pyx_t_1)
@@ -6427,7 +6487,7 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gr
       #endif
               || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_7plexsim_6models_22value_network_gradient_3VNG_3check_gradient)) {
         __Pyx_XDECREF(__pyx_r);
-        __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_v_verbose); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 214, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_v_verbose); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 210, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_4 = __pyx_t_1; __pyx_t_5 = NULL;
@@ -6447,11 +6507,11 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gr
           __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
           __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 214, __pyx_L1_error)
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 210, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         }
-        if (!(likely(PyDict_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None) || __Pyx_RaiseUnexpectedTypeError("dict", __pyx_t_2))) __PYX_ERR(0, 214, __pyx_L1_error)
+        if (!(likely(PyDict_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None) || __Pyx_RaiseUnexpectedTypeError("dict", __pyx_t_2))) __PYX_ERR(0, 210, __pyx_L1_error)
         __pyx_r = ((PyObject*)__pyx_t_2);
         __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -6470,7 +6530,7 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gr
     #endif
   }
 
-  /* "plexsim/models/value_network_gradient.pyx":215
+  /* "plexsim/models/value_network_gradient.pyx":211
  * 
  *     cpdef dict check_gradient(self, verbose: bint = False):
  *         return dict(self._check_gradient(verbose))             # <<<<<<<<<<<<<<
@@ -6481,16 +6541,16 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gr
   __pyx_t_8.__pyx_n = 1;
   __pyx_t_8.verbose = __pyx_v_verbose;
   __pyx_t_7 = ((struct __pyx_vtabstruct_7plexsim_6models_22value_network_gradient_VNG *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->_check_gradient(__pyx_v_self, &__pyx_t_8); 
-  __pyx_t_1 = __pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t____double(__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 215, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_unordered_map_to_py___pyx_t_7plexsim_6models_5types_node_id_t____double(__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 211, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyDict_Type)), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 215, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyDict_Type)), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 211, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network_gradient.pyx":214
+  /* "plexsim/models/value_network_gradient.pyx":210
  *         return
  * 
  *     cpdef dict check_gradient(self, verbose: bint = False):             # <<<<<<<<<<<<<<
@@ -6562,12 +6622,12 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_verbose);
           if (value) { values[0] = value; kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 214, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 210, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "check_gradient") < 0)) __PYX_ERR(0, 214, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "check_gradient") < 0)) __PYX_ERR(0, 210, __pyx_L3_error)
       }
     } else {
       switch (__pyx_nargs) {
@@ -6578,14 +6638,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
       }
     }
     if (values[0]) {
-      __pyx_v_verbose = __Pyx_PyObject_IsTrue(values[0]); if (unlikely((__pyx_v_verbose == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 214, __pyx_L3_error)
+      __pyx_v_verbose = __Pyx_PyObject_IsTrue(values[0]); if (unlikely((__pyx_v_verbose == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 210, __pyx_L3_error)
     } else {
       __pyx_v_verbose = ((int)0);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("check_gradient", 0, 0, 1, __pyx_nargs); __PYX_ERR(0, 214, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("check_gradient", 0, 0, 1, __pyx_nargs); __PYX_ERR(0, 210, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("plexsim.models.value_network_gradient.VNG.check_gradient", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6610,7 +6670,7 @@ static PyObject *__pyx_pf_7plexsim_6models_22value_network_gradient_3VNG_2check_
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.verbose = __pyx_v_verbose;
-  __pyx_t_1 = __pyx_vtabptr_7plexsim_6models_22value_network_gradient_VNG->check_gradient(__pyx_v_self, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 214, __pyx_L1_error)
+  __pyx_t_1 = __pyx_vtabptr_7plexsim_6models_22value_network_gradient_VNG->check_gradient(__pyx_v_self, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 210, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6627,7 +6687,7 @@ static PyObject *__pyx_pf_7plexsim_6models_22value_network_gradient_3VNG_2check_
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network_gradient.pyx":217
+/* "plexsim/models/value_network_gradient.pyx":213
  *         return dict(self._check_gradient(verbose))
  * 
  *     cpdef object cut_components(self, cset[node_id_t] suff_connected):             # <<<<<<<<<<<<<<
@@ -6678,7 +6738,7 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_typedict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_cut_components); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 217, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_cut_components); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 213, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       #ifdef __Pyx_CyFunction_USED
       if (!__Pyx_IsCyOrPyCFunction(__pyx_t_1)
@@ -6687,7 +6747,7 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
       #endif
               || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_7plexsim_6models_22value_network_gradient_3VNG_5cut_components)) {
         __Pyx_XDECREF(__pyx_r);
-        __pyx_t_3 = __pyx_convert_set_to_py___pyx_t_7plexsim_6models_5types_node_id_t(__pyx_v_suff_connected); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 217, __pyx_L1_error)
+        __pyx_t_3 = __pyx_convert_set_to_py___pyx_t_7plexsim_6models_5types_node_id_t(__pyx_v_suff_connected); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 213, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_4 = __pyx_t_1; __pyx_t_5 = NULL;
@@ -6707,7 +6767,7 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
           __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
           __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 217, __pyx_L1_error)
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 213, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         }
@@ -6729,7 +6789,7 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
     #endif
   }
 
-  /* "plexsim/models/value_network_gradient.pyx":221
+  /* "plexsim/models/value_network_gradient.pyx":217
  *         Creates a subgraph in which edges are removed with matching colors
  *         """
  *         remapped_connected = [self.adj.rmapping[node] for node in suff_connected]             # <<<<<<<<<<<<<<
@@ -6737,7 +6797,7 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
  *         subgraphc = subgraph.copy()
  */
   { /* enter inner scope */
-    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 221, __pyx_L1_error)
+    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 217, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_7 = __pyx_v_suff_connected.begin();
     for (;;) {
@@ -6745,28 +6805,28 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
       __pyx_t_8 = *__pyx_t_7;
       ++__pyx_t_7;
       __pyx_7genexpr__pyx_v_node = __pyx_t_8;
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj), __pyx_n_s_rmapping); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 221, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj), __pyx_n_s_rmapping); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 217, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_2, __pyx_7genexpr__pyx_v_node, __pyx_t_7plexsim_6models_5types_node_id_t, 0, __Pyx_PyInt_FromSize_t, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 221, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_2, __pyx_7genexpr__pyx_v_node, __pyx_t_7plexsim_6models_5types_node_id_t, 0, __Pyx_PyInt_FromSize_t, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 217, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 221, __pyx_L1_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 217, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
   } /* exit inner scope */
   __pyx_v_remapped_connected = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "plexsim/models/value_network_gradient.pyx":222
+  /* "plexsim/models/value_network_gradient.pyx":218
  *         """
  *         remapped_connected = [self.adj.rmapping[node] for node in suff_connected]
  *         subgraph = self.graph.subgraph(remapped_connected)             # <<<<<<<<<<<<<<
  *         subgraphc = subgraph.copy()
  *         for i, j in subgraph.edges():
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_graph); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 222, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_graph); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 218, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_subgraph); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 222, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_subgraph); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 218, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -6785,21 +6845,21 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
     PyObject *__pyx_callargs[2] = {__pyx_t_4, __pyx_v_remapped_connected};
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 222, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 218, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
   __pyx_v_subgraph = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "plexsim/models/value_network_gradient.pyx":223
+  /* "plexsim/models/value_network_gradient.pyx":219
  *         remapped_connected = [self.adj.rmapping[node] for node in suff_connected]
  *         subgraph = self.graph.subgraph(remapped_connected)
  *         subgraphc = subgraph.copy()             # <<<<<<<<<<<<<<
  *         for i, j in subgraph.edges():
  *             if self._rules._adj[i][j] <= 0:
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_subgraph, __pyx_n_s_copy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 223, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_subgraph, __pyx_n_s_copy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 219, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = NULL;
   __pyx_t_6 = 0;
@@ -6817,21 +6877,21 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
     PyObject *__pyx_callargs[1] = {__pyx_t_4, };
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_6, 0+__pyx_t_6);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 223, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 219, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
   __pyx_v_subgraphc = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "plexsim/models/value_network_gradient.pyx":224
+  /* "plexsim/models/value_network_gradient.pyx":220
  *         subgraph = self.graph.subgraph(remapped_connected)
  *         subgraphc = subgraph.copy()
  *         for i, j in subgraph.edges():             # <<<<<<<<<<<<<<
  *             if self._rules._adj[i][j] <= 0:
  *               subgraphc.remove_edge(i, j)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_subgraph, __pyx_n_s_edges); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 224, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_subgraph, __pyx_n_s_edges); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 220, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = NULL;
   __pyx_t_6 = 0;
@@ -6849,7 +6909,7 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
     PyObject *__pyx_callargs[1] = {__pyx_t_4, };
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_6, 0+__pyx_t_6);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 224, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 220, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
@@ -6857,9 +6917,9 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_9 = 0;
     __pyx_t_10 = NULL;
   } else {
-    __pyx_t_9 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 224, __pyx_L1_error)
+    __pyx_t_9 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 220, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_10 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 224, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 220, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -6867,17 +6927,17 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_9 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_9); __Pyx_INCREF(__pyx_t_1); __pyx_t_9++; if (unlikely((0 < 0))) __PYX_ERR(0, 224, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_9); __Pyx_INCREF(__pyx_t_1); __pyx_t_9++; if (unlikely((0 < 0))) __PYX_ERR(0, 220, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 224, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 220, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_9 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_9); __Pyx_INCREF(__pyx_t_1); __pyx_t_9++; if (unlikely((0 < 0))) __PYX_ERR(0, 224, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_9); __Pyx_INCREF(__pyx_t_1); __pyx_t_9++; if (unlikely((0 < 0))) __PYX_ERR(0, 220, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 224, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 220, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -6887,7 +6947,7 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 224, __pyx_L1_error)
+          else __PYX_ERR(0, 220, __pyx_L1_error)
         }
         break;
       }
@@ -6899,7 +6959,7 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 224, __pyx_L1_error)
+        __PYX_ERR(0, 220, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -6912,15 +6972,15 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
       __Pyx_INCREF(__pyx_t_4);
       __Pyx_INCREF(__pyx_t_3);
       #else
-      __pyx_t_4 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 224, __pyx_L1_error)
+      __pyx_t_4 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 220, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 224, __pyx_L1_error)
+      __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 220, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       #endif
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 224, __pyx_L1_error)
+      __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 220, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_11 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_5);
@@ -6928,7 +6988,7 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
       __Pyx_GOTREF(__pyx_t_4);
       index = 1; __pyx_t_3 = __pyx_t_11(__pyx_t_5); if (unlikely(!__pyx_t_3)) goto __pyx_L7_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_3);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_5), 2) < 0) __PYX_ERR(0, 224, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_5), 2) < 0) __PYX_ERR(0, 220, __pyx_L1_error)
       __pyx_t_11 = NULL;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       goto __pyx_L8_unpacking_done;
@@ -6936,7 +6996,7 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_t_11 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 224, __pyx_L1_error)
+      __PYX_ERR(0, 220, __pyx_L1_error)
       __pyx_L8_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
@@ -6944,26 +7004,26 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
     __Pyx_XDECREF_SET(__pyx_v_j, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "plexsim/models/value_network_gradient.pyx":225
+    /* "plexsim/models/value_network_gradient.pyx":221
  *         subgraphc = subgraph.copy()
  *         for i, j in subgraph.edges():
  *             if self._rules._adj[i][j] <= 0:             # <<<<<<<<<<<<<<
  *               subgraphc.remove_edge(i, j)
  *         return subgraphc
  */
-    __pyx_t_12 = __pyx_PyFloat_AsDouble(__pyx_v_i); if (unlikely((__pyx_t_12 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 225, __pyx_L1_error)
-    __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_v_j); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 225, __pyx_L1_error)
+    __pyx_t_12 = __pyx_PyFloat_AsDouble(__pyx_v_i); if (unlikely((__pyx_t_12 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 221, __pyx_L1_error)
+    __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_v_j); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 221, __pyx_L1_error)
     __pyx_t_14 = ((((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rules->_adj[__pyx_t_12])[__pyx_t_13]) <= 0.0) != 0);
     if (__pyx_t_14) {
 
-      /* "plexsim/models/value_network_gradient.pyx":226
+      /* "plexsim/models/value_network_gradient.pyx":222
  *         for i, j in subgraph.edges():
  *             if self._rules._adj[i][j] <= 0:
  *               subgraphc.remove_edge(i, j)             # <<<<<<<<<<<<<<
  *         return subgraphc
  * 
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_subgraphc, __pyx_n_s_remove_edge); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 226, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_subgraphc, __pyx_n_s_remove_edge); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 222, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_4 = NULL;
       __pyx_t_6 = 0;
@@ -6981,13 +7041,13 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
         PyObject *__pyx_callargs[3] = {__pyx_t_4, __pyx_v_i, __pyx_v_j};
         __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_6, 2+__pyx_t_6);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 226, __pyx_L1_error)
+        if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 222, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       }
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "plexsim/models/value_network_gradient.pyx":225
+      /* "plexsim/models/value_network_gradient.pyx":221
  *         subgraphc = subgraph.copy()
  *         for i, j in subgraph.edges():
  *             if self._rules._adj[i][j] <= 0:             # <<<<<<<<<<<<<<
@@ -6996,7 +7056,7 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
  */
     }
 
-    /* "plexsim/models/value_network_gradient.pyx":224
+    /* "plexsim/models/value_network_gradient.pyx":220
  *         subgraph = self.graph.subgraph(remapped_connected)
  *         subgraphc = subgraph.copy()
  *         for i, j in subgraph.edges():             # <<<<<<<<<<<<<<
@@ -7006,7 +7066,7 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "plexsim/models/value_network_gradient.pyx":227
+  /* "plexsim/models/value_network_gradient.pyx":223
  *             if self._rules._adj[i][j] <= 0:
  *               subgraphc.remove_edge(i, j)
  *         return subgraphc             # <<<<<<<<<<<<<<
@@ -7018,7 +7078,7 @@ static PyObject *__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_comp
   __pyx_r = __pyx_v_subgraphc;
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network_gradient.pyx":217
+  /* "plexsim/models/value_network_gradient.pyx":213
  *         return dict(self._check_gradient(verbose))
  * 
  *     cpdef object cut_components(self, cset[node_id_t] suff_connected):             # <<<<<<<<<<<<<<
@@ -7093,23 +7153,23 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
       switch (__pyx_nargs) {
         case  0:
         if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_suff_connected)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 217, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 213, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "cut_components") < 0)) __PYX_ERR(0, 217, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "cut_components") < 0)) __PYX_ERR(0, 213, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
     }
-    __pyx_v_suff_connected = __pyx_convert_set_from_py___pyx_t_7plexsim_6models_5types_node_id_t(values[0]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 217, __pyx_L3_error)
+    __pyx_v_suff_connected = __pyx_convert_set_from_py___pyx_t_7plexsim_6models_5types_node_id_t(values[0]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 213, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("cut_components", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 217, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("cut_components", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 213, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("plexsim.models.value_network_gradient.VNG.cut_components", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -7131,7 +7191,7 @@ static PyObject *__pyx_pf_7plexsim_6models_22value_network_gradient_3VNG_4cut_co
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("cut_components", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_components(__pyx_v_self, __pyx_v_suff_connected, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 217, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_cut_components(__pyx_v_self, __pyx_v_suff_connected, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 213, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7148,7 +7208,7 @@ static PyObject *__pyx_pf_7plexsim_6models_22value_network_gradient_3VNG_4cut_co
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network_gradient.pyx":230
+/* "plexsim/models/value_network_gradient.pyx":226
  * 
  * 
  *     cpdef double fractional_count(self, cset[node_id_t] nodes, size_t threshold,  bint verbose = False):             # <<<<<<<<<<<<<<
@@ -7205,7 +7265,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_typedict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_fractional_count); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 230, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_fractional_count); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 226, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       #ifdef __Pyx_CyFunction_USED
       if (!__Pyx_IsCyOrPyCFunction(__pyx_t_1)
@@ -7213,11 +7273,11 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
       if (!PyCFunction_Check(__pyx_t_1)
       #endif
               || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_7plexsim_6models_22value_network_gradient_3VNG_7fractional_count)) {
-        __pyx_t_3 = __pyx_convert_set_to_py___pyx_t_7plexsim_6models_5types_node_id_t(__pyx_v_nodes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 230, __pyx_L1_error)
+        __pyx_t_3 = __pyx_convert_set_to_py___pyx_t_7plexsim_6models_5types_node_id_t(__pyx_v_nodes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 226, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_4 = __Pyx_PyInt_FromSize_t(__pyx_v_threshold); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 230, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyInt_FromSize_t(__pyx_v_threshold); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 226, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_5 = __Pyx_PyBool_FromLong(__pyx_v_verbose); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 230, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyBool_FromLong(__pyx_v_verbose); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 226, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_6 = __pyx_t_1; __pyx_t_7 = NULL;
@@ -7239,11 +7299,11 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 230, __pyx_L1_error)
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 226, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         }
-        __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 230, __pyx_L1_error)
+        __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 226, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_r = __pyx_t_9;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -7262,7 +7322,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
     #endif
   }
 
-  /* "plexsim/models/value_network_gradient.pyx":236
+  /* "plexsim/models/value_network_gradient.pyx":232
  *         TODO: make this cpp friendly
  *         """
  *         if verbose:             # <<<<<<<<<<<<<<
@@ -7272,21 +7332,21 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
   __pyx_t_10 = (__pyx_v_verbose != 0);
   if (__pyx_t_10) {
 
-    /* "plexsim/models/value_network_gradient.pyx":237
+    /* "plexsim/models/value_network_gradient.pyx":233
  *         """
  *         if verbose:
  *             print(nodes)             # <<<<<<<<<<<<<<
  *         cnt = Counter([self._states[self.adj.mapping[node]] for node in nodes])
- *         if len(cnt) >=  threshold:
+ *         # threshold was first set to the number of states in the system
  */
-    __pyx_t_1 = __pyx_convert_set_to_py___pyx_t_7plexsim_6models_5types_node_id_t(__pyx_v_nodes); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 237, __pyx_L1_error)
+    __pyx_t_1 = __pyx_convert_set_to_py___pyx_t_7plexsim_6models_5types_node_id_t(__pyx_v_nodes); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 233, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 237, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 233, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "plexsim/models/value_network_gradient.pyx":236
+    /* "plexsim/models/value_network_gradient.pyx":232
  *         TODO: make this cpp friendly
  *         """
  *         if verbose:             # <<<<<<<<<<<<<<
@@ -7295,17 +7355,17 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
  */
   }
 
-  /* "plexsim/models/value_network_gradient.pyx":238
+  /* "plexsim/models/value_network_gradient.pyx":234
  *         if verbose:
  *             print(nodes)
  *         cnt = Counter([self._states[self.adj.mapping[node]] for node in nodes])             # <<<<<<<<<<<<<<
- *         if len(cnt) >=  threshold:
- *             cc_rolecounts = list(Counter([self._states[self.adj.mapping[node]] for node in nodes]).values())
+ *         # threshold was first set to the number of states in the system
+ *         # I for some reason changed this to a threshold.
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Counter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 238, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Counter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 234, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   { /* enter inner scope */
-    __pyx_t_6 = PyList_New(0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 238, __pyx_L1_error)
+    __pyx_t_6 = PyList_New(0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 234, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_11 = __pyx_v_nodes.begin();
     for (;;) {
@@ -7313,16 +7373,16 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
       __pyx_t_12 = *__pyx_t_11;
       ++__pyx_t_11;
       __pyx_8genexpr1__pyx_v_node = __pyx_t_12;
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj), __pyx_n_s_mapping); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 238, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj), __pyx_n_s_mapping); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 234, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, __pyx_8genexpr1__pyx_v_node, __pyx_t_7plexsim_6models_5types_node_id_t, 0, __Pyx_PyInt_FromSize_t, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 238, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, __pyx_8genexpr1__pyx_v_node, __pyx_t_7plexsim_6models_5types_node_id_t, 0, __Pyx_PyInt_FromSize_t, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 234, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_13 = __Pyx_PyIndex_AsSsize_t(__pyx_t_4); if (unlikely((__pyx_t_13 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 238, __pyx_L1_error)
+      __pyx_t_13 = __Pyx_PyIndex_AsSsize_t(__pyx_t_4); if (unlikely((__pyx_t_13 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 234, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_t_13])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 238, __pyx_L1_error)
+      __pyx_t_4 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_t_13])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 234, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_6, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 238, __pyx_L1_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_6, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 234, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
   } /* exit inner scope */
@@ -7343,35 +7403,35 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
     __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 238, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 234, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
   __pyx_v_cnt = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "plexsim/models/value_network_gradient.pyx":239
- *             print(nodes)
- *         cnt = Counter([self._states[self.adj.mapping[node]] for node in nodes])
+  /* "plexsim/models/value_network_gradient.pyx":241
+ *         # value network is not unique. Therefore it, it not being completed (locally). At least
+ *         # this was intention.
  *         if len(cnt) >=  threshold:             # <<<<<<<<<<<<<<
  *             cc_rolecounts = list(Counter([self._states[self.adj.mapping[node]] for node in nodes]).values())
  *             # let's see if we can also compute a fractional count of VNs (so, if two complete VNs intersect in one role, say B,
  */
-  __pyx_t_13 = PyObject_Length(__pyx_v_cnt); if (unlikely(__pyx_t_13 == ((Py_ssize_t)-1))) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_13 = PyObject_Length(__pyx_v_cnt); if (unlikely(__pyx_t_13 == ((Py_ssize_t)-1))) __PYX_ERR(0, 241, __pyx_L1_error)
   __pyx_t_10 = ((__pyx_t_13 >= __pyx_v_threshold) != 0);
   if (__pyx_t_10) {
 
-    /* "plexsim/models/value_network_gradient.pyx":240
- *         cnt = Counter([self._states[self.adj.mapping[node]] for node in nodes])
+    /* "plexsim/models/value_network_gradient.pyx":242
+ *         # this was intention.
  *         if len(cnt) >=  threshold:
  *             cc_rolecounts = list(Counter([self._states[self.adj.mapping[node]] for node in nodes]).values())             # <<<<<<<<<<<<<<
  *             # let's see if we can also compute a fractional count of VNs (so, if two complete VNs intersect in one role, say B,
  *             # then the fractional number of VNs would be 1+4/5=1.8 instead of 1.0 as above)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_Counter); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 240, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_Counter); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 242, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     { /* enter inner scope */
-      __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 240, __pyx_L1_error)
+      __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 242, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __pyx_t_11 = __pyx_v_nodes.begin();
       for (;;) {
@@ -7379,16 +7439,16 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
         __pyx_t_12 = *__pyx_t_11;
         ++__pyx_t_11;
         __pyx_8genexpr2__pyx_v_node = __pyx_t_12;
-        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj), __pyx_n_s_mapping); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 240, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj), __pyx_n_s_mapping); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 242, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_5, __pyx_8genexpr2__pyx_v_node, __pyx_t_7plexsim_6models_5types_node_id_t, 0, __Pyx_PyInt_FromSize_t, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 240, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_5, __pyx_8genexpr2__pyx_v_node, __pyx_t_7plexsim_6models_5types_node_id_t, 0, __Pyx_PyInt_FromSize_t, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 242, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_13 = __Pyx_PyIndex_AsSsize_t(__pyx_t_3); if (unlikely((__pyx_t_13 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 240, __pyx_L1_error)
+        __pyx_t_13 = __Pyx_PyIndex_AsSsize_t(__pyx_t_3); if (unlikely((__pyx_t_13 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 242, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_t_13])); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 240, __pyx_L1_error)
+        __pyx_t_3 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_t_13])); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 242, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        if (unlikely(__Pyx_ListComp_Append(__pyx_t_4, (PyObject*)__pyx_t_3))) __PYX_ERR(0, 240, __pyx_L1_error)
+        if (unlikely(__Pyx_ListComp_Append(__pyx_t_4, (PyObject*)__pyx_t_3))) __PYX_ERR(0, 242, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       }
     } /* exit inner scope */
@@ -7409,11 +7469,11 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
       __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_6, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 240, __pyx_L1_error)
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 242, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_values); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 240, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_values); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 242, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_1 = NULL;
@@ -7432,17 +7492,17 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
       PyObject *__pyx_callargs[1] = {__pyx_t_1, };
       __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_6, __pyx_callargs+1-__pyx_t_8, 0+__pyx_t_8);
       __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 240, __pyx_L1_error)
+      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 242, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
-    __pyx_t_6 = __Pyx_PySequence_ListKeepNew(__pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 240, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PySequence_ListKeepNew(__pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 242, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_cc_rolecounts = __pyx_t_6;
     __pyx_t_6 = 0;
 
-    /* "plexsim/models/value_network_gradient.pyx":243
+    /* "plexsim/models/value_network_gradient.pyx":245
  *             # let's see if we can also compute a fractional count of VNs (so, if two complete VNs intersect in one role, say B,
  *             # then the fractional number of VNs would be 1+4/5=1.8 instead of 1.0 as above)
  *             fractional_num_vns = 0.0             # <<<<<<<<<<<<<<
@@ -7451,16 +7511,16 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
  */
     __pyx_v_fractional_num_vns = 0.0;
 
-    /* "plexsim/models/value_network_gradient.pyx":244
+    /* "plexsim/models/value_network_gradient.pyx":246
  *             # then the fractional number of VNs would be 1+4/5=1.8 instead of 1.0 as above)
  *             fractional_num_vns = 0.0
  *             cc_rolecounts = np.array(cc_rolecounts)  # convert so we can subtract easily             # <<<<<<<<<<<<<<
  *             while not np.max(cc_rolecounts) == 0:
  *                 cnts_of_cnts = Counter(cc_rolecounts)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 244, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 246, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 244, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 246, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_2 = NULL;
@@ -7479,14 +7539,14 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
       PyObject *__pyx_callargs[2] = {__pyx_t_2, __pyx_v_cc_rolecounts};
       __pyx_t_6 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 244, __pyx_L1_error)
+      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 246, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
     __Pyx_DECREF_SET(__pyx_v_cc_rolecounts, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "plexsim/models/value_network_gradient.pyx":245
+    /* "plexsim/models/value_network_gradient.pyx":247
  *             fractional_num_vns = 0.0
  *             cc_rolecounts = np.array(cc_rolecounts)  # convert so we can subtract easily
  *             while not np.max(cc_rolecounts) == 0:             # <<<<<<<<<<<<<<
@@ -7494,9 +7554,9 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
  *                 fractional_num_vns += 1.0 - float(cnts_of_cnts[0]) / self._nStates
  */
     while (1) {
-      __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 245, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 247, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_max); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 245, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_max); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 247, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_1 = NULL;
@@ -7515,26 +7575,26 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
         PyObject *__pyx_callargs[2] = {__pyx_t_1, __pyx_v_cc_rolecounts};
         __pyx_t_6 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
         __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-        if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 245, __pyx_L1_error)
+        if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 247, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       }
-      __pyx_t_2 = __Pyx_PyInt_EqObjC(__pyx_t_6, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 245, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyInt_EqObjC(__pyx_t_6, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 247, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 245, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 247, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_t_14 = ((!__pyx_t_10) != 0);
       if (!__pyx_t_14) break;
 
-      /* "plexsim/models/value_network_gradient.pyx":246
+      /* "plexsim/models/value_network_gradient.pyx":248
  *             cc_rolecounts = np.array(cc_rolecounts)  # convert so we can subtract easily
  *             while not np.max(cc_rolecounts) == 0:
  *                 cnts_of_cnts = Counter(cc_rolecounts)             # <<<<<<<<<<<<<<
  *                 fractional_num_vns += 1.0 - float(cnts_of_cnts[0]) / self._nStates
  *                 # subtract all role counts by 1 but don't go negative
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_Counter); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 246, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_Counter); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 248, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __pyx_t_1 = NULL;
       __pyx_t_8 = 0;
@@ -7552,45 +7612,45 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
         PyObject *__pyx_callargs[2] = {__pyx_t_1, __pyx_v_cc_rolecounts};
         __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_6, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
         __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 246, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 248, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       }
       __Pyx_XDECREF_SET(__pyx_v_cnts_of_cnts, __pyx_t_2);
       __pyx_t_2 = 0;
 
-      /* "plexsim/models/value_network_gradient.pyx":247
+      /* "plexsim/models/value_network_gradient.pyx":249
  *             while not np.max(cc_rolecounts) == 0:
  *                 cnts_of_cnts = Counter(cc_rolecounts)
  *                 fractional_num_vns += 1.0 - float(cnts_of_cnts[0]) / self._nStates             # <<<<<<<<<<<<<<
  *                 # subtract all role counts by 1 but don't go negative
  *                 cc_rolecounts = np.max([np.zeros(len(cc_rolecounts)), np.subtract(cc_rolecounts, 1)], axis=0)
  */
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_cnts_of_cnts, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 247, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_cnts_of_cnts, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 249, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_9 = __Pyx_PyObject_AsDouble(__pyx_t_2); if (unlikely(__pyx_t_9 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 247, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_AsDouble(__pyx_t_2); if (unlikely(__pyx_t_9 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 249, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_v_fractional_num_vns = (__pyx_v_fractional_num_vns + (1.0 - (__pyx_t_9 / ((double)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._nStates))));
 
-      /* "plexsim/models/value_network_gradient.pyx":249
+      /* "plexsim/models/value_network_gradient.pyx":251
  *                 fractional_num_vns += 1.0 - float(cnts_of_cnts[0]) / self._nStates
  *                 # subtract all role counts by 1 but don't go negative
  *                 cc_rolecounts = np.max([np.zeros(len(cc_rolecounts)), np.subtract(cc_rolecounts, 1)], axis=0)             # <<<<<<<<<<<<<<
  *         return fractional_num_vns
  * 
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 249, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 251, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_max); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 249, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_max); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 251, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 249, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 251, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 249, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 251, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_13 = PyObject_Length(__pyx_v_cc_rolecounts); if (unlikely(__pyx_t_13 == ((Py_ssize_t)-1))) __PYX_ERR(0, 249, __pyx_L1_error)
-      __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_13); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 249, __pyx_L1_error)
+      __pyx_t_13 = PyObject_Length(__pyx_v_cc_rolecounts); if (unlikely(__pyx_t_13 == ((Py_ssize_t)-1))) __PYX_ERR(0, 251, __pyx_L1_error)
+      __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_13); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 251, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __pyx_t_3 = NULL;
       __pyx_t_8 = 0;
@@ -7609,13 +7669,13 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
         __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 249, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 251, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       }
-      __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 249, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 251, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_subtract); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 249, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_subtract); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 251, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_1 = NULL;
@@ -7634,11 +7694,11 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
         PyObject *__pyx_callargs[3] = {__pyx_t_1, __pyx_v_cc_rolecounts, __pyx_int_1};
         __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_8, 2+__pyx_t_8);
         __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-        if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 249, __pyx_L1_error)
+        if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 251, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       }
-      __pyx_t_3 = PyList_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 249, __pyx_L1_error)
+      __pyx_t_3 = PyList_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 251, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_GIVEREF(__pyx_t_2);
       PyList_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
@@ -7646,15 +7706,15 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
       PyList_SET_ITEM(__pyx_t_3, 1, __pyx_t_4);
       __pyx_t_2 = 0;
       __pyx_t_4 = 0;
-      __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 249, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 251, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 249, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 251, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_axis, __pyx_int_0) < 0) __PYX_ERR(0, 249, __pyx_L1_error)
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 249, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_axis, __pyx_int_0) < 0) __PYX_ERR(0, 251, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 251, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -7663,16 +7723,16 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
       __pyx_t_2 = 0;
     }
 
-    /* "plexsim/models/value_network_gradient.pyx":239
- *             print(nodes)
- *         cnt = Counter([self._states[self.adj.mapping[node]] for node in nodes])
+    /* "plexsim/models/value_network_gradient.pyx":241
+ *         # value network is not unique. Therefore it, it not being completed (locally). At least
+ *         # this was intention.
  *         if len(cnt) >=  threshold:             # <<<<<<<<<<<<<<
  *             cc_rolecounts = list(Counter([self._states[self.adj.mapping[node]] for node in nodes]).values())
  *             # let's see if we can also compute a fractional count of VNs (so, if two complete VNs intersect in one role, say B,
  */
   }
 
-  /* "plexsim/models/value_network_gradient.pyx":250
+  /* "plexsim/models/value_network_gradient.pyx":252
  *                 # subtract all role counts by 1 but don't go negative
  *                 cc_rolecounts = np.max([np.zeros(len(cc_rolecounts)), np.subtract(cc_rolecounts, 1)], axis=0)
  *         return fractional_num_vns             # <<<<<<<<<<<<<<
@@ -7682,7 +7742,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
   __pyx_r = __pyx_v_fractional_num_vns;
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network_gradient.pyx":230
+  /* "plexsim/models/value_network_gradient.pyx":226
  * 
  * 
  *     cpdef double fractional_count(self, cset[node_id_t] nodes, size_t threshold,  bint verbose = False):             # <<<<<<<<<<<<<<
@@ -7762,26 +7822,26 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
       switch (__pyx_nargs) {
         case  0:
         if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_nodes)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 230, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 226, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
         if (likely((values[1] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_threshold)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 230, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 226, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("fractional_count", 0, 2, 3, 1); __PYX_ERR(0, 230, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("fractional_count", 0, 2, 3, 1); __PYX_ERR(0, 226, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_verbose);
           if (value) { values[2] = value; kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 230, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 226, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "fractional_count") < 0)) __PYX_ERR(0, 230, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "fractional_count") < 0)) __PYX_ERR(0, 226, __pyx_L3_error)
       }
     } else {
       switch (__pyx_nargs) {
@@ -7793,17 +7853,17 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_nodes = __pyx_convert_set_from_py___pyx_t_7plexsim_6models_5types_node_id_t(values[0]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 230, __pyx_L3_error)
-    __pyx_v_threshold = __Pyx_PyInt_As_size_t(values[1]); if (unlikely((__pyx_v_threshold == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 230, __pyx_L3_error)
+    __pyx_v_nodes = __pyx_convert_set_from_py___pyx_t_7plexsim_6models_5types_node_id_t(values[0]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 226, __pyx_L3_error)
+    __pyx_v_threshold = __Pyx_PyInt_As_size_t(values[1]); if (unlikely((__pyx_v_threshold == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 226, __pyx_L3_error)
     if (values[2]) {
-      __pyx_v_verbose = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_verbose == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 230, __pyx_L3_error)
+      __pyx_v_verbose = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_verbose == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 226, __pyx_L3_error)
     } else {
       __pyx_v_verbose = ((int)0);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("fractional_count", 0, 2, 3, __pyx_nargs); __PYX_ERR(0, 230, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("fractional_count", 0, 2, 3, __pyx_nargs); __PYX_ERR(0, 226, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("plexsim.models.value_network_gradient.VNG.fractional_count", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -7830,7 +7890,7 @@ static PyObject *__pyx_pf_7plexsim_6models_22value_network_gradient_3VNG_6fracti
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.verbose = __pyx_v_verbose;
   __pyx_t_1 = __pyx_vtabptr_7plexsim_6models_22value_network_gradient_VNG->fractional_count(__pyx_v_self, __pyx_v_nodes, __pyx_v_threshold, 1, &__pyx_t_2); 
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
@@ -7847,7 +7907,7 @@ static PyObject *__pyx_pf_7plexsim_6models_22value_network_gradient_3VNG_6fracti
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network_gradient.pyx":253
+/* "plexsim/models/value_network_gradient.pyx":255
  * 
  * 
  *     cdef unordered_map[node_id_t, double] _check_gradient(self, bint verbose = False):             # <<<<<<<<<<<<<<
@@ -7889,7 +7949,7 @@ static std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,double>  __p
     }
   }
 
-  /* "plexsim/models/value_network_gradient.pyx":265
+  /* "plexsim/models/value_network_gradient.pyx":267
  * 
  *         # TODO: check output van deze functie
  *         for node in range(self.adj._nNodes):             # <<<<<<<<<<<<<<
@@ -7901,7 +7961,7 @@ static std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,double>  __p
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_node = __pyx_t_3;
 
-    /* "plexsim/models/value_network_gradient.pyx":266
+    /* "plexsim/models/value_network_gradient.pyx":268
  *         # TODO: check output van deze functie
  *         for node in range(self.adj._nNodes):
  *             self._check_sufficient_connected(node, suff_connected)             # <<<<<<<<<<<<<<
@@ -7910,7 +7970,7 @@ static std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,double>  __p
  */
     ((struct __pyx_vtabstruct_7plexsim_6models_22value_network_gradient_VNG *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->_check_sufficient_connected(__pyx_v_self, __pyx_v_node, __pyx_v_suff_connected);
 
-    /* "plexsim/models/value_network_gradient.pyx":267
+    /* "plexsim/models/value_network_gradient.pyx":269
  *         for node in range(self.adj._nNodes):
  *             self._check_sufficient_connected(node, suff_connected)
  *             heuristic[node] = 0 # default             # <<<<<<<<<<<<<<
@@ -7920,7 +7980,7 @@ static std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,double>  __p
     (__pyx_v_heuristic[__pyx_v_node]) = 0.0;
   }
 
-  /* "plexsim/models/value_network_gradient.pyx":270
+  /* "plexsim/models/value_network_gradient.pyx":272
  * 
  *         # map the labels back
  *         if verbose:             # <<<<<<<<<<<<<<
@@ -7930,21 +7990,21 @@ static std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,double>  __p
   __pyx_t_4 = (__pyx_v_verbose != 0);
   if (__pyx_t_4) {
 
-    /* "plexsim/models/value_network_gradient.pyx":271
+    /* "plexsim/models/value_network_gradient.pyx":273
  *         # map the labels back
  *         if verbose:
  *            print(suff_connected)             # <<<<<<<<<<<<<<
  * 
  *         cdef object subgraph = self.cut_components(suff_connected)
  */
-    __pyx_t_5 = __pyx_convert_set_to_py___pyx_t_7plexsim_6models_5types_node_id_t(__pyx_v_suff_connected); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 271, __pyx_L1_error)
+    __pyx_t_5 = __pyx_convert_set_to_py___pyx_t_7plexsim_6models_5types_node_id_t(__pyx_v_suff_connected); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 273, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 271, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 273, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "plexsim/models/value_network_gradient.pyx":270
+    /* "plexsim/models/value_network_gradient.pyx":272
  * 
  *         # map the labels back
  *         if verbose:             # <<<<<<<<<<<<<<
@@ -7953,19 +8013,19 @@ static std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,double>  __p
  */
   }
 
-  /* "plexsim/models/value_network_gradient.pyx":273
+  /* "plexsim/models/value_network_gradient.pyx":275
  *            print(suff_connected)
  * 
  *         cdef object subgraph = self.cut_components(suff_connected)             # <<<<<<<<<<<<<<
  *         cdef double fractional_num_vns = 0
  *         for cc in nx.connected_components(subgraph):
  */
-  __pyx_t_6 = ((struct __pyx_vtabstruct_7plexsim_6models_22value_network_gradient_VNG *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->cut_components(__pyx_v_self, __pyx_v_suff_connected, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 273, __pyx_L1_error)
+  __pyx_t_6 = ((struct __pyx_vtabstruct_7plexsim_6models_22value_network_gradient_VNG *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->cut_components(__pyx_v_self, __pyx_v_suff_connected, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 275, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_v_subgraph = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "plexsim/models/value_network_gradient.pyx":274
+  /* "plexsim/models/value_network_gradient.pyx":276
  * 
  *         cdef object subgraph = self.cut_components(suff_connected)
  *         cdef double fractional_num_vns = 0             # <<<<<<<<<<<<<<
@@ -7974,16 +8034,16 @@ static std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,double>  __p
  */
   __pyx_v_fractional_num_vns = 0.0;
 
-  /* "plexsim/models/value_network_gradient.pyx":275
+  /* "plexsim/models/value_network_gradient.pyx":277
  *         cdef object subgraph = self.cut_components(suff_connected)
  *         cdef double fractional_num_vns = 0
  *         for cc in nx.connected_components(subgraph):             # <<<<<<<<<<<<<<
  *             fractional_num_vns = self.fractional_count(cc, self._nStates)
  *             for node in cc:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_nx); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 275, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_nx); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 277, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_connected_components); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 275, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_connected_components); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 277, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -8002,7 +8062,7 @@ static std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,double>  __p
     PyObject *__pyx_callargs[2] = {__pyx_t_5, __pyx_v_subgraph};
     __pyx_t_6 = __Pyx_PyObject_FastCall(__pyx_t_7, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 275, __pyx_L1_error)
+    if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 277, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
@@ -8010,9 +8070,9 @@ static std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,double>  __p
     __pyx_t_7 = __pyx_t_6; __Pyx_INCREF(__pyx_t_7); __pyx_t_9 = 0;
     __pyx_t_10 = NULL;
   } else {
-    __pyx_t_9 = -1; __pyx_t_7 = PyObject_GetIter(__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 275, __pyx_L1_error)
+    __pyx_t_9 = -1; __pyx_t_7 = PyObject_GetIter(__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 277, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_10 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_7); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 275, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_7); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 277, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   for (;;) {
@@ -8020,17 +8080,17 @@ static std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,double>  __p
       if (likely(PyList_CheckExact(__pyx_t_7))) {
         if (__pyx_t_9 >= PyList_GET_SIZE(__pyx_t_7)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_6 = PyList_GET_ITEM(__pyx_t_7, __pyx_t_9); __Pyx_INCREF(__pyx_t_6); __pyx_t_9++; if (unlikely((0 < 0))) __PYX_ERR(0, 275, __pyx_L1_error)
+        __pyx_t_6 = PyList_GET_ITEM(__pyx_t_7, __pyx_t_9); __Pyx_INCREF(__pyx_t_6); __pyx_t_9++; if (unlikely((0 < 0))) __PYX_ERR(0, 277, __pyx_L1_error)
         #else
-        __pyx_t_6 = PySequence_ITEM(__pyx_t_7, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 275, __pyx_L1_error)
+        __pyx_t_6 = PySequence_ITEM(__pyx_t_7, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 277, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         #endif
       } else {
         if (__pyx_t_9 >= PyTuple_GET_SIZE(__pyx_t_7)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_7, __pyx_t_9); __Pyx_INCREF(__pyx_t_6); __pyx_t_9++; if (unlikely((0 < 0))) __PYX_ERR(0, 275, __pyx_L1_error)
+        __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_7, __pyx_t_9); __Pyx_INCREF(__pyx_t_6); __pyx_t_9++; if (unlikely((0 < 0))) __PYX_ERR(0, 277, __pyx_L1_error)
         #else
-        __pyx_t_6 = PySequence_ITEM(__pyx_t_7, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 275, __pyx_L1_error)
+        __pyx_t_6 = PySequence_ITEM(__pyx_t_7, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 277, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         #endif
       }
@@ -8040,7 +8100,7 @@ static std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,double>  __p
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 275, __pyx_L1_error)
+          else __PYX_ERR(0, 277, __pyx_L1_error)
         }
         break;
       }
@@ -8049,17 +8109,17 @@ static std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,double>  __p
     __Pyx_XDECREF_SET(__pyx_v_cc, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "plexsim/models/value_network_gradient.pyx":276
+    /* "plexsim/models/value_network_gradient.pyx":278
  *         cdef double fractional_num_vns = 0
  *         for cc in nx.connected_components(subgraph):
  *             fractional_num_vns = self.fractional_count(cc, self._nStates)             # <<<<<<<<<<<<<<
  *             for node in cc:
  *                 heuristic[self.adj.mapping[node]] += fractional_num_vns
  */
-    __pyx_t_11 = __pyx_convert_set_from_py___pyx_t_7plexsim_6models_5types_node_id_t(__pyx_v_cc); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 276, __pyx_L1_error)
+    __pyx_t_11 = __pyx_convert_set_from_py___pyx_t_7plexsim_6models_5types_node_id_t(__pyx_v_cc); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 278, __pyx_L1_error)
     __pyx_v_fractional_num_vns = ((struct __pyx_vtabstruct_7plexsim_6models_22value_network_gradient_VNG *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->fractional_count(__pyx_v_self, __PYX_STD_MOVE_IF_SUPPORTED(__pyx_t_11), __pyx_v_self->__pyx_base.__pyx_base.__pyx_base._nStates, 0, NULL);
 
-    /* "plexsim/models/value_network_gradient.pyx":277
+    /* "plexsim/models/value_network_gradient.pyx":279
  *         for cc in nx.connected_components(subgraph):
  *             fractional_num_vns = self.fractional_count(cc, self._nStates)
  *             for node in cc:             # <<<<<<<<<<<<<<
@@ -8070,26 +8130,26 @@ static std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,double>  __p
       __pyx_t_6 = __pyx_v_cc; __Pyx_INCREF(__pyx_t_6); __pyx_t_12 = 0;
       __pyx_t_13 = NULL;
     } else {
-      __pyx_t_12 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_v_cc); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 277, __pyx_L1_error)
+      __pyx_t_12 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_v_cc); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 279, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_13 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_6); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 277, __pyx_L1_error)
+      __pyx_t_13 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_6); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 279, __pyx_L1_error)
     }
     for (;;) {
       if (likely(!__pyx_t_13)) {
         if (likely(PyList_CheckExact(__pyx_t_6))) {
           if (__pyx_t_12 >= PyList_GET_SIZE(__pyx_t_6)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_5 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_12); __Pyx_INCREF(__pyx_t_5); __pyx_t_12++; if (unlikely((0 < 0))) __PYX_ERR(0, 277, __pyx_L1_error)
+          __pyx_t_5 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_12); __Pyx_INCREF(__pyx_t_5); __pyx_t_12++; if (unlikely((0 < 0))) __PYX_ERR(0, 279, __pyx_L1_error)
           #else
-          __pyx_t_5 = PySequence_ITEM(__pyx_t_6, __pyx_t_12); __pyx_t_12++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 277, __pyx_L1_error)
+          __pyx_t_5 = PySequence_ITEM(__pyx_t_6, __pyx_t_12); __pyx_t_12++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 279, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           #endif
         } else {
           if (__pyx_t_12 >= PyTuple_GET_SIZE(__pyx_t_6)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_12); __Pyx_INCREF(__pyx_t_5); __pyx_t_12++; if (unlikely((0 < 0))) __PYX_ERR(0, 277, __pyx_L1_error)
+          __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_12); __Pyx_INCREF(__pyx_t_5); __pyx_t_12++; if (unlikely((0 < 0))) __PYX_ERR(0, 279, __pyx_L1_error)
           #else
-          __pyx_t_5 = PySequence_ITEM(__pyx_t_6, __pyx_t_12); __pyx_t_12++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 277, __pyx_L1_error)
+          __pyx_t_5 = PySequence_ITEM(__pyx_t_6, __pyx_t_12); __pyx_t_12++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 279, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           #endif
         }
@@ -8099,33 +8159,33 @@ static std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,double>  __p
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 277, __pyx_L1_error)
+            else __PYX_ERR(0, 279, __pyx_L1_error)
           }
           break;
         }
         __Pyx_GOTREF(__pyx_t_5);
       }
-      __pyx_t_3 = __Pyx_PyInt_As_size_t(__pyx_t_5); if (unlikely((__pyx_t_3 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 277, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_As_size_t(__pyx_t_5); if (unlikely((__pyx_t_3 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 279, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_v_node = __pyx_t_3;
 
-      /* "plexsim/models/value_network_gradient.pyx":278
+      /* "plexsim/models/value_network_gradient.pyx":280
  *             fractional_num_vns = self.fractional_count(cc, self._nStates)
  *             for node in cc:
  *                 heuristic[self.adj.mapping[node]] += fractional_num_vns             # <<<<<<<<<<<<<<
  *         return heuristic
  * 
  */
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj), __pyx_n_s_mapping); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 278, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj), __pyx_n_s_mapping); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 280, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_14 = __Pyx_GetItemInt(__pyx_t_5, __pyx_v_node, __pyx_t_7plexsim_6models_5types_node_id_t, 0, __Pyx_PyInt_FromSize_t, 0, 0, 0); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 278, __pyx_L1_error)
+      __pyx_t_14 = __Pyx_GetItemInt(__pyx_t_5, __pyx_v_node, __pyx_t_7plexsim_6models_5types_node_id_t, 0, __Pyx_PyInt_FromSize_t, 0, 0, 0); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 280, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_3 = __Pyx_PyInt_As_size_t(__pyx_t_14); if (unlikely((__pyx_t_3 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 278, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_As_size_t(__pyx_t_14); if (unlikely((__pyx_t_3 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 280, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
       (__pyx_v_heuristic[__pyx_t_3]) = ((__pyx_v_heuristic[__pyx_t_3]) + __pyx_v_fractional_num_vns);
 
-      /* "plexsim/models/value_network_gradient.pyx":277
+      /* "plexsim/models/value_network_gradient.pyx":279
  *         for cc in nx.connected_components(subgraph):
  *             fractional_num_vns = self.fractional_count(cc, self._nStates)
  *             for node in cc:             # <<<<<<<<<<<<<<
@@ -8135,7 +8195,7 @@ static std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,double>  __p
     }
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "plexsim/models/value_network_gradient.pyx":275
+    /* "plexsim/models/value_network_gradient.pyx":277
  *         cdef object subgraph = self.cut_components(suff_connected)
  *         cdef double fractional_num_vns = 0
  *         for cc in nx.connected_components(subgraph):             # <<<<<<<<<<<<<<
@@ -8145,7 +8205,7 @@ static std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,double>  __p
   }
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "plexsim/models/value_network_gradient.pyx":279
+  /* "plexsim/models/value_network_gradient.pyx":281
  *             for node in cc:
  *                 heuristic[self.adj.mapping[node]] += fractional_num_vns
  *         return heuristic             # <<<<<<<<<<<<<<
@@ -8155,7 +8215,7 @@ static std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,double>  __p
   __pyx_r = __pyx_v_heuristic;
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network_gradient.pyx":253
+  /* "plexsim/models/value_network_gradient.pyx":255
  * 
  * 
  *     cdef unordered_map[node_id_t, double] _check_gradient(self, bint verbose = False):             # <<<<<<<<<<<<<<
@@ -8178,7 +8238,7 @@ static std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,double>  __p
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network_gradient.pyx":281
+/* "plexsim/models/value_network_gradient.pyx":283
  *         return heuristic
  * 
  *     cpdef double check_gradient_node(self, node_id_t node):             # <<<<<<<<<<<<<<
@@ -8203,6 +8263,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
   PyObject *__pyx_v_this_state = NULL;
   std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,__pyx_t_7plexsim_6models_5types_weight_t> ::iterator __pyx_v_it;
   PyObject *__pyx_v_other_state = NULL;
+  size_t __pyx_v_states_at_distance_n;
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -8217,6 +8278,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
   __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_10;
   __pyx_t_7plexsim_6models_5types_state_t __pyx_t_11;
   __pyx_t_7plexsim_6models_5types_state_t __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -8230,7 +8292,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_typedict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_check_gradient_node); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 281, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_check_gradient_node); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 283, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       #ifdef __Pyx_CyFunction_USED
       if (!__Pyx_IsCyOrPyCFunction(__pyx_t_1)
@@ -8238,7 +8300,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
       if (!PyCFunction_Check(__pyx_t_1)
       #endif
               || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_7plexsim_6models_22value_network_gradient_3VNG_9check_gradient_node)) {
-        __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_v_node); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 281, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_v_node); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 283, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_4 = __pyx_t_1; __pyx_t_5 = NULL;
@@ -8258,11 +8320,11 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
           __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
           __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 281, __pyx_L1_error)
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 283, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         }
-        __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 281, __pyx_L1_error)
+        __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 283, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_r = __pyx_t_7;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -8281,7 +8343,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
     #endif
   }
 
-  /* "plexsim/models/value_network_gradient.pyx":293
+  /* "plexsim/models/value_network_gradient.pyx":295
  *             cset[node_id_t] neighbors
  *             # check number of edges + 1 additional as it is a size_t
  *             size_t sight = self._bounded_rational + 2             # <<<<<<<<<<<<<<
@@ -8290,7 +8352,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
  */
   __pyx_v_sight = (__pyx_v_self->__pyx_base._bounded_rational + 2);
 
-  /* "plexsim/models/value_network_gradient.pyx":299
+  /* "plexsim/models/value_network_gradient.pyx":301
  *             node_id_t neighbor
  *             vector[node_id_t] queue
  *             size_t old_size = suff_connected.size()             # <<<<<<<<<<<<<<
@@ -8299,7 +8361,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
  */
   __pyx_v_old_size = __pyx_v_suff_connected.size();
 
-  /* "plexsim/models/value_network_gradient.pyx":302
+  /* "plexsim/models/value_network_gradient.pyx":304
  * 
  *         # init queue
  *         queue.push_back(node)             # <<<<<<<<<<<<<<
@@ -8310,10 +8372,10 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
     __pyx_v_queue.push_back(__pyx_v_node);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(0, 302, __pyx_L1_error)
+    __PYX_ERR(0, 304, __pyx_L1_error)
   }
 
-  /* "plexsim/models/value_network_gradient.pyx":304
+  /* "plexsim/models/value_network_gradient.pyx":306
  *         queue.push_back(node)
  *         # node is connected
  *         while sight > 0 and queue.size():             # <<<<<<<<<<<<<<
@@ -8332,7 +8394,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
     __pyx_L5_bool_binop_done:;
     if (!__pyx_t_8) break;
 
-    /* "plexsim/models/value_network_gradient.pyx":306
+    /* "plexsim/models/value_network_gradient.pyx":308
  *         while sight > 0 and queue.size():
  *             # decrease sight
  *             sight -= 1             # <<<<<<<<<<<<<<
@@ -8341,7 +8403,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
  */
     __pyx_v_sight = (__pyx_v_sight - 1);
 
-    /* "plexsim/models/value_network_gradient.pyx":308
+    /* "plexsim/models/value_network_gradient.pyx":310
  *             sight -= 1
  *             # generate new proposal
  *             proposal = queue.back()             # <<<<<<<<<<<<<<
@@ -8350,7 +8412,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
  */
     __pyx_v_proposal = __pyx_v_queue.back();
 
-    /* "plexsim/models/value_network_gradient.pyx":309
+    /* "plexsim/models/value_network_gradient.pyx":311
  *             # generate new proposal
  *             proposal = queue.back()
  *             queue.pop_back()             # <<<<<<<<<<<<<<
@@ -8359,7 +8421,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
  */
     __pyx_v_queue.pop_back();
 
-    /* "plexsim/models/value_network_gradient.pyx":311
+    /* "plexsim/models/value_network_gradient.pyx":313
  *             queue.pop_back()
  *             # sufficient connected will generate new proposals
  *             self._check_sufficient_connected(proposal, suff_connected)             # <<<<<<<<<<<<<<
@@ -8368,7 +8430,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
  */
     ((struct __pyx_vtabstruct_7plexsim_6models_22value_network_gradient_VNG *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->_check_sufficient_connected(__pyx_v_self, __pyx_v_proposal, __pyx_v_suff_connected);
 
-    /* "plexsim/models/value_network_gradient.pyx":314
+    /* "plexsim/models/value_network_gradient.pyx":316
  * 
  *             # node was sufficiently connected
  *             if suff_connected.size() > old_size:             # <<<<<<<<<<<<<<
@@ -8378,7 +8440,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
     __pyx_t_8 = ((__pyx_v_suff_connected.size() > __pyx_v_old_size) != 0);
     if (__pyx_t_8) {
 
-      /* "plexsim/models/value_network_gradient.pyx":315
+      /* "plexsim/models/value_network_gradient.pyx":317
  *             # node was sufficiently connected
  *             if suff_connected.size() > old_size:
  *                 old_size = suff_connected.size()             # <<<<<<<<<<<<<<
@@ -8387,19 +8449,19 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
  */
       __pyx_v_old_size = __pyx_v_suff_connected.size();
 
-      /* "plexsim/models/value_network_gradient.pyx":316
+      /* "plexsim/models/value_network_gradient.pyx":318
  *             if suff_connected.size() > old_size:
  *                 old_size = suff_connected.size()
  *                 this_state = self._states[proposal]             # <<<<<<<<<<<<<<
  * 
  *                 # check all neighbors with valid color assignments
  */
-      __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_proposal])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 316, __pyx_L1_error)
+      __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_proposal])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 318, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_XDECREF_SET(__pyx_v_this_state, __pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "plexsim/models/value_network_gradient.pyx":319
+      /* "plexsim/models/value_network_gradient.pyx":321
  * 
  *                 # check all neighbors with valid color assignments
  *                 it = self.adj._adj[proposal].neighbors.begin()             # <<<<<<<<<<<<<<
@@ -8408,7 +8470,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
  */
       __pyx_v_it = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_proposal]).neighbors.begin();
 
-      /* "plexsim/models/value_network_gradient.pyx":320
+      /* "plexsim/models/value_network_gradient.pyx":322
  *                 # check all neighbors with valid color assignments
  *                 it = self.adj._adj[proposal].neighbors.begin()
  *                 while it != self.adj._adj[proposal].neighbors.end():             # <<<<<<<<<<<<<<
@@ -8419,7 +8481,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
         __pyx_t_8 = ((__pyx_v_it != (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_proposal]).neighbors.end()) != 0);
         if (!__pyx_t_8) break;
 
-        /* "plexsim/models/value_network_gradient.pyx":321
+        /* "plexsim/models/value_network_gradient.pyx":323
  *                 it = self.adj._adj[proposal].neighbors.begin()
  *                 while it != self.adj._adj[proposal].neighbors.end():
  *                     neighbor = deref(it).first             # <<<<<<<<<<<<<<
@@ -8429,45 +8491,45 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
         __pyx_t_10 = (*__pyx_v_it).first;
         __pyx_v_neighbor = __pyx_t_10;
 
-        /* "plexsim/models/value_network_gradient.pyx":322
+        /* "plexsim/models/value_network_gradient.pyx":324
  *                 while it != self.adj._adj[proposal].neighbors.end():
  *                     neighbor = deref(it).first
  *                     other_state = self._states[neighbor]             # <<<<<<<<<<<<<<
  *                     if self._rules._adj[this_state][other_state] > 0:
  *                         queue.push_back(neighbor)
  */
-        __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_neighbor])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 322, __pyx_L1_error)
+        __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_neighbor])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 324, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_XDECREF_SET(__pyx_v_other_state, __pyx_t_1);
         __pyx_t_1 = 0;
 
-        /* "plexsim/models/value_network_gradient.pyx":323
+        /* "plexsim/models/value_network_gradient.pyx":325
  *                     neighbor = deref(it).first
  *                     other_state = self._states[neighbor]
  *                     if self._rules._adj[this_state][other_state] > 0:             # <<<<<<<<<<<<<<
  *                         queue.push_back(neighbor)
  *                     post(it) # never forget
  */
-        __pyx_t_11 = __pyx_PyFloat_AsDouble(__pyx_v_this_state); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 323, __pyx_L1_error)
-        __pyx_t_12 = __pyx_PyFloat_AsDouble(__pyx_v_other_state); if (unlikely((__pyx_t_12 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 323, __pyx_L1_error)
+        __pyx_t_11 = __pyx_PyFloat_AsDouble(__pyx_v_this_state); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 325, __pyx_L1_error)
+        __pyx_t_12 = __pyx_PyFloat_AsDouble(__pyx_v_other_state); if (unlikely((__pyx_t_12 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 325, __pyx_L1_error)
         __pyx_t_8 = ((((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rules->_adj[__pyx_t_11])[__pyx_t_12]) > 0.0) != 0);
         if (__pyx_t_8) {
 
-          /* "plexsim/models/value_network_gradient.pyx":324
+          /* "plexsim/models/value_network_gradient.pyx":326
  *                     other_state = self._states[neighbor]
  *                     if self._rules._adj[this_state][other_state] > 0:
  *                         queue.push_back(neighbor)             # <<<<<<<<<<<<<<
  *                     post(it) # never forget
- *         # cdef size_t states_at_distance_n = len(nx.generators.ego.ego_graph(self.graph, self.adj.rmapping[node],  self._bounded_rational))
+ * 
  */
           try {
             __pyx_v_queue.push_back(__pyx_v_neighbor);
           } catch(...) {
             __Pyx_CppExn2PyErr();
-            __PYX_ERR(0, 324, __pyx_L1_error)
+            __PYX_ERR(0, 326, __pyx_L1_error)
           }
 
-          /* "plexsim/models/value_network_gradient.pyx":323
+          /* "plexsim/models/value_network_gradient.pyx":325
  *                     neighbor = deref(it).first
  *                     other_state = self._states[neighbor]
  *                     if self._rules._adj[this_state][other_state] > 0:             # <<<<<<<<<<<<<<
@@ -8476,17 +8538,17 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
  */
         }
 
-        /* "plexsim/models/value_network_gradient.pyx":325
+        /* "plexsim/models/value_network_gradient.pyx":327
  *                     if self._rules._adj[this_state][other_state] > 0:
  *                         queue.push_back(neighbor)
  *                     post(it) # never forget             # <<<<<<<<<<<<<<
- *         # cdef size_t states_at_distance_n = len(nx.generators.ego.ego_graph(self.graph, self.adj.rmapping[node],  self._bounded_rational))
- *         # return self.fractional_count(suff_connected, states_at_distance_n)
+ * 
+ *         #
  */
         (void)((__pyx_v_it++));
       }
 
-      /* "plexsim/models/value_network_gradient.pyx":314
+      /* "plexsim/models/value_network_gradient.pyx":316
  * 
  *             # node was sufficiently connected
  *             if suff_connected.size() > old_size:             # <<<<<<<<<<<<<<
@@ -8496,15 +8558,129 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
     }
   }
 
-  /* "plexsim/models/value_network_gradient.pyx":329
- *         # return self.fractional_count(suff_connected, states_at_distance_n)
- * 
- *         return self.fractional_count(suff_connected, self._bounded_rational)             # <<<<<<<<<<<<<<
+  /* "plexsim/models/value_network_gradient.pyx":331
+ *         #
+ *         cdef size_t states_at_distance_n = len(
+ *             nx.generators.ego.ego_graph(             # <<<<<<<<<<<<<<
+ *                 self.dump_rules(),
+ *                 self._states[node],
  */
-  __pyx_r = ((struct __pyx_vtabstruct_7plexsim_6models_22value_network_gradient_VNG *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->fractional_count(__pyx_v_self, __pyx_v_suff_connected, __pyx_v_self->__pyx_base._bounded_rational, 0, NULL);
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_nx); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 331, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_generators); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 331, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_ego); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 331, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_ego_graph); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 331, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "plexsim/models/value_network_gradient.pyx":332
+ *         cdef size_t states_at_distance_n = len(
+ *             nx.generators.ego.ego_graph(
+ *                 self.dump_rules(),             # <<<<<<<<<<<<<<
+ *                 self._states[node],
+ *                 radius = self._bounded_rational)
+ */
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_dump_rules); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 332, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = NULL;
+  __pyx_t_6 = 0;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __pyx_t_6 = 1;
+    }
+  }
+  {
+    PyObject *__pyx_callargs[1] = {__pyx_t_3, };
+    __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_6, 0+__pyx_t_6);
+    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 332, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  }
+
+  /* "plexsim/models/value_network_gradient.pyx":333
+ *             nx.generators.ego.ego_graph(
+ *                 self.dump_rules(),
+ *                 self._states[node],             # <<<<<<<<<<<<<<
+ *                 radius = self._bounded_rational)
+ *         )
+ */
+  __pyx_t_4 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 333, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+
+  /* "plexsim/models/value_network_gradient.pyx":331
+ *         #
+ *         cdef size_t states_at_distance_n = len(
+ *             nx.generators.ego.ego_graph(             # <<<<<<<<<<<<<<
+ *                 self.dump_rules(),
+ *                 self._states[node],
+ */
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 331, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_4);
+  __pyx_t_1 = 0;
+  __pyx_t_4 = 0;
+
+  /* "plexsim/models/value_network_gradient.pyx":334
+ *                 self.dump_rules(),
+ *                 self._states[node],
+ *                 radius = self._bounded_rational)             # <<<<<<<<<<<<<<
+ *         )
+ * 
+ */
+  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 334, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->__pyx_base._bounded_rational); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 334, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_radius, __pyx_t_1) < 0) __PYX_ERR(0, 334, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "plexsim/models/value_network_gradient.pyx":331
+ *         #
+ *         cdef size_t states_at_distance_n = len(
+ *             nx.generators.ego.ego_graph(             # <<<<<<<<<<<<<<
+ *                 self.dump_rules(),
+ *                 self._states[node],
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 331, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+  /* "plexsim/models/value_network_gradient.pyx":330
+ * 
+ *         #
+ *         cdef size_t states_at_distance_n = len(             # <<<<<<<<<<<<<<
+ *             nx.generators.ego.ego_graph(
+ *                 self.dump_rules(),
+ */
+  __pyx_t_13 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_13 == ((Py_ssize_t)-1))) __PYX_ERR(0, 330, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_states_at_distance_n = __pyx_t_13;
+
+  /* "plexsim/models/value_network_gradient.pyx":337
+ *         )
+ * 
+ *         return self.fractional_count(suff_connected, states_at_distance_n)             # <<<<<<<<<<<<<<
+ * #        return self.fractional_count(suff_connected, self._bounded_rational)
+ */
+  __pyx_r = ((struct __pyx_vtabstruct_7plexsim_6models_22value_network_gradient_VNG *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->fractional_count(__pyx_v_self, __pyx_v_suff_connected, __pyx_v_states_at_distance_n, 0, NULL);
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network_gradient.pyx":281
+  /* "plexsim/models/value_network_gradient.pyx":283
  *         return heuristic
  * 
  *     cpdef double check_gradient_node(self, node_id_t node):             # <<<<<<<<<<<<<<
@@ -8575,23 +8751,23 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
       switch (__pyx_nargs) {
         case  0:
         if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_node)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 281, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 283, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "check_gradient_node") < 0)) __PYX_ERR(0, 281, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "check_gradient_node") < 0)) __PYX_ERR(0, 283, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
     }
-    __pyx_v_node = __Pyx_PyInt_As_size_t(values[0]); if (unlikely((__pyx_v_node == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 281, __pyx_L3_error)
+    __pyx_v_node = __Pyx_PyInt_As_size_t(values[0]); if (unlikely((__pyx_v_node == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 283, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("check_gradient_node", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 281, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("check_gradient_node", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 283, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("plexsim.models.value_network_gradient.VNG.check_gradient_node", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -8613,7 +8789,7 @@ static PyObject *__pyx_pf_7plexsim_6models_22value_network_gradient_3VNG_8check_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("check_gradient_node", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradient_node(__pyx_v_self, __pyx_v_node, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 281, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradient_node(__pyx_v_self, __pyx_v_node, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 283, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -25243,7 +25419,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_double, sizeof(__pyx_k_double), 0, 0, 1, 1},
   {0, __pyx_k_dtype, sizeof(__pyx_k_dtype), 0, 0, 1, 1},
   {0, __pyx_k_dtype_is_object, sizeof(__pyx_k_dtype_is_object), 0, 0, 1, 1},
+  {0, __pyx_k_dump_rules, sizeof(__pyx_k_dump_rules), 0, 0, 1, 1},
   {0, __pyx_k_edges, sizeof(__pyx_k_edges), 0, 0, 1, 1},
+  {0, __pyx_k_ego, sizeof(__pyx_k_ego), 0, 0, 1, 1},
+  {0, __pyx_k_ego_graph, sizeof(__pyx_k_ego_graph), 0, 0, 1, 1},
   {0, __pyx_k_enable, sizeof(__pyx_k_enable), 0, 1, 0, 0},
   {0, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
   {0, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
@@ -25254,6 +25433,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 1, 0, 1},
   {0, __pyx_k_fractional_count, sizeof(__pyx_k_fractional_count), 0, 0, 1, 1},
   {0, __pyx_k_gc, sizeof(__pyx_k_gc), 0, 1, 0, 0},
+  {0, __pyx_k_generators, sizeof(__pyx_k_generators), 0, 0, 1, 1},
   {0, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
   {0, __pyx_k_got, sizeof(__pyx_k_got), 0, 1, 0, 0},
   {0, __pyx_k_got_differing_extents_in_dimensi, sizeof(__pyx_k_got_differing_extents_in_dimensi), 0, 1, 0, 0},
@@ -25300,6 +25480,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_pyx_type, sizeof(__pyx_k_pyx_type), 0, 0, 1, 1},
   {0, __pyx_k_pyx_unpickle_Enum, sizeof(__pyx_k_pyx_unpickle_Enum), 0, 0, 1, 1},
   {0, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
+  {0, __pyx_k_radius, sizeof(__pyx_k_radius), 0, 0, 1, 1},
   {0, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {0, __pyx_k_reduce, sizeof(__pyx_k_reduce), 0, 0, 1, 1},
   {0, __pyx_k_reduce_cython, sizeof(__pyx_k_reduce_cython), 0, 0, 1, 1},
@@ -25410,7 +25591,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_double, __pyx_k_double, sizeof(__pyx_k_double), 0, 0, 1, 1},
   {&__pyx_n_s_dtype, __pyx_k_dtype, sizeof(__pyx_k_dtype), 0, 0, 1, 1},
   {&__pyx_n_s_dtype_is_object, __pyx_k_dtype_is_object, sizeof(__pyx_k_dtype_is_object), 0, 0, 1, 1},
+  {&__pyx_n_s_dump_rules, __pyx_k_dump_rules, sizeof(__pyx_k_dump_rules), 0, 0, 1, 1},
   {&__pyx_n_s_edges, __pyx_k_edges, sizeof(__pyx_k_edges), 0, 0, 1, 1},
+  {&__pyx_n_s_ego, __pyx_k_ego, sizeof(__pyx_k_ego), 0, 0, 1, 1},
+  {&__pyx_n_s_ego_graph, __pyx_k_ego_graph, sizeof(__pyx_k_ego_graph), 0, 0, 1, 1},
   {&__pyx_kp_u_enable, __pyx_k_enable, sizeof(__pyx_k_enable), 0, 1, 0, 0},
   {&__pyx_n_s_encode, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
   {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
@@ -25421,6 +25605,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_u_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 1, 0, 1},
   {&__pyx_n_s_fractional_count, __pyx_k_fractional_count, sizeof(__pyx_k_fractional_count), 0, 0, 1, 1},
   {&__pyx_kp_u_gc, __pyx_k_gc, sizeof(__pyx_k_gc), 0, 1, 0, 0},
+  {&__pyx_n_s_generators, __pyx_k_generators, sizeof(__pyx_k_generators), 0, 0, 1, 1},
   {&__pyx_n_s_getstate, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
   {&__pyx_kp_u_got, __pyx_k_got, sizeof(__pyx_k_got), 0, 1, 0, 0},
   {&__pyx_kp_u_got_differing_extents_in_dimensi, __pyx_k_got_differing_extents_in_dimensi, sizeof(__pyx_k_got_differing_extents_in_dimensi), 0, 1, 0, 0},
@@ -25467,6 +25652,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pyx_type, __pyx_k_pyx_type, sizeof(__pyx_k_pyx_type), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_unpickle_Enum, __pyx_k_pyx_unpickle_Enum, sizeof(__pyx_k_pyx_unpickle_Enum), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
+  {&__pyx_n_s_radius, __pyx_k_radius, sizeof(__pyx_k_radius), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_reduce, __pyx_k_reduce, sizeof(__pyx_k_reduce), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_cython, __pyx_k_reduce_cython, sizeof(__pyx_k_reduce_cython), 0, 0, 1, 1},
@@ -25509,9 +25695,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 };
 /* #### Code section: cached_builtins ### */
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 37, __pyx_L1_error)
-  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 237, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 233, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 267, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 987, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 136, __pyx_L1_error)
@@ -25578,70 +25764,70 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__8);
   __Pyx_GIVEREF(__pyx_slice__8);
 
-  /* "plexsim/models/value_network_gradient.pyx":33
+  /* "plexsim/models/value_network_gradient.pyx":38
  *                  bounded_rational = -1,
  *                  heuristic = 0,
  *                  agentStates = np.arange(0, 2, dtype = np.double),             # <<<<<<<<<<<<<<
  *                  **kwargs
  *                  ):
  */
-  __pyx_tuple__11 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_2); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_2); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
-  /* "plexsim/models/value_network_gradient.pyx":214
+  /* "plexsim/models/value_network_gradient.pyx":210
  *         return
  * 
  *     cpdef dict check_gradient(self, verbose: bint = False):             # <<<<<<<<<<<<<<
  *         return dict(self._check_gradient(verbose))
  * 
  */
-  __pyx_tuple__12 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_verbose); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 214, __pyx_L1_error)
+  __pyx_tuple__12 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_verbose); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 210, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__12);
   __Pyx_GIVEREF(__pyx_tuple__12);
-  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_value_network_gra, __pyx_n_s_check_gradient, 214, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 214, __pyx_L1_error)
-  __pyx_tuple__14 = PyTuple_Pack(1, Py_False); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 214, __pyx_L1_error)
+  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_value_network_gra, __pyx_n_s_check_gradient, 210, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 210, __pyx_L1_error)
+  __pyx_tuple__14 = PyTuple_Pack(1, Py_False); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 210, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__14);
   __Pyx_GIVEREF(__pyx_tuple__14);
 
-  /* "plexsim/models/value_network_gradient.pyx":217
+  /* "plexsim/models/value_network_gradient.pyx":213
  *         return dict(self._check_gradient(verbose))
  * 
  *     cpdef object cut_components(self, cset[node_id_t] suff_connected):             # <<<<<<<<<<<<<<
  *         """
  *         Creates a subgraph in which edges are removed with matching colors
  */
-  __pyx_tuple__15 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_suff_connected); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 217, __pyx_L1_error)
+  __pyx_tuple__15 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_suff_connected); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 213, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__15);
   __Pyx_GIVEREF(__pyx_tuple__15);
-  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_value_network_gra, __pyx_n_s_cut_components, 217, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 217, __pyx_L1_error)
+  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_value_network_gra, __pyx_n_s_cut_components, 213, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 213, __pyx_L1_error)
 
-  /* "plexsim/models/value_network_gradient.pyx":230
+  /* "plexsim/models/value_network_gradient.pyx":226
  * 
  * 
  *     cpdef double fractional_count(self, cset[node_id_t] nodes, size_t threshold,  bint verbose = False):             # <<<<<<<<<<<<<<
  *         """
  *         Rick's fractional count estimator
  */
-  __pyx_tuple__17 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_nodes, __pyx_n_s_threshold, __pyx_n_s_verbose); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_tuple__17 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_nodes, __pyx_n_s_threshold, __pyx_n_s_verbose); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_GIVEREF(__pyx_tuple__17);
-  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(4, 0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_value_network_gra, __pyx_n_s_fractional_count, 230, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 230, __pyx_L1_error)
-  __pyx_tuple__19 = PyTuple_Pack(1, Py_False); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(4, 0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_value_network_gra, __pyx_n_s_fractional_count, 226, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 226, __pyx_L1_error)
+  __pyx_tuple__19 = PyTuple_Pack(1, Py_False); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__19);
   __Pyx_GIVEREF(__pyx_tuple__19);
 
-  /* "plexsim/models/value_network_gradient.pyx":281
+  /* "plexsim/models/value_network_gradient.pyx":283
  *         return heuristic
  * 
  *     cpdef double check_gradient_node(self, node_id_t node):             # <<<<<<<<<<<<<<
  *         """
  *         Check gradient from a node point of view
  */
-  __pyx_tuple__20 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_node); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 281, __pyx_L1_error)
+  __pyx_tuple__20 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_node); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 283, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__20);
   __Pyx_GIVEREF(__pyx_tuple__20);
-  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_value_network_gra, __pyx_n_s_check_gradient_node, 281, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 281, __pyx_L1_error)
+  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_value_network_gra, __pyx_n_s_check_gradient_node, 283, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 283, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
@@ -25830,100 +26016,105 @@ if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_InitString(__pyx_string_tab[69], &__pyx_n_s_double) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[70], &__pyx_n_s_dtype) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[71], &__pyx_n_s_dtype_is_object) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[72], &__pyx_n_s_edges) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[73], &__pyx_kp_u_enable) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[74], &__pyx_n_s_encode) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[75], &__pyx_n_s_enumerate) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[76], &__pyx_n_s_error) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[77], &__pyx_n_s_flags) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[78], &__pyx_n_s_format) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[79], &__pyx_n_s_fortran) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[80], &__pyx_n_u_fortran) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[81], &__pyx_n_s_fractional_count) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[82], &__pyx_kp_u_gc) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[83], &__pyx_n_s_getstate) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[84], &__pyx_kp_u_got) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[85], &__pyx_kp_u_got_differing_extents_in_dimensi) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[86], &__pyx_n_s_graph) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[87], &__pyx_n_s_heuristic) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[88], &__pyx_n_s_id) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[89], &__pyx_n_s_import) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[90], &__pyx_n_s_init) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[91], &__pyx_n_s_initializing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[92], &__pyx_n_s_is_coroutine) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[93], &__pyx_kp_u_isenabled) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[94], &__pyx_n_s_items) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[95], &__pyx_n_s_itemsize) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[96], &__pyx_kp_s_itemsize_0_for_cython_array) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[97], &__pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[98], &__pyx_n_s_mapping) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[99], &__pyx_n_s_max) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[100], &__pyx_n_s_memview) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[101], &__pyx_n_s_mode) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[102], &__pyx_n_s_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[103], &__pyx_n_s_name_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[104], &__pyx_n_s_ndim) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[105], &__pyx_n_s_networkx) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[106], &__pyx_n_s_new) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[107], &__pyx_kp_s_no_default___reduce___due_to_non) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[108], &__pyx_n_s_node) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[109], &__pyx_n_s_nodes) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[110], &__pyx_n_s_np) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[111], &__pyx_n_s_numpy) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[112], &__pyx_kp_s_numpy_core_multiarray_failed_to) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[113], &__pyx_kp_s_numpy_core_umath_failed_to_impor) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[114], &__pyx_n_s_nx) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[115], &__pyx_n_s_obj) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[116], &__pyx_n_s_pack) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[117], &__pyx_n_s_pickle) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[118], &__pyx_kp_s_plexsim_models_value_network_gra) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[119], &__pyx_n_s_plexsim_models_value_network_gra_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[120], &__pyx_n_s_print) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[121], &__pyx_n_s_pyx_PickleError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[122], &__pyx_n_s_pyx_checksum) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[123], &__pyx_n_s_pyx_getbuffer) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[124], &__pyx_n_s_pyx_result) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[125], &__pyx_n_s_pyx_state) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[126], &__pyx_n_s_pyx_type) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[127], &__pyx_n_s_pyx_unpickle_Enum) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[128], &__pyx_n_s_pyx_vtable) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[129], &__pyx_n_s_range) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[130], &__pyx_n_s_reduce) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[131], &__pyx_n_s_reduce_cython) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[132], &__pyx_n_s_reduce_ex) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[133], &__pyx_n_s_remove_edge) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[134], &__pyx_n_s_rmapping) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[135], &__pyx_n_s_rules) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[136], &__pyx_n_s_self) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[137], &__pyx_kp_s_self__newstates_self__states_sel) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[138], &__pyx_n_s_setstate) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[139], &__pyx_n_s_setstate_cython) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[140], &__pyx_n_s_shape) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[141], &__pyx_n_s_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[142], &__pyx_n_s_spec) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[143], &__pyx_n_s_start) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[144], &__pyx_n_s_step) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[145], &__pyx_n_s_stop) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[146], &__pyx_kp_s_strided_and_direct) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[147], &__pyx_kp_s_strided_and_direct_or_indirect) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[148], &__pyx_kp_s_strided_and_indirect) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[149], &__pyx_kp_s_stringsource) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[150], &__pyx_n_s_struct) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[151], &__pyx_n_s_subgraph) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[152], &__pyx_n_s_subtract) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[153], &__pyx_n_s_suff_connected) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[154], &__pyx_n_s_super) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[155], &__pyx_n_s_t) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[156], &__pyx_n_s_test) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[157], &__pyx_n_s_theta) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[158], &__pyx_n_s_threshold) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[159], &__pyx_kp_s_unable_to_allocate_array_data) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[160], &__pyx_kp_s_unable_to_allocate_shape_and_str) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[161], &__pyx_n_s_unpack) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[162], &__pyx_n_s_update) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[163], &__pyx_n_s_values) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[164], &__pyx_n_s_verbose) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[165], &__pyx_n_s_zeros) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[72], &__pyx_n_s_dump_rules) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[73], &__pyx_n_s_edges) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[74], &__pyx_n_s_ego) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[75], &__pyx_n_s_ego_graph) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[76], &__pyx_kp_u_enable) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[77], &__pyx_n_s_encode) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[78], &__pyx_n_s_enumerate) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[79], &__pyx_n_s_error) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[80], &__pyx_n_s_flags) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[81], &__pyx_n_s_format) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[82], &__pyx_n_s_fortran) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[83], &__pyx_n_u_fortran) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[84], &__pyx_n_s_fractional_count) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[85], &__pyx_kp_u_gc) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[86], &__pyx_n_s_generators) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[87], &__pyx_n_s_getstate) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[88], &__pyx_kp_u_got) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[89], &__pyx_kp_u_got_differing_extents_in_dimensi) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[90], &__pyx_n_s_graph) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[91], &__pyx_n_s_heuristic) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[92], &__pyx_n_s_id) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[93], &__pyx_n_s_import) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[94], &__pyx_n_s_init) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[95], &__pyx_n_s_initializing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[96], &__pyx_n_s_is_coroutine) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[97], &__pyx_kp_u_isenabled) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[98], &__pyx_n_s_items) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[99], &__pyx_n_s_itemsize) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[100], &__pyx_kp_s_itemsize_0_for_cython_array) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[101], &__pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[102], &__pyx_n_s_mapping) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[103], &__pyx_n_s_max) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[104], &__pyx_n_s_memview) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[105], &__pyx_n_s_mode) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[106], &__pyx_n_s_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[107], &__pyx_n_s_name_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[108], &__pyx_n_s_ndim) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[109], &__pyx_n_s_networkx) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[110], &__pyx_n_s_new) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[111], &__pyx_kp_s_no_default___reduce___due_to_non) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[112], &__pyx_n_s_node) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[113], &__pyx_n_s_nodes) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[114], &__pyx_n_s_np) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[115], &__pyx_n_s_numpy) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[116], &__pyx_kp_s_numpy_core_multiarray_failed_to) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[117], &__pyx_kp_s_numpy_core_umath_failed_to_impor) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[118], &__pyx_n_s_nx) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[119], &__pyx_n_s_obj) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[120], &__pyx_n_s_pack) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[121], &__pyx_n_s_pickle) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[122], &__pyx_kp_s_plexsim_models_value_network_gra) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[123], &__pyx_n_s_plexsim_models_value_network_gra_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[124], &__pyx_n_s_print) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[125], &__pyx_n_s_pyx_PickleError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[126], &__pyx_n_s_pyx_checksum) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[127], &__pyx_n_s_pyx_getbuffer) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[128], &__pyx_n_s_pyx_result) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[129], &__pyx_n_s_pyx_state) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[130], &__pyx_n_s_pyx_type) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[131], &__pyx_n_s_pyx_unpickle_Enum) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[132], &__pyx_n_s_pyx_vtable) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[133], &__pyx_n_s_radius) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[134], &__pyx_n_s_range) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[135], &__pyx_n_s_reduce) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[136], &__pyx_n_s_reduce_cython) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[137], &__pyx_n_s_reduce_ex) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[138], &__pyx_n_s_remove_edge) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[139], &__pyx_n_s_rmapping) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[140], &__pyx_n_s_rules) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[141], &__pyx_n_s_self) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[142], &__pyx_kp_s_self__newstates_self__states_sel) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[143], &__pyx_n_s_setstate) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[144], &__pyx_n_s_setstate_cython) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[145], &__pyx_n_s_shape) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[146], &__pyx_n_s_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[147], &__pyx_n_s_spec) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[148], &__pyx_n_s_start) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[149], &__pyx_n_s_step) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[150], &__pyx_n_s_stop) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[151], &__pyx_kp_s_strided_and_direct) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[152], &__pyx_kp_s_strided_and_direct_or_indirect) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[153], &__pyx_kp_s_strided_and_indirect) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[154], &__pyx_kp_s_stringsource) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[155], &__pyx_n_s_struct) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[156], &__pyx_n_s_subgraph) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[157], &__pyx_n_s_subtract) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[158], &__pyx_n_s_suff_connected) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[159], &__pyx_n_s_super) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[160], &__pyx_n_s_t) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[161], &__pyx_n_s_test) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[162], &__pyx_n_s_theta) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[163], &__pyx_n_s_threshold) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[164], &__pyx_kp_s_unable_to_allocate_array_data) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[165], &__pyx_kp_s_unable_to_allocate_shape_and_str) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[166], &__pyx_n_s_unpack) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[167], &__pyx_n_s_update) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[168], &__pyx_n_s_values) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[169], &__pyx_n_s_verbose) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[170], &__pyx_n_s_zeros) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   #endif
   #if !CYTHON_USE_MODULE_STATE
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -26001,12 +26192,12 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_7plexsim_6models_22value_network_gradient_VNG.fractional_count = (double (*)(struct __pyx_obj_7plexsim_6models_22value_network_gradient_VNG *, std::set<__pyx_t_7plexsim_6models_5types_node_id_t> , size_t, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_22value_network_gradient_3VNG_fractional_count *__pyx_optional_args))__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_count;
   __pyx_vtable_7plexsim_6models_22value_network_gradient_VNG.check_gradient_node = (double (*)(struct __pyx_obj_7plexsim_6models_22value_network_gradient_VNG *, __pyx_t_7plexsim_6models_5types_node_id_t, int __pyx_skip_dispatch))__pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradient_node;
   #if CYTHON_USE_TYPE_SPECS
-  __pyx_t_2 = PyTuple_Pack(1, (PyObject *)__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_Pack(1, (PyObject *)__pyx_ptype_7plexsim_6models_13value_network_ValueNetwork); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_ptype_7plexsim_6models_22value_network_gradient_VNG = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_7plexsim_6models_22value_network_gradient_VNG_spec, __pyx_t_2);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG)) __PYX_ERR(0, 13, __pyx_L1_error)
-  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_7plexsim_6models_22value_network_gradient_VNG_spec, __pyx_ptype_7plexsim_6models_22value_network_gradient_VNG) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
+  if (unlikely(!__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG)) __PYX_ERR(0, 18, __pyx_L1_error)
+  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_7plexsim_6models_22value_network_gradient_VNG_spec, __pyx_ptype_7plexsim_6models_22value_network_gradient_VNG) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
   #else
   __pyx_ptype_7plexsim_6models_22value_network_gradient_VNG = &__pyx_type_7plexsim_6models_22value_network_gradient_VNG;
   #endif
@@ -26014,18 +26205,18 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_7plexsim_6models_22value_network_gradient_VNG->tp_base = __pyx_ptype_7plexsim_6models_13value_network_ValueNetwork;
   #endif
   #if !CYTHON_USE_TYPE_SPECS
-  if (__Pyx_PyType_Ready(__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
+  if (__Pyx_PyType_Ready(__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
   #endif
   #if PY_MAJOR_VERSION < 3
   __pyx_ptype_7plexsim_6models_22value_network_gradient_VNG->tp_print = 0;
   #endif
-  if (__Pyx_SetVtable(__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG, __pyx_vtabptr_7plexsim_6models_22value_network_gradient_VNG) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG, __pyx_vtabptr_7plexsim_6models_22value_network_gradient_VNG) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API
-  if (__Pyx_MergeVtables(__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
+  if (__Pyx_MergeVtables(__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
   #endif
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_VNG, (PyObject *) __pyx_ptype_7plexsim_6models_22value_network_gradient_VNG) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_VNG, (PyObject *) __pyx_ptype_7plexsim_6models_22value_network_gradient_VNG) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API
-  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_7plexsim_6models_22value_network_gradient_VNG) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_7plexsim_6models_22value_network_gradient_VNG) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
   #endif
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
@@ -26595,40 +26786,40 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "plexsim/models/value_network_gradient.pyx":10
- * from libcpp.set cimport set as cset
+  /* "plexsim/models/value_network_gradient.pyx":11
+ * from libc.math cimport pi
  * 
  * import networkx as nx             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_ImportDottedModule(__pyx_n_s_networkx, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportDottedModule(__pyx_n_s_networkx, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_nx, __pyx_t_2) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_nx, __pyx_t_2) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "plexsim/models/value_network_gradient.pyx":33
+  /* "plexsim/models/value_network_gradient.pyx":38
  *                  bounded_rational = -1,
  *                  heuristic = 0,
  *                  agentStates = np.arange(0, 2, dtype = np.double),             # <<<<<<<<<<<<<<
  *                  **kwargs
  *                  ):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_arange); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_arange); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_double); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_double); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__11, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__11, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -26636,62 +26827,62 @@ if (!__Pyx_RefNanny) {
   __Pyx_GIVEREF(__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "plexsim/models/value_network_gradient.pyx":214
+  /* "plexsim/models/value_network_gradient.pyx":210
  *         return
  * 
  *     cpdef dict check_gradient(self, verbose: bint = False):             # <<<<<<<<<<<<<<
  *         return dict(self._check_gradient(verbose))
  * 
  */
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 214, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 210, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_verbose, __pyx_n_s_bint) < 0) __PYX_ERR(0, 214, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_22value_network_gradient_3VNG_3check_gradient, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_VNG_check_gradient, NULL, __pyx_n_s_plexsim_models_value_network_gra_2, __pyx_d, ((PyObject *)__pyx_codeobj__13)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 214, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_verbose, __pyx_n_s_bint) < 0) __PYX_ERR(0, 210, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_22value_network_gradient_3VNG_3check_gradient, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_VNG_check_gradient, NULL, __pyx_n_s_plexsim_models_value_network_gra_2, __pyx_d, ((PyObject *)__pyx_codeobj__13)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 210, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_2, __pyx_tuple__14);
   __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_2, __pyx_t_4);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG->tp_dict, __pyx_n_s_check_gradient, __pyx_t_2) < 0) __PYX_ERR(0, 214, __pyx_L1_error)
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG->tp_dict, __pyx_n_s_check_gradient, __pyx_t_2) < 0) __PYX_ERR(0, 210, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG);
 
-  /* "plexsim/models/value_network_gradient.pyx":217
+  /* "plexsim/models/value_network_gradient.pyx":213
  *         return dict(self._check_gradient(verbose))
  * 
  *     cpdef object cut_components(self, cset[node_id_t] suff_connected):             # <<<<<<<<<<<<<<
  *         """
  *         Creates a subgraph in which edges are removed with matching colors
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_22value_network_gradient_3VNG_5cut_components, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_VNG_cut_components, NULL, __pyx_n_s_plexsim_models_value_network_gra_2, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 217, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_22value_network_gradient_3VNG_5cut_components, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_VNG_cut_components, NULL, __pyx_n_s_plexsim_models_value_network_gra_2, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 213, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG->tp_dict, __pyx_n_s_cut_components, __pyx_t_2) < 0) __PYX_ERR(0, 217, __pyx_L1_error)
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG->tp_dict, __pyx_n_s_cut_components, __pyx_t_2) < 0) __PYX_ERR(0, 213, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG);
 
-  /* "plexsim/models/value_network_gradient.pyx":230
+  /* "plexsim/models/value_network_gradient.pyx":226
  * 
  * 
  *     cpdef double fractional_count(self, cset[node_id_t] nodes, size_t threshold,  bint verbose = False):             # <<<<<<<<<<<<<<
  *         """
  *         Rick's fractional count estimator
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_22value_network_gradient_3VNG_7fractional_count, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_VNG_fractional_count, NULL, __pyx_n_s_plexsim_models_value_network_gra_2, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_22value_network_gradient_3VNG_7fractional_count, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_VNG_fractional_count, NULL, __pyx_n_s_plexsim_models_value_network_gra_2, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_2, __pyx_tuple__19);
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG->tp_dict, __pyx_n_s_fractional_count, __pyx_t_2) < 0) __PYX_ERR(0, 230, __pyx_L1_error)
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG->tp_dict, __pyx_n_s_fractional_count, __pyx_t_2) < 0) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG);
 
-  /* "plexsim/models/value_network_gradient.pyx":281
+  /* "plexsim/models/value_network_gradient.pyx":283
  *         return heuristic
  * 
  *     cpdef double check_gradient_node(self, node_id_t node):             # <<<<<<<<<<<<<<
  *         """
  *         Check gradient from a node point of view
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_22value_network_gradient_3VNG_9check_gradient_node, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_VNG_check_gradient_node, NULL, __pyx_n_s_plexsim_models_value_network_gra_2, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 281, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_22value_network_gradient_3VNG_9check_gradient_node, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_VNG_check_gradient_node, NULL, __pyx_n_s_plexsim_models_value_network_gra_2, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 283, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG->tp_dict, __pyx_n_s_check_gradient_node, __pyx_t_2) < 0) __PYX_ERR(0, 281, __pyx_L1_error)
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG->tp_dict, __pyx_n_s_check_gradient_node, __pyx_t_2) < 0) __PYX_ERR(0, 283, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_ptype_7plexsim_6models_22value_network_gradient_VNG);
 

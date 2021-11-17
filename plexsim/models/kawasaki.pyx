@@ -28,7 +28,7 @@ cdef class Kawasaki(Potts):
         neighbor = deref(it).first
 
         # global stuff
-        # neighbor = <node_id_t>(self._rng._rand() * self.adj._nNodes)
+        neighbor = <node_id_t>(self._rng._rand() * self.adj._nNodes)
 
         # energy current situation
         p1 = self.probability(self._states[node], node)

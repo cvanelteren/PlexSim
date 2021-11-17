@@ -6,8 +6,13 @@ from collections import Counter
 from libcpp.unordered_map cimport *
 from libcpp.vector cimport *
 from libcpp.set cimport set as cset
+from libc.math cimport pi
 
 import networkx as nx
+
+
+cdef double cauchy_pdf(double x, double x0, double gamma):
+    return 1.0 / (pi * (1 + ((x - x0)/gamma)**2))
 
 
 cdef class VNG(ValueNetwork):
@@ -85,6 +90,7 @@ cdef class VNG(ValueNetwork):
                                             self._states[node],
                                             self._bounded_rational,
                                             self._heuristic,
+                                            self._path_size,
                                             False)
         # search for completed vns
         self._check_df(crawler)
@@ -118,7 +124,6 @@ cdef class VNG(ValueNetwork):
 
         #TODO: cleanup
         # get the distance to consider based on current state
-        #cdef size_t distance = self.distance_converter[proposal]
         # only get nodes based on distance it can reach based on the value network
         # current state as proposal
         cdef state_t proposal = self._states[node]
@@ -137,22 +142,13 @@ cdef class VNG(ValueNetwork):
             energy += self._rules._adj[proposal][states[neighbor]]
             post(it)
 
-
+        # compute positive role edges
         cdef double K = 0
         kt = self._rules._adj[states[node]].begin()
         while  kt != self._rules._adj[states[node]].end():
             if deref(kt).second > 0:
                 K += 1
             post(kt)
-
-        # # compute positive edges
-        # cdef double k = 0
-        # jt = self._rules._adj[proposal].begin()
-        # while jt != self._rules._adj[proposal].end():
-        #     if deref(jt).second > 0:
-        #         k += deref(jt).second
-        #     post(jt)
-
         K = K  * self._redundancy
         # piece-wise linear function
         if energy <= K:
@@ -162,7 +158,7 @@ cdef class VNG(ValueNetwork):
 
         cdef double completed_vn
         with gil:
-            completed_vn = self._check_gradient(verbose = False)[node]
+            # completed_vn = self._check_gradient(verbose = False)[node]
             completed_vn = self.check_gradient_node(node)
         energy += completed_vn
         return energy
@@ -236,6 +232,12 @@ cdef class VNG(ValueNetwork):
         if verbose:
             print(nodes)
         cnt = Counter([self._states[self.adj.mapping[node]] for node in nodes])
+        # threshold was first set to the number of states in the system
+        # I for some reason changed this to a threshold.
+        # The input for this function now takes the number of states at some sight radius away
+        # This would imply that if the states of those nodes contains doubles, the
+        # value network is not unique. Therefore it, it not being completed (locally). At least
+        # this was intention.
         if len(cnt) >=  threshold:
             cc_rolecounts = list(Counter([self._states[self.adj.mapping[node]] for node in nodes]).values())
             # let's see if we can also compute a fractional count of VNs (so, if two complete VNs intersect in one role, say B,
@@ -323,7 +325,14 @@ cdef class VNG(ValueNetwork):
                     if self._rules._adj[this_state][other_state] > 0:
                         queue.push_back(neighbor)
                     post(it) # never forget
-        # cdef size_t states_at_distance_n = len(nx.generators.ego.ego_graph(self.graph, self.adj.rmapping[node],  self._bounded_rational))
-        # return self.fractional_count(suff_connected, states_at_distance_n)
 
-        return self.fractional_count(suff_connected, self._bounded_rational)
+        #
+        cdef size_t states_at_distance_n = len(
+            nx.generators.ego.ego_graph(
+                self.dump_rules(),
+                self._states[node],
+                radius = self._bounded_rational)
+        )
+
+        return self.fractional_count(suff_connected, states_at_distance_n)
+#        return self.fractional_count(suff_connected, self._bounded_rational)

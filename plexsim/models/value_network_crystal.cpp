@@ -1800,7 +1800,7 @@ struct __pyx_opt_args_7plexsim_6models_5potts_5Potts_magnetize {
 };
 struct __pyx_opt_args_7plexsim_6models_13value_network_12ValueNetwork_check_df;
 
-/* "plexsim/models/value_network.pxd":84
+/* "plexsim/models/value_network.pxd":91
  *     # logic for checking completed vn
  *     # cpdef bint check_endpoint(self, state_t s, list vp_path)
  *     cpdef list check_df(self, node_id_t start, bint verbose =*)             # <<<<<<<<<<<<<<
@@ -1927,7 +1927,7 @@ struct __pyx_obj_7plexsim_6models_5potts_Potts {
 };
 
 
-/* "plexsim/models/value_network.pxd":70
+/* "plexsim/models/value_network.pxd":75
  * 
  * 
  * cdef class ValueNetwork(Potts):             # <<<<<<<<<<<<<<
@@ -1939,6 +1939,8 @@ struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork {
   size_t _bounded_rational;
   size_t _heuristic;
   size_t _redundancy;
+  size_t _path_size;
+  int _consider_options;
 };
 
 
@@ -2136,7 +2138,7 @@ struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts {
 static struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *__pyx_vtabptr_7plexsim_6models_5potts_Potts;
 
 
-/* "plexsim/models/value_network.pxd":70
+/* "plexsim/models/value_network.pxd":75
  * 
  * 
  * cdef class ValueNetwork(Potts):             # <<<<<<<<<<<<<<
@@ -5218,7 +5220,7 @@ static double __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__energ
  *                                             self._bounded_rational,
  */
   try {
-    __pyx_t_1 = new Crawler(__pyx_v_node, (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node]), __pyx_v_self->__pyx_base._bounded_rational, __pyx_v_self->__pyx_base._heuristic, 0);
+    __pyx_t_1 = new Crawler(__pyx_v_node, (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node]), __pyx_v_self->__pyx_base._bounded_rational, __pyx_v_self->__pyx_base._heuristic, __pyx_v_self->__pyx_base._path_size, 0);
   } catch(...) {
     #ifdef WITH_THREAD
     PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
@@ -5231,7 +5233,7 @@ static double __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__energ
   }
   __pyx_v_crawler = __pyx_t_1;
 
-  /* "plexsim/models/value_network_crystal.pyx":56
+  /* "plexsim/models/value_network_crystal.pyx":57
  *                                             False)
  *         # search for completed vns
  *         self._check_df(crawler)             # <<<<<<<<<<<<<<
@@ -5240,7 +5242,7 @@ static double __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__energ
  */
   (void)(((struct __pyx_vtabstruct_7plexsim_6models_21value_network_crystal_VNCrystal *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._check_df(((struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self), __pyx_v_crawler));
 
-  /* "plexsim/models/value_network_crystal.pyx":57
+  /* "plexsim/models/value_network_crystal.pyx":58
  *         # search for completed vns
  *         self._check_df(crawler)
  *         del crawler             # <<<<<<<<<<<<<<
@@ -5249,7 +5251,7 @@ static double __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__energ
  */
   delete __pyx_v_crawler;
 
-  /* "plexsim/models/value_network_crystal.pyx":58
+  /* "plexsim/models/value_network_crystal.pyx":59
  *         self._check_df(crawler)
  *         del crawler
  *         return crawler.results.size()             # <<<<<<<<<<<<<<
@@ -5281,7 +5283,7 @@ static double __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__energ
   return __pyx_r;
 }
 
-/* "plexsim/models/value_network_crystal.pyx":60
+/* "plexsim/models/value_network_crystal.pyx":61
  *         return crawler.results.size()
  * 
  *     cdef void _step(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -5305,7 +5307,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
   PyGILState_STATE __pyx_gilstate_save;
   #endif
 
-  /* "plexsim/models/value_network_crystal.pyx":75
+  /* "plexsim/models/value_network_crystal.pyx":76
  *             Neighbors.iterator it
  * 
  *         cdef Crawler *crawler = new Crawler(node,             # <<<<<<<<<<<<<<
@@ -5313,7 +5315,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
  *                                             self._bounded_rational,
  */
   try {
-    __pyx_t_1 = new Crawler(__pyx_v_node, (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node]), __pyx_v_self->__pyx_base._bounded_rational, __pyx_v_self->__pyx_base._heuristic, 0);
+    __pyx_t_1 = new Crawler(__pyx_v_node, (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node]), __pyx_v_self->__pyx_base._bounded_rational, __pyx_v_self->__pyx_base._heuristic, __pyx_v_self->__pyx_base._path_size, 0);
   } catch(...) {
     #ifdef WITH_THREAD
     PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
@@ -5322,11 +5324,11 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 75, __pyx_L1_error)
+    __PYX_ERR(0, 76, __pyx_L1_error)
   }
   __pyx_v_crawler = __pyx_t_1;
 
-  /* "plexsim/models/value_network_crystal.pyx":81
+  /* "plexsim/models/value_network_crystal.pyx":83
  *                                             False)
  *         # search for completed vns
  *         self._check_df(crawler)             # <<<<<<<<<<<<<<
@@ -5335,7 +5337,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
  */
   (void)(((struct __pyx_vtabstruct_7plexsim_6models_21value_network_crystal_VNCrystal *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._check_df(((struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self), __pyx_v_crawler));
 
-  /* "plexsim/models/value_network_crystal.pyx":82
+  /* "plexsim/models/value_network_crystal.pyx":84
  *         # search for completed vns
  *         self._check_df(crawler)
  *         completed_vn = crawler.results.size()             # <<<<<<<<<<<<<<
@@ -5344,7 +5346,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
  */
   __pyx_v_completed_vn = __pyx_v_crawler->results.size();
 
-  /* "plexsim/models/value_network_crystal.pyx":84
+  /* "plexsim/models/value_network_crystal.pyx":86
  *         completed_vn = crawler.results.size()
  * 
  *         node_state = self._states[node]             # <<<<<<<<<<<<<<
@@ -5353,7 +5355,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
  */
   __pyx_v_node_state = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node]);
 
-  /* "plexsim/models/value_network_crystal.pyx":85
+  /* "plexsim/models/value_network_crystal.pyx":87
  * 
  *         node_state = self._states[node]
  *         self._completed_vns[node] = completed_vn             # <<<<<<<<<<<<<<
@@ -5363,7 +5365,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
   __pyx_t_2 = __pyx_v_node;
   *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->_completed_vns.data) + __pyx_t_2)) )) = __pyx_v_completed_vn;
 
-  /* "plexsim/models/value_network_crystal.pyx":87
+  /* "plexsim/models/value_network_crystal.pyx":89
  *         self._completed_vns[node] = completed_vn
  *         # add edge randomly
  *         if completed_vn == self._theta:             # <<<<<<<<<<<<<<
@@ -5373,7 +5375,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
   __pyx_t_3 = ((__pyx_v_completed_vn == __pyx_v_self->_theta) != 0);
   if (__pyx_t_3) {
 
-    /* "plexsim/models/value_network_crystal.pyx":88
+    /* "plexsim/models/value_network_crystal.pyx":90
  *         # add edge randomly
  *         if completed_vn == self._theta:
  *             return             # <<<<<<<<<<<<<<
@@ -5382,7 +5384,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
  */
     goto __pyx_L0;
 
-    /* "plexsim/models/value_network_crystal.pyx":87
+    /* "plexsim/models/value_network_crystal.pyx":89
  *         self._completed_vns[node] = completed_vn
  *         # add edge randomly
  *         if completed_vn == self._theta:             # <<<<<<<<<<<<<<
@@ -5391,7 +5393,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
  */
   }
 
-  /* "plexsim/models/value_network_crystal.pyx":91
+  /* "plexsim/models/value_network_crystal.pyx":93
  * 
  *         # add random nodes
  *         if completed_vn < self._theta:             # <<<<<<<<<<<<<<
@@ -5401,7 +5403,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
   __pyx_t_3 = ((__pyx_v_completed_vn < __pyx_v_self->_theta) != 0);
   if (__pyx_t_3) {
 
-    /* "plexsim/models/value_network_crystal.pyx":92
+    /* "plexsim/models/value_network_crystal.pyx":94
  *         # add random nodes
  *         if completed_vn < self._theta:
  *             neighbor = <node_id_t>(self._rng._rand() * self.adj._nNodes)             # <<<<<<<<<<<<<<
@@ -5410,7 +5412,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
  */
     __pyx_v_neighbor = ((__pyx_t_7plexsim_6models_5types_node_id_t)(((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rng) * __pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_nNodes));
 
-    /* "plexsim/models/value_network_crystal.pyx":94
+    /* "plexsim/models/value_network_crystal.pyx":96
  *             neighbor = <node_id_t>(self._rng._rand() * self.adj._nNodes)
  *             # add edge with weight = 1 if not exists
  *             if not self.adj._adj[node].neighbors[neighbor] and node != neighbor:             # <<<<<<<<<<<<<<
@@ -5428,7 +5430,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
     __pyx_L6_bool_binop_done:;
     if (__pyx_t_3) {
 
-      /* "plexsim/models/value_network_crystal.pyx":95
+      /* "plexsim/models/value_network_crystal.pyx":97
  *             # add edge with weight = 1 if not exists
  *             if not self.adj._adj[node].neighbors[neighbor] and node != neighbor:
  *                 self.adj._add_edge(node, neighbor)             # <<<<<<<<<<<<<<
@@ -5437,7 +5439,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
  */
       ((struct __pyx_vtabstruct_7plexsim_6models_9adjacency_Adjacency *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->__pyx_vtab)->_add_edge(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj, __pyx_v_node, __pyx_v_neighbor, NULL);
 
-      /* "plexsim/models/value_network_crystal.pyx":94
+      /* "plexsim/models/value_network_crystal.pyx":96
  *             neighbor = <node_id_t>(self._rng._rand() * self.adj._nNodes)
  *             # add edge with weight = 1 if not exists
  *             if not self.adj._adj[node].neighbors[neighbor] and node != neighbor:             # <<<<<<<<<<<<<<
@@ -5446,7 +5448,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
  */
     }
 
-    /* "plexsim/models/value_network_crystal.pyx":91
+    /* "plexsim/models/value_network_crystal.pyx":93
  * 
  *         # add random nodes
  *         if completed_vn < self._theta:             # <<<<<<<<<<<<<<
@@ -5456,7 +5458,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
     goto __pyx_L4;
   }
 
-  /* "plexsim/models/value_network_crystal.pyx":98
+  /* "plexsim/models/value_network_crystal.pyx":100
  * 
  *         # remove a node that doesnot break other
  *         elif completed_vn > self._theta:             # <<<<<<<<<<<<<<
@@ -5466,7 +5468,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
   __pyx_t_3 = ((__pyx_v_completed_vn > __pyx_v_self->_theta) != 0);
   if (__pyx_t_3) {
 
-    /* "plexsim/models/value_network_crystal.pyx":99
+    /* "plexsim/models/value_network_crystal.pyx":101
  *         # remove a node that doesnot break other
  *         elif completed_vn > self._theta:
  *              self._remove_node(node, crawler.results)             # <<<<<<<<<<<<<<
@@ -5475,7 +5477,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
  */
     ((struct __pyx_vtabstruct_7plexsim_6models_21value_network_crystal_VNCrystal *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.__pyx_vtab)->_remove_node(__pyx_v_self, __pyx_v_node, __pyx_v_crawler->results);
 
-    /* "plexsim/models/value_network_crystal.pyx":98
+    /* "plexsim/models/value_network_crystal.pyx":100
  * 
  *         # remove a node that doesnot break other
  *         elif completed_vn > self._theta:             # <<<<<<<<<<<<<<
@@ -5485,7 +5487,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
   }
   __pyx_L4:;
 
-  /* "plexsim/models/value_network_crystal.pyx":100
+  /* "plexsim/models/value_network_crystal.pyx":102
  *         elif completed_vn > self._theta:
  *              self._remove_node(node, crawler.results)
  *         return             # <<<<<<<<<<<<<<
@@ -5494,7 +5496,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
  */
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network_crystal.pyx":60
+  /* "plexsim/models/value_network_crystal.pyx":61
  *         return crawler.results.size()
  * 
  *     cdef void _step(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
@@ -5514,7 +5516,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
   __pyx_L0:;
 }
 
-/* "plexsim/models/value_network_crystal.pyx":102
+/* "plexsim/models/value_network_crystal.pyx":104
  *         return
  * 
  *     cdef void _remove_node(self, node_id_t node,             # <<<<<<<<<<<<<<
@@ -5542,7 +5544,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
   PyGILState_STATE __pyx_gilstate_save;
   #endif
 
-  /* "plexsim/models/value_network_crystal.pyx":107
+  /* "plexsim/models/value_network_crystal.pyx":109
  *         Removes edge that does not break any value network
  *         """
  *         it = self.adj._adj[node].neighbors.begin()             # <<<<<<<<<<<<<<
@@ -5551,7 +5553,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
  */
   __pyx_v_it = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.begin();
 
-  /* "plexsim/models/value_network_crystal.pyx":110
+  /* "plexsim/models/value_network_crystal.pyx":112
  *         cdef vector[node_id_t] options
  *         cdef size_t idx, jdx
  *         while it != self.adj._adj[node].neighbors.end():             # <<<<<<<<<<<<<<
@@ -5562,7 +5564,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
     __pyx_t_1 = ((__pyx_v_it != (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.end()) != 0);
     if (!__pyx_t_1) break;
 
-    /* "plexsim/models/value_network_crystal.pyx":111
+    /* "plexsim/models/value_network_crystal.pyx":113
  *         cdef size_t idx, jdx
  *         while it != self.adj._adj[node].neighbors.end():
  *             add = True             # <<<<<<<<<<<<<<
@@ -5571,7 +5573,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
  */
     __pyx_v_add = 1;
 
-    /* "plexsim/models/value_network_crystal.pyx":112
+    /* "plexsim/models/value_network_crystal.pyx":114
  *         while it != self.adj._adj[node].neighbors.end():
  *             add = True
  *             for idx in range(value_member.size()):             # <<<<<<<<<<<<<<
@@ -5583,7 +5585,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
     for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
       __pyx_v_idx = __pyx_t_4;
 
-      /* "plexsim/models/value_network_crystal.pyx":113
+      /* "plexsim/models/value_network_crystal.pyx":115
  *             add = True
  *             for idx in range(value_member.size()):
  *                 for jdx in range(value_member[idx].size()):             # <<<<<<<<<<<<<<
@@ -5595,7 +5597,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
       for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
         __pyx_v_jdx = __pyx_t_7;
 
-        /* "plexsim/models/value_network_crystal.pyx":114
+        /* "plexsim/models/value_network_crystal.pyx":116
  *             for idx in range(value_member.size()):
  *                 for jdx in range(value_member[idx].size()):
  *                     if value_member[idx][jdx].current.name == deref(it).first:             # <<<<<<<<<<<<<<
@@ -5605,7 +5607,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
         __pyx_t_1 = ((((__pyx_v_value_member[__pyx_v_idx])[__pyx_v_jdx]).current.name == (*__pyx_v_it).first) != 0);
         if (__pyx_t_1) {
 
-          /* "plexsim/models/value_network_crystal.pyx":115
+          /* "plexsim/models/value_network_crystal.pyx":117
  *                 for jdx in range(value_member[idx].size()):
  *                     if value_member[idx][jdx].current.name == deref(it).first:
  *                         add = False             # <<<<<<<<<<<<<<
@@ -5614,7 +5616,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
  */
           __pyx_v_add = 0;
 
-          /* "plexsim/models/value_network_crystal.pyx":116
+          /* "plexsim/models/value_network_crystal.pyx":118
  *                     if value_member[idx][jdx].current.name == deref(it).first:
  *                         add = False
  *                         break             # <<<<<<<<<<<<<<
@@ -5623,7 +5625,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
  */
           goto __pyx_L8_break;
 
-          /* "plexsim/models/value_network_crystal.pyx":114
+          /* "plexsim/models/value_network_crystal.pyx":116
  *             for idx in range(value_member.size()):
  *                 for jdx in range(value_member[idx].size()):
  *                     if value_member[idx][jdx].current.name == deref(it).first:             # <<<<<<<<<<<<<<
@@ -5632,7 +5634,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
  */
         }
 
-        /* "plexsim/models/value_network_crystal.pyx":117
+        /* "plexsim/models/value_network_crystal.pyx":119
  *                         add = False
  *                         break
  *                     if value_member[idx][jdx].other.name == deref(it).first:             # <<<<<<<<<<<<<<
@@ -5642,7 +5644,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
         __pyx_t_1 = ((((__pyx_v_value_member[__pyx_v_idx])[__pyx_v_jdx]).other.name == (*__pyx_v_it).first) != 0);
         if (__pyx_t_1) {
 
-          /* "plexsim/models/value_network_crystal.pyx":118
+          /* "plexsim/models/value_network_crystal.pyx":120
  *                         break
  *                     if value_member[idx][jdx].other.name == deref(it).first:
  *                         add = False             # <<<<<<<<<<<<<<
@@ -5651,7 +5653,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
  */
           __pyx_v_add = 0;
 
-          /* "plexsim/models/value_network_crystal.pyx":119
+          /* "plexsim/models/value_network_crystal.pyx":121
  *                     if value_member[idx][jdx].other.name == deref(it).first:
  *                         add = False
  *                         break             # <<<<<<<<<<<<<<
@@ -5660,7 +5662,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
  */
           goto __pyx_L8_break;
 
-          /* "plexsim/models/value_network_crystal.pyx":117
+          /* "plexsim/models/value_network_crystal.pyx":119
  *                         add = False
  *                         break
  *                     if value_member[idx][jdx].other.name == deref(it).first:             # <<<<<<<<<<<<<<
@@ -5671,7 +5673,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
       }
       __pyx_L8_break:;
 
-      /* "plexsim/models/value_network_crystal.pyx":120
+      /* "plexsim/models/value_network_crystal.pyx":122
  *                         add = False
  *                         break
  *                 if add == False:             # <<<<<<<<<<<<<<
@@ -5681,7 +5683,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
       __pyx_t_1 = ((__pyx_v_add == 0) != 0);
       if (__pyx_t_1) {
 
-        /* "plexsim/models/value_network_crystal.pyx":121
+        /* "plexsim/models/value_network_crystal.pyx":123
  *                         break
  *                 if add == False:
  *                     break             # <<<<<<<<<<<<<<
@@ -5690,7 +5692,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
  */
         goto __pyx_L6_break;
 
-        /* "plexsim/models/value_network_crystal.pyx":120
+        /* "plexsim/models/value_network_crystal.pyx":122
  *                         add = False
  *                         break
  *                 if add == False:             # <<<<<<<<<<<<<<
@@ -5701,7 +5703,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
     }
     __pyx_L6_break:;
 
-    /* "plexsim/models/value_network_crystal.pyx":122
+    /* "plexsim/models/value_network_crystal.pyx":124
  *                 if add == False:
  *                     break
  *             if add:             # <<<<<<<<<<<<<<
@@ -5711,7 +5713,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
     __pyx_t_1 = (__pyx_v_add != 0);
     if (__pyx_t_1) {
 
-      /* "plexsim/models/value_network_crystal.pyx":123
+      /* "plexsim/models/value_network_crystal.pyx":125
  *                     break
  *             if add:
  *                 options.push_back(deref(it).first)             # <<<<<<<<<<<<<<
@@ -5728,10 +5730,10 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
         #ifdef WITH_THREAD
         __Pyx_PyGILState_Release(__pyx_gilstate_save);
         #endif
-        __PYX_ERR(0, 123, __pyx_L1_error)
+        __PYX_ERR(0, 125, __pyx_L1_error)
       }
 
-      /* "plexsim/models/value_network_crystal.pyx":122
+      /* "plexsim/models/value_network_crystal.pyx":124
  *                 if add == False:
  *                     break
  *             if add:             # <<<<<<<<<<<<<<
@@ -5740,7 +5742,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
  */
     }
 
-    /* "plexsim/models/value_network_crystal.pyx":124
+    /* "plexsim/models/value_network_crystal.pyx":126
  *             if add:
  *                 options.push_back(deref(it).first)
  *             post(it)             # <<<<<<<<<<<<<<
@@ -5750,7 +5752,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
     (void)((__pyx_v_it++));
   }
 
-  /* "plexsim/models/value_network_crystal.pyx":125
+  /* "plexsim/models/value_network_crystal.pyx":127
  *                 options.push_back(deref(it).first)
  *             post(it)
  *         if options.size():             # <<<<<<<<<<<<<<
@@ -5760,7 +5762,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
   __pyx_t_1 = (__pyx_v_options.size() != 0);
   if (__pyx_t_1) {
 
-    /* "plexsim/models/value_network_crystal.pyx":126
+    /* "plexsim/models/value_network_crystal.pyx":128
  *             post(it)
  *         if options.size():
  *             idx = <node_id_t> (self._rng._rand() * options.size())             # <<<<<<<<<<<<<<
@@ -5769,7 +5771,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
  */
     __pyx_v_idx = ((__pyx_t_7plexsim_6models_5types_node_id_t)(((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rng) * __pyx_v_options.size()));
 
-    /* "plexsim/models/value_network_crystal.pyx":127
+    /* "plexsim/models/value_network_crystal.pyx":129
  *         if options.size():
  *             idx = <node_id_t> (self._rng._rand() * options.size())
  *             self.adj._remove_edge(node, options[idx])             # <<<<<<<<<<<<<<
@@ -5778,7 +5780,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
  */
     ((struct __pyx_vtabstruct_7plexsim_6models_9adjacency_Adjacency *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->__pyx_vtab)->_remove_edge(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj, __pyx_v_node, (__pyx_v_options[__pyx_v_idx]));
 
-    /* "plexsim/models/value_network_crystal.pyx":125
+    /* "plexsim/models/value_network_crystal.pyx":127
  *                 options.push_back(deref(it).first)
  *             post(it)
  *         if options.size():             # <<<<<<<<<<<<<<
@@ -5788,7 +5790,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
     goto __pyx_L13;
   }
 
-  /* "plexsim/models/value_network_crystal.pyx":129
+  /* "plexsim/models/value_network_crystal.pyx":131
  *             self.adj._remove_edge(node, options[idx])
  *         else:
  *             idx = <node_id_t> (self._rng._rand() * self.adj._adj[node].neighbors.size())             # <<<<<<<<<<<<<<
@@ -5798,7 +5800,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
   /*else*/ {
     __pyx_v_idx = ((__pyx_t_7plexsim_6models_5types_node_id_t)(((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rng) * (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.size()));
 
-    /* "plexsim/models/value_network_crystal.pyx":130
+    /* "plexsim/models/value_network_crystal.pyx":132
  *         else:
  *             idx = <node_id_t> (self._rng._rand() * self.adj._adj[node].neighbors.size())
  *             it = self.adj._adj[node].neighbors.begin()             # <<<<<<<<<<<<<<
@@ -5807,7 +5809,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
  */
     __pyx_v_it = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.begin();
 
-    /* "plexsim/models/value_network_crystal.pyx":131
+    /* "plexsim/models/value_network_crystal.pyx":133
  *             idx = <node_id_t> (self._rng._rand() * self.adj._adj[node].neighbors.size())
  *             it = self.adj._adj[node].neighbors.begin()
  *             while idx >= 0:             # <<<<<<<<<<<<<<
@@ -5818,7 +5820,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
       __pyx_t_1 = ((__pyx_v_idx >= 0) != 0);
       if (!__pyx_t_1) break;
 
-      /* "plexsim/models/value_network_crystal.pyx":132
+      /* "plexsim/models/value_network_crystal.pyx":134
  *             it = self.adj._adj[node].neighbors.begin()
  *             while idx >= 0:
  *                 idx -= 1             # <<<<<<<<<<<<<<
@@ -5827,7 +5829,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
  */
       __pyx_v_idx = (__pyx_v_idx - 1);
 
-      /* "plexsim/models/value_network_crystal.pyx":133
+      /* "plexsim/models/value_network_crystal.pyx":135
  *             while idx >= 0:
  *                 idx -= 1
  *                 post(it)             # <<<<<<<<<<<<<<
@@ -5837,7 +5839,7 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
       (void)((__pyx_v_it++));
     }
 
-    /* "plexsim/models/value_network_crystal.pyx":134
+    /* "plexsim/models/value_network_crystal.pyx":136
  *                 idx -= 1
  *                 post(it)
  *             self.adj._remove_edge(node, deref(it).first)             # <<<<<<<<<<<<<<
@@ -5847,14 +5849,14 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__remove_
   }
   __pyx_L13:;
 
-  /* "plexsim/models/value_network_crystal.pyx":135
+  /* "plexsim/models/value_network_crystal.pyx":137
  *                 post(it)
  *             self.adj._remove_edge(node, deref(it).first)
  *         return             # <<<<<<<<<<<<<<
  */
   goto __pyx_L0;
 
-  /* "plexsim/models/value_network_crystal.pyx":102
+  /* "plexsim/models/value_network_crystal.pyx":104
  *         return
  * 
  *     cdef void _remove_node(self, node_id_t node,             # <<<<<<<<<<<<<<
@@ -22373,7 +22375,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 /* #### Code section: cached_builtins ### */
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 31, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 114, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 987, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 136, __pyx_L1_error)

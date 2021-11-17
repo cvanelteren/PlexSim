@@ -4690,7 +4690,7 @@ static int __pyx_pf_7plexsim_6models_5ising_5Ising___init__(struct __pyx_obj_7pl
   /* "plexsim/models/ising.pyx":28
  *                  **kwargs):
  *         # default override
- *         kwargs['agentStates'] = np.array([0, 1], dtype = np.double)             # <<<<<<<<<<<<<<
+ *         kwargs['agentStates'] = np.array([-1, 1], dtype = np.double)             # <<<<<<<<<<<<<<
  *         super(Ising, self).__init__(\
  *                                     graph = graph,\
  */
@@ -4701,9 +4701,9 @@ static int __pyx_pf_7plexsim_6models_5ising_5Ising___init__(struct __pyx_obj_7pl
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_int_0);
+  __Pyx_INCREF(__pyx_int_neg_1);
+  __Pyx_GIVEREF(__pyx_int_neg_1);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_int_neg_1);
   __Pyx_INCREF(__pyx_int_1);
   __Pyx_GIVEREF(__pyx_int_1);
   PyList_SET_ITEM(__pyx_t_1, 1, __pyx_int_1);
@@ -4731,7 +4731,7 @@ static int __pyx_pf_7plexsim_6models_5ising_5Ising___init__(struct __pyx_obj_7pl
 
   /* "plexsim/models/ising.pyx":29
  *         # default override
- *         kwargs['agentStates'] = np.array([0, 1], dtype = np.double)
+ *         kwargs['agentStates'] = np.array([-1, 1], dtype = np.double)
  *         super(Ising, self).__init__(\             # <<<<<<<<<<<<<<
  *                                     graph = graph,\
  *                                     **kwargs)
@@ -4752,7 +4752,7 @@ static int __pyx_pf_7plexsim_6models_5ising_5Ising___init__(struct __pyx_obj_7pl
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "plexsim/models/ising.pyx":30
- *         kwargs['agentStates'] = np.array([0, 1], dtype = np.double)
+ *         kwargs['agentStates'] = np.array([-1, 1], dtype = np.double)
  *         super(Ising, self).__init__(\
  *                                     graph = graph,\             # <<<<<<<<<<<<<<
  *                                     **kwargs)
@@ -4774,7 +4774,7 @@ static int __pyx_pf_7plexsim_6models_5ising_5Ising___init__(struct __pyx_obj_7pl
 
   /* "plexsim/models/ising.pyx":29
  *         # default override
- *         kwargs['agentStates'] = np.array([0, 1], dtype = np.double)
+ *         kwargs['agentStates'] = np.array([-1, 1], dtype = np.double)
  *         super(Ising, self).__init__(\             # <<<<<<<<<<<<<<
  *                                     graph = graph,\
  *                                     **kwargs)

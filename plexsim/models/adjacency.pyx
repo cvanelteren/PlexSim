@@ -26,8 +26,7 @@ cdef class Adjacency:
             dict mapping = {}
             dict rmapping= {}
 
-            node_id_t source, target
-
+            node_id_t source,
             # define adjecency
             Connections adj  #= Connections(graph.number_of_nodes(), Connection())# see .pxd
             weight_t weight
@@ -87,9 +86,6 @@ cdef class Adjacency:
    cpdef add_edge(self, node_id_t x, node_id_t y, double weight = 1):
        self._add_edge(x, y, weight)
        return
-
-
-
    @property
    def adj(self):
        """
@@ -115,7 +111,7 @@ cdef class Adjacency:
            for kk, vv in v["neighbors"].items():
                neighbor = self.rmapping[kk]
                output[neighbor][node] = dict(weight=vv)
-               if self.adj[kk]["neighbors"].get(k, 0) == 0:
+               if not self.adj[kk]["neighbors"].get(k, 0):
                    directed = True
 
        #TODO: hotfix

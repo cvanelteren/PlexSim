@@ -53,6 +53,7 @@ cdef class VNSoc(ValueNetwork):
                                             self._states[node],
                                             self._bounded_rational,
                                             self._heuristic,
+                                            self._path_size,
                                             False)
         # search for completed vns
         self._check_df(crawler)
@@ -95,6 +96,7 @@ cdef class VNSoc(ValueNetwork):
                             self._states[node],
                             self._bounded_rational,
                             self._heuristic,
+                            self._path_size,
                             False)
         self._check_df(crawler)
         completed_vns = crawler.results.size()

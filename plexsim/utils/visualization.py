@@ -242,7 +242,6 @@ def vis_graph(m, ax, pos=None, **kwargs):
     import cmasher as cmr
 
     cmap = cmr.guppy(np.linspace(0, 1, m.nStates, 0))
-
     colors = dict()
     for node in m.graph.nodes():
         idx = m.adj.mapping[node]

@@ -1,5 +1,8 @@
 #include "crawler.hpp"
 #include <unistd.h>
+// TODO: this file is a mess. Future me needs to clean this up.
+// There are a bunch of deprecated functions and most of the functions need not
+// be put in a proper class
 unsigned int sec = 1000000;
 
 ColorNode::ColorNode(){};
@@ -78,7 +81,7 @@ bool compare_edge_color(const EdgeColor &current, const EdgeColor &other) {
 }
 
 Crawler::Crawler(size_t start, double state, size_t bounded_rational,
-                 size_t heuristic, bool verbose) {
+                 size_t heuristic, size_t path_size, bool verbose) {
   this->bounded_rational = bounded_rational;
   this->queue.push_back(
       EdgeColor(ColorNode(start, state), ColorNode(start, state)));
@@ -86,6 +89,7 @@ Crawler::Crawler(size_t start, double state, size_t bounded_rational,
   // default
   this->verbose = verbose;
   this->heuristic = heuristic;
+  this->path_size = path_size;
 }
 
 // Crawler::Crawler(size_t start, double state, size_t bounded_rational,
@@ -96,7 +100,10 @@ Crawler::Crawler(size_t start, double state, size_t bounded_rational,
 //   this->verbose = verbose;
 // }
 
+// bool check_overlap(std::vector<EdgeColor> option,
+// std::vector<std::vector> > others) {}
 // TODO make results sets so that unique paths are only in there
+
 void Crawler::add_result(std::vector<EdgeColor> option) {
 
   std::vector<EdgeColor> overlap;
@@ -124,7 +131,9 @@ void Crawler::add_result(std::vector<EdgeColor> option) {
     }
   }
 
-  if ((add == true) && (u_option.size() == this->bounded_rational)) {
+  // exit early on heuristic
+  if ((add == true) && (u_option.size() == this->bounded_rational) &&
+      (check_size(u_option))) {
     if (this->heuristic > 0) {
       if (this->results.size() < this->heuristic) {
         this->results.push_back(
@@ -132,7 +141,9 @@ void Crawler::add_result(std::vector<EdgeColor> option) {
       } else {
         return;
       }
-    } else {
+    }
+    // add result and continue
+    else {
       this->results.push_back(
           std::vector<EdgeColor>(u_option.begin(), u_option.end()));
     }
@@ -296,10 +307,9 @@ void Crawler::merge_options(
     // search for possible mergers
     for (int idx = end_idx; idx >= start_idx; idx--) {
 
-      if (options[idx].size() == this->bounded_rational) {
+      if (options[idx].size() == bounded_rational) {
         this->add_result(options[idx]);
         options.erase(options.begin() + idx);
-        // memoize.clear();
         continue;
       }
 
@@ -313,8 +323,6 @@ void Crawler::merge_options(
         option.clear();
         uni.clear();
 
-        // if (!memoize[idx][jdx]) {
-        // compute the set overlap
         std::set_union(options[idx].begin(), options[idx].end(),
                        other_options[jdx].begin(), other_options[jdx].end(),
                        std::inserter(uni, uni.begin()), compare_edge_color);
@@ -324,7 +332,7 @@ void Crawler::merge_options(
         //
 
         if ((uni.size() > options[idx].size()) &&
-            (uni.size() <= this->bounded_rational)) {
+            (uni.size() <= bounded_rational)) {
           option = std::vector<EdgeColor>(uni.begin(), uni.end());
 
           // check for solution
@@ -336,18 +344,6 @@ void Crawler::merge_options(
               // memoize[idx][jdx] = true;
               break;
             }
-
-            // if (elem.size() == option.size()) {
-
-            //   std::set_union(option.begin(), option.end(), elem.begin(),
-            //                  elem.end(), std::inserter(uni, uni.begin()),
-            //                  compare_edge_name);
-            //   if ((uni.size() == elem.size()) &&
-            //       (uni.size() == option.size())) {
-            //     in_options = true;
-            //     break;
-            //   }
-            // }
           }
           if (!in_options) {
             options.push_back(option);
@@ -565,4 +561,25 @@ void Crawler::print(std::vector<std::vector<EdgeColor>> options) {
   this->print_results();
   this->print_options(options);
   this->print_path();
+}
+
+template <typename C> bool Crawler::check_size(C &path) {
+  auto it = path.begin();
+  // store nodes
+  std::set<size_t> uniques;
+  while (it != path.end()) {
+    uniques.insert((*it).current.name);
+    uniques.insert((*it).other.name);
+    it++;
+  }
+  return uniques.size() <= path_size;
+};
+
+size_t get_path_size(std::vector<EdgeColor> path) {
+  std::set<size_t> uniques;
+  for (size_t idx = 0; idx < path.size(); idx++) {
+    uniques.insert(path[idx].current.name);
+    uniques.insert(path[idx].other.name);
+  }
+  return uniques.size();
 }

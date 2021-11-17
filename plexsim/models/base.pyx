@@ -608,7 +608,7 @@ cdef class Model:
 
     # TODO: reset all after new?
     @nudges.setter
-    def nudges(self, vals):
+    def nudges(self, vals : dict):
         """
         Set nudge value based on dict using the node labels
         """
@@ -746,7 +746,11 @@ cdef class Model:
     def __deepcopy__(self, memo = {}) -> Model:
         if len(memo) == 0:
             memo = self.get_settings()
-        return self.__class__(**memo)
+        new_ = self.__class__(**memo)
+        other_settings = new_.get_settings()
+        for k, v in self.get_settings():
+            assert other_settings[k] == v
+        return
 
 
     # tmp for testing the parallezation

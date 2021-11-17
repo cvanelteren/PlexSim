@@ -25,7 +25,7 @@ cdef class Ising(Potts):
     def __init__(self, graph,\
                  **kwargs):
         # default override
-        kwargs['agentStates'] = np.array([0, 1], dtype = np.double)
+        kwargs['agentStates'] = np.array([-1, 1], dtype = np.double)
         super(Ising, self).__init__(\
                                     graph = graph,\
                                     **kwargs)

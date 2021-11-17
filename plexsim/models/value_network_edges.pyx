@@ -64,6 +64,9 @@ cdef class VNE(ValueNetwork):
         Adds edges if #vns < @heuristic
         Adds edges if #vns > @heuristic
         Does nothing if #vns = @heuristic
+
+        NOTE: this func is used to merely force the update on the completed value networks
+        The energy is computed according to the parent class (value network)
         """
         cdef:
             double completed_vn
@@ -80,6 +83,7 @@ cdef class VNE(ValueNetwork):
                                             self._states[node],
                                             self._bounded_rational,
                                             self._heuristic,
+                                            self._path_size,
                                             False)
         # search for completed vns
         self._check_df(crawler)
@@ -122,3 +126,33 @@ cdef class VNE(ValueNetwork):
                 post(it)
             self.adj._remove_edge(node, deref(it).first)
         return
+
+
+    # cdef vector[node_id_t] _get_neighbors(self, node_id_t node) nogil:
+    #     """
+    #     Checks collision of the boid. Ensures the coordinates remain in the
+    #     bounding box
+
+    #     Parameters
+    #     ----------
+    #     node: size_t, boid to update
+    #     """
+    #     cdef:
+    #         double distance
+    #         node_id_t other
+    #         size_t idx
+    #         double weight
+    #         double x1, x2
+    #         vector[node_id_t] neighbors
+
+    #     for other in range(self._nNodes):
+    #         distance = 0
+    #         for idx in range(2):
+    #             x1 = self._coordinates[node, idx]
+    #             x2 = self._coordinates[other, idx]
+    #             distance += (x1 - x2)**2
+    #         distance = sqrt(distance)
+    #         if distance <= self._boid_radius:
+    #             if deref(it).first != node:
+    #                 neighbors.push_back(deref(it).first)
+    #     return neighbors

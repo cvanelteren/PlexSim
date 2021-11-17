@@ -62,7 +62,7 @@ class Crawler {
    * options. */
 public:
   Crawler(size_t start, double state, size_t bounded_rational, size_t heuristic,
-          bool verbose);
+          size_t path_size, bool verbose);
   // Crawler(size_t start, double state, size_t bounded_rational, bool verbose);
 
   std::vector<EdgeColor> queue;
@@ -73,6 +73,7 @@ public:
   bool verbose;
   size_t bounded_rational;
   size_t heuristic;
+  size_t path_size;
 
   // option merging
   // void merge_options();
@@ -106,8 +107,12 @@ public:
   void print_results();
   void print_options(std::vector<std::vector<EdgeColor>> options);
   void print_path();
+
+  template <typename C> bool check_size(C &path);
 };
 
 bool compare_edge_color(const EdgeColor &, const EdgeColor &);
+
+size_t get_path_size(std::vector<EdgeColor> path);
 
 #endif

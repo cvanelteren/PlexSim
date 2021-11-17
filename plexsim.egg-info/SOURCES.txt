@@ -3,7 +3,6 @@
 MANIFEST.in
 Makefile
 build_docs.sh
-license.txt
 pyproject.toml
 readme.org
 requirements.txt
@@ -186,6 +185,7 @@ examples/kinetic_potts_model.py
 examples/sir_epidemic_model.py
 plexsim/.gitignore
 plexsim/__init__.py
+plexsim/types.hpp
 plexsim.egg-info/PKG-INFO
 plexsim.egg-info/SOURCES.txt
 plexsim.egg-info/dependency_links.txt
@@ -241,6 +241,9 @@ plexsim/models/heisenberg.pyx
 plexsim/models/ising.cpp
 plexsim/models/ising.pxd
 plexsim/models/ising.pyx
+plexsim/models/kawasaki.cpp
+plexsim/models/kawasaki.pxd
+plexsim/models/kawasaki.pyx
 plexsim/models/logmap.cpp
 plexsim/models/logmap.pxd
 plexsim/models/logmap.pyx
@@ -312,7 +315,6 @@ plexsim/utils/bundling.py
 plexsim/utils/graph.py
 plexsim/utils/hm.py
 plexsim/utils/rules.py
-plexsim/utils/visualisation.py
 plexsim/utils/visualization.py
 plexsim/utils/.ob-jupyter/c30c2c3312870f62aa9448f788aa0a872f0c7d94.png
 plexsim/utils/__pycache__/__init__.cpython-39.pyc

@@ -84,7 +84,7 @@ class TestCrawl(ut.TestCase):
         print(m.states)
         fig, ax = plt.subplots()
         # vis_rules(m, ax=ax)
-        visualize_graph(m, ax=ax, with_labels=1)
+        vis_graph(m, ax=ax, with_labels=1)
         # plt.show(block=1)
         # fig.show()
 
@@ -252,6 +252,65 @@ class TestCrawl(ut.TestCase):
         if verbose:
             plt.show(block=1)
 
+    def test_double_triangle(self):
+
+        g = nx.cycle_graph(3)
+        r = g.copy()
+        g.add_edge(0, 4)
+        g.add_edge(0, 5)
+        g.add_edge(5, 4)
+
+        m = self.model(
+            g,
+            rules=create_rule_full(r),
+            consider_options=1,
+            agentStates=np.arange(len(r)),
+        )
+        m.states = [0, 1, 2, 1, 2]
+
+        print(m.states)
+        print(m.check_df(0))
+        print(m.check_df(1))
+
+        g = nx.cycle_graph(3)
+        r = g.copy()
+        g.add_edge(0, 4)
+        g.add_edge(1, 4)
+        m = self.model(
+            g,
+            rules=create_rule_full(r),
+            consider_options=1,
+            agentStates=np.arange(len(r)),
+        )
+
+        m.states = [0, 1, 2, 2]
+        print(m.states)
+        print(m.check_df(0))
+        print(m.check_df(1))
+
+    def test_partial_completion(self):
+        g = nx.cycle_graph(3)
+        m = gen_matching(self.model, g)
+
+        m.consider_options = True
+
+        # should generate 1 but twice
+        m.states[2] = 1
+        results = m.check_df(0, verbose=1)
+        e = 0
+        # compute energy over results
+        for r in results:
+            e += len(r) / m.bounded_rational
+
+        print(e, results, m.bounded_rational)
+        if True:
+            print("Results")
+            print(results)
+            print("States")
+            print(m.states)
+            # print(m.agentStates)
+        self.assertEqual(e, 2 / 3)
+
 
 import cmasher as cmr
 
@@ -334,7 +393,7 @@ class TestGradient(ut.TestCase):
         print(m.states)
         fig, ax = plt.subplots()
         # vis_rules(m, ax=ax)
-        visualize_graph(m, ax=ax, with_labels=1)
+        vis_graph(m, ax=ax, with_labels=1)
         # plt.show(block=1)
         # fig.show()
 
