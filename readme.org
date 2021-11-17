@@ -40,6 +40,7 @@ Example systems. Each subplot contains a lattice graph (64x64 = 4096 nodes) simu
 * Installation
 - Clone the repo ~git clone git@github.com:cvanelteren/PlexSim.git && cd Plexsim~
 - Install the requirements ~pip install --file requirements.txt~
+- Run ~python setup.py install~
   
 Current  versions are  developed on  ~linux~.
 
