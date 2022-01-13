@@ -18,9 +18,10 @@ optFlag = "-Ofast"
 flags = ""
 
 flags = (
-    f"{optFlag} -march=native  -flto "
+    f"{optFlag} -march=native -std=gnu++0x -flto "
     "-frename-registers -funroll-loops -fno-wrapv "
     "-fopenmp-simd -fopenmp -unused-variable -Wno-unused "
+    " -D_GLIBCXX_USE_CXX11_ABI=0 "
     "-Wfatal-errors "
 )
 
@@ -140,7 +141,7 @@ from setuptools import find_namespace_packages, find_packages
 from sphinx.setup_command import BuildDoc
 
 name = "plexsim"
-version = "3.0"
+version = "3.0.1"
 packages = find_packages(include=["plexsim", "plexsim.*"], exclude=["bk/*", "bk"])
 
 

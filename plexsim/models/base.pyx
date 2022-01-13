@@ -746,11 +746,12 @@ cdef class Model:
     def __deepcopy__(self, memo = {}) -> Model:
         if len(memo) == 0:
             memo = self.get_settings()
+        # print(memo)
         new_ = self.__class__(**memo)
         other_settings = new_.get_settings()
-        for k, v in self.get_settings():
-            assert other_settings[k] == v
-        return
+        # for k, v in self.get_settings().items():
+            # assert other_settings[k] == v
+        return new_
 
 
     # tmp for testing the parallezation
@@ -769,7 +770,7 @@ cdef class Model:
         cdef SpawnVec models_ = self._spawn(n_jobs)
         models = []
         for thread in range(n_jobs):
-            models.append(<Model> models_[thread].ptr)
+            models.append(<Model>(models_[thread].ptr))
         return models
 
     cdef SpawnVec _spawn(self, size_t nThreads = openmp.omp_get_num_threads()):

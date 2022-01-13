@@ -11,7 +11,6 @@ cdef class Kawasaki(Potts):
         """
         Update using kawasaki dynamics
         """
-
         # choice a random spin
         # swaps state if it is more energetically favorable
         cdef:
@@ -19,7 +18,6 @@ cdef class Kawasaki(Potts):
             state_t tmp,
             size_t idx, jdx
             double p1, p1_, p2, p2_, p
-
         # conversion
         idx = <size_t>(self._rng._rand() * self.adj._adj[node].neighbors.size())
         it = self.adj._adj[node].neighbors.begin()
@@ -37,7 +35,6 @@ cdef class Kawasaki(Potts):
         # switch states
         p1_ = self.probability(self._states[neighbor], node)
         p2_ = self.probability(self._states[node], neighbor)
-
 
         p = (p1 * p2)/(p2_ * p1_)
         if self._rng._rand() < p:

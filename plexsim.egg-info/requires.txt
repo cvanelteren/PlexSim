@@ -1,7 +1,7 @@
 numpy
 networkx
 scipy
-cython>=3.0a9
+cython>=3.0.0a9
 scikit-learn
 pyprind
 cmasher
