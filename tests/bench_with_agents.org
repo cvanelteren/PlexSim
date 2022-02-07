@@ -1,0 +1,64 @@
+#+begin_src jupyter-julia  :session jl
+using Agents, Random
+rules = (2, 3, 3, 3) # (D, S, R, O)
+
+mutable struct Cell <: AbstractAgent
+    id::Int
+    pos::Dims{2}
+    status::Bool
+end
+
+function build_model(; rules::Tuple, dims = (100, 100), metric = :chebyshev, seed = 120)
+    space = GridSpace(dims; metric)
+    properties = Dict(:rules => rules)
+    model = ABM(Cell, space; properties, rng = MersenneTwister(seed))
+    idx = 1
+    for x in 1:dims[1]
+        for y in 1:dims[2]
+            add_agent_pos!(Cell(idx, (x, y), false), model)
+            idx += 1
+        end
+    end
+    return model
+end
+
+
+function ca_step!(model)
+    new_status = fill(false, nagents(model))
+    for agent in allagents(model)
+        n = alive_neighbors(agent, model)
+        if agent.status == true && (n ≤ model.rules[4] && n ≥ model.rules[1])
+            new_status[agent.id] = true
+        elseif agent.status == false && (n ≥ model.rules[3] && n ≤ model.rules[4])
+            new_status[agent.id] = true
+        end
+    end
+
+    for id in allids(model)
+        model[id].status = new_status[id]
+    end
+end
+
+function alive_neighbors(agent, model) # count alive neighboring cells
+    c = 0
+    for n in nearby_agents(agent, model)
+        if n.status == true
+            c += 1
+        end
+    end
+    return c
+end
+
+model = build_model(rules = rules, dims = (50, 50))
+
+for i in 1:nagents(model)
+    if rand(model.rng) < 0.2
+        model.agents[i].status = true
+    end
+end
+
+
+ca_step!(model)
+#+end_src
+
+#+RESULTS:
