@@ -1,0 +1,1 @@
+#include "adjacency.hpp"
