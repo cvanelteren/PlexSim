@@ -739,11 +739,11 @@ cdef class Model:
         for k in dir(self):
             atr = getattr(self, k)
             if k[0] != '_' and not callable(atr):
-                # try:
-                    # dumps(atr)
-                kwargs[k] = atr
-                # except:
-                    # pass
+                try:
+                    dumps(atr)
+                    kwargs[k] = atr
+                except:
+                    pass
         return kwargs
 
     def __reduce__(self) -> tuple:

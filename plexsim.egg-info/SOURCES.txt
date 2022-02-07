@@ -185,6 +185,7 @@ examples/kinetic_potts_model.py
 examples/sir_epidemic_model.py
 plexsim/.gitignore
 plexsim/__init__.py
+plexsim/models.cpp
 plexsim/types.hpp
 plexsim.egg-info/PKG-INFO
 plexsim.egg-info/SOURCES.txt

@@ -2583,6 +2583,22 @@ static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
 #define __Pyx_PyCallable_Check(obj)   PyCallable_Check(obj)
 #endif
 
+/* GetTopmostException.proto */
+#if CYTHON_USE_EXC_INFO_STACK
+static _PyErr_StackItem * __Pyx_PyErr_GetTopmostException(PyThreadState *tstate);
+#endif
+
+/* SaveResetException.proto */
+#if CYTHON_FAST_THREAD_STATE
+#define __Pyx_ExceptionSave(type, value, tb)  __Pyx__ExceptionSave(__pyx_tstate, type, value, tb)
+static CYTHON_INLINE void __Pyx__ExceptionSave(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb);
+#define __Pyx_ExceptionReset(type, value, tb)  __Pyx__ExceptionReset(__pyx_tstate, type, value, tb)
+static CYTHON_INLINE void __Pyx__ExceptionReset(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb);
+#else
+#define __Pyx_ExceptionSave(type, value, tb)   PyErr_GetExcInfo(type, value, tb)
+#define __Pyx_ExceptionReset(type, value, tb)  PyErr_SetExcInfo(type, value, tb)
+#endif
+
 /* MoveIfSupported.proto */
 #if __cplusplus >= 201103L || (defined(_MSC_VER) && _MSC_VER >= 1600)
   #include <utility>
@@ -2606,22 +2622,6 @@ static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
 }
 #else
 #define __Pyx_PyList_Append(L,x) PyList_Append(L,x)
-#endif
-
-/* GetTopmostException.proto */
-#if CYTHON_USE_EXC_INFO_STACK
-static _PyErr_StackItem * __Pyx_PyErr_GetTopmostException(PyThreadState *tstate);
-#endif
-
-/* SaveResetException.proto */
-#if CYTHON_FAST_THREAD_STATE
-#define __Pyx_ExceptionSave(type, value, tb)  __Pyx__ExceptionSave(__pyx_tstate, type, value, tb)
-static CYTHON_INLINE void __Pyx__ExceptionSave(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb);
-#define __Pyx_ExceptionReset(type, value, tb)  __Pyx__ExceptionReset(__pyx_tstate, type, value, tb)
-static CYTHON_INLINE void __Pyx__ExceptionReset(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb);
-#else
-#define __Pyx_ExceptionSave(type, value, tb)   PyErr_GetExcInfo(type, value, tb)
-#define __Pyx_ExceptionReset(type, value, tb)  PyErr_SetExcInfo(type, value, tb)
 #endif
 
 /* GetException.proto */
@@ -12924,7 +12924,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
 
 static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_14get_settings(struct __pyx_obj_7plexsim_6models_4base_Model *__pyx_v_self) {
   PyObject *__pyx_v_kwargs = NULL;
-  CYTHON_UNUSED PyObject *__pyx_v_dumps = NULL;
+  PyObject *__pyx_v_dumps = NULL;
   PyObject *__pyx_v_k = NULL;
   PyObject *__pyx_v_atr = NULL;
   PyObject *__pyx_r = NULL;
@@ -12936,6 +12936,12 @@ static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_14get_settings(struct __
   int __pyx_t_5;
   int __pyx_t_6;
   int __pyx_t_7;
+  PyObject *__pyx_t_8 = NULL;
+  PyObject *__pyx_t_9 = NULL;
+  PyObject *__pyx_t_10 = NULL;
+  PyObject *__pyx_t_11 = NULL;
+  PyObject *__pyx_t_12 = NULL;
+  int __pyx_t_13;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -13032,7 +13038,7 @@ static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_14get_settings(struct __
  *         for k in dir(self):
  *             atr = getattr(self, k)             # <<<<<<<<<<<<<<
  *             if k[0] != '_' and not callable(atr):
- *                 # try:
+ *                 try:
  */
     __pyx_t_2 = __Pyx_GetAttr(((PyObject *)__pyx_v_self), __pyx_v_k); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 740, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -13043,8 +13049,8 @@ static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_14get_settings(struct __
  *         for k in dir(self):
  *             atr = getattr(self, k)
  *             if k[0] != '_' and not callable(atr):             # <<<<<<<<<<<<<<
- *                 # try:
- *                     # dumps(atr)
+ *                 try:
+ *                     dumps(atr)
  */
     __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_k, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 741, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -13061,21 +13067,103 @@ static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_14get_settings(struct __
     __pyx_L6_bool_binop_done:;
     if (__pyx_t_5) {
 
-      /* "plexsim/models/base.pyx":744
- *                 # try:
- *                     # dumps(atr)
- *                 kwargs[k] = atr             # <<<<<<<<<<<<<<
- *                 # except:
- *                     # pass
+      /* "plexsim/models/base.pyx":742
+ *             atr = getattr(self, k)
+ *             if k[0] != '_' and not callable(atr):
+ *                 try:             # <<<<<<<<<<<<<<
+ *                     dumps(atr)
+ *                     kwargs[k] = atr
  */
-      if (unlikely((PyDict_SetItem(__pyx_v_kwargs, __pyx_v_k, __pyx_v_atr) < 0))) __PYX_ERR(0, 744, __pyx_L1_error)
+      {
+        __Pyx_PyThreadState_declare
+        __Pyx_PyThreadState_assign
+        __Pyx_ExceptionSave(&__pyx_t_8, &__pyx_t_9, &__pyx_t_10);
+        __Pyx_XGOTREF(__pyx_t_8);
+        __Pyx_XGOTREF(__pyx_t_9);
+        __Pyx_XGOTREF(__pyx_t_10);
+        /*try:*/ {
+
+          /* "plexsim/models/base.pyx":743
+ *             if k[0] != '_' and not callable(atr):
+ *                 try:
+ *                     dumps(atr)             # <<<<<<<<<<<<<<
+ *                     kwargs[k] = atr
+ *                 except:
+ */
+          __Pyx_INCREF(__pyx_v_dumps);
+          __pyx_t_11 = __pyx_v_dumps; __pyx_t_12 = NULL;
+          __pyx_t_13 = 0;
+          if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_11))) {
+            __pyx_t_12 = PyMethod_GET_SELF(__pyx_t_11);
+            if (likely(__pyx_t_12)) {
+              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_11);
+              __Pyx_INCREF(__pyx_t_12);
+              __Pyx_INCREF(function);
+              __Pyx_DECREF_SET(__pyx_t_11, function);
+              __pyx_t_13 = 1;
+            }
+          }
+          {
+            PyObject *__pyx_callargs[2] = {__pyx_t_12, __pyx_v_atr};
+            __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_11, __pyx_callargs+1-__pyx_t_13, 1+__pyx_t_13);
+            __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
+            if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 743, __pyx_L8_error)
+            __Pyx_GOTREF(__pyx_t_2);
+            __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+          }
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+          /* "plexsim/models/base.pyx":744
+ *                 try:
+ *                     dumps(atr)
+ *                     kwargs[k] = atr             # <<<<<<<<<<<<<<
+ *                 except:
+ *                     pass
+ */
+          if (unlikely((PyDict_SetItem(__pyx_v_kwargs, __pyx_v_k, __pyx_v_atr) < 0))) __PYX_ERR(0, 744, __pyx_L8_error)
+
+          /* "plexsim/models/base.pyx":742
+ *             atr = getattr(self, k)
+ *             if k[0] != '_' and not callable(atr):
+ *                 try:             # <<<<<<<<<<<<<<
+ *                     dumps(atr)
+ *                     kwargs[k] = atr
+ */
+        }
+        __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+        __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+        __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
+        goto __pyx_L15_try_end;
+        __pyx_L8_error:;
+        __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
+        __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
+        __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+        /* "plexsim/models/base.pyx":745
+ *                     dumps(atr)
+ *                     kwargs[k] = atr
+ *                 except:             # <<<<<<<<<<<<<<
+ *                     pass
+ *         return kwargs
+ */
+        /*except:*/ {
+          __Pyx_ErrRestore(0,0,0);
+          goto __pyx_L9_exception_handled;
+        }
+        __pyx_L9_exception_handled:;
+        __Pyx_XGIVEREF(__pyx_t_8);
+        __Pyx_XGIVEREF(__pyx_t_9);
+        __Pyx_XGIVEREF(__pyx_t_10);
+        __Pyx_ExceptionReset(__pyx_t_8, __pyx_t_9, __pyx_t_10);
+        __pyx_L15_try_end:;
+      }
 
       /* "plexsim/models/base.pyx":741
  *         for k in dir(self):
  *             atr = getattr(self, k)
  *             if k[0] != '_' and not callable(atr):             # <<<<<<<<<<<<<<
- *                 # try:
- *                     # dumps(atr)
+ *                 try:
+ *                     dumps(atr)
  */
     }
 
@@ -13090,8 +13178,8 @@ static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_14get_settings(struct __
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "plexsim/models/base.pyx":747
- *                 # except:
- *                     # pass
+ *                 except:
+ *                     pass
  *         return kwargs             # <<<<<<<<<<<<<<
  * 
  *     def __reduce__(self) -> tuple:
@@ -13113,6 +13201,8 @@ static PyObject *__pyx_pf_7plexsim_6models_4base_5Model_14get_settings(struct __
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_11);
+  __Pyx_XDECREF(__pyx_t_12);
   __Pyx_AddTraceback("plexsim.models.base.Model.get_settings", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
