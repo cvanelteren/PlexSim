@@ -1,7 +1,8 @@
 #distutils: language=c++
 from posix.time cimport clock_gettime, timespec, CLOCK_REALTIME
 import numpy as np
-cimport numpy as np
+cimport numpy as np; np.import_array()
+from plexsim.models.types cimport *
 
 from libcpp.algorithm cimport swap
 cdef class RandomGenerator:

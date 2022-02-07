@@ -31,7 +31,7 @@ class GraphAnimation:
         # loading colors
         self.colors = None
         if cmap is None:
-            try
+            try:
                 import cmasher as cmr
 
                 self.colors = discrete_cmap(n, "cmr.pride")

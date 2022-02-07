@@ -1,5 +1,5 @@
 from plexsim.models.value_network cimport ValueNetwork
-cimport numpy as np
+cimport numpy as np; np.import_array()
 import numpy as np
 from cython.operator cimport dereference as deref, postincrement as post
 from libc.math cimport exp

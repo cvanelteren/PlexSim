@@ -1,4 +1,4 @@
-cimport cython, numpy as np
+cimport cython, numpy as np; np.import_array()
 from cython.operator cimport dereference as deref
 from cython.operator cimport preincrement as prei
 from cython.operator cimport postincrement as post

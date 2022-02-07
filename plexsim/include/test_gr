@@ -1,0 +1,38 @@
+digraph "callgraph" {
+  F5587388bb980 [label="std::_Rb_tree<EdgeColor, EdgeC...\n6 322 104"];
+  F5587388bcbb0 [label="std::_Rb_tree<EdgeColor, EdgeC...\n2 852 928"];
+  F5587388bd2f0 [label="std::less<EdgeColor>::operator...\n1 285 200"];
+  F5587388c08f0 [label="std::_Rb_tree<EdgeColor, EdgeC...\n1 673 352"];
+  F5587388cfff0 [label="std::insert_iterator<std::set<...\n15 642 512"];
+  F5587388d0900 [label="std::set<EdgeColor, std::less<...\n14 817 672"];
+  F5587388db4f0 [label="std::vector<std::vector<EdgeCo...\n1 283 378"];
+  F5587388f3eb0 [label="void std::vector<std::vector<E...\n1 259 703"];
+  F5587389002d0 [label="std::_Rb_tree_iterator<EdgeCol...\n14 194 472"];
+  F558738901ae0 [label="std::_Rb_tree_iterator<EdgeCol...\n13 440 072"];
+  F55873890ec30 [label="bool __gnu_cxx::__ops::_Iter_c...\n2 033 600"];
+  F558738942550 [label="Crawler::merge_options(std::ve...\n24 483 506"];
+  F5587389491c0 [label="std::insert_iterator<std::set<...\n21 036 472"];
+  F55873894f0e0 [label="main\n24 483 506"];
+  F558738972100 [label="std::insert_iterator<std::set<...\n20 915 112"];
+  F558738973af0 [label="std::_Rb_tree<EdgeColor, EdgeC...\n11 025 432"];
+  F558738974c00 [label="std::_Rb_tree_iterator<EdgeCol...\n1 522 592"];
+  F558738999c40 [label="(below main)\n24 483 506"];
+  F5587388bb980 -> F5587388bcbb0 [weight=2,label="1 426 464 (27 432x)"];
+  F5587388bb980 -> F5587388bd2f0 [weight=2,label="1 285 200 (40 608x)"];
+  F5587388c08f0 -> F5587388bcbb0 [weight=2,label="1 426 464 (27 432x)"];
+  F5587388cfff0 -> F5587388d0900 [weight=2,label="14 817 672 (16 400x)"];
+  F5587388d0900 -> F5587389002d0 [weight=2,label="14 194 472 (16 400x)"];
+  F5587388db4f0 -> F5587388f3eb0 [weight=2,label="1 259 703 (447x)"];
+  F5587389002d0 -> F558738901ae0 [weight=2,label="13 440 072 (16 400x)"];
+  F558738901ae0 -> F558738973af0 [weight=2,label="11 025 432 (16 400x)"];
+  F558738901ae0 -> F558738974c00 [weight=2,label="1 522 592 (3 224x)"];
+  F558738942550 -> F5587388db4f0 [weight=2,label="1 283 378 (410x)"];
+  F558738942550 -> F5587389491c0 [weight=2,label="21 036 472 (1 640x)"];
+  F5587389491c0 -> F558738972100 [weight=2,label="20 915 112 (1 640x)"];
+  F55873894f0e0 -> F558738942550 [weight=2,label="24 483 506 (410x)"];
+  F558738972100 -> F5587388cfff0 [weight=2,label="15 642 512 (16 400x)"];
+  F558738972100 -> F55873890ec30 [weight=2,label="2 033 600 (32 800x)"];
+  F558738973af0 -> F5587388bb980 [weight=2,label="6 322 104 (16 400x)"];
+  F558738973af0 -> F5587388c08f0 [weight=2,label="1 673 352 (27 432x)"];
+  F558738999c40 -> F55873894f0e0 [weight=2,label="24 483 506 (9x)"];
+}

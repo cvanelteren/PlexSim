@@ -3,6 +3,7 @@
 cimport cython
 from cython.operator cimport dereference as deref, postincrement as post
 import networkx as nx, numpy as np
+cimport numpy as np; np.import_array()
 
 from plexsim.models.adjacency cimport Adjacency
 cdef class Rules:

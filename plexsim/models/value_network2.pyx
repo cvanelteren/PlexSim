@@ -1,5 +1,7 @@
+import cython
+cimport cython
 import networkx as nx, numpy as np
-cimport numpy as np, cython
+cimport numpy as np; np.import_array(), cython
 from cython.parallel cimport parallel, prange, threadid
 from cython.operator cimport dereference as deref, preincrement, postincrement as post
 from libc.math cimport exp, cos, pi
@@ -448,7 +450,7 @@ cdef class ValueNetwork(Potts):
             self._newstates[node] = proposal
         return
 
-    def dump_rules(self) -> nx.Graph or nx.DiGraph:
+    def dump_rules(self):
         """
         Takes the possibly "full" graph, i.e. a networkx graph with negative edges weights,
         and removes all those edges.

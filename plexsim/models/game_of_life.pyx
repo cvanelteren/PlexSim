@@ -2,7 +2,7 @@ from plexsim.models.types cimport *
 from plexsim.models.base cimport *
 from cython.operator cimport dereference as deref
 from cython.operator cimport postincrement as post
-cimport numpy as np
+cimport numpy as np; np.import_array()
 import numpy as np
 
 cdef class Conway(Model):

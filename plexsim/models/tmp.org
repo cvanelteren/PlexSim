@@ -1,0 +1,19 @@
+#+begin_src jupyter-python
+import matplotlib.pyplot as plt, cmasher as cmr, pandas as pd
+import numpy as np, os, sys, networkx as nx, warnings
+from plexsim import models
+from imi import infcy
+warnings.simplefilter("ignore"); plt.style.use("fivethirtyeight spooky".split())
+f = lambda x,c : (x/c)**2
+x = np.arange(0, 5)
+c = max(x)
+y = f(x, c)
+fig, ax = plt.subplots()
+ax.plot(x, y)
+ax.set_xlabel("Num sat edges")
+ax.set_ylabel("E")
+fig.show()
+#+end_src
+
+#+RESULTS:
+[[file:./.ob-jupyter/6e40fa5a8670d8507d717691dbc79545e295936c.png]]

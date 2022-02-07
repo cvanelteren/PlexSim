@@ -1,7 +1,8 @@
 import networkx as nx, functools, time, copy, sys, os
 import numpy as np, networkx as nx
 from pyprind import ProgBar
-cimport numpy as np, cython, openmp
+cimport numpy as np; np.import_array()
+cimport cython, openmp
 
 from cython.parallel cimport parallel, prange, threadid
 
@@ -430,8 +431,15 @@ cdef class Model:
         return self._agentStates[<size_t> ( self._rng._rand() * self._nStates ) ]
 
     ##### MODEL PROPERTIES
-    #####
-    #####
+    @property
+    def agentStates(self):
+        return self._agentStates
+
+    @agentStates.setter
+    def agentStates(self, value):
+        self._nStates = len(value)
+        self._agentStates = value
+
     @property
     def rules(self):
         """Returns the rule graph as a networkx object
@@ -731,11 +739,11 @@ cdef class Model:
         for k in dir(self):
             atr = getattr(self, k)
             if k[0] != '_' and not callable(atr):
-                try:
-                    dumps(atr)
-                    kwargs[k] = atr
-                except:
-                    pass
+                # try:
+                    # dumps(atr)
+                kwargs[k] = atr
+                # except:
+                    # pass
         return kwargs
 
     def __reduce__(self) -> tuple:
@@ -878,5 +886,5 @@ cdef class ModelMC(Model):
         self._mcmc = MCMC(self._rng, p_recomb)
 
 # helper function for pickling
-def rebuild(cls, kwargs):
+cpdef Model rebuild(cls, kwargs):
     return cls(**kwargs)

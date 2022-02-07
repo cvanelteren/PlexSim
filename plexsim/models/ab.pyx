@@ -1,6 +1,6 @@
 #distutils: language=c++
 # cimport cython
-cimport cython, numpy as np
+cimport cython, numpy as np; np.import_array()
 import numpy as np
 from cython.operator cimport dereference as deref
 from cython.operator cimport preincrement as prei

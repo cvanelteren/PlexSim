@@ -2,7 +2,8 @@
 ## cython: binding=True
 ## distutils: define_macros=CYTHON_TRACE_NOGIL=1
 import networkx as nx, numpy as np
-cimport numpy as np, cython
+cimport numpy as np; np.import_array()
+cimport cython
 from cython.parallel cimport parallel, prange, threadid
 from cython.operator cimport dereference as deref, postincrement as post
 from libc.math cimport exp, cos, pi
@@ -133,7 +134,7 @@ cdef class ValueNetwork(Potts):
     #     energy = 0
     #     for node in range(self.adj._nNodes):
     #         # Z = <double> self.adj._adj[node].neighbors.size()
-    #         energy = -self._energy(node) #/ <double>(self.adj._adj[node].neighbors.size()) # just average
+    #         energy = -self._energy(node) #/ <double>(selsf.adj._adj[node].neighbors.size()) # just average
     #         siteEnergy[node] = energy
     #     # reset pointer to original buffer
     #     self._states = ptr
@@ -590,7 +591,7 @@ cdef class ValueNetwork(Potts):
             self._newstates[node] = proposal
         return
 
-    def dump_rules(self) -> nx.Graph or nx.DiGraph:
+    def dump_rules(self):
         """
         Takes the possibly "full" graph, i.e. a networkx graph with negative edges weights,
         and removes all those edges.

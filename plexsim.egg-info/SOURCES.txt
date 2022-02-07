@@ -299,6 +299,9 @@ plexsim/models/value_network2.pyx
 plexsim/models/value_network_crystal.cpp
 plexsim/models/value_network_crystal.pxd
 plexsim/models/value_network_crystal.pyx
+plexsim/models/value_network_dynamic.cpp
+plexsim/models/value_network_dynamic.pxd
+plexsim/models/value_network_dynamic.pyx
 plexsim/models/value_network_edges.cpp
 plexsim/models/value_network_edges.pxd
 plexsim/models/value_network_edges.pyx

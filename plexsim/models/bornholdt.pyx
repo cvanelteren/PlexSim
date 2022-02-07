@@ -3,7 +3,7 @@
 from libc.math cimport exp, cos, pi, fabs
 from plexsim.models.base cimport swap
 import numpy as np
-cimport numpy as np
+cimport numpy as np; np.import_array()
 cdef class Bornholdt(Potts):
     """
     Implementation of Bornholdt model (2000)

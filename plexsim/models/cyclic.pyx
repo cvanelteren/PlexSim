@@ -1,5 +1,5 @@
 import numpy as np
-cimport numpy as np, cython
+cimport numpy as np, cython; np.import_array()
 from cython.operator cimport dereference as deref
 from cython.operator cimport preincrement as prei
 from cython.operator cimport postincrement as post

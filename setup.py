@@ -185,6 +185,7 @@ setup(
     ext_modules=cythonize(
         exts,
         compiler_directives=cdirectives,
+        language_level=3,
         nthreads=mp.cpu_count(),
     ),
 )

@@ -1,5 +1,5 @@
-cimport cython, numpy as np
 import numpy as np
+cimport numpy as np; np.import_array()
 from cython.parallel cimport parallel, prange, threadid
 from cython.operator cimport dereference as deref
 from cython.operator cimport preincrement as prei

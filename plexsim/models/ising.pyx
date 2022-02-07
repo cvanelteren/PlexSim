@@ -3,9 +3,8 @@
 ## cython: linetrace = True
 ## distutils: define_macros=CYTHON_TRACE_NOGIL=1
 ## cython: np_pythran=True
-
-cimport numpy as np
 import numpy as np
+cimport numpy as np; np.import_array()
 cdef class Ising(Potts):
     """Kinetic Ising model
 

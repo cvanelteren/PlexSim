@@ -1,5 +1,5 @@
 #distutils: language=c++
-import networkx as nx, numpy as np
+import networkx as nx, numpy as np; np.import_array()
 cimport numpy as np, cython
 from cython.parallel cimport parallel, prange, threadid
 from cython.operator cimport dereference as deref, preincrement, postincrement as post

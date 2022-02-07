@@ -1,5 +1,5 @@
 import numpy as np
-cimport numpy as np
+cimport numpy as np; np.import_array()
 from libcpp.vector cimport vector
 cimport cython
 from cython.parallel cimport parallel, prange, threadid

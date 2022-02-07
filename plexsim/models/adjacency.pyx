@@ -1,6 +1,6 @@
 #distutils:language=c++
 import networkx as nx, numpy as np
-cimport numpy as np
+cimport numpy as np; np.import_array()
 from cython.operator cimport dereference as deref
 from cython.operator cimport postincrement as post
 cdef class Adjacency:

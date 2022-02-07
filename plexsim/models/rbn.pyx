@@ -3,8 +3,8 @@ cimport cython
 from cython.operator cimport dereference as deref
 from cython.operator cimport preincrement as prei
 from cython.operator cimport postincrement as post
+cimport numpy as np; np.import_array()
 import numpy as np
-cimport numpy as np
 cdef class RBN(Model):
     def __init__(self, graph, rule = None, \
                  updateType = "sync",\

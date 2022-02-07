@@ -98,3 +98,5 @@ cdef class Model:
     cdef double probability(self, state_t state, node_id_t node) nogil
 
     cpdef add_edge(self, node_id_t x, node_id_t y, double weight=*)
+
+cpdef Model rebuild(cls, kwargs)
