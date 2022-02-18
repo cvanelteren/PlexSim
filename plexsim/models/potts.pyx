@@ -220,15 +220,18 @@ cdef class Potts(Model):
         # setup simulation
         cdef double Z = 1 / <double> self._nStates
         cdef np.ndarray results
+        cdef size_t idx
         cdef double phase
         # set temp
         mod.t         =  t
         # reset states
         mod.states[:] = mod.agentStates[0]
         # sample states
-        results = mod.simulate(n)  * Z
+        # results = mod.simulate(n)  * Z
+        for idx in range(n):
+            phase += np.real(np.exp( 2 * np.pi  * np.complex(0, 1) * mod._updateState(mod._sampleNodes(1)[0]).base * Z)).mean()  * 1 / (<double>(n))
         # compute spin angles
-        phase = np.real(np.exp(2 * np.pi * np.complex(0, 1) * results)).mean()
+        # phase = np.real(np.exp(2 * np.pi * np.complex(0, 1) * results)).mean()
         return np.abs(phase)
 
     @cython.cdivision(False)
