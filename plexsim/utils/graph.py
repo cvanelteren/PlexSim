@@ -51,6 +51,7 @@ def make_connected(g) -> nx.Graph:
     while len(largest) != len(g):
         for c in nx.connected_components(g):
             for ci in c:
+                largest = max(nx.connected_components(g), key=lambda x: len(x))
                 if ci not in largest:
                     # maintain the degree but add a random edge
                     for neighbor in list(g.neighbors(ci)):
@@ -61,6 +62,20 @@ def make_connected(g) -> nx.Graph:
                     # check in case neighbor has no degree
                     if ci not in largest:
                         g.add_edge(ci, np.random.choice(list(largest)))
+    return g
+
+
+def make_hyperbolic(n, k=1, gamma=2.1, t=0):
+    import networkit as nk
+    import networkx as nx
+
+    hg = nk.generators.HyperbolicGenerator(n, k=k, gamma=gamma, T=t)
+    G = hg.generate()
+    g = nk.nxadapter.nk2nx(G)
+    g = make_connected(g)
+    for node in g.nodes():
+        if g.has_edge(node, node):
+            g.remove_edge(node, node)
     return g
 
 
