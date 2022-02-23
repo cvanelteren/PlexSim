@@ -229,7 +229,6 @@ plexsim/models/bornholdt.pyx
 plexsim/models/cca.cpp
 plexsim/models/cca.pxd
 plexsim/models/cca.pyx
-plexsim/models/cpp_binding.cpp
 plexsim/models/cpp_binding.hpp
 plexsim/models/cyclic.cpp
 plexsim/models/cyclic.pxd

@@ -1736,7 +1736,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model_add_edge;
 
-/* "plexsim/models/base.pxd":88
+/* "plexsim/models/base.pxd":96
  * 
  * 
  *     cpdef list spawn(self, size_t n_jobs =*)             # <<<<<<<<<<<<<<
@@ -1748,7 +1748,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn {
   size_t n_jobs;
 };
 
-/* "plexsim/models/base.pxd":91
+/* "plexsim/models/base.pxd":99
  * 
  *     #TODO: move this into a separate function?
  *     cdef SpawnVec _spawn(self, size_t nThreads=*)             # <<<<<<<<<<<<<<
@@ -1760,7 +1760,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn {
   size_t nThreads;
 };
 
-/* "plexsim/models/base.pxd":93
+/* "plexsim/models/base.pxd":101
  *     cdef SpawnVec _spawn(self, size_t nThreads=*)
  * 
  *     cpdef void reset(self, p =*)             # <<<<<<<<<<<<<<
@@ -1772,7 +1772,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset {
   PyObject *p;
 };
 
-/* "plexsim/models/base.pxd":104
+/* "plexsim/models/base.pxd":112
  *     cdef double probability(self, state_t state, node_id_t node) nogil
  * 
  *     cpdef add_edge(self, node_id_t x, node_id_t y, double weight=*)             # <<<<<<<<<<<<<<
@@ -1888,14 +1888,14 @@ struct __pyx_obj_7plexsim_6models_4base_Model {
   PyObject_HEAD
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtab;
   PyObject *ptr;
-  __Pyx_memviewslice _Model__states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__states;
   __pyx_t_7plexsim_6models_5types_state_t *_states;
-  __Pyx_memviewslice _Model__newstates;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__newstates;
   __pyx_t_7plexsim_6models_5types_state_t *_newstates;
   int _last_written;
   int _use_mcmc;
-  __Pyx_memviewslice _agentStates;
-  __Pyx_memviewslice _memory;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _agentStates;
+  std::vector<std::vector<__pyx_t_7plexsim_6models_5types_state_t> >  _memory;
   size_t _memorySize;
   size_t _memento;
   PyObject *_updateType;
@@ -2064,9 +2064,9 @@ static struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *__pyx_
  */
 
 struct __pyx_vtabstruct_7plexsim_6models_7sampler_MCMC {
-  void (*recombination)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, __Pyx_memviewslice, PyObject *);
-  void (*gibbs)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, __Pyx_memviewslice, PyObject *);
-  void (*step)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, __Pyx_memviewslice, PyObject *);
+  void (*recombination)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &, PyObject *);
+  void (*gibbs)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &, PyObject *);
+  void (*step)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &, PyObject *);
   __pyx_t_7plexsim_6models_5types_state_t (*_sample_proposal)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, PyObject *);
 };
 static struct __pyx_vtabstruct_7plexsim_6models_7sampler_MCMC *__pyx_vtabptr_7plexsim_6models_7sampler_MCMC;
@@ -2081,8 +2081,8 @@ static struct __pyx_vtabstruct_7plexsim_6models_7sampler_MCMC *__pyx_vtabptr_7pl
  */
 
 struct __pyx_vtabstruct_7plexsim_6models_4base_Model {
-  __Pyx_memviewslice (*updateState)(struct __pyx_obj_7plexsim_6models_4base_Model *, __Pyx_memviewslice, int __pyx_skip_dispatch);
-  __Pyx_memviewslice (*_updateState)(struct __pyx_obj_7plexsim_6models_4base_Model *, __Pyx_memviewslice);
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  (*updateState)(struct __pyx_obj_7plexsim_6models_4base_Model *, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &, int __pyx_skip_dispatch);
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  (*_updateState)(struct __pyx_obj_7plexsim_6models_4base_Model *, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &);
   void (*_set_state)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_state_t);
   void (*_reset)(struct __pyx_obj_7plexsim_6models_4base_Model *, __Pyx_memviewslice);
   void (*_apply_nudge)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *);
@@ -2091,9 +2091,10 @@ struct __pyx_vtabstruct_7plexsim_6models_4base_Model {
   void (*_step)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t);
   void (*_hebbianUpdate)(struct __pyx_obj_7plexsim_6models_4base_Model *);
   double (*_learningFunction)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t);
-  __Pyx_memviewslice (*_sampleNodes)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t);
-  __Pyx_memviewslice (*sampleNodes)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
+  std::vector<std::vector<__pyx_t_7plexsim_6models_5types_node_id_t> >  (*_sampleNodes)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t);
+  std::vector<std::vector<__pyx_t_7plexsim_6models_5types_node_id_t> >  (*sampleNodes)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
   PyArrayObject *(*simulate)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
+  std::vector<std::vector<__pyx_t_7plexsim_6models_5types_state_t> >  (*_simulate)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t);
   PyArrayObject *(*simulate_mean)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
   PyObject *(*spawn)(struct __pyx_obj_7plexsim_6models_4base_Model *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn *__pyx_optional_args);
   __pyx_t_7plexsim_6models_5types_SpawnVec (*_spawn)(struct __pyx_obj_7plexsim_6models_4base_Model *, struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn *__pyx_optional_args);
@@ -9139,7 +9140,6 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
   size_t __pyx_t_8;
   size_t __pyx_t_9;
   size_t __pyx_t_10;
-  size_t __pyx_t_11;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -9523,7 +9523,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  *         cdef size_t mi
  *         # TODO: move to separate function
  *         for mi in range(self._memorySize):             # <<<<<<<<<<<<<<
- *             energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
+ *             energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi][node])
  *         return energy
  */
   __pyx_t_8 = __pyx_v_self->__pyx_base.__pyx_base._memorySize;
@@ -9534,18 +9534,16 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
     /* "plexsim/models/value_network.pyx":554
  *         # TODO: move to separate function
  *         for mi in range(self._memorySize):
- *             energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])             # <<<<<<<<<<<<<<
+ *             energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi][node])             # <<<<<<<<<<<<<<
  *         return energy
  *         # try-out match trees:
  */
-    __pyx_t_11 = __pyx_v_mi;
-    __pyx_t_2 = __pyx_v_node;
-    __pyx_v_energy = (__pyx_v_energy + (exp((__pyx_v_mi * __pyx_v_self->__pyx_base.__pyx_base._memento)) * ((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._hamiltonian(((struct __pyx_obj_7plexsim_6models_5potts_Potts *)__pyx_v_self), (__pyx_v_states[__pyx_v_node]), (*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=1 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ (__pyx_v_self->__pyx_base.__pyx_base._memory.data + __pyx_t_11 * __pyx_v_self->__pyx_base.__pyx_base._memory.strides[0]) )) + __pyx_t_2)) ))))));
+    __pyx_v_energy = (__pyx_v_energy + (exp((__pyx_v_mi * __pyx_v_self->__pyx_base.__pyx_base._memento)) * ((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._hamiltonian(((struct __pyx_obj_7plexsim_6models_5potts_Potts *)__pyx_v_self), (__pyx_v_states[__pyx_v_node]), ((__pyx_v_self->__pyx_base.__pyx_base._memory[__pyx_v_mi])[__pyx_v_node]))));
   }
 
   /* "plexsim/models/value_network.pyx":555
  *         for mi in range(self._memorySize):
- *             energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
+ *             energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi][node])
  *         return energy             # <<<<<<<<<<<<<<
  *         # try-out match trees:
  *         # return energy * (1 + counter)

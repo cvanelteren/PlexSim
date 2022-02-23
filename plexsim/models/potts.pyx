@@ -170,7 +170,7 @@ cdef class Potts(Model):
         cdef size_t mi
         # TODO: move to separate function
         for mi in range(self._memorySize):
-            energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
+            energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi][node])
         return energy
 
     cdef double probability(self, state_t state, node_id_t node) nogil:
@@ -222,6 +222,7 @@ cdef class Potts(Model):
         cdef np.ndarray results
         cdef size_t idx
         cdef double phase
+        cdef complex factor =  2 * np.pi  * np.complex(0, 1)
         # set temp
         mod.t         =  t
         # reset states
@@ -229,7 +230,9 @@ cdef class Potts(Model):
         # sample states
         # results = mod.simulate(n)  * Z
         for idx in range(n):
-            phase += np.real(np.exp( 2 * np.pi  * np.complex(0, 1) * mod._updateState(mod._sampleNodes(1)[0]).base * Z)).mean()  * 1 / (<double>(n))
+            phase += np.real(
+                np.exp(factor * Z *  np.asarray(mod._updateState(mod._sampleNodes(1)[0])))).mean() * 1 / (<double>(n))
+
         # compute spin angles
         # phase = np.real(np.exp(2 * np.pi * np.complex(0, 1) * results)).mean()
         return np.abs(phase)

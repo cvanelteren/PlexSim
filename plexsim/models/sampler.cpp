@@ -1729,7 +1729,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset;
 struct __pyx_opt_args_7plexsim_6models_4base_5Model_add_edge;
 
-/* "plexsim/models/base.pxd":88
+/* "plexsim/models/base.pxd":96
  * 
  * 
  *     cpdef list spawn(self, size_t n_jobs =*)             # <<<<<<<<<<<<<<
@@ -1741,7 +1741,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn {
   size_t n_jobs;
 };
 
-/* "plexsim/models/base.pxd":91
+/* "plexsim/models/base.pxd":99
  * 
  *     #TODO: move this into a separate function?
  *     cdef SpawnVec _spawn(self, size_t nThreads=*)             # <<<<<<<<<<<<<<
@@ -1753,7 +1753,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn {
   size_t nThreads;
 };
 
-/* "plexsim/models/base.pxd":93
+/* "plexsim/models/base.pxd":101
  *     cdef SpawnVec _spawn(self, size_t nThreads=*)
  * 
  *     cpdef void reset(self, p =*)             # <<<<<<<<<<<<<<
@@ -1765,7 +1765,7 @@ struct __pyx_opt_args_7plexsim_6models_4base_5Model_reset {
   PyObject *p;
 };
 
-/* "plexsim/models/base.pxd":104
+/* "plexsim/models/base.pxd":112
  *     cdef double probability(self, state_t state, node_id_t node) nogil
  * 
  *     cpdef add_edge(self, node_id_t x, node_id_t y, double weight=*)             # <<<<<<<<<<<<<<
@@ -1820,14 +1820,14 @@ struct __pyx_obj_7plexsim_6models_4base_Model {
   PyObject_HEAD
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtab;
   PyObject *ptr;
-  __Pyx_memviewslice _Model__states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__states;
   __pyx_t_7plexsim_6models_5types_state_t *_states;
-  __Pyx_memviewslice _Model__newstates;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__newstates;
   __pyx_t_7plexsim_6models_5types_state_t *_newstates;
   int _last_written;
   int _use_mcmc;
-  __Pyx_memviewslice _agentStates;
-  __Pyx_memviewslice _memory;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _agentStates;
+  std::vector<std::vector<__pyx_t_7plexsim_6models_5types_state_t> >  _memory;
   size_t _memorySize;
   size_t _memento;
   PyObject *_updateType;
@@ -1980,8 +1980,8 @@ static struct __pyx_vtabstruct_7plexsim_6models_9adjacency_Adjacency *__pyx_vtab
  */
 
 struct __pyx_vtabstruct_7plexsim_6models_4base_Model {
-  __Pyx_memviewslice (*updateState)(struct __pyx_obj_7plexsim_6models_4base_Model *, __Pyx_memviewslice, int __pyx_skip_dispatch);
-  __Pyx_memviewslice (*_updateState)(struct __pyx_obj_7plexsim_6models_4base_Model *, __Pyx_memviewslice);
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  (*updateState)(struct __pyx_obj_7plexsim_6models_4base_Model *, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &, int __pyx_skip_dispatch);
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  (*_updateState)(struct __pyx_obj_7plexsim_6models_4base_Model *, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &);
   void (*_set_state)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_state_t);
   void (*_reset)(struct __pyx_obj_7plexsim_6models_4base_Model *, __Pyx_memviewslice);
   void (*_apply_nudge)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_NudgesBackup *);
@@ -1990,9 +1990,10 @@ struct __pyx_vtabstruct_7plexsim_6models_4base_Model {
   void (*_step)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t);
   void (*_hebbianUpdate)(struct __pyx_obj_7plexsim_6models_4base_Model *);
   double (*_learningFunction)(struct __pyx_obj_7plexsim_6models_4base_Model *, __pyx_t_7plexsim_6models_5types_node_id_t, __pyx_t_7plexsim_6models_5types_node_id_t);
-  __Pyx_memviewslice (*_sampleNodes)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t);
-  __Pyx_memviewslice (*sampleNodes)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
+  std::vector<std::vector<__pyx_t_7plexsim_6models_5types_node_id_t> >  (*_sampleNodes)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t);
+  std::vector<std::vector<__pyx_t_7plexsim_6models_5types_node_id_t> >  (*sampleNodes)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
   PyArrayObject *(*simulate)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
+  std::vector<std::vector<__pyx_t_7plexsim_6models_5types_state_t> >  (*_simulate)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t);
   PyArrayObject *(*simulate_mean)(struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, int __pyx_skip_dispatch);
   PyObject *(*spawn)(struct __pyx_obj_7plexsim_6models_4base_Model *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_4base_5Model_spawn *__pyx_optional_args);
   __pyx_t_7plexsim_6models_5types_SpawnVec (*_spawn)(struct __pyx_obj_7plexsim_6models_4base_Model *, struct __pyx_opt_args_7plexsim_6models_4base_5Model__spawn *__pyx_optional_args);
@@ -2031,9 +2032,9 @@ static struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *__pyx_
  */
 
 struct __pyx_vtabstruct_7plexsim_6models_7sampler_MCMC {
-  void (*recombination)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, __Pyx_memviewslice, PyObject *);
-  void (*gibbs)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, __Pyx_memviewslice, PyObject *);
-  void (*step)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, __Pyx_memviewslice, PyObject *);
+  void (*recombination)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &, PyObject *);
+  void (*gibbs)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &, PyObject *);
+  void (*step)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &, PyObject *);
   __pyx_t_7plexsim_6models_5types_state_t (*_sample_proposal)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, PyObject *);
 };
 static struct __pyx_vtabstruct_7plexsim_6models_7sampler_MCMC *__pyx_vtabptr_7plexsim_6models_7sampler_MCMC;
@@ -2363,6 +2364,14 @@ static int __Pyx_CheckKeywordStrings(PyObject *kw, const char* function_name, in
     ((likely(__Pyx_IS_TYPE(obj, type) | (none_allowed && (obj == Py_None)))) ? 1 :\
         __Pyx__ArgTypeTest(obj, type, name, exact))
 static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact);
+
+/* MoveIfSupported.proto */
+#if __cplusplus >= 201103L || (defined(_MSC_VER) && _MSC_VER >= 1600)
+  #include <utility>
+  #define __PYX_STD_MOVE_IF_SUPPORTED(x) std::move(x)
+#else
+  #define __PYX_STD_MOVE_IF_SUPPORTED(x) x
+#endif
 
 /* GetModuleGlobalName.proto */
 #if CYTHON_USE_DICT_VERSIONS
@@ -2808,40 +2817,6 @@ static void __Pyx_AddTraceback(const char *funcname, int c_line,
 /* None.proto */
 #include <new>
 
-#if PY_MAJOR_VERSION < 3
-    static int __Pyx_GetBuffer(PyObject *obj, Py_buffer *view, int flags);
-    static void __Pyx_ReleaseBuffer(Py_buffer *view);
-#else
-    #define __Pyx_GetBuffer PyObject_GetBuffer
-    #define __Pyx_ReleaseBuffer PyBuffer_Release
-#endif
-
-
-/* BufferStructDeclare.proto */
-typedef struct {
-  Py_ssize_t shape, strides, suboffsets;
-} __Pyx_Buf_DimInfo;
-typedef struct {
-  size_t refcount;
-  Py_buffer pybuffer;
-} __Pyx_Buffer;
-typedef struct {
-  __Pyx_Buffer *rcbuffer;
-  char *data;
-  __Pyx_Buf_DimInfo diminfo[8];
-} __Pyx_LocalBuf_ND;
-
-/* MemviewSliceIsContig.proto */
-static int __pyx_memviewslice_is_contig(const __Pyx_memviewslice mvs, char order, int ndim);
-
-/* OverlappingSlices.proto */
-static int __pyx_slices_overlap(__Pyx_memviewslice *slice1,
-                                __Pyx_memviewslice *slice2,
-                                int ndim, size_t itemsize);
-
-/* Capsule.proto */
-static CYTHON_INLINE PyObject *__pyx_capsule_create(void *p, const char *sig);
-
 /* CppExceptionConversion.proto */
 #ifndef __Pyx_CppExn2PyErr
 #include <new>
@@ -2883,14 +2858,6 @@ static void __Pyx_CppExn2PyErr() {
   }
 }
 #endif
-
-/* MemviewDtypeToObject.proto */
-static CYTHON_INLINE PyObject *__pyx_memview_get_nn___pyx_t_7plexsim_6models_5types_node_id_t(const char *itemp);
-static CYTHON_INLINE int __pyx_memview_set_nn___pyx_t_7plexsim_6models_5types_node_id_t(const char *itemp, PyObject *obj);
-
-/* MemviewDtypeToObject.proto */
-static CYTHON_INLINE PyObject *__pyx_memview_get_nn___pyx_t_7plexsim_6models_5types_state_t(const char *itemp);
-static CYTHON_INLINE int __pyx_memview_set_nn___pyx_t_7plexsim_6models_5types_state_t(const char *itemp, PyObject *obj);
 
 /* RealImag.proto */
 #if CYTHON_CCOMPLEX
@@ -2990,6 +2957,55 @@ static CYTHON_INLINE int __pyx_memview_set_nn___pyx_t_7plexsim_6models_5types_st
     #endif
 #endif
 
+#if PY_MAJOR_VERSION < 3
+    static int __Pyx_GetBuffer(PyObject *obj, Py_buffer *view, int flags);
+    static void __Pyx_ReleaseBuffer(Py_buffer *view);
+#else
+    #define __Pyx_GetBuffer PyObject_GetBuffer
+    #define __Pyx_ReleaseBuffer PyBuffer_Release
+#endif
+
+
+/* BufferStructDeclare.proto */
+typedef struct {
+  Py_ssize_t shape, strides, suboffsets;
+} __Pyx_Buf_DimInfo;
+typedef struct {
+  size_t refcount;
+  Py_buffer pybuffer;
+} __Pyx_Buffer;
+typedef struct {
+  __Pyx_Buffer *rcbuffer;
+  char *data;
+  __Pyx_Buf_DimInfo diminfo[8];
+} __Pyx_LocalBuf_ND;
+
+/* MemviewSliceIsContig.proto */
+static int __pyx_memviewslice_is_contig(const __Pyx_memviewslice mvs, char order, int ndim);
+
+/* OverlappingSlices.proto */
+static int __pyx_slices_overlap(__Pyx_memviewslice *slice1,
+                                __Pyx_memviewslice *slice2,
+                                int ndim, size_t itemsize);
+
+/* Capsule.proto */
+static CYTHON_INLINE PyObject *__pyx_capsule_create(void *p, const char *sig);
+
+/* CIntFromPy.proto */
+static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
+
+/* CIntToPy.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_time_t(time_t value);
+
+/* CIntFromPy.proto */
+static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *);
+
+/* CIntFromPy.proto */
+static CYTHON_INLINE size_t __Pyx_PyInt_As_size_t(PyObject *);
+
+/* CIntToPy.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
+
 /* MemviewSliceCopyTemplate.proto */
 static __Pyx_memviewslice
 __pyx_memoryview_copy_new_contig(const __Pyx_memviewslice *from_mvs,
@@ -3022,21 +3038,6 @@ static CYTHON_INLINE int __pyx_sub_acquisition_count_locked(
 #define __PYX_XCLEAR_MEMVIEW(slice, have_gil) __Pyx_XCLEAR_MEMVIEW(slice, have_gil, __LINE__)
 static CYTHON_INLINE void __Pyx_INC_MEMVIEW(__Pyx_memviewslice *, int, int);
 static CYTHON_INLINE void __Pyx_XCLEAR_MEMVIEW(__Pyx_memviewslice *, int, int);
-
-/* CIntFromPy.proto */
-static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
-
-/* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_time_t(time_t value);
-
-/* CIntFromPy.proto */
-static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *);
-
-/* CIntFromPy.proto */
-static CYTHON_INLINE size_t __Pyx_PyInt_As_size_t(PyObject *);
-
-/* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
@@ -3074,10 +3075,10 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 static double __pyx_f_7plexsim_6models_7sampler_15RandomGenerator_rand(struct __pyx_obj_7plexsim_6models_7sampler_RandomGenerator *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static double __pyx_f_7plexsim_6models_7sampler_15RandomGenerator__rand(struct __pyx_obj_7plexsim_6models_7sampler_RandomGenerator *__pyx_v_self); /* proto*/
 static void __pyx_f_7plexsim_6models_7sampler_15RandomGenerator_fisher_yates(struct __pyx_obj_7plexsim_6models_7sampler_RandomGenerator *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t *__pyx_v_nodes, size_t __pyx_v_n, size_t __pyx_v_stop); /* proto*/
-static void __pyx_f_7plexsim_6models_7sampler_4MCMC_step(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodeids, PyObject *__pyx_v_ptr); /* proto*/
-static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodeids, PyObject *__pyx_v_ptr); /* proto*/
+static void __pyx_f_7plexsim_6models_7sampler_4MCMC_step(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *__pyx_v_self, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &__pyx_v_nodeids, PyObject *__pyx_v_ptr); /* proto*/
+static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *__pyx_v_self, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &__pyx_v_nodeids, PyObject *__pyx_v_ptr); /* proto*/
 static __pyx_t_7plexsim_6models_5types_state_t __pyx_f_7plexsim_6models_7sampler_4MCMC__sample_proposal(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *__pyx_v_self, PyObject *__pyx_v_ptr); /* proto*/
-static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodeids, PyObject *__pyx_v_ptr); /* proto*/
+static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *__pyx_v_self, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &__pyx_v_nodeids, PyObject *__pyx_v_ptr); /* proto*/
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_7ndarray_4base_base(PyArrayObject *__pyx_v_self); /* proto*/
 static CYTHON_INLINE PyArray_Descr *__pyx_f_5numpy_7ndarray_5descr_descr(PyArrayObject *__pyx_v_self); /* proto*/
 static CYTHON_INLINE int __pyx_f_5numpy_7ndarray_4ndim_ndim(PyArrayObject *__pyx_v_self); /* proto*/
@@ -3387,6 +3388,7 @@ static PyObject *indirect_contiguous = 0;
 static int __pyx_memoryview_thread_locks_used;
 static PyThread_type_lock __pyx_memoryview_thread_locks[8];
 static PyObject *__pyx_f_7plexsim_6models_7sampler___pyx_unpickle_MCMC__set_state(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, PyObject *); /*proto*/
+static PyObject *__pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_state_t(std::vector<__pyx_t_7plexsim_6models_5types_state_t>  const &); /*proto*/
 static int __pyx_array_allocate_buffer(struct __pyx_array_obj *); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char *, char *); /*proto*/
 static void *__pyx_align_pointer(void *, size_t); /*proto*/
@@ -5963,12 +5965,12 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_4MCMC_3rng___get__(struct __
 /* "plexsim/models/sampler.pyx":85
  * 
  * 
- *     cdef void step(self, node_id_t[::1] nodeids,\             # <<<<<<<<<<<<<<
+ *     cdef void step(self, vector[node_id_t] &nodeids,\             # <<<<<<<<<<<<<<
  *                    PyObject* ptr,\
  *                    ) nogil:
  */
 
-static void __pyx_f_7plexsim_6models_7sampler_4MCMC_step(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodeids, PyObject *__pyx_v_ptr) {
+static void __pyx_f_7plexsim_6models_7sampler_4MCMC_step(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *__pyx_v_self, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &__pyx_v_nodeids, PyObject *__pyx_v_ptr) {
   double __pyx_v_rng;
   int __pyx_t_1;
 
@@ -6034,7 +6036,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_step(struct __pyx_obj_7plexs
   /* "plexsim/models/sampler.pyx":85
  * 
  * 
- *     cdef void step(self, node_id_t[::1] nodeids,\             # <<<<<<<<<<<<<<
+ *     cdef void step(self, vector[node_id_t] &nodeids,\             # <<<<<<<<<<<<<<
  *                    PyObject* ptr,\
  *                    ) nogil:
  */
@@ -6047,48 +6049,45 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_step(struct __pyx_obj_7plexs
  *         return
  * 
  *     cdef void gibbs(self, \             # <<<<<<<<<<<<<<
- *                     node_id_t[::1] nodeids,\
+ *                     vector[node_id_t] &nodeids,\
  *                     PyObject* ptr,\
  */
 
-static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodeids, PyObject *__pyx_v_ptr) {
+static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *__pyx_v_self, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &__pyx_v_nodeids, PyObject *__pyx_v_ptr) {
   double __pyx_v_p;
   double __pyx_v_p_prop;
   double __pyx_v_p_cur;
   __pyx_t_7plexsim_6models_5types_state_t __pyx_v_currentState;
   __pyx_t_7plexsim_6models_5types_state_t __pyx_v_proposalState;
-  Py_ssize_t __pyx_v_idx;
-  Py_ssize_t __pyx_t_1;
-  Py_ssize_t __pyx_t_2;
-  Py_ssize_t __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
-  int __pyx_t_5;
+  std::vector<__pyx_t_7plexsim_6models_5types_node_id_t> ::size_type __pyx_v_idx;
+  std::vector<__pyx_t_7plexsim_6models_5types_node_id_t> ::size_type __pyx_t_1;
+  std::vector<__pyx_t_7plexsim_6models_5types_node_id_t> ::size_type __pyx_t_2;
+  std::vector<__pyx_t_7plexsim_6models_5types_node_id_t> ::size_type __pyx_t_3;
+  int __pyx_t_4;
 
   /* "plexsim/models/sampler.pyx":107
  *         cdef double p, p_prop, p_cur
  *         cdef state_t currentState, proposalState
- *         for idx in range(len(nodeids)):             # <<<<<<<<<<<<<<
+ *         for idx in range(nodeids.size()):             # <<<<<<<<<<<<<<
  *             currentState  = (<Model> ptr)._states[nodeids[idx]]
  *             proposalState = self._sample_proposal(ptr)
  */
-  __pyx_t_1 = __Pyx_MemoryView_Len(__pyx_v_nodeids); 
+  __pyx_t_1 = __pyx_v_nodeids.size();
   __pyx_t_2 = __pyx_t_1;
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_idx = __pyx_t_3;
 
     /* "plexsim/models/sampler.pyx":108
  *         cdef state_t currentState, proposalState
- *         for idx in range(len(nodeids)):
+ *         for idx in range(nodeids.size()):
  *             currentState  = (<Model> ptr)._states[nodeids[idx]]             # <<<<<<<<<<<<<<
  *             proposalState = self._sample_proposal(ptr)
  * 
  */
-    __pyx_t_4 = __pyx_v_idx;
-    if (__pyx_t_4 < 0) __pyx_t_4 += __pyx_v_nodeids.shape[0];
-    __pyx_v_currentState = (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states[(*((__pyx_t_7plexsim_6models_5types_node_id_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_node_id_t *) __pyx_v_nodeids.data) + __pyx_t_4)) )))]);
+    __pyx_v_currentState = (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states[(__pyx_v_nodeids[__pyx_v_idx])]);
 
     /* "plexsim/models/sampler.pyx":109
- *         for idx in range(len(nodeids)):
+ *         for idx in range(nodeids.size()):
  *             currentState  = (<Model> ptr)._states[nodeids[idx]]
  *             proposalState = self._sample_proposal(ptr)             # <<<<<<<<<<<<<<
  * 
@@ -6103,9 +6102,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plex
  * 
  *             p_cur  = (<Model> ptr).probability(currentState, nodeids[idx])
  */
-    __pyx_t_4 = __pyx_v_idx;
-    if (__pyx_t_4 < 0) __pyx_t_4 += __pyx_v_nodeids.shape[0];
-    __pyx_v_p_prop = ((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr), __pyx_v_proposalState, (*((__pyx_t_7plexsim_6models_5types_node_id_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_node_id_t *) __pyx_v_nodeids.data) + __pyx_t_4)) ))));
+    __pyx_v_p_prop = ((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr), __pyx_v_proposalState, (__pyx_v_nodeids[__pyx_v_idx]));
 
     /* "plexsim/models/sampler.pyx":113
  *             p_prop = (<Model> ptr).probability(proposalState, nodeids[idx])
@@ -6114,9 +6111,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plex
  *             p = p_prop / p_cur
  *             # p = p_prop / (p_prop + p_cur)
  */
-    __pyx_t_4 = __pyx_v_idx;
-    if (__pyx_t_4 < 0) __pyx_t_4 += __pyx_v_nodeids.shape[0];
-    __pyx_v_p_cur = ((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr), __pyx_v_currentState, (*((__pyx_t_7plexsim_6models_5types_node_id_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_node_id_t *) __pyx_v_nodeids.data) + __pyx_t_4)) ))));
+    __pyx_v_p_cur = ((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr), __pyx_v_currentState, (__pyx_v_nodeids[__pyx_v_idx]));
 
     /* "plexsim/models/sampler.pyx":114
  * 
@@ -6134,8 +6129,8 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plex
  *                 (<Model> ptr)._newstates[nodeids[idx]] = proposalState
  *         return
  */
-    __pyx_t_5 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->_rng->__pyx_vtab)->_rand(__pyx_v_self->_rng) < __pyx_v_p) != 0);
-    if (__pyx_t_5) {
+    __pyx_t_4 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->_rng->__pyx_vtab)->_rand(__pyx_v_self->_rng) < __pyx_v_p) != 0);
+    if (__pyx_t_4) {
 
       /* "plexsim/models/sampler.pyx":117
  *             # p = p_prop / (p_prop + p_cur)
@@ -6144,9 +6139,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plex
  *         return
  * 
  */
-      __pyx_t_4 = __pyx_v_idx;
-      if (__pyx_t_4 < 0) __pyx_t_4 += __pyx_v_nodeids.shape[0];
-      (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates[(*((__pyx_t_7plexsim_6models_5types_node_id_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_node_id_t *) __pyx_v_nodeids.data) + __pyx_t_4)) )))]) = __pyx_v_proposalState;
+      (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates[(__pyx_v_nodeids[__pyx_v_idx])]) = __pyx_v_proposalState;
 
       /* "plexsim/models/sampler.pyx":116
  *             p = p_prop / p_cur
@@ -6171,7 +6164,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plex
  *         return
  * 
  *     cdef void gibbs(self, \             # <<<<<<<<<<<<<<
- *                     node_id_t[::1] nodeids,\
+ *                     vector[node_id_t] &nodeids,\
  *                     PyObject* ptr,\
  */
 
@@ -6189,7 +6182,6 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plex
 
 static __pyx_t_7plexsim_6models_5types_state_t __pyx_f_7plexsim_6models_7sampler_4MCMC__sample_proposal(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *__pyx_v_self, PyObject *__pyx_v_ptr) {
   __pyx_t_7plexsim_6models_5types_state_t __pyx_r;
-  size_t __pyx_t_1;
 
   /* "plexsim/models/sampler.pyx":121
  * 
@@ -6198,8 +6190,7 @@ static __pyx_t_7plexsim_6models_5types_state_t __pyx_f_7plexsim_6models_7sampler
  *                 <size_t> (self._rng._rand() * (<Model> ptr)._nStates ) ]
  * 
  */
-  __pyx_t_1 = ((size_t)(((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->_rng->__pyx_vtab)->_rand(__pyx_v_self->_rng) * ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_nStates));
-  __pyx_r = (*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_agentStates.data) + __pyx_t_1)) )));
+  __pyx_r = (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_agentStates[((size_t)(((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->_rng->__pyx_vtab)->_rand(__pyx_v_self->_rng) * ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_nStates))]);
   goto __pyx_L0;
 
   /* "plexsim/models/sampler.pyx":120
@@ -6219,11 +6210,11 @@ static __pyx_t_7plexsim_6models_5types_state_t __pyx_f_7plexsim_6models_7sampler
  *                 <size_t> (self._rng._rand() * (<Model> ptr)._nStates ) ]
  * 
  *     cdef void recombination(self,\             # <<<<<<<<<<<<<<
- *                     node_id_t[::1] nodeids,\
+ *                     vector[node_id_t] &nodeids,\
  *                     PyObject* ptr,\
  */
 
-static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *__pyx_v_self, __Pyx_memviewslice __pyx_v_nodeids, PyObject *__pyx_v_ptr) {
+static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *__pyx_v_self, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &__pyx_v_nodeids, PyObject *__pyx_v_ptr) {
   size_t __pyx_v_n;
   double __pyx_v_den;
   double __pyx_v_nom;
@@ -6231,22 +6222,19 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
   size_t __pyx_v_idx;
   __pyx_t_7plexsim_6models_5types_state_t __pyx_v_state1;
   __pyx_t_7plexsim_6models_5types_state_t __pyx_v_state2;
-  __Pyx_memviewslice __pyx_v_backup = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_v_modified = { 0, 0, { 0 }, { 0 }, { 0 } };
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  __pyx_v_backup;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  __pyx_v_modified;
   __Pyx_RefNannyDeclarations
-  Py_ssize_t __pyx_t_1;
-  __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
   PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
-  int __pyx_t_7;
+  int __pyx_t_6;
+  size_t __pyx_t_7;
   size_t __pyx_t_8;
   size_t __pyx_t_9;
-  size_t __pyx_t_10;
-  size_t __pyx_t_11;
-  Py_ssize_t __pyx_t_12;
-  int __pyx_t_13;
+  int __pyx_t_10;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -6261,42 +6249,35 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
   /* "plexsim/models/sampler.pyx":131
  *             Return shuffled state to generate a proposal
  *         """
- *         cdef size_t n = len(nodeids)             # <<<<<<<<<<<<<<
+ *         cdef size_t n = nodeids.size()             # <<<<<<<<<<<<<<
  * 
  *         cdef double den, nom
  */
-  __pyx_t_1 = __Pyx_MemoryView_Len(__pyx_v_nodeids); 
-  __pyx_v_n = __pyx_t_1;
+  __pyx_v_n = __pyx_v_nodeids.size();
 
   /* "plexsim/models/sampler.pyx":138
  *         cdef state_t state1, state2
  * 
- *         cdef state_t[::1] backup   = (<Model> ptr).__states             # <<<<<<<<<<<<<<
- *         cdef state_t[::1] modified = (<Model> ptr).__states
+ *         cdef vector[state_t] backup   = (<Model> ptr).__states             # <<<<<<<<<<<<<<
+ *         cdef vector[state_t] modified = (<Model> ptr).__states
  *         with gil:
  */
-  __pyx_t_2 = ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_Model__states;
-  __PYX_INC_MEMVIEW(&__pyx_t_2, 0);
-  __pyx_v_backup = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_t_1 = ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_Model__states;
+  __pyx_v_backup = __PYX_STD_MOVE_IF_SUPPORTED(__pyx_t_1);
 
   /* "plexsim/models/sampler.pyx":139
  * 
- *         cdef state_t[::1] backup   = (<Model> ptr).__states
- *         cdef state_t[::1] modified = (<Model> ptr).__states             # <<<<<<<<<<<<<<
+ *         cdef vector[state_t] backup   = (<Model> ptr).__states
+ *         cdef vector[state_t] modified = (<Model> ptr).__states             # <<<<<<<<<<<<<<
  *         with gil:
  *             np.random.shuffle((<Model> ptr).__states)
  */
-  __pyx_t_2 = ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_Model__states;
-  __PYX_INC_MEMVIEW(&__pyx_t_2, 0);
-  __pyx_v_modified = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_t_1 = ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_Model__states;
+  __pyx_v_modified = __PYX_STD_MOVE_IF_SUPPORTED(__pyx_t_1);
 
   /* "plexsim/models/sampler.pyx":140
- *         cdef state_t[::1] backup   = (<Model> ptr).__states
- *         cdef state_t[::1] modified = (<Model> ptr).__states
+ *         cdef vector[state_t] backup   = (<Model> ptr).__states
+ *         cdef vector[state_t] modified = (<Model> ptr).__states
  *         with gil:             # <<<<<<<<<<<<<<
  *             np.random.shuffle((<Model> ptr).__states)
  *         for idx in range(1, n, 2):
@@ -6308,49 +6289,49 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
       /*try:*/ {
 
         /* "plexsim/models/sampler.pyx":141
- *         cdef state_t[::1] modified = (<Model> ptr).__states
+ *         cdef vector[state_t] modified = (<Model> ptr).__states
  *         with gil:
  *             np.random.shuffle((<Model> ptr).__states)             # <<<<<<<<<<<<<<
  *         for idx in range(1, n, 2):
  *             # obtain random pair
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 141, __pyx_L4_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 141, __pyx_L4_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_random); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 141, __pyx_L4_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_random); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 141, __pyx_L4_error)
-        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_shuffle); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 141, __pyx_L4_error)
+        __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_shuffle); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 141, __pyx_L4_error)
+        __pyx_t_4 = __pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_state_t(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_Model__states); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 141, __pyx_L4_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = __pyx_memoryview_fromslice(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_Model__states, 1, (PyObject *(*)(char *)) __pyx_memview_get_nn___pyx_t_7plexsim_6models_5types_state_t, (int (*)(char *, PyObject *)) __pyx_memview_set_nn___pyx_t_7plexsim_6models_5types_state_t, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 141, __pyx_L4_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_6 = NULL;
-        __pyx_t_7 = 0;
-        if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-          __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
-          if (likely(__pyx_t_6)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-            __Pyx_INCREF(__pyx_t_6);
+        __pyx_t_5 = NULL;
+        __pyx_t_6 = 0;
+        if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_5)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_5);
             __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_4, function);
-            __pyx_t_7 = 1;
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+            __pyx_t_6 = 1;
           }
         }
         {
-          PyObject *__pyx_callargs[2] = {__pyx_t_6, __pyx_t_5};
-          __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_7, 1+__pyx_t_7);
-          __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 141, __pyx_L4_error)
-          __Pyx_GOTREF(__pyx_t_3);
+          PyObject *__pyx_callargs[2] = {__pyx_t_5, __pyx_t_4};
+          __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
+          __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 141, __pyx_L4_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         }
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       }
 
       /* "plexsim/models/sampler.pyx":140
- *         cdef state_t[::1] backup   = (<Model> ptr).__states
- *         cdef state_t[::1] modified = (<Model> ptr).__states
+ *         cdef vector[state_t] backup   = (<Model> ptr).__states
+ *         cdef vector[state_t] modified = (<Model> ptr).__states
  *         with gil:             # <<<<<<<<<<<<<<
  *             np.random.shuffle((<Model> ptr).__states)
  *         for idx in range(1, n, 2):
@@ -6379,10 +6360,10 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  *             # obtain random pair
  *             idx = nodeids[idx - 1]
  */
-  __pyx_t_8 = __pyx_v_n;
-  __pyx_t_9 = __pyx_t_8;
-  for (__pyx_t_10 = 1; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=2) {
-    __pyx_v_idx = __pyx_t_10;
+  __pyx_t_7 = __pyx_v_n;
+  __pyx_t_8 = __pyx_t_7;
+  for (__pyx_t_9 = 1; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=2) {
+    __pyx_v_idx = __pyx_t_9;
 
     /* "plexsim/models/sampler.pyx":144
  *         for idx in range(1, n, 2):
@@ -6391,8 +6372,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  *             jdx = nodeids[idx]
  * 
  */
-    __pyx_t_11 = (__pyx_v_idx - 1);
-    __pyx_v_idx = (*((__pyx_t_7plexsim_6models_5types_node_id_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_node_id_t *) __pyx_v_nodeids.data) + __pyx_t_11)) )));
+    __pyx_v_idx = (__pyx_v_nodeids[(__pyx_v_idx - 1)]);
 
     /* "plexsim/models/sampler.pyx":145
  *             # obtain random pair
@@ -6401,8 +6381,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  * 
  *             (<Model> ptr)._states = &modified[0]
  */
-    __pyx_t_11 = __pyx_v_idx;
-    __pyx_v_jdx = (*((__pyx_t_7plexsim_6models_5types_node_id_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_node_id_t *) __pyx_v_nodeids.data) + __pyx_t_11)) )));
+    __pyx_v_jdx = (__pyx_v_nodeids[__pyx_v_idx]);
 
     /* "plexsim/models/sampler.pyx":147
  *             jdx = nodeids[idx]
@@ -6411,9 +6390,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  *             state1 = (<Model> ptr)._states[idx]
  *             state2 = (<Model> ptr)._states[jdx]
  */
-    __pyx_t_12 = 0;
-    if (__pyx_t_12 < 0) __pyx_t_12 += __pyx_v_modified.shape[0];
-    ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states = (&(*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) __pyx_v_modified.data) + __pyx_t_12)) ))));
+    ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states = (&(__pyx_v_modified[0]));
 
     /* "plexsim/models/sampler.pyx":148
  * 
@@ -6449,9 +6426,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  *             # swapped state
  *             nom = (<Model> ptr).probability(state2, idx) *\
  */
-    __pyx_t_12 = 0;
-    if (__pyx_t_12 < 0) __pyx_t_12 += __pyx_v_backup.shape[0];
-    ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states = (&(*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) __pyx_v_backup.data) + __pyx_t_12)) ))));
+    ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states = (&(__pyx_v_backup[0]));
 
     /* "plexsim/models/sampler.pyx":157
  *             (<Model> ptr)._states = &backup[0]
@@ -6469,8 +6444,8 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  *                 (<Model> ptr)._newstates[idx] = state2
  *                 (<Model> ptr)._newstates[jdx] = state1
  */
-    __pyx_t_13 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->_rng->__pyx_vtab)->_rand(__pyx_v_self->_rng) < (__pyx_v_nom / __pyx_v_den)) != 0);
-    if (__pyx_t_13) {
+    __pyx_t_10 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->_rng->__pyx_vtab)->_rand(__pyx_v_self->_rng) < (__pyx_v_nom / __pyx_v_den)) != 0);
+    if (__pyx_t_10) {
 
       /* "plexsim/models/sampler.pyx":162
  *             # accept
@@ -6508,8 +6483,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  *         return
  */
     /*else*/ {
-      __pyx_t_11 = __pyx_v_idx;
-      (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates[__pyx_v_idx]) = (*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) __pyx_v_backup.data) + __pyx_t_11)) )));
+      (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates[__pyx_v_idx]) = (__pyx_v_backup[__pyx_v_idx]);
 
       /* "plexsim/models/sampler.pyx":166
  *             else:
@@ -6518,8 +6492,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  *         return
  * 
  */
-      __pyx_t_11 = __pyx_v_jdx;
-      (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates[__pyx_v_jdx]) = (*((__pyx_t_7plexsim_6models_5types_state_t *) ( /* dim=0 */ ((char *) (((__pyx_t_7plexsim_6models_5types_state_t *) __pyx_v_backup.data) + __pyx_t_11)) )));
+      (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates[__pyx_v_jdx]) = (__pyx_v_backup[__pyx_v_jdx]);
     }
     __pyx_L8:;
   }
@@ -6537,7 +6510,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  *                 <size_t> (self._rng._rand() * (<Model> ptr)._nStates ) ]
  * 
  *     cdef void recombination(self,\             # <<<<<<<<<<<<<<
- *                     node_id_t[::1] nodeids,\
+ *                     vector[node_id_t] &nodeids,\
  *                     PyObject* ptr,\
  */
 
@@ -6546,25 +6519,16 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
   #ifdef WITH_THREAD
   __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
   #endif
-  __PYX_XCLEAR_MEMVIEW(&__pyx_t_2, 1);
+  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_WriteUnraisable("plexsim.models.sampler.MCMC.recombination", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   #ifdef WITH_THREAD
   __Pyx_PyGILState_Release(__pyx_gilstate_save);
   #endif
   __pyx_L0:;
-  #ifdef WITH_THREAD
-  __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-  #endif
-  __PYX_XCLEAR_MEMVIEW(&__pyx_v_backup, 1);
-  __PYX_XCLEAR_MEMVIEW(&__pyx_v_modified, 1);
-  __Pyx_RefNannyFinishContext();
-  #ifdef WITH_THREAD
-  __Pyx_PyGILState_Release(__pyx_gilstate_save);
-  #endif
+  __Pyx_RefNannyFinishContextNogil()
 }
 
 /* "plexsim/models/sampler.pyx":171
@@ -9196,6 +9160,145 @@ static CYTHON_INLINE PyObject *__pyx_f_7cpython_11contextvars_get_value_no_defau
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_pyvalue);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "vector.to_py":66
+ * 
+ * @cname("__pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_state_t")
+ * cdef object __pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_state_t(const vector[X]& v):             # <<<<<<<<<<<<<<
+ *     if v.size() > <size_t> PY_SSIZE_T_MAX:
+ *         raise MemoryError()
+ */
+
+static PyObject *__pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_state_t(std::vector<__pyx_t_7plexsim_6models_5types_state_t>  const &__pyx_v_v) {
+  PyObject *__pyx_v_o = NULL;
+  Py_ssize_t __pyx_v_i;
+  PyObject *__pyx_v_item = 0;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  size_t __pyx_t_3;
+  size_t __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_state_t", 0);
+
+  /* "vector.to_py":67
+ * @cname("__pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_state_t")
+ * cdef object __pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_state_t(const vector[X]& v):
+ *     if v.size() > <size_t> PY_SSIZE_T_MAX:             # <<<<<<<<<<<<<<
+ *         raise MemoryError()
+ * 
+ */
+  __pyx_t_1 = ((__pyx_v_v.size() > ((size_t)PY_SSIZE_T_MAX)) != 0);
+  if (unlikely(__pyx_t_1)) {
+
+    /* "vector.to_py":68
+ * cdef object __pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_state_t(const vector[X]& v):
+ *     if v.size() > <size_t> PY_SSIZE_T_MAX:
+ *         raise MemoryError()             # <<<<<<<<<<<<<<
+ * 
+ *     o = PyList_New(<Py_ssize_t> v.size())
+ */
+    PyErr_NoMemory(); __PYX_ERR(1, 68, __pyx_L1_error)
+
+    /* "vector.to_py":67
+ * @cname("__pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_state_t")
+ * cdef object __pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_state_t(const vector[X]& v):
+ *     if v.size() > <size_t> PY_SSIZE_T_MAX:             # <<<<<<<<<<<<<<
+ *         raise MemoryError()
+ * 
+ */
+  }
+
+  /* "vector.to_py":70
+ *         raise MemoryError()
+ * 
+ *     o = PyList_New(<Py_ssize_t> v.size())             # <<<<<<<<<<<<<<
+ * 
+ *     cdef Py_ssize_t i
+ */
+  __pyx_t_2 = PyList_New(((Py_ssize_t)__pyx_v_v.size())); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 70, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_v_o = ((PyObject*)__pyx_t_2);
+  __pyx_t_2 = 0;
+
+  /* "vector.to_py":75
+ *     cdef object item
+ * 
+ *     for i in range(v.size()):             # <<<<<<<<<<<<<<
+ *         item = v[i]
+ *         Py_INCREF(item)
+ */
+  __pyx_t_3 = __pyx_v_v.size();
+  __pyx_t_4 = __pyx_t_3;
+  for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
+    __pyx_v_i = __pyx_t_5;
+
+    /* "vector.to_py":76
+ * 
+ *     for i in range(v.size()):
+ *         item = v[i]             # <<<<<<<<<<<<<<
+ *         Py_INCREF(item)
+ *         PyList_SET_ITEM(o, i, item)
+ */
+    __pyx_t_2 = PyFloat_FromDouble((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 76, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_XDECREF_SET(__pyx_v_item, __pyx_t_2);
+    __pyx_t_2 = 0;
+
+    /* "vector.to_py":77
+ *     for i in range(v.size()):
+ *         item = v[i]
+ *         Py_INCREF(item)             # <<<<<<<<<<<<<<
+ *         PyList_SET_ITEM(o, i, item)
+ * 
+ */
+    Py_INCREF(__pyx_v_item);
+
+    /* "vector.to_py":78
+ *         item = v[i]
+ *         Py_INCREF(item)
+ *         PyList_SET_ITEM(o, i, item)             # <<<<<<<<<<<<<<
+ * 
+ *     return o
+ */
+    PyList_SET_ITEM(__pyx_v_o, __pyx_v_i, __pyx_v_item);
+  }
+
+  /* "vector.to_py":80
+ *         PyList_SET_ITEM(o, i, item)
+ * 
+ *     return o             # <<<<<<<<<<<<<<
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_o);
+  __pyx_r = __pyx_v_o;
+  goto __pyx_L0;
+
+  /* "vector.to_py":66
+ * 
+ * @cname("__pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_state_t")
+ * cdef object __pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_state_t(const vector[X]& v):             # <<<<<<<<<<<<<<
+ *     if v.size() > <size_t> PY_SSIZE_T_MAX:
+ *         raise MemoryError()
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_state_t", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_o);
+  __Pyx_XDECREF(__pyx_v_item);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -24218,7 +24321,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   __pyx_builtin_AssertionError = __Pyx_GetBuiltinName(__pyx_n_s_AssertionError); if (!__pyx_builtin_AssertionError) __PYX_ERR(0, 176, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 987, __pyx_L1_error)
-  __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 151, __pyx_L1_error)
+  __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 68, __pyx_L1_error)
   __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(1, 154, __pyx_L1_error)
   __pyx_builtin_Ellipsis = __Pyx_GetBuiltinName(__pyx_n_s_Ellipsis); if (!__pyx_builtin_Ellipsis) __PYX_ERR(1, 418, __pyx_L1_error)
   __pyx_builtin_id = __Pyx_GetBuiltinName(__pyx_n_s_id); if (!__pyx_builtin_id) __PYX_ERR(1, 630, __pyx_L1_error)
@@ -24680,9 +24783,9 @@ static int __Pyx_modinit_type_init_code(void) {
   if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_7plexsim_6models_7sampler_RandomGenerator) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   #endif
   __pyx_vtabptr_7plexsim_6models_7sampler_MCMC = &__pyx_vtable_7plexsim_6models_7sampler_MCMC;
-  __pyx_vtable_7plexsim_6models_7sampler_MCMC.recombination = (void (*)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, __Pyx_memviewslice, PyObject *))__pyx_f_7plexsim_6models_7sampler_4MCMC_recombination;
-  __pyx_vtable_7plexsim_6models_7sampler_MCMC.gibbs = (void (*)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, __Pyx_memviewslice, PyObject *))__pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs;
-  __pyx_vtable_7plexsim_6models_7sampler_MCMC.step = (void (*)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, __Pyx_memviewslice, PyObject *))__pyx_f_7plexsim_6models_7sampler_4MCMC_step;
+  __pyx_vtable_7plexsim_6models_7sampler_MCMC.recombination = (void (*)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &, PyObject *))__pyx_f_7plexsim_6models_7sampler_4MCMC_recombination;
+  __pyx_vtable_7plexsim_6models_7sampler_MCMC.gibbs = (void (*)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &, PyObject *))__pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs;
+  __pyx_vtable_7plexsim_6models_7sampler_MCMC.step = (void (*)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &, PyObject *))__pyx_f_7plexsim_6models_7sampler_4MCMC_step;
   __pyx_vtable_7plexsim_6models_7sampler_MCMC._sample_proposal = (__pyx_t_7plexsim_6models_5types_state_t (*)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, PyObject *))__pyx_f_7plexsim_6models_7sampler_4MCMC__sample_proposal;
   #if CYTHON_USE_TYPE_SPECS
   __pyx_ptype_7plexsim_6models_7sampler_MCMC = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_7plexsim_6models_7sampler_MCMC_spec, NULL); if (unlikely(!__pyx_ptype_7plexsim_6models_7sampler_MCMC)) __PYX_ERR(0, 63, __pyx_L1_error)
@@ -29591,98 +29694,6 @@ bad:
 }
 #endif
 
-#if PY_MAJOR_VERSION < 3
-static int __Pyx_GetBuffer(PyObject *obj, Py_buffer *view, int flags) {
-    __Pyx_TypeName obj_type_name;
-    if (PyObject_CheckBuffer(obj)) return PyObject_GetBuffer(obj, view, flags);
-        if (__Pyx_TypeCheck(obj, __pyx_array_type)) return __pyx_array_getbuffer(obj, view, flags);
-        if (__Pyx_TypeCheck(obj, __pyx_memoryview_type)) return __pyx_memoryview_getbuffer(obj, view, flags);
-    obj_type_name = __Pyx_PyType_GetName(Py_TYPE(obj));
-    PyErr_Format(PyExc_TypeError,
-                 "'" __Pyx_FMT_TYPENAME "' does not have the buffer interface",
-                 obj_type_name);
-    __Pyx_DECREF_TypeName(obj_type_name);
-    return -1;
-}
-static void __Pyx_ReleaseBuffer(Py_buffer *view) {
-    PyObject *obj = view->obj;
-    if (!obj) return;
-    if (PyObject_CheckBuffer(obj)) {
-        PyBuffer_Release(view);
-        return;
-    }
-    if ((0)) {}
-    view->obj = NULL;
-    Py_DECREF(obj);
-}
-#endif
-
-
-/* MemviewSliceIsContig */
-static int
-__pyx_memviewslice_is_contig(const __Pyx_memviewslice mvs, char order, int ndim)
-{
-    int i, index, step, start;
-    Py_ssize_t itemsize = mvs.memview->view.itemsize;
-    if (order == 'F') {
-        step = 1;
-        start = 0;
-    } else {
-        step = -1;
-        start = ndim - 1;
-    }
-    for (i = 0; i < ndim; i++) {
-        index = start + step * i;
-        if (mvs.suboffsets[index] >= 0 || mvs.strides[index] != itemsize)
-            return 0;
-        itemsize *= mvs.shape[index];
-    }
-    return 1;
-}
-
-/* OverlappingSlices */
-static void
-__pyx_get_array_memory_extents(__Pyx_memviewslice *slice,
-                               void **out_start, void **out_end,
-                               int ndim, size_t itemsize)
-{
-    char *start, *end;
-    int i;
-    start = end = slice->data;
-    for (i = 0; i < ndim; i++) {
-        Py_ssize_t stride = slice->strides[i];
-        Py_ssize_t extent = slice->shape[i];
-        if (extent == 0) {
-            *out_start = *out_end = start;
-            return;
-        } else {
-            if (stride > 0)
-                end += stride * (extent - 1);
-            else
-                start += stride * (extent - 1);
-        }
-    }
-    *out_start = start;
-    *out_end = end + itemsize;
-}
-static int
-__pyx_slices_overlap(__Pyx_memviewslice *slice1,
-                     __Pyx_memviewslice *slice2,
-                     int ndim, size_t itemsize)
-{
-    void *start1, *end1, *start2, *end2;
-    __pyx_get_array_memory_extents(slice1, &start1, &end1, ndim, itemsize);
-    __pyx_get_array_memory_extents(slice2, &start2, &end2, ndim, itemsize);
-    return (start1 < end2) && (start2 < end1);
-}
-
-/* Capsule */
-static CYTHON_INLINE PyObject *
-__pyx_capsule_create(void *p, const char *sig)
-{
-    return PyCapsule_New(p, sig, NULL);
-}
-
 /* CIntFromPyVerify */
 #define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
     __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 0)
@@ -29704,30 +29715,6 @@ __pyx_capsule_create(void *p, const char *sig)
         }\
         return (target_type) value;\
     }
-
-/* MemviewDtypeToObject */
-static CYTHON_INLINE PyObject *__pyx_memview_get_nn___pyx_t_7plexsim_6models_5types_node_id_t(const char *itemp) {
-    return (PyObject *) __Pyx_PyInt_FromSize_t(*(__pyx_t_7plexsim_6models_5types_node_id_t *) itemp);
-}
-static CYTHON_INLINE int __pyx_memview_set_nn___pyx_t_7plexsim_6models_5types_node_id_t(const char *itemp, PyObject *obj) {
-    __pyx_t_7plexsim_6models_5types_node_id_t value = __Pyx_PyInt_As_size_t(obj);
-    if (unlikely((value == (size_t)-1) && PyErr_Occurred()))
-        return 0;
-    *(__pyx_t_7plexsim_6models_5types_node_id_t *) itemp = value;
-    return 1;
-}
-
-/* MemviewDtypeToObject */
-static CYTHON_INLINE PyObject *__pyx_memview_get_nn___pyx_t_7plexsim_6models_5types_state_t(const char *itemp) {
-    return (PyObject *) PyFloat_FromDouble(*(__pyx_t_7plexsim_6models_5types_state_t *) itemp);
-}
-static CYTHON_INLINE int __pyx_memview_set_nn___pyx_t_7plexsim_6models_5types_state_t(const char *itemp, PyObject *obj) {
-    __pyx_t_7plexsim_6models_5types_state_t value = __pyx_PyFloat_AsDouble(obj);
-    if (unlikely((value == (double)-1) && PyErr_Occurred()))
-        return 0;
-    *(__pyx_t_7plexsim_6models_5types_state_t *) itemp = value;
-    return 1;
-}
 
 /* Declarations */
 #if CYTHON_CCOMPLEX
@@ -30037,206 +30024,96 @@ static CYTHON_INLINE int __pyx_memview_set_nn___pyx_t_7plexsim_6models_5types_st
     #endif
 #endif
 
-/* MemviewSliceCopyTemplate */
-static __Pyx_memviewslice
-__pyx_memoryview_copy_new_contig(const __Pyx_memviewslice *from_mvs,
-                                 const char *mode, int ndim,
-                                 size_t sizeof_dtype, int contig_flag,
-                                 int dtype_is_object)
+#if PY_MAJOR_VERSION < 3
+static int __Pyx_GetBuffer(PyObject *obj, Py_buffer *view, int flags) {
+    __Pyx_TypeName obj_type_name;
+    if (PyObject_CheckBuffer(obj)) return PyObject_GetBuffer(obj, view, flags);
+        if (__Pyx_TypeCheck(obj, __pyx_array_type)) return __pyx_array_getbuffer(obj, view, flags);
+        if (__Pyx_TypeCheck(obj, __pyx_memoryview_type)) return __pyx_memoryview_getbuffer(obj, view, flags);
+    obj_type_name = __Pyx_PyType_GetName(Py_TYPE(obj));
+    PyErr_Format(PyExc_TypeError,
+                 "'" __Pyx_FMT_TYPENAME "' does not have the buffer interface",
+                 obj_type_name);
+    __Pyx_DECREF_TypeName(obj_type_name);
+    return -1;
+}
+static void __Pyx_ReleaseBuffer(Py_buffer *view) {
+    PyObject *obj = view->obj;
+    if (!obj) return;
+    if (PyObject_CheckBuffer(obj)) {
+        PyBuffer_Release(view);
+        return;
+    }
+    if ((0)) {}
+    view->obj = NULL;
+    Py_DECREF(obj);
+}
+#endif
+
+
+/* MemviewSliceIsContig */
+static int
+__pyx_memviewslice_is_contig(const __Pyx_memviewslice mvs, char order, int ndim)
 {
-    __Pyx_RefNannyDeclarations
-    int i;
-    __Pyx_memviewslice new_mvs = { 0, 0, { 0 }, { 0 }, { 0 } };
-    struct __pyx_memoryview_obj *from_memview = from_mvs->memview;
-    Py_buffer *buf = &from_memview->view;
-    PyObject *shape_tuple = NULL;
-    PyObject *temp_int = NULL;
-    struct __pyx_array_obj *array_obj = NULL;
-    struct __pyx_memoryview_obj *memview_obj = NULL;
-    __Pyx_RefNannySetupContext("__pyx_memoryview_copy_new_contig", 0);
+    int i, index, step, start;
+    Py_ssize_t itemsize = mvs.memview->view.itemsize;
+    if (order == 'F') {
+        step = 1;
+        start = 0;
+    } else {
+        step = -1;
+        start = ndim - 1;
+    }
     for (i = 0; i < ndim; i++) {
-        if (unlikely(from_mvs->suboffsets[i] >= 0)) {
-            PyErr_Format(PyExc_ValueError, "Cannot copy memoryview slice with "
-                                           "indirect dimensions (axis %d)", i);
-            goto fail;
-        }
+        index = start + step * i;
+        if (mvs.suboffsets[index] >= 0 || mvs.strides[index] != itemsize)
+            return 0;
+        itemsize *= mvs.shape[index];
     }
-    shape_tuple = PyTuple_New(ndim);
-    if (unlikely(!shape_tuple)) {
-        goto fail;
-    }
-    __Pyx_GOTREF(shape_tuple);
-    for(i = 0; i < ndim; i++) {
-        temp_int = PyInt_FromSsize_t(from_mvs->shape[i]);
-        if(unlikely(!temp_int)) {
-            goto fail;
-        } else {
-            PyTuple_SET_ITEM(shape_tuple, i, temp_int);
-            temp_int = NULL;
-        }
-    }
-    array_obj = __pyx_array_new(shape_tuple, sizeof_dtype, buf->format, (char *) mode, NULL);
-    if (unlikely(!array_obj)) {
-        goto fail;
-    }
-    __Pyx_GOTREF(array_obj);
-    memview_obj = (struct __pyx_memoryview_obj *) __pyx_memoryview_new(
-                                    (PyObject *) array_obj, contig_flag,
-                                    dtype_is_object,
-                                    from_mvs->memview->typeinfo);
-    if (unlikely(!memview_obj))
-        goto fail;
-    if (unlikely(__Pyx_init_memviewslice(memview_obj, ndim, &new_mvs, 1) < 0))
-        goto fail;
-    if (unlikely(__pyx_memoryview_copy_contents(*from_mvs, new_mvs, ndim, ndim,
-                                                dtype_is_object) < 0))
-        goto fail;
-    goto no_fail;
-fail:
-    __Pyx_XDECREF(new_mvs.memview);
-    new_mvs.memview = NULL;
-    new_mvs.data = NULL;
-no_fail:
-    __Pyx_XDECREF(shape_tuple);
-    __Pyx_XDECREF(temp_int);
-    __Pyx_XDECREF(array_obj);
-    __Pyx_RefNannyFinishContext();
-    return new_mvs;
+    return 1;
 }
 
-/* MemviewSliceInit */
-static int
-__Pyx_init_memviewslice(struct __pyx_memoryview_obj *memview,
-                        int ndim,
-                        __Pyx_memviewslice *memviewslice,
-                        int memview_is_new_reference)
+/* OverlappingSlices */
+static void
+__pyx_get_array_memory_extents(__Pyx_memviewslice *slice,
+                               void **out_start, void **out_end,
+                               int ndim, size_t itemsize)
 {
-    __Pyx_RefNannyDeclarations
-    int i, retval=-1;
-    Py_buffer *buf = &memview->view;
-    __Pyx_RefNannySetupContext("init_memviewslice", 0);
-    if (unlikely(memviewslice->memview || memviewslice->data)) {
-        PyErr_SetString(PyExc_ValueError,
-            "memviewslice is already initialized!");
-        goto fail;
-    }
-    if (buf->strides) {
-        for (i = 0; i < ndim; i++) {
-            memviewslice->strides[i] = buf->strides[i];
-        }
-    } else {
-        Py_ssize_t stride = buf->itemsize;
-        for (i = ndim - 1; i >= 0; i--) {
-            memviewslice->strides[i] = stride;
-            stride *= buf->shape[i];
-        }
-    }
+    char *start, *end;
+    int i;
+    start = end = slice->data;
     for (i = 0; i < ndim; i++) {
-        memviewslice->shape[i]   = buf->shape[i];
-        if (buf->suboffsets) {
-            memviewslice->suboffsets[i] = buf->suboffsets[i];
+        Py_ssize_t stride = slice->strides[i];
+        Py_ssize_t extent = slice->shape[i];
+        if (extent == 0) {
+            *out_start = *out_end = start;
+            return;
         } else {
-            memviewslice->suboffsets[i] = -1;
+            if (stride > 0)
+                end += stride * (extent - 1);
+            else
+                start += stride * (extent - 1);
         }
     }
-    memviewslice->memview = memview;
-    memviewslice->data = (char *)buf->buf;
-    if (__pyx_add_acquisition_count(memview) == 0 && !memview_is_new_reference) {
-        Py_INCREF(memview);
-    }
-    retval = 0;
-    goto no_fail;
-fail:
-    memviewslice->memview = 0;
-    memviewslice->data = 0;
-    retval = -1;
-no_fail:
-    __Pyx_RefNannyFinishContext();
-    return retval;
+    *out_start = start;
+    *out_end = end + itemsize;
 }
-#ifndef Py_NO_RETURN
-#define Py_NO_RETURN
-#endif
-static void __pyx_fatalerror(const char *fmt, ...) Py_NO_RETURN {
-    va_list vargs;
-    char msg[200];
-#ifdef HAVE_STDARG_PROTOTYPES
-    va_start(vargs, fmt);
-#else
-    va_start(vargs);
-#endif
-    vsnprintf(msg, 200, fmt, vargs);
-    va_end(vargs);
-    Py_FatalError(msg);
-}
-static CYTHON_INLINE int
-__pyx_add_acquisition_count_locked(__pyx_atomic_int *acquisition_count,
-                                   PyThread_type_lock lock)
+static int
+__pyx_slices_overlap(__Pyx_memviewslice *slice1,
+                     __Pyx_memviewslice *slice2,
+                     int ndim, size_t itemsize)
 {
-    int result;
-    PyThread_acquire_lock(lock, 1);
-    result = (*acquisition_count)++;
-    PyThread_release_lock(lock);
-    return result;
+    void *start1, *end1, *start2, *end2;
+    __pyx_get_array_memory_extents(slice1, &start1, &end1, ndim, itemsize);
+    __pyx_get_array_memory_extents(slice2, &start2, &end2, ndim, itemsize);
+    return (start1 < end2) && (start2 < end1);
 }
-static CYTHON_INLINE int
-__pyx_sub_acquisition_count_locked(__pyx_atomic_int *acquisition_count,
-                                   PyThread_type_lock lock)
+
+/* Capsule */
+static CYTHON_INLINE PyObject *
+__pyx_capsule_create(void *p, const char *sig)
 {
-    int result;
-    PyThread_acquire_lock(lock, 1);
-    result = (*acquisition_count)--;
-    PyThread_release_lock(lock);
-    return result;
-}
-static CYTHON_INLINE void
-__Pyx_INC_MEMVIEW(__Pyx_memviewslice *memslice, int have_gil, int lineno)
-{
-    __pyx_atomic_int_type old_acquisition_count;
-    struct __pyx_memoryview_obj *memview = memslice->memview;
-    if (unlikely(!memview || (PyObject *) memview == Py_None)) {
-        return;
-    }
-    old_acquisition_count = __pyx_add_acquisition_count(memview);
-    if (unlikely(old_acquisition_count <= 0)) {
-        if (likely(old_acquisition_count == 0)) {
-            if (have_gil) {
-                Py_INCREF((PyObject *) memview);
-            } else {
-                PyGILState_STATE _gilstate = PyGILState_Ensure();
-                Py_INCREF((PyObject *) memview);
-                PyGILState_Release(_gilstate);
-            }
-        } else {
-            __pyx_fatalerror("Acquisition count is %d (line %d)",
-                             __pyx_get_slice_count(memview), lineno);
-        }
-    }
-}
-static CYTHON_INLINE void __Pyx_XCLEAR_MEMVIEW(__Pyx_memviewslice *memslice,
-                                             int have_gil, int lineno) {
-    __pyx_atomic_int_type old_acquisition_count;
-    struct __pyx_memoryview_obj *memview = memslice->memview;
-    if (unlikely(!memview || (PyObject *) memview == Py_None)) {
-        memslice->memview = NULL;
-        return;
-    }
-    old_acquisition_count = __pyx_sub_acquisition_count(memview);
-    memslice->data = NULL;
-    if (likely(old_acquisition_count > 1)) {
-        memslice->memview = NULL;
-    } else if (likely(old_acquisition_count == 1)) {
-        if (have_gil) {
-            Py_CLEAR(memslice->memview);
-        } else {
-            PyGILState_STATE _gilstate = PyGILState_Ensure();
-            Py_CLEAR(memslice->memview);
-            PyGILState_Release(_gilstate);
-        }
-    } else {
-        __pyx_fatalerror("Acquisition count is %d (line %d)",
-                         __pyx_get_slice_count(memview), lineno);
-    }
+    return PyCapsule_New(p, sig, NULL);
 }
 
 /* CIntFromPy */
@@ -30900,6 +30777,208 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
         unsigned char *bytes = (unsigned char *)&value;
         return _PyLong_FromByteArray(bytes, sizeof(long),
                                      little, !is_unsigned);
+    }
+}
+
+/* MemviewSliceCopyTemplate */
+static __Pyx_memviewslice
+__pyx_memoryview_copy_new_contig(const __Pyx_memviewslice *from_mvs,
+                                 const char *mode, int ndim,
+                                 size_t sizeof_dtype, int contig_flag,
+                                 int dtype_is_object)
+{
+    __Pyx_RefNannyDeclarations
+    int i;
+    __Pyx_memviewslice new_mvs = { 0, 0, { 0 }, { 0 }, { 0 } };
+    struct __pyx_memoryview_obj *from_memview = from_mvs->memview;
+    Py_buffer *buf = &from_memview->view;
+    PyObject *shape_tuple = NULL;
+    PyObject *temp_int = NULL;
+    struct __pyx_array_obj *array_obj = NULL;
+    struct __pyx_memoryview_obj *memview_obj = NULL;
+    __Pyx_RefNannySetupContext("__pyx_memoryview_copy_new_contig", 0);
+    for (i = 0; i < ndim; i++) {
+        if (unlikely(from_mvs->suboffsets[i] >= 0)) {
+            PyErr_Format(PyExc_ValueError, "Cannot copy memoryview slice with "
+                                           "indirect dimensions (axis %d)", i);
+            goto fail;
+        }
+    }
+    shape_tuple = PyTuple_New(ndim);
+    if (unlikely(!shape_tuple)) {
+        goto fail;
+    }
+    __Pyx_GOTREF(shape_tuple);
+    for(i = 0; i < ndim; i++) {
+        temp_int = PyInt_FromSsize_t(from_mvs->shape[i]);
+        if(unlikely(!temp_int)) {
+            goto fail;
+        } else {
+            PyTuple_SET_ITEM(shape_tuple, i, temp_int);
+            temp_int = NULL;
+        }
+    }
+    array_obj = __pyx_array_new(shape_tuple, sizeof_dtype, buf->format, (char *) mode, NULL);
+    if (unlikely(!array_obj)) {
+        goto fail;
+    }
+    __Pyx_GOTREF(array_obj);
+    memview_obj = (struct __pyx_memoryview_obj *) __pyx_memoryview_new(
+                                    (PyObject *) array_obj, contig_flag,
+                                    dtype_is_object,
+                                    from_mvs->memview->typeinfo);
+    if (unlikely(!memview_obj))
+        goto fail;
+    if (unlikely(__Pyx_init_memviewslice(memview_obj, ndim, &new_mvs, 1) < 0))
+        goto fail;
+    if (unlikely(__pyx_memoryview_copy_contents(*from_mvs, new_mvs, ndim, ndim,
+                                                dtype_is_object) < 0))
+        goto fail;
+    goto no_fail;
+fail:
+    __Pyx_XDECREF(new_mvs.memview);
+    new_mvs.memview = NULL;
+    new_mvs.data = NULL;
+no_fail:
+    __Pyx_XDECREF(shape_tuple);
+    __Pyx_XDECREF(temp_int);
+    __Pyx_XDECREF(array_obj);
+    __Pyx_RefNannyFinishContext();
+    return new_mvs;
+}
+
+/* MemviewSliceInit */
+static int
+__Pyx_init_memviewslice(struct __pyx_memoryview_obj *memview,
+                        int ndim,
+                        __Pyx_memviewslice *memviewslice,
+                        int memview_is_new_reference)
+{
+    __Pyx_RefNannyDeclarations
+    int i, retval=-1;
+    Py_buffer *buf = &memview->view;
+    __Pyx_RefNannySetupContext("init_memviewslice", 0);
+    if (unlikely(memviewslice->memview || memviewslice->data)) {
+        PyErr_SetString(PyExc_ValueError,
+            "memviewslice is already initialized!");
+        goto fail;
+    }
+    if (buf->strides) {
+        for (i = 0; i < ndim; i++) {
+            memviewslice->strides[i] = buf->strides[i];
+        }
+    } else {
+        Py_ssize_t stride = buf->itemsize;
+        for (i = ndim - 1; i >= 0; i--) {
+            memviewslice->strides[i] = stride;
+            stride *= buf->shape[i];
+        }
+    }
+    for (i = 0; i < ndim; i++) {
+        memviewslice->shape[i]   = buf->shape[i];
+        if (buf->suboffsets) {
+            memviewslice->suboffsets[i] = buf->suboffsets[i];
+        } else {
+            memviewslice->suboffsets[i] = -1;
+        }
+    }
+    memviewslice->memview = memview;
+    memviewslice->data = (char *)buf->buf;
+    if (__pyx_add_acquisition_count(memview) == 0 && !memview_is_new_reference) {
+        Py_INCREF(memview);
+    }
+    retval = 0;
+    goto no_fail;
+fail:
+    memviewslice->memview = 0;
+    memviewslice->data = 0;
+    retval = -1;
+no_fail:
+    __Pyx_RefNannyFinishContext();
+    return retval;
+}
+#ifndef Py_NO_RETURN
+#define Py_NO_RETURN
+#endif
+static void __pyx_fatalerror(const char *fmt, ...) Py_NO_RETURN {
+    va_list vargs;
+    char msg[200];
+#ifdef HAVE_STDARG_PROTOTYPES
+    va_start(vargs, fmt);
+#else
+    va_start(vargs);
+#endif
+    vsnprintf(msg, 200, fmt, vargs);
+    va_end(vargs);
+    Py_FatalError(msg);
+}
+static CYTHON_INLINE int
+__pyx_add_acquisition_count_locked(__pyx_atomic_int *acquisition_count,
+                                   PyThread_type_lock lock)
+{
+    int result;
+    PyThread_acquire_lock(lock, 1);
+    result = (*acquisition_count)++;
+    PyThread_release_lock(lock);
+    return result;
+}
+static CYTHON_INLINE int
+__pyx_sub_acquisition_count_locked(__pyx_atomic_int *acquisition_count,
+                                   PyThread_type_lock lock)
+{
+    int result;
+    PyThread_acquire_lock(lock, 1);
+    result = (*acquisition_count)--;
+    PyThread_release_lock(lock);
+    return result;
+}
+static CYTHON_INLINE void
+__Pyx_INC_MEMVIEW(__Pyx_memviewslice *memslice, int have_gil, int lineno)
+{
+    __pyx_atomic_int_type old_acquisition_count;
+    struct __pyx_memoryview_obj *memview = memslice->memview;
+    if (unlikely(!memview || (PyObject *) memview == Py_None)) {
+        return;
+    }
+    old_acquisition_count = __pyx_add_acquisition_count(memview);
+    if (unlikely(old_acquisition_count <= 0)) {
+        if (likely(old_acquisition_count == 0)) {
+            if (have_gil) {
+                Py_INCREF((PyObject *) memview);
+            } else {
+                PyGILState_STATE _gilstate = PyGILState_Ensure();
+                Py_INCREF((PyObject *) memview);
+                PyGILState_Release(_gilstate);
+            }
+        } else {
+            __pyx_fatalerror("Acquisition count is %d (line %d)",
+                             __pyx_get_slice_count(memview), lineno);
+        }
+    }
+}
+static CYTHON_INLINE void __Pyx_XCLEAR_MEMVIEW(__Pyx_memviewslice *memslice,
+                                             int have_gil, int lineno) {
+    __pyx_atomic_int_type old_acquisition_count;
+    struct __pyx_memoryview_obj *memview = memslice->memview;
+    if (unlikely(!memview || (PyObject *) memview == Py_None)) {
+        memslice->memview = NULL;
+        return;
+    }
+    old_acquisition_count = __pyx_sub_acquisition_count(memview);
+    memslice->data = NULL;
+    if (likely(old_acquisition_count > 1)) {
+        memslice->memview = NULL;
+    } else if (likely(old_acquisition_count == 1)) {
+        if (have_gil) {
+            Py_CLEAR(memslice->memview);
+        } else {
+            PyGILState_STATE _gilstate = PyGILState_Ensure();
+            Py_CLEAR(memslice->memview);
+            PyGILState_Release(_gilstate);
+        }
+    } else {
+        __pyx_fatalerror("Acquisition count is %d (line %d)",
+                         __pyx_get_slice_count(memview), lineno);
     }
 }
 

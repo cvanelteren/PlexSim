@@ -122,7 +122,7 @@ cdef class Model:
         self.ptr = <PyObject*> self
        
 
-    cdef state_t[::1]  _updateState(self, node_id_t[::1] nodesToUpdate) nogil:
+    cdef vector[state_t]  _updateState(self, vector[node_id_t] &nodesToUpdate) nogil:
         """Efficient cython update state. Only callable from cython mode.
 
         Parameters
@@ -137,7 +137,7 @@ cdef class Model:
         if self._use_mcmc:
             self._mcmc.step(nodesToUpdate, <PyObject *> self)
         else:
-            for node in range(nodesToUpdate.shape[0]):
+            for node in range(nodesToUpdate.size()):
                 node = nodesToUpdate[node]
                 self._apply_nudge(node, backup)
                 self._step(node)
@@ -254,7 +254,7 @@ cdef class Model:
         for mi in range(0, self._memorySize):
             if mi == 0:
                 for node in range(self.adj._nNodes):
-                    self._memory[mi, node] = self._states[node]
+                    self._memory[mi][node] = self._states[node]
             else:
                 self._memory[mi] = self._memory[mi - 1]
         return
@@ -270,7 +270,7 @@ cdef class Model:
         self._swap_memory()
         return
 
-    cpdef public state_t[::1] updateState(self, node_id_t[::1] nodesToUpdate):
+    cpdef public vector[state_t] updateState(self, vector[node_id_t] &nodesToUpdate):
         """
         General state updater wrapper
         """
@@ -280,10 +280,10 @@ cdef class Model:
         return
 
 
-    cpdef node_id_t[:, ::1] sampleNodes(self, size_t nSamples):
-        return self._sampleNodes(nSamples)
+    cpdef vector[vector[node_id_t]] sampleNodes(self, size_t nSamples):
+        return np.asarray(self._sampleNodes(nSamples))
 
-    cdef node_id_t[:, ::1] _sampleNodes(self, size_t  nSamples) nogil:
+    cdef vector[vector[node_id_t]] _sampleNodes(self, size_t  nSamples) nogil:
         """Generates random nodes to update
 
         Shuffles nodeids only when the current sample is larger
@@ -314,19 +314,15 @@ cdef class Model:
             size_t samplei
 
         # if serial move through space like CRT line-scan method
-        cdef node_id_t[:, ::1] samples
+        cdef vector[vector[node_id_t]] samples = vector[vector[node_id_t]](nSamples)
 
         # replace with nogil variant
-        with gil:
-            samples = np.zeros((nSamples, sampleSize), dtype = np.uintp)
         # cdef vector[vector[node_id_t]] samples = vector[vector[node_id_t]](nSamples)
         cdef node_id_t* nodeids = &self.adj._nodeids[0]
         for samplei in range(nSamples):
             start = (samplei * sampleSize) % self.adj._nNodes
             if start + sampleSize >= self.adj._nNodes or sampleSize == 1:
                 # fisher-yates swap
-                #
-
                 # for node in range(self.adj._nNodes -  1, 1):
                 #     jdx = <size_t> (self._rand() * idx)
                 #     swap(nodeids[idx], nodeids[jdx])
@@ -338,7 +334,8 @@ cdef class Model:
                                         self.adj._nNodes, \
                                         sampleSize)
 
-            # assign the samples; will be sorted in case of seri        
+            # assign the samples; will be sorted in case of seri
+            samples[samplei].resize(sampleSize)
             for j in range(sampleSize):
                 samples[samplei][j]    = nodeids[(start + j) % self.adj._nNodes]
         return samples
@@ -386,7 +383,7 @@ cdef class Model:
         """
         self._nudges.clear()
 
-    cpdef np.ndarray simulate(self, size_t samples):
+    cdef vector[vector[state_t]] _simulate(self, size_t samples) nogil:
         """Wrapper for simulating the system
 
         Parameters
@@ -405,20 +402,24 @@ cdef class Model:
 
         """
         cdef:
-            state_t[:, ::1] results = np.zeros((samples, self.adj._nNodes), dtype = np.double)
-            # int sampleSize = 1 if self._updateType == 'single' else self.adj._nNodes
-            node_id_t[:, ::1] r = self.sampleNodes(samples)
-            # vector[vector[int][sampleSize]] r = self.sampleNodes(samples)
-            int i
+            vector[vector[state_t]] results = vector[vector[state_t]](samples)
+            vector[vector[node_id_t]] r = self._sampleNodes(samples)
+            size_t i
 
+        results[0].resize(self.adj._nNodes)
         if self._last_written:
             results[0] = self.__states
         else:
             results[0] = self.__newstates
 
         for i in range(1, samples):
+            results[i].resize(self.adj._nNodes)
             results[i] = self._updateState(r[i])
-        return results.base # convert back to normal array
+        return results # convert back to normal array
+
+    cpdef np.ndarray simulate(self, size_t samples):
+        return np.asarray(self._simulate(samples))
+
 
     cpdef np.ndarray simulate_mean(self, size_t samples):
         cdef:
@@ -564,7 +565,7 @@ cdef class Model:
     @property
     def memory(self):
         """Returns memory buffer"""
-        return self._memory.base
+        return np.asarray(self._memory)
 
     @memory.setter
     def memory(self, value):
@@ -574,15 +575,15 @@ cdef class Model:
     def sampleSize(self): return self._sampleSize
 
     @property
-    def agentStates(self): return self._agentStates.base# warning has no setter!
+    def agentStates(self): return np.asarray(self._agentStates) # warning has no setter!
 
 
     @property
     def states(self):
         if self.last_written:
-            return self.__newstates.base
+            return np.asarray(self.__newstates)
         else:
-            return self.__states.base
+            return np.asarray(self.__states)
     
     @property
     def updateType(self):
@@ -637,9 +638,9 @@ cdef class Model:
     def newstates(self):
         """:nodindex:"""
         if self.last_written:
-            return self.__states.base
+            return np.asarray(self.__states)
         else:
-            return self.__newstates.base
+            return np.asarray(self.__newstates)
 
 
 
@@ -693,18 +694,19 @@ cdef class Model:
             self.__newstates = self.__states
             # sanity check
             assert self._states == self._newstates
-            assert id(self.__states.base) == id(self.__newstates.base)
+            assert id(self.__states) == id(self.__newstates)
         # reset buffer pointers
         elif value == "sync":
             # obtain a new memory address
-            self.__newstates = self.__states.base.copy()
-            assert id(self.__newstates.base) != id(self.__states.base)
+            from copy import copy
+            self.__newstates = copy(self.__states)
+            assert id(self.__newstates) != id(self.__states)
             # sanity check pointers (maybe swapped!)
             self._states   = &self.__states[0]
             self._newstates = &self.__newstates[0]
             # test memory addresses
             assert self._states != self._newstates
-            assert id(self.__newstates.base) != id(self.__states.base)
+            assert id(self.__newstates) != id(self.__states)
         self.last_written = 0
 
     @sampleSize.setter

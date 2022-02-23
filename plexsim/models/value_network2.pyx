@@ -419,7 +419,7 @@ cdef class ValueNetwork(Potts):
         cdef size_t mi
         # TODO: move to separate function
         for mi in range(self._memorySize):
-            energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi, node])
+            energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi][node])
         return energy
         # try-out match trees:
         # return energy * (1 + counter)

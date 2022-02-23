@@ -82,7 +82,7 @@ cdef class MCMC:
         return self._rng
 
 
-    cdef void step(self, node_id_t[::1] nodeids,\
+    cdef void step(self, vector[node_id_t] &nodeids,\
                    PyObject* ptr,\
                    ) nogil:
 
@@ -98,13 +98,13 @@ cdef class MCMC:
         return
 
     cdef void gibbs(self, \
-                    node_id_t[::1] nodeids,\
+                    vector[node_id_t] &nodeids,\
                     PyObject* ptr,\
                     ) nogil:
 
         cdef double p, p_prop, p_cur
         cdef state_t currentState, proposalState
-        for idx in range(len(nodeids)):
+        for idx in range(nodeids.size()):
             currentState  = (<Model> ptr)._states[nodeids[idx]]
             proposalState = self._sample_proposal(ptr)
 
@@ -122,21 +122,21 @@ cdef class MCMC:
                 <size_t> (self._rng._rand() * (<Model> ptr)._nStates ) ]
 
     cdef void recombination(self,\
-                    node_id_t[::1] nodeids,\
+                    vector[node_id_t] &nodeids,\
                     PyObject* ptr,\
                     ) nogil:
         """
             Return shuffled state to generate a proposal
         """
-        cdef size_t n = len(nodeids)
+        cdef size_t n = nodeids.size()
 
         cdef double den, nom
         # check all pairs of proposals
         cdef size_t jdx, idx
         cdef state_t state1, state2
 
-        cdef state_t[::1] backup   = (<Model> ptr).__states
-        cdef state_t[::1] modified = (<Model> ptr).__states
+        cdef vector[state_t] backup   = (<Model> ptr).__states
+        cdef vector[state_t] modified = (<Model> ptr).__states
         with gil:
             np.random.shuffle((<Model> ptr).__states)
         for idx in range(1, n, 2):

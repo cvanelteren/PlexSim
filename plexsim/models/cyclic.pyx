@@ -105,7 +105,7 @@ cdef class Cycledelic(Model):
         cdef:
             state_t[:, :, ::1] results = np.zeros((samples, self.adj._nNodes, self._nStates), dtype = np.double)
             # int sampleSize = 1 if self._updateType == 'single' else self.adj._nNodes
-            node_id_t[:, ::1] r = self.sampleNodes(samples)
+            vector[vector[node_id_t]] r = self.sampleNodes(samples)
             # vector[vector[int][sampleSize]] r = self.sampleNodes(samples)
             int i
 

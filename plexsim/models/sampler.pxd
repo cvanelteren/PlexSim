@@ -36,19 +36,19 @@ cdef class MCMC:
 
     # GO algorithm
     cdef void recombination(self, \
-                    node_id_t[::1] nodeids,\
+                    vector[node_id_t] &nodeids,\
                     PyObject* ptr,\
                     ) nogil
 
     # Standard Gibbs
     cdef void gibbs(self,\
-                    node_id_t[::1] nodeids,\
+                    vector[node_id_t] &nodeids,\
                     PyObject* ptr,\
                     ) nogil
    
 
     # Update function
-    cdef void step(self, node_id_t[::1] nodeids,\
+    cdef void step(self, vector[node_id_t] &nodeids,\
                    PyObject* ptr,\
                    ) nogil
 

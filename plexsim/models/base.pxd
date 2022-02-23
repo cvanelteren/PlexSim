@@ -12,18 +12,18 @@ cdef class Model:
     cdef:
         # public
         PyObject* ptr
-        state_t[::1] __states
+        vector[state_t] __states
         state_t* _states
 
-        state_t[::1] __newstates
+        vector[state_t] __newstates
         state_t* _newstates
 
         bint  _last_written
         bint _use_mcmc
 
-        state_t[::1]  _agentStates
+        vector[state_t]  _agentStates
 
-        state_t[:, ::1] _memory # for memory dynamics
+        vector[vector[state_t]] _memory # for memory dynamics
 
         size_t _memorySize #memory size
         # MemoizeMap _memoize
@@ -54,8 +54,11 @@ cdef class Model:
         dict __dict__ # allow dynamic python objects
 
     # Update functions
-    cpdef  state_t[::1] updateState(self, node_id_t[::1] nodesToUpdate)
-    cdef state_t[::1]  _updateState(self, node_id_t[::1] nodesToUpdate) nogil
+    cpdef vector[state_t] updateState(
+        self, vector[node_id_t] &nodesToUpdate)
+
+    cdef  vector[state_t]  _updateState(
+        self, vector[node_id_t] &nodesToUpdate) nogil
 
     cdef void _set_state(self, node_id_t node, state_t state) nogil
     cdef void _reset(self, double[::1] p) nogil
@@ -77,11 +80,16 @@ cdef class Model:
     cdef double _learningFunction(self, node_id_t xi, node_id_t xj)
 
     # Sampler functions
-    cdef  node_id_t[:, ::1]  _sampleNodes(self, size_t nSamples) nogil
-    cpdef node_id_t[:, ::1] sampleNodes(self, size_t nSamples)
+    cdef  vector[vector[node_id_t]] _sampleNodes(
+        self, size_t nSamples) nogil
+
+    cpdef vector[vector[node_id_t]] sampleNodes(
+        self, size_t nSamples)
 
     # Py wrapper simulation
     cpdef np.ndarray simulate(self, size_t samples)
+    cdef vector[vector[state_t]] _simulate(self, size_t samples) nogil
+
     cpdef np.ndarray simulate_mean(self, size_t samples)
 
 
