@@ -46,12 +46,77 @@
         "libraries": [
             "stdc++"
         ],
-        "name": "plexsim.models.sampler",
+        "name": "models",
         "sources": [
-            "plexsim/models/sampler.pyx"
+            "build/lib.linux-x86_64-3.9/plexsim/models/percolation.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pottsis.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/kawasaki.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/magnetic_boids.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ising.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_edges.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bornholdt.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_soc.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/potts.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_crystal.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/test.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cyclic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rules.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network2.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_dynamic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_gradient.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/game_of_life.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/adjacency.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ab.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rbn.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/binding.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/heisenberg.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sirs.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sampler.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/logmap.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bonabeau.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pyobjectholder.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/prisoner.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sandpile.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/base.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cca.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/simple_copy.pyx",
+            "plexsim/models/percolation.pyx",
+            "plexsim/models/pottsis.pyx",
+            "plexsim/models/kawasaki.pyx",
+            "plexsim/models/magnetic_boids.pyx",
+            "plexsim/models/ising.pyx",
+            "plexsim/models/value_network_edges.pyx",
+            "plexsim/models/bornholdt.pyx",
+            "plexsim/models/value_network_soc.pyx",
+            "plexsim/models/potts.pyx",
+            "plexsim/models/value_network_crystal.pyx",
+            "plexsim/models/test.pyx",
+            "plexsim/models/cyclic.pyx",
+            "plexsim/models/rules.pyx",
+            "plexsim/models/value_network2.pyx",
+            "plexsim/models/value_network_dynamic.pyx",
+            "plexsim/models/value_network_gradient.pyx",
+            "plexsim/models/game_of_life.pyx",
+            "plexsim/models/adjacency.pyx",
+            "plexsim/models/ab.pyx",
+            "plexsim/models/value_network.pyx",
+            "plexsim/models/rbn.pyx",
+            "plexsim/models/binding.pyx",
+            "plexsim/models/heisenberg.pyx",
+            "plexsim/models/sirs.pyx",
+            "plexsim/models/sampler.pyx",
+            "plexsim/models/logmap.pyx",
+            "plexsim/models/bonabeau.pyx",
+            "plexsim/models/pyobjectholder.pyx",
+            "plexsim/models/prisoner.pyx",
+            "plexsim/models/sandpile.pyx",
+            "plexsim/models/base.pyx",
+            "plexsim/models/cca.pyx",
+            "plexsim/models/simple_copy.pyx"
         ]
     },
-    "module_name": "plexsim.models.sampler"
+    "module_name": "models"
 }
 END: Cython Metadata */
 
@@ -1821,9 +1886,9 @@ struct __pyx_obj_7plexsim_6models_4base_Model {
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtab;
   PyObject *ptr;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__states;
-  __pyx_t_7plexsim_6models_5types_state_t *_states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_states;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__newstates;
-  __pyx_t_7plexsim_6models_5types_state_t *_newstates;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_newstates;
   int _last_written;
   int _use_mcmc;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _agentStates;
@@ -2007,7 +2072,7 @@ struct __pyx_vtabstruct_7plexsim_6models_4base_Model {
 static struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtabptr_7plexsim_6models_4base_Model;
 
 
-/* "plexsim/models/sampler.pyx":8
+/* "plexsim/models/sampler.pyx":9
  * 
  * from libcpp.algorithm cimport swap
  * cdef class RandomGenerator:             # <<<<<<<<<<<<<<
@@ -2023,7 +2088,7 @@ struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator {
 static struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *__pyx_vtabptr_7plexsim_6models_7sampler_RandomGenerator;
 
 
-/* "plexsim/models/sampler.pyx":63
+/* "plexsim/models/sampler.pyx":64
  *         return False
  * 
  * cdef class MCMC:             # <<<<<<<<<<<<<<
@@ -4709,7 +4774,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #endif
 /* #### Code section: module_code ### */
 
-/* "plexsim/models/sampler.pyx":10
+/* "plexsim/models/sampler.pyx":11
  * cdef class RandomGenerator:
  * 
  *     def __init__(self,\             # <<<<<<<<<<<<<<
@@ -4752,12 +4817,12 @@ static int __pyx_pw_7plexsim_6models_7sampler_15RandomGenerator_1__init__(PyObje
       switch (__pyx_nargs) {
         case  0:
         if (likely((values[0] = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_seed)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 10, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 11, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 10, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 11, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
@@ -4768,7 +4833,7 @@ static int __pyx_pw_7plexsim_6models_7sampler_15RandomGenerator_1__init__(PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 10, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 11, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("plexsim.models.sampler.RandomGenerator.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4796,7 +4861,7 @@ static int __pyx_pf_7plexsim_6models_7sampler_15RandomGenerator___init__(struct 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "plexsim/models/sampler.pyx":17
+  /* "plexsim/models/sampler.pyx":18
  * 
  *         cdef timespec ts
  *         if seed is None:             # <<<<<<<<<<<<<<
@@ -4807,7 +4872,7 @@ static int __pyx_pf_7plexsim_6models_7sampler_15RandomGenerator___init__(struct 
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "plexsim/models/sampler.pyx":18
+    /* "plexsim/models/sampler.pyx":19
  *         cdef timespec ts
  *         if seed is None:
  *             clock_gettime(CLOCK_REALTIME, &ts)             # <<<<<<<<<<<<<<
@@ -4816,19 +4881,19 @@ static int __pyx_pf_7plexsim_6models_7sampler_15RandomGenerator___init__(struct 
  */
     (void)(clock_gettime(CLOCK_REALTIME, (&__pyx_v_ts)));
 
-    /* "plexsim/models/sampler.pyx":19
+    /* "plexsim/models/sampler.pyx":20
  *         if seed is None:
  *             clock_gettime(CLOCK_REALTIME, &ts)
  *             _seed = ts.tv_sec             # <<<<<<<<<<<<<<
  *         elif seed >= 0 and isinstance(seed, int):
  *             _seed = seed
  */
-    __pyx_t_3 = __Pyx_PyInt_From_time_t(__pyx_v_ts.tv_sec); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 19, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_From_time_t(__pyx_v_ts.tv_sec); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 20, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_v__seed = __pyx_t_3;
     __pyx_t_3 = 0;
 
-    /* "plexsim/models/sampler.pyx":17
+    /* "plexsim/models/sampler.pyx":18
  * 
  *         cdef timespec ts
  *         if seed is None:             # <<<<<<<<<<<<<<
@@ -4838,15 +4903,15 @@ static int __pyx_pf_7plexsim_6models_7sampler_15RandomGenerator___init__(struct 
     goto __pyx_L3;
   }
 
-  /* "plexsim/models/sampler.pyx":20
+  /* "plexsim/models/sampler.pyx":21
  *             clock_gettime(CLOCK_REALTIME, &ts)
  *             _seed = ts.tv_sec
  *         elif seed >= 0 and isinstance(seed, int):             # <<<<<<<<<<<<<<
  *             _seed = seed
  *         else:
  */
-  __pyx_t_3 = PyObject_RichCompare(__pyx_v_seed, __pyx_int_0, Py_GE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 20, __pyx_L1_error)
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely((__pyx_t_1 < 0))) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_v_seed, __pyx_int_0, Py_GE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely((__pyx_t_1 < 0))) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_1) {
   } else {
@@ -4859,7 +4924,7 @@ static int __pyx_pf_7plexsim_6models_7sampler_15RandomGenerator___init__(struct 
   __pyx_L4_bool_binop_done:;
   if (likely(__pyx_t_2)) {
 
-    /* "plexsim/models/sampler.pyx":21
+    /* "plexsim/models/sampler.pyx":22
  *             _seed = ts.tv_sec
  *         elif seed >= 0 and isinstance(seed, int):
  *             _seed = seed             # <<<<<<<<<<<<<<
@@ -4869,7 +4934,7 @@ static int __pyx_pf_7plexsim_6models_7sampler_15RandomGenerator___init__(struct 
     __Pyx_INCREF(__pyx_v_seed);
     __pyx_v__seed = __pyx_v_seed;
 
-    /* "plexsim/models/sampler.pyx":20
+    /* "plexsim/models/sampler.pyx":21
  *             clock_gettime(CLOCK_REALTIME, &ts)
  *             _seed = ts.tv_sec
  *         elif seed >= 0 and isinstance(seed, int):             # <<<<<<<<<<<<<<
@@ -4879,7 +4944,7 @@ static int __pyx_pf_7plexsim_6models_7sampler_15RandomGenerator___init__(struct 
     goto __pyx_L3;
   }
 
-  /* "plexsim/models/sampler.pyx":23
+  /* "plexsim/models/sampler.pyx":24
  *             _seed = seed
  *         else:
  *             raise  ValueError("seed needs uint")             # <<<<<<<<<<<<<<
@@ -4887,15 +4952,15 @@ static int __pyx_pf_7plexsim_6models_7sampler_15RandomGenerator___init__(struct 
  *         # define rng sampler
  */
   /*else*/ {
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 23, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 24, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 23, __pyx_L1_error)
+    __PYX_ERR(0, 24, __pyx_L1_error)
   }
   __pyx_L3:;
 
-  /* "plexsim/models/sampler.pyx":26
+  /* "plexsim/models/sampler.pyx":27
  * 
  *         # define rng sampler
  *         self._dist = uniform_real_distribution[double](0.0, 1.0)             # <<<<<<<<<<<<<<
@@ -4904,29 +4969,29 @@ static int __pyx_pf_7plexsim_6models_7sampler_15RandomGenerator___init__(struct 
  */
   __pyx_v_self->_dist = std::uniform_real_distribution<double> (0.0, 1.0);
 
-  /* "plexsim/models/sampler.pyx":27
+  /* "plexsim/models/sampler.pyx":28
  *         # define rng sampler
  *         self._dist = uniform_real_distribution[double](0.0, 1.0)
  *         self.seed = _seed             # <<<<<<<<<<<<<<
  *         self._gen  = mt19937(self.seed)
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_seed, __pyx_v__seed) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_seed, __pyx_v__seed) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
 
-  /* "plexsim/models/sampler.pyx":28
+  /* "plexsim/models/sampler.pyx":29
  *         self._dist = uniform_real_distribution[double](0.0, 1.0)
  *         self.seed = _seed
  *         self._gen  = mt19937(self.seed)             # <<<<<<<<<<<<<<
  * 
  *     cpdef double rand(self):
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_seed); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_seed); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyInt_As_unsigned_int(__pyx_t_3); if (unlikely((__pyx_t_5 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_As_unsigned_int(__pyx_t_3); if (unlikely((__pyx_t_5 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_self->_gen = std::mt19937(__pyx_t_5);
 
-  /* "plexsim/models/sampler.pyx":10
+  /* "plexsim/models/sampler.pyx":11
  * cdef class RandomGenerator:
  * 
  *     def __init__(self,\             # <<<<<<<<<<<<<<
@@ -4947,7 +5012,7 @@ static int __pyx_pf_7plexsim_6models_7sampler_15RandomGenerator___init__(struct 
   return __pyx_r;
 }
 
-/* "plexsim/models/sampler.pyx":30
+/* "plexsim/models/sampler.pyx":31
  *         self._gen  = mt19937(self.seed)
  * 
  *     cpdef double rand(self):             # <<<<<<<<<<<<<<
@@ -4984,7 +5049,7 @@ static double __pyx_f_7plexsim_6models_7sampler_15RandomGenerator_rand(struct __
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_typedict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rand); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rand); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       #ifdef __Pyx_CyFunction_USED
       if (!__Pyx_IsCyOrPyCFunction(__pyx_t_1)
@@ -5009,11 +5074,11 @@ static double __pyx_f_7plexsim_6models_7sampler_15RandomGenerator_rand(struct __
           PyObject *__pyx_callargs[1] = {__pyx_t_4, };
           __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_5, 0+__pyx_t_5);
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 31, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         }
-        __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 30, __pyx_L1_error)
+        __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 31, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_r = __pyx_t_6;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -5032,7 +5097,7 @@ static double __pyx_f_7plexsim_6models_7sampler_15RandomGenerator_rand(struct __
     #endif
   }
 
-  /* "plexsim/models/sampler.pyx":31
+  /* "plexsim/models/sampler.pyx":32
  * 
  *     cpdef double rand(self):
  *         return self._rand()             # <<<<<<<<<<<<<<
@@ -5042,7 +5107,7 @@ static double __pyx_f_7plexsim_6models_7sampler_15RandomGenerator_rand(struct __
   __pyx_r = ((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_vtab)->_rand(__pyx_v_self);
   goto __pyx_L0;
 
-  /* "plexsim/models/sampler.pyx":30
+  /* "plexsim/models/sampler.pyx":31
  *         self._gen  = mt19937(self.seed)
  * 
  *     cpdef double rand(self):             # <<<<<<<<<<<<<<
@@ -5106,7 +5171,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_15RandomGenerator_2rand(stru
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("rand", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_7plexsim_6models_7sampler_15RandomGenerator_rand(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_7plexsim_6models_7sampler_15RandomGenerator_rand(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5123,7 +5188,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_15RandomGenerator_2rand(stru
   return __pyx_r;
 }
 
-/* "plexsim/models/sampler.pyx":33
+/* "plexsim/models/sampler.pyx":34
  *         return self._rand()
  * 
  *     cdef double _rand(self) nogil:             # <<<<<<<<<<<<<<
@@ -5134,7 +5199,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_15RandomGenerator_2rand(stru
 static double __pyx_f_7plexsim_6models_7sampler_15RandomGenerator__rand(struct __pyx_obj_7plexsim_6models_7sampler_RandomGenerator *__pyx_v_self) {
   double __pyx_r;
 
-  /* "plexsim/models/sampler.pyx":35
+  /* "plexsim/models/sampler.pyx":36
  *     cdef double _rand(self) nogil:
  *         """ Draws uniformly from 0, 1"""
  *         return self._dist(self._gen)             # <<<<<<<<<<<<<<
@@ -5144,7 +5209,7 @@ static double __pyx_f_7plexsim_6models_7sampler_15RandomGenerator__rand(struct _
   __pyx_r = __pyx_v_self->_dist(__pyx_v_self->_gen);
   goto __pyx_L0;
 
-  /* "plexsim/models/sampler.pyx":33
+  /* "plexsim/models/sampler.pyx":34
  *         return self._rand()
  * 
  *     cdef double _rand(self) nogil:             # <<<<<<<<<<<<<<
@@ -5157,7 +5222,7 @@ static double __pyx_f_7plexsim_6models_7sampler_15RandomGenerator__rand(struct _
   return __pyx_r;
 }
 
-/* "plexsim/models/sampler.pyx":37
+/* "plexsim/models/sampler.pyx":38
  *         return self._dist(self._gen)
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5188,7 +5253,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_15RandomGenerator_4seed___ge
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/sampler.pyx":38
+  /* "plexsim/models/sampler.pyx":39
  * 
  *     @property
  *     def seed(self): return self._seed             # <<<<<<<<<<<<<<
@@ -5196,13 +5261,13 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_15RandomGenerator_4seed___ge
  *     def seed(self, value):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->_seed); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->_seed); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/sampler.pyx":37
+  /* "plexsim/models/sampler.pyx":38
  *         return self._dist(self._gen)
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5221,7 +5286,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_15RandomGenerator_4seed___ge
   return __pyx_r;
 }
 
-/* "plexsim/models/sampler.pyx":39
+/* "plexsim/models/sampler.pyx":40
  *     @property
  *     def seed(self): return self._seed
  *     @seed.setter             # <<<<<<<<<<<<<<
@@ -5257,7 +5322,7 @@ static int __pyx_pf_7plexsim_6models_7sampler_15RandomGenerator_4seed_2__set__(s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "plexsim/models/sampler.pyx":41
+  /* "plexsim/models/sampler.pyx":42
  *     @seed.setter
  *     def seed(self, value):
  *         if isinstance(value, int) and value >= 0:             # <<<<<<<<<<<<<<
@@ -5271,37 +5336,37 @@ static int __pyx_pf_7plexsim_6models_7sampler_15RandomGenerator_4seed_2__set__(s
     __pyx_t_1 = __pyx_t_3;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_4 = PyObject_RichCompare(__pyx_v_value, __pyx_int_0, Py_GE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 41, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_3 < 0))) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_4 = PyObject_RichCompare(__pyx_v_value, __pyx_int_0, Py_GE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_3 < 0))) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_1 = __pyx_t_3;
   __pyx_L4_bool_binop_done:;
   if (likely(__pyx_t_1)) {
 
-    /* "plexsim/models/sampler.pyx":42
+    /* "plexsim/models/sampler.pyx":43
  *     def seed(self, value):
  *         if isinstance(value, int) and value >= 0:
  *             self._seed = value             # <<<<<<<<<<<<<<
  *             self._gen   = mt19937(self.seed)
  *         else:
  */
-    __pyx_t_5 = __Pyx_PyInt_As_size_t(__pyx_v_value); if (unlikely((__pyx_t_5 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 42, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_As_size_t(__pyx_v_value); if (unlikely((__pyx_t_5 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L1_error)
     __pyx_v_self->_seed = __pyx_t_5;
 
-    /* "plexsim/models/sampler.pyx":43
+    /* "plexsim/models/sampler.pyx":44
  *         if isinstance(value, int) and value >= 0:
  *             self._seed = value
  *             self._gen   = mt19937(self.seed)             # <<<<<<<<<<<<<<
  *         else:
  *             raise ValueError("Not an uint found")
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_seed); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_seed); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = __Pyx_PyInt_As_unsigned_int(__pyx_t_4); if (unlikely((__pyx_t_6 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyInt_As_unsigned_int(__pyx_t_4); if (unlikely((__pyx_t_6 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_self->_gen = std::mt19937(__pyx_t_6);
 
-    /* "plexsim/models/sampler.pyx":41
+    /* "plexsim/models/sampler.pyx":42
  *     @seed.setter
  *     def seed(self, value):
  *         if isinstance(value, int) and value >= 0:             # <<<<<<<<<<<<<<
@@ -5311,7 +5376,7 @@ static int __pyx_pf_7plexsim_6models_7sampler_15RandomGenerator_4seed_2__set__(s
     goto __pyx_L3;
   }
 
-  /* "plexsim/models/sampler.pyx":45
+  /* "plexsim/models/sampler.pyx":46
  *             self._gen   = mt19937(self.seed)
  *         else:
  *             raise ValueError("Not an uint found")             # <<<<<<<<<<<<<<
@@ -5319,15 +5384,15 @@ static int __pyx_pf_7plexsim_6models_7sampler_15RandomGenerator_4seed_2__set__(s
  *     cdef void fisher_yates(self, \
  */
   /*else*/ {
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(0, 45, __pyx_L1_error)
+    __PYX_ERR(0, 46, __pyx_L1_error)
   }
   __pyx_L3:;
 
-  /* "plexsim/models/sampler.pyx":39
+  /* "plexsim/models/sampler.pyx":40
  *     @property
  *     def seed(self): return self._seed
  *     @seed.setter             # <<<<<<<<<<<<<<
@@ -5347,7 +5412,7 @@ static int __pyx_pf_7plexsim_6models_7sampler_15RandomGenerator_4seed_2__set__(s
   return __pyx_r;
 }
 
-/* "plexsim/models/sampler.pyx":47
+/* "plexsim/models/sampler.pyx":48
  *             raise ValueError("Not an uint found")
  * 
  *     cdef void fisher_yates(self, \             # <<<<<<<<<<<<<<
@@ -5369,7 +5434,7 @@ static void __pyx_f_7plexsim_6models_7sampler_15RandomGenerator_fisher_yates(str
   PyGILState_STATE __pyx_gilstate_save;
   #endif
 
-  /* "plexsim/models/sampler.pyx":52
+  /* "plexsim/models/sampler.pyx":53
  *                            size_t stop) nogil:
  *         cdef size_t idx, jdx
  *         for idx in range(n - 1):             # <<<<<<<<<<<<<<
@@ -5381,7 +5446,7 @@ static void __pyx_f_7plexsim_6models_7sampler_15RandomGenerator_fisher_yates(str
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_idx = __pyx_t_3;
 
-    /* "plexsim/models/sampler.pyx":53
+    /* "plexsim/models/sampler.pyx":54
  *         cdef size_t idx, jdx
  *         for idx in range(n - 1):
  *             jdx = <size_t> (self._rand() * (n - idx))             # <<<<<<<<<<<<<<
@@ -5390,7 +5455,7 @@ static void __pyx_f_7plexsim_6models_7sampler_15RandomGenerator_fisher_yates(str
  */
     __pyx_v_jdx = ((size_t)(((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_vtab)->_rand(__pyx_v_self) * (__pyx_v_n - __pyx_v_idx)));
 
-    /* "plexsim/models/sampler.pyx":54
+    /* "plexsim/models/sampler.pyx":55
  *         for idx in range(n - 1):
  *             jdx = <size_t> (self._rand() * (n - idx))
  *             swap(nodes[idx], nodes[jdx])             # <<<<<<<<<<<<<<
@@ -5407,10 +5472,10 @@ static void __pyx_f_7plexsim_6models_7sampler_15RandomGenerator_fisher_yates(str
       #ifdef WITH_THREAD
       __Pyx_PyGILState_Release(__pyx_gilstate_save);
       #endif
-      __PYX_ERR(0, 54, __pyx_L1_error)
+      __PYX_ERR(0, 55, __pyx_L1_error)
     }
 
-    /* "plexsim/models/sampler.pyx":55
+    /* "plexsim/models/sampler.pyx":56
  *             jdx = <size_t> (self._rand() * (n - idx))
  *             swap(nodes[idx], nodes[jdx])
  *             if stop == 1:             # <<<<<<<<<<<<<<
@@ -5420,7 +5485,7 @@ static void __pyx_f_7plexsim_6models_7sampler_15RandomGenerator_fisher_yates(str
     __pyx_t_4 = ((__pyx_v_stop == 1) != 0);
     if (__pyx_t_4) {
 
-      /* "plexsim/models/sampler.pyx":56
+      /* "plexsim/models/sampler.pyx":57
  *             swap(nodes[idx], nodes[jdx])
  *             if stop == 1:
  *                 break             # <<<<<<<<<<<<<<
@@ -5429,7 +5494,7 @@ static void __pyx_f_7plexsim_6models_7sampler_15RandomGenerator_fisher_yates(str
  */
       goto __pyx_L4_break;
 
-      /* "plexsim/models/sampler.pyx":55
+      /* "plexsim/models/sampler.pyx":56
  *             jdx = <size_t> (self._rand() * (n - idx))
  *             swap(nodes[idx], nodes[jdx])
  *             if stop == 1:             # <<<<<<<<<<<<<<
@@ -5440,7 +5505,7 @@ static void __pyx_f_7plexsim_6models_7sampler_15RandomGenerator_fisher_yates(str
   }
   __pyx_L4_break:;
 
-  /* "plexsim/models/sampler.pyx":57
+  /* "plexsim/models/sampler.pyx":58
  *             if stop == 1:
  *                 break
  *         return             # <<<<<<<<<<<<<<
@@ -5449,7 +5514,7 @@ static void __pyx_f_7plexsim_6models_7sampler_15RandomGenerator_fisher_yates(str
  */
   goto __pyx_L0;
 
-  /* "plexsim/models/sampler.pyx":47
+  /* "plexsim/models/sampler.pyx":48
  *             raise ValueError("Not an uint found")
  * 
  *     cdef void fisher_yates(self, \             # <<<<<<<<<<<<<<
@@ -5469,7 +5534,7 @@ static void __pyx_f_7plexsim_6models_7sampler_15RandomGenerator_fisher_yates(str
   __pyx_L0:;
 }
 
-/* "plexsim/models/sampler.pyx":58
+/* "plexsim/models/sampler.pyx":59
  *                 break
  *         return
  *     def __eq__(self, other):             # <<<<<<<<<<<<<<
@@ -5503,25 +5568,25 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_15RandomGenerator_4__eq__(st
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__eq__", 0);
 
-  /* "plexsim/models/sampler.pyx":59
+  /* "plexsim/models/sampler.pyx":60
  *         return
  *     def __eq__(self, other):
  *         if other.seed == self.seed:             # <<<<<<<<<<<<<<
  *             return True
  *         return False
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_seed); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_seed); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_seed); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_seed); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely((__pyx_t_4 < 0))) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely((__pyx_t_4 < 0))) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_4) {
 
-    /* "plexsim/models/sampler.pyx":60
+    /* "plexsim/models/sampler.pyx":61
  *     def __eq__(self, other):
  *         if other.seed == self.seed:
  *             return True             # <<<<<<<<<<<<<<
@@ -5533,7 +5598,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_15RandomGenerator_4__eq__(st
     __pyx_r = Py_True;
     goto __pyx_L0;
 
-    /* "plexsim/models/sampler.pyx":59
+    /* "plexsim/models/sampler.pyx":60
  *         return
  *     def __eq__(self, other):
  *         if other.seed == self.seed:             # <<<<<<<<<<<<<<
@@ -5542,7 +5607,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_15RandomGenerator_4__eq__(st
  */
   }
 
-  /* "plexsim/models/sampler.pyx":61
+  /* "plexsim/models/sampler.pyx":62
  *         if other.seed == self.seed:
  *             return True
  *         return False             # <<<<<<<<<<<<<<
@@ -5554,7 +5619,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_15RandomGenerator_4__eq__(st
   __pyx_r = Py_False;
   goto __pyx_L0;
 
-  /* "plexsim/models/sampler.pyx":58
+  /* "plexsim/models/sampler.pyx":59
  *                 break
  *         return
  *     def __eq__(self, other):             # <<<<<<<<<<<<<<
@@ -5762,7 +5827,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_15RandomGenerator_8__setstat
   return __pyx_r;
 }
 
-/* "plexsim/models/sampler.pyx":72
+/* "plexsim/models/sampler.pyx":73
  *                         :type: float
  *     """
  *     def __init__(self, \             # <<<<<<<<<<<<<<
@@ -5804,19 +5869,19 @@ static int __pyx_pw_7plexsim_6models_7sampler_4MCMC_1__init__(PyObject *__pyx_v_
       switch (__pyx_nargs) {
         case  0:
         if (likely((values[0] = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_rng)) != 0)) kw_args--;
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 72, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 73, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
         if (kw_args > 0) {
           PyObject* value = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_p_recomb);
           if (value) { values[1] = value; kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 72, __pyx_L3_error)
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 73, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 72, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 73, __pyx_L3_error)
       }
     } else {
       switch (__pyx_nargs) {
@@ -5829,20 +5894,20 @@ static int __pyx_pw_7plexsim_6models_7sampler_4MCMC_1__init__(PyObject *__pyx_v_
     }
     __pyx_v_rng = ((struct __pyx_obj_7plexsim_6models_7sampler_RandomGenerator *)values[0]);
     if (values[1]) {
-      __pyx_v_p_recomb = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_p_recomb == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 74, __pyx_L3_error)
+      __pyx_v_p_recomb = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_p_recomb == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 75, __pyx_L3_error)
     } else {
       __pyx_v_p_recomb = ((double)1.0);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 2, __pyx_nargs); __PYX_ERR(0, 72, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 2, __pyx_nargs); __PYX_ERR(0, 73, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("plexsim.models.sampler.MCMC.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng), __pyx_ptype_7plexsim_6models_7sampler_RandomGenerator, 1, "rng", 0))) __PYX_ERR(0, 73, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng), __pyx_ptype_7plexsim_6models_7sampler_RandomGenerator, 1, "rng", 0))) __PYX_ERR(0, 74, __pyx_L1_error)
   __pyx_r = __pyx_pf_7plexsim_6models_7sampler_4MCMC___init__(((struct __pyx_obj_7plexsim_6models_7sampler_MCMC *)__pyx_v_self), __pyx_v_rng, __pyx_v_p_recomb);
 
   /* function exit code */
@@ -5863,7 +5928,7 @@ static int __pyx_pf_7plexsim_6models_7sampler_4MCMC___init__(struct __pyx_obj_7p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "plexsim/models/sampler.pyx":77
+  /* "plexsim/models/sampler.pyx":78
  *                  ):
  * 
  *         self._rng = rng             # <<<<<<<<<<<<<<
@@ -5876,19 +5941,19 @@ static int __pyx_pf_7plexsim_6models_7sampler_4MCMC___init__(struct __pyx_obj_7p
   __Pyx_DECREF((PyObject *)__pyx_v_self->_rng);
   __pyx_v_self->_rng = __pyx_v_rng;
 
-  /* "plexsim/models/sampler.pyx":78
+  /* "plexsim/models/sampler.pyx":79
  * 
  *         self._rng = rng
  *         self.p_recomb = p_recomb             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_p_recomb); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_p_recomb); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_p_recomb, __pyx_t_1) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_p_recomb, __pyx_t_1) < 0) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "plexsim/models/sampler.pyx":72
+  /* "plexsim/models/sampler.pyx":73
  *                         :type: float
  *     """
  *     def __init__(self, \             # <<<<<<<<<<<<<<
@@ -5908,7 +5973,7 @@ static int __pyx_pf_7plexsim_6models_7sampler_4MCMC___init__(struct __pyx_obj_7p
   return __pyx_r;
 }
 
-/* "plexsim/models/sampler.pyx":80
+/* "plexsim/models/sampler.pyx":81
  *         self.p_recomb = p_recomb
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5935,7 +6000,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_4MCMC_3rng___get__(struct __
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/sampler.pyx":82
+  /* "plexsim/models/sampler.pyx":83
  *     @property
  *     def rng(self):
  *         return self._rng             # <<<<<<<<<<<<<<
@@ -5947,7 +6012,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_4MCMC_3rng___get__(struct __
   __pyx_r = ((PyObject *)__pyx_v_self->_rng);
   goto __pyx_L0;
 
-  /* "plexsim/models/sampler.pyx":80
+  /* "plexsim/models/sampler.pyx":81
  *         self.p_recomb = p_recomb
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5962,7 +6027,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_4MCMC_3rng___get__(struct __
   return __pyx_r;
 }
 
-/* "plexsim/models/sampler.pyx":85
+/* "plexsim/models/sampler.pyx":86
  * 
  * 
  *     cdef void step(self, vector[node_id_t] &nodeids,\             # <<<<<<<<<<<<<<
@@ -5974,7 +6039,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_step(struct __pyx_obj_7plexs
   double __pyx_v_rng;
   int __pyx_t_1;
 
-  /* "plexsim/models/sampler.pyx":90
+  /* "plexsim/models/sampler.pyx":91
  * 
  * 
  *         cdef double rng = self._rng._rand()             # <<<<<<<<<<<<<<
@@ -5983,7 +6048,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_step(struct __pyx_obj_7plexs
  */
   __pyx_v_rng = ((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->_rng->__pyx_vtab)->_rand(__pyx_v_self->_rng);
 
-  /* "plexsim/models/sampler.pyx":91
+  /* "plexsim/models/sampler.pyx":92
  * 
  *         cdef double rng = self._rng._rand()
  *         if rng < self._p_recomb:             # <<<<<<<<<<<<<<
@@ -5993,7 +6058,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_step(struct __pyx_obj_7plexs
   __pyx_t_1 = ((__pyx_v_rng < __pyx_v_self->_p_recomb) != 0);
   if (__pyx_t_1) {
 
-    /* "plexsim/models/sampler.pyx":93
+    /* "plexsim/models/sampler.pyx":94
  *         if rng < self._p_recomb:
  *         # if self.rng._rand() < self._p_recomb:
  *             self.recombination(nodeids, \             # <<<<<<<<<<<<<<
@@ -6002,7 +6067,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_step(struct __pyx_obj_7plexs
  */
     ((struct __pyx_vtabstruct_7plexsim_6models_7sampler_MCMC *)__pyx_v_self->__pyx_vtab)->recombination(__pyx_v_self, __pyx_v_nodeids, __pyx_v_ptr);
 
-    /* "plexsim/models/sampler.pyx":91
+    /* "plexsim/models/sampler.pyx":92
  * 
  *         cdef double rng = self._rng._rand()
  *         if rng < self._p_recomb:             # <<<<<<<<<<<<<<
@@ -6012,7 +6077,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_step(struct __pyx_obj_7plexs
     goto __pyx_L3;
   }
 
-  /* "plexsim/models/sampler.pyx":97
+  /* "plexsim/models/sampler.pyx":98
  *                                )
  *         else :
  *             self.gibbs(nodeids, ptr)             # <<<<<<<<<<<<<<
@@ -6024,7 +6089,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_step(struct __pyx_obj_7plexs
   }
   __pyx_L3:;
 
-  /* "plexsim/models/sampler.pyx":98
+  /* "plexsim/models/sampler.pyx":99
  *         else :
  *             self.gibbs(nodeids, ptr)
  *         return             # <<<<<<<<<<<<<<
@@ -6033,7 +6098,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_step(struct __pyx_obj_7plexs
  */
   goto __pyx_L0;
 
-  /* "plexsim/models/sampler.pyx":85
+  /* "plexsim/models/sampler.pyx":86
  * 
  * 
  *     cdef void step(self, vector[node_id_t] &nodeids,\             # <<<<<<<<<<<<<<
@@ -6045,7 +6110,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_step(struct __pyx_obj_7plexs
   __pyx_L0:;
 }
 
-/* "plexsim/models/sampler.pyx":100
+/* "plexsim/models/sampler.pyx":101
  *         return
  * 
  *     cdef void gibbs(self, \             # <<<<<<<<<<<<<<
@@ -6065,11 +6130,11 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plex
   std::vector<__pyx_t_7plexsim_6models_5types_node_id_t> ::size_type __pyx_t_3;
   int __pyx_t_4;
 
-  /* "plexsim/models/sampler.pyx":107
+  /* "plexsim/models/sampler.pyx":108
  *         cdef double p, p_prop, p_cur
  *         cdef state_t currentState, proposalState
  *         for idx in range(nodeids.size()):             # <<<<<<<<<<<<<<
- *             currentState  = (<Model> ptr)._states[nodeids[idx]]
+ *             currentState  = deref((<Model> ptr)._states)[nodeids[idx]]
  *             proposalState = self._sample_proposal(ptr)
  */
   __pyx_t_1 = __pyx_v_nodeids.size();
@@ -6077,25 +6142,25 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plex
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_idx = __pyx_t_3;
 
-    /* "plexsim/models/sampler.pyx":108
+    /* "plexsim/models/sampler.pyx":109
  *         cdef state_t currentState, proposalState
  *         for idx in range(nodeids.size()):
- *             currentState  = (<Model> ptr)._states[nodeids[idx]]             # <<<<<<<<<<<<<<
+ *             currentState  = deref((<Model> ptr)._states)[nodeids[idx]]             # <<<<<<<<<<<<<<
  *             proposalState = self._sample_proposal(ptr)
  * 
  */
-    __pyx_v_currentState = (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states[(__pyx_v_nodeids[__pyx_v_idx])]);
+    __pyx_v_currentState = ((*((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states)[(__pyx_v_nodeids[__pyx_v_idx])]);
 
-    /* "plexsim/models/sampler.pyx":109
+    /* "plexsim/models/sampler.pyx":110
  *         for idx in range(nodeids.size()):
- *             currentState  = (<Model> ptr)._states[nodeids[idx]]
+ *             currentState  = deref((<Model> ptr)._states)[nodeids[idx]]
  *             proposalState = self._sample_proposal(ptr)             # <<<<<<<<<<<<<<
  * 
  *             p_prop = (<Model> ptr).probability(proposalState, nodeids[idx])
  */
     __pyx_v_proposalState = ((struct __pyx_vtabstruct_7plexsim_6models_7sampler_MCMC *)__pyx_v_self->__pyx_vtab)->_sample_proposal(__pyx_v_self, __pyx_v_ptr);
 
-    /* "plexsim/models/sampler.pyx":111
+    /* "plexsim/models/sampler.pyx":112
  *             proposalState = self._sample_proposal(ptr)
  * 
  *             p_prop = (<Model> ptr).probability(proposalState, nodeids[idx])             # <<<<<<<<<<<<<<
@@ -6104,7 +6169,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plex
  */
     __pyx_v_p_prop = ((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr), __pyx_v_proposalState, (__pyx_v_nodeids[__pyx_v_idx]));
 
-    /* "plexsim/models/sampler.pyx":113
+    /* "plexsim/models/sampler.pyx":114
  *             p_prop = (<Model> ptr).probability(proposalState, nodeids[idx])
  * 
  *             p_cur  = (<Model> ptr).probability(currentState, nodeids[idx])             # <<<<<<<<<<<<<<
@@ -6113,7 +6178,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plex
  */
     __pyx_v_p_cur = ((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr), __pyx_v_currentState, (__pyx_v_nodeids[__pyx_v_idx]));
 
-    /* "plexsim/models/sampler.pyx":114
+    /* "plexsim/models/sampler.pyx":115
  * 
  *             p_cur  = (<Model> ptr).probability(currentState, nodeids[idx])
  *             p = p_prop / p_cur             # <<<<<<<<<<<<<<
@@ -6122,45 +6187,45 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plex
  */
     __pyx_v_p = (__pyx_v_p_prop / __pyx_v_p_cur);
 
-    /* "plexsim/models/sampler.pyx":116
+    /* "plexsim/models/sampler.pyx":117
  *             p = p_prop / p_cur
  *             # p = p_prop / (p_prop + p_cur)
  *             if self._rng._rand() < p:             # <<<<<<<<<<<<<<
- *                 (<Model> ptr)._newstates[nodeids[idx]] = proposalState
+ *                 deref((<Model> ptr)._newstates)[nodeids[idx]] = proposalState
  *         return
  */
     __pyx_t_4 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->_rng->__pyx_vtab)->_rand(__pyx_v_self->_rng) < __pyx_v_p) != 0);
     if (__pyx_t_4) {
 
-      /* "plexsim/models/sampler.pyx":117
+      /* "plexsim/models/sampler.pyx":118
  *             # p = p_prop / (p_prop + p_cur)
  *             if self._rng._rand() < p:
- *                 (<Model> ptr)._newstates[nodeids[idx]] = proposalState             # <<<<<<<<<<<<<<
+ *                 deref((<Model> ptr)._newstates)[nodeids[idx]] = proposalState             # <<<<<<<<<<<<<<
  *         return
  * 
  */
-      (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates[(__pyx_v_nodeids[__pyx_v_idx])]) = __pyx_v_proposalState;
+      ((*((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates)[(__pyx_v_nodeids[__pyx_v_idx])]) = __pyx_v_proposalState;
 
-      /* "plexsim/models/sampler.pyx":116
+      /* "plexsim/models/sampler.pyx":117
  *             p = p_prop / p_cur
  *             # p = p_prop / (p_prop + p_cur)
  *             if self._rng._rand() < p:             # <<<<<<<<<<<<<<
- *                 (<Model> ptr)._newstates[nodeids[idx]] = proposalState
+ *                 deref((<Model> ptr)._newstates)[nodeids[idx]] = proposalState
  *         return
  */
     }
   }
 
-  /* "plexsim/models/sampler.pyx":118
+  /* "plexsim/models/sampler.pyx":119
  *             if self._rng._rand() < p:
- *                 (<Model> ptr)._newstates[nodeids[idx]] = proposalState
+ *                 deref((<Model> ptr)._newstates)[nodeids[idx]] = proposalState
  *         return             # <<<<<<<<<<<<<<
  * 
  *     cdef state_t _sample_proposal(self, PyObject* ptr) nogil:
  */
   goto __pyx_L0;
 
-  /* "plexsim/models/sampler.pyx":100
+  /* "plexsim/models/sampler.pyx":101
  *         return
  * 
  *     cdef void gibbs(self, \             # <<<<<<<<<<<<<<
@@ -6172,7 +6237,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plex
   __pyx_L0:;
 }
 
-/* "plexsim/models/sampler.pyx":120
+/* "plexsim/models/sampler.pyx":121
  *         return
  * 
  *     cdef state_t _sample_proposal(self, PyObject* ptr) nogil:             # <<<<<<<<<<<<<<
@@ -6183,7 +6248,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_gibbs(struct __pyx_obj_7plex
 static __pyx_t_7plexsim_6models_5types_state_t __pyx_f_7plexsim_6models_7sampler_4MCMC__sample_proposal(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *__pyx_v_self, PyObject *__pyx_v_ptr) {
   __pyx_t_7plexsim_6models_5types_state_t __pyx_r;
 
-  /* "plexsim/models/sampler.pyx":121
+  /* "plexsim/models/sampler.pyx":122
  * 
  *     cdef state_t _sample_proposal(self, PyObject* ptr) nogil:
  *         return (<Model> ptr)._agentStates[ \             # <<<<<<<<<<<<<<
@@ -6193,7 +6258,7 @@ static __pyx_t_7plexsim_6models_5types_state_t __pyx_f_7plexsim_6models_7sampler
   __pyx_r = (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_agentStates[((size_t)(((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->_rng->__pyx_vtab)->_rand(__pyx_v_self->_rng) * ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_nStates))]);
   goto __pyx_L0;
 
-  /* "plexsim/models/sampler.pyx":120
+  /* "plexsim/models/sampler.pyx":121
  *         return
  * 
  *     cdef state_t _sample_proposal(self, PyObject* ptr) nogil:             # <<<<<<<<<<<<<<
@@ -6206,7 +6271,7 @@ static __pyx_t_7plexsim_6models_5types_state_t __pyx_f_7plexsim_6models_7sampler
   return __pyx_r;
 }
 
-/* "plexsim/models/sampler.pyx":124
+/* "plexsim/models/sampler.pyx":125
  *                 <size_t> (self._rng._rand() * (<Model> ptr)._nStates ) ]
  * 
  *     cdef void recombination(self,\             # <<<<<<<<<<<<<<
@@ -6246,7 +6311,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
   __Pyx_PyGILState_Release(__pyx_gilstate_save);
   #endif
 
-  /* "plexsim/models/sampler.pyx":131
+  /* "plexsim/models/sampler.pyx":132
  *             Return shuffled state to generate a proposal
  *         """
  *         cdef size_t n = nodeids.size()             # <<<<<<<<<<<<<<
@@ -6255,7 +6320,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  */
   __pyx_v_n = __pyx_v_nodeids.size();
 
-  /* "plexsim/models/sampler.pyx":138
+  /* "plexsim/models/sampler.pyx":139
  *         cdef state_t state1, state2
  * 
  *         cdef vector[state_t] backup   = (<Model> ptr).__states             # <<<<<<<<<<<<<<
@@ -6265,7 +6330,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
   __pyx_t_1 = ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_Model__states;
   __pyx_v_backup = __PYX_STD_MOVE_IF_SUPPORTED(__pyx_t_1);
 
-  /* "plexsim/models/sampler.pyx":139
+  /* "plexsim/models/sampler.pyx":140
  * 
  *         cdef vector[state_t] backup   = (<Model> ptr).__states
  *         cdef vector[state_t] modified = (<Model> ptr).__states             # <<<<<<<<<<<<<<
@@ -6275,7 +6340,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
   __pyx_t_1 = ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_Model__states;
   __pyx_v_modified = __PYX_STD_MOVE_IF_SUPPORTED(__pyx_t_1);
 
-  /* "plexsim/models/sampler.pyx":140
+  /* "plexsim/models/sampler.pyx":141
  *         cdef vector[state_t] backup   = (<Model> ptr).__states
  *         cdef vector[state_t] modified = (<Model> ptr).__states
  *         with gil:             # <<<<<<<<<<<<<<
@@ -6288,22 +6353,22 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
       #endif
       /*try:*/ {
 
-        /* "plexsim/models/sampler.pyx":141
+        /* "plexsim/models/sampler.pyx":142
  *         cdef vector[state_t] modified = (<Model> ptr).__states
  *         with gil:
  *             np.random.shuffle((<Model> ptr).__states)             # <<<<<<<<<<<<<<
  *         for idx in range(1, n, 2):
  *             # obtain random pair
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 141, __pyx_L4_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 142, __pyx_L4_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_random); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 141, __pyx_L4_error)
+        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_random); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 142, __pyx_L4_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_shuffle); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 141, __pyx_L4_error)
+        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_shuffle); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 142, __pyx_L4_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = __pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_state_t(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_Model__states); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 141, __pyx_L4_error)
+        __pyx_t_4 = __pyx_convert_vector_to_py___pyx_t_7plexsim_6models_5types_state_t(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_Model__states); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 142, __pyx_L4_error)
         __Pyx_GOTREF(__pyx_t_4);
         __pyx_t_5 = NULL;
         __pyx_t_6 = 0;
@@ -6322,14 +6387,14 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
           __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
           __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 141, __pyx_L4_error)
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 142, __pyx_L4_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         }
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       }
 
-      /* "plexsim/models/sampler.pyx":140
+      /* "plexsim/models/sampler.pyx":141
  *         cdef vector[state_t] backup   = (<Model> ptr).__states
  *         cdef vector[state_t] modified = (<Model> ptr).__states
  *         with gil:             # <<<<<<<<<<<<<<
@@ -6353,7 +6418,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
       }
   }
 
-  /* "plexsim/models/sampler.pyx":142
+  /* "plexsim/models/sampler.pyx":143
  *         with gil:
  *             np.random.shuffle((<Model> ptr).__states)
  *         for idx in range(1, n, 2):             # <<<<<<<<<<<<<<
@@ -6365,7 +6430,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
   for (__pyx_t_9 = 1; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=2) {
     __pyx_v_idx = __pyx_t_9;
 
-    /* "plexsim/models/sampler.pyx":144
+    /* "plexsim/models/sampler.pyx":145
  *         for idx in range(1, n, 2):
  *             # obtain random pair
  *             idx = nodeids[idx - 1]             # <<<<<<<<<<<<<<
@@ -6374,43 +6439,43 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  */
     __pyx_v_idx = (__pyx_v_nodeids[(__pyx_v_idx - 1)]);
 
-    /* "plexsim/models/sampler.pyx":145
+    /* "plexsim/models/sampler.pyx":146
  *             # obtain random pair
  *             idx = nodeids[idx - 1]
  *             jdx = nodeids[idx]             # <<<<<<<<<<<<<<
  * 
- *             (<Model> ptr)._states = &modified[0]
+ *             (<Model> ptr)._states = &modified
  */
     __pyx_v_jdx = (__pyx_v_nodeids[__pyx_v_idx]);
 
-    /* "plexsim/models/sampler.pyx":147
+    /* "plexsim/models/sampler.pyx":148
  *             jdx = nodeids[idx]
  * 
- *             (<Model> ptr)._states = &modified[0]             # <<<<<<<<<<<<<<
- *             state1 = (<Model> ptr)._states[idx]
- *             state2 = (<Model> ptr)._states[jdx]
+ *             (<Model> ptr)._states = &modified             # <<<<<<<<<<<<<<
+ *             state1 = deref((<Model> ptr)._states)[idx]
+ *             state2 = deref((<Model> ptr)._states)[jdx]
  */
-    ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states = (&(__pyx_v_modified[0]));
-
-    /* "plexsim/models/sampler.pyx":148
- * 
- *             (<Model> ptr)._states = &modified[0]
- *             state1 = (<Model> ptr)._states[idx]             # <<<<<<<<<<<<<<
- *             state2 = (<Model> ptr)._states[jdx]
- * 
- */
-    __pyx_v_state1 = (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states[__pyx_v_idx]);
+    ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states = (&__pyx_v_modified);
 
     /* "plexsim/models/sampler.pyx":149
- *             (<Model> ptr)._states = &modified[0]
- *             state1 = (<Model> ptr)._states[idx]
- *             state2 = (<Model> ptr)._states[jdx]             # <<<<<<<<<<<<<<
+ * 
+ *             (<Model> ptr)._states = &modified
+ *             state1 = deref((<Model> ptr)._states)[idx]             # <<<<<<<<<<<<<<
+ *             state2 = deref((<Model> ptr)._states)[jdx]
+ * 
+ */
+    __pyx_v_state1 = ((*((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states)[__pyx_v_idx]);
+
+    /* "plexsim/models/sampler.pyx":150
+ *             (<Model> ptr)._states = &modified
+ *             state1 = deref((<Model> ptr)._states)[idx]
+ *             state2 = deref((<Model> ptr)._states)[jdx]             # <<<<<<<<<<<<<<
  * 
  *             # normal state
  */
-    __pyx_v_state2 = (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states[__pyx_v_jdx]);
+    __pyx_v_state2 = ((*((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states)[__pyx_v_jdx]);
 
-    /* "plexsim/models/sampler.pyx":152
+    /* "plexsim/models/sampler.pyx":153
  * 
  *             # normal state
  *             den = (<Model> ptr).probability(state1, idx) *\             # <<<<<<<<<<<<<<
@@ -6419,17 +6484,17 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  */
     __pyx_v_den = (((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr), __pyx_v_state1, __pyx_v_idx) * ((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr), __pyx_v_state2, __pyx_v_jdx));
 
-    /* "plexsim/models/sampler.pyx":155
+    /* "plexsim/models/sampler.pyx":156
  *               (<Model> ptr).probability(state2, jdx)
  * 
- *             (<Model> ptr)._states = &backup[0]             # <<<<<<<<<<<<<<
+ *             (<Model> ptr)._states = &backup             # <<<<<<<<<<<<<<
  *             # swapped state
  *             nom = (<Model> ptr).probability(state2, idx) *\
  */
-    ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states = (&(__pyx_v_backup[0]));
+    ((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_states = (&__pyx_v_backup);
 
-    /* "plexsim/models/sampler.pyx":157
- *             (<Model> ptr)._states = &backup[0]
+    /* "plexsim/models/sampler.pyx":158
+ *             (<Model> ptr)._states = &backup
  *             # swapped state
  *             nom = (<Model> ptr).probability(state2, idx) *\             # <<<<<<<<<<<<<<
  *               (<Model> ptr).probability(state1, jdx)
@@ -6437,76 +6502,76 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
  */
     __pyx_v_nom = (((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr), __pyx_v_state2, __pyx_v_idx) * ((struct __pyx_vtabstruct_7plexsim_6models_4base_Model *)((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->__pyx_vtab)->probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr), __pyx_v_state1, __pyx_v_jdx));
 
-    /* "plexsim/models/sampler.pyx":161
+    /* "plexsim/models/sampler.pyx":162
  * 
  *             # accept
  *             if self._rng._rand() < nom / den:             # <<<<<<<<<<<<<<
- *                 (<Model> ptr)._newstates[idx] = state2
- *                 (<Model> ptr)._newstates[jdx] = state1
+ *                 deref((<Model> ptr)._newstates)[idx] = state2
+ *                 deref((<Model> ptr)._newstates)[jdx] = state1
  */
     __pyx_t_10 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->_rng->__pyx_vtab)->_rand(__pyx_v_self->_rng) < (__pyx_v_nom / __pyx_v_den)) != 0);
     if (__pyx_t_10) {
 
-      /* "plexsim/models/sampler.pyx":162
+      /* "plexsim/models/sampler.pyx":163
  *             # accept
  *             if self._rng._rand() < nom / den:
- *                 (<Model> ptr)._newstates[idx] = state2             # <<<<<<<<<<<<<<
- *                 (<Model> ptr)._newstates[jdx] = state1
+ *                 deref((<Model> ptr)._newstates)[idx] = state2             # <<<<<<<<<<<<<<
+ *                 deref((<Model> ptr)._newstates)[jdx] = state1
  *             else:
  */
-      (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates[__pyx_v_idx]) = __pyx_v_state2;
+      ((*((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates)[__pyx_v_idx]) = __pyx_v_state2;
 
-      /* "plexsim/models/sampler.pyx":163
+      /* "plexsim/models/sampler.pyx":164
  *             if self._rng._rand() < nom / den:
- *                 (<Model> ptr)._newstates[idx] = state2
- *                 (<Model> ptr)._newstates[jdx] = state1             # <<<<<<<<<<<<<<
+ *                 deref((<Model> ptr)._newstates)[idx] = state2
+ *                 deref((<Model> ptr)._newstates)[jdx] = state1             # <<<<<<<<<<<<<<
  *             else:
- *                 (<Model> ptr)._newstates[idx] = backup[idx]
+ *                 deref((<Model> ptr)._newstates)[idx] = backup[idx]
  */
-      (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates[__pyx_v_jdx]) = __pyx_v_state1;
+      ((*((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates)[__pyx_v_jdx]) = __pyx_v_state1;
 
-      /* "plexsim/models/sampler.pyx":161
+      /* "plexsim/models/sampler.pyx":162
  * 
  *             # accept
  *             if self._rng._rand() < nom / den:             # <<<<<<<<<<<<<<
- *                 (<Model> ptr)._newstates[idx] = state2
- *                 (<Model> ptr)._newstates[jdx] = state1
+ *                 deref((<Model> ptr)._newstates)[idx] = state2
+ *                 deref((<Model> ptr)._newstates)[jdx] = state1
  */
       goto __pyx_L8;
     }
 
-    /* "plexsim/models/sampler.pyx":165
- *                 (<Model> ptr)._newstates[jdx] = state1
+    /* "plexsim/models/sampler.pyx":166
+ *                 deref((<Model> ptr)._newstates)[jdx] = state1
  *             else:
- *                 (<Model> ptr)._newstates[idx] = backup[idx]             # <<<<<<<<<<<<<<
- *                 (<Model> ptr)._newstates[jdx] = backup[jdx]
+ *                 deref((<Model> ptr)._newstates)[idx] = backup[idx]             # <<<<<<<<<<<<<<
+ *                 deref((<Model> ptr)._newstates)[jdx] = backup[jdx]
  *         return
  */
     /*else*/ {
-      (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates[__pyx_v_idx]) = (__pyx_v_backup[__pyx_v_idx]);
+      ((*((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates)[__pyx_v_idx]) = (__pyx_v_backup[__pyx_v_idx]);
 
-      /* "plexsim/models/sampler.pyx":166
+      /* "plexsim/models/sampler.pyx":167
  *             else:
- *                 (<Model> ptr)._newstates[idx] = backup[idx]
- *                 (<Model> ptr)._newstates[jdx] = backup[jdx]             # <<<<<<<<<<<<<<
+ *                 deref((<Model> ptr)._newstates)[idx] = backup[idx]
+ *                 deref((<Model> ptr)._newstates)[jdx] = backup[jdx]             # <<<<<<<<<<<<<<
  *         return
  * 
  */
-      (((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates[__pyx_v_jdx]) = (__pyx_v_backup[__pyx_v_jdx]);
+      ((*((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_ptr)->_newstates)[__pyx_v_jdx]) = (__pyx_v_backup[__pyx_v_jdx]);
     }
     __pyx_L8:;
   }
 
-  /* "plexsim/models/sampler.pyx":167
- *                 (<Model> ptr)._newstates[idx] = backup[idx]
- *                 (<Model> ptr)._newstates[jdx] = backup[jdx]
+  /* "plexsim/models/sampler.pyx":168
+ *                 deref((<Model> ptr)._newstates)[idx] = backup[idx]
+ *                 deref((<Model> ptr)._newstates)[jdx] = backup[jdx]
  *         return             # <<<<<<<<<<<<<<
  * 
  * 
  */
   goto __pyx_L0;
 
-  /* "plexsim/models/sampler.pyx":124
+  /* "plexsim/models/sampler.pyx":125
  *                 <size_t> (self._rng._rand() * (<Model> ptr)._nStates ) ]
  * 
  *     cdef void recombination(self,\             # <<<<<<<<<<<<<<
@@ -6531,7 +6596,7 @@ static void __pyx_f_7plexsim_6models_7sampler_4MCMC_recombination(struct __pyx_o
   __Pyx_RefNannyFinishContextNogil()
 }
 
-/* "plexsim/models/sampler.pyx":171
+/* "plexsim/models/sampler.pyx":172
  * 
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -6562,7 +6627,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_4MCMC_8p_recomb___get__(stru
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/sampler.pyx":172
+  /* "plexsim/models/sampler.pyx":173
  * 
  *     @property
  *     def p_recomb(self): return self._p_recomb             # <<<<<<<<<<<<<<
@@ -6570,13 +6635,13 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_4MCMC_8p_recomb___get__(stru
  *     @p_recomb.setter
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_p_recomb); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_p_recomb); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/sampler.pyx":171
+  /* "plexsim/models/sampler.pyx":172
  * 
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -6595,7 +6660,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_4MCMC_8p_recomb___get__(stru
   return __pyx_r;
 }
 
-/* "plexsim/models/sampler.pyx":174
+/* "plexsim/models/sampler.pyx":175
  *     def p_recomb(self): return self._p_recomb
  * 
  *     @p_recomb.setter             # <<<<<<<<<<<<<<
@@ -6628,7 +6693,7 @@ static int __pyx_pf_7plexsim_6models_7sampler_4MCMC_8p_recomb_2__set__(struct __
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "plexsim/models/sampler.pyx":176
+  /* "plexsim/models/sampler.pyx":177
  *     @p_recomb.setter
  *     def p_recomb(self, value):
  *         assert 0 <= value <= 1             # <<<<<<<<<<<<<<
@@ -6637,33 +6702,33 @@ static int __pyx_pf_7plexsim_6models_7sampler_4MCMC_8p_recomb_2__set__(struct __
  */
   #ifndef CYTHON_WITHOUT_ASSERTIONS
   if (unlikely(!Py_OptimizeFlag)) {
-    __pyx_t_1 = PyObject_RichCompare(__pyx_int_0, __pyx_v_value, Py_LE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 176, __pyx_L1_error)
+    __pyx_t_1 = PyObject_RichCompare(__pyx_int_0, __pyx_v_value, Py_LE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
     if (__Pyx_PyObject_IsTrue(__pyx_t_1)) {
       __Pyx_DECREF(__pyx_t_1);
-      __pyx_t_1 = PyObject_RichCompare(__pyx_v_value, __pyx_int_1, Py_LE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 176, __pyx_L1_error)
+      __pyx_t_1 = PyObject_RichCompare(__pyx_v_value, __pyx_int_1, Py_LE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
     }
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_2 < 0))) __PYX_ERR(0, 176, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_2 < 0))) __PYX_ERR(0, 177, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(!__pyx_t_2)) {
       __Pyx_Raise(__pyx_builtin_AssertionError, 0, 0, 0);
-      __PYX_ERR(0, 176, __pyx_L1_error)
+      __PYX_ERR(0, 177, __pyx_L1_error)
     }
   }
   #else
-  if ((1)); else __PYX_ERR(0, 176, __pyx_L1_error)
+  if ((1)); else __PYX_ERR(0, 177, __pyx_L1_error)
   #endif
 
-  /* "plexsim/models/sampler.pyx":177
+  /* "plexsim/models/sampler.pyx":178
  *     def p_recomb(self, value):
  *         assert 0 <= value <= 1
  *         self._p_recomb = value             # <<<<<<<<<<<<<<
  *         # print(f"recomb set to {value}")
  * 
  */
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 177, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 178, __pyx_L1_error)
   __pyx_v_self->_p_recomb = __pyx_t_3;
 
-  /* "plexsim/models/sampler.pyx":174
+  /* "plexsim/models/sampler.pyx":175
  *     def p_recomb(self): return self._p_recomb
  * 
  *     @p_recomb.setter             # <<<<<<<<<<<<<<
@@ -6683,7 +6748,7 @@ static int __pyx_pf_7plexsim_6models_7sampler_4MCMC_8p_recomb_2__set__(struct __
   return __pyx_r;
 }
 
-/* "plexsim/models/sampler.pyx":180
+/* "plexsim/models/sampler.pyx":181
  *         # print(f"recomb set to {value}")
  * 
  *     def __eq__(self, other):             # <<<<<<<<<<<<<<
@@ -6717,75 +6782,75 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_4MCMC_2__eq__(struct __pyx_o
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__eq__", 0);
 
-  /* "plexsim/models/sampler.pyx":181
+  /* "plexsim/models/sampler.pyx":182
  * 
  *     def __eq__(self, other):
  *         if self.rng != other.rng:             # <<<<<<<<<<<<<<
  *             return False
  *         if self.p_recomb != other.p_recomb:
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rng); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 181, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_rng); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_rng); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 181, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_rng); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 182, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_NE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 181, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_NE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 182, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely((__pyx_t_4 < 0))) __PYX_ERR(0, 181, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely((__pyx_t_4 < 0))) __PYX_ERR(0, 182, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_4) {
-
-    /* "plexsim/models/sampler.pyx":182
- *     def __eq__(self, other):
- *         if self.rng != other.rng:
- *             return False             # <<<<<<<<<<<<<<
- *         if self.p_recomb != other.p_recomb:
- *             return False
- */
-    __Pyx_XDECREF(__pyx_r);
-    __Pyx_INCREF(Py_False);
-    __pyx_r = Py_False;
-    goto __pyx_L0;
-
-    /* "plexsim/models/sampler.pyx":181
- * 
- *     def __eq__(self, other):
- *         if self.rng != other.rng:             # <<<<<<<<<<<<<<
- *             return False
- *         if self.p_recomb != other.p_recomb:
- */
-  }
-
-  /* "plexsim/models/sampler.pyx":183
- *         if self.rng != other.rng:
- *             return False
- *         if self.p_recomb != other.p_recomb:             # <<<<<<<<<<<<<<
- *             return False
- *         return True
- */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_p_recomb); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 183, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_p_recomb); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 183, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_t_2, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 183, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_4 < 0))) __PYX_ERR(0, 183, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__pyx_t_4) {
-
-    /* "plexsim/models/sampler.pyx":184
- *             return False
- *         if self.p_recomb != other.p_recomb:
- *             return False             # <<<<<<<<<<<<<<
- *         return True
- */
-    __Pyx_XDECREF(__pyx_r);
-    __Pyx_INCREF(Py_False);
-    __pyx_r = Py_False;
-    goto __pyx_L0;
 
     /* "plexsim/models/sampler.pyx":183
+ *     def __eq__(self, other):
+ *         if self.rng != other.rng:
+ *             return False             # <<<<<<<<<<<<<<
+ *         if self.p_recomb != other.p_recomb:
+ *             return False
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __Pyx_INCREF(Py_False);
+    __pyx_r = Py_False;
+    goto __pyx_L0;
+
+    /* "plexsim/models/sampler.pyx":182
+ * 
+ *     def __eq__(self, other):
+ *         if self.rng != other.rng:             # <<<<<<<<<<<<<<
+ *             return False
+ *         if self.p_recomb != other.p_recomb:
+ */
+  }
+
+  /* "plexsim/models/sampler.pyx":184
+ *         if self.rng != other.rng:
+ *             return False
+ *         if self.p_recomb != other.p_recomb:             # <<<<<<<<<<<<<<
+ *             return False
+ *         return True
+ */
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_p_recomb); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_p_recomb); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_t_2, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_4 < 0))) __PYX_ERR(0, 184, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (__pyx_t_4) {
+
+    /* "plexsim/models/sampler.pyx":185
+ *             return False
+ *         if self.p_recomb != other.p_recomb:
+ *             return False             # <<<<<<<<<<<<<<
+ *         return True
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __Pyx_INCREF(Py_False);
+    __pyx_r = Py_False;
+    goto __pyx_L0;
+
+    /* "plexsim/models/sampler.pyx":184
  *         if self.rng != other.rng:
  *             return False
  *         if self.p_recomb != other.p_recomb:             # <<<<<<<<<<<<<<
@@ -6794,7 +6859,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_4MCMC_2__eq__(struct __pyx_o
  */
   }
 
-  /* "plexsim/models/sampler.pyx":185
+  /* "plexsim/models/sampler.pyx":186
  *         if self.p_recomb != other.p_recomb:
  *             return False
  *         return True             # <<<<<<<<<<<<<<
@@ -6804,7 +6869,7 @@ static PyObject *__pyx_pf_7plexsim_6models_7sampler_4MCMC_2__eq__(struct __pyx_o
   __pyx_r = Py_True;
   goto __pyx_L0;
 
-  /* "plexsim/models/sampler.pyx":180
+  /* "plexsim/models/sampler.pyx":181
  *         # print(f"recomb set to {value}")
  * 
  *     def __eq__(self, other):             # <<<<<<<<<<<<<<
@@ -24316,10 +24381,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 };
 /* #### Code section: cached_builtins ### */
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 23, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 53, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
-  __pyx_builtin_AssertionError = __Pyx_GetBuiltinName(__pyx_n_s_AssertionError); if (!__pyx_builtin_AssertionError) __PYX_ERR(0, 176, __pyx_L1_error)
+  __pyx_builtin_AssertionError = __Pyx_GetBuiltinName(__pyx_n_s_AssertionError); if (!__pyx_builtin_AssertionError) __PYX_ERR(0, 177, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 987, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 68, __pyx_L1_error)
   __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(1, 154, __pyx_L1_error)
@@ -24336,25 +24401,25 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "plexsim/models/sampler.pyx":23
+  /* "plexsim/models/sampler.pyx":24
  *             _seed = seed
  *         else:
  *             raise  ValueError("seed needs uint")             # <<<<<<<<<<<<<<
  * 
  *         # define rng sampler
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_seed_needs_uint); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_seed_needs_uint); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "plexsim/models/sampler.pyx":45
+  /* "plexsim/models/sampler.pyx":46
  *             self._gen   = mt19937(self.seed)
  *         else:
  *             raise ValueError("Not an uint found")             # <<<<<<<<<<<<<<
  * 
  *     cdef void fisher_yates(self, \
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_Not_an_uint_found); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_Not_an_uint_found); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -24405,17 +24470,17 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__9);
   __Pyx_GIVEREF(__pyx_slice__9);
 
-  /* "plexsim/models/sampler.pyx":30
+  /* "plexsim/models/sampler.pyx":31
  *         self._gen  = mt19937(self.seed)
  * 
  *     cpdef double rand(self):             # <<<<<<<<<<<<<<
  *         return self._rand()
  * 
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__12);
   __Pyx_GIVEREF(__pyx_tuple__12);
-  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_sampler_pyx, __pyx_n_s_rand, 30, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_plexsim_models_sampler_pyx, __pyx_n_s_rand, 31, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 31, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
@@ -24746,15 +24811,15 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_7plexsim_6models_7sampler_RandomGenerator.rand = (double (*)(struct __pyx_obj_7plexsim_6models_7sampler_RandomGenerator *, int __pyx_skip_dispatch))__pyx_f_7plexsim_6models_7sampler_15RandomGenerator_rand;
   __pyx_vtable_7plexsim_6models_7sampler_RandomGenerator.fisher_yates = (void (*)(struct __pyx_obj_7plexsim_6models_7sampler_RandomGenerator *, __pyx_t_7plexsim_6models_5types_node_id_t *, size_t, size_t))__pyx_f_7plexsim_6models_7sampler_15RandomGenerator_fisher_yates;
   #if CYTHON_USE_TYPE_SPECS
-  __pyx_ptype_7plexsim_6models_7sampler_RandomGenerator = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_7plexsim_6models_7sampler_RandomGenerator_spec, NULL); if (unlikely(!__pyx_ptype_7plexsim_6models_7sampler_RandomGenerator)) __PYX_ERR(0, 8, __pyx_L1_error)
-  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_7plexsim_6models_7sampler_RandomGenerator_spec, __pyx_ptype_7plexsim_6models_7sampler_RandomGenerator) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_ptype_7plexsim_6models_7sampler_RandomGenerator = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_7plexsim_6models_7sampler_RandomGenerator_spec, NULL); if (unlikely(!__pyx_ptype_7plexsim_6models_7sampler_RandomGenerator)) __PYX_ERR(0, 9, __pyx_L1_error)
+  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_7plexsim_6models_7sampler_RandomGenerator_spec, __pyx_ptype_7plexsim_6models_7sampler_RandomGenerator) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   #else
   __pyx_ptype_7plexsim_6models_7sampler_RandomGenerator = &__pyx_type_7plexsim_6models_7sampler_RandomGenerator;
   #endif
   #if !CYTHON_COMPILING_IN_LIMITED_API
   #endif
   #if !CYTHON_USE_TYPE_SPECS
-  if (__Pyx_PyType_Ready(__pyx_ptype_7plexsim_6models_7sampler_RandomGenerator) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  if (__Pyx_PyType_Ready(__pyx_ptype_7plexsim_6models_7sampler_RandomGenerator) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   #endif
   #if PY_MAJOR_VERSION < 3
   __pyx_ptype_7plexsim_6models_7sampler_RandomGenerator->tp_print = 0;
@@ -24766,7 +24831,7 @@ static int __Pyx_modinit_type_init_code(void) {
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)__pyx_ptype_7plexsim_6models_7sampler_RandomGenerator, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(0, 8, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)__pyx_ptype_7plexsim_6models_7sampler_RandomGenerator, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(0, 9, __pyx_L1_error)
     if (__Pyx_IS_TYPE(wrapper, &PyWrapperDescr_Type)) {
       __pyx_wrapperbase_7plexsim_6models_7sampler_15RandomGenerator___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_7plexsim_6models_7sampler_15RandomGenerator___init__.doc = __pyx_doc_7plexsim_6models_7sampler_15RandomGenerator___init__;
@@ -24774,13 +24839,13 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (__Pyx_SetVtable(__pyx_ptype_7plexsim_6models_7sampler_RandomGenerator, __pyx_vtabptr_7plexsim_6models_7sampler_RandomGenerator) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_ptype_7plexsim_6models_7sampler_RandomGenerator, __pyx_vtabptr_7plexsim_6models_7sampler_RandomGenerator) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API
-  if (__Pyx_MergeVtables(__pyx_ptype_7plexsim_6models_7sampler_RandomGenerator) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  if (__Pyx_MergeVtables(__pyx_ptype_7plexsim_6models_7sampler_RandomGenerator) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   #endif
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_RandomGenerator, (PyObject *) __pyx_ptype_7plexsim_6models_7sampler_RandomGenerator) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_RandomGenerator, (PyObject *) __pyx_ptype_7plexsim_6models_7sampler_RandomGenerator) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API
-  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_7plexsim_6models_7sampler_RandomGenerator) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_7plexsim_6models_7sampler_RandomGenerator) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   #endif
   __pyx_vtabptr_7plexsim_6models_7sampler_MCMC = &__pyx_vtable_7plexsim_6models_7sampler_MCMC;
   __pyx_vtable_7plexsim_6models_7sampler_MCMC.recombination = (void (*)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &, PyObject *))__pyx_f_7plexsim_6models_7sampler_4MCMC_recombination;
@@ -24788,26 +24853,26 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_7plexsim_6models_7sampler_MCMC.step = (void (*)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  &, PyObject *))__pyx_f_7plexsim_6models_7sampler_4MCMC_step;
   __pyx_vtable_7plexsim_6models_7sampler_MCMC._sample_proposal = (__pyx_t_7plexsim_6models_5types_state_t (*)(struct __pyx_obj_7plexsim_6models_7sampler_MCMC *, PyObject *))__pyx_f_7plexsim_6models_7sampler_4MCMC__sample_proposal;
   #if CYTHON_USE_TYPE_SPECS
-  __pyx_ptype_7plexsim_6models_7sampler_MCMC = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_7plexsim_6models_7sampler_MCMC_spec, NULL); if (unlikely(!__pyx_ptype_7plexsim_6models_7sampler_MCMC)) __PYX_ERR(0, 63, __pyx_L1_error)
-  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_7plexsim_6models_7sampler_MCMC_spec, __pyx_ptype_7plexsim_6models_7sampler_MCMC) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_ptype_7plexsim_6models_7sampler_MCMC = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_7plexsim_6models_7sampler_MCMC_spec, NULL); if (unlikely(!__pyx_ptype_7plexsim_6models_7sampler_MCMC)) __PYX_ERR(0, 64, __pyx_L1_error)
+  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_7plexsim_6models_7sampler_MCMC_spec, __pyx_ptype_7plexsim_6models_7sampler_MCMC) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
   #else
   __pyx_ptype_7plexsim_6models_7sampler_MCMC = &__pyx_type_7plexsim_6models_7sampler_MCMC;
   #endif
   #if !CYTHON_COMPILING_IN_LIMITED_API
   #endif
   #if !CYTHON_USE_TYPE_SPECS
-  if (__Pyx_PyType_Ready(__pyx_ptype_7plexsim_6models_7sampler_MCMC) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (__Pyx_PyType_Ready(__pyx_ptype_7plexsim_6models_7sampler_MCMC) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
   #endif
   #if PY_MAJOR_VERSION < 3
   __pyx_ptype_7plexsim_6models_7sampler_MCMC->tp_print = 0;
   #endif
-  if (__Pyx_SetVtable(__pyx_ptype_7plexsim_6models_7sampler_MCMC, __pyx_vtabptr_7plexsim_6models_7sampler_MCMC) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_ptype_7plexsim_6models_7sampler_MCMC, __pyx_vtabptr_7plexsim_6models_7sampler_MCMC) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API
-  if (__Pyx_MergeVtables(__pyx_ptype_7plexsim_6models_7sampler_MCMC) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (__Pyx_MergeVtables(__pyx_ptype_7plexsim_6models_7sampler_MCMC) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
   #endif
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_MCMC, (PyObject *) __pyx_ptype_7plexsim_6models_7sampler_MCMC) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_MCMC, (PyObject *) __pyx_ptype_7plexsim_6models_7sampler_MCMC) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API
-  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_7plexsim_6models_7sampler_MCMC) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_7plexsim_6models_7sampler_MCMC) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
   #endif
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
@@ -25342,20 +25407,20 @@ if (!__Pyx_RefNanny) {
  * import numpy as np
  * cimport numpy as np; np.import_array()             # <<<<<<<<<<<<<<
  * from plexsim.models.types cimport *
- * 
+ * from cython.operator cimport dereference as deref
  */
   __pyx_t_2 = __pyx_f_5numpy_import_array(); if (unlikely(__pyx_t_2 == ((int)-1))) __PYX_ERR(0, 4, __pyx_L1_error)
 
-  /* "plexsim/models/sampler.pyx":30
+  /* "plexsim/models/sampler.pyx":31
  *         self._gen  = mt19937(self.seed)
  * 
  *     cpdef double rand(self):             # <<<<<<<<<<<<<<
  *         return self._rand()
  * 
  */
-  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_7sampler_15RandomGenerator_3rand, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_RandomGenerator_rand, NULL, __pyx_n_s_plexsim_models_sampler, __pyx_d, ((PyObject *)__pyx_codeobj__13)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7plexsim_6models_7sampler_15RandomGenerator_3rand, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_RandomGenerator_rand, NULL, __pyx_n_s_plexsim_models_sampler, __pyx_d, ((PyObject *)__pyx_codeobj__13)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_7sampler_RandomGenerator->tp_dict, __pyx_n_s_rand, __pyx_t_1) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_7plexsim_6models_7sampler_RandomGenerator->tp_dict, __pyx_n_s_rand, __pyx_t_1) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   PyType_Modified(__pyx_ptype_7plexsim_6models_7sampler_RandomGenerator);
 

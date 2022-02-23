@@ -37,7 +37,7 @@ class TestCrawl(ut.TestCase):
 
             # set state -> social network matches the value network
             for node in range(m.nNodes):
-                m.states[node] = node
+                m.deref(states)[node] = node
 
             targets = np.ones(m.nNodes)
             self.__test_crawl_single(m, targets=targets, verbose=self.verbose)
@@ -348,7 +348,7 @@ class TestGradient(ut.TestCase):
 
             # set state -> social network matches the value network
             for node in range(m.nNodes):
-                m.states[node] = node
+                m.deref(states)[node] = node
 
             targets = np.ones(m.nNodes)
             self.__test_crawl_single(m, targets=targets, verbose=self.verbose)

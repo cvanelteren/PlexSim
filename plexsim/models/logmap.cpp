@@ -46,12 +46,77 @@
         "libraries": [
             "stdc++"
         ],
-        "name": "plexsim.models.logmap",
+        "name": "models",
         "sources": [
-            "plexsim/models/logmap.pyx"
+            "build/lib.linux-x86_64-3.9/plexsim/models/percolation.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pottsis.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/kawasaki.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/magnetic_boids.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ising.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_edges.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bornholdt.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_soc.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/potts.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_crystal.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/test.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cyclic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rules.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network2.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_dynamic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_gradient.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/game_of_life.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/adjacency.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ab.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rbn.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/binding.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/heisenberg.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sirs.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sampler.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/logmap.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bonabeau.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pyobjectholder.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/prisoner.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sandpile.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/base.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cca.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/simple_copy.pyx",
+            "plexsim/models/percolation.pyx",
+            "plexsim/models/pottsis.pyx",
+            "plexsim/models/kawasaki.pyx",
+            "plexsim/models/magnetic_boids.pyx",
+            "plexsim/models/ising.pyx",
+            "plexsim/models/value_network_edges.pyx",
+            "plexsim/models/bornholdt.pyx",
+            "plexsim/models/value_network_soc.pyx",
+            "plexsim/models/potts.pyx",
+            "plexsim/models/value_network_crystal.pyx",
+            "plexsim/models/test.pyx",
+            "plexsim/models/cyclic.pyx",
+            "plexsim/models/rules.pyx",
+            "plexsim/models/value_network2.pyx",
+            "plexsim/models/value_network_dynamic.pyx",
+            "plexsim/models/value_network_gradient.pyx",
+            "plexsim/models/game_of_life.pyx",
+            "plexsim/models/adjacency.pyx",
+            "plexsim/models/ab.pyx",
+            "plexsim/models/value_network.pyx",
+            "plexsim/models/rbn.pyx",
+            "plexsim/models/binding.pyx",
+            "plexsim/models/heisenberg.pyx",
+            "plexsim/models/sirs.pyx",
+            "plexsim/models/sampler.pyx",
+            "plexsim/models/logmap.pyx",
+            "plexsim/models/bonabeau.pyx",
+            "plexsim/models/pyobjectholder.pyx",
+            "plexsim/models/prisoner.pyx",
+            "plexsim/models/sandpile.pyx",
+            "plexsim/models/base.pyx",
+            "plexsim/models/cca.pyx",
+            "plexsim/models/simple_copy.pyx"
         ]
     },
-    "module_name": "plexsim.models.logmap"
+    "module_name": "models"
 }
 END: Cython Metadata */
 
@@ -1852,9 +1917,9 @@ struct __pyx_obj_7plexsim_6models_4base_Model {
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtab;
   PyObject *ptr;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__states;
-  __pyx_t_7plexsim_6models_5types_state_t *_states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_states;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__newstates;
-  __pyx_t_7plexsim_6models_5types_state_t *_newstates;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_newstates;
   int _last_written;
   int _use_mcmc;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _agentStates;
@@ -4855,7 +4920,7 @@ static void __pyx_f_7plexsim_6models_6logmap_6Logmap__step(struct __pyx_obj_7ple
  *         while it != self.adj._adj[node].neighbors.end():
  *             neighbor = deref(it).first             # <<<<<<<<<<<<<<
  *             weight   = deref(it).second
- *             x_n      += weight *  self._states[neighbor]
+ *             x_n      += weight *  deref(self._states)[neighbor]
  */
     __pyx_t_2 = (*__pyx_v_it).first;
     __pyx_v_neighbor = __pyx_t_2;
@@ -4864,7 +4929,7 @@ static void __pyx_f_7plexsim_6models_6logmap_6Logmap__step(struct __pyx_obj_7ple
  *         while it != self.adj._adj[node].neighbors.end():
  *             neighbor = deref(it).first
  *             weight   = deref(it).second             # <<<<<<<<<<<<<<
- *             x_n      += weight *  self._states[neighbor]
+ *             x_n      += weight *  deref(self._states)[neighbor]
  *             post(it)
  */
     __pyx_t_3 = (*__pyx_v_it).second;
@@ -4873,18 +4938,18 @@ static void __pyx_f_7plexsim_6models_6logmap_6Logmap__step(struct __pyx_obj_7ple
     /* "plexsim/models/logmap.pyx":35
  *             neighbor = deref(it).first
  *             weight   = deref(it).second
- *             x_n      += weight *  self._states[neighbor]             # <<<<<<<<<<<<<<
+ *             x_n      += weight *  deref(self._states)[neighbor]             # <<<<<<<<<<<<<<
  *             post(it)
  * 
  */
-    __pyx_v_x_n = (__pyx_v_x_n + (__pyx_v_weight * (__pyx_v_self->__pyx_base._states[__pyx_v_neighbor])));
+    __pyx_v_x_n = (__pyx_v_x_n + (__pyx_v_weight * ((*__pyx_v_self->__pyx_base._states)[__pyx_v_neighbor])));
 
     /* "plexsim/models/logmap.pyx":36
  *             weight   = deref(it).second
- *             x_n      += weight *  self._states[neighbor]
+ *             x_n      += weight *  deref(self._states)[neighbor]
  *             post(it)             # <<<<<<<<<<<<<<
  * 
- *         x_n = self._r * self._states[node] * (1 - self._states[node]) +\
+ *         x_n = self._r * deref(self._states)[node] * (1 - deref(self._states)[node] + self._alpha * fabs(cos(x_n - deref(self._states)[node] )))
  */
     (void)((__pyx_v_it++));
   }
@@ -4892,24 +4957,24 @@ static void __pyx_f_7plexsim_6models_6logmap_6Logmap__step(struct __pyx_obj_7ple
   /* "plexsim/models/logmap.pyx":38
  *             post(it)
  * 
- *         x_n = self._r * self._states[node] * (1 - self._states[node]) +\             # <<<<<<<<<<<<<<
- *             self._alpha * fabs(cos(x_n - self._states[node]) )
- *         self._newstates[node] = x_n
+ *         x_n = self._r * deref(self._states)[node] * (1 - deref(self._states)[node] + self._alpha * fabs(cos(x_n - deref(self._states)[node] )))             # <<<<<<<<<<<<<<
+ *         deref(self._newstates)[node] = x_n
+ *         return
  */
-  __pyx_v_x_n = (((__pyx_v_self->_r * (__pyx_v_self->__pyx_base._states[__pyx_v_node])) * (1.0 - (__pyx_v_self->__pyx_base._states[__pyx_v_node]))) + (__pyx_v_self->_alpha * fabs(cos((__pyx_v_x_n - (__pyx_v_self->__pyx_base._states[__pyx_v_node]))))));
+  __pyx_v_x_n = ((__pyx_v_self->_r * ((*__pyx_v_self->__pyx_base._states)[__pyx_v_node])) * ((1.0 - ((*__pyx_v_self->__pyx_base._states)[__pyx_v_node])) + (__pyx_v_self->_alpha * fabs(cos((__pyx_v_x_n - ((*__pyx_v_self->__pyx_base._states)[__pyx_v_node])))))));
 
-  /* "plexsim/models/logmap.pyx":40
- *         x_n = self._r * self._states[node] * (1 - self._states[node]) +\
- *             self._alpha * fabs(cos(x_n - self._states[node]) )
- *         self._newstates[node] = x_n             # <<<<<<<<<<<<<<
+  /* "plexsim/models/logmap.pyx":39
+ * 
+ *         x_n = self._r * deref(self._states)[node] * (1 - deref(self._states)[node] + self._alpha * fabs(cos(x_n - deref(self._states)[node] )))
+ *         deref(self._newstates)[node] = x_n             # <<<<<<<<<<<<<<
  *         return
  * 
  */
-  (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = __pyx_v_x_n;
+  ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_node]) = __pyx_v_x_n;
 
-  /* "plexsim/models/logmap.pyx":41
- *             self._alpha * fabs(cos(x_n - self._states[node]) )
- *         self._newstates[node] = x_n
+  /* "plexsim/models/logmap.pyx":40
+ *         x_n = self._r * deref(self._states)[node] * (1 - deref(self._states)[node] + self._alpha * fabs(cos(x_n - deref(self._states)[node] )))
+ *         deref(self._newstates)[node] = x_n
  *         return             # <<<<<<<<<<<<<<
  * 
  *     @property
@@ -4928,7 +4993,7 @@ static void __pyx_f_7plexsim_6models_6logmap_6Logmap__step(struct __pyx_obj_7ple
   __pyx_L0:;
 }
 
-/* "plexsim/models/logmap.pyx":43
+/* "plexsim/models/logmap.pyx":42
  *         return
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -4959,7 +5024,7 @@ static PyObject *__pyx_pf_7plexsim_6models_6logmap_6Logmap_1r___get__(struct __p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/logmap.pyx":45
+  /* "plexsim/models/logmap.pyx":44
  *     @property
  *     def r(self):
  *         return self._r             # <<<<<<<<<<<<<<
@@ -4967,13 +5032,13 @@ static PyObject *__pyx_pf_7plexsim_6models_6logmap_6Logmap_1r___get__(struct __p
  *     def r(self, value):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_r); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_r); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/logmap.pyx":43
+  /* "plexsim/models/logmap.pyx":42
  *         return
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -4992,7 +5057,7 @@ static PyObject *__pyx_pf_7plexsim_6models_6logmap_6Logmap_1r___get__(struct __p
   return __pyx_r;
 }
 
-/* "plexsim/models/logmap.pyx":46
+/* "plexsim/models/logmap.pyx":45
  *     def r(self):
  *         return self._r
  *     @r.setter             # <<<<<<<<<<<<<<
@@ -5023,17 +5088,17 @@ static int __pyx_pf_7plexsim_6models_6logmap_6Logmap_1r_2__set__(struct __pyx_ob
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "plexsim/models/logmap.pyx":48
+  /* "plexsim/models/logmap.pyx":47
  *     @r.setter
  *     def r(self, value):
  *         self._r = value             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L1_error)
   __pyx_v_self->_r = __pyx_t_1;
 
-  /* "plexsim/models/logmap.pyx":46
+  /* "plexsim/models/logmap.pyx":45
  *     def r(self):
  *         return self._r
  *     @r.setter             # <<<<<<<<<<<<<<
@@ -5052,7 +5117,7 @@ static int __pyx_pf_7plexsim_6models_6logmap_6Logmap_1r_2__set__(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "plexsim/models/logmap.pyx":50
+/* "plexsim/models/logmap.pyx":49
  *         self._r = value
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5083,7 +5148,7 @@ static PyObject *__pyx_pf_7plexsim_6models_6logmap_6Logmap_5alpha___get__(struct
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "plexsim/models/logmap.pyx":52
+  /* "plexsim/models/logmap.pyx":51
  *     @property
  *     def alpha(self):
  *         return self._alpha             # <<<<<<<<<<<<<<
@@ -5091,13 +5156,13 @@ static PyObject *__pyx_pf_7plexsim_6models_6logmap_6Logmap_5alpha___get__(struct
  *     def alpha(self, value):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_alpha); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_alpha); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "plexsim/models/logmap.pyx":50
+  /* "plexsim/models/logmap.pyx":49
  *         self._r = value
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -5116,7 +5181,7 @@ static PyObject *__pyx_pf_7plexsim_6models_6logmap_6Logmap_5alpha___get__(struct
   return __pyx_r;
 }
 
-/* "plexsim/models/logmap.pyx":53
+/* "plexsim/models/logmap.pyx":52
  *     def alpha(self):
  *         return self._alpha
  *     @alpha.setter             # <<<<<<<<<<<<<<
@@ -5147,15 +5212,15 @@ static int __pyx_pf_7plexsim_6models_6logmap_6Logmap_5alpha_2__set__(struct __py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "plexsim/models/logmap.pyx":55
+  /* "plexsim/models/logmap.pyx":54
  *     @alpha.setter
  *     def alpha(self, value):
  *         self._alpha = value             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 54, __pyx_L1_error)
   __pyx_v_self->_alpha = __pyx_t_1;
 
-  /* "plexsim/models/logmap.pyx":53
+  /* "plexsim/models/logmap.pyx":52
  *     def alpha(self):
  *         return self._alpha
  *     @alpha.setter             # <<<<<<<<<<<<<<

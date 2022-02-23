@@ -247,7 +247,7 @@ cdef class ValueNetwork(Potts):
         """
         cdef Crawler *crawler = new Crawler(
                                     start,
-                                    self._states[start],
+                                    deref(self._states)[start],
                                     self._bounded_rational,
                                     self._heuristic,
                                     self._path_size,
@@ -375,7 +375,7 @@ cdef class ValueNetwork(Potts):
                 it = self.adj._adj[current_edge.other.name].neighbors.begin()
                 while it != self.adj._adj[current_edge.other.name].neighbors.end():
                     neighbor_idx = deref(it).first
-                    proposal_edge.other = ColorNode(neighbor_idx, self._states[neighbor_idx])
+                    proposal_edge.other = ColorNode(neighbor_idx, deref(self._states)[neighbor_idx])
                     if crawler.verbose:
                         with gil:
                             print("Considering")
@@ -461,14 +461,14 @@ cdef class ValueNetwork(Potts):
         """
         cdef:
             size_t neighbors = self.adj._adj[node].neighbors.size()
-            state_t* states = self._states # alias
+            vector[state_t]* states = self._states # alias
             size_t  neighbor, neighboridx
             double weight # TODO: remove delta
 
-            double energy  = self._H[node] * self._states[node]
+            double energy  = self._H[node] * deref(self._states)[node]
 
         if self._nudges.find(node) != self._nudges.end():
-            energy += self._nudges[node] * self._states[node]
+            energy += self._nudges[node] * deref(self._states)[node]
 
         # compute the energy
         cdef:
@@ -483,7 +483,7 @@ cdef class ValueNetwork(Potts):
         #cdef size_t distance = self.distance_converter[proposal]
         # only get nodes based on distance it can reach based on the value network
         # current state as proposal
-        cdef state_t proposal = self._states[node]
+        cdef state_t proposal = deref(self._states)[node]
         cdef:
             state_t start
             rule_t rule_pair
@@ -498,13 +498,13 @@ cdef class ValueNetwork(Potts):
                 weight   = deref(it).second
                 neighbor = deref(it).first
                 # check rules
-                energy += self._rules._adj[proposal][states[neighbor]]
+                energy += self._rules._adj[proposal][deref(states)[neighbor]]
                 post(it)
 
             # compute positive edges
             K = 0
-            kt = self._rules._adj[states[node]].begin()
-            while  kt != self._rules._adj[states[node]].end():
+            kt = self._rules._adj[deref(states)[node]].begin()
+            while  kt != self._rules._adj[deref(states)[node]].end():
                 if deref(kt).second > 0:
                     K += 1
                 post(kt)
@@ -525,7 +525,7 @@ cdef class ValueNetwork(Potts):
         # compute completed value networks
         cdef Crawler *crawler = new Crawler(
                                     node,
-                                    self._states[node],
+                                    deref(self._states)[node],
                                     self._bounded_rational,
                                     self._heuristic,
                                     self._path_size,
@@ -551,7 +551,7 @@ cdef class ValueNetwork(Potts):
         cdef size_t mi
         # TODO: move to separate function
         for mi in range(self._memorySize):
-            energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi][node])
+            energy += exp(mi * self._memento) * self._hamiltonian(deref(states)[node], self._memory[mi][node])
         return energy
         # try-out match trees:
         # return energy * (1 + counter)
@@ -561,13 +561,13 @@ cdef class ValueNetwork(Potts):
     cdef double probability(self, state_t state, node_id_t node) nogil:
         """ See base model
         """
-        cdef state_t tmp = self._states[node]
-        self._states[node] = state
+        cdef state_t tmp = deref(self._states)[node]
+        deref(self._states)[node] = state
         cdef:
             double energy = self._energy(node)
             double p = exp(self._beta * energy)
 
-        self._states[node] = tmp
+        deref(self._states)[node] = tmp
         return p
 
     # default update TODO remove this
@@ -583,12 +583,12 @@ cdef class ValueNetwork(Potts):
     cdef void _step(self, node_id_t node) nogil:
         cdef:
             state_t proposal  = self._sample_proposal()
-            state_t cur_state = self._states[node]
+            state_t cur_state = deref(self._states)[node]
 
             double p = self.probability(proposal, node) / \
                 self.probability(cur_state, node)
         if self._rng._rand () < p:
-            self._newstates[node] = proposal
+            deref(self._states)[node] = proposal
         return
 
     def dump_rules(self):

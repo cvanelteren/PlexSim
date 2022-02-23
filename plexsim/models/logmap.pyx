@@ -32,12 +32,11 @@ cdef class Logmap(Model):
         while it != self.adj._adj[node].neighbors.end():
             neighbor = deref(it).first
             weight   = deref(it).second
-            x_n      += weight *  self._states[neighbor]
+            x_n      += weight *  deref(self._states)[neighbor]
             post(it)
 
-        x_n = self._r * self._states[node] * (1 - self._states[node]) +\
-            self._alpha * fabs(cos(x_n - self._states[node]) )
-        self._newstates[node] = x_n
+        x_n = self._r * deref(self._states)[node] * (1 - deref(self._states)[node] + self._alpha * fabs(cos(x_n - deref(self._states)[node] )))
+        deref(self._newstates)[node] = x_n
         return
 
     @property

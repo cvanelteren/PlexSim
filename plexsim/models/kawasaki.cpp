@@ -46,12 +46,77 @@
         "libraries": [
             "stdc++"
         ],
-        "name": "plexsim.models.kawasaki",
+        "name": "models",
         "sources": [
-            "plexsim/models/kawasaki.pyx"
+            "build/lib.linux-x86_64-3.9/plexsim/models/percolation.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pottsis.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/kawasaki.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/magnetic_boids.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ising.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_edges.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bornholdt.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_soc.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/potts.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_crystal.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/test.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cyclic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rules.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network2.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_dynamic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_gradient.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/game_of_life.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/adjacency.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ab.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rbn.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/binding.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/heisenberg.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sirs.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sampler.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/logmap.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bonabeau.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pyobjectholder.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/prisoner.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sandpile.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/base.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cca.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/simple_copy.pyx",
+            "plexsim/models/percolation.pyx",
+            "plexsim/models/pottsis.pyx",
+            "plexsim/models/kawasaki.pyx",
+            "plexsim/models/magnetic_boids.pyx",
+            "plexsim/models/ising.pyx",
+            "plexsim/models/value_network_edges.pyx",
+            "plexsim/models/bornholdt.pyx",
+            "plexsim/models/value_network_soc.pyx",
+            "plexsim/models/potts.pyx",
+            "plexsim/models/value_network_crystal.pyx",
+            "plexsim/models/test.pyx",
+            "plexsim/models/cyclic.pyx",
+            "plexsim/models/rules.pyx",
+            "plexsim/models/value_network2.pyx",
+            "plexsim/models/value_network_dynamic.pyx",
+            "plexsim/models/value_network_gradient.pyx",
+            "plexsim/models/game_of_life.pyx",
+            "plexsim/models/adjacency.pyx",
+            "plexsim/models/ab.pyx",
+            "plexsim/models/value_network.pyx",
+            "plexsim/models/rbn.pyx",
+            "plexsim/models/binding.pyx",
+            "plexsim/models/heisenberg.pyx",
+            "plexsim/models/sirs.pyx",
+            "plexsim/models/sampler.pyx",
+            "plexsim/models/logmap.pyx",
+            "plexsim/models/bonabeau.pyx",
+            "plexsim/models/pyobjectholder.pyx",
+            "plexsim/models/prisoner.pyx",
+            "plexsim/models/sandpile.pyx",
+            "plexsim/models/base.pyx",
+            "plexsim/models/cca.pyx",
+            "plexsim/models/simple_copy.pyx"
         ]
     },
-    "module_name": "plexsim.models.kawasaki"
+    "module_name": "models"
 }
 END: Cython Metadata */
 
@@ -1869,9 +1934,9 @@ struct __pyx_obj_7plexsim_6models_4base_Model {
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtab;
   PyObject *ptr;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__states;
-  __pyx_t_7plexsim_6models_5types_state_t *_states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_states;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__newstates;
-  __pyx_t_7plexsim_6models_5types_state_t *_newstates;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_newstates;
   int _last_written;
   int _use_mcmc;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _agentStates;
@@ -2093,11 +2158,11 @@ static struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtabptr_7plex
 struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts {
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model __pyx_base;
   double (*_energy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __pyx_t_7plexsim_6models_5types_node_id_t);
-  PyArrayObject *(*node_energy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  PyArrayObject *(*node_energy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, std::vector<__pyx_t_7plexsim_6models_5types_state_t>  &, int __pyx_skip_dispatch);
   double (*magnetize_)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, double);
   double (*_hamiltonian)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __pyx_t_7plexsim_6models_5types_state_t, __pyx_t_7plexsim_6models_5types_state_t);
   PyArrayObject *(*magnetize)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_5potts_5Potts_magnetize *__pyx_optional_args);
-  std::vector<double>  (*siteEnergy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  std::vector<double>  (*siteEnergy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, std::vector<__pyx_t_7plexsim_6models_5types_state_t>  &, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *__pyx_vtabptr_7plexsim_6models_5potts_Potts;
 
@@ -4847,41 +4912,41 @@ static void __pyx_f_7plexsim_6models_8kawasaki_8Kawasaki__step(struct __pyx_obj_
   /* "plexsim/models/kawasaki.pyx":32
  * 
  *         # energy current situation
- *         p1 = self.probability(self._states[node], node)             # <<<<<<<<<<<<<<
- *         p2 = self.probability(self._states[neighbor], neighbor)
+ *         p1 = self.probability(deref(self._states)[node], node)             # <<<<<<<<<<<<<<
+ *         p2 = self.probability(deref(self._states)[neighbor], neighbor)
  * 
  */
-  __pyx_v_p1 = ((struct __pyx_vtabstruct_7plexsim_6models_8kawasaki_Kawasaki *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]), __pyx_v_node);
+  __pyx_v_p1 = ((struct __pyx_vtabstruct_7plexsim_6models_8kawasaki_Kawasaki *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), ((*__pyx_v_self->__pyx_base.__pyx_base._states)[__pyx_v_node]), __pyx_v_node);
 
   /* "plexsim/models/kawasaki.pyx":33
  *         # energy current situation
- *         p1 = self.probability(self._states[node], node)
- *         p2 = self.probability(self._states[neighbor], neighbor)             # <<<<<<<<<<<<<<
+ *         p1 = self.probability(deref(self._states)[node], node)
+ *         p2 = self.probability(deref(self._states)[neighbor], neighbor)             # <<<<<<<<<<<<<<
  * 
  *         # switch states
  */
-  __pyx_v_p2 = ((struct __pyx_vtabstruct_7plexsim_6models_8kawasaki_Kawasaki *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_neighbor]), __pyx_v_neighbor);
+  __pyx_v_p2 = ((struct __pyx_vtabstruct_7plexsim_6models_8kawasaki_Kawasaki *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), ((*__pyx_v_self->__pyx_base.__pyx_base._states)[__pyx_v_neighbor]), __pyx_v_neighbor);
 
   /* "plexsim/models/kawasaki.pyx":36
  * 
  *         # switch states
- *         p1_ = self.probability(self._states[neighbor], node)             # <<<<<<<<<<<<<<
- *         p2_ = self.probability(self._states[node], neighbor)
+ *         p1_ = self.probability(deref(self._states)[neighbor], node)             # <<<<<<<<<<<<<<
+ *         p2_ = self.probability(deref(self._states)[node], neighbor)
  * 
  */
-  __pyx_v_p1_ = ((struct __pyx_vtabstruct_7plexsim_6models_8kawasaki_Kawasaki *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_neighbor]), __pyx_v_node);
+  __pyx_v_p1_ = ((struct __pyx_vtabstruct_7plexsim_6models_8kawasaki_Kawasaki *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), ((*__pyx_v_self->__pyx_base.__pyx_base._states)[__pyx_v_neighbor]), __pyx_v_node);
 
   /* "plexsim/models/kawasaki.pyx":37
  *         # switch states
- *         p1_ = self.probability(self._states[neighbor], node)
- *         p2_ = self.probability(self._states[node], neighbor)             # <<<<<<<<<<<<<<
+ *         p1_ = self.probability(deref(self._states)[neighbor], node)
+ *         p2_ = self.probability(deref(self._states)[node], neighbor)             # <<<<<<<<<<<<<<
  * 
  *         p = (p1 * p2)/(p2_ * p1_)
  */
-  __pyx_v_p2_ = ((struct __pyx_vtabstruct_7plexsim_6models_8kawasaki_Kawasaki *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]), __pyx_v_neighbor);
+  __pyx_v_p2_ = ((struct __pyx_vtabstruct_7plexsim_6models_8kawasaki_Kawasaki *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), ((*__pyx_v_self->__pyx_base.__pyx_base._states)[__pyx_v_node]), __pyx_v_neighbor);
 
   /* "plexsim/models/kawasaki.pyx":39
- *         p2_ = self.probability(self._states[node], neighbor)
+ *         p2_ = self.probability(deref(self._states)[node], neighbor)
  * 
  *         p = (p1 * p2)/(p2_ * p1_)             # <<<<<<<<<<<<<<
  *         if self._rng._rand() < p:
@@ -4894,7 +4959,7 @@ static void __pyx_f_7plexsim_6models_8kawasaki_8Kawasaki__step(struct __pyx_obj_
  *         p = (p1 * p2)/(p2_ * p1_)
  *         if self._rng._rand() < p:             # <<<<<<<<<<<<<<
  *             # swap states
- *             tmp = self._states[node]
+ *             tmp = deref(self._states)[node]
  */
   __pyx_t_5 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base.__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base.__pyx_base._rng) < __pyx_v_p) != 0);
   if (__pyx_t_5) {
@@ -4902,41 +4967,41 @@ static void __pyx_f_7plexsim_6models_8kawasaki_8Kawasaki__step(struct __pyx_obj_
     /* "plexsim/models/kawasaki.pyx":42
  *         if self._rng._rand() < p:
  *             # swap states
- *             tmp = self._states[node]             # <<<<<<<<<<<<<<
- *             self._newstates[node] = self._states[neighbor]
- *             self._newstates[neighbor] = tmp
+ *             tmp = deref(self._states)[node]             # <<<<<<<<<<<<<<
+ *             deref(self._newstates)[node] = deref(self._states)[neighbor]
+ *             deref(self._newstates)[neighbor] = tmp
  */
-    __pyx_v_tmp = (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]);
+    __pyx_v_tmp = ((*__pyx_v_self->__pyx_base.__pyx_base._states)[__pyx_v_node]);
 
     /* "plexsim/models/kawasaki.pyx":43
  *             # swap states
- *             tmp = self._states[node]
- *             self._newstates[node] = self._states[neighbor]             # <<<<<<<<<<<<<<
- *             self._newstates[neighbor] = tmp
+ *             tmp = deref(self._states)[node]
+ *             deref(self._newstates)[node] = deref(self._states)[neighbor]             # <<<<<<<<<<<<<<
+ *             deref(self._newstates)[neighbor] = tmp
  *         return
  */
-    (__pyx_v_self->__pyx_base.__pyx_base._newstates[__pyx_v_node]) = (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_neighbor]);
+    ((*__pyx_v_self->__pyx_base.__pyx_base._newstates)[__pyx_v_node]) = ((*__pyx_v_self->__pyx_base.__pyx_base._states)[__pyx_v_neighbor]);
 
     /* "plexsim/models/kawasaki.pyx":44
- *             tmp = self._states[node]
- *             self._newstates[node] = self._states[neighbor]
- *             self._newstates[neighbor] = tmp             # <<<<<<<<<<<<<<
+ *             tmp = deref(self._states)[node]
+ *             deref(self._newstates)[node] = deref(self._states)[neighbor]
+ *             deref(self._newstates)[neighbor] = tmp             # <<<<<<<<<<<<<<
  *         return
  */
-    (__pyx_v_self->__pyx_base.__pyx_base._newstates[__pyx_v_neighbor]) = __pyx_v_tmp;
+    ((*__pyx_v_self->__pyx_base.__pyx_base._newstates)[__pyx_v_neighbor]) = __pyx_v_tmp;
 
     /* "plexsim/models/kawasaki.pyx":40
  * 
  *         p = (p1 * p2)/(p2_ * p1_)
  *         if self._rng._rand() < p:             # <<<<<<<<<<<<<<
  *             # swap states
- *             tmp = self._states[node]
+ *             tmp = deref(self._states)[node]
  */
   }
 
   /* "plexsim/models/kawasaki.pyx":45
- *             self._newstates[node] = self._states[neighbor]
- *             self._newstates[neighbor] = tmp
+ *             deref(self._newstates)[node] = deref(self._states)[neighbor]
+ *             deref(self._newstates)[neighbor] = tmp
  *         return             # <<<<<<<<<<<<<<
  */
   goto __pyx_L0;

@@ -2,6 +2,7 @@
 #
 from libc.math cimport exp, cos, pi, fabs
 from plexsim.models.base cimport swap
+from cython.operator cimport dereference as deref
 import numpy as np
 cimport numpy as np; np.import_array()
 cdef class Bornholdt(Potts):
@@ -38,7 +39,7 @@ cdef class Bornholdt(Potts):
     cdef double _get_system_influence(self) nogil:
         cdef double influence = 0
         for node in range(self.adj._nNodes):
-            influence += self._states[node]
+            influence += deref(self._states)[node]
         return influence / <double> self.adj._nNodes
     
     cdef double probability(self, state_t proposal, node_id_t node) nogil:
@@ -62,19 +63,19 @@ cdef class Bornholdt(Potts):
             double systemInfluence = self._alpha * self._get_system_influence()
 
         # store state
-        cdef state_t backup_state = self._states[node]
+        cdef state_t backup_state = deref(self._states)[node]
 
         # compute proposal
-        self._states[node] = proposal
+        deref(self._states)[node] = proposal
         energy = self._energy(node)
         delta  = energy - fabs(self._hamiltonian(proposal, systemInfluence))
         p      = exp(self._beta * delta)
 
-        self._states[node] = backup_state
+        deref(self._states)[node] = backup_state
         return p
 
         # if self._rng._rand() < p :
-        #     self._newstates[node] = <state_t> energy
+        #     deref(self._newstates)[node] = <state_t> energy
         #     self._newsystem_mag_ptr[0] += 2 * (energy[2] / <double> self.adj._nNodes)
         # return
 

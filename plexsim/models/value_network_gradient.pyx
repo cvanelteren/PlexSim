@@ -59,7 +59,7 @@ cdef class VNG(ValueNetwork):
     #     Compute the number of completed value networks
     #     """
     #     cdef Crawler *crawler = new Crawler(node,
-    #                                         self._states[node],
+    #                                         deref(self._states)[node],
     #                                         self._bounded_rational,
     #                                         self._heuristic,
     #                                         False)
@@ -87,7 +87,7 @@ cdef class VNG(ValueNetwork):
         # compute energy
         # cdef double energy = self._energy(node)
         cdef Crawler *crawler = new Crawler(node,
-                                            self._states[node],
+                                            deref(self._states)[node],
                                             self._bounded_rational,
                                             self._heuristic,
                                             self._path_size,
@@ -105,14 +105,14 @@ cdef class VNG(ValueNetwork):
         """
         cdef:
             size_t neighbors = self.adj._adj[node].neighbors.size()
-            state_t* states = self._states # alias
+            vector[state_t]* states = self._states # alias
             size_t  neighbor, neighboridx
             double weight # TODO: remove delta
 
-            double energy  = self._H[node] * self._states[node]
+            double energy  = self._H[node] * deref(self._states)[node]
 
         if self._nudges.find(node) != self._nudges.end():
-            energy += self._nudges[node] * self._states[node]
+            energy += self._nudges[node] * deref(self._states)[node]
 
         # compute the energy
         cdef:
@@ -126,7 +126,7 @@ cdef class VNG(ValueNetwork):
         # get the distance to consider based on current state
         # only get nodes based on distance it can reach based on the value network
         # current state as proposal
-        cdef state_t proposal = self._states[node]
+        cdef state_t proposal = deref(self._states)[node]
         cdef:
             state_t start
             rule_t rule_pair
@@ -139,13 +139,13 @@ cdef class VNG(ValueNetwork):
             weight   = deref(it).second
             neighbor = deref(it).first
             # check rules
-            energy += self._rules._adj[proposal][states[neighbor]]
+            energy += self._rules._adj[proposal][deref(states)[neighbor]]
             post(it)
 
         # compute positive role edges
         cdef double K = 0
-        kt = self._rules._adj[states[node]].begin()
-        while  kt != self._rules._adj[states[node]].end():
+        kt = self._rules._adj[deref(states)[node]].begin()
+        while  kt != self._rules._adj[deref(states)[node]].end():
             if deref(kt).second > 0:
                 K += 1
             post(kt)
@@ -176,11 +176,11 @@ cdef class VNG(ValueNetwork):
             state_t node_color
             unordered_map[double, size_t] counter
 
-        node_color = self._states[node]
+        node_color = deref(self._states)[node]
         # get neighbor roles in social graph
         it = self.adj._adj[node].neighbors.begin()
         while it != self.adj._adj[node].neighbors.end():
-            neighbor_roles.insert(self._states[deref(it).first])
+            neighbor_roles.insert(deref(self._states)[deref(it).first])
             post(it)
 
         # get neighbor roles in rule graph
@@ -231,7 +231,7 @@ cdef class VNG(ValueNetwork):
         """
         if verbose:
             print(nodes)
-        cnt = Counter([self._states[self.adj.mapping[node]] for node in nodes])
+        cnt = Counter([deref(self._states)[self.adj.mapping[node]] for node in nodes])
         # threshold was first set to the number of states in the system
         # I for some reason changed this to a threshold.
         # The input for this function now takes the number of states at some sight radius away
@@ -239,7 +239,7 @@ cdef class VNG(ValueNetwork):
         # value network is not unique. Therefore it, it not being completed (locally). At least
         # this was intention.
         if len(cnt) >=  threshold:
-            cc_rolecounts = list(Counter([self._states[self.adj.mapping[node]] for node in nodes]).values())
+            cc_rolecounts = list(Counter([deref(self._states)[self.adj.mapping[node]] for node in nodes]).values())
             # let's see if we can also compute a fractional count of VNs (so, if two complete VNs intersect in one role, say B,
             # then the fractional number of VNs would be 1+4/5=1.8 instead of 1.0 as above)
             fractional_num_vns = 0.0
@@ -315,13 +315,13 @@ cdef class VNG(ValueNetwork):
             # node was sufficiently connected
             if suff_connected.size() > old_size:
                 old_size = suff_connected.size()
-                this_state = self._states[proposal]
+                this_state = deref(self._states)[proposal]
 
                 # check all neighbors with valid color assignments
                 it = self.adj._adj[proposal].neighbors.begin()
                 while it != self.adj._adj[proposal].neighbors.end():
                     neighbor = deref(it).first
-                    other_state = self._states[neighbor]
+                    other_state = deref(self._states)[neighbor]
                     if self._rules._adj[this_state][other_state] > 0:
                         queue.push_back(neighbor)
                     post(it) # never forget
@@ -330,7 +330,7 @@ cdef class VNG(ValueNetwork):
         cdef size_t states_at_distance_n = len(
             nx.generators.ego.ego_graph(
                 self.dump_rules(),
-                self._states[node],
+                deref(self._states)[node],
                 radius = self._bounded_rational)
         )
 

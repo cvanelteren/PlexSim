@@ -39,6 +39,7 @@ nums = numpy.get_include()
 data_files = []
 
 paths = []
+sources = []
 for (root, dirs, files) in os.walk(baseDir):
     for file in files:
         fileName = os.path.join(root, file)
@@ -74,17 +75,18 @@ for (root, dirs, files) in os.walk(baseDir):
             )
             exts.append(ex)
 
-
 # exts = [
 #     Extension(
-#         "plexsim.models",
-#         sources=paths,
-#         include_dirs=[nums, "."],
+#         "models",
+#         sources=sources,
+#         include_dirs=[nums, ".", "plexsim/include"],
 #         libraries=["stdc++"],
 #         extra_compile_args=flags.split(),
+#         define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
 #         extra_link_args=[
 #             "-fopenmp",
-#             f"-std=c++{cppv}",
+#             # f"-std=c++{cppv}",
+#             # '-g'
 #         ]
 #         + add,
 #     )

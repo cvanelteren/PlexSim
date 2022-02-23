@@ -50,8 +50,8 @@ cdef class Cycledelic(Model):
         cdef size_t idx = self.adj._adj[node].neighbors.size()
 
         cdef node_id_t neighbor = <node_id_t> (self._rng._rand() * idx)
-        cdef state_t neighbor_state = self._states[neighbor] 
-        cdef state_t node_state = self._states[node]
+        cdef state_t neighbor_state = deref(self._states)[neighbor]
+        cdef state_t node_state = deref(self._states)[node]
 
         it = self.adj._adj[node].neighbors.begin()
         #while it != self._adj[node].neighbors.end():
@@ -69,29 +69,29 @@ cdef class Cycledelic(Model):
         ## A + B -> 2A
         #if node_state == 0 and neighbor_state == 1:
         #    self._newstates[neighbor] = 0
-        #    self._newstates[node] = 0
+        #    deref(self._newstates)[node] = 0
         #elif node_state == 1 and neighbor_state == 0:
         #    self._newstates[neighbor] = 0
-        #    self._newstates[node] = 0
+        #    deref(self._newstates)[node] = 0
 
         ## B + C -> 2B
         #elif node_state == 2 and neighbor_state == 1:
         #    self._newstates[neighbor] = 1
-        #    self._newstates[node] = 1
+        #    deref(self._newstates)[node] = 1
         #elif node_state == 1 and neighbor_state == 2:
         #    self._newstates[neighbor] = 1
-        #    self._newstates[node] = 1
+        #    deref(self._newstates)[node] = 1
         ## C + A -> 2C
         #elif node_state == 2 and neighbor_state == 0:
         #    self._newstates[neighbor] = 1
-        #    self._newstates[node] = 1
+        #    deref(self._newstates)[node] = 1
         #elif node_state == 0 and neighbor_state == 2:
         #    self._newstates[neighbor] = 2
-        #    self._newstates[node] = 2
+        #    deref(self._newstates)[node] = 2
         ## just copy
         #else:
-        #    self._newstates[neighbor] = self._states[neighbor]
-        #    self._newstates[node] = self._states[node]
+        #    self._newstates[neighbor] = deref(self._states)[neighbor]
+        #    deref(self._newstates)[node] = deref(self._states)[node]
         return
 
 
@@ -134,6 +134,7 @@ cdef class CycledelicAgent(Model):
     cdef void _step(self, node_id_t node) nogil:
         cdef:
             node_id_t neighbor
+            state_t tmp
 
         # pick random neighbor
         cdef size_t idx = <size_t> (self._rng._rand() * self.adj._adj[node].neighbors.size())
@@ -146,36 +147,38 @@ cdef class CycledelicAgent(Model):
 
 
             rng = self._rng._rand()
-            if self._states[neighbor] == 0:
+            if deref(self._states)[neighbor] == 0:
                 if self._rng._rand() < self.reproduction:
-                    self._states[neighbor] = self._states[node]
+                    deref(self._states)[neighbor] = deref(self._states)[node]
             else:
                 # kill
                 if self._rng._rand() < self.predation:
                     # paper kills rock
-                    if self._states[node] == 1 and self._states[neighbor] == 2:
-                        self._newstates[node] = 0
+                    if deref(self._states)[node] == 1 and deref(self._states)[neighbor] == 2:
+                        deref(self._newstates)[node] = 0
                     # rock kills paper
-                    elif self._states[node] == 1 and self._states[neighbor] == 3:
-                        self._newstates[neighbor] = 0
+                    elif deref(self._states)[node] == 1 and deref(self._states)[neighbor] == 3:
+                        deref(self._newstates)[neighbor] = 0
                     # paper kills rock
-                    elif self._states[node] == 2 and self._states[neighbor] == 1:
-                        self._newstates[neighbor] = 0
+                    elif deref(self._states)[node] == 2 and deref(self._states)[neighbor] == 1:
+                        deref(self._newstates)[neighbor] = 0
                     # scissor kills paper
-                    elif self._states[node] == 2 and self._states[neighbor] == 3:
-                        self._newstates[node] = 0
+                    elif deref(self._states)[node] == 2 and deref(self._states)[neighbor] == 3:
+                        deref(self._newstates)[node] = 0
                     # rock kills scisssor
-                    elif self._states[node] == 3 and self._states[neighbor] == 1:
-                        self._newstates[node] = 0
+                    elif deref(self._states)[node] == 3 and deref(self._states)[neighbor] == 1:
+                        deref(self._newstates)[node] = 0
                     # scissor kills rock
-                    elif self._states[node] == 3 and self._states[neighbor] == 2:
-                        self._newstates[neighbor] = 0
+                    elif deref(self._states)[node] == 3 and deref(self._states)[neighbor] == 2:
+                        deref(self._newstates)[neighbor] = 0
                     # nothing happens
                     else:
-                        self._newstates[node] = self._states[node]
+                        deref(self._newstates)[node] = deref(self._states)[node]
                 # move with mobility: swap states 
                 if self._rng._rand() < self.mobility:
-                    swap(self._states[node], self._states[neighbor])
+                    tmp = deref(self._states)[node]
+                    deref(self._states)[node] = deref(self._states)[neighbor]
+                    deref(self._states)[node] = tmp
             post(it)
         return
                 

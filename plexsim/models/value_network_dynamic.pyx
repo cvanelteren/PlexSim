@@ -29,7 +29,7 @@ cdef class ValueDynamic(ValueNetwork):
     cdef void _step(self, node_id_t node) nogil:
         cdef:
             state_t proposal = self._sample_proposal()
-            state_t current  = self._states[node]
+            state_t current  = deref(self._states)[node]
             double p
 
             node_id_t other
@@ -61,5 +61,5 @@ cdef class ValueDynamic(ValueNetwork):
         else:
             p =  self.probability(proposal, node) / p
             if self._rng._rand () < p:
-                self._newstates[node] = proposal
+                deref(self._newstates)[node] = proposal
         return

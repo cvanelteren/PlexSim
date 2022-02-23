@@ -86,7 +86,7 @@ cdef class Prisoner(Potts):
         it = self.adj._adj[node].neighbors.begin()
         cdef:
             size_t neighbors = self.adj._adj[node].neighbors.size()
-            state_t* states = self._states # alias
+            vector[state_t]* states = self._states # alias
             size_t  neighbor, neighboridx
             double weight # TODO: remove delta
 
@@ -101,17 +101,17 @@ cdef class Prisoner(Potts):
         cdef size_t idx
 
         # current state as proposal
-        cdef state_t proposal = self._states[node]
+        cdef state_t proposal = deref(self._states)[node]
         while it != self.adj._adj[node].neighbors.end():
             weight   = deref(it).second
             neighbor = deref(it).first
             # check rules
             # update using rule
-            if fabs(self._rules._adj[proposal][states[neighbor]]):
-                update = self._rules._adj[proposal][states[neighbor]]
+            if fabs(self._rules._adj[proposal][deref(states)[neighbor]]):
+                update = self._rules._adj[proposal][deref(states)[neighbor]]
             # normal potts
             else:
-                update = weight * self._hamiltonian(proposal, states[neighbor])
+                update = weight * self._hamiltonian(proposal, deref(states)[neighbor])
             energy += update
             post(it)
 
@@ -151,7 +151,7 @@ cdef class Prisoner(Potts):
 
 
     cdef void _step(self, node_id_t node) nogil:
-        self.probability(self._states[node], node)
+        self.probability(deref(self._states)[node], node)
 
 
     cpdef double probs(self, state_t state, node_id_t node):
@@ -176,15 +176,15 @@ cdef class Prisoner(Potts):
 
             # adopt strategy
         if self._rng._rand() < p:
-            self._newstates[node] = self._states[neighbor]
+            deref(self._newstates)[node] = deref(self._states)[neighbor]
 
         # else:
         #     idx = <size_t> (self._rng._rand() * self._nStates)
-        #     self._newstates[node] = self._agentStates[idx]
+        #     deref(self._newstates)[node] = self._agentStates[idx]
 
         # with gil:
-        #     print(energy, energy_neighbor, 1/p, self._newstates[node], self._states[node],
-        #             self._states[neighbor], node, neighbor)
+        #     print(energy, energy_neighbor, 1/p, deref(self._newstates)[node], deref(self._states)[node],
+        #             deref(self._states)[neighbor], node, neighbor)
         return p
 
     def _setter(self, value, start = 0, end = 1):

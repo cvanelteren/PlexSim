@@ -40,13 +40,13 @@ cdef class RBN(Model):
            long N = self.adj._adj[node].neighbors.size()
        it = self.adj._adj[node].neighbors.begin()
        while it != self.adj._adj[node].neighbors.end():
-           if self._states[deref(it).first] == 1:
+           if deref(self._states)[deref(it).first] == 1:
                counter += 2 ** c
            c += 1
            post(it)
 
         #update
-       self._newstates[node] = self._evolve_rules[node][counter]
+       deref(self._newstates)[node] = self._evolve_rules[node][counter]
        return
    
 

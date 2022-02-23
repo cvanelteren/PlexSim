@@ -26,8 +26,8 @@ cdef class Sandpile(Model):
         """
         cdef size_t counter = 0
         cdef vector[node_id_t] queue
-        self._states[node] += 1
-        if self._states[node] > self._threshold:
+        deref(self._states)[node] += 1
+        if deref(self._states)[node] > self._threshold:
             queue.push_back(node)
             counter = self._check_avalanche(queue, counter)
 
@@ -45,14 +45,14 @@ cdef class Sandpile(Model):
         if queue.size():
             counter += 1
             node = queue.back()
-            self._states[node] -= self._threshold
+            deref(self._states)[node] -= self._threshold
             queue.pop_back()
             it = self.adj._adj[node].neighbors.begin()
             while it != self.adj._adj[node].neighbors.end():
                 neighbor = deref(it).first
                 if deref(it).second > 0:
-                    self._states[neighbor] += 1
-                if self._states[neighbor] > self._threshold:
+                    deref(self._states)[neighbor] += 1
+                if deref(self._states)[neighbor] > self._threshold:
                     queue.push_back(neighbor)
                 post(it)
         return counter + self._check_avalanche(queue, counter)

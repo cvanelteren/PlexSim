@@ -62,8 +62,8 @@ cdef class SIRS(Model):
             neighborWeight = deref(it).second
             post(it)
             # sick
-            if self._states[neighbor] == 1:
-                infectionRate += neighborWeight * self._states[neighbor]
+            if deref(self._states)[neighbor] == 1:
+                infectionRate += neighborWeight * deref(self._states)[neighbor]
             # NOTE: abs weights?
             ZZ += neighborWeight
         return infectionRate * self._beta / ZZ
@@ -72,24 +72,24 @@ cdef class SIRS(Model):
         cdef:
             float rng = self._rng._rand()
         # HEALTHY state 
-        if self._states[node] == 0:
+        if deref(self._states)[node] == 0:
             # infect
             if rng  < self._checkNeighbors(node):
-                self._newstates[node] = 1
+                deref(self._newstates)[node] = 1
         # SICK state
-        elif self._states[node] == 1:
+        elif deref(self._states)[node] == 1:
             if self._rng._rand() < .5:
                 if rng < self._mu:
-                    self._newstates[node] = 2
+                    deref(self._newstates)[node] = 2
             else:
                 if rng < self._nu:
-                    self._newstates[node] = 0
+                    deref(self._newstates)[node] = 0
         # SIRS motive
-        elif self._states[node] == 2:
+        elif deref(self._states)[node] == 2:
             if rng < self._kappa:
-                self._newstates[node] = 0
+                deref(self._newstates)[node] = 0
         else:
-            self._newstates[node] = self._states[node]
+            deref(self._newstates)[node] = deref(self._states)[node]
         # add SIRS dynamic?
         return
 
@@ -99,7 +99,7 @@ cdef class SIRS(Model):
            idx = self.adj.mapping[node]
        else:
            idx = <size_t> (self._rng._rand() * self.adj._nNodes)
-       self._states[idx] = 1
+       deref(self._states)[idx] = 1
 
     @property
     def beta(self):

@@ -27,7 +27,7 @@ cdef class AB(Model):
                     node_id_t node\
                     ) nogil:
 
-        cdef state_t* proposal = self._newstates
+        cdef vector[state_t]* proposal = self._newstates
 
         cdef Neighbors tmp = self.adj._adj[node].neighbors
         # random interact with a neighbor
@@ -44,8 +44,8 @@ cdef class AB(Model):
 
         cdef node_id_t neighbor = deref(it).first
 
-        cdef state_t thisState = self._states[node]
-        cdef state_t thatState = self._states[neighbor]
+        cdef state_t thisState = deref(self._states)[node]
+        cdef state_t thatState = deref(self._states)[neighbor]
         # if not AB
         if thisState != 1:
             if thisState == thatState:
@@ -54,31 +54,31 @@ cdef class AB(Model):
                 # CASE A
                 if thisState == 0:
                     if thatState == 2:
-                        proposal[neighbor] = 1
+                        deref(proposal)[neighbor] = 1
                     else:
-                        proposal[neighbor] = 0
+                        deref(proposal)[neighbor] = 0
                 # CASE B
                 if thisState == 2:
                     if thatState == 1:
-                        proposal[neighbor] = 2
+                        deref(proposal)[neighbor] = 2
                     else:
-                        proposal[neighbor] = 1
+                        deref(proposal)[neighbor] = 1
         # CASE AB
         else:
             # communicate A
             if self._rng._rand() < .5:
                 if thatState == 1:
-                    proposal[neighbor] = 0
-                    proposal[node]     = 0
+                    deref(proposal)[neighbor] = 0
+                    deref(proposal)[node]     = 0
                 elif thatState == 2:
-                    proposal[neighbor] = 1
+                    deref(proposal)[neighbor] = 1
             # communicate B
             else:
                 if thatState == 1:
-                    proposal[node]  = 2
-                    proposal[neighbor] = 2
+                    deref(proposal)[node]  = 2
+                    deref(proposal)[neighbor] = 2
                 elif thatState == 0:
-                    proposal[neighbor] = 1
+                    deref(proposal)[neighbor] = 1
         if self._zealots[neighbor]:
-            proposal[neighbor] = thatState
+            deref(proposal)[neighbor] = thatState
         return

@@ -13,10 +13,10 @@ cdef class Model:
         # public
         PyObject* ptr
         vector[state_t] __states
-        state_t* _states
+        vector[state_t]* _states
 
         vector[state_t] __newstates
-        state_t* _newstates
+        vector[state_t]* _newstates
 
         bint  _last_written
         bint _use_mcmc

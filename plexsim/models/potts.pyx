@@ -14,6 +14,10 @@ from libc.math cimport exp, cos, pi
 import multiprocessing as mp
 from pyprind import ProgBar
 
+cdef extern from "math.h":
+    float INFINITY
+
+
 cdef class Potts(Model):
     """Kinetic q-Potts model
 
@@ -60,7 +64,7 @@ cdef class Potts(Model):
         self.t       = t
         self._delta  = delta
 
-    cpdef np.ndarray node_energy(self, state_t[::1] states):
+    cpdef np.ndarray node_energy(self, vector[state_t] &states):
         """" Computes  average by  degree of node  energy of
         all nodes given a system state.
 
@@ -75,16 +79,16 @@ cdef class Potts(Model):
         """
         cdef:
             np.ndarray energies = np.zeros(self.adj._nNodes)
-            state_t* ptr = self._states
+            vector[state_t]* ptr = self._states
 
             state_t current, state
             double energy, store
 
-        self._states = &states[0]
+        self._states = &states
         for node in range(self.adj._nNodes):
-            current = self._states[node]
+            current = deref(self._states)[node]
             for state in self._agentStates:
-                self._states[node] = state
+                deref(self._states)[node] = state
                 energy = exp(- self._beta * \
                              self._energy(node))
                 if state == current:
@@ -94,7 +98,7 @@ cdef class Potts(Model):
             self._states = ptr
         return energies
 
-    cpdef vector[double] siteEnergy(self, state_t[::1] states):
+    cpdef vector[double] siteEnergy(self, vector[state_t] &states):
         """ Computes raw site energy of nodes given a system state
 
         Parameters
@@ -112,9 +116,9 @@ cdef class Potts(Model):
             vector[double] siteEnergy = vector[double](self.adj._nNodes)
             int node
             double Z, energy
-            state_t* ptr = self._states
+            vector[state_t]* ptr = self._states
         # reset pointer to current state
-        self._states = &states[0]
+        self._states = &states
         energy = 0
         for node in range(self.adj._nNodes):
             # Z = <double> self.adj._adj[node].neighbors.size()
@@ -143,15 +147,15 @@ cdef class Potts(Model):
         """
         cdef:
             size_t neighbors = self.adj._adj[node].neighbors.size()
-            state_t* states = self._states # alias
+            vector[state_t]* states = self._states # alias
             size_t  neighbor, neighboridx
             double weight # TODO: remove delta
 
             # init with external magnetic field
-            double energy  = self._H[node] * self._states[node]
+            double energy  = self._H[node] * deref(self._states)[node]
 
         if self._nudges.find(node) != self._nudges.end():
-            energy += self._nudges[node] * self._states[node]
+            energy += self._nudges[node] * deref(self._states)[node]
 
 
         # compute the energy
@@ -159,38 +163,38 @@ cdef class Potts(Model):
         cdef size_t idx
 
         # current state as proposal
-        cdef state_t proposal = self._states[node]
+        cdef state_t proposal = deref(self._states)[node]
         while it != self.adj._adj[node].neighbors.end():
             weight   = deref(it).second
             neighbor = deref(it).first
             # update energy
-            energy += weight * self._hamiltonian(proposal, states[neighbor])
+            energy += weight * self._hamiltonian(proposal, deref(states)[neighbor])
             post(it)
 
         cdef size_t mi
         # TODO: move to separate function
         for mi in range(self._memorySize):
-            energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi][node])
+            energy += exp(mi * self._memento) * self._hamiltonian(deref(states)[node], self._memory[mi][node])
         return energy
 
     cdef double probability(self, state_t state, node_id_t node) nogil:
-        cdef state_t tmp = self._states[node]
-        self._states[node] = state
+        cdef state_t tmp = deref(self._states)[node]
+        deref(self._states)[node] = state
         cdef:
             double energy = self._energy(node)
             double p = exp(self._beta * energy)
 
-        self._states[node] = tmp
+        deref(self._states)[node] = tmp
         return p
 
     cdef void _step(self, node_id_t node) nogil:
         cdef:
             state_t proposal = self._sample_proposal()
-            state_t cur_state= self._states[node]
+            state_t cur_state= deref(self._states)[node]
             double p = self.probability(proposal, node) / \
                 self.probability(cur_state, node)
         if self._rng._rand () < p:
-            self._newstates[node] = proposal
+            deref(self._newstates)[node] = proposal
         return
 
     cdef double _hamiltonian(self, state_t x, state_t  y) nogil:
@@ -221,20 +225,19 @@ cdef class Potts(Model):
         cdef double Z = 1 / <double> self._nStates
         cdef np.ndarray results
         cdef size_t idx
-        cdef double phase
+        cdef complex phase
         cdef complex factor =  2 * np.pi  * np.complex(0, 1)
         # set temp
         mod.t         =  t
         # reset states
-        mod.states[:] = mod.agentStates[0]
+        mod.states = mod.agentStates[0]
         # sample states
         # results = mod.simulate(n)  * Z
         for idx in range(n):
-            phase += np.real(
-                np.exp(factor * Z *  np.asarray(mod._updateState(mod._sampleNodes(1)[0])))).mean() * 1 / (<double>(n))
+            #phase += np.exp(factor * Z *  np.asarray(mod._updateState(mod._sampleNodes(1)[0]))).mean()
+            phase += np.real(np.exp( 2 * np.pi  * np.complex(0, 1) * np.array(mod._updateState(mod._sampleNodes(1)[0])) * Z)).mean() * 1 / (<double>(n))
 
         # compute spin angles
-        # phase = np.real(np.exp(2 * np.pi * np.complex(0, 1) * results)).mean()
         return np.abs(phase)
 
     @cython.cdivision(False)
@@ -352,27 +355,51 @@ cdef class Potts(Model):
 @cython.binding(True)
 @cython.cdivision(False)
 def sigmoid(x, a, b, c, d):
-    return  a * (1. + np.exp(b * x - c))**(-1) + d
+    return a / (1 + b * np.exp(c * (x - d)))
 @cython.binding(True)
 def sigmoidOpt(x, params, match):
     return np.abs( sigmoid(x, *params) - match )
 
-# deprecated
-def match_temperature(match, results, temps):
-    """
-    matches temperature
-    """
-    # fit sigmoid
-    if match >= 0:
-        # fit sigmoid
-        from scipy import optimize
-        params, cov = optimize.curve_fit(sigmoid, temps, results[0, :], maxfev = 10_000)
-        # optimize
-        # setting matched temperature
-        critic = optimize.fmin(sigmoidOpt, \
-                                x0 = .1,\
-                                args = (params, match ),\
-                                )
-        tcopy = critic
-        print(f"Sigmoid fit params {params}\nAt T={critic}")
-    return tcopy
+
+def find_min(x, y, theta):
+    from scipy import optimize, interpolate
+
+    bounds = ((x.min(), x.max()),)
+    g = interpolate.interp1d(x, y)
+    f = lambda x, theta: np.abs(g(x) - theta)
+    theta = x.max() * theta
+    res = optimize.minimize(f, x.min(), args=(theta,), bounds=bounds)
+    return res.x
+
+def modified_gompertz(x, a, b, delta, gamma):
+    return a * np.exp(-np.exp(b - gamma * x) + delta * x)
+
+def gompertz(x, a, b, c):
+    return a * np.exp(- np.exp(b - c * x))
+
+def match_temp(model, theta, temps=np.linspace(0, 20, 10), n_magnetize=10000, **kwargs):
+    from scipy import optimize
+
+    mag, sus = model.magnetize(temps, n=n_magnetize)
+
+    # paper 1 approach
+    # fit phase transition
+    opts, cov = optimize.curve_fit(sigmoid, xdata=temps, ydata=mag, **kwargs)
+    res = optimize.minimize(
+        lambda x: abs(sigmoid(x, *opts) - theta),
+        x0=0,
+        method="COBYLA",
+        bounds=((0, np.inf),),
+    )
+
+    t = res.x
+
+    # tipping point approach
+    # force ordering to prevent noise
+    # mag = np.sort(mag)[::-1]
+    # t = find_min(temps, mag, theta)
+
+    # setup model
+    print(f"setting temperature to {t}")
+    model.t = t
+    return opts, cov, temps, mag, sus

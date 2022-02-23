@@ -46,12 +46,77 @@
         "libraries": [
             "stdc++"
         ],
-        "name": "plexsim.models.game_of_life",
+        "name": "models",
         "sources": [
-            "plexsim/models/game_of_life.pyx"
+            "build/lib.linux-x86_64-3.9/plexsim/models/percolation.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pottsis.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/kawasaki.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/magnetic_boids.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ising.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_edges.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bornholdt.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_soc.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/potts.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_crystal.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/test.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cyclic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rules.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network2.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_dynamic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_gradient.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/game_of_life.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/adjacency.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ab.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rbn.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/binding.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/heisenberg.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sirs.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sampler.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/logmap.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bonabeau.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pyobjectholder.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/prisoner.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sandpile.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/base.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cca.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/simple_copy.pyx",
+            "plexsim/models/percolation.pyx",
+            "plexsim/models/pottsis.pyx",
+            "plexsim/models/kawasaki.pyx",
+            "plexsim/models/magnetic_boids.pyx",
+            "plexsim/models/ising.pyx",
+            "plexsim/models/value_network_edges.pyx",
+            "plexsim/models/bornholdt.pyx",
+            "plexsim/models/value_network_soc.pyx",
+            "plexsim/models/potts.pyx",
+            "plexsim/models/value_network_crystal.pyx",
+            "plexsim/models/test.pyx",
+            "plexsim/models/cyclic.pyx",
+            "plexsim/models/rules.pyx",
+            "plexsim/models/value_network2.pyx",
+            "plexsim/models/value_network_dynamic.pyx",
+            "plexsim/models/value_network_gradient.pyx",
+            "plexsim/models/game_of_life.pyx",
+            "plexsim/models/adjacency.pyx",
+            "plexsim/models/ab.pyx",
+            "plexsim/models/value_network.pyx",
+            "plexsim/models/rbn.pyx",
+            "plexsim/models/binding.pyx",
+            "plexsim/models/heisenberg.pyx",
+            "plexsim/models/sirs.pyx",
+            "plexsim/models/sampler.pyx",
+            "plexsim/models/logmap.pyx",
+            "plexsim/models/bonabeau.pyx",
+            "plexsim/models/pyobjectholder.pyx",
+            "plexsim/models/prisoner.pyx",
+            "plexsim/models/sandpile.pyx",
+            "plexsim/models/base.pyx",
+            "plexsim/models/cca.pyx",
+            "plexsim/models/simple_copy.pyx"
         ]
     },
-    "module_name": "plexsim.models.game_of_life"
+    "module_name": "models"
 }
 END: Cython Metadata */
 
@@ -1851,9 +1916,9 @@ struct __pyx_obj_7plexsim_6models_4base_Model {
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtab;
   PyObject *ptr;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__states;
-  __pyx_t_7plexsim_6models_5types_state_t *_states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_states;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__newstates;
-  __pyx_t_7plexsim_6models_5types_state_t *_newstates;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_newstates;
   int _last_written;
   int _use_mcmc;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _agentStates;
@@ -4942,7 +5007,7 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
  *         it = self.adj._adj[node].neighbors.begin()
  *         cdef state_t counter = 0 # float             # <<<<<<<<<<<<<<
  *         while it != self.adj._adj[node].neighbors.end():
- *             counter += self._states[deref(it).first]
+ *             counter += deref(self._states)[deref(it).first]
  */
   __pyx_v_counter = 0.0;
 
@@ -4950,7 +5015,7 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
  *         it = self.adj._adj[node].neighbors.begin()
  *         cdef state_t counter = 0 # float
  *         while it != self.adj._adj[node].neighbors.end():             # <<<<<<<<<<<<<<
- *             counter += self._states[deref(it).first]
+ *             counter += deref(self._states)[deref(it).first]
  *             post(it)
  */
   while (1) {
@@ -4960,18 +5025,18 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
     /* "plexsim/models/game_of_life.pyx":48
  *         cdef state_t counter = 0 # float
  *         while it != self.adj._adj[node].neighbors.end():
- *             counter += self._states[deref(it).first]             # <<<<<<<<<<<<<<
+ *             counter += deref(self._states)[deref(it).first]             # <<<<<<<<<<<<<<
  *             post(it)
  *         # deal with alive nodes
  */
-    __pyx_v_counter = (__pyx_v_counter + (__pyx_v_self->__pyx_base._states[(*__pyx_v_it).first]));
+    __pyx_v_counter = (__pyx_v_counter + ((*__pyx_v_self->__pyx_base._states)[(*__pyx_v_it).first]));
 
     /* "plexsim/models/game_of_life.pyx":49
  *         while it != self.adj._adj[node].neighbors.end():
- *             counter += self._states[deref(it).first]
+ *             counter += deref(self._states)[deref(it).first]
  *             post(it)             # <<<<<<<<<<<<<<
  *         # deal with alive nodes
- *         if self._states[node] == 1:
+ *         if deref(self._states)[node] == 1:
  */
     (void)((__pyx_v_it++));
   }
@@ -4979,18 +5044,18 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
   /* "plexsim/models/game_of_life.pyx":51
  *             post(it)
  *         # deal with alive nodes
- *         if self._states[node] == 1:             # <<<<<<<<<<<<<<
+ *         if deref(self._states)[node] == 1:             # <<<<<<<<<<<<<<
  *             # goldey lock zone
  *             if self._threshold-1 <= counter <= self._threshold:
  */
-  __pyx_t_1 = (((__pyx_v_self->__pyx_base._states[__pyx_v_node]) == 1.0) != 0);
+  __pyx_t_1 = ((((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]) == 1.0) != 0);
   if (__pyx_t_1) {
 
     /* "plexsim/models/game_of_life.pyx":53
- *         if self._states[node] == 1:
+ *         if deref(self._states)[node] == 1:
  *             # goldey lock zone
  *             if self._threshold-1 <= counter <= self._threshold:             # <<<<<<<<<<<<<<
- *                 self._newstates[node] = 1
+ *                 deref(self._newstates)[node] = 1
  *             # overpopulation or underpopulatoin
  */
     __pyx_t_1 = ((__pyx_v_self->_threshold - 1) <= __pyx_v_counter);
@@ -5003,17 +5068,17 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
       /* "plexsim/models/game_of_life.pyx":54
  *             # goldey lock zone
  *             if self._threshold-1 <= counter <= self._threshold:
- *                 self._newstates[node] = 1             # <<<<<<<<<<<<<<
+ *                 deref(self._newstates)[node] = 1             # <<<<<<<<<<<<<<
  *             # overpopulation or underpopulatoin
  *             else:
  */
-      (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = 1.0;
+      ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_node]) = 1.0;
 
       /* "plexsim/models/game_of_life.pyx":53
- *         if self._states[node] == 1:
+ *         if deref(self._states)[node] == 1:
  *             # goldey lock zone
  *             if self._threshold-1 <= counter <= self._threshold:             # <<<<<<<<<<<<<<
- *                 self._newstates[node] = 1
+ *                 deref(self._newstates)[node] = 1
  *             # overpopulation or underpopulatoin
  */
       goto __pyx_L6;
@@ -5022,19 +5087,19 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
     /* "plexsim/models/game_of_life.pyx":57
  *             # overpopulation or underpopulatoin
  *             else:
- *                 self._newstates[node] = 0             # <<<<<<<<<<<<<<
+ *                 deref(self._newstates)[node] = 0             # <<<<<<<<<<<<<<
  *         # deal with dead nodes
  *         else:
  */
     /*else*/ {
-      (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = 0.0;
+      ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_node]) = 0.0;
     }
     __pyx_L6:;
 
     /* "plexsim/models/game_of_life.pyx":51
  *             post(it)
  *         # deal with alive nodes
- *         if self._states[node] == 1:             # <<<<<<<<<<<<<<
+ *         if deref(self._states)[node] == 1:             # <<<<<<<<<<<<<<
  *             # goldey lock zone
  *             if self._threshold-1 <= counter <= self._threshold:
  */
@@ -5045,8 +5110,7 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
  *         else:
  *             # expansion
  *             if counter == self._threshold:             # <<<<<<<<<<<<<<
- *                 self._newstates[node] = 1
- * 
+ *                 deref(self._newstates)[node] = 1
  */
   /*else*/ {
     __pyx_t_2 = ((__pyx_v_counter == __pyx_v_self->_threshold) != 0);
@@ -5055,17 +5119,15 @@ static void __pyx_f_7plexsim_6models_12game_of_life_6Conway__step(struct __pyx_o
       /* "plexsim/models/game_of_life.pyx":62
  *             # expansion
  *             if counter == self._threshold:
- *                 self._newstates[node] = 1             # <<<<<<<<<<<<<<
- * 
+ *                 deref(self._newstates)[node] = 1             # <<<<<<<<<<<<<<
  */
-      (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = 1.0;
+      ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_node]) = 1.0;
 
       /* "plexsim/models/game_of_life.pyx":61
  *         else:
  *             # expansion
  *             if counter == self._threshold:             # <<<<<<<<<<<<<<
- *                 self._newstates[node] = 1
- * 
+ *                 deref(self._newstates)[node] = 1
  */
     }
   }

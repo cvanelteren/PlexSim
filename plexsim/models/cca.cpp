@@ -46,12 +46,77 @@
         "libraries": [
             "stdc++"
         ],
-        "name": "plexsim.models.cca",
+        "name": "models",
         "sources": [
-            "plexsim/models/cca.pyx"
+            "build/lib.linux-x86_64-3.9/plexsim/models/percolation.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pottsis.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/kawasaki.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/magnetic_boids.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ising.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_edges.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bornholdt.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_soc.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/potts.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_crystal.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/test.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cyclic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rules.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network2.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_dynamic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_gradient.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/game_of_life.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/adjacency.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ab.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rbn.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/binding.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/heisenberg.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sirs.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sampler.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/logmap.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bonabeau.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pyobjectholder.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/prisoner.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sandpile.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/base.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cca.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/simple_copy.pyx",
+            "plexsim/models/percolation.pyx",
+            "plexsim/models/pottsis.pyx",
+            "plexsim/models/kawasaki.pyx",
+            "plexsim/models/magnetic_boids.pyx",
+            "plexsim/models/ising.pyx",
+            "plexsim/models/value_network_edges.pyx",
+            "plexsim/models/bornholdt.pyx",
+            "plexsim/models/value_network_soc.pyx",
+            "plexsim/models/potts.pyx",
+            "plexsim/models/value_network_crystal.pyx",
+            "plexsim/models/test.pyx",
+            "plexsim/models/cyclic.pyx",
+            "plexsim/models/rules.pyx",
+            "plexsim/models/value_network2.pyx",
+            "plexsim/models/value_network_dynamic.pyx",
+            "plexsim/models/value_network_gradient.pyx",
+            "plexsim/models/game_of_life.pyx",
+            "plexsim/models/adjacency.pyx",
+            "plexsim/models/ab.pyx",
+            "plexsim/models/value_network.pyx",
+            "plexsim/models/rbn.pyx",
+            "plexsim/models/binding.pyx",
+            "plexsim/models/heisenberg.pyx",
+            "plexsim/models/sirs.pyx",
+            "plexsim/models/sampler.pyx",
+            "plexsim/models/logmap.pyx",
+            "plexsim/models/bonabeau.pyx",
+            "plexsim/models/pyobjectholder.pyx",
+            "plexsim/models/prisoner.pyx",
+            "plexsim/models/sandpile.pyx",
+            "plexsim/models/base.pyx",
+            "plexsim/models/cca.pyx",
+            "plexsim/models/simple_copy.pyx"
         ]
     },
-    "module_name": "plexsim.models.cca"
+    "module_name": "models"
 }
 END: Cython Metadata */
 
@@ -1851,9 +1916,9 @@ struct __pyx_obj_7plexsim_6models_4base_Model {
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtab;
   PyObject *ptr;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__states;
-  __pyx_t_7plexsim_6models_5types_state_t *_states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_states;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__newstates;
-  __pyx_t_7plexsim_6models_5types_state_t *_newstates;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_newstates;
   int _last_written;
   int _use_mcmc;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _agentStates;
@@ -4758,9 +4823,9 @@ static void __pyx_f_7plexsim_6models_3cca_3CCA__step(struct __pyx_obj_7plexsim_6
   long __pyx_v_nNeighbors;
   int __pyx_v_i;
   double __pyx_v_fraction;
-  __pyx_t_7plexsim_6models_5types_state_t *__pyx_v_states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *__pyx_v_states;
   std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,__pyx_t_7plexsim_6models_5types_weight_t> ::iterator __pyx_v_it;
-  __pyx_t_7plexsim_6models_5types_state_t *__pyx_t_1;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *__pyx_t_1;
   int __pyx_t_2;
   __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_3;
 
@@ -4777,7 +4842,7 @@ static void __pyx_f_7plexsim_6models_3cca_3CCA__step(struct __pyx_obj_7plexsim_6
  *             long nNeighbors = self.adj._adj[node].neighbors.size()
  *             int i
  *             double fraction = 0             # <<<<<<<<<<<<<<
- *             state_t* states = self._states
+ *             vector[state_t]* states = self._states
  *         # check neighbors and see if they exceed threshold
  */
   __pyx_v_fraction = 0.0;
@@ -4785,7 +4850,7 @@ static void __pyx_f_7plexsim_6models_3cca_3CCA__step(struct __pyx_obj_7plexsim_6
   /* "plexsim/models/cca.pyx":32
  *             int i
  *             double fraction = 0
- *             state_t* states = self._states             # <<<<<<<<<<<<<<
+ *             vector[state_t]* states = self._states             # <<<<<<<<<<<<<<
  *         # check neighbors and see if they exceed threshold
  *         it = self.adj._adj[node].neighbors.begin()
  */
@@ -4793,7 +4858,7 @@ static void __pyx_f_7plexsim_6models_3cca_3CCA__step(struct __pyx_obj_7plexsim_6
   __pyx_v_states = __pyx_t_1;
 
   /* "plexsim/models/cca.pyx":34
- *             state_t* states = self._states
+ *             vector[state_t]* states = self._states
  *         # check neighbors and see if they exceed threshold
  *         it = self.adj._adj[node].neighbors.begin()             # <<<<<<<<<<<<<<
  *         while it != self.adj._adj[node].neighbors.end():
@@ -4806,7 +4871,7 @@ static void __pyx_f_7plexsim_6models_3cca_3CCA__step(struct __pyx_obj_7plexsim_6
  *         it = self.adj._adj[node].neighbors.begin()
  *         while it != self.adj._adj[node].neighbors.end():             # <<<<<<<<<<<<<<
  *             neighbor = deref(it).first
- *             if (states[neighbor] == (states[node] + 1) % self._nStates):
+ *             if (deref(states)[neighbor] == (deref(states)[node] + 1) % self._nStates):
  */
   while (1) {
     __pyx_t_2 = ((__pyx_v_it != (__pyx_v_self->__pyx_base.adj->_adj[__pyx_v_node]).neighbors.end()) != 0);
@@ -4816,7 +4881,7 @@ static void __pyx_f_7plexsim_6models_3cca_3CCA__step(struct __pyx_obj_7plexsim_6
  *         it = self.adj._adj[node].neighbors.begin()
  *         while it != self.adj._adj[node].neighbors.end():
  *             neighbor = deref(it).first             # <<<<<<<<<<<<<<
- *             if (states[neighbor] == (states[node] + 1) % self._nStates):
+ *             if (deref(states)[neighbor] == (deref(states)[node] + 1) % self._nStates):
  *                 fraction += 1
  */
     __pyx_t_3 = (*__pyx_v_it).first;
@@ -4825,16 +4890,16 @@ static void __pyx_f_7plexsim_6models_3cca_3CCA__step(struct __pyx_obj_7plexsim_6
     /* "plexsim/models/cca.pyx":37
  *         while it != self.adj._adj[node].neighbors.end():
  *             neighbor = deref(it).first
- *             if (states[neighbor] == (states[node] + 1) % self._nStates):             # <<<<<<<<<<<<<<
+ *             if (deref(states)[neighbor] == (deref(states)[node] + 1) % self._nStates):             # <<<<<<<<<<<<<<
  *                 fraction += 1
  *             post(it)
  */
-    __pyx_t_2 = (((__pyx_v_states[__pyx_v_neighbor]) == fmod(((__pyx_v_states[__pyx_v_node]) + 1.0), __pyx_v_self->__pyx_base._nStates)) != 0);
+    __pyx_t_2 = ((((*__pyx_v_states)[__pyx_v_neighbor]) == fmod((((*__pyx_v_states)[__pyx_v_node]) + 1.0), __pyx_v_self->__pyx_base._nStates)) != 0);
     if (__pyx_t_2) {
 
       /* "plexsim/models/cca.pyx":38
  *             neighbor = deref(it).first
- *             if (states[neighbor] == (states[node] + 1) % self._nStates):
+ *             if (deref(states)[neighbor] == (deref(states)[node] + 1) % self._nStates):
  *                 fraction += 1             # <<<<<<<<<<<<<<
  *             post(it)
  *         if (fraction / <double> nNeighbors >= self._threshold):
@@ -4844,18 +4909,18 @@ static void __pyx_f_7plexsim_6models_3cca_3CCA__step(struct __pyx_obj_7plexsim_6
       /* "plexsim/models/cca.pyx":37
  *         while it != self.adj._adj[node].neighbors.end():
  *             neighbor = deref(it).first
- *             if (states[neighbor] == (states[node] + 1) % self._nStates):             # <<<<<<<<<<<<<<
+ *             if (deref(states)[neighbor] == (deref(states)[node] + 1) % self._nStates):             # <<<<<<<<<<<<<<
  *                 fraction += 1
  *             post(it)
  */
     }
 
     /* "plexsim/models/cca.pyx":39
- *             if (states[neighbor] == (states[node] + 1) % self._nStates):
+ *             if (deref(states)[neighbor] == (deref(states)[node] + 1) % self._nStates):
  *                 fraction += 1
  *             post(it)             # <<<<<<<<<<<<<<
  *         if (fraction / <double> nNeighbors >= self._threshold):
- *             self._newstates[node] = ((states[node] + 1 ) % self._nStates)
+ *             deref(self._newstates)[node] = ((deref(states)[node] + 1 ) % self._nStates)
  */
     (void)((__pyx_v_it++));
   }
@@ -4864,7 +4929,7 @@ static void __pyx_f_7plexsim_6models_3cca_3CCA__step(struct __pyx_obj_7plexsim_6
  *                 fraction += 1
  *             post(it)
  *         if (fraction / <double> nNeighbors >= self._threshold):             # <<<<<<<<<<<<<<
- *             self._newstates[node] = ((states[node] + 1 ) % self._nStates)
+ *             deref(self._newstates)[node] = ((deref(states)[node] + 1 ) % self._nStates)
  *         else:
  */
   __pyx_t_2 = (((__pyx_v_fraction / ((double)__pyx_v_nNeighbors)) >= __pyx_v_self->_threshold) != 0);
@@ -4873,28 +4938,28 @@ static void __pyx_f_7plexsim_6models_3cca_3CCA__step(struct __pyx_obj_7plexsim_6
     /* "plexsim/models/cca.pyx":41
  *             post(it)
  *         if (fraction / <double> nNeighbors >= self._threshold):
- *             self._newstates[node] = ((states[node] + 1 ) % self._nStates)             # <<<<<<<<<<<<<<
+ *             deref(self._newstates)[node] = ((deref(states)[node] + 1 ) % self._nStates)             # <<<<<<<<<<<<<<
  *         else:
  *             if self._rng._rand() <= self._threshold:
  */
-    (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = fmod(((__pyx_v_states[__pyx_v_node]) + 1.0), __pyx_v_self->__pyx_base._nStates);
+    ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_node]) = fmod((((*__pyx_v_states)[__pyx_v_node]) + 1.0), __pyx_v_self->__pyx_base._nStates);
 
     /* "plexsim/models/cca.pyx":40
  *                 fraction += 1
  *             post(it)
  *         if (fraction / <double> nNeighbors >= self._threshold):             # <<<<<<<<<<<<<<
- *             self._newstates[node] = ((states[node] + 1 ) % self._nStates)
+ *             deref(self._newstates)[node] = ((deref(states)[node] + 1 ) % self._nStates)
  *         else:
  */
     goto __pyx_L6;
   }
 
   /* "plexsim/models/cca.pyx":43
- *             self._newstates[node] = ((states[node] + 1 ) % self._nStates)
+ *             deref(self._newstates)[node] = ((deref(states)[node] + 1 ) % self._nStates)
  *         else:
  *             if self._rng._rand() <= self._threshold:             # <<<<<<<<<<<<<<
  *                 i = <int> (self._rng._rand() * self._nStates)
- *                 self._newstates[node] = self._agentStates[i]
+ *                 deref(self._newstates)[node] = self._agentStates[i]
  */
   /*else*/ {
     __pyx_t_2 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base._rng) <= __pyx_v_self->_threshold) != 0);
@@ -4904,7 +4969,7 @@ static void __pyx_f_7plexsim_6models_3cca_3CCA__step(struct __pyx_obj_7plexsim_6
  *         else:
  *             if self._rng._rand() <= self._threshold:
  *                 i = <int> (self._rng._rand() * self._nStates)             # <<<<<<<<<<<<<<
- *                 self._newstates[node] = self._agentStates[i]
+ *                 deref(self._newstates)[node] = self._agentStates[i]
  *         return
  */
       __pyx_v_i = ((int)(((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base._rng) * __pyx_v_self->__pyx_base._nStates));
@@ -4912,18 +4977,18 @@ static void __pyx_f_7plexsim_6models_3cca_3CCA__step(struct __pyx_obj_7plexsim_6
       /* "plexsim/models/cca.pyx":45
  *             if self._rng._rand() <= self._threshold:
  *                 i = <int> (self._rng._rand() * self._nStates)
- *                 self._newstates[node] = self._agentStates[i]             # <<<<<<<<<<<<<<
+ *                 deref(self._newstates)[node] = self._agentStates[i]             # <<<<<<<<<<<<<<
  *         return
  * 
  */
-      (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = (__pyx_v_self->__pyx_base._agentStates[__pyx_v_i]);
+      ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_node]) = (__pyx_v_self->__pyx_base._agentStates[__pyx_v_i]);
 
       /* "plexsim/models/cca.pyx":43
- *             self._newstates[node] = ((states[node] + 1 ) % self._nStates)
+ *             deref(self._newstates)[node] = ((deref(states)[node] + 1 ) % self._nStates)
  *         else:
  *             if self._rng._rand() <= self._threshold:             # <<<<<<<<<<<<<<
  *                 i = <int> (self._rng._rand() * self._nStates)
- *                 self._newstates[node] = self._agentStates[i]
+ *                 deref(self._newstates)[node] = self._agentStates[i]
  */
     }
   }
@@ -4931,7 +4996,7 @@ static void __pyx_f_7plexsim_6models_3cca_3CCA__step(struct __pyx_obj_7plexsim_6
 
   /* "plexsim/models/cca.pyx":46
  *                 i = <int> (self._rng._rand() * self._nStates)
- *                 self._newstates[node] = self._agentStates[i]
+ *                 deref(self._newstates)[node] = self._agentStates[i]
  *         return             # <<<<<<<<<<<<<<
  * 
  *     # threshold for neighborhood decision

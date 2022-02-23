@@ -44,7 +44,7 @@ cdef class Pottsis(Potts):
         """
         cdef:
             size_t neighbors = self.adj._adj[node].neighbors.size()
-            state_t* states = self._states # alias
+            vector[state_t]* states = self._states # alias
             size_t  neighbor, neighboridx
             double weight # TODO: remove delta
 
@@ -59,18 +59,18 @@ cdef class Pottsis(Potts):
         it = self.adj._adj[node].neighbors.begin()
         cdef size_t idx
         cdef state_t proposal = self._sample_proposal()
-        cdef state_t state    = states[node]
+        cdef state_t state    = deref(states)[node]
         while it != self.adj._adj[node].neighbors.end():
             weight   = deref(it).second
             neighbor = deref(it).first
             # check rules
             # update using rule
-            if fabs(self._rules._adj[proposal][states[neighbor]]) > 0:
-                update = self._rules._adj[proposal][states[neighbor]]
+            if fabs(self._rules._adj[proposal][deref(states)[neighbor]]) > 0:
+                update = self._rules._adj[proposal][deref(states)[neighbor]]
             # normal potts
             else:
                 #update = weight * self._hamiltonian(proposal, states[neighbor])
-                update = states[neighbor]
+                update = deref(states)[neighbor]
             energy += update
 
             post(it)

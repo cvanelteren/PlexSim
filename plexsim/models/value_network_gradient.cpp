@@ -15,8 +15,6 @@
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarrayobject.h",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarraytypes.h",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ufuncobject.h",
-            "plexsim/include/crawler.cpp",
-            "plexsim/include/crawler.hpp",
             "plexsim/include/pyobjectholder.cpp",
             "plexsim/include/pyobjectholder.hpp"
         ],
@@ -48,12 +46,77 @@
         "libraries": [
             "stdc++"
         ],
-        "name": "plexsim.models.value_network_gradient",
+        "name": "models",
         "sources": [
-            "plexsim/models/value_network_gradient.pyx"
+            "build/lib.linux-x86_64-3.9/plexsim/models/percolation.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pottsis.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/kawasaki.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/magnetic_boids.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ising.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_edges.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bornholdt.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_soc.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/potts.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_crystal.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/test.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cyclic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rules.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network2.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_dynamic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_gradient.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/game_of_life.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/adjacency.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ab.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rbn.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/binding.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/heisenberg.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sirs.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sampler.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/logmap.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bonabeau.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pyobjectholder.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/prisoner.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sandpile.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/base.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cca.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/simple_copy.pyx",
+            "plexsim/models/percolation.pyx",
+            "plexsim/models/pottsis.pyx",
+            "plexsim/models/kawasaki.pyx",
+            "plexsim/models/magnetic_boids.pyx",
+            "plexsim/models/ising.pyx",
+            "plexsim/models/value_network_edges.pyx",
+            "plexsim/models/bornholdt.pyx",
+            "plexsim/models/value_network_soc.pyx",
+            "plexsim/models/potts.pyx",
+            "plexsim/models/value_network_crystal.pyx",
+            "plexsim/models/test.pyx",
+            "plexsim/models/cyclic.pyx",
+            "plexsim/models/rules.pyx",
+            "plexsim/models/value_network2.pyx",
+            "plexsim/models/value_network_dynamic.pyx",
+            "plexsim/models/value_network_gradient.pyx",
+            "plexsim/models/game_of_life.pyx",
+            "plexsim/models/adjacency.pyx",
+            "plexsim/models/ab.pyx",
+            "plexsim/models/value_network.pyx",
+            "plexsim/models/rbn.pyx",
+            "plexsim/models/binding.pyx",
+            "plexsim/models/heisenberg.pyx",
+            "plexsim/models/sirs.pyx",
+            "plexsim/models/sampler.pyx",
+            "plexsim/models/logmap.pyx",
+            "plexsim/models/bonabeau.pyx",
+            "plexsim/models/pyobjectholder.pyx",
+            "plexsim/models/prisoner.pyx",
+            "plexsim/models/sandpile.pyx",
+            "plexsim/models/base.pyx",
+            "plexsim/models/cca.pyx",
+            "plexsim/models/simple_copy.pyx"
         ]
     },
-    "module_name": "plexsim.models.value_network_gradient"
+    "module_name": "models"
 }
 END: Cython Metadata */
 
@@ -1930,9 +1993,9 @@ struct __pyx_obj_7plexsim_6models_4base_Model {
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtab;
   PyObject *ptr;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__states;
-  __pyx_t_7plexsim_6models_5types_state_t *_states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_states;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__newstates;
-  __pyx_t_7plexsim_6models_5types_state_t *_newstates;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_newstates;
   int _last_written;
   int _use_mcmc;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _agentStates;
@@ -2173,11 +2236,11 @@ static struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtabptr_7plex
 struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts {
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model __pyx_base;
   double (*_energy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __pyx_t_7plexsim_6models_5types_node_id_t);
-  PyArrayObject *(*node_energy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  PyArrayObject *(*node_energy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, std::vector<__pyx_t_7plexsim_6models_5types_state_t>  &, int __pyx_skip_dispatch);
   double (*magnetize_)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, double);
   double (*_hamiltonian)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __pyx_t_7plexsim_6models_5types_state_t, __pyx_t_7plexsim_6models_5types_state_t);
   PyArrayObject *(*magnetize)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_5potts_5Potts_magnetize *__pyx_optional_args);
-  std::vector<double>  (*siteEnergy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  std::vector<double>  (*siteEnergy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, std::vector<__pyx_t_7plexsim_6models_5types_state_t>  &, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *__pyx_vtabptr_7plexsim_6models_5potts_Potts;
 
@@ -5768,11 +5831,11 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__step(struct 
  *         # compute energy
  *         # cdef double energy = self._energy(node)
  *         cdef Crawler *crawler = new Crawler(node,             # <<<<<<<<<<<<<<
- *                                             self._states[node],
+ *                                             deref(self._states)[node],
  *                                             self._bounded_rational,
  */
   try {
-    __pyx_t_1 = new Crawler(__pyx_v_node, (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node]), __pyx_v_self->__pyx_base._bounded_rational, __pyx_v_self->__pyx_base._heuristic, __pyx_v_self->__pyx_base._path_size, 0);
+    __pyx_t_1 = new Crawler(__pyx_v_node, ((*__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states)[__pyx_v_node]), __pyx_v_self->__pyx_base._bounded_rational, __pyx_v_self->__pyx_base._heuristic, __pyx_v_self->__pyx_base._path_size, 0);
   } catch(...) {
     #ifdef WITH_THREAD
     PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
@@ -5852,7 +5915,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__step(struct 
 
 static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(struct __pyx_obj_7plexsim_6models_22value_network_gradient_VNG *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node) {
   CYTHON_UNUSED size_t __pyx_v_neighbors;
-  __pyx_t_7plexsim_6models_5types_state_t *__pyx_v_states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *__pyx_v_states;
   size_t __pyx_v_neighbor;
   CYTHON_UNUSED double __pyx_v_weight;
   double __pyx_v_energy;
@@ -5863,7 +5926,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
   double __pyx_v_completed_vn;
   double __pyx_r;
   __Pyx_RefNannyDeclarations
-  __pyx_t_7plexsim_6models_5types_state_t *__pyx_t_1;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *__pyx_t_1;
   __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_2;
   int __pyx_t_3;
   __pyx_t_7plexsim_6models_5types_weight_t __pyx_t_4;
@@ -5879,7 +5942,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
  *         """
  *         cdef:
  *             size_t neighbors = self.adj._adj[node].neighbors.size()             # <<<<<<<<<<<<<<
- *             state_t* states = self._states # alias
+ *             vector[state_t]* states = self._states # alias
  *             size_t  neighbor, neighboridx
  */
   __pyx_v_neighbors = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.size();
@@ -5887,7 +5950,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
   /* "plexsim/models/value_network_gradient.pyx":108
  *         cdef:
  *             size_t neighbors = self.adj._adj[node].neighbors.size()
- *             state_t* states = self._states # alias             # <<<<<<<<<<<<<<
+ *             vector[state_t]* states = self._states # alias             # <<<<<<<<<<<<<<
  *             size_t  neighbor, neighboridx
  *             double weight # TODO: remove delta
  */
@@ -5897,18 +5960,18 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
   /* "plexsim/models/value_network_gradient.pyx":112
  *             double weight # TODO: remove delta
  * 
- *             double energy  = self._H[node] * self._states[node]             # <<<<<<<<<<<<<<
+ *             double energy  = self._H[node] * deref(self._states)[node]             # <<<<<<<<<<<<<<
  * 
  *         if self._nudges.find(node) != self._nudges.end():
  */
   __pyx_t_2 = __pyx_v_node;
-  __pyx_v_energy = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.__pyx_base._H.data) + __pyx_t_2)) ))) * (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node]));
+  __pyx_v_energy = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.__pyx_base._H.data) + __pyx_t_2)) ))) * ((*__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states)[__pyx_v_node]));
 
   /* "plexsim/models/value_network_gradient.pyx":114
- *             double energy  = self._H[node] * self._states[node]
+ *             double energy  = self._H[node] * deref(self._states)[node]
  * 
  *         if self._nudges.find(node) != self._nudges.end():             # <<<<<<<<<<<<<<
- *             energy += self._nudges[node] * self._states[node]
+ *             energy += self._nudges[node] * deref(self._states)[node]
  * 
  */
   __pyx_t_3 = ((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._nudges.find(__pyx_v_node) != __pyx_v_self->__pyx_base.__pyx_base.__pyx_base._nudges.end()) != 0);
@@ -5917,17 +5980,17 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
     /* "plexsim/models/value_network_gradient.pyx":115
  * 
  *         if self._nudges.find(node) != self._nudges.end():
- *             energy += self._nudges[node] * self._states[node]             # <<<<<<<<<<<<<<
+ *             energy += self._nudges[node] * deref(self._states)[node]             # <<<<<<<<<<<<<<
  * 
  *         # compute the energy
  */
-    __pyx_v_energy = (__pyx_v_energy + ((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._nudges[__pyx_v_node]) * (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node])));
+    __pyx_v_energy = (__pyx_v_energy + ((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._nudges[__pyx_v_node]) * ((*__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states)[__pyx_v_node])));
 
     /* "plexsim/models/value_network_gradient.pyx":114
- *             double energy  = self._H[node] * self._states[node]
+ *             double energy  = self._H[node] * deref(self._states)[node]
  * 
  *         if self._nudges.find(node) != self._nudges.end():             # <<<<<<<<<<<<<<
- *             energy += self._nudges[node] * self._states[node]
+ *             energy += self._nudges[node] * deref(self._states)[node]
  * 
  */
   }
@@ -5935,11 +5998,11 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
   /* "plexsim/models/value_network_gradient.pyx":129
  *         # only get nodes based on distance it can reach based on the value network
  *         # current state as proposal
- *         cdef state_t proposal = self._states[node]             # <<<<<<<<<<<<<<
+ *         cdef state_t proposal = deref(self._states)[node]             # <<<<<<<<<<<<<<
  *         cdef:
  *             state_t start
  */
-  __pyx_v_proposal = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node]);
+  __pyx_v_proposal = ((*__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states)[__pyx_v_node]);
 
   /* "plexsim/models/value_network_gradient.pyx":137
  * 
@@ -5976,7 +6039,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
  *             weight   = deref(it).second
  *             neighbor = deref(it).first             # <<<<<<<<<<<<<<
  *             # check rules
- *             energy += self._rules._adj[proposal][states[neighbor]]
+ *             energy += self._rules._adj[proposal][deref(states)[neighbor]]
  */
     __pyx_t_2 = (*__pyx_v_it).first;
     __pyx_v_neighbor = __pyx_t_2;
@@ -5984,15 +6047,15 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
     /* "plexsim/models/value_network_gradient.pyx":142
  *             neighbor = deref(it).first
  *             # check rules
- *             energy += self._rules._adj[proposal][states[neighbor]]             # <<<<<<<<<<<<<<
+ *             energy += self._rules._adj[proposal][deref(states)[neighbor]]             # <<<<<<<<<<<<<<
  *             post(it)
  * 
  */
-    __pyx_v_energy = (__pyx_v_energy + ((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rules->_adj[__pyx_v_proposal])[(__pyx_v_states[__pyx_v_neighbor])]));
+    __pyx_v_energy = (__pyx_v_energy + ((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rules->_adj[__pyx_v_proposal])[((*__pyx_v_states)[__pyx_v_neighbor])]));
 
     /* "plexsim/models/value_network_gradient.pyx":143
  *             # check rules
- *             energy += self._rules._adj[proposal][states[neighbor]]
+ *             energy += self._rules._adj[proposal][deref(states)[neighbor]]
  *             post(it)             # <<<<<<<<<<<<<<
  * 
  *         # compute positive role edges
@@ -6004,34 +6067,34 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
  * 
  *         # compute positive role edges
  *         cdef double K = 0             # <<<<<<<<<<<<<<
- *         kt = self._rules._adj[states[node]].begin()
- *         while  kt != self._rules._adj[states[node]].end():
+ *         kt = self._rules._adj[deref(states)[node]].begin()
+ *         while  kt != self._rules._adj[deref(states)[node]].end():
  */
   __pyx_v_K = 0.0;
 
   /* "plexsim/models/value_network_gradient.pyx":147
  *         # compute positive role edges
  *         cdef double K = 0
- *         kt = self._rules._adj[states[node]].begin()             # <<<<<<<<<<<<<<
- *         while  kt != self._rules._adj[states[node]].end():
+ *         kt = self._rules._adj[deref(states)[node]].begin()             # <<<<<<<<<<<<<<
+ *         while  kt != self._rules._adj[deref(states)[node]].end():
  *             if deref(kt).second > 0:
  */
-  __pyx_v_kt = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rules->_adj[(__pyx_v_states[__pyx_v_node])]).begin();
+  __pyx_v_kt = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rules->_adj[((*__pyx_v_states)[__pyx_v_node])]).begin();
 
   /* "plexsim/models/value_network_gradient.pyx":148
  *         cdef double K = 0
- *         kt = self._rules._adj[states[node]].begin()
- *         while  kt != self._rules._adj[states[node]].end():             # <<<<<<<<<<<<<<
+ *         kt = self._rules._adj[deref(states)[node]].begin()
+ *         while  kt != self._rules._adj[deref(states)[node]].end():             # <<<<<<<<<<<<<<
  *             if deref(kt).second > 0:
  *                 K += 1
  */
   while (1) {
-    __pyx_t_3 = ((__pyx_v_kt != (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rules->_adj[(__pyx_v_states[__pyx_v_node])]).end()) != 0);
+    __pyx_t_3 = ((__pyx_v_kt != (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._rules->_adj[((*__pyx_v_states)[__pyx_v_node])]).end()) != 0);
     if (!__pyx_t_3) break;
 
     /* "plexsim/models/value_network_gradient.pyx":149
- *         kt = self._rules._adj[states[node]].begin()
- *         while  kt != self._rules._adj[states[node]].end():
+ *         kt = self._rules._adj[deref(states)[node]].begin()
+ *         while  kt != self._rules._adj[deref(states)[node]].end():
  *             if deref(kt).second > 0:             # <<<<<<<<<<<<<<
  *                 K += 1
  *             post(kt)
@@ -6040,7 +6103,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
     if (__pyx_t_3) {
 
       /* "plexsim/models/value_network_gradient.pyx":150
- *         while  kt != self._rules._adj[states[node]].end():
+ *         while  kt != self._rules._adj[deref(states)[node]].end():
  *             if deref(kt).second > 0:
  *                 K += 1             # <<<<<<<<<<<<<<
  *             post(kt)
@@ -6049,8 +6112,8 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__energy(str
       __pyx_v_K = (__pyx_v_K + 1.0);
 
       /* "plexsim/models/value_network_gradient.pyx":149
- *         kt = self._rules._adj[states[node]].begin()
- *         while  kt != self._rules._adj[states[node]].end():
+ *         kt = self._rules._adj[deref(states)[node]].begin()
+ *         while  kt != self._rules._adj[deref(states)[node]].end():
  *             if deref(kt).second > 0:             # <<<<<<<<<<<<<<
  *                 K += 1
  *             post(kt)
@@ -6218,18 +6281,18 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
   /* "plexsim/models/value_network_gradient.pyx":179
  *             unordered_map[double, size_t] counter
  * 
- *         node_color = self._states[node]             # <<<<<<<<<<<<<<
+ *         node_color = deref(self._states)[node]             # <<<<<<<<<<<<<<
  *         # get neighbor roles in social graph
  *         it = self.adj._adj[node].neighbors.begin()
  */
-  __pyx_v_node_color = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node]);
+  __pyx_v_node_color = ((*__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states)[__pyx_v_node]);
 
   /* "plexsim/models/value_network_gradient.pyx":181
- *         node_color = self._states[node]
+ *         node_color = deref(self._states)[node]
  *         # get neighbor roles in social graph
  *         it = self.adj._adj[node].neighbors.begin()             # <<<<<<<<<<<<<<
  *         while it != self.adj._adj[node].neighbors.end():
- *             neighbor_roles.insert(self._states[deref(it).first])
+ *             neighbor_roles.insert(deref(self._states)[deref(it).first])
  */
   __pyx_v_it = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.begin();
 
@@ -6237,7 +6300,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
  *         # get neighbor roles in social graph
  *         it = self.adj._adj[node].neighbors.begin()
  *         while it != self.adj._adj[node].neighbors.end():             # <<<<<<<<<<<<<<
- *             neighbor_roles.insert(self._states[deref(it).first])
+ *             neighbor_roles.insert(deref(self._states)[deref(it).first])
  *             post(it)
  */
   while (1) {
@@ -6247,12 +6310,12 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
     /* "plexsim/models/value_network_gradient.pyx":183
  *         it = self.adj._adj[node].neighbors.begin()
  *         while it != self.adj._adj[node].neighbors.end():
- *             neighbor_roles.insert(self._states[deref(it).first])             # <<<<<<<<<<<<<<
+ *             neighbor_roles.insert(deref(self._states)[deref(it).first])             # <<<<<<<<<<<<<<
  *             post(it)
  * 
  */
     try {
-      __pyx_v_neighbor_roles.insert((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[(*__pyx_v_it).first]));
+      __pyx_v_neighbor_roles.insert(((*__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states)[(*__pyx_v_it).first]));
     } catch(...) {
       #ifdef WITH_THREAD
       PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
@@ -6266,7 +6329,7 @@ static void __pyx_f_7plexsim_6models_22value_network_gradient_3VNG__check_suffic
 
     /* "plexsim/models/value_network_gradient.pyx":184
  *         while it != self.adj._adj[node].neighbors.end():
- *             neighbor_roles.insert(self._states[deref(it).first])
+ *             neighbor_roles.insert(deref(self._states)[deref(it).first])
  *             post(it)             # <<<<<<<<<<<<<<
  * 
  *         # get neighbor roles in rule graph
@@ -7250,8 +7313,9 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
   int __pyx_t_10;
   std::set<__pyx_t_7plexsim_6models_5types_node_id_t> ::iterator __pyx_t_11;
   __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_12;
-  Py_ssize_t __pyx_t_13;
-  int __pyx_t_14;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t> ::size_type __pyx_t_13;
+  Py_ssize_t __pyx_t_14;
+  int __pyx_t_15;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -7332,7 +7396,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
  *         """
  *         if verbose:             # <<<<<<<<<<<<<<
  *             print(nodes)
- *         cnt = Counter([self._states[self.adj.mapping[node]] for node in nodes])
+ *         cnt = Counter([deref(self._states)[self.adj.mapping[node]] for node in nodes])
  */
   __pyx_t_10 = (__pyx_v_verbose != 0);
   if (__pyx_t_10) {
@@ -7341,7 +7405,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
  *         """
  *         if verbose:
  *             print(nodes)             # <<<<<<<<<<<<<<
- *         cnt = Counter([self._states[self.adj.mapping[node]] for node in nodes])
+ *         cnt = Counter([deref(self._states)[self.adj.mapping[node]] for node in nodes])
  *         # threshold was first set to the number of states in the system
  */
     __pyx_t_1 = __pyx_convert_set_to_py___pyx_t_7plexsim_6models_5types_node_id_t(__pyx_v_nodes); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 233, __pyx_L1_error)
@@ -7356,14 +7420,14 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
  *         """
  *         if verbose:             # <<<<<<<<<<<<<<
  *             print(nodes)
- *         cnt = Counter([self._states[self.adj.mapping[node]] for node in nodes])
+ *         cnt = Counter([deref(self._states)[self.adj.mapping[node]] for node in nodes])
  */
   }
 
   /* "plexsim/models/value_network_gradient.pyx":234
  *         if verbose:
  *             print(nodes)
- *         cnt = Counter([self._states[self.adj.mapping[node]] for node in nodes])             # <<<<<<<<<<<<<<
+ *         cnt = Counter([deref(self._states)[self.adj.mapping[node]] for node in nodes])             # <<<<<<<<<<<<<<
  *         # threshold was first set to the number of states in the system
  *         # I for some reason changed this to a threshold.
  */
@@ -7383,9 +7447,9 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
       __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, __pyx_8genexpr1__pyx_v_node, __pyx_t_7plexsim_6models_5types_node_id_t, 0, __Pyx_PyInt_FromSize_t, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 234, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_13 = __Pyx_PyIndex_AsSsize_t(__pyx_t_4); if (unlikely((__pyx_t_13 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 234, __pyx_L1_error)
+      __pyx_t_13 = __Pyx_PyInt_As_size_t(__pyx_t_4); if (unlikely((__pyx_t_13 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 234, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_t_13])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 234, __pyx_L1_error)
+      __pyx_t_4 = PyFloat_FromDouble(((*__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states)[__pyx_t_13])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 234, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       if (unlikely(__Pyx_ListComp_Append(__pyx_t_6, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 234, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -7419,17 +7483,17 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
  *         # value network is not unique. Therefore it, it not being completed (locally). At least
  *         # this was intention.
  *         if len(cnt) >=  threshold:             # <<<<<<<<<<<<<<
- *             cc_rolecounts = list(Counter([self._states[self.adj.mapping[node]] for node in nodes]).values())
+ *             cc_rolecounts = list(Counter([deref(self._states)[self.adj.mapping[node]] for node in nodes]).values())
  *             # let's see if we can also compute a fractional count of VNs (so, if two complete VNs intersect in one role, say B,
  */
-  __pyx_t_13 = PyObject_Length(__pyx_v_cnt); if (unlikely(__pyx_t_13 == ((Py_ssize_t)-1))) __PYX_ERR(0, 241, __pyx_L1_error)
-  __pyx_t_10 = ((__pyx_t_13 >= __pyx_v_threshold) != 0);
+  __pyx_t_14 = PyObject_Length(__pyx_v_cnt); if (unlikely(__pyx_t_14 == ((Py_ssize_t)-1))) __PYX_ERR(0, 241, __pyx_L1_error)
+  __pyx_t_10 = ((__pyx_t_14 >= __pyx_v_threshold) != 0);
   if (__pyx_t_10) {
 
     /* "plexsim/models/value_network_gradient.pyx":242
  *         # this was intention.
  *         if len(cnt) >=  threshold:
- *             cc_rolecounts = list(Counter([self._states[self.adj.mapping[node]] for node in nodes]).values())             # <<<<<<<<<<<<<<
+ *             cc_rolecounts = list(Counter([deref(self._states)[self.adj.mapping[node]] for node in nodes]).values())             # <<<<<<<<<<<<<<
  *             # let's see if we can also compute a fractional count of VNs (so, if two complete VNs intersect in one role, say B,
  *             # then the fractional number of VNs would be 1+4/5=1.8 instead of 1.0 as above)
  */
@@ -7449,9 +7513,9 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
         __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_5, __pyx_8genexpr2__pyx_v_node, __pyx_t_7plexsim_6models_5types_node_id_t, 0, __Pyx_PyInt_FromSize_t, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 242, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_13 = __Pyx_PyIndex_AsSsize_t(__pyx_t_3); if (unlikely((__pyx_t_13 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 242, __pyx_L1_error)
+        __pyx_t_13 = __Pyx_PyInt_As_size_t(__pyx_t_3); if (unlikely((__pyx_t_13 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 242, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_t_13])); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 242, __pyx_L1_error)
+        __pyx_t_3 = PyFloat_FromDouble(((*__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states)[__pyx_t_13])); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 242, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         if (unlikely(__Pyx_ListComp_Append(__pyx_t_4, (PyObject*)__pyx_t_3))) __PYX_ERR(0, 242, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -7589,8 +7653,8 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_10 < 0))) __PYX_ERR(0, 247, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_14 = ((!__pyx_t_10) != 0);
-      if (!__pyx_t_14) break;
+      __pyx_t_15 = ((!__pyx_t_10) != 0);
+      if (!__pyx_t_15) break;
 
       /* "plexsim/models/value_network_gradient.pyx":248
  *             cc_rolecounts = np.array(cc_rolecounts)  # convert so we can subtract easily
@@ -7654,8 +7718,8 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
       __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 251, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_13 = PyObject_Length(__pyx_v_cc_rolecounts); if (unlikely(__pyx_t_13 == ((Py_ssize_t)-1))) __PYX_ERR(0, 251, __pyx_L1_error)
-      __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_13); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 251, __pyx_L1_error)
+      __pyx_t_14 = PyObject_Length(__pyx_v_cc_rolecounts); if (unlikely(__pyx_t_14 == ((Py_ssize_t)-1))) __PYX_ERR(0, 251, __pyx_L1_error)
+      __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_14); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 251, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __pyx_t_3 = NULL;
       __pyx_t_8 = 0;
@@ -7732,7 +7796,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_fractional_
  *         # value network is not unique. Therefore it, it not being completed (locally). At least
  *         # this was intention.
  *         if len(cnt) >=  threshold:             # <<<<<<<<<<<<<<
- *             cc_rolecounts = list(Counter([self._states[self.adj.mapping[node]] for node in nodes]).values())
+ *             cc_rolecounts = list(Counter([deref(self._states)[self.adj.mapping[node]] for node in nodes]).values())
  *             # let's see if we can also compute a fractional count of VNs (so, if two complete VNs intersect in one role, say B,
  */
   }
@@ -8440,7 +8504,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
  *             # node was sufficiently connected
  *             if suff_connected.size() > old_size:             # <<<<<<<<<<<<<<
  *                 old_size = suff_connected.size()
- *                 this_state = self._states[proposal]
+ *                 this_state = deref(self._states)[proposal]
  */
     __pyx_t_8 = ((__pyx_v_suff_connected.size() > __pyx_v_old_size) != 0);
     if (__pyx_t_8) {
@@ -8449,7 +8513,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
  *             # node was sufficiently connected
  *             if suff_connected.size() > old_size:
  *                 old_size = suff_connected.size()             # <<<<<<<<<<<<<<
- *                 this_state = self._states[proposal]
+ *                 this_state = deref(self._states)[proposal]
  * 
  */
       __pyx_v_old_size = __pyx_v_suff_connected.size();
@@ -8457,11 +8521,11 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
       /* "plexsim/models/value_network_gradient.pyx":318
  *             if suff_connected.size() > old_size:
  *                 old_size = suff_connected.size()
- *                 this_state = self._states[proposal]             # <<<<<<<<<<<<<<
+ *                 this_state = deref(self._states)[proposal]             # <<<<<<<<<<<<<<
  * 
  *                 # check all neighbors with valid color assignments
  */
-      __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_proposal])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 318, __pyx_L1_error)
+      __pyx_t_1 = PyFloat_FromDouble(((*__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states)[__pyx_v_proposal])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 318, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_XDECREF_SET(__pyx_v_this_state, __pyx_t_1);
       __pyx_t_1 = 0;
@@ -8480,7 +8544,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
  *                 it = self.adj._adj[proposal].neighbors.begin()
  *                 while it != self.adj._adj[proposal].neighbors.end():             # <<<<<<<<<<<<<<
  *                     neighbor = deref(it).first
- *                     other_state = self._states[neighbor]
+ *                     other_state = deref(self._states)[neighbor]
  */
       while (1) {
         __pyx_t_8 = ((__pyx_v_it != (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base.adj->_adj[__pyx_v_proposal]).neighbors.end()) != 0);
@@ -8490,7 +8554,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
  *                 it = self.adj._adj[proposal].neighbors.begin()
  *                 while it != self.adj._adj[proposal].neighbors.end():
  *                     neighbor = deref(it).first             # <<<<<<<<<<<<<<
- *                     other_state = self._states[neighbor]
+ *                     other_state = deref(self._states)[neighbor]
  *                     if self._rules._adj[this_state][other_state] > 0:
  */
         __pyx_t_10 = (*__pyx_v_it).first;
@@ -8499,18 +8563,18 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
         /* "plexsim/models/value_network_gradient.pyx":324
  *                 while it != self.adj._adj[proposal].neighbors.end():
  *                     neighbor = deref(it).first
- *                     other_state = self._states[neighbor]             # <<<<<<<<<<<<<<
+ *                     other_state = deref(self._states)[neighbor]             # <<<<<<<<<<<<<<
  *                     if self._rules._adj[this_state][other_state] > 0:
  *                         queue.push_back(neighbor)
  */
-        __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_neighbor])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 324, __pyx_L1_error)
+        __pyx_t_1 = PyFloat_FromDouble(((*__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states)[__pyx_v_neighbor])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 324, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_XDECREF_SET(__pyx_v_other_state, __pyx_t_1);
         __pyx_t_1 = 0;
 
         /* "plexsim/models/value_network_gradient.pyx":325
  *                     neighbor = deref(it).first
- *                     other_state = self._states[neighbor]
+ *                     other_state = deref(self._states)[neighbor]
  *                     if self._rules._adj[this_state][other_state] > 0:             # <<<<<<<<<<<<<<
  *                         queue.push_back(neighbor)
  *                     post(it) # never forget
@@ -8521,7 +8585,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
         if (__pyx_t_8) {
 
           /* "plexsim/models/value_network_gradient.pyx":326
- *                     other_state = self._states[neighbor]
+ *                     other_state = deref(self._states)[neighbor]
  *                     if self._rules._adj[this_state][other_state] > 0:
  *                         queue.push_back(neighbor)             # <<<<<<<<<<<<<<
  *                     post(it) # never forget
@@ -8536,7 +8600,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
 
           /* "plexsim/models/value_network_gradient.pyx":325
  *                     neighbor = deref(it).first
- *                     other_state = self._states[neighbor]
+ *                     other_state = deref(self._states)[neighbor]
  *                     if self._rules._adj[this_state][other_state] > 0:             # <<<<<<<<<<<<<<
  *                         queue.push_back(neighbor)
  *                     post(it) # never forget
@@ -8558,7 +8622,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
  *             # node was sufficiently connected
  *             if suff_connected.size() > old_size:             # <<<<<<<<<<<<<<
  *                 old_size = suff_connected.size()
- *                 this_state = self._states[proposal]
+ *                 this_state = deref(self._states)[proposal]
  */
     }
   }
@@ -8568,7 +8632,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
  *         cdef size_t states_at_distance_n = len(
  *             nx.generators.ego.ego_graph(             # <<<<<<<<<<<<<<
  *                 self.dump_rules(),
- *                 self._states[node],
+ *                 deref(self._states)[node],
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_nx); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 331, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -8586,7 +8650,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
  *         cdef size_t states_at_distance_n = len(
  *             nx.generators.ego.ego_graph(
  *                 self.dump_rules(),             # <<<<<<<<<<<<<<
- *                 self._states[node],
+ *                 deref(self._states)[node],
  *                 radius = self._bounded_rational)
  */
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_dump_rules); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 332, __pyx_L1_error)
@@ -8615,11 +8679,11 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
   /* "plexsim/models/value_network_gradient.pyx":333
  *             nx.generators.ego.ego_graph(
  *                 self.dump_rules(),
- *                 self._states[node],             # <<<<<<<<<<<<<<
+ *                 deref(self._states)[node],             # <<<<<<<<<<<<<<
  *                 radius = self._bounded_rational)
  *         )
  */
-  __pyx_t_4 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 333, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(((*__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states)[__pyx_v_node])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 333, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
   /* "plexsim/models/value_network_gradient.pyx":331
@@ -8627,7 +8691,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
  *         cdef size_t states_at_distance_n = len(
  *             nx.generators.ego.ego_graph(             # <<<<<<<<<<<<<<
  *                 self.dump_rules(),
- *                 self._states[node],
+ *                 deref(self._states)[node],
  */
   __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 331, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -8640,7 +8704,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
 
   /* "plexsim/models/value_network_gradient.pyx":334
  *                 self.dump_rules(),
- *                 self._states[node],
+ *                 deref(self._states)[node],
  *                 radius = self._bounded_rational)             # <<<<<<<<<<<<<<
  *         )
  * 
@@ -8657,7 +8721,7 @@ static double __pyx_f_7plexsim_6models_22value_network_gradient_3VNG_check_gradi
  *         cdef size_t states_at_distance_n = len(
  *             nx.generators.ego.ego_graph(             # <<<<<<<<<<<<<<
  *                 self.dump_rules(),
- *                 self._states[node],
+ *                 deref(self._states)[node],
  */
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 331, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);

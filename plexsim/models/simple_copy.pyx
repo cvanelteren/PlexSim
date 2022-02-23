@@ -18,18 +18,18 @@ cdef class SimpleCopy(Potts):
     # cdef void _step(self, node_id_t node) nogil:
     #     cdef:
     #         state_t proposal = self._sample_proposal()
-    #         state_t cur_state= self._states[node]
+    #         state_t cur_state= deref(self._states)[node]
     #         double p
 
     #     # copy operator
     #     if node == self._target:
-    #         self._states[node] = self._states[0]
+    #         deref(self._states)[node] = self._states[0]
 
     #     else:
     #         p = self.probability(proposal, node) / \
     #             self.probability(cur_state, node)
     #         if self._rng._rand () < p:
-    #             self._newstates[node] = proposal
+    #             deref(self._newstates)[node] = proposal
     #     return
     cdef void _step (self, node_id_t node) nogil:
         cdef state_t proposal
@@ -38,9 +38,9 @@ cdef class SimpleCopy(Potts):
         end = self.adj._adj[node].neighbors.end()
         if node != 0:
             while it != end:
-                self._states[node] = self._states[deref(it).first]
+                deref(self._states)[node] = deref(self._states)[deref(it).first]
                 post(it)
         else:
             proposal = self._sample_proposal()
             if self._rng._rand() < .5:
-                self._newstates[node] = proposal
+                deref(self._newstates)[node] = proposal

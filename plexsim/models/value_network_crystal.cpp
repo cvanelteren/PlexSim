@@ -15,8 +15,6 @@
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarrayobject.h",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarraytypes.h",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ufuncobject.h",
-            "plexsim/include/crawler.cpp",
-            "plexsim/include/crawler.hpp",
             "plexsim/include/pyobjectholder.cpp",
             "plexsim/include/pyobjectholder.hpp"
         ],
@@ -48,12 +46,77 @@
         "libraries": [
             "stdc++"
         ],
-        "name": "plexsim.models.value_network_crystal",
+        "name": "models",
         "sources": [
-            "plexsim/models/value_network_crystal.pyx"
+            "build/lib.linux-x86_64-3.9/plexsim/models/percolation.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pottsis.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/kawasaki.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/magnetic_boids.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ising.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_edges.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bornholdt.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_soc.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/potts.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_crystal.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/test.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cyclic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rules.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network2.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_dynamic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_gradient.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/game_of_life.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/adjacency.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ab.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rbn.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/binding.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/heisenberg.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sirs.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sampler.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/logmap.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bonabeau.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pyobjectholder.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/prisoner.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sandpile.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/base.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cca.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/simple_copy.pyx",
+            "plexsim/models/percolation.pyx",
+            "plexsim/models/pottsis.pyx",
+            "plexsim/models/kawasaki.pyx",
+            "plexsim/models/magnetic_boids.pyx",
+            "plexsim/models/ising.pyx",
+            "plexsim/models/value_network_edges.pyx",
+            "plexsim/models/bornholdt.pyx",
+            "plexsim/models/value_network_soc.pyx",
+            "plexsim/models/potts.pyx",
+            "plexsim/models/value_network_crystal.pyx",
+            "plexsim/models/test.pyx",
+            "plexsim/models/cyclic.pyx",
+            "plexsim/models/rules.pyx",
+            "plexsim/models/value_network2.pyx",
+            "plexsim/models/value_network_dynamic.pyx",
+            "plexsim/models/value_network_gradient.pyx",
+            "plexsim/models/game_of_life.pyx",
+            "plexsim/models/adjacency.pyx",
+            "plexsim/models/ab.pyx",
+            "plexsim/models/value_network.pyx",
+            "plexsim/models/rbn.pyx",
+            "plexsim/models/binding.pyx",
+            "plexsim/models/heisenberg.pyx",
+            "plexsim/models/sirs.pyx",
+            "plexsim/models/sampler.pyx",
+            "plexsim/models/logmap.pyx",
+            "plexsim/models/bonabeau.pyx",
+            "plexsim/models/pyobjectholder.pyx",
+            "plexsim/models/prisoner.pyx",
+            "plexsim/models/sandpile.pyx",
+            "plexsim/models/base.pyx",
+            "plexsim/models/cca.pyx",
+            "plexsim/models/simple_copy.pyx"
         ]
     },
-    "module_name": "plexsim.models.value_network_crystal"
+    "module_name": "models"
 }
 END: Cython Metadata */
 
@@ -1889,9 +1952,9 @@ struct __pyx_obj_7plexsim_6models_4base_Model {
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtab;
   PyObject *ptr;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__states;
-  __pyx_t_7plexsim_6models_5types_state_t *_states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_states;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__newstates;
-  __pyx_t_7plexsim_6models_5types_state_t *_newstates;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_newstates;
   int _last_written;
   int _use_mcmc;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _agentStates;
@@ -2133,11 +2196,11 @@ static struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtabptr_7plex
 struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts {
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model __pyx_base;
   double (*_energy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __pyx_t_7plexsim_6models_5types_node_id_t);
-  PyArrayObject *(*node_energy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  PyArrayObject *(*node_energy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, std::vector<__pyx_t_7plexsim_6models_5types_state_t>  &, int __pyx_skip_dispatch);
   double (*magnetize_)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, double);
   double (*_hamiltonian)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __pyx_t_7plexsim_6models_5types_state_t, __pyx_t_7plexsim_6models_5types_state_t);
   PyArrayObject *(*magnetize)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_5potts_5Potts_magnetize *__pyx_optional_args);
-  std::vector<double>  (*siteEnergy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  std::vector<double>  (*siteEnergy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, std::vector<__pyx_t_7plexsim_6models_5types_state_t>  &, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *__pyx_vtabptr_7plexsim_6models_5potts_Potts;
 
@@ -5221,11 +5284,11 @@ static double __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__energ
  *         Compute the number of completed value networks
  *         """
  *         cdef Crawler *crawler = new Crawler(node,             # <<<<<<<<<<<<<<
- *                                             self._states[node],
+ *                                             deref(self._states)[node],
  *                                             self._bounded_rational,
  */
   try {
-    __pyx_t_1 = new Crawler(__pyx_v_node, (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node]), __pyx_v_self->__pyx_base._bounded_rational, __pyx_v_self->__pyx_base._heuristic, __pyx_v_self->__pyx_base._path_size, 0);
+    __pyx_t_1 = new Crawler(__pyx_v_node, ((*__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states)[__pyx_v_node]), __pyx_v_self->__pyx_base._bounded_rational, __pyx_v_self->__pyx_base._heuristic, __pyx_v_self->__pyx_base._path_size, 0);
   } catch(...) {
     #ifdef WITH_THREAD
     PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
@@ -5316,11 +5379,11 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
  *             Neighbors.iterator it
  * 
  *         cdef Crawler *crawler = new Crawler(node,             # <<<<<<<<<<<<<<
- *                                             self._states[node],
+ *                                             deref(self._states)[node],
  *                                             self._bounded_rational,
  */
   try {
-    __pyx_t_1 = new Crawler(__pyx_v_node, (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node]), __pyx_v_self->__pyx_base._bounded_rational, __pyx_v_self->__pyx_base._heuristic, __pyx_v_self->__pyx_base._path_size, 0);
+    __pyx_t_1 = new Crawler(__pyx_v_node, ((*__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states)[__pyx_v_node]), __pyx_v_self->__pyx_base._bounded_rational, __pyx_v_self->__pyx_base._heuristic, __pyx_v_self->__pyx_base._path_size, 0);
   } catch(...) {
     #ifdef WITH_THREAD
     PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
@@ -5347,22 +5410,22 @@ static void __pyx_f_7plexsim_6models_21value_network_crystal_9VNCrystal__step(st
  *         self._check_df(crawler)
  *         completed_vn = crawler.results.size()             # <<<<<<<<<<<<<<
  * 
- *         node_state = self._states[node]
+ *         node_state = deref(self._states)[node]
  */
   __pyx_v_completed_vn = __pyx_v_crawler->results.size();
 
   /* "plexsim/models/value_network_crystal.pyx":86
  *         completed_vn = crawler.results.size()
  * 
- *         node_state = self._states[node]             # <<<<<<<<<<<<<<
+ *         node_state = deref(self._states)[node]             # <<<<<<<<<<<<<<
  *         self._completed_vns[node] = completed_vn
  *         # add edge randomly
  */
-  __pyx_v_node_state = (__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states[__pyx_v_node]);
+  __pyx_v_node_state = ((*__pyx_v_self->__pyx_base.__pyx_base.__pyx_base._states)[__pyx_v_node]);
 
   /* "plexsim/models/value_network_crystal.pyx":87
  * 
- *         node_state = self._states[node]
+ *         node_state = deref(self._states)[node]
  *         self._completed_vns[node] = completed_vn             # <<<<<<<<<<<<<<
  *         # add edge randomly
  *         if completed_vn == self._theta:

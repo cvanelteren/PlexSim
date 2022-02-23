@@ -46,12 +46,77 @@
         "libraries": [
             "stdc++"
         ],
-        "name": "plexsim.models.percolation",
+        "name": "models",
         "sources": [
-            "plexsim/models/percolation.pyx"
+            "build/lib.linux-x86_64-3.9/plexsim/models/percolation.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pottsis.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/kawasaki.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/magnetic_boids.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ising.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_edges.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bornholdt.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_soc.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/potts.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_crystal.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/test.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cyclic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rules.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network2.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_dynamic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_gradient.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/game_of_life.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/adjacency.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ab.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rbn.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/binding.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/heisenberg.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sirs.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sampler.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/logmap.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bonabeau.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pyobjectholder.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/prisoner.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sandpile.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/base.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cca.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/simple_copy.pyx",
+            "plexsim/models/percolation.pyx",
+            "plexsim/models/pottsis.pyx",
+            "plexsim/models/kawasaki.pyx",
+            "plexsim/models/magnetic_boids.pyx",
+            "plexsim/models/ising.pyx",
+            "plexsim/models/value_network_edges.pyx",
+            "plexsim/models/bornholdt.pyx",
+            "plexsim/models/value_network_soc.pyx",
+            "plexsim/models/potts.pyx",
+            "plexsim/models/value_network_crystal.pyx",
+            "plexsim/models/test.pyx",
+            "plexsim/models/cyclic.pyx",
+            "plexsim/models/rules.pyx",
+            "plexsim/models/value_network2.pyx",
+            "plexsim/models/value_network_dynamic.pyx",
+            "plexsim/models/value_network_gradient.pyx",
+            "plexsim/models/game_of_life.pyx",
+            "plexsim/models/adjacency.pyx",
+            "plexsim/models/ab.pyx",
+            "plexsim/models/value_network.pyx",
+            "plexsim/models/rbn.pyx",
+            "plexsim/models/binding.pyx",
+            "plexsim/models/heisenberg.pyx",
+            "plexsim/models/sirs.pyx",
+            "plexsim/models/sampler.pyx",
+            "plexsim/models/logmap.pyx",
+            "plexsim/models/bonabeau.pyx",
+            "plexsim/models/pyobjectholder.pyx",
+            "plexsim/models/prisoner.pyx",
+            "plexsim/models/sandpile.pyx",
+            "plexsim/models/base.pyx",
+            "plexsim/models/cca.pyx",
+            "plexsim/models/simple_copy.pyx"
         ]
     },
-    "module_name": "plexsim.models.percolation"
+    "module_name": "models"
 }
 END: Cython Metadata */
 
@@ -1851,9 +1916,9 @@ struct __pyx_obj_7plexsim_6models_4base_Model {
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtab;
   PyObject *ptr;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__states;
-  __pyx_t_7plexsim_6models_5types_state_t *_states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_states;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__newstates;
-  __pyx_t_7plexsim_6models_5types_state_t *_newstates;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_newstates;
   int _last_written;
   int _use_mcmc;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _agentStates;
@@ -4747,16 +4812,16 @@ static void __pyx_f_7plexsim_6models_11percolation_11Percolation__step(struct __
   /* "plexsim/models/percolation.pyx":30
  *         cdef:
  *             long neighbor
- *         if self._states[node]:             # <<<<<<<<<<<<<<
+ *         if deref(self._states)[node]:             # <<<<<<<<<<<<<<
  *             it = self.adj._adj[node].neighbors.begin()
  *             while it != self.adj._adj[node].neighbors.end():
  */
-  __pyx_t_1 = ((__pyx_v_self->__pyx_base._states[__pyx_v_node]) != 0);
+  __pyx_t_1 = (((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]) != 0);
   if (__pyx_t_1) {
 
     /* "plexsim/models/percolation.pyx":31
  *             long neighbor
- *         if self._states[node]:
+ *         if deref(self._states)[node]:
  *             it = self.adj._adj[node].neighbors.begin()             # <<<<<<<<<<<<<<
  *             while it != self.adj._adj[node].neighbors.end():
  *                 if self._rng._rand() < self._p:
@@ -4764,7 +4829,7 @@ static void __pyx_f_7plexsim_6models_11percolation_11Percolation__step(struct __
     __pyx_v_it = (__pyx_v_self->__pyx_base.adj->_adj[__pyx_v_node]).neighbors.begin();
 
     /* "plexsim/models/percolation.pyx":32
- *         if self._states[node]:
+ *         if deref(self._states)[node]:
  *             it = self.adj._adj[node].neighbors.begin()
  *             while it != self.adj._adj[node].neighbors.end():             # <<<<<<<<<<<<<<
  *                 if self._rng._rand() < self._p:
@@ -4779,7 +4844,7 @@ static void __pyx_f_7plexsim_6models_11percolation_11Percolation__step(struct __
  *             while it != self.adj._adj[node].neighbors.end():
  *                 if self._rng._rand() < self._p:             # <<<<<<<<<<<<<<
  *                     neighbor = deref(it).first
- *                     self._newstates[neighbor] = 1
+ *                     deref(self._newstates)[neighbor] = 1
  */
       __pyx_t_1 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base._rng) < __pyx_v_self->_p) != 0);
       if (__pyx_t_1) {
@@ -4788,7 +4853,7 @@ static void __pyx_f_7plexsim_6models_11percolation_11Percolation__step(struct __
  *             while it != self.adj._adj[node].neighbors.end():
  *                 if self._rng._rand() < self._p:
  *                     neighbor = deref(it).first             # <<<<<<<<<<<<<<
- *                     self._newstates[neighbor] = 1
+ *                     deref(self._newstates)[neighbor] = 1
  *                 post(it)
  */
         __pyx_t_2 = (*__pyx_v_it).first;
@@ -4797,24 +4862,24 @@ static void __pyx_f_7plexsim_6models_11percolation_11Percolation__step(struct __
         /* "plexsim/models/percolation.pyx":35
  *                 if self._rng._rand() < self._p:
  *                     neighbor = deref(it).first
- *                     self._newstates[neighbor] = 1             # <<<<<<<<<<<<<<
+ *                     deref(self._newstates)[neighbor] = 1             # <<<<<<<<<<<<<<
  *                 post(it)
  *         return
  */
-        (__pyx_v_self->__pyx_base._newstates[__pyx_v_neighbor]) = 1.0;
+        ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_neighbor]) = 1.0;
 
         /* "plexsim/models/percolation.pyx":33
  *             it = self.adj._adj[node].neighbors.begin()
  *             while it != self.adj._adj[node].neighbors.end():
  *                 if self._rng._rand() < self._p:             # <<<<<<<<<<<<<<
  *                     neighbor = deref(it).first
- *                     self._newstates[neighbor] = 1
+ *                     deref(self._newstates)[neighbor] = 1
  */
       }
 
       /* "plexsim/models/percolation.pyx":36
  *                     neighbor = deref(it).first
- *                     self._newstates[neighbor] = 1
+ *                     deref(self._newstates)[neighbor] = 1
  *                 post(it)             # <<<<<<<<<<<<<<
  *         return
  * 
@@ -4825,14 +4890,14 @@ static void __pyx_f_7plexsim_6models_11percolation_11Percolation__step(struct __
     /* "plexsim/models/percolation.pyx":30
  *         cdef:
  *             long neighbor
- *         if self._states[node]:             # <<<<<<<<<<<<<<
+ *         if deref(self._states)[node]:             # <<<<<<<<<<<<<<
  *             it = self.adj._adj[node].neighbors.begin()
  *             while it != self.adj._adj[node].neighbors.end():
  */
   }
 
   /* "plexsim/models/percolation.pyx":37
- *                     self._newstates[neighbor] = 1
+ *                     deref(self._newstates)[neighbor] = 1
  *                 post(it)
  *         return             # <<<<<<<<<<<<<<
  * 

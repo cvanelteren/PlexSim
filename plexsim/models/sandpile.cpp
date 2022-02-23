@@ -46,12 +46,77 @@
         "libraries": [
             "stdc++"
         ],
-        "name": "plexsim.models.sandpile",
+        "name": "models",
         "sources": [
-            "plexsim/models/sandpile.pyx"
+            "build/lib.linux-x86_64-3.9/plexsim/models/percolation.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pottsis.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/kawasaki.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/magnetic_boids.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ising.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_edges.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bornholdt.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_soc.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/potts.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_crystal.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/test.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cyclic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rules.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network2.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_dynamic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_gradient.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/game_of_life.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/adjacency.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ab.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rbn.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/binding.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/heisenberg.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sirs.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sampler.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/logmap.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bonabeau.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pyobjectholder.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/prisoner.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sandpile.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/base.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cca.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/simple_copy.pyx",
+            "plexsim/models/percolation.pyx",
+            "plexsim/models/pottsis.pyx",
+            "plexsim/models/kawasaki.pyx",
+            "plexsim/models/magnetic_boids.pyx",
+            "plexsim/models/ising.pyx",
+            "plexsim/models/value_network_edges.pyx",
+            "plexsim/models/bornholdt.pyx",
+            "plexsim/models/value_network_soc.pyx",
+            "plexsim/models/potts.pyx",
+            "plexsim/models/value_network_crystal.pyx",
+            "plexsim/models/test.pyx",
+            "plexsim/models/cyclic.pyx",
+            "plexsim/models/rules.pyx",
+            "plexsim/models/value_network2.pyx",
+            "plexsim/models/value_network_dynamic.pyx",
+            "plexsim/models/value_network_gradient.pyx",
+            "plexsim/models/game_of_life.pyx",
+            "plexsim/models/adjacency.pyx",
+            "plexsim/models/ab.pyx",
+            "plexsim/models/value_network.pyx",
+            "plexsim/models/rbn.pyx",
+            "plexsim/models/binding.pyx",
+            "plexsim/models/heisenberg.pyx",
+            "plexsim/models/sirs.pyx",
+            "plexsim/models/sampler.pyx",
+            "plexsim/models/logmap.pyx",
+            "plexsim/models/bonabeau.pyx",
+            "plexsim/models/pyobjectholder.pyx",
+            "plexsim/models/prisoner.pyx",
+            "plexsim/models/sandpile.pyx",
+            "plexsim/models/base.pyx",
+            "plexsim/models/cca.pyx",
+            "plexsim/models/simple_copy.pyx"
         ]
     },
-    "module_name": "plexsim.models.sandpile"
+    "module_name": "models"
 }
 END: Cython Metadata */
 
@@ -1851,9 +1916,9 @@ struct __pyx_obj_7plexsim_6models_4base_Model {
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtab;
   PyObject *ptr;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__states;
-  __pyx_t_7plexsim_6models_5types_state_t *_states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_states;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__newstates;
-  __pyx_t_7plexsim_6models_5types_state_t *_newstates;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_newstates;
   int _last_written;
   int _use_mcmc;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _agentStates;
@@ -4888,8 +4953,9 @@ static int __pyx_pf_7plexsim_6models_8sandpile_8Sandpile___init__(struct __pyx_o
 static void __pyx_f_7plexsim_6models_8sandpile_8Sandpile__step(struct __pyx_obj_7plexsim_6models_8sandpile_Sandpile *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node) {
   size_t __pyx_v_counter;
   std::vector<__pyx_t_7plexsim_6models_5types_node_id_t>  __pyx_v_queue;
-  __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_1;
-  int __pyx_t_2;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  __pyx_t_1;
+  __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_2;
+  int __pyx_t_3;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -4902,33 +4968,34 @@ static void __pyx_f_7plexsim_6models_8sandpile_8Sandpile__step(struct __pyx_obj_
  *         """
  *         cdef size_t counter = 0             # <<<<<<<<<<<<<<
  *         cdef vector[node_id_t] queue
- *         self._states[node] += 1
+ *         deref(self._states)[node] += 1
  */
   __pyx_v_counter = 0;
 
   /* "plexsim/models/sandpile.pyx":29
  *         cdef size_t counter = 0
  *         cdef vector[node_id_t] queue
- *         self._states[node] += 1             # <<<<<<<<<<<<<<
- *         if self._states[node] > self._threshold:
+ *         deref(self._states)[node] += 1             # <<<<<<<<<<<<<<
+ *         if deref(self._states)[node] > self._threshold:
  *             queue.push_back(node)
  */
-  __pyx_t_1 = __pyx_v_node;
-  (__pyx_v_self->__pyx_base._states[__pyx_t_1]) = ((__pyx_v_self->__pyx_base._states[__pyx_t_1]) + 1.0);
+  __pyx_t_1 = (*__pyx_v_self->__pyx_base._states);
+  __pyx_t_2 = __pyx_v_node;
+  (__pyx_t_1[__pyx_t_2]) = ((__pyx_t_1[__pyx_t_2]) + 1.0);
 
   /* "plexsim/models/sandpile.pyx":30
  *         cdef vector[node_id_t] queue
- *         self._states[node] += 1
- *         if self._states[node] > self._threshold:             # <<<<<<<<<<<<<<
+ *         deref(self._states)[node] += 1
+ *         if deref(self._states)[node] > self._threshold:             # <<<<<<<<<<<<<<
  *             queue.push_back(node)
  *             counter = self._check_avalanche(queue, counter)
  */
-  __pyx_t_2 = (((__pyx_v_self->__pyx_base._states[__pyx_v_node]) > __pyx_v_self->_threshold) != 0);
-  if (__pyx_t_2) {
+  __pyx_t_3 = ((((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]) > __pyx_v_self->_threshold) != 0);
+  if (__pyx_t_3) {
 
     /* "plexsim/models/sandpile.pyx":31
- *         self._states[node] += 1
- *         if self._states[node] > self._threshold:
+ *         deref(self._states)[node] += 1
+ *         if deref(self._states)[node] > self._threshold:
  *             queue.push_back(node)             # <<<<<<<<<<<<<<
  *             counter = self._check_avalanche(queue, counter)
  * 
@@ -4947,7 +5014,7 @@ static void __pyx_f_7plexsim_6models_8sandpile_8Sandpile__step(struct __pyx_obj_
     }
 
     /* "plexsim/models/sandpile.pyx":32
- *         if self._states[node] > self._threshold:
+ *         if deref(self._states)[node] > self._threshold:
  *             queue.push_back(node)
  *             counter = self._check_avalanche(queue, counter)             # <<<<<<<<<<<<<<
  * 
@@ -4957,8 +5024,8 @@ static void __pyx_f_7plexsim_6models_8sandpile_8Sandpile__step(struct __pyx_obj_
 
     /* "plexsim/models/sandpile.pyx":30
  *         cdef vector[node_id_t] queue
- *         self._states[node] += 1
- *         if self._states[node] > self._threshold:             # <<<<<<<<<<<<<<
+ *         deref(self._states)[node] += 1
+ *         if deref(self._states)[node] > self._threshold:             # <<<<<<<<<<<<<<
  *             queue.push_back(node)
  *             counter = self._check_avalanche(queue, counter)
  */
@@ -5003,7 +5070,8 @@ static size_t __pyx_f_7plexsim_6models_8sandpile_8Sandpile__check_avalanche(stru
   PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
   int __pyx_t_4;
-  __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_5;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  __pyx_t_5;
+  __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_6;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -5092,7 +5160,7 @@ static size_t __pyx_f_7plexsim_6models_8sandpile_8Sandpile__check_avalanche(stru
  *         if queue.size():
  *             counter += 1             # <<<<<<<<<<<<<<
  *             node = queue.back()
- *             self._states[node] -= self._threshold
+ *             deref(self._states)[node] -= self._threshold
  */
     __pyx_v_counter = (__pyx_v_counter + 1);
 
@@ -5100,7 +5168,7 @@ static size_t __pyx_f_7plexsim_6models_8sandpile_8Sandpile__check_avalanche(stru
  *         if queue.size():
  *             counter += 1
  *             node = queue.back()             # <<<<<<<<<<<<<<
- *             self._states[node] -= self._threshold
+ *             deref(self._states)[node] -= self._threshold
  *             queue.pop_back()
  */
     __pyx_v_node = __pyx_v_queue.back();
@@ -5108,16 +5176,17 @@ static size_t __pyx_f_7plexsim_6models_8sandpile_8Sandpile__check_avalanche(stru
     /* "plexsim/models/sandpile.pyx":48
  *             counter += 1
  *             node = queue.back()
- *             self._states[node] -= self._threshold             # <<<<<<<<<<<<<<
+ *             deref(self._states)[node] -= self._threshold             # <<<<<<<<<<<<<<
  *             queue.pop_back()
  *             it = self.adj._adj[node].neighbors.begin()
  */
-    __pyx_t_5 = __pyx_v_node;
-    (__pyx_v_self->__pyx_base._states[__pyx_t_5]) = ((__pyx_v_self->__pyx_base._states[__pyx_t_5]) - __pyx_v_self->_threshold);
+    __pyx_t_5 = (*__pyx_v_self->__pyx_base._states);
+    __pyx_t_6 = __pyx_v_node;
+    (__pyx_t_5[__pyx_t_6]) = ((__pyx_t_5[__pyx_t_6]) - __pyx_v_self->_threshold);
 
     /* "plexsim/models/sandpile.pyx":49
  *             node = queue.back()
- *             self._states[node] -= self._threshold
+ *             deref(self._states)[node] -= self._threshold
  *             queue.pop_back()             # <<<<<<<<<<<<<<
  *             it = self.adj._adj[node].neighbors.begin()
  *             while it != self.adj._adj[node].neighbors.end():
@@ -5125,7 +5194,7 @@ static size_t __pyx_f_7plexsim_6models_8sandpile_8Sandpile__check_avalanche(stru
     __pyx_v_queue.pop_back();
 
     /* "plexsim/models/sandpile.pyx":50
- *             self._states[node] -= self._threshold
+ *             deref(self._states)[node] -= self._threshold
  *             queue.pop_back()
  *             it = self.adj._adj[node].neighbors.begin()             # <<<<<<<<<<<<<<
  *             while it != self.adj._adj[node].neighbors.end():
@@ -5149,17 +5218,17 @@ static size_t __pyx_f_7plexsim_6models_8sandpile_8Sandpile__check_avalanche(stru
  *             while it != self.adj._adj[node].neighbors.end():
  *                 neighbor = deref(it).first             # <<<<<<<<<<<<<<
  *                 if deref(it).second > 0:
- *                     self._states[neighbor] += 1
+ *                     deref(self._states)[neighbor] += 1
  */
-      __pyx_t_5 = (*__pyx_v_it).first;
-      __pyx_v_neighbor = __pyx_t_5;
+      __pyx_t_6 = (*__pyx_v_it).first;
+      __pyx_v_neighbor = __pyx_t_6;
 
       /* "plexsim/models/sandpile.pyx":53
  *             while it != self.adj._adj[node].neighbors.end():
  *                 neighbor = deref(it).first
  *                 if deref(it).second > 0:             # <<<<<<<<<<<<<<
- *                     self._states[neighbor] += 1
- *                 if self._states[neighbor] > self._threshold:
+ *                     deref(self._states)[neighbor] += 1
+ *                 if deref(self._states)[neighbor] > self._threshold:
  */
       __pyx_t_4 = (((*__pyx_v_it).second > 0.0) != 0);
       if (__pyx_t_4) {
@@ -5167,35 +5236,36 @@ static size_t __pyx_f_7plexsim_6models_8sandpile_8Sandpile__check_avalanche(stru
         /* "plexsim/models/sandpile.pyx":54
  *                 neighbor = deref(it).first
  *                 if deref(it).second > 0:
- *                     self._states[neighbor] += 1             # <<<<<<<<<<<<<<
- *                 if self._states[neighbor] > self._threshold:
+ *                     deref(self._states)[neighbor] += 1             # <<<<<<<<<<<<<<
+ *                 if deref(self._states)[neighbor] > self._threshold:
  *                     queue.push_back(neighbor)
  */
-        __pyx_t_5 = __pyx_v_neighbor;
-        (__pyx_v_self->__pyx_base._states[__pyx_t_5]) = ((__pyx_v_self->__pyx_base._states[__pyx_t_5]) + 1.0);
+        __pyx_t_5 = (*__pyx_v_self->__pyx_base._states);
+        __pyx_t_6 = __pyx_v_neighbor;
+        (__pyx_t_5[__pyx_t_6]) = ((__pyx_t_5[__pyx_t_6]) + 1.0);
 
         /* "plexsim/models/sandpile.pyx":53
  *             while it != self.adj._adj[node].neighbors.end():
  *                 neighbor = deref(it).first
  *                 if deref(it).second > 0:             # <<<<<<<<<<<<<<
- *                     self._states[neighbor] += 1
- *                 if self._states[neighbor] > self._threshold:
+ *                     deref(self._states)[neighbor] += 1
+ *                 if deref(self._states)[neighbor] > self._threshold:
  */
       }
 
       /* "plexsim/models/sandpile.pyx":55
  *                 if deref(it).second > 0:
- *                     self._states[neighbor] += 1
- *                 if self._states[neighbor] > self._threshold:             # <<<<<<<<<<<<<<
+ *                     deref(self._states)[neighbor] += 1
+ *                 if deref(self._states)[neighbor] > self._threshold:             # <<<<<<<<<<<<<<
  *                     queue.push_back(neighbor)
  *                 post(it)
  */
-      __pyx_t_4 = (((__pyx_v_self->__pyx_base._states[__pyx_v_neighbor]) > __pyx_v_self->_threshold) != 0);
+      __pyx_t_4 = ((((*__pyx_v_self->__pyx_base._states)[__pyx_v_neighbor]) > __pyx_v_self->_threshold) != 0);
       if (__pyx_t_4) {
 
         /* "plexsim/models/sandpile.pyx":56
- *                     self._states[neighbor] += 1
- *                 if self._states[neighbor] > self._threshold:
+ *                     deref(self._states)[neighbor] += 1
+ *                 if deref(self._states)[neighbor] > self._threshold:
  *                     queue.push_back(neighbor)             # <<<<<<<<<<<<<<
  *                 post(it)
  *         return counter + self._check_avalanche(queue, counter)
@@ -5215,15 +5285,15 @@ static size_t __pyx_f_7plexsim_6models_8sandpile_8Sandpile__check_avalanche(stru
 
         /* "plexsim/models/sandpile.pyx":55
  *                 if deref(it).second > 0:
- *                     self._states[neighbor] += 1
- *                 if self._states[neighbor] > self._threshold:             # <<<<<<<<<<<<<<
+ *                     deref(self._states)[neighbor] += 1
+ *                 if deref(self._states)[neighbor] > self._threshold:             # <<<<<<<<<<<<<<
  *                     queue.push_back(neighbor)
  *                 post(it)
  */
       }
 
       /* "plexsim/models/sandpile.pyx":57
- *                 if self._states[neighbor] > self._threshold:
+ *                 if deref(self._states)[neighbor] > self._threshold:
  *                     queue.push_back(neighbor)
  *                 post(it)             # <<<<<<<<<<<<<<
  *         return counter + self._check_avalanche(queue, counter)

@@ -29,20 +29,20 @@ cdef class CCA(Model):
             long nNeighbors = self.adj._adj[node].neighbors.size()
             int i
             double fraction = 0
-            state_t* states = self._states
+            vector[state_t]* states = self._states
         # check neighbors and see if they exceed threshold
         it = self.adj._adj[node].neighbors.begin()
         while it != self.adj._adj[node].neighbors.end():
             neighbor = deref(it).first
-            if (states[neighbor] == (states[node] + 1) % self._nStates):
+            if (deref(states)[neighbor] == (deref(states)[node] + 1) % self._nStates):
                 fraction += 1
             post(it)
         if (fraction / <double> nNeighbors >= self._threshold):
-            self._newstates[node] = ((states[node] + 1 ) % self._nStates)
+            deref(self._newstates)[node] = ((deref(states)[node] + 1 ) % self._nStates)
         else:
             if self._rng._rand() <= self._threshold:
                 i = <int> (self._rng._rand() * self._nStates)
-                self._newstates[node] = self._agentStates[i]
+                deref(self._newstates)[node] = self._agentStates[i]
         return 
 
     # threshold for neighborhood decision

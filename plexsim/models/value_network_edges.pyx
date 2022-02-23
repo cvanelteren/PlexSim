@@ -50,7 +50,7 @@ cdef class VNE(ValueNetwork):
     #     Compute the number of completed value networks
     #     """
     #     cdef Crawler *crawler = new Crawler(node,
-    #                                         self._states[node],
+    #                                         deref(self._states)[node],
     #                                         self._bounded_rational,
     #                                         self._heuristic,
     #                                         False)
@@ -81,7 +81,7 @@ cdef class VNE(ValueNetwork):
         # compute energy
         # cdef double energy = self._energy(node)
         cdef Crawler *crawler = new Crawler(node,
-                                            self._states[node],
+                                            deref(self._states)[node],
                                             self._bounded_rational,
                                             self._heuristic,
                                             self._path_size,

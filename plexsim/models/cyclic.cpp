@@ -46,12 +46,77 @@
         "libraries": [
             "stdc++"
         ],
-        "name": "plexsim.models.cyclic",
+        "name": "models",
         "sources": [
-            "plexsim/models/cyclic.pyx"
+            "build/lib.linux-x86_64-3.9/plexsim/models/percolation.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pottsis.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/kawasaki.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/magnetic_boids.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ising.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_edges.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bornholdt.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_soc.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/potts.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_crystal.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/test.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cyclic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rules.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network2.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_dynamic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_gradient.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/game_of_life.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/adjacency.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ab.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rbn.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/binding.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/heisenberg.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sirs.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sampler.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/logmap.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bonabeau.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pyobjectholder.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/prisoner.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sandpile.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/base.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cca.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/simple_copy.pyx",
+            "plexsim/models/percolation.pyx",
+            "plexsim/models/pottsis.pyx",
+            "plexsim/models/kawasaki.pyx",
+            "plexsim/models/magnetic_boids.pyx",
+            "plexsim/models/ising.pyx",
+            "plexsim/models/value_network_edges.pyx",
+            "plexsim/models/bornholdt.pyx",
+            "plexsim/models/value_network_soc.pyx",
+            "plexsim/models/potts.pyx",
+            "plexsim/models/value_network_crystal.pyx",
+            "plexsim/models/test.pyx",
+            "plexsim/models/cyclic.pyx",
+            "plexsim/models/rules.pyx",
+            "plexsim/models/value_network2.pyx",
+            "plexsim/models/value_network_dynamic.pyx",
+            "plexsim/models/value_network_gradient.pyx",
+            "plexsim/models/game_of_life.pyx",
+            "plexsim/models/adjacency.pyx",
+            "plexsim/models/ab.pyx",
+            "plexsim/models/value_network.pyx",
+            "plexsim/models/rbn.pyx",
+            "plexsim/models/binding.pyx",
+            "plexsim/models/heisenberg.pyx",
+            "plexsim/models/sirs.pyx",
+            "plexsim/models/sampler.pyx",
+            "plexsim/models/logmap.pyx",
+            "plexsim/models/bonabeau.pyx",
+            "plexsim/models/pyobjectholder.pyx",
+            "plexsim/models/prisoner.pyx",
+            "plexsim/models/sandpile.pyx",
+            "plexsim/models/base.pyx",
+            "plexsim/models/cca.pyx",
+            "plexsim/models/simple_copy.pyx"
         ]
     },
-    "module_name": "plexsim.models.cyclic"
+    "module_name": "models"
 }
 END: Cython Metadata */
 
@@ -1852,9 +1917,9 @@ struct __pyx_obj_7plexsim_6models_4base_Model {
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtab;
   PyObject *ptr;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__states;
-  __pyx_t_7plexsim_6models_5types_state_t *_states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_states;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__newstates;
-  __pyx_t_7plexsim_6models_5types_state_t *_newstates;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_newstates;
   int _last_written;
   int _use_mcmc;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _agentStates;
@@ -5535,31 +5600,31 @@ static void __pyx_f_7plexsim_6models_6cyclic_10Cycledelic__step(struct __pyx_obj
  *         cdef size_t idx = self.adj._adj[node].neighbors.size()
  * 
  *         cdef node_id_t neighbor = <node_id_t> (self._rng._rand() * idx)             # <<<<<<<<<<<<<<
- *         cdef state_t neighbor_state = self._states[neighbor]
- *         cdef state_t node_state = self._states[node]
+ *         cdef state_t neighbor_state = deref(self._states)[neighbor]
+ *         cdef state_t node_state = deref(self._states)[node]
  */
   __pyx_v_neighbor = ((__pyx_t_7plexsim_6models_5types_node_id_t)(((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base._rng) * __pyx_v_idx));
 
   /* "plexsim/models/cyclic.pyx":53
  * 
  *         cdef node_id_t neighbor = <node_id_t> (self._rng._rand() * idx)
- *         cdef state_t neighbor_state = self._states[neighbor]             # <<<<<<<<<<<<<<
- *         cdef state_t node_state = self._states[node]
+ *         cdef state_t neighbor_state = deref(self._states)[neighbor]             # <<<<<<<<<<<<<<
+ *         cdef state_t node_state = deref(self._states)[node]
  * 
  */
-  __pyx_v_neighbor_state = (__pyx_v_self->__pyx_base._states[__pyx_v_neighbor]);
+  __pyx_v_neighbor_state = ((*__pyx_v_self->__pyx_base._states)[__pyx_v_neighbor]);
 
   /* "plexsim/models/cyclic.pyx":54
  *         cdef node_id_t neighbor = <node_id_t> (self._rng._rand() * idx)
- *         cdef state_t neighbor_state = self._states[neighbor]
- *         cdef state_t node_state = self._states[node]             # <<<<<<<<<<<<<<
+ *         cdef state_t neighbor_state = deref(self._states)[neighbor]
+ *         cdef state_t node_state = deref(self._states)[node]             # <<<<<<<<<<<<<<
  * 
  *         it = self.adj._adj[node].neighbors.begin()
  */
-  __pyx_v_node_state = (__pyx_v_self->__pyx_base._states[__pyx_v_node]);
+  __pyx_v_node_state = ((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]);
 
   /* "plexsim/models/cyclic.pyx":56
- *         cdef state_t node_state = self._states[node]
+ *         cdef state_t node_state = deref(self._states)[node]
  * 
  *         it = self.adj._adj[node].neighbors.begin()             # <<<<<<<<<<<<<<
  *         #while it != self._adj[node].neighbors.end():
@@ -5660,8 +5725,8 @@ __pyx_v_change = ((struct __pyx_vtabstruct_7plexsim_6models_6cyclic_Cycledelic *
   }
 
   /* "plexsim/models/cyclic.pyx":95
- *         #    self._newstates[neighbor] = self._states[neighbor]
- *         #    self._newstates[node] = self._states[node]
+ *         #    self._newstates[neighbor] = deref(self._states)[neighbor]
+ *         #    deref(self._newstates)[node] = deref(self._states)[node]
  *         return             # <<<<<<<<<<<<<<
  * 
  * 
@@ -6524,6 +6589,7 @@ static int __pyx_pf_7plexsim_6models_6cyclic_15CycledelicAgent___init__(struct _
 
 static void __pyx_f_7plexsim_6models_6cyclic_15CycledelicAgent__step(struct __pyx_obj_7plexsim_6models_6cyclic_CycledelicAgent *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node) {
   __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_neighbor;
+  __pyx_t_7plexsim_6models_5types_state_t __pyx_v_tmp;
   CYTHON_UNUSED size_t __pyx_v_idx;
   std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,__pyx_t_7plexsim_6models_5types_weight_t> ::iterator __pyx_v_it;
   CYTHON_UNUSED double __pyx_v_rng;
@@ -6531,7 +6597,7 @@ static void __pyx_f_7plexsim_6models_6cyclic_15CycledelicAgent__step(struct __py
   __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_2;
   int __pyx_t_3;
 
-  /* "plexsim/models/cyclic.pyx":139
+  /* "plexsim/models/cyclic.pyx":140
  * 
  *         # pick random neighbor
  *         cdef size_t idx = <size_t> (self._rng._rand() * self.adj._adj[node].neighbors.size())             # <<<<<<<<<<<<<<
@@ -6540,7 +6606,7 @@ static void __pyx_f_7plexsim_6models_6cyclic_15CycledelicAgent__step(struct __py
  */
   __pyx_v_idx = ((size_t)(((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base._rng) * (__pyx_v_self->__pyx_base.adj->_adj[__pyx_v_node]).neighbors.size()));
 
-  /* "plexsim/models/cyclic.pyx":141
+  /* "plexsim/models/cyclic.pyx":142
  *         cdef size_t idx = <size_t> (self._rng._rand() * self.adj._adj[node].neighbors.size())
  * 
  *         it  = self.adj._adj[node].neighbors.begin()             # <<<<<<<<<<<<<<
@@ -6549,7 +6615,7 @@ static void __pyx_f_7plexsim_6models_6cyclic_15CycledelicAgent__step(struct __py
  */
   __pyx_v_it = (__pyx_v_self->__pyx_base.adj->_adj[__pyx_v_node]).neighbors.begin();
 
-  /* "plexsim/models/cyclic.pyx":144
+  /* "plexsim/models/cyclic.pyx":145
  * 
  *         #double rng
  *         while it != self.adj._adj[node].neighbors.end():             # <<<<<<<<<<<<<<
@@ -6560,7 +6626,7 @@ static void __pyx_f_7plexsim_6models_6cyclic_15CycledelicAgent__step(struct __py
     __pyx_t_1 = ((__pyx_v_it != (__pyx_v_self->__pyx_base.adj->_adj[__pyx_v_node]).neighbors.end()) != 0);
     if (!__pyx_t_1) break;
 
-    /* "plexsim/models/cyclic.pyx":145
+    /* "plexsim/models/cyclic.pyx":146
  *         #double rng
  *         while it != self.adj._adj[node].neighbors.end():
  *             neighbor =  deref(it).first             # <<<<<<<<<<<<<<
@@ -6570,350 +6636,368 @@ static void __pyx_f_7plexsim_6models_6cyclic_15CycledelicAgent__step(struct __py
     __pyx_t_2 = (*__pyx_v_it).first;
     __pyx_v_neighbor = __pyx_t_2;
 
-    /* "plexsim/models/cyclic.pyx":148
+    /* "plexsim/models/cyclic.pyx":149
  * 
  * 
  *             rng = self._rng._rand()             # <<<<<<<<<<<<<<
- *             if self._states[neighbor] == 0:
+ *             if deref(self._states)[neighbor] == 0:
  *                 if self._rng._rand() < self.reproduction:
  */
     __pyx_v_rng = ((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base._rng);
 
-    /* "plexsim/models/cyclic.pyx":149
+    /* "plexsim/models/cyclic.pyx":150
  * 
  *             rng = self._rng._rand()
- *             if self._states[neighbor] == 0:             # <<<<<<<<<<<<<<
+ *             if deref(self._states)[neighbor] == 0:             # <<<<<<<<<<<<<<
  *                 if self._rng._rand() < self.reproduction:
- *                     self._states[neighbor] = self._states[node]
+ *                     deref(self._states)[neighbor] = deref(self._states)[node]
  */
-    __pyx_t_1 = (((__pyx_v_self->__pyx_base._states[__pyx_v_neighbor]) == 0.0) != 0);
+    __pyx_t_1 = ((((*__pyx_v_self->__pyx_base._states)[__pyx_v_neighbor]) == 0.0) != 0);
     if (__pyx_t_1) {
 
-      /* "plexsim/models/cyclic.pyx":150
+      /* "plexsim/models/cyclic.pyx":151
  *             rng = self._rng._rand()
- *             if self._states[neighbor] == 0:
+ *             if deref(self._states)[neighbor] == 0:
  *                 if self._rng._rand() < self.reproduction:             # <<<<<<<<<<<<<<
- *                     self._states[neighbor] = self._states[node]
+ *                     deref(self._states)[neighbor] = deref(self._states)[node]
  *             else:
  */
       __pyx_t_1 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base._rng) < __pyx_v_self->reproduction) != 0);
       if (__pyx_t_1) {
 
-        /* "plexsim/models/cyclic.pyx":151
- *             if self._states[neighbor] == 0:
+        /* "plexsim/models/cyclic.pyx":152
+ *             if deref(self._states)[neighbor] == 0:
  *                 if self._rng._rand() < self.reproduction:
- *                     self._states[neighbor] = self._states[node]             # <<<<<<<<<<<<<<
+ *                     deref(self._states)[neighbor] = deref(self._states)[node]             # <<<<<<<<<<<<<<
  *             else:
  *                 # kill
  */
-        (__pyx_v_self->__pyx_base._states[__pyx_v_neighbor]) = (__pyx_v_self->__pyx_base._states[__pyx_v_node]);
+        ((*__pyx_v_self->__pyx_base._states)[__pyx_v_neighbor]) = ((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]);
 
-        /* "plexsim/models/cyclic.pyx":150
+        /* "plexsim/models/cyclic.pyx":151
  *             rng = self._rng._rand()
- *             if self._states[neighbor] == 0:
+ *             if deref(self._states)[neighbor] == 0:
  *                 if self._rng._rand() < self.reproduction:             # <<<<<<<<<<<<<<
- *                     self._states[neighbor] = self._states[node]
+ *                     deref(self._states)[neighbor] = deref(self._states)[node]
  *             else:
  */
       }
 
-      /* "plexsim/models/cyclic.pyx":149
+      /* "plexsim/models/cyclic.pyx":150
  * 
  *             rng = self._rng._rand()
- *             if self._states[neighbor] == 0:             # <<<<<<<<<<<<<<
+ *             if deref(self._states)[neighbor] == 0:             # <<<<<<<<<<<<<<
  *                 if self._rng._rand() < self.reproduction:
- *                     self._states[neighbor] = self._states[node]
+ *                     deref(self._states)[neighbor] = deref(self._states)[node]
  */
       goto __pyx_L5;
     }
 
-    /* "plexsim/models/cyclic.pyx":154
+    /* "plexsim/models/cyclic.pyx":155
  *             else:
  *                 # kill
  *                 if self._rng._rand() < self.predation:             # <<<<<<<<<<<<<<
  *                     # paper kills rock
- *                     if self._states[node] == 1 and self._states[neighbor] == 2:
+ *                     if deref(self._states)[node] == 1 and deref(self._states)[neighbor] == 2:
  */
     /*else*/ {
       __pyx_t_1 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base._rng) < __pyx_v_self->predation) != 0);
       if (__pyx_t_1) {
 
-        /* "plexsim/models/cyclic.pyx":156
+        /* "plexsim/models/cyclic.pyx":157
  *                 if self._rng._rand() < self.predation:
  *                     # paper kills rock
- *                     if self._states[node] == 1 and self._states[neighbor] == 2:             # <<<<<<<<<<<<<<
- *                         self._newstates[node] = 0
+ *                     if deref(self._states)[node] == 1 and deref(self._states)[neighbor] == 2:             # <<<<<<<<<<<<<<
+ *                         deref(self._newstates)[node] = 0
  *                     # rock kills paper
  */
-        __pyx_t_3 = (((__pyx_v_self->__pyx_base._states[__pyx_v_node]) == 1.0) != 0);
+        __pyx_t_3 = ((((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]) == 1.0) != 0);
         if (__pyx_t_3) {
         } else {
           __pyx_t_1 = __pyx_t_3;
           goto __pyx_L9_bool_binop_done;
         }
-        __pyx_t_3 = (((__pyx_v_self->__pyx_base._states[__pyx_v_neighbor]) == 2.0) != 0);
+        __pyx_t_3 = ((((*__pyx_v_self->__pyx_base._states)[__pyx_v_neighbor]) == 2.0) != 0);
         __pyx_t_1 = __pyx_t_3;
         __pyx_L9_bool_binop_done:;
         if (__pyx_t_1) {
 
-          /* "plexsim/models/cyclic.pyx":157
+          /* "plexsim/models/cyclic.pyx":158
  *                     # paper kills rock
- *                     if self._states[node] == 1 and self._states[neighbor] == 2:
- *                         self._newstates[node] = 0             # <<<<<<<<<<<<<<
+ *                     if deref(self._states)[node] == 1 and deref(self._states)[neighbor] == 2:
+ *                         deref(self._newstates)[node] = 0             # <<<<<<<<<<<<<<
  *                     # rock kills paper
- *                     elif self._states[node] == 1 and self._states[neighbor] == 3:
+ *                     elif deref(self._states)[node] == 1 and deref(self._states)[neighbor] == 3:
  */
-          (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = 0.0;
+          ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_node]) = 0.0;
 
-          /* "plexsim/models/cyclic.pyx":156
+          /* "plexsim/models/cyclic.pyx":157
  *                 if self._rng._rand() < self.predation:
  *                     # paper kills rock
- *                     if self._states[node] == 1 and self._states[neighbor] == 2:             # <<<<<<<<<<<<<<
- *                         self._newstates[node] = 0
+ *                     if deref(self._states)[node] == 1 and deref(self._states)[neighbor] == 2:             # <<<<<<<<<<<<<<
+ *                         deref(self._newstates)[node] = 0
  *                     # rock kills paper
  */
           goto __pyx_L8;
         }
 
-        /* "plexsim/models/cyclic.pyx":159
- *                         self._newstates[node] = 0
+        /* "plexsim/models/cyclic.pyx":160
+ *                         deref(self._newstates)[node] = 0
  *                     # rock kills paper
- *                     elif self._states[node] == 1 and self._states[neighbor] == 3:             # <<<<<<<<<<<<<<
- *                         self._newstates[neighbor] = 0
+ *                     elif deref(self._states)[node] == 1 and deref(self._states)[neighbor] == 3:             # <<<<<<<<<<<<<<
+ *                         deref(self._newstates)[neighbor] = 0
  *                     # paper kills rock
  */
-        __pyx_t_3 = (((__pyx_v_self->__pyx_base._states[__pyx_v_node]) == 1.0) != 0);
+        __pyx_t_3 = ((((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]) == 1.0) != 0);
         if (__pyx_t_3) {
         } else {
           __pyx_t_1 = __pyx_t_3;
           goto __pyx_L11_bool_binop_done;
         }
-        __pyx_t_3 = (((__pyx_v_self->__pyx_base._states[__pyx_v_neighbor]) == 3.0) != 0);
+        __pyx_t_3 = ((((*__pyx_v_self->__pyx_base._states)[__pyx_v_neighbor]) == 3.0) != 0);
         __pyx_t_1 = __pyx_t_3;
         __pyx_L11_bool_binop_done:;
         if (__pyx_t_1) {
 
-          /* "plexsim/models/cyclic.pyx":160
+          /* "plexsim/models/cyclic.pyx":161
  *                     # rock kills paper
- *                     elif self._states[node] == 1 and self._states[neighbor] == 3:
- *                         self._newstates[neighbor] = 0             # <<<<<<<<<<<<<<
+ *                     elif deref(self._states)[node] == 1 and deref(self._states)[neighbor] == 3:
+ *                         deref(self._newstates)[neighbor] = 0             # <<<<<<<<<<<<<<
  *                     # paper kills rock
- *                     elif self._states[node] == 2 and self._states[neighbor] == 1:
+ *                     elif deref(self._states)[node] == 2 and deref(self._states)[neighbor] == 1:
  */
-          (__pyx_v_self->__pyx_base._newstates[__pyx_v_neighbor]) = 0.0;
+          ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_neighbor]) = 0.0;
 
-          /* "plexsim/models/cyclic.pyx":159
- *                         self._newstates[node] = 0
+          /* "plexsim/models/cyclic.pyx":160
+ *                         deref(self._newstates)[node] = 0
  *                     # rock kills paper
- *                     elif self._states[node] == 1 and self._states[neighbor] == 3:             # <<<<<<<<<<<<<<
- *                         self._newstates[neighbor] = 0
+ *                     elif deref(self._states)[node] == 1 and deref(self._states)[neighbor] == 3:             # <<<<<<<<<<<<<<
+ *                         deref(self._newstates)[neighbor] = 0
  *                     # paper kills rock
  */
           goto __pyx_L8;
         }
 
-        /* "plexsim/models/cyclic.pyx":162
- *                         self._newstates[neighbor] = 0
+        /* "plexsim/models/cyclic.pyx":163
+ *                         deref(self._newstates)[neighbor] = 0
  *                     # paper kills rock
- *                     elif self._states[node] == 2 and self._states[neighbor] == 1:             # <<<<<<<<<<<<<<
- *                         self._newstates[neighbor] = 0
+ *                     elif deref(self._states)[node] == 2 and deref(self._states)[neighbor] == 1:             # <<<<<<<<<<<<<<
+ *                         deref(self._newstates)[neighbor] = 0
  *                     # scissor kills paper
  */
-        __pyx_t_3 = (((__pyx_v_self->__pyx_base._states[__pyx_v_node]) == 2.0) != 0);
+        __pyx_t_3 = ((((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]) == 2.0) != 0);
         if (__pyx_t_3) {
         } else {
           __pyx_t_1 = __pyx_t_3;
           goto __pyx_L13_bool_binop_done;
         }
-        __pyx_t_3 = (((__pyx_v_self->__pyx_base._states[__pyx_v_neighbor]) == 1.0) != 0);
+        __pyx_t_3 = ((((*__pyx_v_self->__pyx_base._states)[__pyx_v_neighbor]) == 1.0) != 0);
         __pyx_t_1 = __pyx_t_3;
         __pyx_L13_bool_binop_done:;
         if (__pyx_t_1) {
 
-          /* "plexsim/models/cyclic.pyx":163
+          /* "plexsim/models/cyclic.pyx":164
  *                     # paper kills rock
- *                     elif self._states[node] == 2 and self._states[neighbor] == 1:
- *                         self._newstates[neighbor] = 0             # <<<<<<<<<<<<<<
+ *                     elif deref(self._states)[node] == 2 and deref(self._states)[neighbor] == 1:
+ *                         deref(self._newstates)[neighbor] = 0             # <<<<<<<<<<<<<<
  *                     # scissor kills paper
- *                     elif self._states[node] == 2 and self._states[neighbor] == 3:
+ *                     elif deref(self._states)[node] == 2 and deref(self._states)[neighbor] == 3:
  */
-          (__pyx_v_self->__pyx_base._newstates[__pyx_v_neighbor]) = 0.0;
+          ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_neighbor]) = 0.0;
 
-          /* "plexsim/models/cyclic.pyx":162
- *                         self._newstates[neighbor] = 0
+          /* "plexsim/models/cyclic.pyx":163
+ *                         deref(self._newstates)[neighbor] = 0
  *                     # paper kills rock
- *                     elif self._states[node] == 2 and self._states[neighbor] == 1:             # <<<<<<<<<<<<<<
- *                         self._newstates[neighbor] = 0
+ *                     elif deref(self._states)[node] == 2 and deref(self._states)[neighbor] == 1:             # <<<<<<<<<<<<<<
+ *                         deref(self._newstates)[neighbor] = 0
  *                     # scissor kills paper
  */
           goto __pyx_L8;
         }
 
-        /* "plexsim/models/cyclic.pyx":165
- *                         self._newstates[neighbor] = 0
+        /* "plexsim/models/cyclic.pyx":166
+ *                         deref(self._newstates)[neighbor] = 0
  *                     # scissor kills paper
- *                     elif self._states[node] == 2 and self._states[neighbor] == 3:             # <<<<<<<<<<<<<<
- *                         self._newstates[node] = 0
+ *                     elif deref(self._states)[node] == 2 and deref(self._states)[neighbor] == 3:             # <<<<<<<<<<<<<<
+ *                         deref(self._newstates)[node] = 0
  *                     # rock kills scisssor
  */
-        __pyx_t_3 = (((__pyx_v_self->__pyx_base._states[__pyx_v_node]) == 2.0) != 0);
+        __pyx_t_3 = ((((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]) == 2.0) != 0);
         if (__pyx_t_3) {
         } else {
           __pyx_t_1 = __pyx_t_3;
           goto __pyx_L15_bool_binop_done;
         }
-        __pyx_t_3 = (((__pyx_v_self->__pyx_base._states[__pyx_v_neighbor]) == 3.0) != 0);
+        __pyx_t_3 = ((((*__pyx_v_self->__pyx_base._states)[__pyx_v_neighbor]) == 3.0) != 0);
         __pyx_t_1 = __pyx_t_3;
         __pyx_L15_bool_binop_done:;
         if (__pyx_t_1) {
 
-          /* "plexsim/models/cyclic.pyx":166
+          /* "plexsim/models/cyclic.pyx":167
  *                     # scissor kills paper
- *                     elif self._states[node] == 2 and self._states[neighbor] == 3:
- *                         self._newstates[node] = 0             # <<<<<<<<<<<<<<
+ *                     elif deref(self._states)[node] == 2 and deref(self._states)[neighbor] == 3:
+ *                         deref(self._newstates)[node] = 0             # <<<<<<<<<<<<<<
  *                     # rock kills scisssor
- *                     elif self._states[node] == 3 and self._states[neighbor] == 1:
+ *                     elif deref(self._states)[node] == 3 and deref(self._states)[neighbor] == 1:
  */
-          (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = 0.0;
+          ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_node]) = 0.0;
 
-          /* "plexsim/models/cyclic.pyx":165
- *                         self._newstates[neighbor] = 0
+          /* "plexsim/models/cyclic.pyx":166
+ *                         deref(self._newstates)[neighbor] = 0
  *                     # scissor kills paper
- *                     elif self._states[node] == 2 and self._states[neighbor] == 3:             # <<<<<<<<<<<<<<
- *                         self._newstates[node] = 0
+ *                     elif deref(self._states)[node] == 2 and deref(self._states)[neighbor] == 3:             # <<<<<<<<<<<<<<
+ *                         deref(self._newstates)[node] = 0
  *                     # rock kills scisssor
  */
           goto __pyx_L8;
         }
 
-        /* "plexsim/models/cyclic.pyx":168
- *                         self._newstates[node] = 0
+        /* "plexsim/models/cyclic.pyx":169
+ *                         deref(self._newstates)[node] = 0
  *                     # rock kills scisssor
- *                     elif self._states[node] == 3 and self._states[neighbor] == 1:             # <<<<<<<<<<<<<<
- *                         self._newstates[node] = 0
+ *                     elif deref(self._states)[node] == 3 and deref(self._states)[neighbor] == 1:             # <<<<<<<<<<<<<<
+ *                         deref(self._newstates)[node] = 0
  *                     # scissor kills rock
  */
-        __pyx_t_3 = (((__pyx_v_self->__pyx_base._states[__pyx_v_node]) == 3.0) != 0);
+        __pyx_t_3 = ((((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]) == 3.0) != 0);
         if (__pyx_t_3) {
         } else {
           __pyx_t_1 = __pyx_t_3;
           goto __pyx_L17_bool_binop_done;
         }
-        __pyx_t_3 = (((__pyx_v_self->__pyx_base._states[__pyx_v_neighbor]) == 1.0) != 0);
+        __pyx_t_3 = ((((*__pyx_v_self->__pyx_base._states)[__pyx_v_neighbor]) == 1.0) != 0);
         __pyx_t_1 = __pyx_t_3;
         __pyx_L17_bool_binop_done:;
         if (__pyx_t_1) {
 
-          /* "plexsim/models/cyclic.pyx":169
+          /* "plexsim/models/cyclic.pyx":170
  *                     # rock kills scisssor
- *                     elif self._states[node] == 3 and self._states[neighbor] == 1:
- *                         self._newstates[node] = 0             # <<<<<<<<<<<<<<
+ *                     elif deref(self._states)[node] == 3 and deref(self._states)[neighbor] == 1:
+ *                         deref(self._newstates)[node] = 0             # <<<<<<<<<<<<<<
  *                     # scissor kills rock
- *                     elif self._states[node] == 3 and self._states[neighbor] == 2:
+ *                     elif deref(self._states)[node] == 3 and deref(self._states)[neighbor] == 2:
  */
-          (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = 0.0;
+          ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_node]) = 0.0;
 
-          /* "plexsim/models/cyclic.pyx":168
- *                         self._newstates[node] = 0
+          /* "plexsim/models/cyclic.pyx":169
+ *                         deref(self._newstates)[node] = 0
  *                     # rock kills scisssor
- *                     elif self._states[node] == 3 and self._states[neighbor] == 1:             # <<<<<<<<<<<<<<
- *                         self._newstates[node] = 0
+ *                     elif deref(self._states)[node] == 3 and deref(self._states)[neighbor] == 1:             # <<<<<<<<<<<<<<
+ *                         deref(self._newstates)[node] = 0
  *                     # scissor kills rock
  */
           goto __pyx_L8;
         }
 
-        /* "plexsim/models/cyclic.pyx":171
- *                         self._newstates[node] = 0
+        /* "plexsim/models/cyclic.pyx":172
+ *                         deref(self._newstates)[node] = 0
  *                     # scissor kills rock
- *                     elif self._states[node] == 3 and self._states[neighbor] == 2:             # <<<<<<<<<<<<<<
- *                         self._newstates[neighbor] = 0
+ *                     elif deref(self._states)[node] == 3 and deref(self._states)[neighbor] == 2:             # <<<<<<<<<<<<<<
+ *                         deref(self._newstates)[neighbor] = 0
  *                     # nothing happens
  */
-        __pyx_t_3 = (((__pyx_v_self->__pyx_base._states[__pyx_v_node]) == 3.0) != 0);
+        __pyx_t_3 = ((((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]) == 3.0) != 0);
         if (__pyx_t_3) {
         } else {
           __pyx_t_1 = __pyx_t_3;
           goto __pyx_L19_bool_binop_done;
         }
-        __pyx_t_3 = (((__pyx_v_self->__pyx_base._states[__pyx_v_neighbor]) == 2.0) != 0);
+        __pyx_t_3 = ((((*__pyx_v_self->__pyx_base._states)[__pyx_v_neighbor]) == 2.0) != 0);
         __pyx_t_1 = __pyx_t_3;
         __pyx_L19_bool_binop_done:;
         if (__pyx_t_1) {
 
-          /* "plexsim/models/cyclic.pyx":172
+          /* "plexsim/models/cyclic.pyx":173
  *                     # scissor kills rock
- *                     elif self._states[node] == 3 and self._states[neighbor] == 2:
- *                         self._newstates[neighbor] = 0             # <<<<<<<<<<<<<<
+ *                     elif deref(self._states)[node] == 3 and deref(self._states)[neighbor] == 2:
+ *                         deref(self._newstates)[neighbor] = 0             # <<<<<<<<<<<<<<
  *                     # nothing happens
  *                     else:
  */
-          (__pyx_v_self->__pyx_base._newstates[__pyx_v_neighbor]) = 0.0;
+          ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_neighbor]) = 0.0;
 
-          /* "plexsim/models/cyclic.pyx":171
- *                         self._newstates[node] = 0
+          /* "plexsim/models/cyclic.pyx":172
+ *                         deref(self._newstates)[node] = 0
  *                     # scissor kills rock
- *                     elif self._states[node] == 3 and self._states[neighbor] == 2:             # <<<<<<<<<<<<<<
- *                         self._newstates[neighbor] = 0
+ *                     elif deref(self._states)[node] == 3 and deref(self._states)[neighbor] == 2:             # <<<<<<<<<<<<<<
+ *                         deref(self._newstates)[neighbor] = 0
  *                     # nothing happens
  */
           goto __pyx_L8;
         }
 
-        /* "plexsim/models/cyclic.pyx":175
+        /* "plexsim/models/cyclic.pyx":176
  *                     # nothing happens
  *                     else:
- *                         self._newstates[node] = self._states[node]             # <<<<<<<<<<<<<<
+ *                         deref(self._newstates)[node] = deref(self._states)[node]             # <<<<<<<<<<<<<<
  *                 # move with mobility: swap states
  *                 if self._rng._rand() < self.mobility:
  */
         /*else*/ {
-          (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = (__pyx_v_self->__pyx_base._states[__pyx_v_node]);
+          ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_node]) = ((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]);
         }
         __pyx_L8:;
 
-        /* "plexsim/models/cyclic.pyx":154
+        /* "plexsim/models/cyclic.pyx":155
  *             else:
  *                 # kill
  *                 if self._rng._rand() < self.predation:             # <<<<<<<<<<<<<<
  *                     # paper kills rock
- *                     if self._states[node] == 1 and self._states[neighbor] == 2:
+ *                     if deref(self._states)[node] == 1 and deref(self._states)[neighbor] == 2:
  */
       }
 
-      /* "plexsim/models/cyclic.pyx":177
- *                         self._newstates[node] = self._states[node]
+      /* "plexsim/models/cyclic.pyx":178
+ *                         deref(self._newstates)[node] = deref(self._states)[node]
  *                 # move with mobility: swap states
  *                 if self._rng._rand() < self.mobility:             # <<<<<<<<<<<<<<
- *                     swap(self._states[node], self._states[neighbor])
- *             post(it)
+ *                     tmp = deref(self._states)[node]
+ *                     deref(self._states)[node] = deref(self._states)[neighbor]
  */
       __pyx_t_1 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base._rng) < __pyx_v_self->mobility) != 0);
       if (__pyx_t_1) {
 
-        /* "plexsim/models/cyclic.pyx":178
+        /* "plexsim/models/cyclic.pyx":179
  *                 # move with mobility: swap states
  *                 if self._rng._rand() < self.mobility:
- *                     swap(self._states[node], self._states[neighbor])             # <<<<<<<<<<<<<<
+ *                     tmp = deref(self._states)[node]             # <<<<<<<<<<<<<<
+ *                     deref(self._states)[node] = deref(self._states)[neighbor]
+ *                     deref(self._states)[node] = tmp
+ */
+        __pyx_v_tmp = ((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]);
+
+        /* "plexsim/models/cyclic.pyx":180
+ *                 if self._rng._rand() < self.mobility:
+ *                     tmp = deref(self._states)[node]
+ *                     deref(self._states)[node] = deref(self._states)[neighbor]             # <<<<<<<<<<<<<<
+ *                     deref(self._states)[node] = tmp
+ *             post(it)
+ */
+        ((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]) = ((*__pyx_v_self->__pyx_base._states)[__pyx_v_neighbor]);
+
+        /* "plexsim/models/cyclic.pyx":181
+ *                     tmp = deref(self._states)[node]
+ *                     deref(self._states)[node] = deref(self._states)[neighbor]
+ *                     deref(self._states)[node] = tmp             # <<<<<<<<<<<<<<
  *             post(it)
  *         return
  */
-        std::swap<__pyx_t_7plexsim_6models_5types_state_t>((__pyx_v_self->__pyx_base._states[__pyx_v_node]), (__pyx_v_self->__pyx_base._states[__pyx_v_neighbor]));
+        ((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]) = __pyx_v_tmp;
 
-        /* "plexsim/models/cyclic.pyx":177
- *                         self._newstates[node] = self._states[node]
+        /* "plexsim/models/cyclic.pyx":178
+ *                         deref(self._newstates)[node] = deref(self._states)[node]
  *                 # move with mobility: swap states
  *                 if self._rng._rand() < self.mobility:             # <<<<<<<<<<<<<<
- *                     swap(self._states[node], self._states[neighbor])
- *             post(it)
+ *                     tmp = deref(self._states)[node]
+ *                     deref(self._states)[node] = deref(self._states)[neighbor]
  */
       }
     }
     __pyx_L5:;
 
-    /* "plexsim/models/cyclic.pyx":179
- *                 if self._rng._rand() < self.mobility:
- *                     swap(self._states[node], self._states[neighbor])
+    /* "plexsim/models/cyclic.pyx":182
+ *                     deref(self._states)[node] = deref(self._states)[neighbor]
+ *                     deref(self._states)[node] = tmp
  *             post(it)             # <<<<<<<<<<<<<<
  *         return
  * 
@@ -6921,8 +7005,8 @@ static void __pyx_f_7plexsim_6models_6cyclic_15CycledelicAgent__step(struct __py
     (void)((__pyx_v_it++));
   }
 
-  /* "plexsim/models/cyclic.pyx":180
- *                     swap(self._states[node], self._states[neighbor])
+  /* "plexsim/models/cyclic.pyx":183
+ *                     deref(self._states)[node] = tmp
  *             post(it)
  *         return             # <<<<<<<<<<<<<<
  * 

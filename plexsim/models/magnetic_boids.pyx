@@ -84,7 +84,7 @@ cdef class MagneticBoids(ValueNetwork):
         # sample updates
         cdef:
             state_t proposal = self._sample_proposal()
-            state_t cur_state = self._states[node]
+            state_t cur_state = deref(self._states)[node]
 
         # update movement boids
         self._move_boid(node)
@@ -93,7 +93,7 @@ cdef class MagneticBoids(ValueNetwork):
         # stochastic update energy
         cdef double p = self.probability(proposal, node)/self.probability(cur_state, node)
         if self._rng._rand () < p:
-            self._newstates[node] = proposal
+            deref(self._newstates)[node] = proposal
         return
     @property
     def explore(self):
@@ -197,7 +197,7 @@ cdef class MagneticBoids(ValueNetwork):
             neighbor = deref(it).first
             weight = deref(it).second
             # update positions
-            update = self._rules._adj[self._states[node]][self._states[neighbor]]
+            update = self._rules._adj[deref(self._states)[node]][deref(self._states)[neighbor]]
             # update = 1
             distance_weight = 0
             for idx in range(2):

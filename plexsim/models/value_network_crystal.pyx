@@ -48,7 +48,7 @@ cdef class VNCrystal(ValueNetwork):
         Compute the number of completed value networks
         """
         cdef Crawler *crawler = new Crawler(node,
-                                            self._states[node],
+                                            deref(self._states)[node],
                                             self._bounded_rational,
                                             self._heuristic,
                                             self._path_size,
@@ -74,7 +74,7 @@ cdef class VNCrystal(ValueNetwork):
             Neighbors.iterator it
 
         cdef Crawler *crawler = new Crawler(node,
-                                            self._states[node],
+                                            deref(self._states)[node],
                                             self._bounded_rational,
                                             self._heuristic,
                                             self._path_size,
@@ -83,7 +83,7 @@ cdef class VNCrystal(ValueNetwork):
         self._check_df(crawler)
         completed_vn = crawler.results.size()
 
-        node_state = self._states[node]
+        node_state = deref(self._states)[node]
         self._completed_vns[node] = completed_vn
         # add edge randomly
         if completed_vn == self._theta:

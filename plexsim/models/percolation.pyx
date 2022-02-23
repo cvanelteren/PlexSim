@@ -27,12 +27,12 @@ cdef class Percolation(Model):
     cdef void _step(self, node_id_t node) nogil:
         cdef:
             long neighbor
-        if self._states[node]:
+        if deref(self._states)[node]:
             it = self.adj._adj[node].neighbors.begin()
             while it != self.adj._adj[node].neighbors.end():
                 if self._rng._rand() < self._p:
                     neighbor = deref(it).first
-                    self._newstates[neighbor] = 1
+                    deref(self._newstates)[neighbor] = 1
                 post(it)
         return 
 

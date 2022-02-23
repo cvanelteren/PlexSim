@@ -43,7 +43,7 @@ cdef class Bonabeau(Model):
 
     cdef void _step(self, node_id_t node) nogil:
         # if other agent present fight with hamiltonian
-        cdef state_t thisState = self._states[node]
+        cdef state_t thisState = deref(self._states)[node]
         if thisState == 0:
             return
 
@@ -57,7 +57,7 @@ cdef class Bonabeau(Model):
 
         cdef:
             node_id_t neighborPosition = deref(neighbor).first
-            state_t thatState     = self._states[neighborPosition]
+            state_t thatState     = deref(self._states)[neighborPosition]
             double p
         # 
         if thatState:
@@ -65,8 +65,8 @@ cdef class Bonabeau(Model):
             # won fight
             if self._rng._rand() < p:
                 # swap position
-                self._newstates[node] = thatState
-                self._newstates[neighborPosition] = thisState
+                deref(self._newstates)[node] = thatState
+                deref(self._newstates)[neighborPosition] = thisState
 
                 self._weight[node] += 1
                 self._weight[neighborPosition] -= 1
@@ -74,8 +74,8 @@ cdef class Bonabeau(Model):
                 self._weight[node] -= 1
                 self._weight[neighborPosition] += 1
         else:
-            self._newstates[neighborPosition] = thisState
-            self._newstates[node]             = thatState
+            deref(self._newstates)[neighborPosition] = thisState
+            deref(self._newstates)[node]             = thatState
         return
     cdef double _hamiltonian(self, double x, double y) nogil:
          return <double>(1 + exp(-self._eta * (x - y)))**(-1)

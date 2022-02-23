@@ -15,8 +15,6 @@
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarrayobject.h",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ndarraytypes.h",
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include/numpy/ufuncobject.h",
-            "plexsim/include/crawler.cpp",
-            "plexsim/include/crawler.hpp",
             "plexsim/include/pyobjectholder.cpp",
             "plexsim/include/pyobjectholder.hpp"
         ],
@@ -48,12 +46,77 @@
         "libraries": [
             "stdc++"
         ],
-        "name": "plexsim.models.value_network",
+        "name": "models",
         "sources": [
-            "plexsim/models/value_network.pyx"
+            "build/lib.linux-x86_64-3.9/plexsim/models/percolation.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pottsis.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/kawasaki.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/magnetic_boids.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ising.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_edges.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bornholdt.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_soc.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/potts.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_crystal.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/test.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cyclic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rules.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network2.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_dynamic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_gradient.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/game_of_life.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/adjacency.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ab.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rbn.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/binding.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/heisenberg.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sirs.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sampler.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/logmap.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bonabeau.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pyobjectholder.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/prisoner.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sandpile.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/base.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cca.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/simple_copy.pyx",
+            "plexsim/models/percolation.pyx",
+            "plexsim/models/pottsis.pyx",
+            "plexsim/models/kawasaki.pyx",
+            "plexsim/models/magnetic_boids.pyx",
+            "plexsim/models/ising.pyx",
+            "plexsim/models/value_network_edges.pyx",
+            "plexsim/models/bornholdt.pyx",
+            "plexsim/models/value_network_soc.pyx",
+            "plexsim/models/potts.pyx",
+            "plexsim/models/value_network_crystal.pyx",
+            "plexsim/models/test.pyx",
+            "plexsim/models/cyclic.pyx",
+            "plexsim/models/rules.pyx",
+            "plexsim/models/value_network2.pyx",
+            "plexsim/models/value_network_dynamic.pyx",
+            "plexsim/models/value_network_gradient.pyx",
+            "plexsim/models/game_of_life.pyx",
+            "plexsim/models/adjacency.pyx",
+            "plexsim/models/ab.pyx",
+            "plexsim/models/value_network.pyx",
+            "plexsim/models/rbn.pyx",
+            "plexsim/models/binding.pyx",
+            "plexsim/models/heisenberg.pyx",
+            "plexsim/models/sirs.pyx",
+            "plexsim/models/sampler.pyx",
+            "plexsim/models/logmap.pyx",
+            "plexsim/models/bonabeau.pyx",
+            "plexsim/models/pyobjectholder.pyx",
+            "plexsim/models/prisoner.pyx",
+            "plexsim/models/sandpile.pyx",
+            "plexsim/models/base.pyx",
+            "plexsim/models/cca.pyx",
+            "plexsim/models/simple_copy.pyx"
         ]
     },
-    "module_name": "plexsim.models.value_network"
+    "module_name": "models"
 }
 END: Cython Metadata */
 
@@ -1889,9 +1952,9 @@ struct __pyx_obj_7plexsim_6models_4base_Model {
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtab;
   PyObject *ptr;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__states;
-  __pyx_t_7plexsim_6models_5types_state_t *_states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_states;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__newstates;
-  __pyx_t_7plexsim_6models_5types_state_t *_newstates;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_newstates;
   int _last_written;
   int _use_mcmc;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _agentStates;
@@ -2119,11 +2182,11 @@ static struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtabptr_7plex
 struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts {
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model __pyx_base;
   double (*_energy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __pyx_t_7plexsim_6models_5types_node_id_t);
-  PyArrayObject *(*node_energy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  PyArrayObject *(*node_energy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, std::vector<__pyx_t_7plexsim_6models_5types_state_t>  &, int __pyx_skip_dispatch);
   double (*magnetize_)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, double);
   double (*_hamiltonian)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __pyx_t_7plexsim_6models_5types_state_t, __pyx_t_7plexsim_6models_5types_state_t);
   PyArrayObject *(*magnetize)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_5potts_5Potts_magnetize *__pyx_optional_args);
-  std::vector<double>  (*siteEnergy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  std::vector<double>  (*siteEnergy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, std::vector<__pyx_t_7plexsim_6models_5types_state_t>  &, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *__pyx_vtabptr_7plexsim_6models_5potts_Potts;
 
@@ -7236,10 +7299,10 @@ static PyObject *__pyx_f_7plexsim_6models_13value_network_12ValueNetwork_check_d
  *         """
  *         cdef Crawler *crawler = new Crawler(             # <<<<<<<<<<<<<<
  *                                     start,
- *                                     self._states[start],
+ *                                     deref(self._states)[start],
  */
   try {
-    __pyx_t_8 = new Crawler(__pyx_v_start, (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_start]), __pyx_v_self->_bounded_rational, __pyx_v_self->_heuristic, __pyx_v_self->_path_size, __pyx_v_verbose);
+    __pyx_t_8 = new Crawler(__pyx_v_start, ((*__pyx_v_self->__pyx_base.__pyx_base._states)[__pyx_v_start]), __pyx_v_self->_bounded_rational, __pyx_v_self->_heuristic, __pyx_v_self->_path_size, __pyx_v_verbose);
   } catch(...) {
     __Pyx_CppExn2PyErr();
     __PYX_ERR(0, 248, __pyx_L1_error)
@@ -8194,7 +8257,7 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
  *                 it = self.adj._adj[current_edge.other.name].neighbors.begin()
  *                 while it != self.adj._adj[current_edge.other.name].neighbors.end():             # <<<<<<<<<<<<<<
  *                     neighbor_idx = deref(it).first
- *                     proposal_edge.other = ColorNode(neighbor_idx, self._states[neighbor_idx])
+ *                     proposal_edge.other = ColorNode(neighbor_idx, deref(self._states)[neighbor_idx])
  */
       while (1) {
         __pyx_t_2 = ((__pyx_v_it != (__pyx_v_self->__pyx_base.__pyx_base.adj->_adj[__pyx_v_current_edge.other.name]).neighbors.end()) != 0);
@@ -8204,7 +8267,7 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
  *                 it = self.adj._adj[current_edge.other.name].neighbors.begin()
  *                 while it != self.adj._adj[current_edge.other.name].neighbors.end():
  *                     neighbor_idx = deref(it).first             # <<<<<<<<<<<<<<
- *                     proposal_edge.other = ColorNode(neighbor_idx, self._states[neighbor_idx])
+ *                     proposal_edge.other = ColorNode(neighbor_idx, deref(self._states)[neighbor_idx])
  *                     if crawler.verbose:
  */
         __pyx_t_5 = (*__pyx_v_it).first;
@@ -8213,12 +8276,12 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
         /* "plexsim/models/value_network.pyx":378
  *                 while it != self.adj._adj[current_edge.other.name].neighbors.end():
  *                     neighbor_idx = deref(it).first
- *                     proposal_edge.other = ColorNode(neighbor_idx, self._states[neighbor_idx])             # <<<<<<<<<<<<<<
+ *                     proposal_edge.other = ColorNode(neighbor_idx, deref(self._states)[neighbor_idx])             # <<<<<<<<<<<<<<
  *                     if crawler.verbose:
  *                         with gil:
  */
         try {
-          __pyx_t_3 = ColorNode(__pyx_v_neighbor_idx, (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_neighbor_idx]));
+          __pyx_t_3 = ColorNode(__pyx_v_neighbor_idx, ((*__pyx_v_self->__pyx_base.__pyx_base._states)[__pyx_v_neighbor_idx]));
         } catch(...) {
           #ifdef WITH_THREAD
           PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
@@ -8233,7 +8296,7 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
 
         /* "plexsim/models/value_network.pyx":379
  *                     neighbor_idx = deref(it).first
- *                     proposal_edge.other = ColorNode(neighbor_idx, self._states[neighbor_idx])
+ *                     proposal_edge.other = ColorNode(neighbor_idx, deref(self._states)[neighbor_idx])
  *                     if crawler.verbose:             # <<<<<<<<<<<<<<
  *                         with gil:
  *                             print("Considering")
@@ -8242,7 +8305,7 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
         if (__pyx_t_2) {
 
           /* "plexsim/models/value_network.pyx":380
- *                     proposal_edge.other = ColorNode(neighbor_idx, self._states[neighbor_idx])
+ *                     proposal_edge.other = ColorNode(neighbor_idx, deref(self._states)[neighbor_idx])
  *                     if crawler.verbose:
  *                         with gil:             # <<<<<<<<<<<<<<
  *                             print("Considering")
@@ -8276,7 +8339,7 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
               }
 
               /* "plexsim/models/value_network.pyx":380
- *                     proposal_edge.other = ColorNode(neighbor_idx, self._states[neighbor_idx])
+ *                     proposal_edge.other = ColorNode(neighbor_idx, deref(self._states)[neighbor_idx])
  *                     if crawler.verbose:
  *                         with gil:             # <<<<<<<<<<<<<<
  *                             print("Considering")
@@ -8301,7 +8364,7 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
 
           /* "plexsim/models/value_network.pyx":379
  *                     neighbor_idx = deref(it).first
- *                     proposal_edge.other = ColorNode(neighbor_idx, self._states[neighbor_idx])
+ *                     proposal_edge.other = ColorNode(neighbor_idx, deref(self._states)[neighbor_idx])
  *                     if crawler.verbose:             # <<<<<<<<<<<<<<
  *                         with gil:
  *                             print("Considering")
@@ -9116,7 +9179,7 @@ static std::vector<std::vector<EdgeColor> >  __pyx_f_7plexsim_6models_13value_ne
 
 static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(struct __pyx_obj_7plexsim_6models_13value_network_ValueNetwork *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node) {
   CYTHON_UNUSED size_t __pyx_v_neighbors;
-  __pyx_t_7plexsim_6models_5types_state_t *__pyx_v_states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *__pyx_v_states;
   size_t __pyx_v_neighbor;
   CYTHON_UNUSED double __pyx_v_weight;
   double __pyx_v_energy;
@@ -9130,7 +9193,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
   CYTHON_UNUSED double __pyx_v_max_size;
   size_t __pyx_v_mi;
   double __pyx_r;
-  __pyx_t_7plexsim_6models_5types_state_t *__pyx_t_1;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *__pyx_t_1;
   __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_2;
   int __pyx_t_3;
   __pyx_t_7plexsim_6models_5types_weight_t __pyx_t_4;
@@ -9151,7 +9214,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  *         """
  *         cdef:
  *             size_t neighbors = self.adj._adj[node].neighbors.size()             # <<<<<<<<<<<<<<
- *             state_t* states = self._states # alias
+ *             vector[state_t]* states = self._states # alias
  *             size_t  neighbor, neighboridx
  */
   __pyx_v_neighbors = (__pyx_v_self->__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.size();
@@ -9159,7 +9222,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
   /* "plexsim/models/value_network.pyx":464
  *         cdef:
  *             size_t neighbors = self.adj._adj[node].neighbors.size()
- *             state_t* states = self._states # alias             # <<<<<<<<<<<<<<
+ *             vector[state_t]* states = self._states # alias             # <<<<<<<<<<<<<<
  *             size_t  neighbor, neighboridx
  *             double weight # TODO: remove delta
  */
@@ -9169,18 +9232,18 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
   /* "plexsim/models/value_network.pyx":468
  *             double weight # TODO: remove delta
  * 
- *             double energy  = self._H[node] * self._states[node]             # <<<<<<<<<<<<<<
+ *             double energy  = self._H[node] * deref(self._states)[node]             # <<<<<<<<<<<<<<
  * 
  *         if self._nudges.find(node) != self._nudges.end():
  */
   __pyx_t_2 = __pyx_v_node;
-  __pyx_v_energy = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base._H.data) + __pyx_t_2)) ))) * (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]));
+  __pyx_v_energy = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base._H.data) + __pyx_t_2)) ))) * ((*__pyx_v_self->__pyx_base.__pyx_base._states)[__pyx_v_node]));
 
   /* "plexsim/models/value_network.pyx":470
- *             double energy  = self._H[node] * self._states[node]
+ *             double energy  = self._H[node] * deref(self._states)[node]
  * 
  *         if self._nudges.find(node) != self._nudges.end():             # <<<<<<<<<<<<<<
- *             energy += self._nudges[node] * self._states[node]
+ *             energy += self._nudges[node] * deref(self._states)[node]
  * 
  */
   __pyx_t_3 = ((__pyx_v_self->__pyx_base.__pyx_base._nudges.find(__pyx_v_node) != __pyx_v_self->__pyx_base.__pyx_base._nudges.end()) != 0);
@@ -9189,17 +9252,17 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
     /* "plexsim/models/value_network.pyx":471
  * 
  *         if self._nudges.find(node) != self._nudges.end():
- *             energy += self._nudges[node] * self._states[node]             # <<<<<<<<<<<<<<
+ *             energy += self._nudges[node] * deref(self._states)[node]             # <<<<<<<<<<<<<<
  * 
  *         # compute the energy
  */
-    __pyx_v_energy = (__pyx_v_energy + ((__pyx_v_self->__pyx_base.__pyx_base._nudges[__pyx_v_node]) * (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node])));
+    __pyx_v_energy = (__pyx_v_energy + ((__pyx_v_self->__pyx_base.__pyx_base._nudges[__pyx_v_node]) * ((*__pyx_v_self->__pyx_base.__pyx_base._states)[__pyx_v_node])));
 
     /* "plexsim/models/value_network.pyx":470
- *             double energy  = self._H[node] * self._states[node]
+ *             double energy  = self._H[node] * deref(self._states)[node]
  * 
  *         if self._nudges.find(node) != self._nudges.end():             # <<<<<<<<<<<<<<
- *             energy += self._nudges[node] * self._states[node]
+ *             energy += self._nudges[node] * deref(self._states)[node]
  * 
  */
   }
@@ -9207,11 +9270,11 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
   /* "plexsim/models/value_network.pyx":486
  *         # only get nodes based on distance it can reach based on the value network
  *         # current state as proposal
- *         cdef state_t proposal = self._states[node]             # <<<<<<<<<<<<<<
+ *         cdef state_t proposal = deref(self._states)[node]             # <<<<<<<<<<<<<<
  *         cdef:
  *             state_t start
  */
-  __pyx_v_proposal = (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]);
+  __pyx_v_proposal = ((*__pyx_v_self->__pyx_base.__pyx_base._states)[__pyx_v_node]);
 
   /* "plexsim/models/value_network.pyx":495
  * 
@@ -9258,7 +9321,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  *                 weight   = deref(it).second
  *                 neighbor = deref(it).first             # <<<<<<<<<<<<<<
  *                 # check rules
- *                 energy += self._rules._adj[proposal][states[neighbor]]
+ *                 energy += self._rules._adj[proposal][deref(states)[neighbor]]
  */
       __pyx_t_2 = (*__pyx_v_it).first;
       __pyx_v_neighbor = __pyx_t_2;
@@ -9266,15 +9329,15 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
       /* "plexsim/models/value_network.pyx":501
  *                 neighbor = deref(it).first
  *                 # check rules
- *                 energy += self._rules._adj[proposal][states[neighbor]]             # <<<<<<<<<<<<<<
+ *                 energy += self._rules._adj[proposal][deref(states)[neighbor]]             # <<<<<<<<<<<<<<
  *                 post(it)
  * 
  */
-      __pyx_v_energy = (__pyx_v_energy + ((__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[__pyx_v_proposal])[(__pyx_v_states[__pyx_v_neighbor])]));
+      __pyx_v_energy = (__pyx_v_energy + ((__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[__pyx_v_proposal])[((*__pyx_v_states)[__pyx_v_neighbor])]));
 
       /* "plexsim/models/value_network.pyx":502
  *                 # check rules
- *                 energy += self._rules._adj[proposal][states[neighbor]]
+ *                 energy += self._rules._adj[proposal][deref(states)[neighbor]]
  *                 post(it)             # <<<<<<<<<<<<<<
  * 
  *             # compute positive edges
@@ -9286,34 +9349,34 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  * 
  *             # compute positive edges
  *             K = 0             # <<<<<<<<<<<<<<
- *             kt = self._rules._adj[states[node]].begin()
- *             while  kt != self._rules._adj[states[node]].end():
+ *             kt = self._rules._adj[deref(states)[node]].begin()
+ *             while  kt != self._rules._adj[deref(states)[node]].end():
  */
     __pyx_v_K = 0.0;
 
     /* "plexsim/models/value_network.pyx":506
  *             # compute positive edges
  *             K = 0
- *             kt = self._rules._adj[states[node]].begin()             # <<<<<<<<<<<<<<
- *             while  kt != self._rules._adj[states[node]].end():
+ *             kt = self._rules._adj[deref(states)[node]].begin()             # <<<<<<<<<<<<<<
+ *             while  kt != self._rules._adj[deref(states)[node]].end():
  *                 if deref(kt).second > 0:
  */
-    __pyx_v_kt = (__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[(__pyx_v_states[__pyx_v_node])]).begin();
+    __pyx_v_kt = (__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[((*__pyx_v_states)[__pyx_v_node])]).begin();
 
     /* "plexsim/models/value_network.pyx":507
  *             K = 0
- *             kt = self._rules._adj[states[node]].begin()
- *             while  kt != self._rules._adj[states[node]].end():             # <<<<<<<<<<<<<<
+ *             kt = self._rules._adj[deref(states)[node]].begin()
+ *             while  kt != self._rules._adj[deref(states)[node]].end():             # <<<<<<<<<<<<<<
  *                 if deref(kt).second > 0:
  *                     K += 1
  */
     while (1) {
-      __pyx_t_3 = ((__pyx_v_kt != (__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[(__pyx_v_states[__pyx_v_node])]).end()) != 0);
+      __pyx_t_3 = ((__pyx_v_kt != (__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[((*__pyx_v_states)[__pyx_v_node])]).end()) != 0);
       if (!__pyx_t_3) break;
 
       /* "plexsim/models/value_network.pyx":508
- *             kt = self._rules._adj[states[node]].begin()
- *             while  kt != self._rules._adj[states[node]].end():
+ *             kt = self._rules._adj[deref(states)[node]].begin()
+ *             while  kt != self._rules._adj[deref(states)[node]].end():
  *                 if deref(kt).second > 0:             # <<<<<<<<<<<<<<
  *                     K += 1
  *                 post(kt)
@@ -9322,7 +9385,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
       if (__pyx_t_3) {
 
         /* "plexsim/models/value_network.pyx":509
- *             while  kt != self._rules._adj[states[node]].end():
+ *             while  kt != self._rules._adj[deref(states)[node]].end():
  *                 if deref(kt).second > 0:
  *                     K += 1             # <<<<<<<<<<<<<<
  *                 post(kt)
@@ -9331,8 +9394,8 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
         __pyx_v_K = (__pyx_v_K + 1.0);
 
         /* "plexsim/models/value_network.pyx":508
- *             kt = self._rules._adj[states[node]].begin()
- *             while  kt != self._rules._adj[states[node]].end():
+ *             kt = self._rules._adj[deref(states)[node]].begin()
+ *             while  kt != self._rules._adj[deref(states)[node]].end():
  *                 if deref(kt).second > 0:             # <<<<<<<<<<<<<<
  *                     K += 1
  *                 post(kt)
@@ -9413,10 +9476,10 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  *         # compute completed value networks
  *         cdef Crawler *crawler = new Crawler(             # <<<<<<<<<<<<<<
  *                                     node,
- *                                     self._states[node],
+ *                                     deref(self._states)[node],
  */
   try {
-    __pyx_t_5 = new Crawler(__pyx_v_node, (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]), __pyx_v_self->_bounded_rational, __pyx_v_self->_heuristic, __pyx_v_self->_path_size, 0);
+    __pyx_t_5 = new Crawler(__pyx_v_node, ((*__pyx_v_self->__pyx_base.__pyx_base._states)[__pyx_v_node]), __pyx_v_self->_bounded_rational, __pyx_v_self->_heuristic, __pyx_v_self->_path_size, 0);
   } catch(...) {
     #ifdef WITH_THREAD
     PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
@@ -9523,7 +9586,7 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
  *         cdef size_t mi
  *         # TODO: move to separate function
  *         for mi in range(self._memorySize):             # <<<<<<<<<<<<<<
- *             energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi][node])
+ *             energy += exp(mi * self._memento) * self._hamiltonian(deref(states)[node], self._memory[mi][node])
  *         return energy
  */
   __pyx_t_8 = __pyx_v_self->__pyx_base.__pyx_base._memorySize;
@@ -9534,16 +9597,16 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__energy(st
     /* "plexsim/models/value_network.pyx":554
  *         # TODO: move to separate function
  *         for mi in range(self._memorySize):
- *             energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi][node])             # <<<<<<<<<<<<<<
+ *             energy += exp(mi * self._memento) * self._hamiltonian(deref(states)[node], self._memory[mi][node])             # <<<<<<<<<<<<<<
  *         return energy
  *         # try-out match trees:
  */
-    __pyx_v_energy = (__pyx_v_energy + (exp((__pyx_v_mi * __pyx_v_self->__pyx_base.__pyx_base._memento)) * ((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._hamiltonian(((struct __pyx_obj_7plexsim_6models_5potts_Potts *)__pyx_v_self), (__pyx_v_states[__pyx_v_node]), ((__pyx_v_self->__pyx_base.__pyx_base._memory[__pyx_v_mi])[__pyx_v_node]))));
+    __pyx_v_energy = (__pyx_v_energy + (exp((__pyx_v_mi * __pyx_v_self->__pyx_base.__pyx_base._memento)) * ((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._hamiltonian(((struct __pyx_obj_7plexsim_6models_5potts_Potts *)__pyx_v_self), ((*__pyx_v_states)[__pyx_v_node]), ((__pyx_v_self->__pyx_base.__pyx_base._memory[__pyx_v_mi])[__pyx_v_node]))));
   }
 
   /* "plexsim/models/value_network.pyx":555
  *         for mi in range(self._memorySize):
- *             energy += exp(mi * self._memento) * self._hamiltonian(states[node], self._memory[mi][node])
+ *             energy += exp(mi * self._memento) * self._hamiltonian(deref(states)[node], self._memory[mi][node])
  *         return energy             # <<<<<<<<<<<<<<
  *         # try-out match trees:
  *         # return energy * (1 + counter)
@@ -9590,23 +9653,23 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
   /* "plexsim/models/value_network.pyx":564
  *         """ See base model
  *         """
- *         cdef state_t tmp = self._states[node]             # <<<<<<<<<<<<<<
- *         self._states[node] = state
+ *         cdef state_t tmp = deref(self._states)[node]             # <<<<<<<<<<<<<<
+ *         deref(self._states)[node] = state
  *         cdef:
  */
-  __pyx_v_tmp = (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]);
+  __pyx_v_tmp = ((*__pyx_v_self->__pyx_base.__pyx_base._states)[__pyx_v_node]);
 
   /* "plexsim/models/value_network.pyx":565
  *         """
- *         cdef state_t tmp = self._states[node]
- *         self._states[node] = state             # <<<<<<<<<<<<<<
+ *         cdef state_t tmp = deref(self._states)[node]
+ *         deref(self._states)[node] = state             # <<<<<<<<<<<<<<
  *         cdef:
  *             double energy = self._energy(node)
  */
-  (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]) = __pyx_v_state;
+  ((*__pyx_v_self->__pyx_base.__pyx_base._states)[__pyx_v_node]) = __pyx_v_state;
 
   /* "plexsim/models/value_network.pyx":567
- *         self._states[node] = state
+ *         deref(self._states)[node] = state
  *         cdef:
  *             double energy = self._energy(node)             # <<<<<<<<<<<<<<
  *             double p = exp(self._beta * energy)
@@ -9619,22 +9682,22 @@ static double __pyx_f_7plexsim_6models_13value_network_12ValueNetwork_probabilit
  *             double energy = self._energy(node)
  *             double p = exp(self._beta * energy)             # <<<<<<<<<<<<<<
  * 
- *         self._states[node] = tmp
+ *         deref(self._states)[node] = tmp
  */
   __pyx_v_p = exp((__pyx_v_self->__pyx_base._beta * __pyx_v_energy));
 
   /* "plexsim/models/value_network.pyx":570
  *             double p = exp(self._beta * energy)
  * 
- *         self._states[node] = tmp             # <<<<<<<<<<<<<<
+ *         deref(self._states)[node] = tmp             # <<<<<<<<<<<<<<
  *         return p
  * 
  */
-  (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]) = __pyx_v_tmp;
+  ((*__pyx_v_self->__pyx_base.__pyx_base._states)[__pyx_v_node]) = __pyx_v_tmp;
 
   /* "plexsim/models/value_network.pyx":571
  * 
- *         self._states[node] = tmp
+ *         deref(self._states)[node] = tmp
  *         return p             # <<<<<<<<<<<<<<
  * 
  *     # default update TODO remove this
@@ -9707,7 +9770,7 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
  *     cdef void _step(self, node_id_t node) nogil:
  *         cdef:
  *             state_t proposal  = self._sample_proposal()             # <<<<<<<<<<<<<<
- *             state_t cur_state = self._states[node]
+ *             state_t cur_state = deref(self._states)[node]
  * 
  */
   __pyx_v_proposal = ((struct __pyx_vtabstruct_7plexsim_6models_13value_network_ValueNetwork *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base._sample_proposal(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self));
@@ -9715,14 +9778,14 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
   /* "plexsim/models/value_network.pyx":586
  *         cdef:
  *             state_t proposal  = self._sample_proposal()
- *             state_t cur_state = self._states[node]             # <<<<<<<<<<<<<<
+ *             state_t cur_state = deref(self._states)[node]             # <<<<<<<<<<<<<<
  * 
  *             double p = self.probability(proposal, node) / \
  */
-  __pyx_v_cur_state = (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]);
+  __pyx_v_cur_state = ((*__pyx_v_self->__pyx_base.__pyx_base._states)[__pyx_v_node]);
 
   /* "plexsim/models/value_network.pyx":588
- *             state_t cur_state = self._states[node]
+ *             state_t cur_state = deref(self._states)[node]
  * 
  *             double p = self.probability(proposal, node) / \             # <<<<<<<<<<<<<<
  *                 self.probability(cur_state, node)
@@ -9734,7 +9797,7 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
  *             double p = self.probability(proposal, node) / \
  *                 self.probability(cur_state, node)
  *         if self._rng._rand () < p:             # <<<<<<<<<<<<<<
- *             self._newstates[node] = proposal
+ *             deref(self._states)[node] = proposal
  *         return
  */
   __pyx_t_1 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base.__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base.__pyx_base._rng) < __pyx_v_p) != 0);
@@ -9743,24 +9806,24 @@ static void __pyx_f_7plexsim_6models_13value_network_12ValueNetwork__step(struct
     /* "plexsim/models/value_network.pyx":591
  *                 self.probability(cur_state, node)
  *         if self._rng._rand () < p:
- *             self._newstates[node] = proposal             # <<<<<<<<<<<<<<
+ *             deref(self._states)[node] = proposal             # <<<<<<<<<<<<<<
  *         return
  * 
  */
-    (__pyx_v_self->__pyx_base.__pyx_base._newstates[__pyx_v_node]) = __pyx_v_proposal;
+    ((*__pyx_v_self->__pyx_base.__pyx_base._states)[__pyx_v_node]) = __pyx_v_proposal;
 
     /* "plexsim/models/value_network.pyx":590
  *             double p = self.probability(proposal, node) / \
  *                 self.probability(cur_state, node)
  *         if self._rng._rand () < p:             # <<<<<<<<<<<<<<
- *             self._newstates[node] = proposal
+ *             deref(self._states)[node] = proposal
  *         return
  */
   }
 
   /* "plexsim/models/value_network.pyx":592
  *         if self._rng._rand () < p:
- *             self._newstates[node] = proposal
+ *             deref(self._states)[node] = proposal
  *         return             # <<<<<<<<<<<<<<
  * 
  *     def dump_rules(self):

@@ -22,8 +22,6 @@ from libc.math cimport exp, log, cos, pi, lround, fabs, isnan, signbit
 import multiprocessing as mp
 
 from posix.time cimport clock_gettime, timespec, CLOCK_REALTIME
-cdef extern from "math.h":
-    float INFINITY
 
 
 # cdef public class Model [object PyModel, type PyModel_t]:
@@ -148,10 +146,12 @@ cdef class Model:
         self._swap_buffers()
         self._last_written = (self._last_written + 1) % 2
         # return self.__newstates
-        if self._last_written == 1:
-            return self.__newstates
-        else:
-            return self.__states
+        return deref(self._states)
+
+        # if self._last_written == 1 and self._updateType != "async":
+            # return self.__newstates
+        # else:
+            # return self.__states
 
     # TODO make this separate
     cdef void _apply_nudge(self, node_id_t node,\
@@ -206,7 +206,7 @@ cdef class Model:
                 # self.adj._adj[node].neighbors[idx] = weight * self._kNudges
                 # # sample uniformly
                 # agent_idx = <size_t> (self._rng._rand() * self._nStates)
-                # self._states[node] = self._agentStates[idx]
+                # deref(self._states)[node] = self._agentStates[idx]
 
         return
 
@@ -228,7 +228,7 @@ cdef class Model:
                 self.adj._adj[deref(it).first].neighbors.erase(jt)
 
 
-            # self._states[neighbor] = deref(it).second.state
+            # deref(self._states)[neighbor] = deref(it).second.state
             # self.adj._adj[node].neighbors[neighbor] = deref(it).second.weight
 
             post(it)
@@ -254,7 +254,7 @@ cdef class Model:
         for mi in range(0, self._memorySize):
             if mi == 0:
                 for node in range(self.adj._nNodes):
-                    self._memory[mi][node] = self._states[node]
+                    self._memory[mi][node] = deref(self._states)[node]
             else:
                 self._memory[mi] = self._memory[mi - 1]
         return
@@ -345,9 +345,9 @@ cdef class Model:
         Set current agent state
         """
         if self._last_written:
-            self._states[node] = state
+            deref(self._newstates)[node] = state
         else:
-            self._newstates[node] = state
+            deref(self._states)[node] = state
 
 
     cdef void _reset(self, double[::1] p) nogil:
@@ -408,9 +408,9 @@ cdef class Model:
 
         results[0].resize(self.adj._nNodes)
         if self._last_written:
-            results[0] = self.__states
-        else:
             results[0] = self.__newstates
+        else:
+            results[0] = self.__states
 
         for i in range(1, samples):
             results[i].resize(self.adj._nNodes)
@@ -694,19 +694,18 @@ cdef class Model:
             self.__newstates = self.__states
             # sanity check
             assert self._states == self._newstates
-            assert id(self.__states) == id(self.__newstates)
+            # assert &self.__states == &self.__newstates
         # reset buffer pointers
         elif value == "sync":
             # obtain a new memory address
-            from copy import copy
-            self.__newstates = copy(self.__states)
-            assert id(self.__newstates) != id(self.__states)
+            self.__newstates = vector[state_t](self.adj._nNodes)
+
             # sanity check pointers (maybe swapped!)
-            self._states   = &self.__states[0]
-            self._newstates = &self.__newstates[0]
+            self._states   = &self.__states
+            self._newstates = &self.__newstates
             # test memory addresses
             assert self._states != self._newstates
-            assert id(self.__newstates) != id(self.__states)
+            assert &self.__newstates != &self.__states
         self.last_written = 0
 
     @sampleSize.setter
@@ -736,12 +735,12 @@ cdef class Model:
         if self._states is NULL:
             self.__states = np.random.choice(self.agentStates, \
                                              self.adj._nNodes)
-            self._states = &self.__states[0]
+            self._states = &self.__states
 
         if self._newstates is NULL:
             self.__newstates = np.random.choice(self.agentStates,\
                                                  size = self.adj._nNodes)
-            self._newstates = &self.__newstates[0]
+            self._newstates = &self.__newstates
 
         # case iterable
         if hasattr(value, '__iter__'):
@@ -752,12 +751,12 @@ cdef class Model:
                 # case iterable
                 else:
                     val = <state_t> value[i]
-                self._states[i]    = val
-                self._newstates[i] = val
+                deref(self._states)[i]    = val
+                deref(self._newstates)[i] = val
         # case value
         else:
             for node in range(self.adj._nNodes):
-                self._states[node] = <state_t> value
+                deref(self._states)[node] = <state_t> value
 
     def get_settings(self) -> dict:
         """

@@ -46,12 +46,77 @@
         "libraries": [
             "stdc++"
         ],
-        "name": "plexsim.models.sirs",
+        "name": "models",
         "sources": [
-            "plexsim/models/sirs.pyx"
+            "build/lib.linux-x86_64-3.9/plexsim/models/percolation.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pottsis.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/kawasaki.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/magnetic_boids.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ising.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_edges.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bornholdt.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_soc.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/potts.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_crystal.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/test.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cyclic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rules.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network2.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_dynamic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_gradient.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/game_of_life.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/adjacency.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ab.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rbn.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/binding.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/heisenberg.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sirs.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sampler.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/logmap.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bonabeau.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pyobjectholder.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/prisoner.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sandpile.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/base.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cca.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/simple_copy.pyx",
+            "plexsim/models/percolation.pyx",
+            "plexsim/models/pottsis.pyx",
+            "plexsim/models/kawasaki.pyx",
+            "plexsim/models/magnetic_boids.pyx",
+            "plexsim/models/ising.pyx",
+            "plexsim/models/value_network_edges.pyx",
+            "plexsim/models/bornholdt.pyx",
+            "plexsim/models/value_network_soc.pyx",
+            "plexsim/models/potts.pyx",
+            "plexsim/models/value_network_crystal.pyx",
+            "plexsim/models/test.pyx",
+            "plexsim/models/cyclic.pyx",
+            "plexsim/models/rules.pyx",
+            "plexsim/models/value_network2.pyx",
+            "plexsim/models/value_network_dynamic.pyx",
+            "plexsim/models/value_network_gradient.pyx",
+            "plexsim/models/game_of_life.pyx",
+            "plexsim/models/adjacency.pyx",
+            "plexsim/models/ab.pyx",
+            "plexsim/models/value_network.pyx",
+            "plexsim/models/rbn.pyx",
+            "plexsim/models/binding.pyx",
+            "plexsim/models/heisenberg.pyx",
+            "plexsim/models/sirs.pyx",
+            "plexsim/models/sampler.pyx",
+            "plexsim/models/logmap.pyx",
+            "plexsim/models/bonabeau.pyx",
+            "plexsim/models/pyobjectholder.pyx",
+            "plexsim/models/prisoner.pyx",
+            "plexsim/models/sandpile.pyx",
+            "plexsim/models/base.pyx",
+            "plexsim/models/cca.pyx",
+            "plexsim/models/simple_copy.pyx"
         ]
     },
-    "module_name": "plexsim.models.sirs"
+    "module_name": "models"
 }
 END: Cython Metadata */
 
@@ -1863,9 +1928,9 @@ struct __pyx_obj_7plexsim_6models_4base_Model {
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtab;
   PyObject *ptr;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__states;
-  __pyx_t_7plexsim_6models_5types_state_t *_states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_states;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__newstates;
-  __pyx_t_7plexsim_6models_5types_state_t *_newstates;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_newstates;
   int _last_written;
   int _use_mcmc;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _agentStates;
@@ -2987,6 +3052,9 @@ static int __pyx_slices_overlap(__Pyx_memviewslice *slice1,
 
 /* Capsule.proto */
 static CYTHON_INLINE PyObject *__pyx_capsule_create(void *p, const char *sig);
+
+/* CIntFromPy.proto */
+static CYTHON_INLINE size_t __Pyx_PyInt_As_size_t(PyObject *);
 
 /* MemviewSliceCopyTemplate.proto */
 static __Pyx_memviewslice
@@ -5015,40 +5083,40 @@ static float __pyx_f_7plexsim_6models_4sirs_4SIRS__checkNeighbors(struct __pyx_o
  *             neighborWeight = deref(it).second
  *             post(it)             # <<<<<<<<<<<<<<
  *             # sick
- *             if self._states[neighbor] == 1:
+ *             if deref(self._states)[neighbor] == 1:
  */
     (void)((__pyx_v_it++));
 
     /* "plexsim/models/sirs.pyx":65
  *             post(it)
  *             # sick
- *             if self._states[neighbor] == 1:             # <<<<<<<<<<<<<<
- *                 infectionRate += neighborWeight * self._states[neighbor]
+ *             if deref(self._states)[neighbor] == 1:             # <<<<<<<<<<<<<<
+ *                 infectionRate += neighborWeight * deref(self._states)[neighbor]
  *             # NOTE: abs weights?
  */
-    __pyx_t_1 = (((__pyx_v_self->__pyx_base._states[__pyx_v_neighbor]) == 1.0) != 0);
+    __pyx_t_1 = ((((*__pyx_v_self->__pyx_base._states)[__pyx_v_neighbor]) == 1.0) != 0);
     if (__pyx_t_1) {
 
       /* "plexsim/models/sirs.pyx":66
  *             # sick
- *             if self._states[neighbor] == 1:
- *                 infectionRate += neighborWeight * self._states[neighbor]             # <<<<<<<<<<<<<<
+ *             if deref(self._states)[neighbor] == 1:
+ *                 infectionRate += neighborWeight * deref(self._states)[neighbor]             # <<<<<<<<<<<<<<
  *             # NOTE: abs weights?
  *             ZZ += neighborWeight
  */
-      __pyx_v_infectionRate = (__pyx_v_infectionRate + (__pyx_v_neighborWeight * (__pyx_v_self->__pyx_base._states[__pyx_v_neighbor])));
+      __pyx_v_infectionRate = (__pyx_v_infectionRate + (__pyx_v_neighborWeight * ((*__pyx_v_self->__pyx_base._states)[__pyx_v_neighbor])));
 
       /* "plexsim/models/sirs.pyx":65
  *             post(it)
  *             # sick
- *             if self._states[neighbor] == 1:             # <<<<<<<<<<<<<<
- *                 infectionRate += neighborWeight * self._states[neighbor]
+ *             if deref(self._states)[neighbor] == 1:             # <<<<<<<<<<<<<<
+ *                 infectionRate += neighborWeight * deref(self._states)[neighbor]
  *             # NOTE: abs weights?
  */
     }
 
     /* "plexsim/models/sirs.pyx":68
- *                 infectionRate += neighborWeight * self._states[neighbor]
+ *                 infectionRate += neighborWeight * deref(self._states)[neighbor]
  *             # NOTE: abs weights?
  *             ZZ += neighborWeight             # <<<<<<<<<<<<<<
  *         return infectionRate * self._beta / ZZ
@@ -5097,25 +5165,25 @@ static void __pyx_f_7plexsim_6models_4sirs_4SIRS__step(struct __pyx_obj_7plexsim
  *         cdef:
  *             float rng = self._rng._rand()             # <<<<<<<<<<<<<<
  *         # HEALTHY state
- *         if self._states[node] == 0:
+ *         if deref(self._states)[node] == 0:
  */
   __pyx_v_rng = ((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base._rng);
 
   /* "plexsim/models/sirs.pyx":75
  *             float rng = self._rng._rand()
  *         # HEALTHY state
- *         if self._states[node] == 0:             # <<<<<<<<<<<<<<
+ *         if deref(self._states)[node] == 0:             # <<<<<<<<<<<<<<
  *             # infect
  *             if rng  < self._checkNeighbors(node):
  */
-  __pyx_t_1 = (((__pyx_v_self->__pyx_base._states[__pyx_v_node]) == 0.0) != 0);
+  __pyx_t_1 = ((((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]) == 0.0) != 0);
   if (__pyx_t_1) {
 
     /* "plexsim/models/sirs.pyx":77
- *         if self._states[node] == 0:
+ *         if deref(self._states)[node] == 0:
  *             # infect
  *             if rng  < self._checkNeighbors(node):             # <<<<<<<<<<<<<<
- *                 self._newstates[node] = 1
+ *                 deref(self._newstates)[node] = 1
  *         # SICK state
  */
     __pyx_t_1 = ((__pyx_v_rng < ((struct __pyx_vtabstruct_7plexsim_6models_4sirs_SIRS *)__pyx_v_self->__pyx_base.__pyx_vtab)->_checkNeighbors(__pyx_v_self, __pyx_v_node)) != 0);
@@ -5124,17 +5192,17 @@ static void __pyx_f_7plexsim_6models_4sirs_4SIRS__step(struct __pyx_obj_7plexsim
       /* "plexsim/models/sirs.pyx":78
  *             # infect
  *             if rng  < self._checkNeighbors(node):
- *                 self._newstates[node] = 1             # <<<<<<<<<<<<<<
+ *                 deref(self._newstates)[node] = 1             # <<<<<<<<<<<<<<
  *         # SICK state
- *         elif self._states[node] == 1:
+ *         elif deref(self._states)[node] == 1:
  */
-      (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = 1.0;
+      ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_node]) = 1.0;
 
       /* "plexsim/models/sirs.pyx":77
- *         if self._states[node] == 0:
+ *         if deref(self._states)[node] == 0:
  *             # infect
  *             if rng  < self._checkNeighbors(node):             # <<<<<<<<<<<<<<
- *                 self._newstates[node] = 1
+ *                 deref(self._newstates)[node] = 1
  *         # SICK state
  */
     }
@@ -5142,7 +5210,7 @@ static void __pyx_f_7plexsim_6models_4sirs_4SIRS__step(struct __pyx_obj_7plexsim
     /* "plexsim/models/sirs.pyx":75
  *             float rng = self._rng._rand()
  *         # HEALTHY state
- *         if self._states[node] == 0:             # <<<<<<<<<<<<<<
+ *         if deref(self._states)[node] == 0:             # <<<<<<<<<<<<<<
  *             # infect
  *             if rng  < self._checkNeighbors(node):
  */
@@ -5150,30 +5218,30 @@ static void __pyx_f_7plexsim_6models_4sirs_4SIRS__step(struct __pyx_obj_7plexsim
   }
 
   /* "plexsim/models/sirs.pyx":80
- *                 self._newstates[node] = 1
+ *                 deref(self._newstates)[node] = 1
  *         # SICK state
- *         elif self._states[node] == 1:             # <<<<<<<<<<<<<<
+ *         elif deref(self._states)[node] == 1:             # <<<<<<<<<<<<<<
  *             if self._rng._rand() < .5:
  *                 if rng < self._mu:
  */
-  __pyx_t_1 = (((__pyx_v_self->__pyx_base._states[__pyx_v_node]) == 1.0) != 0);
+  __pyx_t_1 = ((((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]) == 1.0) != 0);
   if (__pyx_t_1) {
 
     /* "plexsim/models/sirs.pyx":81
  *         # SICK state
- *         elif self._states[node] == 1:
+ *         elif deref(self._states)[node] == 1:
  *             if self._rng._rand() < .5:             # <<<<<<<<<<<<<<
  *                 if rng < self._mu:
- *                     self._newstates[node] = 2
+ *                     deref(self._newstates)[node] = 2
  */
     __pyx_t_1 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base._rng) < .5) != 0);
     if (__pyx_t_1) {
 
       /* "plexsim/models/sirs.pyx":82
- *         elif self._states[node] == 1:
+ *         elif deref(self._states)[node] == 1:
  *             if self._rng._rand() < .5:
  *                 if rng < self._mu:             # <<<<<<<<<<<<<<
- *                     self._newstates[node] = 2
+ *                     deref(self._newstates)[node] = 2
  *             else:
  */
       __pyx_t_1 = ((__pyx_v_rng < __pyx_v_self->_mu) != 0);
@@ -5182,36 +5250,36 @@ static void __pyx_f_7plexsim_6models_4sirs_4SIRS__step(struct __pyx_obj_7plexsim
         /* "plexsim/models/sirs.pyx":83
  *             if self._rng._rand() < .5:
  *                 if rng < self._mu:
- *                     self._newstates[node] = 2             # <<<<<<<<<<<<<<
+ *                     deref(self._newstates)[node] = 2             # <<<<<<<<<<<<<<
  *             else:
  *                 if rng < self._nu:
  */
-        (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = 2.0;
+        ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_node]) = 2.0;
 
         /* "plexsim/models/sirs.pyx":82
- *         elif self._states[node] == 1:
+ *         elif deref(self._states)[node] == 1:
  *             if self._rng._rand() < .5:
  *                 if rng < self._mu:             # <<<<<<<<<<<<<<
- *                     self._newstates[node] = 2
+ *                     deref(self._newstates)[node] = 2
  *             else:
  */
       }
 
       /* "plexsim/models/sirs.pyx":81
  *         # SICK state
- *         elif self._states[node] == 1:
+ *         elif deref(self._states)[node] == 1:
  *             if self._rng._rand() < .5:             # <<<<<<<<<<<<<<
  *                 if rng < self._mu:
- *                     self._newstates[node] = 2
+ *                     deref(self._newstates)[node] = 2
  */
       goto __pyx_L5;
     }
 
     /* "plexsim/models/sirs.pyx":85
- *                     self._newstates[node] = 2
+ *                     deref(self._newstates)[node] = 2
  *             else:
  *                 if rng < self._nu:             # <<<<<<<<<<<<<<
- *                     self._newstates[node] = 0
+ *                     deref(self._newstates)[node] = 0
  *         # SIRS motive
  */
     /*else*/ {
@@ -5221,17 +5289,17 @@ static void __pyx_f_7plexsim_6models_4sirs_4SIRS__step(struct __pyx_obj_7plexsim
         /* "plexsim/models/sirs.pyx":86
  *             else:
  *                 if rng < self._nu:
- *                     self._newstates[node] = 0             # <<<<<<<<<<<<<<
+ *                     deref(self._newstates)[node] = 0             # <<<<<<<<<<<<<<
  *         # SIRS motive
- *         elif self._states[node] == 2:
+ *         elif deref(self._states)[node] == 2:
  */
-        (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = 0.0;
+        ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_node]) = 0.0;
 
         /* "plexsim/models/sirs.pyx":85
- *                     self._newstates[node] = 2
+ *                     deref(self._newstates)[node] = 2
  *             else:
  *                 if rng < self._nu:             # <<<<<<<<<<<<<<
- *                     self._newstates[node] = 0
+ *                     deref(self._newstates)[node] = 0
  *         # SIRS motive
  */
       }
@@ -5239,9 +5307,9 @@ static void __pyx_f_7plexsim_6models_4sirs_4SIRS__step(struct __pyx_obj_7plexsim
     __pyx_L5:;
 
     /* "plexsim/models/sirs.pyx":80
- *                 self._newstates[node] = 1
+ *                 deref(self._newstates)[node] = 1
  *         # SICK state
- *         elif self._states[node] == 1:             # <<<<<<<<<<<<<<
+ *         elif deref(self._states)[node] == 1:             # <<<<<<<<<<<<<<
  *             if self._rng._rand() < .5:
  *                 if rng < self._mu:
  */
@@ -5249,67 +5317,67 @@ static void __pyx_f_7plexsim_6models_4sirs_4SIRS__step(struct __pyx_obj_7plexsim
   }
 
   /* "plexsim/models/sirs.pyx":88
- *                     self._newstates[node] = 0
+ *                     deref(self._newstates)[node] = 0
  *         # SIRS motive
- *         elif self._states[node] == 2:             # <<<<<<<<<<<<<<
+ *         elif deref(self._states)[node] == 2:             # <<<<<<<<<<<<<<
  *             if rng < self._kappa:
- *                 self._newstates[node] = 0
+ *                 deref(self._newstates)[node] = 0
  */
-  __pyx_t_1 = (((__pyx_v_self->__pyx_base._states[__pyx_v_node]) == 2.0) != 0);
+  __pyx_t_1 = ((((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]) == 2.0) != 0);
   if (__pyx_t_1) {
 
     /* "plexsim/models/sirs.pyx":89
  *         # SIRS motive
- *         elif self._states[node] == 2:
+ *         elif deref(self._states)[node] == 2:
  *             if rng < self._kappa:             # <<<<<<<<<<<<<<
- *                 self._newstates[node] = 0
+ *                 deref(self._newstates)[node] = 0
  *         else:
  */
     __pyx_t_1 = ((__pyx_v_rng < __pyx_v_self->_kappa) != 0);
     if (__pyx_t_1) {
 
       /* "plexsim/models/sirs.pyx":90
- *         elif self._states[node] == 2:
+ *         elif deref(self._states)[node] == 2:
  *             if rng < self._kappa:
- *                 self._newstates[node] = 0             # <<<<<<<<<<<<<<
+ *                 deref(self._newstates)[node] = 0             # <<<<<<<<<<<<<<
  *         else:
- *             self._newstates[node] = self._states[node]
+ *             deref(self._newstates)[node] = deref(self._states)[node]
  */
-      (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = 0.0;
+      ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_node]) = 0.0;
 
       /* "plexsim/models/sirs.pyx":89
  *         # SIRS motive
- *         elif self._states[node] == 2:
+ *         elif deref(self._states)[node] == 2:
  *             if rng < self._kappa:             # <<<<<<<<<<<<<<
- *                 self._newstates[node] = 0
+ *                 deref(self._newstates)[node] = 0
  *         else:
  */
     }
 
     /* "plexsim/models/sirs.pyx":88
- *                     self._newstates[node] = 0
+ *                     deref(self._newstates)[node] = 0
  *         # SIRS motive
- *         elif self._states[node] == 2:             # <<<<<<<<<<<<<<
+ *         elif deref(self._states)[node] == 2:             # <<<<<<<<<<<<<<
  *             if rng < self._kappa:
- *                 self._newstates[node] = 0
+ *                 deref(self._newstates)[node] = 0
  */
     goto __pyx_L3;
   }
 
   /* "plexsim/models/sirs.pyx":92
- *                 self._newstates[node] = 0
+ *                 deref(self._newstates)[node] = 0
  *         else:
- *             self._newstates[node] = self._states[node]             # <<<<<<<<<<<<<<
+ *             deref(self._newstates)[node] = deref(self._states)[node]             # <<<<<<<<<<<<<<
  *         # add SIRS dynamic?
  *         return
  */
   /*else*/ {
-    (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = (__pyx_v_self->__pyx_base._states[__pyx_v_node]);
+    ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_node]) = ((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]);
   }
   __pyx_L3:;
 
   /* "plexsim/models/sirs.pyx":94
- *             self._newstates[node] = self._states[node]
+ *             deref(self._newstates)[node] = deref(self._states)[node]
  *         # add SIRS dynamic?
  *         return             # <<<<<<<<<<<<<<
  * 
@@ -5354,7 +5422,7 @@ static void __pyx_f_7plexsim_6models_4sirs_4SIRS_init_random(struct __pyx_obj_7p
   PyObject *__pyx_t_4 = NULL;
   int __pyx_t_5;
   int __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t> ::size_type __pyx_t_7;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -5467,7 +5535,7 @@ static void __pyx_f_7plexsim_6models_4sirs_4SIRS_init_random(struct __pyx_obj_7p
  *            idx = self.adj.mapping[node]
  *        else:
  *            idx = <size_t> (self._rng._rand() * self.adj._nNodes)             # <<<<<<<<<<<<<<
- *        self._states[idx] = 1
+ *        deref(self._states)[idx] = 1
  * 
  */
   /*else*/ {
@@ -5481,12 +5549,12 @@ static void __pyx_f_7plexsim_6models_4sirs_4SIRS_init_random(struct __pyx_obj_7p
   /* "plexsim/models/sirs.pyx":102
  *        else:
  *            idx = <size_t> (self._rng._rand() * self.adj._nNodes)
- *        self._states[idx] = 1             # <<<<<<<<<<<<<<
+ *        deref(self._states)[idx] = 1             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
-  __pyx_t_7 = __Pyx_PyIndex_AsSsize_t(__pyx_v_idx); if (unlikely((__pyx_t_7 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 102, __pyx_L1_error)
-  (__pyx_v_self->__pyx_base._states[__pyx_t_7]) = 1.0;
+  __pyx_t_7 = __Pyx_PyInt_As_size_t(__pyx_v_idx); if (unlikely((__pyx_t_7 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 102, __pyx_L1_error)
+  ((*__pyx_v_self->__pyx_base._states)[__pyx_t_7]) = 1.0;
 
   /* "plexsim/models/sirs.pyx":96
  *         return
@@ -5622,7 +5690,7 @@ static PyObject *__pyx_pf_7plexsim_6models_4sirs_4SIRS_2init_random(struct __pyx
 }
 
 /* "plexsim/models/sirs.pyx":104
- *        self._states[idx] = 1
+ *        deref(self._states)[idx] = 1
  * 
  *     @property             # <<<<<<<<<<<<<<
  *     def beta(self):
@@ -5667,7 +5735,7 @@ static PyObject *__pyx_pf_7plexsim_6models_4sirs_4SIRS_4beta___get__(struct __py
   goto __pyx_L0;
 
   /* "plexsim/models/sirs.pyx":104
- *        self._states[idx] = 1
+ *        deref(self._states)[idx] = 1
  * 
  *     @property             # <<<<<<<<<<<<<<
  *     def beta(self):
@@ -28127,6 +28195,28 @@ bad:
 }
 #endif
 
+/* CIntFromPyVerify */
+#define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
+    __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 0)
+#define __PYX_VERIFY_RETURN_INT_EXC(target_type, func_type, func_value)\
+    __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 1)
+#define __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, exc)\
+    {\
+        func_type value = func_value;\
+        if (sizeof(target_type) < sizeof(func_type)) {\
+            if (unlikely(value != (func_type) (target_type) value)) {\
+                func_type zero = 0;\
+                if (exc && unlikely(value == (func_type)-1 && PyErr_Occurred()))\
+                    return (target_type) -1;\
+                if (is_unsigned && unlikely(value < zero))\
+                    goto raise_neg_overflow;\
+                else\
+                    goto raise_overflow;\
+            }\
+        }\
+        return (target_type) value;\
+    }
+
 /* Declarations */
 #if CYTHON_CCOMPLEX
   #ifdef __cplusplus
@@ -28527,6 +28617,202 @@ __pyx_capsule_create(void *p, const char *sig)
     return PyCapsule_New(p, sig, NULL);
 }
 
+/* CIntFromPy */
+static CYTHON_INLINE size_t __Pyx_PyInt_As_size_t(PyObject *x) {
+#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
+#endif
+    const size_t neg_one = (size_t) -1, const_zero = (size_t) 0;
+#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
+#pragma GCC diagnostic pop
+#endif
+    const int is_unsigned = neg_one > const_zero;
+#if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_Check(x))) {
+        if ((sizeof(size_t) < sizeof(long))) {
+            __PYX_VERIFY_RETURN_INT(size_t, long, PyInt_AS_LONG(x))
+        } else {
+            long val = PyInt_AS_LONG(x);
+            if (is_unsigned && unlikely(val < 0)) {
+                goto raise_neg_overflow;
+            }
+            return (size_t) val;
+        }
+    } else
+#endif
+    if (likely(PyLong_Check(x))) {
+        if (is_unsigned) {
+#if CYTHON_USE_PYLONG_INTERNALS
+            const digit* digits = ((PyLongObject*)x)->ob_digit;
+            switch (Py_SIZE(x)) {
+                case  0: return (size_t) 0;
+                case  1: __PYX_VERIFY_RETURN_INT(size_t, digit, digits[0])
+                case 2:
+                    if ((8 * sizeof(size_t) > 1 * PyLong_SHIFT)) {
+                        if ((8 * sizeof(unsigned long) > 2 * PyLong_SHIFT)) {
+                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if ((8 * sizeof(size_t) >= 2 * PyLong_SHIFT)) {
+                            return (size_t) (((((size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0]));
+                        }
+                    }
+                    break;
+                case 3:
+                    if ((8 * sizeof(size_t) > 2 * PyLong_SHIFT)) {
+                        if ((8 * sizeof(unsigned long) > 3 * PyLong_SHIFT)) {
+                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if ((8 * sizeof(size_t) >= 3 * PyLong_SHIFT)) {
+                            return (size_t) (((((((size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0]));
+                        }
+                    }
+                    break;
+                case 4:
+                    if ((8 * sizeof(size_t) > 3 * PyLong_SHIFT)) {
+                        if ((8 * sizeof(unsigned long) > 4 * PyLong_SHIFT)) {
+                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if ((8 * sizeof(size_t) >= 4 * PyLong_SHIFT)) {
+                            return (size_t) (((((((((size_t)digits[3]) << PyLong_SHIFT) | (size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0]));
+                        }
+                    }
+                    break;
+            }
+#endif
+#if CYTHON_COMPILING_IN_CPYTHON
+            if (unlikely(Py_SIZE(x) < 0)) {
+                goto raise_neg_overflow;
+            }
+#else
+            {
+                int result = PyObject_RichCompareBool(x, Py_False, Py_LT);
+                if (unlikely(result < 0))
+                    return (size_t) -1;
+                if (unlikely(result == 1))
+                    goto raise_neg_overflow;
+            }
+#endif
+            if ((sizeof(size_t) <= sizeof(unsigned long))) {
+                __PYX_VERIFY_RETURN_INT_EXC(size_t, unsigned long, PyLong_AsUnsignedLong(x))
+#ifdef HAVE_LONG_LONG
+            } else if ((sizeof(size_t) <= sizeof(unsigned PY_LONG_LONG))) {
+                __PYX_VERIFY_RETURN_INT_EXC(size_t, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
+#endif
+            }
+        } else {
+#if CYTHON_USE_PYLONG_INTERNALS
+            const digit* digits = ((PyLongObject*)x)->ob_digit;
+            switch (Py_SIZE(x)) {
+                case  0: return (size_t) 0;
+                case -1: __PYX_VERIFY_RETURN_INT(size_t, sdigit, (sdigit) (-(sdigit)digits[0]))
+                case  1: __PYX_VERIFY_RETURN_INT(size_t,  digit, +digits[0])
+                case -2:
+                    if ((8 * sizeof(size_t) - 1 > 1 * PyLong_SHIFT)) {
+                        if ((8 * sizeof(unsigned long) > 2 * PyLong_SHIFT)) {
+                            __PYX_VERIFY_RETURN_INT(size_t, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if ((8 * sizeof(size_t) - 1 > 2 * PyLong_SHIFT)) {
+                            return (size_t) (((size_t)-1)*(((((size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
+                        }
+                    }
+                    break;
+                case 2:
+                    if ((8 * sizeof(size_t) > 1 * PyLong_SHIFT)) {
+                        if ((8 * sizeof(unsigned long) > 2 * PyLong_SHIFT)) {
+                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if ((8 * sizeof(size_t) - 1 > 2 * PyLong_SHIFT)) {
+                            return (size_t) ((((((size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
+                        }
+                    }
+                    break;
+                case -3:
+                    if ((8 * sizeof(size_t) - 1 > 2 * PyLong_SHIFT)) {
+                        if ((8 * sizeof(unsigned long) > 3 * PyLong_SHIFT)) {
+                            __PYX_VERIFY_RETURN_INT(size_t, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if ((8 * sizeof(size_t) - 1 > 3 * PyLong_SHIFT)) {
+                            return (size_t) (((size_t)-1)*(((((((size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
+                        }
+                    }
+                    break;
+                case 3:
+                    if ((8 * sizeof(size_t) > 2 * PyLong_SHIFT)) {
+                        if ((8 * sizeof(unsigned long) > 3 * PyLong_SHIFT)) {
+                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if ((8 * sizeof(size_t) - 1 > 3 * PyLong_SHIFT)) {
+                            return (size_t) ((((((((size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
+                        }
+                    }
+                    break;
+                case -4:
+                    if ((8 * sizeof(size_t) - 1 > 3 * PyLong_SHIFT)) {
+                        if ((8 * sizeof(unsigned long) > 4 * PyLong_SHIFT)) {
+                            __PYX_VERIFY_RETURN_INT(size_t, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if ((8 * sizeof(size_t) - 1 > 4 * PyLong_SHIFT)) {
+                            return (size_t) (((size_t)-1)*(((((((((size_t)digits[3]) << PyLong_SHIFT) | (size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
+                        }
+                    }
+                    break;
+                case 4:
+                    if ((8 * sizeof(size_t) > 3 * PyLong_SHIFT)) {
+                        if ((8 * sizeof(unsigned long) > 4 * PyLong_SHIFT)) {
+                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if ((8 * sizeof(size_t) - 1 > 4 * PyLong_SHIFT)) {
+                            return (size_t) ((((((((((size_t)digits[3]) << PyLong_SHIFT) | (size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
+                        }
+                    }
+                    break;
+            }
+#endif
+            if ((sizeof(size_t) <= sizeof(long))) {
+                __PYX_VERIFY_RETURN_INT_EXC(size_t, long, PyLong_AsLong(x))
+#ifdef HAVE_LONG_LONG
+            } else if ((sizeof(size_t) <= sizeof(PY_LONG_LONG))) {
+                __PYX_VERIFY_RETURN_INT_EXC(size_t, PY_LONG_LONG, PyLong_AsLongLong(x))
+#endif
+            }
+        }
+        {
+#if (CYTHON_COMPILING_IN_PYPY || CYTHON_COMPILING_IN_LIMITED_API) && !defined(_PyLong_AsByteArray)
+            PyErr_SetString(PyExc_RuntimeError,
+                            "_PyLong_AsByteArray() not available, cannot convert large numbers");
+#else
+            size_t val;
+            PyObject *v = __Pyx_PyNumber_IntOrLong(x);
+ #if PY_MAJOR_VERSION < 3
+            if (likely(v) && !PyLong_Check(v)) {
+                PyObject *tmp = v;
+                v = PyNumber_Long(tmp);
+                Py_DECREF(tmp);
+            }
+ #endif
+            if (likely(v)) {
+                int one = 1; int is_little = (int)*(unsigned char *)&one;
+                unsigned char *bytes = (unsigned char *)&val;
+                int ret = _PyLong_AsByteArray((PyLongObject *)v,
+                                              bytes, sizeof(val),
+                                              is_little, !is_unsigned);
+                Py_DECREF(v);
+                if (likely(!ret))
+                    return val;
+            }
+#endif
+            return (size_t) -1;
+        }
+    } else {
+        size_t val;
+        PyObject *tmp = __Pyx_PyNumber_IntOrLong(x);
+        if (!tmp) return (size_t) -1;
+        val = __Pyx_PyInt_As_size_t(tmp);
+        Py_DECREF(tmp);
+        return val;
+    }
+raise_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "value too large to convert to size_t");
+    return (size_t) -1;
+raise_neg_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "can't convert negative value to size_t");
+    return (size_t) -1;
+}
+
 /* MemviewSliceCopyTemplate */
 static __Pyx_memviewslice
 __pyx_memoryview_copy_new_contig(const __Pyx_memviewslice *from_mvs,
@@ -28728,28 +29014,6 @@ static CYTHON_INLINE void __Pyx_XCLEAR_MEMVIEW(__Pyx_memviewslice *memslice,
                          __pyx_get_slice_count(memview), lineno);
     }
 }
-
-/* CIntFromPyVerify */
-#define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
-    __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 0)
-#define __PYX_VERIFY_RETURN_INT_EXC(target_type, func_type, func_value)\
-    __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 1)
-#define __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, exc)\
-    {\
-        func_type value = func_value;\
-        if (sizeof(target_type) < sizeof(func_type)) {\
-            if (unlikely(value != (func_type) (target_type) value)) {\
-                func_type zero = 0;\
-                if (exc && unlikely(value == (func_type)-1 && PyErr_Occurred()))\
-                    return (target_type) -1;\
-                if (is_unsigned && unlikely(value < zero))\
-                    goto raise_neg_overflow;\
-                else\
-                    goto raise_overflow;\
-            }\
-        }\
-        return (target_type) value;\
-    }
 
 /* CIntFromPy */
 static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {

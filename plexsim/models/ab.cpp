@@ -46,12 +46,77 @@
         "libraries": [
             "stdc++"
         ],
-        "name": "plexsim.models.ab",
+        "name": "models",
         "sources": [
-            "plexsim/models/ab.pyx"
+            "build/lib.linux-x86_64-3.9/plexsim/models/percolation.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pottsis.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/kawasaki.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/magnetic_boids.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ising.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_edges.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bornholdt.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_soc.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/potts.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_crystal.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/test.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cyclic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rules.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network2.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_dynamic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_gradient.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/game_of_life.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/adjacency.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ab.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rbn.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/binding.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/heisenberg.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sirs.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sampler.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/logmap.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bonabeau.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pyobjectholder.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/prisoner.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sandpile.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/base.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cca.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/simple_copy.pyx",
+            "plexsim/models/percolation.pyx",
+            "plexsim/models/pottsis.pyx",
+            "plexsim/models/kawasaki.pyx",
+            "plexsim/models/magnetic_boids.pyx",
+            "plexsim/models/ising.pyx",
+            "plexsim/models/value_network_edges.pyx",
+            "plexsim/models/bornholdt.pyx",
+            "plexsim/models/value_network_soc.pyx",
+            "plexsim/models/potts.pyx",
+            "plexsim/models/value_network_crystal.pyx",
+            "plexsim/models/test.pyx",
+            "plexsim/models/cyclic.pyx",
+            "plexsim/models/rules.pyx",
+            "plexsim/models/value_network2.pyx",
+            "plexsim/models/value_network_dynamic.pyx",
+            "plexsim/models/value_network_gradient.pyx",
+            "plexsim/models/game_of_life.pyx",
+            "plexsim/models/adjacency.pyx",
+            "plexsim/models/ab.pyx",
+            "plexsim/models/value_network.pyx",
+            "plexsim/models/rbn.pyx",
+            "plexsim/models/binding.pyx",
+            "plexsim/models/heisenberg.pyx",
+            "plexsim/models/sirs.pyx",
+            "plexsim/models/sampler.pyx",
+            "plexsim/models/logmap.pyx",
+            "plexsim/models/bonabeau.pyx",
+            "plexsim/models/pyobjectholder.pyx",
+            "plexsim/models/prisoner.pyx",
+            "plexsim/models/sandpile.pyx",
+            "plexsim/models/base.pyx",
+            "plexsim/models/cca.pyx",
+            "plexsim/models/simple_copy.pyx"
         ]
     },
-    "module_name": "plexsim.models.ab"
+    "module_name": "models"
 }
 END: Cython Metadata */
 
@@ -1851,9 +1916,9 @@ struct __pyx_obj_7plexsim_6models_4base_Model {
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtab;
   PyObject *ptr;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__states;
-  __pyx_t_7plexsim_6models_5types_state_t *_states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_states;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__newstates;
-  __pyx_t_7plexsim_6models_5types_state_t *_newstates;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_newstates;
   int _last_written;
   int _use_mcmc;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _agentStates;
@@ -4807,7 +4872,7 @@ static int __pyx_pf_7plexsim_6models_2ab_2AB___init__(struct __pyx_obj_7plexsim_
  */
 
 static void __pyx_f_7plexsim_6models_2ab_2AB__step(struct __pyx_obj_7plexsim_6models_2ab_AB *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node) {
-  __pyx_t_7plexsim_6models_5types_state_t *__pyx_v_proposal;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *__pyx_v_proposal;
   __pyx_t_7plexsim_6models_5types_Neighbors __pyx_v_tmp;
   size_t __pyx_v_idx;
   std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,__pyx_t_7plexsim_6models_5types_weight_t> ::iterator __pyx_v_it;
@@ -4815,7 +4880,7 @@ static void __pyx_f_7plexsim_6models_2ab_2AB__step(struct __pyx_obj_7plexsim_6mo
   __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_neighbor;
   __pyx_t_7plexsim_6models_5types_state_t __pyx_v_thisState;
   __pyx_t_7plexsim_6models_5types_state_t __pyx_v_thatState;
-  __pyx_t_7plexsim_6models_5types_state_t *__pyx_t_1;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *__pyx_t_1;
   __pyx_t_7plexsim_6models_5types_Neighbors __pyx_t_2;
   int __pyx_t_3;
   __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_4;
@@ -4823,7 +4888,7 @@ static void __pyx_f_7plexsim_6models_2ab_2AB__step(struct __pyx_obj_7plexsim_6mo
   /* "plexsim/models/ab.pyx":30
  *                     ) nogil:
  * 
- *         cdef state_t* proposal = self._newstates             # <<<<<<<<<<<<<<
+ *         cdef vector[state_t]* proposal = self._newstates             # <<<<<<<<<<<<<<
  * 
  *         cdef Neighbors tmp = self.adj._adj[node].neighbors
  */
@@ -4831,7 +4896,7 @@ static void __pyx_f_7plexsim_6models_2ab_2AB__step(struct __pyx_obj_7plexsim_6mo
   __pyx_v_proposal = __pyx_t_1;
 
   /* "plexsim/models/ab.pyx":32
- *         cdef state_t* proposal = self._newstates
+ *         cdef vector[state_t]* proposal = self._newstates
  * 
  *         cdef Neighbors tmp = self.adj._adj[node].neighbors             # <<<<<<<<<<<<<<
  *         # random interact with a neighbor
@@ -4931,7 +4996,7 @@ static void __pyx_f_7plexsim_6models_2ab_2AB__step(struct __pyx_obj_7plexsim_6mo
  * 
  *         cdef node_id_t neighbor = deref(it).first             # <<<<<<<<<<<<<<
  * 
- *         cdef state_t thisState = self._states[node]
+ *         cdef state_t thisState = deref(self._states)[node]
  */
   __pyx_t_4 = (*__pyx_v_it).first;
   __pyx_v_neighbor = __pyx_t_4;
@@ -4939,23 +5004,23 @@ static void __pyx_f_7plexsim_6models_2ab_2AB__step(struct __pyx_obj_7plexsim_6mo
   /* "plexsim/models/ab.pyx":47
  *         cdef node_id_t neighbor = deref(it).first
  * 
- *         cdef state_t thisState = self._states[node]             # <<<<<<<<<<<<<<
- *         cdef state_t thatState = self._states[neighbor]
+ *         cdef state_t thisState = deref(self._states)[node]             # <<<<<<<<<<<<<<
+ *         cdef state_t thatState = deref(self._states)[neighbor]
  *         # if not AB
  */
-  __pyx_v_thisState = (__pyx_v_self->__pyx_base._states[__pyx_v_node]);
+  __pyx_v_thisState = ((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]);
 
   /* "plexsim/models/ab.pyx":48
  * 
- *         cdef state_t thisState = self._states[node]
- *         cdef state_t thatState = self._states[neighbor]             # <<<<<<<<<<<<<<
+ *         cdef state_t thisState = deref(self._states)[node]
+ *         cdef state_t thatState = deref(self._states)[neighbor]             # <<<<<<<<<<<<<<
  *         # if not AB
  *         if thisState != 1:
  */
-  __pyx_v_thatState = (__pyx_v_self->__pyx_base._states[__pyx_v_neighbor]);
+  __pyx_v_thatState = ((*__pyx_v_self->__pyx_base._states)[__pyx_v_neighbor]);
 
   /* "plexsim/models/ab.pyx":50
- *         cdef state_t thatState = self._states[neighbor]
+ *         cdef state_t thatState = deref(self._states)[neighbor]
  *         # if not AB
  *         if thisState != 1:             # <<<<<<<<<<<<<<
  *             if thisState == thatState:
@@ -4997,7 +5062,7 @@ static void __pyx_f_7plexsim_6models_2ab_2AB__step(struct __pyx_obj_7plexsim_6mo
  *                 # CASE A
  *                 if thisState == 0:             # <<<<<<<<<<<<<<
  *                     if thatState == 2:
- *                         proposal[neighbor] = 1
+ *                         deref(proposal)[neighbor] = 1
  */
     /*else*/ {
       __pyx_t_3 = ((__pyx_v_thisState == 0.0) != 0);
@@ -5007,7 +5072,7 @@ static void __pyx_f_7plexsim_6models_2ab_2AB__step(struct __pyx_obj_7plexsim_6mo
  *                 # CASE A
  *                 if thisState == 0:
  *                     if thatState == 2:             # <<<<<<<<<<<<<<
- *                         proposal[neighbor] = 1
+ *                         deref(proposal)[neighbor] = 1
  *                     else:
  */
         __pyx_t_3 = ((__pyx_v_thatState == 2.0) != 0);
@@ -5016,31 +5081,31 @@ static void __pyx_f_7plexsim_6models_2ab_2AB__step(struct __pyx_obj_7plexsim_6mo
           /* "plexsim/models/ab.pyx":57
  *                 if thisState == 0:
  *                     if thatState == 2:
- *                         proposal[neighbor] = 1             # <<<<<<<<<<<<<<
+ *                         deref(proposal)[neighbor] = 1             # <<<<<<<<<<<<<<
  *                     else:
- *                         proposal[neighbor] = 0
+ *                         deref(proposal)[neighbor] = 0
  */
-          (__pyx_v_proposal[__pyx_v_neighbor]) = 1.0;
+          ((*__pyx_v_proposal)[__pyx_v_neighbor]) = 1.0;
 
           /* "plexsim/models/ab.pyx":56
  *                 # CASE A
  *                 if thisState == 0:
  *                     if thatState == 2:             # <<<<<<<<<<<<<<
- *                         proposal[neighbor] = 1
+ *                         deref(proposal)[neighbor] = 1
  *                     else:
  */
           goto __pyx_L9;
         }
 
         /* "plexsim/models/ab.pyx":59
- *                         proposal[neighbor] = 1
+ *                         deref(proposal)[neighbor] = 1
  *                     else:
- *                         proposal[neighbor] = 0             # <<<<<<<<<<<<<<
+ *                         deref(proposal)[neighbor] = 0             # <<<<<<<<<<<<<<
  *                 # CASE B
  *                 if thisState == 2:
  */
         /*else*/ {
-          (__pyx_v_proposal[__pyx_v_neighbor]) = 0.0;
+          ((*__pyx_v_proposal)[__pyx_v_neighbor]) = 0.0;
         }
         __pyx_L9:;
 
@@ -5049,16 +5114,16 @@ static void __pyx_f_7plexsim_6models_2ab_2AB__step(struct __pyx_obj_7plexsim_6mo
  *                 # CASE A
  *                 if thisState == 0:             # <<<<<<<<<<<<<<
  *                     if thatState == 2:
- *                         proposal[neighbor] = 1
+ *                         deref(proposal)[neighbor] = 1
  */
       }
 
       /* "plexsim/models/ab.pyx":61
- *                         proposal[neighbor] = 0
+ *                         deref(proposal)[neighbor] = 0
  *                 # CASE B
  *                 if thisState == 2:             # <<<<<<<<<<<<<<
  *                     if thatState == 1:
- *                         proposal[neighbor] = 2
+ *                         deref(proposal)[neighbor] = 2
  */
       __pyx_t_3 = ((__pyx_v_thisState == 2.0) != 0);
       if (__pyx_t_3) {
@@ -5067,7 +5132,7 @@ static void __pyx_f_7plexsim_6models_2ab_2AB__step(struct __pyx_obj_7plexsim_6mo
  *                 # CASE B
  *                 if thisState == 2:
  *                     if thatState == 1:             # <<<<<<<<<<<<<<
- *                         proposal[neighbor] = 2
+ *                         deref(proposal)[neighbor] = 2
  *                     else:
  */
         __pyx_t_3 = ((__pyx_v_thatState == 1.0) != 0);
@@ -5076,46 +5141,46 @@ static void __pyx_f_7plexsim_6models_2ab_2AB__step(struct __pyx_obj_7plexsim_6mo
           /* "plexsim/models/ab.pyx":63
  *                 if thisState == 2:
  *                     if thatState == 1:
- *                         proposal[neighbor] = 2             # <<<<<<<<<<<<<<
+ *                         deref(proposal)[neighbor] = 2             # <<<<<<<<<<<<<<
  *                     else:
- *                         proposal[neighbor] = 1
+ *                         deref(proposal)[neighbor] = 1
  */
-          (__pyx_v_proposal[__pyx_v_neighbor]) = 2.0;
+          ((*__pyx_v_proposal)[__pyx_v_neighbor]) = 2.0;
 
           /* "plexsim/models/ab.pyx":62
  *                 # CASE B
  *                 if thisState == 2:
  *                     if thatState == 1:             # <<<<<<<<<<<<<<
- *                         proposal[neighbor] = 2
+ *                         deref(proposal)[neighbor] = 2
  *                     else:
  */
           goto __pyx_L11;
         }
 
         /* "plexsim/models/ab.pyx":65
- *                         proposal[neighbor] = 2
+ *                         deref(proposal)[neighbor] = 2
  *                     else:
- *                         proposal[neighbor] = 1             # <<<<<<<<<<<<<<
+ *                         deref(proposal)[neighbor] = 1             # <<<<<<<<<<<<<<
  *         # CASE AB
  *         else:
  */
         /*else*/ {
-          (__pyx_v_proposal[__pyx_v_neighbor]) = 1.0;
+          ((*__pyx_v_proposal)[__pyx_v_neighbor]) = 1.0;
         }
         __pyx_L11:;
 
         /* "plexsim/models/ab.pyx":61
- *                         proposal[neighbor] = 0
+ *                         deref(proposal)[neighbor] = 0
  *                 # CASE B
  *                 if thisState == 2:             # <<<<<<<<<<<<<<
  *                     if thatState == 1:
- *                         proposal[neighbor] = 2
+ *                         deref(proposal)[neighbor] = 2
  */
       }
     }
 
     /* "plexsim/models/ab.pyx":50
- *         cdef state_t thatState = self._states[neighbor]
+ *         cdef state_t thatState = deref(self._states)[neighbor]
  *         # if not AB
  *         if thisState != 1:             # <<<<<<<<<<<<<<
  *             if thisState == thatState:
@@ -5129,7 +5194,7 @@ static void __pyx_f_7plexsim_6models_2ab_2AB__step(struct __pyx_obj_7plexsim_6mo
  *             # communicate A
  *             if self._rng._rand() < .5:             # <<<<<<<<<<<<<<
  *                 if thatState == 1:
- *                     proposal[neighbor] = 0
+ *                     deref(proposal)[neighbor] = 0
  */
   /*else*/ {
     __pyx_t_3 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base._rng) < .5) != 0);
@@ -5139,8 +5204,8 @@ static void __pyx_f_7plexsim_6models_2ab_2AB__step(struct __pyx_obj_7plexsim_6mo
  *             # communicate A
  *             if self._rng._rand() < .5:
  *                 if thatState == 1:             # <<<<<<<<<<<<<<
- *                     proposal[neighbor] = 0
- *                     proposal[node]     = 0
+ *                     deref(proposal)[neighbor] = 0
+ *                     deref(proposal)[node]     = 0
  */
       __pyx_t_3 = ((__pyx_v_thatState == 1.0) != 0);
       if (__pyx_t_3) {
@@ -5148,55 +5213,55 @@ static void __pyx_f_7plexsim_6models_2ab_2AB__step(struct __pyx_obj_7plexsim_6mo
         /* "plexsim/models/ab.pyx":71
  *             if self._rng._rand() < .5:
  *                 if thatState == 1:
- *                     proposal[neighbor] = 0             # <<<<<<<<<<<<<<
- *                     proposal[node]     = 0
+ *                     deref(proposal)[neighbor] = 0             # <<<<<<<<<<<<<<
+ *                     deref(proposal)[node]     = 0
  *                 elif thatState == 2:
  */
-        (__pyx_v_proposal[__pyx_v_neighbor]) = 0.0;
+        ((*__pyx_v_proposal)[__pyx_v_neighbor]) = 0.0;
 
         /* "plexsim/models/ab.pyx":72
  *                 if thatState == 1:
- *                     proposal[neighbor] = 0
- *                     proposal[node]     = 0             # <<<<<<<<<<<<<<
+ *                     deref(proposal)[neighbor] = 0
+ *                     deref(proposal)[node]     = 0             # <<<<<<<<<<<<<<
  *                 elif thatState == 2:
- *                     proposal[neighbor] = 1
+ *                     deref(proposal)[neighbor] = 1
  */
-        (__pyx_v_proposal[__pyx_v_node]) = 0.0;
+        ((*__pyx_v_proposal)[__pyx_v_node]) = 0.0;
 
         /* "plexsim/models/ab.pyx":70
  *             # communicate A
  *             if self._rng._rand() < .5:
  *                 if thatState == 1:             # <<<<<<<<<<<<<<
- *                     proposal[neighbor] = 0
- *                     proposal[node]     = 0
+ *                     deref(proposal)[neighbor] = 0
+ *                     deref(proposal)[node]     = 0
  */
         goto __pyx_L13;
       }
 
       /* "plexsim/models/ab.pyx":73
- *                     proposal[neighbor] = 0
- *                     proposal[node]     = 0
+ *                     deref(proposal)[neighbor] = 0
+ *                     deref(proposal)[node]     = 0
  *                 elif thatState == 2:             # <<<<<<<<<<<<<<
- *                     proposal[neighbor] = 1
+ *                     deref(proposal)[neighbor] = 1
  *             # communicate B
  */
       __pyx_t_3 = ((__pyx_v_thatState == 2.0) != 0);
       if (__pyx_t_3) {
 
         /* "plexsim/models/ab.pyx":74
- *                     proposal[node]     = 0
+ *                     deref(proposal)[node]     = 0
  *                 elif thatState == 2:
- *                     proposal[neighbor] = 1             # <<<<<<<<<<<<<<
+ *                     deref(proposal)[neighbor] = 1             # <<<<<<<<<<<<<<
  *             # communicate B
  *             else:
  */
-        (__pyx_v_proposal[__pyx_v_neighbor]) = 1.0;
+        ((*__pyx_v_proposal)[__pyx_v_neighbor]) = 1.0;
 
         /* "plexsim/models/ab.pyx":73
- *                     proposal[neighbor] = 0
- *                     proposal[node]     = 0
+ *                     deref(proposal)[neighbor] = 0
+ *                     deref(proposal)[node]     = 0
  *                 elif thatState == 2:             # <<<<<<<<<<<<<<
- *                     proposal[neighbor] = 1
+ *                     deref(proposal)[neighbor] = 1
  *             # communicate B
  */
       }
@@ -5207,7 +5272,7 @@ static void __pyx_f_7plexsim_6models_2ab_2AB__step(struct __pyx_obj_7plexsim_6mo
  *             # communicate A
  *             if self._rng._rand() < .5:             # <<<<<<<<<<<<<<
  *                 if thatState == 1:
- *                     proposal[neighbor] = 0
+ *                     deref(proposal)[neighbor] = 0
  */
       goto __pyx_L12;
     }
@@ -5216,8 +5281,8 @@ static void __pyx_f_7plexsim_6models_2ab_2AB__step(struct __pyx_obj_7plexsim_6mo
  *             # communicate B
  *             else:
  *                 if thatState == 1:             # <<<<<<<<<<<<<<
- *                     proposal[node]  = 2
- *                     proposal[neighbor] = 2
+ *                     deref(proposal)[node]  = 2
+ *                     deref(proposal)[neighbor] = 2
  */
     /*else*/ {
       __pyx_t_3 = ((__pyx_v_thatState == 1.0) != 0);
@@ -5226,55 +5291,55 @@ static void __pyx_f_7plexsim_6models_2ab_2AB__step(struct __pyx_obj_7plexsim_6mo
         /* "plexsim/models/ab.pyx":78
  *             else:
  *                 if thatState == 1:
- *                     proposal[node]  = 2             # <<<<<<<<<<<<<<
- *                     proposal[neighbor] = 2
+ *                     deref(proposal)[node]  = 2             # <<<<<<<<<<<<<<
+ *                     deref(proposal)[neighbor] = 2
  *                 elif thatState == 0:
  */
-        (__pyx_v_proposal[__pyx_v_node]) = 2.0;
+        ((*__pyx_v_proposal)[__pyx_v_node]) = 2.0;
 
         /* "plexsim/models/ab.pyx":79
  *                 if thatState == 1:
- *                     proposal[node]  = 2
- *                     proposal[neighbor] = 2             # <<<<<<<<<<<<<<
+ *                     deref(proposal)[node]  = 2
+ *                     deref(proposal)[neighbor] = 2             # <<<<<<<<<<<<<<
  *                 elif thatState == 0:
- *                     proposal[neighbor] = 1
+ *                     deref(proposal)[neighbor] = 1
  */
-        (__pyx_v_proposal[__pyx_v_neighbor]) = 2.0;
+        ((*__pyx_v_proposal)[__pyx_v_neighbor]) = 2.0;
 
         /* "plexsim/models/ab.pyx":77
  *             # communicate B
  *             else:
  *                 if thatState == 1:             # <<<<<<<<<<<<<<
- *                     proposal[node]  = 2
- *                     proposal[neighbor] = 2
+ *                     deref(proposal)[node]  = 2
+ *                     deref(proposal)[neighbor] = 2
  */
         goto __pyx_L14;
       }
 
       /* "plexsim/models/ab.pyx":80
- *                     proposal[node]  = 2
- *                     proposal[neighbor] = 2
+ *                     deref(proposal)[node]  = 2
+ *                     deref(proposal)[neighbor] = 2
  *                 elif thatState == 0:             # <<<<<<<<<<<<<<
- *                     proposal[neighbor] = 1
+ *                     deref(proposal)[neighbor] = 1
  *         if self._zealots[neighbor]:
  */
       __pyx_t_3 = ((__pyx_v_thatState == 0.0) != 0);
       if (__pyx_t_3) {
 
         /* "plexsim/models/ab.pyx":81
- *                     proposal[neighbor] = 2
+ *                     deref(proposal)[neighbor] = 2
  *                 elif thatState == 0:
- *                     proposal[neighbor] = 1             # <<<<<<<<<<<<<<
+ *                     deref(proposal)[neighbor] = 1             # <<<<<<<<<<<<<<
  *         if self._zealots[neighbor]:
- *             proposal[neighbor] = thatState
+ *             deref(proposal)[neighbor] = thatState
  */
-        (__pyx_v_proposal[__pyx_v_neighbor]) = 1.0;
+        ((*__pyx_v_proposal)[__pyx_v_neighbor]) = 1.0;
 
         /* "plexsim/models/ab.pyx":80
- *                     proposal[node]  = 2
- *                     proposal[neighbor] = 2
+ *                     deref(proposal)[node]  = 2
+ *                     deref(proposal)[neighbor] = 2
  *                 elif thatState == 0:             # <<<<<<<<<<<<<<
- *                     proposal[neighbor] = 1
+ *                     deref(proposal)[neighbor] = 1
  *         if self._zealots[neighbor]:
  */
       }
@@ -5286,34 +5351,34 @@ static void __pyx_f_7plexsim_6models_2ab_2AB__step(struct __pyx_obj_7plexsim_6mo
 
   /* "plexsim/models/ab.pyx":82
  *                 elif thatState == 0:
- *                     proposal[neighbor] = 1
+ *                     deref(proposal)[neighbor] = 1
  *         if self._zealots[neighbor]:             # <<<<<<<<<<<<<<
- *             proposal[neighbor] = thatState
+ *             deref(proposal)[neighbor] = thatState
  *         return
  */
   __pyx_t_3 = ((__pyx_v_self->_zealots[__pyx_v_neighbor]) != 0);
   if (__pyx_t_3) {
 
     /* "plexsim/models/ab.pyx":83
- *                     proposal[neighbor] = 1
+ *                     deref(proposal)[neighbor] = 1
  *         if self._zealots[neighbor]:
- *             proposal[neighbor] = thatState             # <<<<<<<<<<<<<<
+ *             deref(proposal)[neighbor] = thatState             # <<<<<<<<<<<<<<
  *         return
  */
-    (__pyx_v_proposal[__pyx_v_neighbor]) = __pyx_v_thatState;
+    ((*__pyx_v_proposal)[__pyx_v_neighbor]) = __pyx_v_thatState;
 
     /* "plexsim/models/ab.pyx":82
  *                 elif thatState == 0:
- *                     proposal[neighbor] = 1
+ *                     deref(proposal)[neighbor] = 1
  *         if self._zealots[neighbor]:             # <<<<<<<<<<<<<<
- *             proposal[neighbor] = thatState
+ *             deref(proposal)[neighbor] = thatState
  *         return
  */
   }
 
   /* "plexsim/models/ab.pyx":84
  *         if self._zealots[neighbor]:
- *             proposal[neighbor] = thatState
+ *             deref(proposal)[neighbor] = thatState
  *         return             # <<<<<<<<<<<<<<
  */
   goto __pyx_L0;

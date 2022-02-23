@@ -46,12 +46,77 @@
         "libraries": [
             "stdc++"
         ],
-        "name": "plexsim.models.prisoner",
+        "name": "models",
         "sources": [
-            "plexsim/models/prisoner.pyx"
+            "build/lib.linux-x86_64-3.9/plexsim/models/percolation.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pottsis.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/kawasaki.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/magnetic_boids.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ising.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_edges.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bornholdt.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_soc.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/potts.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_crystal.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/test.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cyclic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rules.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network2.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_dynamic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_gradient.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/game_of_life.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/adjacency.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ab.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rbn.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/binding.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/heisenberg.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sirs.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sampler.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/logmap.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bonabeau.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pyobjectholder.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/prisoner.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sandpile.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/base.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cca.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/simple_copy.pyx",
+            "plexsim/models/percolation.pyx",
+            "plexsim/models/pottsis.pyx",
+            "plexsim/models/kawasaki.pyx",
+            "plexsim/models/magnetic_boids.pyx",
+            "plexsim/models/ising.pyx",
+            "plexsim/models/value_network_edges.pyx",
+            "plexsim/models/bornholdt.pyx",
+            "plexsim/models/value_network_soc.pyx",
+            "plexsim/models/potts.pyx",
+            "plexsim/models/value_network_crystal.pyx",
+            "plexsim/models/test.pyx",
+            "plexsim/models/cyclic.pyx",
+            "plexsim/models/rules.pyx",
+            "plexsim/models/value_network2.pyx",
+            "plexsim/models/value_network_dynamic.pyx",
+            "plexsim/models/value_network_gradient.pyx",
+            "plexsim/models/game_of_life.pyx",
+            "plexsim/models/adjacency.pyx",
+            "plexsim/models/ab.pyx",
+            "plexsim/models/value_network.pyx",
+            "plexsim/models/rbn.pyx",
+            "plexsim/models/binding.pyx",
+            "plexsim/models/heisenberg.pyx",
+            "plexsim/models/sirs.pyx",
+            "plexsim/models/sampler.pyx",
+            "plexsim/models/logmap.pyx",
+            "plexsim/models/bonabeau.pyx",
+            "plexsim/models/pyobjectholder.pyx",
+            "plexsim/models/prisoner.pyx",
+            "plexsim/models/sandpile.pyx",
+            "plexsim/models/base.pyx",
+            "plexsim/models/cca.pyx",
+            "plexsim/models/simple_copy.pyx"
         ]
     },
-    "module_name": "plexsim.models.prisoner"
+    "module_name": "models"
 }
 END: Cython Metadata */
 
@@ -1870,9 +1935,9 @@ struct __pyx_obj_7plexsim_6models_4base_Model {
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtab;
   PyObject *ptr;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__states;
-  __pyx_t_7plexsim_6models_5types_state_t *_states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_states;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__newstates;
-  __pyx_t_7plexsim_6models_5types_state_t *_newstates;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_newstates;
   int _last_written;
   int _use_mcmc;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _agentStates;
@@ -2099,11 +2164,11 @@ static struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtabptr_7plex
 struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts {
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model __pyx_base;
   double (*_energy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __pyx_t_7plexsim_6models_5types_node_id_t);
-  PyArrayObject *(*node_energy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  PyArrayObject *(*node_energy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, std::vector<__pyx_t_7plexsim_6models_5types_state_t>  &, int __pyx_skip_dispatch);
   double (*magnetize_)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, struct __pyx_obj_7plexsim_6models_4base_Model *, size_t, double);
   double (*_hamiltonian)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __pyx_t_7plexsim_6models_5types_state_t, __pyx_t_7plexsim_6models_5types_state_t);
   PyArrayObject *(*magnetize)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, int __pyx_skip_dispatch, struct __pyx_opt_args_7plexsim_6models_5potts_5Potts_magnetize *__pyx_optional_args);
-  std::vector<double>  (*siteEnergy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  std::vector<double>  (*siteEnergy)(struct __pyx_obj_7plexsim_6models_5potts_Potts *, std::vector<__pyx_t_7plexsim_6models_5types_state_t>  &, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_7plexsim_6models_5potts_Potts *__pyx_vtabptr_7plexsim_6models_5potts_Potts;
 
@@ -5327,14 +5392,14 @@ static int __pyx_pf_7plexsim_6models_8prisoner_8Prisoner___init__(struct __pyx_o
 static double __pyx_f_7plexsim_6models_8prisoner_8Prisoner__energy(struct __pyx_obj_7plexsim_6models_8prisoner_Prisoner *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node) {
   std::unordered_map<__pyx_t_7plexsim_6models_5types_node_id_t,__pyx_t_7plexsim_6models_5types_weight_t> ::iterator __pyx_v_it;
   CYTHON_UNUSED size_t __pyx_v_neighbors;
-  __pyx_t_7plexsim_6models_5types_state_t *__pyx_v_states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *__pyx_v_states;
   size_t __pyx_v_neighbor;
   double __pyx_v_weight;
   double __pyx_v_energy;
   double __pyx_v_update;
   __pyx_t_7plexsim_6models_5types_state_t __pyx_v_proposal;
   double __pyx_r;
-  __pyx_t_7plexsim_6models_5types_state_t *__pyx_t_1;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *__pyx_t_1;
   int __pyx_t_2;
   __pyx_t_7plexsim_6models_5types_weight_t __pyx_t_3;
   __pyx_t_7plexsim_6models_5types_node_id_t __pyx_t_4;
@@ -5352,7 +5417,7 @@ static double __pyx_f_7plexsim_6models_8prisoner_8Prisoner__energy(struct __pyx_
  *         it = self.adj._adj[node].neighbors.begin()
  *         cdef:
  *             size_t neighbors = self.adj._adj[node].neighbors.size()             # <<<<<<<<<<<<<<
- *             state_t* states = self._states # alias
+ *             vector[state_t]* states = self._states # alias
  *             size_t  neighbor, neighboridx
  */
   __pyx_v_neighbors = (__pyx_v_self->__pyx_base.__pyx_base.adj->_adj[__pyx_v_node]).neighbors.size();
@@ -5360,7 +5425,7 @@ static double __pyx_f_7plexsim_6models_8prisoner_8Prisoner__energy(struct __pyx_
   /* "plexsim/models/prisoner.pyx":89
  *         cdef:
  *             size_t neighbors = self.adj._adj[node].neighbors.size()
- *             state_t* states = self._states # alias             # <<<<<<<<<<<<<<
+ *             vector[state_t]* states = self._states # alias             # <<<<<<<<<<<<<<
  *             size_t  neighbor, neighboridx
  *             double weight # TODO: remove delta
  */
@@ -5379,15 +5444,15 @@ static double __pyx_f_7plexsim_6models_8prisoner_8Prisoner__energy(struct __pyx_
   /* "plexsim/models/prisoner.pyx":104
  * 
  *         # current state as proposal
- *         cdef state_t proposal = self._states[node]             # <<<<<<<<<<<<<<
+ *         cdef state_t proposal = deref(self._states)[node]             # <<<<<<<<<<<<<<
  *         while it != self.adj._adj[node].neighbors.end():
  *             weight   = deref(it).second
  */
-  __pyx_v_proposal = (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]);
+  __pyx_v_proposal = ((*__pyx_v_self->__pyx_base.__pyx_base._states)[__pyx_v_node]);
 
   /* "plexsim/models/prisoner.pyx":105
  *         # current state as proposal
- *         cdef state_t proposal = self._states[node]
+ *         cdef state_t proposal = deref(self._states)[node]
  *         while it != self.adj._adj[node].neighbors.end():             # <<<<<<<<<<<<<<
  *             weight   = deref(it).second
  *             neighbor = deref(it).first
@@ -5397,7 +5462,7 @@ static double __pyx_f_7plexsim_6models_8prisoner_8Prisoner__energy(struct __pyx_
     if (!__pyx_t_2) break;
 
     /* "plexsim/models/prisoner.pyx":106
- *         cdef state_t proposal = self._states[node]
+ *         cdef state_t proposal = deref(self._states)[node]
  *         while it != self.adj._adj[node].neighbors.end():
  *             weight   = deref(it).second             # <<<<<<<<<<<<<<
  *             neighbor = deref(it).first
@@ -5419,27 +5484,27 @@ static double __pyx_f_7plexsim_6models_8prisoner_8Prisoner__energy(struct __pyx_
     /* "plexsim/models/prisoner.pyx":110
  *             # check rules
  *             # update using rule
- *             if fabs(self._rules._adj[proposal][states[neighbor]]):             # <<<<<<<<<<<<<<
- *                 update = self._rules._adj[proposal][states[neighbor]]
+ *             if fabs(self._rules._adj[proposal][deref(states)[neighbor]]):             # <<<<<<<<<<<<<<
+ *                 update = self._rules._adj[proposal][deref(states)[neighbor]]
  *             # normal potts
  */
-    __pyx_t_2 = (fabs(((__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[__pyx_v_proposal])[(__pyx_v_states[__pyx_v_neighbor])])) != 0);
+    __pyx_t_2 = (fabs(((__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[__pyx_v_proposal])[((*__pyx_v_states)[__pyx_v_neighbor])])) != 0);
     if (__pyx_t_2) {
 
       /* "plexsim/models/prisoner.pyx":111
  *             # update using rule
- *             if fabs(self._rules._adj[proposal][states[neighbor]]):
- *                 update = self._rules._adj[proposal][states[neighbor]]             # <<<<<<<<<<<<<<
+ *             if fabs(self._rules._adj[proposal][deref(states)[neighbor]]):
+ *                 update = self._rules._adj[proposal][deref(states)[neighbor]]             # <<<<<<<<<<<<<<
  *             # normal potts
  *             else:
  */
-      __pyx_v_update = ((__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[__pyx_v_proposal])[(__pyx_v_states[__pyx_v_neighbor])]);
+      __pyx_v_update = ((__pyx_v_self->__pyx_base.__pyx_base._rules->_adj[__pyx_v_proposal])[((*__pyx_v_states)[__pyx_v_neighbor])]);
 
       /* "plexsim/models/prisoner.pyx":110
  *             # check rules
  *             # update using rule
- *             if fabs(self._rules._adj[proposal][states[neighbor]]):             # <<<<<<<<<<<<<<
- *                 update = self._rules._adj[proposal][states[neighbor]]
+ *             if fabs(self._rules._adj[proposal][deref(states)[neighbor]]):             # <<<<<<<<<<<<<<
+ *                 update = self._rules._adj[proposal][deref(states)[neighbor]]
  *             # normal potts
  */
       goto __pyx_L5;
@@ -5448,18 +5513,18 @@ static double __pyx_f_7plexsim_6models_8prisoner_8Prisoner__energy(struct __pyx_
     /* "plexsim/models/prisoner.pyx":114
  *             # normal potts
  *             else:
- *                 update = weight * self._hamiltonian(proposal, states[neighbor])             # <<<<<<<<<<<<<<
+ *                 update = weight * self._hamiltonian(proposal, deref(states)[neighbor])             # <<<<<<<<<<<<<<
  *             energy += update
  *             post(it)
  */
     /*else*/ {
-      __pyx_v_update = (__pyx_v_weight * ((struct __pyx_vtabstruct_7plexsim_6models_8prisoner_Prisoner *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._hamiltonian(((struct __pyx_obj_7plexsim_6models_5potts_Potts *)__pyx_v_self), __pyx_v_proposal, (__pyx_v_states[__pyx_v_neighbor])));
+      __pyx_v_update = (__pyx_v_weight * ((struct __pyx_vtabstruct_7plexsim_6models_8prisoner_Prisoner *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base._hamiltonian(((struct __pyx_obj_7plexsim_6models_5potts_Potts *)__pyx_v_self), __pyx_v_proposal, ((*__pyx_v_states)[__pyx_v_neighbor])));
     }
     __pyx_L5:;
 
     /* "plexsim/models/prisoner.pyx":115
  *             else:
- *                 update = weight * self._hamiltonian(proposal, states[neighbor])
+ *                 update = weight * self._hamiltonian(proposal, deref(states)[neighbor])
  *             energy += update             # <<<<<<<<<<<<<<
  *             post(it)
  * 
@@ -5467,7 +5532,7 @@ static double __pyx_f_7plexsim_6models_8prisoner_8Prisoner__energy(struct __pyx_
     __pyx_v_energy = (__pyx_v_energy + __pyx_v_update);
 
     /* "plexsim/models/prisoner.pyx":116
- *                 update = weight * self._hamiltonian(proposal, states[neighbor])
+ *                 update = weight * self._hamiltonian(proposal, deref(states)[neighbor])
  *             energy += update
  *             post(it)             # <<<<<<<<<<<<<<
  * 
@@ -5702,7 +5767,7 @@ static double __pyx_f_7plexsim_6models_8prisoner_8Prisoner__hamiltonian(struct _
  * 
  * 
  *     cdef void _step(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
- *         self.probability(self._states[node], node)
+ *         self.probability(deref(self._states)[node], node)
  * 
  */
 
@@ -5711,17 +5776,17 @@ static void __pyx_f_7plexsim_6models_8prisoner_8Prisoner__step(struct __pyx_obj_
   /* "plexsim/models/prisoner.pyx":154
  * 
  *     cdef void _step(self, node_id_t node) nogil:
- *         self.probability(self._states[node], node)             # <<<<<<<<<<<<<<
+ *         self.probability(deref(self._states)[node], node)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  (void)(((struct __pyx_vtabstruct_7plexsim_6models_8prisoner_Prisoner *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_node]), __pyx_v_node));
+  (void)(((struct __pyx_vtabstruct_7plexsim_6models_8prisoner_Prisoner *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base.probability(((struct __pyx_obj_7plexsim_6models_4base_Model *)__pyx_v_self), ((*__pyx_v_self->__pyx_base.__pyx_base._states)[__pyx_v_node]), __pyx_v_node));
 
   /* "plexsim/models/prisoner.pyx":153
  * 
  * 
  *     cdef void _step(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
- *         self.probability(self._states[node], node)
+ *         self.probability(deref(self._states)[node], node)
  * 
  */
 
@@ -6094,7 +6159,7 @@ static double __pyx_f_7plexsim_6models_8prisoner_8Prisoner_probability(struct __
  * 
  *             # adopt strategy
  *         if self._rng._rand() < p:             # <<<<<<<<<<<<<<
- *             self._newstates[node] = self._states[neighbor]
+ *             deref(self._newstates)[node] = deref(self._states)[neighbor]
  * 
  */
   __pyx_t_6 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base.__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base.__pyx_base._rng) < __pyx_v_p) != 0);
@@ -6103,24 +6168,24 @@ static double __pyx_f_7plexsim_6models_8prisoner_8Prisoner_probability(struct __
     /* "plexsim/models/prisoner.pyx":179
  *             # adopt strategy
  *         if self._rng._rand() < p:
- *             self._newstates[node] = self._states[neighbor]             # <<<<<<<<<<<<<<
+ *             deref(self._newstates)[node] = deref(self._states)[neighbor]             # <<<<<<<<<<<<<<
  * 
  *         # else:
  */
-    (__pyx_v_self->__pyx_base.__pyx_base._newstates[__pyx_v_node]) = (__pyx_v_self->__pyx_base.__pyx_base._states[__pyx_v_neighbor]);
+    ((*__pyx_v_self->__pyx_base.__pyx_base._newstates)[__pyx_v_node]) = ((*__pyx_v_self->__pyx_base.__pyx_base._states)[__pyx_v_neighbor]);
 
     /* "plexsim/models/prisoner.pyx":178
  * 
  *             # adopt strategy
  *         if self._rng._rand() < p:             # <<<<<<<<<<<<<<
- *             self._newstates[node] = self._states[neighbor]
+ *             deref(self._newstates)[node] = deref(self._states)[neighbor]
  * 
  */
   }
 
   /* "plexsim/models/prisoner.pyx":188
- *         #     print(energy, energy_neighbor, 1/p, self._newstates[node], self._states[node],
- *         #             self._states[neighbor], node, neighbor)
+ *         #     print(energy, energy_neighbor, 1/p, deref(self._newstates)[node], deref(self._states)[node],
+ *         #             deref(self._states)[neighbor], node, neighbor)
  *         return p             # <<<<<<<<<<<<<<
  * 
  *     def _setter(self, value, start = 0, end = 1):

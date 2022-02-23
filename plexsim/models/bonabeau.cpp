@@ -46,12 +46,77 @@
         "libraries": [
             "stdc++"
         ],
-        "name": "plexsim.models.bonabeau",
+        "name": "models",
         "sources": [
-            "plexsim/models/bonabeau.pyx"
+            "build/lib.linux-x86_64-3.9/plexsim/models/percolation.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pottsis.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/kawasaki.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/magnetic_boids.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ising.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_edges.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bornholdt.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_soc.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/potts.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_crystal.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/test.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cyclic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rules.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network2.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_dynamic.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network_gradient.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/game_of_life.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/adjacency.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/ab.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/value_network.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/rbn.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/binding.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/heisenberg.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sirs.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sampler.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/logmap.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/bonabeau.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/pyobjectholder.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/prisoner.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/sandpile.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/base.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/cca.pyx",
+            "build/lib.linux-x86_64-3.9/plexsim/models/simple_copy.pyx",
+            "plexsim/models/percolation.pyx",
+            "plexsim/models/pottsis.pyx",
+            "plexsim/models/kawasaki.pyx",
+            "plexsim/models/magnetic_boids.pyx",
+            "plexsim/models/ising.pyx",
+            "plexsim/models/value_network_edges.pyx",
+            "plexsim/models/bornholdt.pyx",
+            "plexsim/models/value_network_soc.pyx",
+            "plexsim/models/potts.pyx",
+            "plexsim/models/value_network_crystal.pyx",
+            "plexsim/models/test.pyx",
+            "plexsim/models/cyclic.pyx",
+            "plexsim/models/rules.pyx",
+            "plexsim/models/value_network2.pyx",
+            "plexsim/models/value_network_dynamic.pyx",
+            "plexsim/models/value_network_gradient.pyx",
+            "plexsim/models/game_of_life.pyx",
+            "plexsim/models/adjacency.pyx",
+            "plexsim/models/ab.pyx",
+            "plexsim/models/value_network.pyx",
+            "plexsim/models/rbn.pyx",
+            "plexsim/models/binding.pyx",
+            "plexsim/models/heisenberg.pyx",
+            "plexsim/models/sirs.pyx",
+            "plexsim/models/sampler.pyx",
+            "plexsim/models/logmap.pyx",
+            "plexsim/models/bonabeau.pyx",
+            "plexsim/models/pyobjectholder.pyx",
+            "plexsim/models/prisoner.pyx",
+            "plexsim/models/sandpile.pyx",
+            "plexsim/models/base.pyx",
+            "plexsim/models/cca.pyx",
+            "plexsim/models/simple_copy.pyx"
         ]
     },
-    "module_name": "plexsim.models.bonabeau"
+    "module_name": "models"
 }
 END: Cython Metadata */
 
@@ -1852,9 +1917,9 @@ struct __pyx_obj_7plexsim_6models_4base_Model {
   struct __pyx_vtabstruct_7plexsim_6models_4base_Model *__pyx_vtab;
   PyObject *ptr;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__states;
-  __pyx_t_7plexsim_6models_5types_state_t *_states;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_states;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _Model__newstates;
-  __pyx_t_7plexsim_6models_5types_state_t *_newstates;
+  std::vector<__pyx_t_7plexsim_6models_5types_state_t>  *_newstates;
   int _last_written;
   int _use_mcmc;
   std::vector<__pyx_t_7plexsim_6models_5types_state_t>  _agentStates;
@@ -4843,7 +4908,7 @@ static int __pyx_pf_7plexsim_6models_8bonabeau_8Bonabeau___init__(struct __pyx_o
  * 
  *     cdef void _step(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
  *         # if other agent present fight with hamiltonian
- *         cdef state_t thisState = self._states[node]
+ *         cdef state_t thisState = deref(self._states)[node]
  */
 
 static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_7plexsim_6models_8bonabeau_Bonabeau *__pyx_v_self, __pyx_t_7plexsim_6models_5types_node_id_t __pyx_v_node) {
@@ -4864,15 +4929,15 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
   /* "plexsim/models/bonabeau.pyx":46
  *     cdef void _step(self, node_id_t node) nogil:
  *         # if other agent present fight with hamiltonian
- *         cdef state_t thisState = self._states[node]             # <<<<<<<<<<<<<<
+ *         cdef state_t thisState = deref(self._states)[node]             # <<<<<<<<<<<<<<
  *         if thisState == 0:
  *             return
  */
-  __pyx_v_thisState = (__pyx_v_self->__pyx_base._states[__pyx_v_node]);
+  __pyx_v_thisState = ((*__pyx_v_self->__pyx_base._states)[__pyx_v_node]);
 
   /* "plexsim/models/bonabeau.pyx":47
  *         # if other agent present fight with hamiltonian
- *         cdef state_t thisState = self._states[node]
+ *         cdef state_t thisState = deref(self._states)[node]
  *         if thisState == 0:             # <<<<<<<<<<<<<<
  *             return
  * 
@@ -4881,7 +4946,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
   if (__pyx_t_1) {
 
     /* "plexsim/models/bonabeau.pyx":48
- *         cdef state_t thisState = self._states[node]
+ *         cdef state_t thisState = deref(self._states)[node]
  *         if thisState == 0:
  *             return             # <<<<<<<<<<<<<<
  * 
@@ -4891,7 +4956,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
 
     /* "plexsim/models/bonabeau.pyx":47
  *         # if other agent present fight with hamiltonian
- *         cdef state_t thisState = self._states[node]
+ *         cdef state_t thisState = deref(self._states)[node]
  *         if thisState == 0:             # <<<<<<<<<<<<<<
  *             return
  * 
@@ -4971,7 +5036,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
  * 
  *         cdef:
  *             node_id_t neighborPosition = deref(neighbor).first             # <<<<<<<<<<<<<<
- *             state_t thatState     = self._states[neighborPosition]
+ *             state_t thatState     = deref(self._states)[neighborPosition]
  *             double p
  */
   __pyx_t_5 = (*__pyx_v_neighbor).first;
@@ -4980,11 +5045,11 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
   /* "plexsim/models/bonabeau.pyx":60
  *         cdef:
  *             node_id_t neighborPosition = deref(neighbor).first
- *             state_t thatState     = self._states[neighborPosition]             # <<<<<<<<<<<<<<
+ *             state_t thatState     = deref(self._states)[neighborPosition]             # <<<<<<<<<<<<<<
  *             double p
  *         #
  */
-  __pyx_v_thatState = (__pyx_v_self->__pyx_base._states[__pyx_v_neighborPosition]);
+  __pyx_v_thatState = ((*__pyx_v_self->__pyx_base._states)[__pyx_v_neighborPosition]);
 
   /* "plexsim/models/bonabeau.pyx":63
  *             double p
@@ -5012,7 +5077,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
  *             # won fight
  *             if self._rng._rand() < p:             # <<<<<<<<<<<<<<
  *                 # swap position
- *                 self._newstates[node] = thatState
+ *                 deref(self._newstates)[node] = thatState
  */
     __pyx_t_1 = ((((struct __pyx_vtabstruct_7plexsim_6models_7sampler_RandomGenerator *)__pyx_v_self->__pyx_base._rng->__pyx_vtab)->_rand(__pyx_v_self->__pyx_base._rng) < __pyx_v_p) != 0);
     if (__pyx_t_1) {
@@ -5020,23 +5085,23 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
       /* "plexsim/models/bonabeau.pyx":68
  *             if self._rng._rand() < p:
  *                 # swap position
- *                 self._newstates[node] = thatState             # <<<<<<<<<<<<<<
- *                 self._newstates[neighborPosition] = thisState
+ *                 deref(self._newstates)[node] = thatState             # <<<<<<<<<<<<<<
+ *                 deref(self._newstates)[neighborPosition] = thisState
  * 
  */
-      (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = __pyx_v_thatState;
+      ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_node]) = __pyx_v_thatState;
 
       /* "plexsim/models/bonabeau.pyx":69
  *                 # swap position
- *                 self._newstates[node] = thatState
- *                 self._newstates[neighborPosition] = thisState             # <<<<<<<<<<<<<<
+ *                 deref(self._newstates)[node] = thatState
+ *                 deref(self._newstates)[neighborPosition] = thisState             # <<<<<<<<<<<<<<
  * 
  *                 self._weight[node] += 1
  */
-      (__pyx_v_self->__pyx_base._newstates[__pyx_v_neighborPosition]) = __pyx_v_thisState;
+      ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_neighborPosition]) = __pyx_v_thisState;
 
       /* "plexsim/models/bonabeau.pyx":71
- *                 self._newstates[neighborPosition] = thisState
+ *                 deref(self._newstates)[neighborPosition] = thisState
  * 
  *                 self._weight[node] += 1             # <<<<<<<<<<<<<<
  *                 self._weight[neighborPosition] -= 1
@@ -5060,7 +5125,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
  *             # won fight
  *             if self._rng._rand() < p:             # <<<<<<<<<<<<<<
  *                 # swap position
- *                 self._newstates[node] = thatState
+ *                 deref(self._newstates)[node] = thatState
  */
       goto __pyx_L8;
     }
@@ -5081,7 +5146,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
  *                 self._weight[node] -= 1
  *                 self._weight[neighborPosition] += 1             # <<<<<<<<<<<<<<
  *         else:
- *             self._newstates[neighborPosition] = thisState
+ *             deref(self._newstates)[neighborPosition] = thisState
  */
       __pyx_t_6 = __pyx_v_neighborPosition;
       *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->_weight.data) + __pyx_t_6)) )) += 1.0;
@@ -5101,27 +5166,27 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
   /* "plexsim/models/bonabeau.pyx":77
  *                 self._weight[neighborPosition] += 1
  *         else:
- *             self._newstates[neighborPosition] = thisState             # <<<<<<<<<<<<<<
- *             self._newstates[node]             = thatState
+ *             deref(self._newstates)[neighborPosition] = thisState             # <<<<<<<<<<<<<<
+ *             deref(self._newstates)[node]             = thatState
  *         return
  */
   /*else*/ {
-    (__pyx_v_self->__pyx_base._newstates[__pyx_v_neighborPosition]) = __pyx_v_thisState;
+    ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_neighborPosition]) = __pyx_v_thisState;
 
     /* "plexsim/models/bonabeau.pyx":78
  *         else:
- *             self._newstates[neighborPosition] = thisState
- *             self._newstates[node]             = thatState             # <<<<<<<<<<<<<<
+ *             deref(self._newstates)[neighborPosition] = thisState
+ *             deref(self._newstates)[node]             = thatState             # <<<<<<<<<<<<<<
  *         return
  *     cdef double _hamiltonian(self, double x, double y) nogil:
  */
-    (__pyx_v_self->__pyx_base._newstates[__pyx_v_node]) = __pyx_v_thatState;
+    ((*__pyx_v_self->__pyx_base._newstates)[__pyx_v_node]) = __pyx_v_thatState;
   }
   __pyx_L7:;
 
   /* "plexsim/models/bonabeau.pyx":79
- *             self._newstates[neighborPosition] = thisState
- *             self._newstates[node]             = thatState
+ *             deref(self._newstates)[neighborPosition] = thisState
+ *             deref(self._newstates)[node]             = thatState
  *         return             # <<<<<<<<<<<<<<
  *     cdef double _hamiltonian(self, double x, double y) nogil:
  *          return <double>(1 + exp(-self._eta * (x - y)))**(-1)
@@ -5133,7 +5198,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
  * 
  *     cdef void _step(self, node_id_t node) nogil:             # <<<<<<<<<<<<<<
  *         # if other agent present fight with hamiltonian
- *         cdef state_t thisState = self._states[node]
+ *         cdef state_t thisState = deref(self._states)[node]
  */
 
   /* function exit code */
@@ -5141,7 +5206,7 @@ static void __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__step(struct __pyx_obj_
 }
 
 /* "plexsim/models/bonabeau.pyx":80
- *             self._newstates[node]             = thatState
+ *             deref(self._newstates)[node]             = thatState
  *         return
  *     cdef double _hamiltonian(self, double x, double y) nogil:             # <<<<<<<<<<<<<<
  *          return <double>(1 + exp(-self._eta * (x - y)))**(-1)
@@ -5162,7 +5227,7 @@ static double __pyx_f_7plexsim_6models_8bonabeau_8Bonabeau__hamiltonian(struct _
   goto __pyx_L0;
 
   /* "plexsim/models/bonabeau.pyx":80
- *             self._newstates[node]             = thatState
+ *             deref(self._newstates)[node]             = thatState
  *         return
  *     cdef double _hamiltonian(self, double x, double y) nogil:             # <<<<<<<<<<<<<<
  *          return <double>(1 + exp(-self._eta * (x - y)))**(-1)

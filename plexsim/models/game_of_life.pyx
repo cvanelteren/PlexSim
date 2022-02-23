@@ -45,19 +45,18 @@ cdef class Conway(Model):
         it = self.adj._adj[node].neighbors.begin()
         cdef state_t counter = 0 # float
         while it != self.adj._adj[node].neighbors.end():
-            counter += self._states[deref(it).first]
+            counter += deref(self._states)[deref(it).first]
             post(it)
         # deal with alive nodes
-        if self._states[node] == 1:
+        if deref(self._states)[node] == 1:
             # goldey lock zone
             if self._threshold-1 <= counter <= self._threshold:
-                self._newstates[node] = 1
+                deref(self._newstates)[node] = 1
             # overpopulation or underpopulatoin
             else:
-                self._newstates[node] = 0
+                deref(self._newstates)[node] = 0
         # deal with dead nodes
         else:
             # expansion
             if counter == self._threshold:
-                self._newstates[node] = 1
-
+                deref(self._newstates)[node] = 1

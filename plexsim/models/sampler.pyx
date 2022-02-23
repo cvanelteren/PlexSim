@@ -3,6 +3,7 @@ from posix.time cimport clock_gettime, timespec, CLOCK_REALTIME
 import numpy as np
 cimport numpy as np; np.import_array()
 from plexsim.models.types cimport *
+from cython.operator cimport dereference as deref
 
 from libcpp.algorithm cimport swap
 cdef class RandomGenerator:
@@ -105,7 +106,7 @@ cdef class MCMC:
         cdef double p, p_prop, p_cur
         cdef state_t currentState, proposalState
         for idx in range(nodeids.size()):
-            currentState  = (<Model> ptr)._states[nodeids[idx]]
+            currentState  = deref((<Model> ptr)._states)[nodeids[idx]]
             proposalState = self._sample_proposal(ptr)
 
             p_prop = (<Model> ptr).probability(proposalState, nodeids[idx])
@@ -114,7 +115,7 @@ cdef class MCMC:
             p = p_prop / p_cur
             # p = p_prop / (p_prop + p_cur)
             if self._rng._rand() < p:
-                (<Model> ptr)._newstates[nodeids[idx]] = proposalState
+                deref((<Model> ptr)._newstates)[nodeids[idx]] = proposalState
         return
 
     cdef state_t _sample_proposal(self, PyObject* ptr) nogil:
@@ -144,26 +145,26 @@ cdef class MCMC:
             idx = nodeids[idx - 1]
             jdx = nodeids[idx]
 
-            (<Model> ptr)._states = &modified[0]
-            state1 = (<Model> ptr)._states[idx]
-            state2 = (<Model> ptr)._states[jdx]
+            (<Model> ptr)._states = &modified
+            state1 = deref((<Model> ptr)._states)[idx]
+            state2 = deref((<Model> ptr)._states)[jdx]
 
             # normal state
             den = (<Model> ptr).probability(state1, idx) *\
               (<Model> ptr).probability(state2, jdx)
 
-            (<Model> ptr)._states = &backup[0]
+            (<Model> ptr)._states = &backup
             # swapped state
             nom = (<Model> ptr).probability(state2, idx) *\
               (<Model> ptr).probability(state1, jdx)
 
             # accept
             if self._rng._rand() < nom / den:
-                (<Model> ptr)._newstates[idx] = state2
-                (<Model> ptr)._newstates[jdx] = state1
+                deref((<Model> ptr)._newstates)[idx] = state2
+                deref((<Model> ptr)._newstates)[jdx] = state1
             else:
-                (<Model> ptr)._newstates[idx] = backup[idx]
-                (<Model> ptr)._newstates[jdx] = backup[jdx]
+                deref((<Model> ptr)._newstates)[idx] = backup[idx]
+                deref((<Model> ptr)._newstates)[jdx] = backup[jdx]
         return
 
 

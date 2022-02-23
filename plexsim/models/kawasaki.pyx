@@ -29,17 +29,17 @@ cdef class Kawasaki(Potts):
         neighbor = <node_id_t>(self._rng._rand() * self.adj._nNodes)
 
         # energy current situation
-        p1 = self.probability(self._states[node], node)
-        p2 = self.probability(self._states[neighbor], neighbor)
+        p1 = self.probability(deref(self._states)[node], node)
+        p2 = self.probability(deref(self._states)[neighbor], neighbor)
 
         # switch states
-        p1_ = self.probability(self._states[neighbor], node)
-        p2_ = self.probability(self._states[node], neighbor)
+        p1_ = self.probability(deref(self._states)[neighbor], node)
+        p2_ = self.probability(deref(self._states)[node], neighbor)
 
         p = (p1 * p2)/(p2_ * p1_)
         if self._rng._rand() < p:
             # swap states
-            tmp = self._states[node]
-            self._newstates[node] = self._states[neighbor]
-            self._newstates[neighbor] = tmp
+            tmp = deref(self._states)[node]
+            deref(self._newstates)[node] = deref(self._states)[neighbor]
+            deref(self._newstates)[neighbor] = tmp
         return
