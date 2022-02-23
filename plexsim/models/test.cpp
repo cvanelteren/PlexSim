@@ -12,7 +12,7 @@
         "extra_compile_args": [
             "-Ofast",
             "-march=native",
-            "-std=c++20",
+            "-std=gnu++0x",
             "-flto",
             "-frename-registers",
             "-funroll-loops",
@@ -25,8 +25,7 @@
             "-Wfatal-errors"
         ],
         "extra_link_args": [
-            "-fopenmp",
-            "-std=c++20"
+            "-fopenmp"
         ],
         "include_dirs": [
             "/home/casper/miniconda3/lib/python3.9/site-packages/numpy/core/include",
@@ -1866,7 +1865,7 @@ static PyObject *__pyx_n_s_a;
 static PyObject *__pyx_n_s_asyncio_coroutines;
 static PyObject *__pyx_n_s_b;
 static PyObject *__pyx_n_s_c;
-static PyObject *__pyx_kp_s_called_a_class;
+static PyObject *__pyx_kp_u_called_a_class;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_d;
 static PyObject *__pyx_n_s_dict;
@@ -1875,12 +1874,12 @@ static PyObject *__pyx_kp_u_disable;
 static PyObject *__pyx_kp_u_enable;
 static PyObject *__pyx_kp_u_gc;
 static PyObject *__pyx_n_s_getstate;
-static PyObject *__pyx_n_s_h;
+static PyObject *__pyx_n_u_h;
 static PyObject *__pyx_n_s_import;
-static PyObject *__pyx_kp_s_in_C;
-static PyObject *__pyx_kp_s_in_D;
-static PyObject *__pyx_kp_s_in_a;
-static PyObject *__pyx_kp_s_in_b;
+static PyObject *__pyx_kp_u_in_C;
+static PyObject *__pyx_kp_u_in_D;
+static PyObject *__pyx_kp_u_in_a;
+static PyObject *__pyx_kp_u_in_b;
 static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_is_coroutine;
 static PyObject *__pyx_kp_u_isenabled;
@@ -2012,7 +2011,7 @@ typedef struct {
   PyObject *__pyx_n_s_asyncio_coroutines;
   PyObject *__pyx_n_s_b;
   PyObject *__pyx_n_s_c;
-  PyObject *__pyx_kp_s_called_a_class;
+  PyObject *__pyx_kp_u_called_a_class;
   PyObject *__pyx_n_s_cline_in_traceback;
   PyObject *__pyx_n_s_d;
   PyObject *__pyx_n_s_dict;
@@ -2021,12 +2020,12 @@ typedef struct {
   PyObject *__pyx_kp_u_enable;
   PyObject *__pyx_kp_u_gc;
   PyObject *__pyx_n_s_getstate;
-  PyObject *__pyx_n_s_h;
+  PyObject *__pyx_n_u_h;
   PyObject *__pyx_n_s_import;
-  PyObject *__pyx_kp_s_in_C;
-  PyObject *__pyx_kp_s_in_D;
-  PyObject *__pyx_kp_s_in_a;
-  PyObject *__pyx_kp_s_in_b;
+  PyObject *__pyx_kp_u_in_C;
+  PyObject *__pyx_kp_u_in_D;
+  PyObject *__pyx_kp_u_in_a;
+  PyObject *__pyx_kp_u_in_b;
   PyObject *__pyx_n_s_init;
   PyObject *__pyx_n_s_is_coroutine;
   PyObject *__pyx_kp_u_isenabled;
@@ -2149,7 +2148,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_asyncio_coroutines);
   Py_CLEAR(clear_module_state->__pyx_n_s_b);
   Py_CLEAR(clear_module_state->__pyx_n_s_c);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_called_a_class);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_called_a_class);
   Py_CLEAR(clear_module_state->__pyx_n_s_cline_in_traceback);
   Py_CLEAR(clear_module_state->__pyx_n_s_d);
   Py_CLEAR(clear_module_state->__pyx_n_s_dict);
@@ -2158,12 +2157,12 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_kp_u_enable);
   Py_CLEAR(clear_module_state->__pyx_kp_u_gc);
   Py_CLEAR(clear_module_state->__pyx_n_s_getstate);
-  Py_CLEAR(clear_module_state->__pyx_n_s_h);
+  Py_CLEAR(clear_module_state->__pyx_n_u_h);
   Py_CLEAR(clear_module_state->__pyx_n_s_import);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_in_C);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_in_D);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_in_a);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_in_b);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_in_C);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_in_D);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_in_a);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_in_b);
   Py_CLEAR(clear_module_state->__pyx_n_s_init);
   Py_CLEAR(clear_module_state->__pyx_n_s_is_coroutine);
   Py_CLEAR(clear_module_state->__pyx_kp_u_isenabled);
@@ -2273,7 +2272,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_asyncio_coroutines);
   Py_VISIT(traverse_module_state->__pyx_n_s_b);
   Py_VISIT(traverse_module_state->__pyx_n_s_c);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_called_a_class);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_called_a_class);
   Py_VISIT(traverse_module_state->__pyx_n_s_cline_in_traceback);
   Py_VISIT(traverse_module_state->__pyx_n_s_d);
   Py_VISIT(traverse_module_state->__pyx_n_s_dict);
@@ -2282,12 +2281,12 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_kp_u_enable);
   Py_VISIT(traverse_module_state->__pyx_kp_u_gc);
   Py_VISIT(traverse_module_state->__pyx_n_s_getstate);
-  Py_VISIT(traverse_module_state->__pyx_n_s_h);
+  Py_VISIT(traverse_module_state->__pyx_n_u_h);
   Py_VISIT(traverse_module_state->__pyx_n_s_import);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_in_C);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_in_D);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_in_a);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_in_b);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_in_C);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_in_D);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_in_a);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_in_b);
   Py_VISIT(traverse_module_state->__pyx_n_s_init);
   Py_VISIT(traverse_module_state->__pyx_n_s_is_coroutine);
   Py_VISIT(traverse_module_state->__pyx_kp_u_isenabled);
@@ -2394,7 +2393,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_asyncio_coroutines __pyx_mstate_global->__pyx_n_s_asyncio_coroutines
 #define __pyx_n_s_b __pyx_mstate_global->__pyx_n_s_b
 #define __pyx_n_s_c __pyx_mstate_global->__pyx_n_s_c
-#define __pyx_kp_s_called_a_class __pyx_mstate_global->__pyx_kp_s_called_a_class
+#define __pyx_kp_u_called_a_class __pyx_mstate_global->__pyx_kp_u_called_a_class
 #define __pyx_n_s_cline_in_traceback __pyx_mstate_global->__pyx_n_s_cline_in_traceback
 #define __pyx_n_s_d __pyx_mstate_global->__pyx_n_s_d
 #define __pyx_n_s_dict __pyx_mstate_global->__pyx_n_s_dict
@@ -2403,12 +2402,12 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_kp_u_enable __pyx_mstate_global->__pyx_kp_u_enable
 #define __pyx_kp_u_gc __pyx_mstate_global->__pyx_kp_u_gc
 #define __pyx_n_s_getstate __pyx_mstate_global->__pyx_n_s_getstate
-#define __pyx_n_s_h __pyx_mstate_global->__pyx_n_s_h
+#define __pyx_n_u_h __pyx_mstate_global->__pyx_n_u_h
 #define __pyx_n_s_import __pyx_mstate_global->__pyx_n_s_import
-#define __pyx_kp_s_in_C __pyx_mstate_global->__pyx_kp_s_in_C
-#define __pyx_kp_s_in_D __pyx_mstate_global->__pyx_kp_s_in_D
-#define __pyx_kp_s_in_a __pyx_mstate_global->__pyx_kp_s_in_a
-#define __pyx_kp_s_in_b __pyx_mstate_global->__pyx_kp_s_in_b
+#define __pyx_kp_u_in_C __pyx_mstate_global->__pyx_kp_u_in_C
+#define __pyx_kp_u_in_D __pyx_mstate_global->__pyx_kp_u_in_D
+#define __pyx_kp_u_in_a __pyx_mstate_global->__pyx_kp_u_in_a
+#define __pyx_kp_u_in_b __pyx_mstate_global->__pyx_kp_u_in_b
 #define __pyx_n_s_init __pyx_mstate_global->__pyx_n_s_init
 #define __pyx_n_s_is_coroutine __pyx_mstate_global->__pyx_n_s_is_coroutine
 #define __pyx_kp_u_isenabled __pyx_mstate_global->__pyx_kp_u_isenabled
@@ -6631,7 +6630,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
   {0, __pyx_k_b, sizeof(__pyx_k_b), 0, 0, 1, 1},
   {0, __pyx_k_c, sizeof(__pyx_k_c), 0, 0, 1, 1},
-  {0, __pyx_k_called_a_class, sizeof(__pyx_k_called_a_class), 0, 0, 1, 0},
+  {0, __pyx_k_called_a_class, sizeof(__pyx_k_called_a_class), 0, 1, 0, 0},
   {0, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {0, __pyx_k_d, sizeof(__pyx_k_d), 0, 0, 1, 1},
   {0, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
@@ -6640,12 +6639,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_enable, sizeof(__pyx_k_enable), 0, 1, 0, 0},
   {0, __pyx_k_gc, sizeof(__pyx_k_gc), 0, 1, 0, 0},
   {0, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
-  {0, __pyx_k_h, sizeof(__pyx_k_h), 0, 0, 1, 1},
+  {0, __pyx_k_h, sizeof(__pyx_k_h), 0, 1, 0, 1},
   {0, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
-  {0, __pyx_k_in_C, sizeof(__pyx_k_in_C), 0, 0, 1, 0},
-  {0, __pyx_k_in_D, sizeof(__pyx_k_in_D), 0, 0, 1, 0},
-  {0, __pyx_k_in_a, sizeof(__pyx_k_in_a), 0, 0, 1, 0},
-  {0, __pyx_k_in_b, sizeof(__pyx_k_in_b), 0, 0, 1, 0},
+  {0, __pyx_k_in_C, sizeof(__pyx_k_in_C), 0, 1, 0, 0},
+  {0, __pyx_k_in_D, sizeof(__pyx_k_in_D), 0, 1, 0, 0},
+  {0, __pyx_k_in_a, sizeof(__pyx_k_in_a), 0, 1, 0, 0},
+  {0, __pyx_k_in_b, sizeof(__pyx_k_in_b), 0, 1, 0, 0},
   {0, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {0, __pyx_k_is_coroutine, sizeof(__pyx_k_is_coroutine), 0, 0, 1, 1},
   {0, __pyx_k_isenabled, sizeof(__pyx_k_isenabled), 0, 1, 0, 0},
@@ -6697,7 +6696,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_asyncio_coroutines, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
   {&__pyx_n_s_b, __pyx_k_b, sizeof(__pyx_k_b), 0, 0, 1, 1},
   {&__pyx_n_s_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 0, 1, 1},
-  {&__pyx_kp_s_called_a_class, __pyx_k_called_a_class, sizeof(__pyx_k_called_a_class), 0, 0, 1, 0},
+  {&__pyx_kp_u_called_a_class, __pyx_k_called_a_class, sizeof(__pyx_k_called_a_class), 0, 1, 0, 0},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_d, __pyx_k_d, sizeof(__pyx_k_d), 0, 0, 1, 1},
   {&__pyx_n_s_dict, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
@@ -6706,12 +6705,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_enable, __pyx_k_enable, sizeof(__pyx_k_enable), 0, 1, 0, 0},
   {&__pyx_kp_u_gc, __pyx_k_gc, sizeof(__pyx_k_gc), 0, 1, 0, 0},
   {&__pyx_n_s_getstate, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
-  {&__pyx_n_s_h, __pyx_k_h, sizeof(__pyx_k_h), 0, 0, 1, 1},
+  {&__pyx_n_u_h, __pyx_k_h, sizeof(__pyx_k_h), 0, 1, 0, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
-  {&__pyx_kp_s_in_C, __pyx_k_in_C, sizeof(__pyx_k_in_C), 0, 0, 1, 0},
-  {&__pyx_kp_s_in_D, __pyx_k_in_D, sizeof(__pyx_k_in_D), 0, 0, 1, 0},
-  {&__pyx_kp_s_in_a, __pyx_k_in_a, sizeof(__pyx_k_in_a), 0, 0, 1, 0},
-  {&__pyx_kp_s_in_b, __pyx_k_in_b, sizeof(__pyx_k_in_b), 0, 0, 1, 0},
+  {&__pyx_kp_u_in_C, __pyx_k_in_C, sizeof(__pyx_k_in_C), 0, 1, 0, 0},
+  {&__pyx_kp_u_in_D, __pyx_k_in_D, sizeof(__pyx_k_in_D), 0, 1, 0, 0},
+  {&__pyx_kp_u_in_a, __pyx_k_in_a, sizeof(__pyx_k_in_a), 0, 1, 0, 0},
+  {&__pyx_kp_u_in_b, __pyx_k_in_b, sizeof(__pyx_k_in_b), 0, 1, 0, 0},
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_n_s_is_coroutine, __pyx_k_is_coroutine, sizeof(__pyx_k_is_coroutine), 0, 0, 1, 1},
   {&__pyx_kp_u_isenabled, __pyx_k_isenabled, sizeof(__pyx_k_isenabled), 0, 1, 0, 0},
@@ -6767,7 +6766,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         return
  *     cdef void test_m(self):
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_in_a); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_in_a); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -6778,7 +6777,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef class B(A):
  *     def __init__(self):
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_called_a_class); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_called_a_class); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -6789,7 +6788,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         return
  * cdef class C(B):
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s_in_b); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_in_b); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
@@ -6800,7 +6799,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         return
  * 
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_in_C); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_in_C); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
@@ -6811,7 +6810,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         return
  * a = A()
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_in_D); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_in_D); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
@@ -6905,7 +6904,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * print("h")             # <<<<<<<<<<<<<<
  * d = D()
  */
-  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_n_s_h); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_n_u_h); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__22);
   __Pyx_GIVEREF(__pyx_tuple__22);
 
@@ -6959,7 +6958,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitString(__pyx_string_tab[16], &__pyx_n_s_asyncio_coroutines) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[17], &__pyx_n_s_b) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[18], &__pyx_n_s_c) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[19], &__pyx_kp_s_called_a_class) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[19], &__pyx_kp_u_called_a_class) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[20], &__pyx_n_s_cline_in_traceback) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[21], &__pyx_n_s_d) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[22], &__pyx_n_s_dict) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -6968,12 +6967,12 @@ static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitString(__pyx_string_tab[25], &__pyx_kp_u_enable) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[26], &__pyx_kp_u_gc) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[27], &__pyx_n_s_getstate) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[28], &__pyx_n_s_h) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[28], &__pyx_n_u_h) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[29], &__pyx_n_s_import) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[30], &__pyx_kp_s_in_C) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[31], &__pyx_kp_s_in_D) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[32], &__pyx_kp_s_in_a) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[33], &__pyx_kp_s_in_b) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[30], &__pyx_kp_u_in_C) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[31], &__pyx_kp_u_in_D) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[32], &__pyx_kp_u_in_a) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[33], &__pyx_kp_u_in_b) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[34], &__pyx_n_s_init) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[35], &__pyx_n_s_is_coroutine) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[36], &__pyx_kp_u_isenabled) < 0) __PYX_ERR(0, 1, __pyx_L1_error);

@@ -15,7 +15,7 @@
         "extra_compile_args": [
             "-Ofast",
             "-march=native",
-            "-std=c++20",
+            "-std=gnu++0x",
             "-flto",
             "-frename-registers",
             "-funroll-loops",
@@ -28,8 +28,7 @@
             "-Wfatal-errors"
         ],
         "extra_link_args": [
-            "-fopenmp",
-            "-std=c++20"
+            "-fopenmp"
         ],
         "include_dirs": [
             "plexsim/models",

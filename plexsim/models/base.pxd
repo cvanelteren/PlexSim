@@ -57,6 +57,10 @@ cdef class Model:
     cpdef  state_t[::1] updateState(self, node_id_t[::1] nodesToUpdate)
     cdef state_t[::1]  _updateState(self, node_id_t[::1] nodesToUpdate) nogil
 
+    cdef void _set_state(self, node_id_t node, state_t state) nogil
+    cdef void _reset(self, double[::1] p) nogil
+
+
 
     # TODO: move nudges to a separate class
     cdef void _apply_nudge(self, node_id_t node,\

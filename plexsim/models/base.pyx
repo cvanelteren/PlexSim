@@ -342,14 +342,43 @@ cdef class Model:
             for j in range(sampleSize):
                 samples[samplei][j]    = nodeids[(start + j) % self.adj._nNodes]
         return samples
-        
+
+    cdef void _set_state(self, node_id_t node, state_t state) nogil:
+        """
+        Set current agent state
+        """
+        if self._last_written:
+            self._states[node] = state
+        else:
+            self._newstates[node] = state
+
+
+    cdef void _reset(self, double[::1] p) nogil:
+        """
+        Reset  that according  to the cumulative  sum of
+        the state of assuming agent state = ai
+        """
+        cdef double pi
+        cdef size_t node, pidx
+        for node in range(self.adj._nNodes):
+            pi = self._rng._rand()
+            for pidx in range(p.shape[0]):
+                if pi <= p[pidx]:
+                    continue
+                    # self._set_state(node, self._agentStates[pidx])
+
     cpdef void reset(self, p = None):
+        # cdef double[::1] p_
         if p is None:
             p = np.ones(self.nStates) / self.nStates
+        # p_  np.cumsum(p_)
+        # self._reset(p_)
+
         self.states = np.random.choice(\
                                 self.agentStates, \
                                 p = p, \
                                 size = self.adj._nNodes)
+
 
     def removeAllNudges(self):
         """
@@ -382,7 +411,7 @@ cdef class Model:
             # vector[vector[int][sampleSize]] r = self.sampleNodes(samples)
             int i
 
-        if self.last_written:
+        if self._last_written:
             results[0] = self.__states
         else:
             results[0] = self.__newstates
@@ -799,6 +828,7 @@ cdef class Model:
         for tid in range(nThreads):
             # ref counter increase
             m =  self.__deepcopy__(self.get_settings())
+            m._rng.seed += self._rng.seed
             #m = new Model(*m.ptr)
             # HACK: fix this
             # m.mcmc._p_recomb = self.mcmc._p_recomb
