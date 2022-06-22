@@ -11,7 +11,7 @@ def nx_layout(graph, layout=None, **kwargs):
 
     if not layout:
         layout = nx.circular_layout(graph)
-    data = [[node] + layout[node].tolist() for node in graph.nodes]
+    data = [[node] + list(layout[node]) for node in graph.nodes]
 
     nodes = pd.DataFrame(data, columns=["id", "x", "y"])
     nodes.set_index("id", inplace=True)

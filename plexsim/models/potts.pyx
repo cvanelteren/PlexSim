@@ -157,7 +157,6 @@ cdef class Potts(Model):
         if self._nudges.find(node) != self._nudges.end():
             energy += self._nudges[node] * deref(self._states)[node]
 
-
         # compute the energy
         it = self.adj._adj[node].neighbors.begin()
         cdef size_t idx
@@ -167,8 +166,11 @@ cdef class Potts(Model):
         while it != self.adj._adj[node].neighbors.end():
             weight   = deref(it).second
             neighbor = deref(it).first
+            # with gil:
+                # print(weight)
             # update energy
-            energy += weight * self._hamiltonian(proposal, deref(states)[neighbor])
+            energy += weight * self._hamiltonian(proposal,
+                                                 deref(states)[neighbor])
             post(it)
 
         cdef size_t mi
@@ -193,6 +195,8 @@ cdef class Potts(Model):
             state_t cur_state= deref(self._states)[node]
             double p = self.probability(proposal, node) / \
                 self.probability(cur_state, node)
+
+            # double p =  self.probability(proposal, node) / ( 1 +   self.probability(cur_state, node))
         if self._rng._rand () < p:
             deref(self._newstates)[node] = proposal
         return

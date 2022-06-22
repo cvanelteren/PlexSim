@@ -20,8 +20,8 @@ class TestBaseModel(ut.TestCase):
         """
         helper function
         """
-        samples = self.m.sampleNodes(1)
-        for sample in samples.base.flat:
+        samples = self.m.sampleNodes(1)[0]
+        for sample in samples:
             self.assertTrue(0 <= sample <= self.m.nNodes)
         return samples
 
@@ -51,9 +51,9 @@ class TestBaseModel(ut.TestCase):
             samples = self.sampling()
             # check the number of nodes being sampled
             if updateType == "single":
-                self.assertEqual(samples.shape[-1], 1)
+                self.assertEqual(np.array(samples).shape[-1], 1)
             else:
-                self.assertEqual(samples.shape[-1], self.m.nNodes)
+                self.assertEqual(np.array(samples).shape[-1], self.m.nNodes)
         # with self.assertRaises(ValueError):
         #    self.m.updateType = "NOT_POSSIBLE"
 
@@ -149,6 +149,15 @@ class TestPotts(TestBaseModel):
         self.m.nudges = nudge
 
         self.m.simulate(10)
+
+    def test_nudges(self):
+
+        self.m.sampleSize = self.m.nNodes
+        self.m.states = np.ones(self.m.nNodes) * self.m.agentStates[0]
+
+        self.m.nudges = {0: np.inf}
+        self.m.simulate(2)
+        self.assertEqual(self.m.states[0], self.m.agentStates[0])
 
 
 class TestIsing(TestPotts):

@@ -78,6 +78,8 @@ cdef class Model:
 
         # use current time as seed for rng
         self._rng = RandomGenerator(seed = seed)
+        if seed is not None:
+            np.random.seed(seed)
          
         self._rules = Rules(rules)
         self.kNudges = kNudges
@@ -757,6 +759,7 @@ cdef class Model:
         else:
             for node in range(self.adj._nNodes):
                 deref(self._states)[node] = <state_t> value
+                deref(self._newstates)[node] = <state_t> value
 
     def get_settings(self) -> dict:
         """

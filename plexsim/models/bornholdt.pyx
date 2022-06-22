@@ -60,7 +60,7 @@ cdef class Bornholdt(Potts):
             double energy
             double delta
             double p
-            double systemInfluence = self._alpha * self._get_system_influence()
+            double systemInfluence = self._get_system_influence()
 
         # store state
         cdef state_t backup_state = deref(self._states)[node]
@@ -68,7 +68,7 @@ cdef class Bornholdt(Potts):
         # compute proposal
         deref(self._states)[node] = proposal
         energy = self._energy(node)
-        delta  = energy - fabs(self._hamiltonian(proposal, systemInfluence))
+        delta  = energy - self._alpha * fabs(self._hamiltonian(proposal, systemInfluence))
         p      = exp(self._beta * delta)
 
         deref(self._states)[node] = backup_state

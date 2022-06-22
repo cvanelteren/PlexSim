@@ -85,6 +85,7 @@ cdef class Pottsis(Potts):
             energy = log(energy)
         else:
             energy = -INFINITY
+
         cdef size_t mi
 
         # # TODO: move to separate function
